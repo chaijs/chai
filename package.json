@@ -1,0 +1,21 @@
+{
+  "author": "Jake Luer <jake@alogicalparadox.com>",
+  "name": "sherlock",
+  "description": "Assertion framework for node.js and the browser.",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:logicalparadox/sherlock.git"
+  },
+  "main": "index",
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "matcha": "0.3.0"
+  }
+}
