@@ -292,7 +292,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.0.1';
+exports.version = '0.0.2';
 
 exports.expect = function (val, message) {
   return new exports.Assertion(val, message);
