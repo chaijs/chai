@@ -141,7 +141,7 @@ Assertion.prototype.__defineGetter__('false', function () {
 
 Assertion.prototype.__defineGetter__('exist', function () {
   this.assert(
-      null !== this.obj
+      null != this.obj
     , 'expected ' + this.inspect + ' to exist'
     , 'expected ' + this.inspect + ' to not exist');
 
@@ -164,6 +164,11 @@ Assertion.prototype.equal = function (val) {
       val === this.obj
     , 'expected ' + this.inspect + ' to equal ' + inspect(val)
     , 'expected ' + this.inspect + ' to not equal ' + inspect(val));
+
+  return this;
+};
+
+Assertion.prototype.eql = function (obj) {
 
   return this;
 };
@@ -310,7 +315,7 @@ function AssertionError (options) {
   this.message = options.message;
   this.actual = options.actual;
   this.expected = options.expected;
-  this.operator = options.operator;
+  this.operator = options.operator || options.stackStartFunction.name;
   var stackStartFunction = options.stackStartFunction;
 
   if (Error.captureStackTrace) {
@@ -327,7 +332,7 @@ AssertionError.prototype.details = function() {
 };
 
 AssertionError.prototype.toString = function() {
-  return this.summary() + '\n' + this.details();
+  return this.summary();
 };
 
 }); // module: error.js
