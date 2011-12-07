@@ -1,1 +1,1 @@
-module.exports = require('./lib/sherlock');
+module.exports = require('./lib/chai');
