@@ -15,7 +15,5 @@
     "node": ">= 0.4.0"
   },
   "dependencies": {},
-  "devDependencies": {
-    "matcha": "0.3.0"
-  }
+  "devDependencies": {}
 }
