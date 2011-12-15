@@ -1,13 +1,17 @@
 {
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "name": "chai",
-  "description": "Assertion framework for node.js and the browser.",
+  "description": "BDD/TDD assertion framework for node.js and the browser.",
+  "keywords": [ "test", "assertion", "assert", "testing" ],
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:logicalparadox/sherlock.git"
+    "url": "https://github.com/logicalparadox/chai"
   },
-  "main": "index",
+  "bugs": {
+    "url": "https://github.com/logicalparadox/chai/issues"
+  },
+  "main": "./index",
   "scripts": {
     "test": "make test"
   },
