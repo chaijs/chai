@@ -2,8 +2,11 @@
  * Module dependencies.
  */
 
-var chai = require('../')
-  , expect = chai.expect;
+// if we are in a browser session, chai is already defined
+if (!chai) {
+  var chai = require('../')
+    , expect = chai.expect;
+}
 
 function err(fn, msg) {
   try {
@@ -14,7 +17,7 @@ function err(fn, msg) {
   }
 }
 
-module.exports = {
+var expectTests = module.exports = {
   'expect': {
     'test .version': function(){
       expect(chai.version).to.match(/^\d+\.\d+\.\d+$/);
