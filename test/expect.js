@@ -28,7 +28,7 @@ var expectTests = module.exports = {
     },
 
     'test assertion': function(){
-      expect('test').to.not.be.a('string');
+      expect('test').to.be.a('string');
       expect('foo').to.equal('foo');
     },
 
