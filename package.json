@@ -20,6 +20,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "codex": "0.0.x"
   }
 }
