@@ -2,7 +2,7 @@
 
 Chai is a multi-style assert library for [node](http://nodejs.org) and the browser.
 It is based on [@visionmedia's awesome should.js](https://github.com/visionmedia/should.js)
-assert library and, in fact, is completely API compatable.
+assert library and is completely API compatable.
 
 This library was developed because, as awesome as `should.js` is, it doesn't work in the browser.
 As the lines blur (and sometimes disappear) between modules that run on either side, I needed
