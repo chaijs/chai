@@ -68,6 +68,13 @@ var expectTests = module.exports = {
       }, "expected '' to be false")
     },
 
+    'text exist': function(){
+      var foo = 'bar'
+        , bar;
+      expect(foo).to.exist;
+      expect(bar).to.not.exist;
+    },
+
     'test arguments': function(){
       var args = (function(){ return arguments; })(1,2,3);
       expect(args).to.be.arguments;
