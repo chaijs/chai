@@ -8,7 +8,7 @@ var chai = require('../')
 function err(fn, msg) {
   try {
     fn();
-    should.fail('expected an error');
+    chai.fail('expected an error');
   } catch (err) {
     should.equal(msg, err.message);
   }
