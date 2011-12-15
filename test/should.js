@@ -25,7 +25,7 @@ module.exports = {
     },
 
     'test assertion': function(){
-      'test'.should.be.a.string;
+      'test'.should.be.a('string');
       should.equal('foo', 'foo');
     },
 

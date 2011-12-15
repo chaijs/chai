@@ -24,11 +24,11 @@ var expectTests = module.exports = {
     },
 
     'test double require': function(){
-      //require('chai').to().to.equal(to);
+      //require('chai').expect().to.equal(expect);
     },
 
     'test assertion': function(){
-      expect('test').to.be.a.string;
+      expect('test').to.not.be.a('string');
       expect('foo').to.equal('foo');
     },
 
