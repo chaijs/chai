@@ -16,7 +16,7 @@ docs: clean-docs
 	@./node_modules/.bin/codex build docs \
 		--out docs/out
 	@./node_modules/.bin/codex serve \
-		--out docs/out --static /chai
+		--out docs/out
 
 clean-docs:
 	@rm -rf docs/out
