@@ -39,7 +39,7 @@ html(lang='en')
     nav
       block nav
         ul.pages
-          li: a(href=site.ghbaseurl) Home
+          li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
           - if (files.page)
             for page in files.page
               - if (page.template == 'code')
@@ -54,7 +54,7 @@ html(lang='en')
                 li: a(href=site.ghbaseurl + page.href)= page.title
     header
       block header
-        h1: a(href=site.ghbaseurl): img(src=site.ghbaseurl + '/public/img/chai-logo.png', title=site.title)
+        h1: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/'): img(src=site.ghbaseurl + '/public/img/chai-logo.png', title=site.title)
         .description!= site.description
         .gh
           h4 Latest Update to Github

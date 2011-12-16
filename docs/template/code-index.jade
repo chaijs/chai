@@ -2,7 +2,7 @@ extends layout
 
 block nav
   ul.pages
-    li: a(href=site.ghbaseurl) Home
+    li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
     - if (files.page)
       for page in files.page
         - if (page.template == 'code')

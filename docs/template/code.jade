@@ -16,7 +16,7 @@ block nav
                     - comment.anchor = tag.string
                     li.keepcase: a.scroll(href='#' + tag.string)= tag.string
   ul.pages
-    li: a(href=site.ghbaseurl) Home
+    li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
     - if (files.page)
       for page in files.page
         - if (page.template == 'code')

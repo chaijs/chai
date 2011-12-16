@@ -6,9 +6,9 @@
     "ghuser": "logicalparadox",
     "ghbaseurl": "",
     "ghproject": "chai",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "hasdownloads": false,
-    "description": "Chai is a BDD / TDD assertion framework for [node](http://nodejs.org) and the browser that can be delightfully paired with any javascript testing framework."
+    "description": "Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that can be delightfully paired with any javascript testing framework."
   },
   "code": {
     "expect": {

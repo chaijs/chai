@@ -2,7 +2,7 @@
 
 [![Chai Documentation](https://github.com/logicalparadox/chai/raw/master/docs/template/assets/img/chai-logo.png)](http://chaijs.com)
 
-Chai is a BDD / TDD assertion framework for [node](http://nodejs.org) and the browser that
+Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
 can be delightfully paired with any javascript testing framework.
 
 For more information view the [documentation](http://chaijs.com).
@@ -25,7 +25,7 @@ Include the chai browser build in your testing suite.
 
     <script src="chai.js" type="text/javascript"></script>
 
-Chai tests itself in the browser using mocha [mocha](https://github.com/visionmedia/mocha).
+Chai tests itself in the browser using [mocha](https://github.com/visionmedia/mocha).
 Have a look at the `test/browser` folder for an example.
 
 ## License
