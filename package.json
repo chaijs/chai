@@ -1,9 +1,9 @@
 {
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "name": "chai",
-  "description": "BDD/TDD assertion framework for node.js and the browser.",
+  "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
   "keywords": [ "test", "assertion", "assert", "testing" ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/logicalparadox/chai"

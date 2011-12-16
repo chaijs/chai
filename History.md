@@ -1,4 +1,22 @@
 
+0.1.1 / 2011-12-16
+==================
+
+  * docs ready for upcoming 0.1.1
+  * readme image fixed [ci skip]
+  * more readme tweaks [ci skip]
+  * réadmet image fixed [ci skip]
+  * documentation
+  * codex locked in version 0.0.5
+  * more comments to assertions for docs
+  * assertions fully commented, browser library updated
+  * adding codex as doc dependancy
+  * prepping for docs
+  * assertion component completely commented for documentation
+  * added exist test
+  * var expect outside of browser if check
+  * added keywords to package.json
+
 0.1.0 / 2011-12-15
 ==================
 
