@@ -1,0 +1,31 @@
+extends layout
+
+block nav
+  - if (files.home)
+    ul.sections
+      for page in files.home
+        - var href = page.href.split('/')
+        - href = href[href.length - 2]
+        li: a.scroll(href='#' + href)= (page.menu || page.title)
+  - if (files.page)
+    ul.pages
+      for page in files.page
+        - if (page.template == 'code')
+          li: a(href=site.ghbaseurl + page.href)= page.title
+  - if (files.code)
+    ul.code
+      for page in files.code
+        - if (page.template == 'code-index')
+          li.header: a(href=site.ghbaseurl + page.href)= page.title
+      for page in files.code
+        - if (page.template == 'code')
+          li: a(href=site.ghbaseurl + page.href)= page.title
+
+block content
+  article!= file.prepared
+    if (files.home)
+      for section in files.home
+        - var href = section.href.split('/')
+        - href = href[href.length - 2]
+        h1(id=href + '-section'): a(name=href)= section.title
+        section!= section.prepared

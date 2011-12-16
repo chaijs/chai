@@ -1,0 +1,20 @@
+{
+  "locals": {
+    "title": "Chai",
+    "googleanalytics": "UA-26183904-6",
+    "mixpanel": "d5e84615dbd02dbc359b0f76d0ed7cf5",
+    "ghuser": "logicalparadox",
+    "ghbaseurl": "",
+    "ghproject": "chai",
+    "version": "0.1.0",
+    "hasdownloads": false,
+    "description": "Chai is a BDD / TDD assertion framework for [node](http://nodejs.org) and the browser that can be delightfully paired with any javascript testing framework."
+  },
+  "code": {
+    "expect": {
+      "title": "bdd: expect / should",
+      "file": "../../lib/assertion.js",
+      "description": "The BDD style allows you to write your assertions in a natural, self-describing manner."
+    }
+  }
+}

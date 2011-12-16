@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>API Documentation for bdd: expect / should - Chai
+    </title>
+    <script type="text/javascript">var ghuser = 'logicalparadox'
+  , ghproject = 'chai';
+
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="/public/js/jq-mousewheel.js"></script>
+    <script src="/public/js/antiscroll.js"></script>
+    <script src="/public/js/prettify.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
+    <script type="text/javascript">var mpq = [];
+mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
+(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+[f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+"track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+d.length;c++){mpq[d[c]]=e(d[c])}})();
+</script>
+    <script type="text/javascript">var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-26183904-6']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+  </head>
+  <body>
+    <nav>
+      <div class="box-wrap antiscroll-wrap">
+        <div class="box">
+          <div class="antiscroll-inner">
+            <div class="box-inner">
+              <ul class="sections">
+                <li class="keepcase"><a href="#to" class="scroll">to</a>
+                </li>
+                <li class="keepcase"><a href="#be" class="scroll">be</a>
+                </li>
+                <li class="keepcase"><a href="#an" class="scroll">an</a>
+                </li>
+                <li class="keepcase"><a href="#is" class="scroll">is</a>
+                </li>
+                <li class="keepcase"><a href="#and" class="scroll">and</a>
+                </li>
+                <li class="keepcase"><a href="#have" class="scroll">have</a>
+                </li>
+                <li class="keepcase"><a href="#with" class="scroll">with</a>
+                </li>
+                <li class="keepcase"><a href="#not" class="scroll">not</a>
+                </li>
+                <li class="keepcase"><a href="#ok" class="scroll">ok</a>
+                </li>
+                <li class="keepcase"><a href="#true" class="scroll">true</a>
+                </li>
+                <li class="keepcase"><a href="#false" class="scroll">false</a>
+                </li>
+                <li class="keepcase"><a href="#exist" class="scroll">exist</a>
+                </li>
+                <li class="keepcase"><a href="#empty" class="scroll">empty</a>
+                </li>
+                <li class="keepcase"><a href="#arguments" class="scroll">arguments</a>
+                </li>
+                <li class="keepcase"><a href="#equal" class="scroll">equal</a>
+                </li>
+                <li class="keepcase"><a href="#eql" class="scroll">eql</a>
+                </li>
+                <li class="keepcase"><a href="#above" class="scroll">above</a>
+                </li>
+                <li class="keepcase"><a href="#below" class="scroll">below</a>
+                </li>
+                <li class="keepcase"><a href="#within" class="scroll">within</a>
+                </li>
+                <li class="keepcase"><a href="#a" class="scroll">a</a>
+                </li>
+                <li class="keepcase"><a href="#instanceOf" class="scroll">instanceOf</a>
+                </li>
+                <li class="keepcase"><a href="#respondTo" class="scroll">respondTo</a>
+                </li>
+                <li class="keepcase"><a href="#property" class="scroll">property</a>
+                </li>
+                <li class="keepcase"><a href="#ownProperty" class="scroll">ownProperty</a>
+                </li>
+                <li class="keepcase"><a href="#length" class="scroll">length</a>
+                </li>
+                <li class="keepcase"><a href="#match" class="scroll">match</a>
+                </li>
+                <li class="keepcase"><a href="#contain" class="scroll">contain</a>
+                </li>
+                <li class="keepcase"><a href="#string" class="scroll">string</a>
+                </li>
+                <li class="keepcase"><a href="#object" class="scroll">object</a>
+                </li>
+                <li class="keepcase"><a href="#include" class="scroll">include</a>
+                </li>
+                <li class="keepcase"><a href="#keys" class="scroll">keys</a>
+                </li>
+                <li class="keepcase"><a href="#throw" class="scroll">throw</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="pages">
+        <li><a href="">Home</a>
+        </li>
+      </ul>
+      <ul class="code">
+        <li class="header"><a href="/code/">Language Guide</a>
+        </li>
+        <li><a href="/code/expect.html">bdd: expect / should</a>
+        </li>
+      </ul>
+    </nav>
+    <header>
+      <h1><a href=""><img src="/public/img/chai-logo.png" title="Chai"></a>
+      </h1>
+      <div class="description"><p>Chai is a BDD / TDD assertion framework for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
+      </div>
+      <div class="gh">
+        <h4>Latest Update to Github
+        </h4>
+        <div id="commit"><span id="latestCommitTime">Loading...</span><a id="latestCommitURL"></a>
+        </div>
+        <div id="latestCommitMessage">Loading...
+        </div>
+        <div id="clone"><a href="https://github.com/logicalparadox/chai" class="button fork">Fork me on GitHub</a>
+          <div class="clone">git clone https://github.com/logicalparadox/chai.git
+          </div>
+        </div>
+        <div id="links"><a id="repoIssues" href="https://github.com/logicalparadox/chai/issues">GitHub Issues</a>
+        </div>
+      </div>
+    </header>
+    <section id="content">
+      <div id="code">
+        <article id="undefined-section" class="codeblock">
+          <div class="header"><h3>BDD Style Introduction</h3>
+          </div>
+          <div class="description"><p>The BDD style is exposed through <code>expect</code> or <code>should</code> interfaces. In both<br />scenarios, you chain together natural language assertions.</p>
+
+<pre><code> // expect
+ var expect = require('chai').expect;
+ expect(foo).to.equal('bar');
+
+ // should
+ var should = require('chai').should();
+ foo.should.equal('bar');
+</code></pre>
+
+<h4>Differences</h4>
+
+<p>The <code>expect</code> interface provides a function as a starting point for chaining<br />your language assertions. It works on both node.js and in the browser.</p>
+
+<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as<br />the starting point for your language assertions. Most browser don't like<br />extensions to <code>Object.prototype</code> so it is not recommended for browser use.</p>
+          </div>
+        </article>
+        <article id="to-section" class="codeblock">
+          <div class="header"><h1>to</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('to', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="be-section" class="codeblock">
+          <div class="header"><h1>be</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('be', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="an-section" class="codeblock">
+          <div class="header"><h1>an</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('an', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="is-section" class="codeblock">
+          <div class="header"><h1>is</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('is', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="and-section" class="codeblock">
+          <div class="header"><h1>and</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('and', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="have-section" class="codeblock">
+          <div class="header"><h1>have</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('have', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="with-section" class="codeblock">
+          <div class="header"><h1>with</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('with', function () {
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="not-section" class="codeblock">
+          <div class="header"><h1>.not</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Negates any of assertions following in the chain.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('not', function () {
+  this.negate = true;
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="ok-section" class="codeblock">
+          <div class="header"><h1>.ok</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object truthiness.</p>
+
+<pre><code> expect('everthing').to.be.ok;
+ expect(false).to.not.be.ok;
+ expect(undefined).to.not.be.ok;
+ expect(null).to.not.be.ok;
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('ok', function () {
+  this.assert(
+      this.obj
+    , 'expected ' + this.inspect + ' to be truthy'
+    , 'expected ' + this.inspect + ' to be falsey');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="true-section" class="codeblock">
+          <div class="header"><h1>.true</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object is true</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('true', function () {
+  this.assert(
+      true === this.obj
+    , 'expected ' + this.inspect + ' to be true'
+    , 'expected ' + this.inspect + ' to be false');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="false-section" class="codeblock">
+          <div class="header"><h1>.false</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object is false</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('false', function () {
+  this.assert(
+      false === this.obj
+    , 'expected ' + this.inspect + ' to be false'
+    , 'expected ' + this.inspect + ' to be true');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="exist-section" class="codeblock">
+          <div class="header"><h1>.exist</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object exists (null).</p>
+
+<pre><code> var foo = 'hi'
+   , bar;
+ expect(foo).to.exist;
+ expect(bar).to.not.exist;
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('exist', function () {
+  this.assert(
+      null != this.obj
+    , 'expected ' + this.inspect + ' to exist'
+    , 'expected ' + this.inspect + ' to not exist');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="empty-section" class="codeblock">
+          <div class="header"><h1>.empty</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object's length to be 0.</p>
+
+<pre><code> expect([]).to.be.empty;
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('empty', function () {
+  new Assertion(this.obj).to.have.property('length');
+
+  this.assert(
+      0 === this.obj.length
+    , 'expected ' + this.inspect + ' to be empty'
+    , 'expected ' + this.inspect + ' not to be empty');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="arguments-section" class="codeblock">
+          <div class="header"><h1>.arguments</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object is an instanceof arguments.</p>
+
+<pre><code> function test () {
+   expect(arguments).to.be.arguments;
+ }
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('arguments', function () {
+  this.assert(
+      '[object Arguments]' == Object.prototype.toString.call(this.obj)
+    , 'expected ' + this.inspect + ' to be arguments'
+    , 'expected ' + this.inspect + ' to not be arguments');
+
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="equal-section" class="codeblock">
+          <div class="header"><h1>.equal(value)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.equal()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert strict equality.</p>
+
+<pre><code> expect('hello').to.equal('hello');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.equal = function (val) {
+  this.assert(
+      val === this.obj
+    , 'expected ' + this.inspect + ' to equal ' + inspect(val)
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(val));
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="eql-section" class="codeblock">
+          <div class="header"><h1>.eql(value)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.eql()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert deep equality.</p>
+
+<pre><code> expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.eql = function (obj) {
+  this.assert(
+      eql(obj, this.obj)
+    , 'expected ' + this.inspect + ' to equal ' + inspect(obj)
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(obj));
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="above-section" class="codeblock">
+          <div class="header"><h1>.above(value)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.above()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert greater than <code>value</code>.</p>
+
+<pre><code> expect(10).to.be.above(5);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.above = function (val) {
+  this.assert(
+      this.obj &gt; val
+    , 'expected ' + this.inspect + ' to be above ' + val
+    , 'expected ' + this.inspect + ' to be below ' + val);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="below-section" class="codeblock">
+          <div class="header"><h1>.below(value)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.below()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert less than <code>value</code>.</p>
+
+<pre><code> expect(5).to.be.below(10);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.below = function (val) {
+  this.assert(
+      this.obj &lt; val
+    , 'expected ' + this.inspect + ' to be below ' + val
+    , 'expected ' + this.inspect + ' to be above ' + val);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="within-section" class="codeblock">
+          <div class="header"><h1>.within(start, finish)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.within()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">start</span><span class="desc">lowerbound inclusive</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">finish</span><span class="desc">upperbound inclusive</span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that a number is within a range.</p>
+
+<pre><code> expect(7).to.be.within(5,10);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.within = function (start, finish) {
+  var range = start + '..' + finish;
+
+  this.assert(
+      this.obj &gt;= start &amp;&amp; this.obj &lt;= finish
+    , 'expected ' + this.inspect + ' to be within ' + range
+    , 'expected ' + this.inspect + ' to not be within ' + range);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="a-section" class="codeblock">
+          <div class="header"><h1>.a(type)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.a()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">type</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert typeof.</p>
+
+<pre><code> expect('test').to.be.a('string');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.a = function (type) {
+  this.assert(
+      type == typeof this.obj
+    , 'expected ' + this.inspect + ' to be a ' + type
+    , 'expected ' + this.inspect + ' not to be a ' + type);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="instanceOf-section" class="codeblock">
+          <div class="header"><h1>.instanceOf(constructor)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.instanceof()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name"></span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert instanceof.</p>
+
+<pre><code> expect(42).to.be.instanceof(Number);
+ expect([4,2]).to.be.instanceof(Array);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.instanceof = function (constructor) {
+  var name = constructor.name;
+  this.assert(
+      this.obj instanceof constructor
+    , 'expected ' + this.inspect + ' to be an instance of ' + name
+    , 'expected ' + this.inspect + ' to not be an instance of ' + name);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="respondTo-section" class="codeblock">
+          <div class="header"><h1>respondTo(method)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.respondTo()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc">name</span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that <code>method</code> is a function.</p>
+
+<pre><code> var res = { send: function () {} };
+ expect(res).to.respondTo('send');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.respondTo = function (method) {
+  this.assert(
+    'function' == typeof this.obj[method]
+    , 'expected ' + this.inspect + ' to respond to ' + method + '()'
+    , 'expected ' + this.inspect + ' to not respond to ' + method + '()');
+
+  return this;
+}</code>
+            </pre>
+          </div>
+        </article>
+        <article id="property-section" class="codeblock">
+          <div class="header"><h1>.property(name, [value])</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.property()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc">(optional)</span>
+            </div>
+            <div class="tag"><span class="type">&#64;returns</span><span class="desc">value of property for chaining</span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that property of <code>name</code> exists,<br />optionally with <code>value</code>.</p>
+
+<pre><code> var obj = { foo: 'bar' }
+ expect(obj).to.have.property('foo');
+ expect(obj).to.have.property('foo', 'bar');
+ expect(obj).to.have.property('foo').to.be.a('string');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.property = function (name, val) {
+  if (this.negate &amp;&amp; undefined !== val) {
+    if (undefined === this.obj[name]) {
+      throw new Error(this.inspect + ' has no property ' + inspect(name));
+    }
+  } else {
+    this.assert(
+        undefined !== this.obj[name]
+      , 'expected ' + this.inspect + ' to have a property ' + inspect(name)
+      , 'expected ' + this.inspect + ' to not have property ' + inspect(name));
+  }
+
+  if (undefined !== val) {
+    this.assert(
+        val === this.obj[name]
+      , 'expected ' + this.inspect + ' to have a property ' + inspect(name) + ' of ' +
+          inspect(val) + ', but got ' + inspect(this.obj[name])
+      , 'expected ' + this.inspect + ' to not have a property ' + inspect(name) + ' of ' +  inspect(val));
+  }
+
+  this.obj = this.obj[name];
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="ownProperty-section" class="codeblock">
+          <div class="header"><h1>.ownProperty(name)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.ownProperty()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">haveOwnProperty</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that has own property by <code>name</code>.</p>
+
+<pre><code> expect('test').to.have.ownProperty('length');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.ownProperty = function (name) {
+  this.assert(
+      this.obj.hasOwnProperty(name)
+    , 'expected ' + this.inspect + ' to have own property ' + inspect(name)
+    , 'expected ' + this.inspect + ' to not have own property ' + inspect(name));
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="length-section" class="codeblock">
+          <div class="header"><h1>.length(val)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.length()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">lengthOf</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">length</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that object has expected length.</p>
+
+<pre><code> expect([1,2,3]).to.have.length(3);
+ expect('foobar').to.have.length(6);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.length = function (n) {
+  new Assertion(this.obj).to.have.property('length');
+  var len = this.obj.length;
+
+  this.assert(
+      len == n
+    , 'expected ' + this.inspect + ' to have a length of ' + n + ' but got ' + len
+    , 'expected ' + this.inspect + ' to not have a length of ' + len);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="match-section" class="codeblock">
+          <div class="header"><h1>.match(regexp)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.match()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; RegExp &#125;</span><span class="name">RegularExpression</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that matches regular expression.</p>
+
+<pre><code> expect('foobar').to.match(/^foo/);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.match = function (re) {
+  this.assert(
+      re.exec(this.obj)
+    , 'expected ' + this.inspect + ' to match ' + re
+    , 'expected ' + this.inspect + ' not to match ' + re);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="contain-section" class="codeblock">
+          <div class="header"><h1>.contain(obj)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.contain()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object | String | Number &#125;</span><span class="name">obj</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert the inclusion of an object in an Array</p>
+
+<pre><code> expect([1,2,3]).to.contain(2);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.contain = function (obj) {
+  new Assertion(this.obj).to.be.an.instanceof(Array);
+
+  this.assert(
+      ~this.obj.indexOf(obj)
+    , 'expected ' + this.inspect + ' to contain ' + inspect(obj)
+    , 'expected ' + this.inspect + ' to not contain ' + inspect(obj));
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="string-section" class="codeblock">
+          <div class="header"><h1>.string(string)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.string()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">string</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert inclusion of string in string.</p>
+
+<pre><code> expect('foobar').to.include.string('bar');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.string = function (str) {
+  new Assertion(this.obj).is.a('string');
+
+  this.assert(
+      ~this.obj.indexOf(str)
+    , 'expected ' + this.inspect + ' to include ' + inspect(str)
+    , 'expected ' + this.inspect + ' to not include ' + inspect(str));
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="object-section" class="codeblock">
+          <div class="header"><h1>.object(object)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.object()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert inclusion of object in object.</p>
+
+<pre><code> var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
+ expect(obj).to.include.object({foo: 'bar'});
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.object = function(obj){
+  new Assertion(this.obj).is.a('object');
+
+  var included = true;
+
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key) &amp;&amp; !eql(obj[key], this.obj[key])) {
+      included = false;
+      break;
+    }
+  }
+
+  this.assert(
+      included
+    , 'expected ' + this.inspect + ' to include ' + inspect(obj)
+    , 'expected ' + this.inspect + ' to not include ' + inspect(obj));
+
+  return this;
+}</code>
+            </pre>
+          </div>
+        </article>
+        <article id="include-section" class="codeblock">
+          <div class="header"><h1>include</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain that lags #keys to test for inclusion testing.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('include', function () {
+  this.includes = true;
+  return this;
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="keys-section" class="codeblock">
+          <div class="header"><h1>.keys(key1, [key2], [...])</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.keys()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">key</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Array &#125;</span><span class="name">Keys</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert exact keys or the inclusing of keys using<br />the include modifier.</p>
+
+<pre><code> expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
+ expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('foo', 'bar');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.keys = function(keys) {
+  var str
+    , ok = true;
+
+  keys = keys instanceof Array
+    ? keys
+    : Array.prototype.slice.call(arguments);
+
+  if (!keys.length) throw new Error('keys required');
+
+  var actual = Object.keys(this.obj)
+    , len = keys.length;
+
+  // Inclusion
+  ok = keys.every(function(key){
+    return ~actual.indexOf(key);
+  });
+
+  // Strict
+  if (!this.negate &amp;&amp; !this.includes) {
+    ok = ok &amp;&amp; keys.length == actual.length;
+  }
+
+  // Key string
+  if (len &gt; 1) {
+    keys = keys.map(function(key){
+      return inspect(key);
+    });
+    var last = keys.pop();
+    str = keys.join(', ') + ', and ' + last;
+  } else {
+    str = inspect(keys[0]);
+  }
+
+  // Form
+  str = (len &gt; 1 ? 'keys ' : 'key ') + str;
+
+  // Have / include
+  str = (this.includes ? 'include ' : 'have ') + str;
+
+  // Assertion
+  this.assert(
+      ok
+    , 'expected ' + this.inspect + ' to ' + str
+    , 'expected ' + this.inspect + ' to not ' + str);
+
+  return this;
+}</code>
+            </pre>
+          </div>
+        </article>
+        <article id="throw-section" class="codeblock">
+          <div class="header"><h1>.throw(constructor)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.throw()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;see</span><span class="name"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that a function will throw a specific<br />type of error.</p>
+
+<pre><code> var fn = function () { throw new ReferenceError(''); }
+ expect(fn).to.throw(ReferenceError);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.throw = function (constructor) {
+  new Assertion(this.obj).is.a('function');
+
+  constructor = constructor || Error;
+  var name = constructor.name
+    , thrown = false;
+
+  try {
+    this.obj();
+  } catch (err) {
+    thrown = true;
+    this.assert(
+        err instanceof constructor
+      , 'expected ' + this.inspect + ' to throw ' + name
+      , 'expected ' + this.inspect + ' to not throw ' + name);
+    return this;
+  }
+
+  this.assert(
+      thrown === true
+    , 'expected ' + this.inspect + ' to throw ' + name
+    , 'expected ' + this.inspect + ' to not throw ' + name);
+};</code>
+            </pre>
+          </div>
+        </article>
+      </div>
+    </section>
+    <footer>
+      <div class="branding">Chai is&nbsp;<a href="http://alogicalparadox.com">a logical paradox</a>. site generated by
+<a href="http://codexjs.com">codex.</a>
+      </div>
+    </footer>
+  </body>
+</html>

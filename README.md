@@ -1,12 +1,11 @@
-# Chai [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png)](http://travis-ci.org/logicalparadox/chai)
+[![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png)](http://travis-ci.org/logicalparadox/chai)
 
-Chai is a multi-style assert library for [node](http://nodejs.org) and the browser.
-It is based on [@visionmedia's awesome should.js](https://github.com/visionmedia/should.js)
-assert library and is completely API compatable.
+[![Chai Documentation](https://github.com/logicalparadox/chai/tree/master/docs/template/assets/img/chai-logo.png)](http://chaijs.com)
 
-This library was developed because, as awesome as `should.js` is, it doesn't work in the browser.
-As the lines blur (and sometimes disappear) between modules that run on either side, I needed
-an assert package that allowed the same tests to run on both sides.
+Chai is a BDD / TDD assertion framework for [node](http://nodejs.org) and the browser that
+can be delightfully paired with any javascript testing framework.
+
+For more information view the [documentation](http://chaijs.com).
 
 ## Installation
 
@@ -28,56 +27,6 @@ Include the chai browser build in your testing suite.
 
 Chai tests itself in the browser using mocha [mocha](https://github.com/visionmedia/mocha).
 Have a look at the `test/browser` folder for an example.
-
-## Styles
-
-### Expect
-
-The `expect` style is server/browser BDD style assert language.
-
-```js
-var expect = require('chai').expect;
-
-var foo = 'bar';
-
-expect(foo).to.be.a('string');
-expect(foo).to.equal('bar');
-expect(foo).to.have.length(3);
-```
-
-### Should
-
-The `should` style allows for chai to be a replacement for [should.js](https://github.com/visionmedia/should.js)
-if the need arises.
-
-```js
-var should = require('chai').should(); //actually call the the function
-
-var foo = 'bar';
-
-foo.should.be.a('string');
-foo.should.equal('bar');
-foo.should.have.length(3);
-```
-
-*Should tests do not run in the browser.*
-
-Notice that the `expect` require is just a reference to the `expect` function, whereas
-with the `should` require, the function is being executed.
-
-### Assert
-
-The `assert` style is like the node.js included assert utility with few extras.
-
-```js
-var assert = require('chai').assert;
-
-var foo = 'bar';
-
-assert.typeOf(foo, 'string');
-assert.equal(foo, 'bar');
-assert.length(foo, 3);
-```
 
 ## License
 

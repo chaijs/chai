@@ -1,0 +1,27 @@
+extends layout
+
+block nav
+  ul.pages
+    li: a(href=site.ghbaseurl) Home
+    - if (files.page)
+      for page in files.page
+        - if (page.template == 'code')
+          li: a(href=site.ghbaseurl + page.href)= page.title
+  - if (files.code)
+    ul.code
+      for page in files.code
+        - if (page.template == 'code-index')
+          li.header: a(href=site.ghbaseurl + page.href)= page.title
+      for page in files.code
+        - if (page.template == 'code')
+          li: a(href=site.ghbaseurl + page.href)= page.title
+
+block content
+  h1= file.title
+  article
+    .header!= file.prepared
+    .files
+      for spec in files.code
+        unless spec.template == 'code-index'
+          h3: a(href=site.ghbaseurl + spec.href)= spec.title
+          p!= spec.description
