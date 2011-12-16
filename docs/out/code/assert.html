@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>API Documentation for assert [tdd] - Chai
+    </title>
+    <script type="text/javascript">var ghuser = 'logicalparadox'
+  , ghproject = 'chai';
+
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="/public/js/jq-mousewheel.js"></script>
+    <script src="/public/js/antiscroll.js"></script>
+    <script src="/public/js/prettify.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
+    <script type="text/javascript">var mpq = [];
+mpq.push(["init", "2292e6cda82f96afc15ed999a90ba1bc"]);
+(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+[f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+"track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+d.length;c++){mpq[d[c]]=e(d[c])}})();
+</script>
+    <script type="text/javascript">var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-26183904-6']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+  </head>
+  <body>
+    <nav>
+      <div class="box-wrap antiscroll-wrap">
+        <div class="box">
+          <div class="antiscroll-inner">
+            <div class="box-inner">
+              <ul class="sections">
+                <li class="keepcase"><a href="#ok" class="scroll">ok</a>
+                </li>
+                <li class="keepcase"><a href="#equal" class="scroll">equal</a>
+                </li>
+                <li class="keepcase"><a href="#notEqual" class="scroll">notEqual</a>
+                </li>
+                <li class="keepcase"><a href="#deepEqual" class="scroll">deepEqual</a>
+                </li>
+                <li class="keepcase"><a href="#notDeepEqual" class="scroll">notDeepEqual</a>
+                </li>
+                <li class="keepcase"><a href="#isTrue" class="scroll">isTrue</a>
+                </li>
+                <li class="keepcase"><a href="#isFalse" class="scroll">isFalse</a>
+                </li>
+                <li class="keepcase"><a href="#isNull" class="scroll">isNull</a>
+                </li>
+                <li class="keepcase"><a href="#isNotNull" class="scroll">isNotNull</a>
+                </li>
+                <li class="keepcase"><a href="#isUndefined" class="scroll">isUndefined</a>
+                </li>
+                <li class="keepcase"><a href="#isFunction" class="scroll">isFunction</a>
+                </li>
+                <li class="keepcase"><a href="#isObject" class="scroll">isObject</a>
+                </li>
+                <li class="keepcase"><a href="#isArray" class="scroll">isArray</a>
+                </li>
+                <li class="keepcase"><a href="#isString" class="scroll">isString</a>
+                </li>
+                <li class="keepcase"><a href="#isNumber" class="scroll">isNumber</a>
+                </li>
+                <li class="keepcase"><a href="#isBoolean" class="scroll">isBoolean</a>
+                </li>
+                <li class="keepcase"><a href="#typeOf" class="scroll">typeOf</a>
+                </li>
+                <li class="keepcase"><a href="#instanceOf" class="scroll">instanceOf</a>
+                </li>
+                <li class="keepcase"><a href="#include" class="scroll">include</a>
+                </li>
+                <li class="keepcase"><a href="#match" class="scroll">match</a>
+                </li>
+                <li class="keepcase"><a href="#length" class="scroll">length</a>
+                </li>
+                <li class="keepcase"><a href="#throw" class="scroll">throw</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="pages">
+        <li><a href="/">Home</a>
+        </li>
+      </ul>
+      <ul class="code">
+        <li class="header"><a href="/code/">Language Guide</a>
+        </li>
+        <li><a href="/code/expect.html">expect / should [bdd]</a>
+        </li>
+        <li><a href="/code/assert.html">assert [tdd]</a>
+        </li>
+      </ul>
+    </nav>
+    <header>
+      <h1><a href="/"><img src="/public/img/chai-logo.png" title="Chai"></a>
+      </h1>
+      <div class="description"><p>Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
+      </div>
+      <div class="gh">
+        <h4>Latest Update to Github
+        </h4>
+        <div id="commit"><span id="latestCommitTime">Loading...</span><a id="latestCommitURL"></a>
+        </div>
+        <div id="latestCommitMessage">Loading...
+        </div>
+        <div id="clone"><a href="https://github.com/logicalparadox/chai" class="button fork">Fork me on GitHub</a>
+          <div class="clone">git clone https://github.com/logicalparadox/chai.git
+          </div>
+        </div>
+        <div id="links"><a id="repoIssues" href="https://github.com/logicalparadox/chai/issues">GitHub Issues</a>
+        </div>
+      </div>
+    </header>
+    <section id="content">
+      <div id="code">
+        <article id="undefined-section" class="codeblock">
+          <div class="header"><h3>TDD Style Introduction</h3>
+          </div>
+          <div class="description"><p>The TDD style is exposed through <code>assert</code> interfaces. This provides<br />the classic assert.<code>test</code> notation, similiar to that packaged with<br />node.js. This assert module, however, provides several additional<br />tests and is browser compatible.</p>
+
+<pre><code> // assert
+ var assert = require('chai').assert;
+   , foo = 'bar';
+
+ assert.typeOf(foo, 'string');
+ assert.equal(foo, 'bar');
+</code></pre>
+          </div>
+        </article>
+        <article id="ok-section" class="codeblock">
+          <div class="header"><h1>.ok(object, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.ok()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">object</span><span class="desc">to test</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert object is truthy.</p>
+
+<pre><code> assert.ok('everthing', 'everything is ok');
+ assert.ok(false, 'this will fail');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.ok = function (val, msg) {
+  new Assertion(val, msg).is.ok;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="equal-section" class="codeblock">
+          <div class="header"><h1>.equal(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.equal()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert strict equality.</p>
+
+<pre><code> assert.equal(3, 3, 'these numbers are equal');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.equal = function (act, exp, msg) {
+  new Assertion(act, msg).to.equal(exp);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="notEqual-section" class="codeblock">
+          <div class="header"><h1>.notEqual(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.notEqual()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert not strict equality.</p>
+
+<pre><code> assert.notEqual(3, 4, 'these numbers are not equal');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.notEqual = function (act, exp, msg) {
+  new Assertion(act, msg).to.not.equal(exp);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="deepEqual-section" class="codeblock">
+          <div class="header"><h1>.deepEqual(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.deepEqual()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert not deep equality.</p>
+
+<pre><code> assert.deepEqual({ tea: 'green' }, { tea: 'green' });
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.deepEqual = function (act, exp, msg) {
+  new Assertion(act, msg).to.eql(exp);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="notDeepEqual-section" class="codeblock">
+          <div class="header"><h1>.notDeepEqual(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.notDeepEqual()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert not deep equality.</p>
+
+<pre><code> assert.notDeepEqual({ tea: 'green' }, { tea: 'jasmine' });
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.notDeepEqual = function (act, exp, msg) {
+  new Assertion(act, msg).to.not.eql(exp);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isTrue-section" class="codeblock">
+          <div class="header"><h1>.isTrue(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isTrue()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Boolean &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is true.</p>
+
+<pre><code> var tea_served = true;
+ assert.isTrue(tea_served, 'the tea has been served');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isTrue = function (val, msg) {
+  new Assertion(val, msg).is.true;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isFalse-section" class="codeblock">
+          <div class="header"><h1>.isFalse(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isFalse()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Boolean &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is false.</p>
+
+<pre><code> var tea_served = false;
+ assert.isFalse(tea_served, 'no tea yet? hmm...');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isFalse = function (val, msg) {
+  new Assertion(val, msg).is.false;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isNull-section" class="codeblock">
+          <div class="header"><h1>.isNull(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isNull()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is null.</p>
+
+<pre><code> assert.isNull(err, 'no errors');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isNull = function (val, msg) {
+  new Assertion(val, msg).to.not.exist;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isNotNull-section" class="codeblock">
+          <div class="header"><h1>.isNotNull(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isNotNull()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is not null.</p>
+
+<pre><code> var tea = 'tasty chai';
+ assert.isNotNull(tea, 'great, time for tea!');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isNotNull = function (val, msg) {
+  new Assertion(val, msg).to.exist;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isUndefined-section" class="codeblock">
+          <div class="header"><h1>.isUndefined(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isUndefined()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is undefined.</p>
+
+<pre><code> assert.isUndefined(tea, 'no tea defined');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isUndefined = function (val, msg) {
+  new Assertion(val, msg).to.equal(undefined);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isFunction-section" class="codeblock">
+          <div class="header"><h1>.isFunction(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isFunction()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is a function.</p>
+
+<pre><code> var serve_tea = function () { return 'cup of tea'; };
+ assert.isFunction(serve_tea, 'great, we can have tea now');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isFunction = function (val, msg) {
+  new Assertion(val, msg).to.be.a('function');
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isObject-section" class="codeblock">
+          <div class="header"><h1>.isObject(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isObject()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is an object.</p>
+
+<pre><code> var selection = { name: 'Chai', serve: 'with spices' };
+ assert.isObject(selection, 'tea selection is an object');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isObject = function (val, msg) {
+  new Assertion(val, msg).to.be.an('object');
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isArray-section" class="codeblock">
+          <div class="header"><h1>.isArray(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isArray()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is an instance of Array.</p>
+
+<pre><code> var menu = [ 'green', 'chai', 'oolong' ];
+ assert.isArray(menu, 'what kind of tea do we want?');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isArray = function (val, msg) {
+  new Assertion(val, msg).to.be.instanceof(Array);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isString-section" class="codeblock">
+          <div class="header"><h1>.isString(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isString()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is a string.</p>
+
+<pre><code> var teaorder = 'chai';
+ assert.isString(tea_order, 'order placed');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isString = function (val, msg) {
+  new Assertion(val, msg).to.be.a('string');
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isNumber-section" class="codeblock">
+          <div class="header"><h1>.isNumber(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isNumber()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is a number</p>
+
+<pre><code> var cups = 2;
+ assert.isNumber(cups, 'how many cups');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isNumber = function (val, msg) {
+  new Assertion(val, msg).to.be.instanceof(Number);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isBoolean-section" class="codeblock">
+          <div class="header"><h1>.isBoolean(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isBoolean()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is a boolean</p>
+
+<pre><code> var teaready = true
+   , teaserved = false;
+
+ assert.isBoolean(tea_ready, 'is the tea ready');
+ assert.isBoolean(tea_served, 'has tea been served');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isBoolean = function (val, msg) {
+  new Assertion(val, msg).to.be.a('boolean');
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="typeOf-section" class="codeblock">
+          <div class="header"><h1>.typeOf(value, name, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.typeOf()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">typeof</span><span class="desc">name</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert typeof <code>value</code> is <code>name</code>.</p>
+
+<pre><code> assert.typeOf('tea', 'string', 'we have a string');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.typeOf = function (val, type, msg) {
+  new Assertion(val, msg).to.be.a(type);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="instanceOf-section" class="codeblock">
+          <div class="header"><h1>.instanceOf(object, constructor, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.instanceOf()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is instanceof <code>constructor</code>.</p>
+
+<pre><code> var Tea = function (name) { this.name = name; }
+   , Chai = new Tea('chai');
+
+ assert.instanceOf(Chai, Tea, 'chai is an instance of tea');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.instanceOf = function (val, type, msg) {
+  new Assertion(val, msg).to.be.instanceof(type);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="include-section" class="codeblock">
+          <div class="header"><h1>.include(value, includes, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.include()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array | String | Object &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">includes</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert the inclusion of an object in another.</p>
+
+<pre><code> var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
+ assert.include(obj, {foo: 'bar'}, 'object contains subobject');
+
+ assert.include('foobar', 'bar', 'foobar contains string `var`);
+ assert.include([ 1, 2, 3], 3, 'array contains value);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.include = function (exp, inc, msg) {
+  var obj = new Assertion(exp, msg);
+
+  if (Array.isArray(exp)) {
+    obj.to.contain(inc);
+  } else if ('string' === typeof exp) {
+    obj.to.include.string(inc);
+  } else {
+    obj.to.include.object(inc);
+  }
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="match-section" class="codeblock">
+          <div class="header"><h1>.match(value, constructor, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.match()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; RegExp &#125;</span><span class="name">RegularExpression</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that <code>value</code> matches regular expression.</p>
+
+<pre><code> assert.match('foobar', /^foo/, 'Regexp matches');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.match = function (exp, re, msg) {
+  new Assertion(exp, msg).to.match(re);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="length-section" class="codeblock">
+          <div class="header"><h1>.length(value, constructor, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.length()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">length</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that object has expected length.</p>
+
+<pre><code> assert.length([1,2,3], 3, 'Array has length of 3');
+ assert.length('foobar', 5, 'String has length of 6');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.length = function (exp, len, msg) {
+  new Assertion(exp, msg).to.have.length(len);
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="throw-section" class="codeblock">
+          <div class="header"><h1>.throw(function, constructor, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.throw()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">function</span><span class="desc">to test</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;see</span><span class="name"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that a function will throw a specific<br />type of error.</p>
+
+<pre><code> var fn = function () { throw new ReferenceError(''); }
+ assert.throw(fn, ReferenceError, 'function throw reference error');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.throw = function (fn, type, msg) {
+  new Assertions(fn, msg).to.throw(type);
+};</code>
+            </pre>
+          </div>
+        </article>
+      </div>
+    </section>
+    <footer>
+      <div class="branding">Chai is&nbsp;<a href="http://alogicalparadox.com">a logical paradox</a>. site generated by
+<a href="http://codexjs.com">codex.</a>
+      </div>
+    </footer>
+  </body>
+</html>

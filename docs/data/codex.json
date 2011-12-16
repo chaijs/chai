@@ -2,7 +2,7 @@
   "locals": {
     "title": "Chai",
     "googleanalytics": "UA-26183904-6",
-    "mixpanel": "d5e84615dbd02dbc359b0f76d0ed7cf5",
+    "mixpanel": "2292e6cda82f96afc15ed999a90ba1bc",
     "ghuser": "logicalparadox",
     "ghbaseurl": "",
     "ghproject": "chai",
@@ -12,9 +12,14 @@
   },
   "code": {
     "expect": {
-      "title": "bdd: expect / should",
+      "title": "expect / should [bdd]",
       "file": "../../lib/assertion.js",
       "description": "The BDD style allows you to write your assertions in a natural, self-describing manner."
+    },
+    "assert": {
+      "title": "assert [tdd]",
+      "file": "../../lib/interface/assert.js",
+      "description": "The TDD style allows you to write your assertions using the classic 'assert dot' notation."
     }
   }
 }
