@@ -1,4 +1,27 @@
 
+0.1.2 / 2011-12-18
+==================
+
+  * [docs] for upcoming 0.1.2
+  * browser version built with pre/suffix … all tests passing
+  * make / compile now use prefix/suffix correctly
+  * code clean
+  * prefix/suffix to wrap browser output to prevent conflicts with other `require` methods.
+  * Merge branch 'feature/should4xcompatibility'
+  * compile for browser tests.. all pass
+  * added header/status/html/json
+  * throw tests
+  * should.throw & should.not.throw shortcuts
+  * improved `throw` type detection and messaging
+  * contain is now `include` … keys modifier is now `contain`
+  * removed object() test
+  * removed #respondTo
+  * Merge branch 'bug/2'
+  * replaced __defineGetter__ with defineProperty for all uses
+  * [docs] change mp tracking code
+  * docs site updated with assert (TDD) interface
+  * updated doc comments for assert interface
+
 0.1.1 / 2011-12-16
 ==================
 
