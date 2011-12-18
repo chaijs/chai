@@ -84,8 +84,6 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#instanceOf" class="scroll">instanceOf</a>
                 </li>
-                <li class="keepcase"><a href="#respondTo" class="scroll">respondTo</a>
-                </li>
                 <li class="keepcase"><a href="#property" class="scroll">property</a>
                 </li>
                 <li class="keepcase"><a href="#ownProperty" class="scroll">ownProperty</a>
@@ -94,17 +92,23 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#match" class="scroll">match</a>
                 </li>
-                <li class="keepcase"><a href="#contain" class="scroll">contain</a>
+                <li class="keepcase"><a href="#include" class="scroll">include</a>
                 </li>
                 <li class="keepcase"><a href="#string" class="scroll">string</a>
                 </li>
-                <li class="keepcase"><a href="#object" class="scroll">object</a>
-                </li>
-                <li class="keepcase"><a href="#include" class="scroll">include</a>
+                <li class="keepcase"><a href="#contain" class="scroll">contain</a>
                 </li>
                 <li class="keepcase"><a href="#keys" class="scroll">keys</a>
                 </li>
                 <li class="keepcase"><a href="#throw" class="scroll">throw</a>
+                </li>
+                <li class="keepcase"><a href="#header" class="scroll">header</a>
+                </li>
+                <li class="keepcase"><a href="#status" class="scroll">status</a>
+                </li>
+                <li class="keepcase"><a href="#json" class="scroll">json</a>
+                </li>
+                <li class="keepcase"><a href="#html" class="scroll">html</a>
                 </li>
               </ul>
             </div>
@@ -180,8 +184,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('to', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'to',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -199,8 +205,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('be', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'be',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -218,8 +226,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('an', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'an',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -237,8 +247,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('is', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'is',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -256,8 +268,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('and', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'and',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -275,8 +289,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('have', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'have',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -294,8 +310,10 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('with', function () {
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'with',
+  { get: function () {
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -313,9 +331,11 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('not', function () {
-  this.negate = true;
-  return this;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'not',
+  { get: function () {
+      this.negate = true;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -339,13 +359,15 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('ok', function () {
-  this.assert(
-      this.obj
-    , 'expected ' + this.inspect + ' to be truthy'
-    , 'expected ' + this.inspect + ' to be falsey');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'ok',
+  { get: function () {
+      this.assert(
+          this.obj
+        , 'expected ' + this.inspect + ' to be truthy'
+        , 'expected ' + this.inspect + ' to be falsey');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -363,13 +385,15 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('true', function () {
-  this.assert(
-      true === this.obj
-    , 'expected ' + this.inspect + ' to be true'
-    , 'expected ' + this.inspect + ' to be false');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'true',
+  { get: function () {
+      this.assert(
+          true === this.obj
+        , 'expected ' + this.inspect + ' to be true'
+        , 'expected ' + this.inspect + ' to be false');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -387,13 +411,15 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('false', function () {
-  this.assert(
-      false === this.obj
-    , 'expected ' + this.inspect + ' to be false'
-    , 'expected ' + this.inspect + ' to be true');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'false',
+  { get: function () {
+      this.assert(
+          false === this.obj
+        , 'expected ' + this.inspect + ' to be false'
+        , 'expected ' + this.inspect + ' to be true');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -417,13 +443,15 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('exist', function () {
-  this.assert(
-      null != this.obj
-    , 'expected ' + this.inspect + ' to exist'
-    , 'expected ' + this.inspect + ' to not exist');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'exist',
+  { get: function () {
+      this.assert(
+          null != this.obj
+        , 'expected ' + this.inspect + ' to exist'
+        , 'expected ' + this.inspect + ' to not exist');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -444,15 +472,17 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('empty', function () {
-  new Assertion(this.obj).to.have.property('length');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'empty',
+  { get: function () {
+      new Assertion(this.obj).to.have.property('length');
 
-  this.assert(
-      0 === this.obj.length
-    , 'expected ' + this.inspect + ' to be empty'
-    , 'expected ' + this.inspect + ' not to be empty');
+      this.assert(
+          0 === this.obj.length
+        , 'expected ' + this.inspect + ' to be empty'
+        , 'expected ' + this.inspect + ' not to be empty');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -475,13 +505,15 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('arguments', function () {
-  this.assert(
-      '[object Arguments]' == Object.prototype.toString.call(this.obj)
-    , 'expected ' + this.inspect + ' to be arguments'
-    , 'expected ' + this.inspect + ' to not be arguments');
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'arguments',
+  { get: function () {
+      this.assert(
+          '[object Arguments]' == Object.prototype.toString.call(this.obj)
+        , 'expected ' + this.inspect + ' to be arguments'
+        , 'expected ' + this.inspect + ' to not be arguments');
 
-  return this;
+      return this;
+    }
 });</code>
             </pre>
           </div>
@@ -724,40 +756,6 @@ _gaq.push(['_trackPageview']);
             </pre>
           </div>
         </article>
-        <article id="respondTo-section" class="codeblock">
-          <div class="header"><h1>respondTo(method)</h1>
-          </div>
-          <div class="ctx">
-            <h3>Assertion.prototype.respondTo()
-            </h3>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc">name</span>
-            </div>
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Assert that <code>method</code> is a function.</p>
-
-<pre><code> var res = { send: function () {} };
- expect(res).to.respondTo('send');
-</code></pre>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.respondTo = function (method) {
-  this.assert(
-    'function' == typeof this.obj[method]
-    , 'expected ' + this.inspect + ' to respond to ' + method + '()'
-    , 'expected ' + this.inspect + ' to not respond to ' + method + '()');
-
-  return this;
-}</code>
-            </pre>
-          </div>
-        </article>
         <article id="property-section" class="codeblock">
           <div class="header"><h1>.property(name, [value])</h1>
           </div>
@@ -776,7 +774,7 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert that property of <code>name</code> exists,<br />optionally with <code>value</code>.</p>
+          <div class="description"><p>Assert that property of <code>name</code> exists, optionally with <code>value</code>.</p>
 
 <pre><code> var obj = { foo: 'bar' }
  expect(obj).to.have.property('foo');
@@ -919,11 +917,11 @@ _gaq.push(['_trackPageview']);
             </pre>
           </div>
         </article>
-        <article id="contain-section" class="codeblock">
-          <div class="header"><h1>.contain(obj)</h1>
+        <article id="include-section" class="codeblock">
+          <div class="header"><h1>.include(obj)</h1>
           </div>
           <div class="ctx">
-            <h3>Assertion.prototype.contain()
+            <h3>Assertion.prototype.include()
             </h3>
           </div>
           <div class="tags">
@@ -933,7 +931,7 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert the inclusion of an object in an Array</p>
+          <div class="description"><p>Assert the inclusion of an object in an Array or substring in string.</p>
 
 <pre><code> expect([1,2,3]).to.contain(2);
 </code></pre>
@@ -941,13 +939,11 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.contain = function (obj) {
-  new Assertion(this.obj).to.be.an.instanceof(Array);
-
+            <pre class="source prettyprint"><code>Assertion.prototype.include = function (obj) {
   this.assert(
       ~this.obj.indexOf(obj)
-    , 'expected ' + this.inspect + ' to contain ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not contain ' + inspect(obj));
+    , 'expected ' + this.inspect + ' to include ' + inspect(obj)
+    , 'expected ' + this.inspect + ' to not include ' + inspect(obj));
 
   return this;
 };</code>
@@ -981,75 +977,32 @@ _gaq.push(['_trackPageview']);
 
   this.assert(
       ~this.obj.indexOf(str)
-    , 'expected ' + this.inspect + ' to include ' + inspect(str)
-    , 'expected ' + this.inspect + ' to not include ' + inspect(str));
+    , 'expected ' + this.inspect + ' to contain ' + inspect(str)
+    , 'expected ' + this.inspect + ' to not contain ' + inspect(str));
 
   return this;
 };</code>
             </pre>
           </div>
         </article>
-        <article id="object-section" class="codeblock">
-          <div class="header"><h1>.object(object)</h1>
-          </div>
-          <div class="ctx">
-            <h3>Assertion.prototype.object()
-            </h3>
+        <article id="contain-section" class="codeblock">
+          <div class="header"><h1>contain</h1>
           </div>
           <div class="tags">
             <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span>
-            </div>
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert inclusion of object in object.</p>
-
-<pre><code> var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
- expect(obj).to.include.object({foo: 'bar'});
-</code></pre>
+          <div class="description"><p>Toggles the <code>contain</code> flag for the <code>keys</code> assertion.</p>
           </div>
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.object = function(obj){
-  new Assertion(this.obj).is.a('object');
-
-  var included = true;
-
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key) &amp;&amp; !eql(obj[key], this.obj[key])) {
-      included = false;
-      break;
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'contain',
+  { get: function () {
+      this.contains = true;
+      return this;
     }
-  }
-
-  this.assert(
-      included
-    , 'expected ' + this.inspect + ' to include ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not include ' + inspect(obj));
-
-  return this;
-}</code>
-            </pre>
-          </div>
-        </article>
-        <article id="include-section" class="codeblock">
-          <div class="header"><h1>include</h1>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Language chain that lags #keys to test for inclusion testing.</p>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.__defineGetter__('include', function () {
-  this.includes = true;
-  return this;
 });</code>
             </pre>
           </div>
@@ -1070,10 +1023,10 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert exact keys or the inclusing of keys using<br />the include modifier.</p>
+          <div class="description"><p>Assert exact keys or the inclusing of keys using the <code>contain</code> modifier.</p>
 
 <pre><code> expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
- expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('foo', 'bar');
+ expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
 </code></pre>
           </div>
           <div class="view-source">View Source
@@ -1098,7 +1051,7 @@ _gaq.push(['_trackPageview']);
   });
 
   // Strict
-  if (!this.negate &amp;&amp; !this.includes) {
+  if (!this.negate &amp;&amp; !this.contains) {
     ok = ok &amp;&amp; keys.length == actual.length;
   }
 
@@ -1117,7 +1070,7 @@ _gaq.push(['_trackPageview']);
   str = (len &gt; 1 ? 'keys ' : 'key ') + str;
 
   // Have / include
-  str = (this.includes ? 'include ' : 'have ') + str;
+  str = (this.contains ? 'contain ' : 'have ') + str;
 
   // Assertion
   this.assert(
@@ -1148,7 +1101,7 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert that a function will throw a specific<br />type of error.</p>
+          <div class="description"><p>Assert that a function will throw a specific type of error.</p>
 
 <pre><code> var fn = function () { throw new ReferenceError(''); }
  expect(fn).to.throw(ReferenceError);
@@ -1160,26 +1113,140 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Assertion.prototype.throw = function (constructor) {
   new Assertion(this.obj).is.a('function');
 
-  constructor = constructor || Error;
-  var name = constructor.name
-    , thrown = false;
+  var thrown = false;
 
   try {
     this.obj();
   } catch (err) {
-    thrown = true;
-    this.assert(
-        err instanceof constructor
-      , 'expected ' + this.inspect + ' to throw ' + name
-      , 'expected ' + this.inspect + ' to not throw ' + name);
-    return this;
+    if (constructor) {
+      this.assert(
+          err instanceof constructor &amp;&amp; err.name == constructor.name
+        , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
+        , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
+
+      return this;
+    } else {
+      thrown = true;
+    }
   }
+
+  var name = (constructor ? constructor.name : 'an error');
 
   this.assert(
       thrown === true
     , 'expected ' + this.inspect + ' to throw ' + name
     , 'expected ' + this.inspect + ' to not throw ' + name);
+
+  return this;
 };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="header-section" class="codeblock">
+          <div class="header"><h1>.header(code)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.header()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">field</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>header</code> field has expected <code>value</code>.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.header = function (field, val) {
+  new Assertion(this.obj)
+        .to.have.property('headers').and
+        .to.have.property(field.toLowerCase(), val);
+
+  return this;
+}</code>
+            </pre>
+          </div>
+        </article>
+        <article id="status-section" class="codeblock">
+          <div class="header"><h1>.status(code)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.status()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">code</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>statusCode</code> of `code'.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.status = function (code) {
+  new Assertion(this.obj).to.have.property('statusCode');
+
+  var status = this.obj.statusCode;
+
+  this.assert(
+      code == status
+    , 'expected response code of ' + code + ' ' + inspect(statusCodes[code])
+        + ', but got ' + status + ' ' + inspect(statusCodes[status])
+    , 'expected to not respond with ' + code + ' ' + inspect(statusCodes[code]));
+}</code>
+            </pre>
+          </div>
+        </article>
+        <article id="json-section" class="codeblock">
+          <div class="header"><h1>json</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that this response has content-type: application/json.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'json',
+  { get: function () {
+      new Assertion(this.obj).to.have.header('content-type', 'application/json; charset=utf-8');
+      return this;
+    }
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="html-section" class="codeblock">
+          <div class="header"><h1>html</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that this response has content-type: text/html.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'html',
+  { get: function () {
+      new Assertion(this.obj).to.have.header('content-type', 'text/html; charset=utf-8');
+      return this;
+    }
+});</code>
             </pre>
           </div>
         </article>
