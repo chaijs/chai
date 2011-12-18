@@ -249,81 +249,59 @@ var expectTests = module.exports = {
     },
 
     'test string()': function(){
-      expect('foobar').to.include.string('bar');
-      expect('foobar').to.include.string('foo');
-      expect('foobar').to.not.include.string('baz');
+      expect('foobar').to.have.string('bar');
+      expect('foobar').to.have.string('foo');
+      expect('foobar').to.not.have.string('baz');
 
       err(function(){
-        expect(3).to.include.string('baz');
+        expect(3).to.have.string('baz');
       }, "expected 3 to be a string");
 
       err(function(){
-        expect('foobar').to.include.string('baz');
-      }, "expected 'foobar' to include 'baz'");
+        expect('foobar').to.have.string('baz');
+      }, "expected 'foobar' to contain 'baz'");
 
       err(function(){
-        expect('foobar').to.not.include.string('bar');
-      }, "expected 'foobar' to not include 'bar'");
+        expect('foobar').to.not.have.string('bar');
+      }, "expected 'foobar' to not contain 'bar'");
     },
 
-    'test object()': function(){
-      var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
-      expect(obj).to.include.object({foo: 'bar'});
-      expect(obj).to.include.object({baz: {baaz: 42}});
-      expect(obj).to.include.object({foo: 'bar', qux: 13});
-      expect(obj).to.not.include.object({foo: 'baz'});
-      expect(obj).to.not.include.object({foo: 'bar', baz: {baaz: -42}});
+    'test include()': function(){
+      expect(['foo', 'bar']).to.include('foo');
+      expect(['foo', 'bar']).to.include('foo');
+      expect(['foo', 'bar']).to.include('bar');
+      expect([1,2]).to.include(1);
+      expect(['foo', 'bar']).to.not.include('baz');
+      expect(['foo', 'bar']).to.not.include(1);
 
       err(function(){
-        expect(3).to.include.object({foo: 'bar'});
-      }, "expected 3 to be a object");
+        expect(['foo']).to.include('bar');
+      }, "expected [ 'foo' ] to include 'bar'");
 
       err(function(){
-        var obj = {foo: 'bar'};
-        expect(obj).to.include.object({foo: 'baz'});
-      }, "expected { foo: 'bar' } to include { foo: 'baz' }");
-
-      err(function(){
-        var obj = {foo: 'bar'};
-        expect(obj).to.not.include.object({foo: 'bar'});
-      }, "expected { foo: 'bar' } to not include { foo: 'bar' }");
-    },
-    'test contain()': function(){
-      expect(['foo', 'bar']).to.contain('foo');
-      expect(['foo', 'bar']).to.contain('foo');
-      expect(['foo', 'bar']).to.contain('bar');
-      expect([1,2]).to.contain(1);
-      expect(['foo', 'bar']).to.not.contain('baz');
-      expect(['foo', 'bar']).to.not.contain(1);
-
-      err(function(){
-        expect(['foo']).to.contain('bar');
-      }, "expected [ 'foo' ] to contain 'bar'");
-
-      err(function(){
-        expect(['bar', 'foo']).to.not.contain('foo');
-      }, "expected [ 'bar', 'foo' ] to not contain 'foo'");
+        expect(['bar', 'foo']).to.not.include('foo');
+      }, "expected [ 'bar', 'foo' ] to not include 'foo'");
     },
 
     'test keys(array)': function(){
       expect({ foo: 1 }).to.have.keys(['foo']);
       expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
       expect({ foo: 1, bar: 2 }).to.have.keys('foo', 'bar');
-      expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('foo', 'bar');
-      expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('bar', 'foo');
-      expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('baz');
+      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
+      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('bar', 'foo');
+      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('baz');
 
-      expect({ foo: 1, bar: 2 }).to.include.keys('foo');
-      expect({ foo: 1, bar: 2 }).to.include.keys('bar', 'foo');
-      expect({ foo: 1, bar: 2 }).to.include.keys(['foo']);
-      expect({ foo: 1, bar: 2 }).to.include.keys(['bar']);
-      expect({ foo: 1, bar: 2 }).to.include.keys(['bar', 'foo']);
+      expect({ foo: 1, bar: 2 }).to.contain.keys('foo');
+      expect({ foo: 1, bar: 2 }).to.contain.keys('bar', 'foo');
+      expect({ foo: 1, bar: 2 }).to.contain.keys(['foo']);
+      expect({ foo: 1, bar: 2 }).to.contain.keys(['bar']);
+      expect({ foo: 1, bar: 2 }).to.contain.keys(['bar', 'foo']);
 
       expect({ foo: 1, bar: 2 }).to.not.have.keys('baz');
       expect({ foo: 1, bar: 2 }).to.not.have.keys('foo', 'baz');
-      expect({ foo: 1, bar: 2 }).to.not.include.keys('baz');
-      expect({ foo: 1, bar: 2 }).to.not.include.keys('foo', 'baz');
-      expect({ foo: 1, bar: 2 }).to.not.include.keys('baz', 'foo');
+      expect({ foo: 1, bar: 2 }).to.not.contain.keys('baz');
+      expect({ foo: 1, bar: 2 }).to.not.contain.keys('foo', 'baz');
+      expect({ foo: 1, bar: 2 }).to.not.contain.keys('baz', 'foo');
 
       err(function(){
         expect({ foo: 1 }).to.have.keys();
@@ -338,7 +316,7 @@ var expectTests = module.exports = {
       }, "keys required");
 
       err(function(){
-        expect({ foo: 1 }).to.include.keys([]);
+        expect({ foo: 1 }).to.contain.keys([]);
       }, "keys required");
 
       err(function(){
@@ -366,28 +344,67 @@ var expectTests = module.exports = {
       }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
 
       err(function(){
-        expect({ foo: 1 }).to.not.include.keys(['foo']);
-      }, "expected { foo: 1 } to not include key 'foo'");
+        expect({ foo: 1 }).to.not.contain.keys(['foo']);
+      }, "expected { foo: 1 } to not contain key 'foo'");
 
       err(function(){
-        expect({ foo: 1 }).to.include.keys('foo', 'bar');
-      }, "expected { foo: 1 } to include keys 'foo', and 'bar'");
-    },
-
-    'test respondTo(method)': function(){
-      expect('test').to.respondTo('toString');
-      expect('test').to.not.respondTo('toBuffer');
+        expect({ foo: 1 }).to.contain.keys('foo', 'bar');
+      }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
     },
 
     'test chaining': function(){
-      var user = { name: 'tj', pets: ['tobi', 'loki', 'jane', 'bandit'] };
-      expect(user).to.have.property('pets').with.lengthOf(4);
+      var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
+      expect(tea).to.have.property('extras').with.lengthOf(3);
 
       err(function(){
-        expect(user).to.have.property('pets').with.lengthOf(5);
-      }, "expected [ 'tobi', 'loki', 'jane', 'bandit' ] to have a length of 5 but got 4");
+        expect(tea).to.have.property('extras').with.lengthOf(4);
+      }, "expected [ 'milk', 'sugar', 'smile' ] to have a length of 4 but got 3");
 
-      expect(user).to.be.a('object').and.have.property('name', 'tj');
+      expect(tea).to.be.a('object').and.have.property('name', 'chai');
+    },
+
+    'test throw': function () {
+      var goodFn = function () { 1==1; }
+        , badFn = function () { throw new Error('testing'); }
+        , refErrFn = function () { throw new ReferenceError(); };
+
+      expect(goodFn).to.not.throw();
+      expect(goodFn).to.not.throw(Error);
+      expect(badFn).to.throw();
+      expect(badFn).to.throw(Error);
+      expect(badFn).to.not.throw(ReferenceError);
+      expect(refErrFn).to.throw();
+      expect(refErrFn).to.throw(ReferenceError);
+      expect(refErrFn).to.not.throw(Error);
+      expect(refErrFn).to.not.throw(TypeError);
+
+      err(function(){
+        expect(goodFn).to.throw();
+      }, "expected [Function] to throw an error");
+
+      err(function(){
+        expect(goodFn).to.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError");
+
+      err(function(){
+        expect(badFn).to.not.throw();
+      }, "expected [Function] to not throw an error");
+
+      err(function(){
+        expect(badFn).to.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError but a Error was thrown");
+
+      err(function(){
+        expect(badFn).to.not.throw(Error);
+      }, "expected [Function] to not throw Error");
+
+      err(function(){
+        expect(refErrFn).to.not.throw(ReferenceError);
+      }, "expected [Function] to not throw ReferenceError");
+
+      err(function(){
+        expect(refErrFn).to.throw(Error);
+      }, "expected [Function] to throw Error but a ReferenceError was thrown");
     }
   }
 };
