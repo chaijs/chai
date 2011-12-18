@@ -1,8 +1,6 @@
 !function (name, definition) {
   if (typeof define == 'function' && typeof define.amd  == 'object') define(definition);
   else this[name] = definition();
-
-  console.log(this);
 }('chai', function () {
 
 // CommonJS require()
@@ -111,7 +109,8 @@ module.exports = Assertion;
  * @api private
  */
 
-function Assertion (obj, msg) {
+function Assertion (obj, msg, stack) {
+  this.ssfi = stack || arguments.callee;
   this.obj = obj;
   this.msg = msg;
 }
@@ -119,8 +118,7 @@ function Assertion (obj, msg) {
 /*!
  * # .assert(expression, message, negateMessage)
  *
- * Executes an expression and check expectations.
- * Throws AssertionError for reporting.
+ * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
  *
  * @name assert
  * @param {Philosophical} expression to be tested
@@ -130,13 +128,14 @@ function Assertion (obj, msg) {
  */
 
 Assertion.prototype.assert = function (expr, msg, negateMsg) {
-  var msg = (this.msg ? this.msg + ': ' : '') + (this.negate ? negateMsg : msg)
+  var msg = (this.negate ? negateMsg : msg)
     , ok = this.negate ? !expr : expr;
 
   if (!ok) {
     throw new AssertionError({
+      operator: this.msg,
       message: msg,
-      startStackFunction: this.assert
+      stackStartFunction: this.ssfi
     });
   }
 };
@@ -570,8 +569,7 @@ Assertion.prototype.instanceof = function (constructor) {
 /**
  * # .property(name, [value])
  *
- * Assert that property of `name` exists,
- * optionally with `value`.
+ * Assert that property of `name` exists, optionally with `value`.
  *
  *      var obj = { foo: 'bar' }
  *      expect(obj).to.have.property('foo');
@@ -680,7 +678,7 @@ Assertion.prototype.match = function (re) {
 /**
  * # .include(obj)
  *
- * Assert the inclusion of an object in an Array
+ * Assert the inclusion of an object in an Array or substring in string.
  *
  *      expect([1,2,3]).to.contain(2);
  *
@@ -742,8 +740,7 @@ Object.defineProperty(Assertion.prototype, 'contain',
 /**
  * # .keys(key1, [key2], [...])
  *
- * Assert exact keys or the inclusing of keys using
- * the `contain` modifier.
+ * Assert exact keys or the inclusing of keys using the `contain` modifier.
  *
  *      expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
  *      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
@@ -806,8 +803,7 @@ Assertion.prototype.keys = function(keys) {
 /**
  * # .throw(constructor)
  *
- * Assert that a function will throw a specific
- * type of error.
+ * Assert that a function will throw a specific type of error.
  *
  *      var fn = function () { throw new ReferenceError(''); }
  *      expect(fn).to.throw(ReferenceError);
@@ -873,7 +869,7 @@ Assertion.prototype.header = function (field, val) {
  *
  * Assert `statusCode` of `code'.
  *
- * @name json
+ * @name status
  * @param {Number} code
  * @api public
  */
@@ -948,7 +944,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.1.1';
+exports.version = '0.1.2';
 
 exports.expect = require('./interface/expect');
 exports.assert = require('./interface/assert');
@@ -1001,11 +997,19 @@ function AssertionError (options) {
 AssertionError.prototype.__proto__ = Error.prototype;
 
 AssertionError.prototype.summary = function() {
-  return this.name + (this.message ? ': ' + this.message : '');
+  var str = '';
+
+  if (this.operator) {
+    str += 'In: \'' + this.operator + '\'\n\t';
+  }
+
+  str += '' + this.name + (this.message ? ': ' + this.message : '');
+
+  return str;
 };
 
 AssertionError.prototype.details = function() {
-  return 'In "' + this.operator + '":\n\tExpected: ' + this.expected + '\n\tFound: ' + this.actual;
+  return this.summary();
 };
 
 AssertionError.prototype.toString = function() {
