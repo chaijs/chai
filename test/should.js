@@ -363,11 +363,6 @@ module.exports = {
       }, "expected { foo: 1 } to include keys 'foo', and 'bar'");
     },
 
-    'test respondTo(method)': function(){
-      'test'.should.respondTo('toString');
-      'test'.should.not.respondTo('toBuffer');
-    },
-
     'test chaining': function(){
       var user = { name: 'tj', pets: ['tobi', 'loki', 'jane', 'bandit'] };
       user.should.have.property('pets').with.lengthOf(4);
