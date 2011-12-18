@@ -1,10 +1,11 @@
-/**
+/*!
  * Module dependencies.
+ *
+ * Chai is automatically included in the browser.
  */
 
-// if we are in a browser session, chai is already defined
 if (!chai) {
-  var chai = require('../');
+  var chai = require('..');
 }
 
 var expect = chai.expect;
