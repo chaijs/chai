@@ -135,7 +135,7 @@ Assertion.prototype.assert = function (expr, msg, negateMsg) {
 };
 
 /*!
- * # inpsect
+ * # inspect
  *
  * Returns the current object stringified.
  *
@@ -143,8 +143,10 @@ Assertion.prototype.assert = function (expr, msg, negateMsg) {
  * @api private
  */
 
-Assertion.prototype.__defineGetter__('inspect', function () {
-  return inspect(this.obj);
+Object.defineProperty(Assertion.prototype, 'inspect',
+  { get: function () {
+      return inspect(this.obj);
+    }
 });
 
 /**
@@ -156,8 +158,10 @@ Assertion.prototype.__defineGetter__('inspect', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('to', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'to',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -169,8 +173,10 @@ Assertion.prototype.__defineGetter__('to', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('be', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'be',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -182,10 +188,11 @@ Assertion.prototype.__defineGetter__('be', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('an', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'an',
+  { get: function () {
+      return this;
+    }
 });
-
 /**
  * # is
  *
@@ -195,8 +202,10 @@ Assertion.prototype.__defineGetter__('an', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('is', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'is',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -208,8 +217,10 @@ Assertion.prototype.__defineGetter__('is', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('and', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'and',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -221,8 +232,10 @@ Assertion.prototype.__defineGetter__('and', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('have', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'have',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -234,8 +247,10 @@ Assertion.prototype.__defineGetter__('have', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('with', function () {
-  return this;
+Object.defineProperty(Assertion.prototype, 'with',
+  { get: function () {
+      return this;
+    }
 });
 
 /**
@@ -247,9 +262,11 @@ Assertion.prototype.__defineGetter__('with', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('not', function () {
-  this.negate = true;
-  return this;
+Object.defineProperty(Assertion.prototype, 'not',
+  { get: function () {
+      this.negate = true;
+      return this;
+    }
 });
 
 /**
@@ -266,13 +283,15 @@ Assertion.prototype.__defineGetter__('not', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('ok', function () {
-  this.assert(
-      this.obj
-    , 'expected ' + this.inspect + ' to be truthy'
-    , 'expected ' + this.inspect + ' to be falsey');
+Object.defineProperty(Assertion.prototype, 'ok',
+  { get: function () {
+      this.assert(
+          this.obj
+        , 'expected ' + this.inspect + ' to be truthy'
+        , 'expected ' + this.inspect + ' to be falsey');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -284,13 +303,15 @@ Assertion.prototype.__defineGetter__('ok', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('true', function () {
-  this.assert(
-      true === this.obj
-    , 'expected ' + this.inspect + ' to be true'
-    , 'expected ' + this.inspect + ' to be false');
+Object.defineProperty(Assertion.prototype, 'true',
+  { get: function () {
+      this.assert(
+          true === this.obj
+        , 'expected ' + this.inspect + ' to be true'
+        , 'expected ' + this.inspect + ' to be false');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -302,13 +323,15 @@ Assertion.prototype.__defineGetter__('true', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('false', function () {
-  this.assert(
-      false === this.obj
-    , 'expected ' + this.inspect + ' to be false'
-    , 'expected ' + this.inspect + ' to be true');
+Object.defineProperty(Assertion.prototype, 'false',
+  { get: function () {
+      this.assert(
+          false === this.obj
+        , 'expected ' + this.inspect + ' to be false'
+        , 'expected ' + this.inspect + ' to be true');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -325,13 +348,15 @@ Assertion.prototype.__defineGetter__('false', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('exist', function () {
-  this.assert(
-      null != this.obj
-    , 'expected ' + this.inspect + ' to exist'
-    , 'expected ' + this.inspect + ' to not exist');
+Object.defineProperty(Assertion.prototype, 'exist',
+  { get: function () {
+      this.assert(
+          null != this.obj
+        , 'expected ' + this.inspect + ' to exist'
+        , 'expected ' + this.inspect + ' to not exist');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -345,15 +370,17 @@ Assertion.prototype.__defineGetter__('exist', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('empty', function () {
-  new Assertion(this.obj).to.have.property('length');
+Object.defineProperty(Assertion.prototype, 'empty',
+  { get: function () {
+      new Assertion(this.obj).to.have.property('length');
 
-  this.assert(
-      0 === this.obj.length
-    , 'expected ' + this.inspect + ' to be empty'
-    , 'expected ' + this.inspect + ' not to be empty');
+      this.assert(
+          0 === this.obj.length
+        , 'expected ' + this.inspect + ' to be empty'
+        , 'expected ' + this.inspect + ' not to be empty');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -369,13 +396,15 @@ Assertion.prototype.__defineGetter__('empty', function () {
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('arguments', function () {
-  this.assert(
-      '[object Arguments]' == Object.prototype.toString.call(this.obj)
-    , 'expected ' + this.inspect + ' to be arguments'
-    , 'expected ' + this.inspect + ' to not be arguments');
+Object.defineProperty(Assertion.prototype, 'arguments',
+  { get: function () {
+      this.assert(
+          '[object Arguments]' == Object.prototype.toString.call(this.obj)
+        , 'expected ' + this.inspect + ' to be arguments'
+        , 'expected ' + this.inspect + ' to not be arguments');
 
-  return this;
+      return this;
+    }
 });
 
 /**
@@ -511,8 +540,10 @@ Assertion.prototype.a = function (type) {
  *
  * Assert instanceof.
  *
- *      expect(42).to.be.instanceof(Number);
- *      expect([4,2]).to.be.instanceof(Array);
+ *      var Tea = function (name) { this.name = name; }
+ *        , Chai = new Tea('chai');
+ *
+ *      expect(Chai).to.be.an.instanceOf(Tea);
  *
  * @name instanceOf
  * @param {Constructor}
@@ -743,15 +774,17 @@ Assertion.prototype.object = function(obj){
 /**
  * # include
  *
- * Language chain that lags #keys to test for inclusion testing.
+ * Language chain that tags #keys to test for inclusion testing.
  *
  * @name include
  * @api public
  */
 
-Assertion.prototype.__defineGetter__('include', function () {
-  this.includes = true;
-  return this;
+Object.defineProperty(Assertion.prototype, 'include',
+  { get: function () {
+      this.includes = true;
+      return this;
+    }
 });
 
 /**
@@ -955,101 +988,464 @@ require.register("interface/assert.js", function(module, exports, require){
  * MIT Licensed
  */
 
+/**
+ * ### TDD Style Introduction
+ *
+ * The TDD style is exposed through `assert` interfaces. This provides
+ * the classic assert.`test` notation, similiar to that packaged with
+ * node.js. This assert module, however, provides several additional
+ * tests and is browser compatible.
+ *
+ *      // assert
+ *      var assert = require('chai').assert;
+ *        , foo = 'bar';
+ *
+ *      assert.typeOf(foo, 'string');
+ *      assert.equal(foo, 'bar');
+ */
+
+/*!
+ * Module dependencies.
+ */
 var Assertion = require('../assertion');
 
+/*!
+ * Module export.
+ */
+
 var assert = module.exports = {};
+
+/**
+ * # .ok(object, [message])
+ *
+ * Assert object is truthy.
+ *
+ *      assert.ok('everthing', 'everything is ok');
+ *      assert.ok(false, 'this will fail');
+ *
+ * @name ok
+ * @param {*} object to test
+ * @param {String} message
+ * @api public
+ */
 
 assert.ok = function (val, msg) {
   new Assertion(val, msg).is.ok;
 };
 
+/**
+ * # .equal(actual, expected, [message])
+ *
+ * Assert strict equality.
+ *
+ *      assert.equal(3, 3, 'these numbers are equal');
+ *
+ * @name equal
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
+
 assert.equal = function (act, exp, msg) {
   new Assertion(act, msg).to.equal(exp);
 };
+
+/**
+ * # .notEqual(actual, expected, [message])
+ *
+ * Assert not strict equality.
+ *
+ *      assert.notEqual(3, 4, 'these numbers are not equal');
+ *
+ * @name notEqual
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
 
 assert.notEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.not.equal(exp);
 };
 
+/**
+ * # .deepEqual(actual, expected, [message])
+ *
+ * Assert not deep equality.
+ *
+ *      assert.deepEqual({ tea: 'green' }, { tea: 'green' });
+ *
+ * @name deepEqual
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
+
 assert.deepEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.eql(exp);
 };
+
+/**
+ * # .notDeepEqual(actual, expected, [message])
+ *
+ * Assert not deep equality.
+ *
+ *      assert.notDeepEqual({ tea: 'green' }, { tea: 'jasmine' });
+ *
+ * @name notDeepEqual
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
 
 assert.notDeepEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.not.eql(exp);
 };
 
+/**
+ * # .isTrue(value, [message])
+ *
+ * Assert `value` is true.
+ *
+ *      var tea_served = true;
+ *      assert.isTrue(tea_served, 'the tea has been served');
+ *
+ * @name isTrue
+ * @param {Boolean} value
+ * @param {String} message
+ * @api public
+ */
+
 assert.isTrue = function (val, msg) {
   new Assertion(val, msg).is.true;
 };
+
+/**
+ * # .isFalse(value, [message])
+ *
+ * Assert `value` is false.
+ *
+ *      var tea_served = false;
+ *      assert.isFalse(tea_served, 'no tea yet? hmm...');
+ *
+ * @name isFalse
+ * @param {Boolean} value
+ * @param {String} message
+ * @api public
+ */
 
 assert.isFalse = function (val, msg) {
   new Assertion(val, msg).is.false;
 };
 
+/**
+ * # .isNull(value, [message])
+ *
+ * Assert `value` is null.
+ *
+ *      assert.isNull(err, 'no errors');
+ *
+ * @name isNull
+ * @param {*} value
+ * @param {String} message
+ * @api public
+ */
+
 assert.isNull = function (val, msg) {
   new Assertion(val, msg).to.not.exist;
 };
+
+/**
+ * # .isNotNull(value, [message])
+ *
+ * Assert `value` is not null.
+ *
+ *      var tea = 'tasty chai';
+ *      assert.isNotNull(tea, 'great, time for tea!');
+ *
+ * @name isNotNull
+ * @param {*} value
+ * @param {String} message
+ * @api public
+ */
 
 assert.isNotNull = function (val, msg) {
   new Assertion(val, msg).to.exist;
 };
 
+/**
+ * # .isUndefined(value, [message])
+ *
+ * Assert `value` is undefined.
+ *
+ *      assert.isUndefined(tea, 'no tea defined');
+ *
+ * @name isUndefined
+ * @param {*} value
+ * @param {String} message
+ * @api public
+ */
+
 assert.isUndefined = function (val, msg) {
   new Assertion(val, msg).to.equal(undefined);
 };
 
-assert.isNan = function (val, msg) {
-  new Assertion(val, msg).to.not.equal(val);
-};
+/**
+ * # .isFunction(value, [message])
+ *
+ * Assert `value` is a function.
+ *
+ *      var serve_tea = function () { return 'cup of tea'; };
+ *      assert.isFunction(serve_tea, 'great, we can have tea now');
+ *
+ * @name isFunction
+ * @param {Function} value
+ * @param {String} message
+ * @api public
+ */
 
 assert.isFunction = function (val, msg) {
   new Assertion(val, msg).to.be.a('function');
 };
 
+/**
+ * # .isObject(value, [message])
+ *
+ * Assert `value` is an object.
+ *
+ *      var selection = { name: 'Chai', serve: 'with spices' };
+ *      assert.isObject(selection, 'tea selection is an object');
+ *
+ * @name isObject
+ * @param {Object} value
+ * @param {String} message
+ * @api public
+ */
+
 assert.isObject = function (val, msg) {
   new Assertion(val, msg).to.be.an('object');
 };
 
-assert.isString = function (val, msg) {
-  new Assertion(val, msg).to.be.a('string');
-};
+/**
+ * # .isArray(value, [message])
+ *
+ * Assert `value` is an instance of Array.
+ *
+ *      var menu = [ 'green', 'chai', 'oolong' ];
+ *      assert.isArray(menu, 'what kind of tea do we want?');
+ *
+ * @name isArray
+ * @param {*} value
+ * @param {String} message
+ * @api public
+ */
 
 assert.isArray = function (val, msg) {
   new Assertion(val, msg).to.be.instanceof(Array);
 };
 
+/**
+ * # .isString(value, [message])
+ *
+ * Assert `value` is a string.
+ *
+ *      var teaorder = 'chai';
+ *      assert.isString(tea_order, 'order placed');
+ *
+ * @name isString
+ * @param {String} value
+ * @param {String} message
+ * @api public
+ */
+
+assert.isString = function (val, msg) {
+  new Assertion(val, msg).to.be.a('string');
+};
+
+/**
+ * # .isNumber(value, [message])
+ *
+ * Assert `value` is a number
+ *
+ *      var cups = 2;
+ *      assert.isNumber(cups, 'how many cups');
+ *
+ * @name isNumber
+ * @param {Number} value
+ * @param {String} message
+ * @api public
+ */
+
 assert.isNumber = function (val, msg) {
   new Assertion(val, msg).to.be.instanceof(Number);
 };
+
+/**
+ * # .isBoolean(value, [message])
+ *
+ * Assert `value` is a boolean
+ *
+ *      var teaready = true
+ *        , teaserved = false;
+ *
+ *      assert.isBoolean(tea_ready, 'is the tea ready');
+ *      assert.isBoolean(tea_served, 'has tea been served');
+ *
+ * @name isBoolean
+ * @param {*} value
+ * @param {String} message
+ * @api public
+ */
 
 assert.isBoolean = function (val, msg) {
   new Assertion(val, msg).to.be.a('boolean');
 };
 
+/**
+ * # .typeOf(value, name, [message])
+ *
+ * Assert typeof `value` is `name`.
+ *
+ *      assert.typeOf('tea', 'string', 'we have a string');
+ *
+ * @name typeOf
+ * @param {*} value
+ * @param {String} typeof name
+ * @param {String} message
+ * @api public
+ */
+
 assert.typeOf = function (val, type, msg) {
   new Assertion(val, msg).to.be.a(type);
 };
+
+/**
+ * # .instanceOf(object, constructor, [message])
+ *
+ * Assert `value` is instanceof `constructor`.
+ *
+ *      var Tea = function (name) { this.name = name; }
+ *        , Chai = new Tea('chai');
+ *
+ *      assert.instanceOf(Chai, Tea, 'chai is an instance of tea');
+ *
+ * @name instanceOf
+ * @param {Object} object
+ * @param {Constructor} constructor
+ * @param {String} message
+ * @api public
+ */
 
 assert.instanceOf = function (val, type, msg) {
   new Assertion(val, msg).to.be.instanceof(type);
 };
 
+/**
+ * # .include(value, includes, [message])
+ *
+ * Assert the inclusion of an object in another.
+ *
+ *      var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
+ *      assert.include(obj, {foo: 'bar'}, 'object contains subobject');
+ *
+ *      assert.include('foobar', 'bar', 'foobar contains string `var`);
+ *      assert.include([ 1, 2, 3], 3, 'array contains value);
+ *
+ * @name include
+ * @param {Array|String|Object} value
+ * @param {*} includes
+ * @param {String} message
+ * @api public
+ */
+
 assert.include = function (exp, inc, msg) {
-  new Assertion(exp, msg).to.include(inc);
+  var obj = new Assertion(exp, msg);
+
+  if (Array.isArray(exp)) {
+    obj.to.contain(inc);
+  } else if ('string' === typeof exp) {
+    obj.to.include.string(inc);
+  } else {
+    obj.to.include.object(inc);
+  }
 };
+
+/**
+ * # .match(value, constructor, [message])
+ *
+ * Assert that `value` matches regular expression.
+ *
+ *      assert.match('foobar', /^foo/, 'Regexp matches');
+ *
+ * @name match
+ * @param {*} value
+ * @param {RegExp} RegularExpression
+ * @param {String} message
+ * @api public
+ */
 
 assert.match = function (exp, re, msg) {
   new Assertion(exp, msg).to.match(re);
 };
 
+/**
+ * # .length(value, constructor, [message])
+ *
+ * Assert that object has expected length.
+ *
+ *      assert.length([1,2,3], 3, 'Array has length of 3');
+ *      assert.length('foobar', 5, 'String has length of 6');
+ *
+ * @name length
+ * @param {*} value
+ * @param {Number} length
+ * @param {String} message
+ * @api public
+ */
+
 assert.length = function (exp, len, msg) {
   new Assertion(exp, msg).to.have.length(len);
 };
 
-assert.throws = function (fn, type, msg) {
+/**
+ * # .throw(function, constructor, [message])
+ *
+ * Assert that a function will throw a specific
+ * type of error.
+ *
+ *      var fn = function () { throw new ReferenceError(''); }
+ *      assert.throw(fn, ReferenceError, 'function throw reference error');
+ *
+ * @name throw
+ * @alias throws
+ * @param {Function} function to test
+ * @param {ErrorConstructor} constructor
+ * @param {String} message
+ * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
+ * @api public
+ */
+
+assert.throw = function (fn, type, msg) {
   new Assertions(fn, msg).to.throw(type);
 };
+
+/*!
+ * Aliases.
+ */
+
+(function alias(name, as){
+  assert[as] = assert[name];
+  return alias;
+})
+('length', 'lengthOf');
+//('keys', 'key')
+//('ownProperty', 'haveOwnProperty')
+//('above', 'greaterThan')
+//('below', 'lessThan')
+//('throw', 'throws');
 }); // module: interface/assert.js
 
 require.register("interface/expect.js", function(module, exports, require){
