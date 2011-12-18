@@ -88,7 +88,8 @@ require.register("assertion.js", function(module, exports, require){
 
 var AssertionError = require('./error')
   , eql = require('./utils/eql')
-  , inspect = require('./utils/inspect');
+  , inspect = require('./utils/inspect')
+  , statusCodes = require('./utils/constants').STATUS_CODES;
 
 /*!
  * Module export.
@@ -561,28 +562,6 @@ Assertion.prototype.instanceof = function (constructor) {
 };
 
 /**
- * # respondTo(method)
- *
- * Assert that `method` is a function.
- *
- *      var res = { send: function () {} };
- *      expect(res).to.respondTo('send');
- *
- * @name respondTo
- * @param {String} method name
- * @api public
- */
-
-Assertion.prototype.respondTo = function (method) {
-  this.assert(
-    'function' == typeof this.obj[method]
-    , 'expected ' + this.inspect + ' to respond to ' + method + '()'
-    , 'expected ' + this.inspect + ' to not respond to ' + method + '()');
-
-  return this;
-}
-
-/**
  * # .property(name, [value])
  *
  * Assert that property of `name` exists,
@@ -693,24 +672,22 @@ Assertion.prototype.match = function (re) {
 };
 
 /**
- * # .contain(obj)
+ * # .include(obj)
  *
  * Assert the inclusion of an object in an Array
  *
  *      expect([1,2,3]).to.contain(2);
  *
- * @name contain
+ * @name include
  * @param {Object|String|Number} obj
  * @api public
  */
 
-Assertion.prototype.contain = function (obj) {
-  new Assertion(this.obj).to.be.an.instanceof(Array);
-
+Assertion.prototype.include = function (obj) {
   this.assert(
       ~this.obj.indexOf(obj)
-    , 'expected ' + this.inspect + ' to contain ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not contain ' + inspect(obj));
+    , 'expected ' + this.inspect + ' to include ' + inspect(obj)
+    , 'expected ' + this.inspect + ' to not include ' + inspect(obj));
 
   return this;
 };
@@ -732,57 +709,26 @@ Assertion.prototype.string = function (str) {
 
   this.assert(
       ~this.obj.indexOf(str)
-    , 'expected ' + this.inspect + ' to include ' + inspect(str)
-    , 'expected ' + this.inspect + ' to not include ' + inspect(str));
+    , 'expected ' + this.inspect + ' to contain ' + inspect(str)
+    , 'expected ' + this.inspect + ' to not contain ' + inspect(str));
 
   return this;
 };
 
+
+
 /**
- * # .object(object)
+ * # contain
  *
- * Assert inclusion of object in object.
+ * Toggles the `contain` flag for the `keys` assertion.
  *
- *      var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
- *      expect(obj).to.include.object({foo: 'bar'});
- *
- * @name object
- * @param {Object} object
+ * @name contain
  * @api public
  */
 
-Assertion.prototype.object = function(obj){
-  new Assertion(this.obj).is.a('object');
-
-  var included = true;
-
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key) && !eql(obj[key], this.obj[key])) {
-      included = false;
-      break;
-    }
-  }
-
-  this.assert(
-      included
-    , 'expected ' + this.inspect + ' to include ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not include ' + inspect(obj));
-
-  return this;
-}
-
-/**
- * # include
- *
- * Language chain that tags #keys to test for inclusion testing.
- *
- * @name include
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'include',
+Object.defineProperty(Assertion.prototype, 'contain',
   { get: function () {
-      this.includes = true;
+      this.contains = true;
       return this;
     }
 });
@@ -791,10 +737,10 @@ Object.defineProperty(Assertion.prototype, 'include',
  * # .keys(key1, [key2], [...])
  *
  * Assert exact keys or the inclusing of keys using
- * the include modifier.
+ * the `contain` modifier.
  *
  *      expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
- *      expect({ foo: 1, bar: 2, baz: 3 }).to.include.keys('foo', 'bar');
+ *      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
  *
  * @name keys
  * @alias key
@@ -821,7 +767,7 @@ Assertion.prototype.keys = function(keys) {
   });
 
   // Strict
-  if (!this.negate && !this.includes) {
+  if (!this.negate && !this.contains) {
     ok = ok && keys.length == actual.length;
   }
 
@@ -840,7 +786,7 @@ Assertion.prototype.keys = function(keys) {
   str = (len > 1 ? 'keys ' : 'key ') + str;
 
   // Have / include
-  str = (this.includes ? 'include ' : 'have ') + str;
+  str = (this.contains ? 'contain ' : 'have ') + str;
 
   // Assertion
   this.assert(
@@ -870,26 +816,106 @@ Assertion.prototype.keys = function(keys) {
 Assertion.prototype.throw = function (constructor) {
   new Assertion(this.obj).is.a('function');
 
-  constructor = constructor || Error;
-  var name = constructor.name
-    , thrown = false;
+  var thrown = false;
 
   try {
     this.obj();
   } catch (err) {
-    thrown = true;
-    this.assert(
-        err instanceof constructor
-      , 'expected ' + this.inspect + ' to throw ' + name
-      , 'expected ' + this.inspect + ' to not throw ' + name);
-    return this;
+    if (constructor) {
+      this.assert(
+          err instanceof constructor && err.name == constructor.name
+        , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
+        , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
+
+      return this;
+    } else {
+      thrown = true;
+    }
   }
+
+  var name = (constructor ? constructor.name : 'an error');
 
   this.assert(
       thrown === true
     , 'expected ' + this.inspect + ' to throw ' + name
     , 'expected ' + this.inspect + ' to not throw ' + name);
+
+  return this;
 };
+
+/**
+ * # .header(code)
+ *
+ * Assert `header` field has expected `value`.
+ *
+ * @name header
+ * @param {String} field
+ * @param {String} value
+ * @api public
+ */
+
+Assertion.prototype.header = function (field, val) {
+  new Assertion(this.obj)
+        .to.have.property('headers').and
+        .to.have.property(field.toLowerCase(), val);
+
+  return this;
+}
+
+/**
+ * # .status(code)
+ *
+ * Assert `statusCode` of `code'.
+ *
+ * @name json
+ * @param {Number} code
+ * @api public
+ */
+
+Assertion.prototype.status = function (code) {
+  new Assertion(this.obj).to.have.property('statusCode');
+
+  var status = this.obj.statusCode;
+
+  this.assert(
+      code == status
+    , 'expected response code of ' + code + ' ' + inspect(statusCodes[code])
+        + ', but got ' + status + ' ' + inspect(statusCodes[status])
+    , 'expected to not respond with ' + code + ' ' + inspect(statusCodes[code]));
+}
+
+/**
+ * # json
+ *
+ * Assert that this response has content-type: application/json.
+ *
+ * @name json
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'json',
+  { get: function () {
+      new Assertion(this.obj).to.have.header('content-type', 'application/json; charset=utf-8');
+      return this;
+    }
+});
+
+/**
+ * # html
+ *
+ * Assert that this response has content-type: text/html.
+ *
+ * @name html
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'html',
+  { get: function () {
+      new Assertion(this.obj).to.have.header('content-type', 'text/html; charset=utf-8');
+      return this;
+    }
+});
+
 
 /*!
  * Aliases.
@@ -1498,9 +1524,89 @@ module.exports = function () {
     new Assertion(val1).to.equal(val2);
   };
 
+  should.throw = function (fn, err) {
+    new Assertion(fn).to.throw(err);
+  };
+
+  // negation
+  should.not = {}
+
+  should.not.equal = function (val1, val2) {
+    new Assertion(val).to.not.equal(val2);
+  };
+
+  should.not.throw = function (fn, err) {
+    new Assertion(fn).to.not.throw(err);
+  };
+
   return should;
 };
 }); // module: interface/should.js
+
+require.register("utils/constants.js", function(module, exports, require){
+
+var exports = module.exports = {};
+
+/**
+ * More includes from node.js code
+ * https://github.com/joyent/node/blob/master/lib/http.js
+ */
+
+exports.STATUS_CODES = {
+  100 : 'Continue',
+  101 : 'Switching Protocols',
+  102 : 'Processing',                 // RFC 2518, obsoleted by RFC 4918
+  200 : 'OK',
+  201 : 'Created',
+  202 : 'Accepted',
+  203 : 'Non-Authoritative Information',
+  204 : 'No Content',
+  205 : 'Reset Content',
+  206 : 'Partial Content',
+  207 : 'Multi-Status',               // RFC 4918
+  300 : 'Multiple Choices',
+  301 : 'Moved Permanently',
+  302 : 'Moved Temporarily',
+  303 : 'See Other',
+  304 : 'Not Modified',
+  305 : 'Use Proxy',
+  307 : 'Temporary Redirect',
+  400 : 'Bad Request',
+  401 : 'Unauthorized',
+  402 : 'Payment Required',
+  403 : 'Forbidden',
+  404 : 'Not Found',
+  405 : 'Method Not Allowed',
+  406 : 'Not Acceptable',
+  407 : 'Proxy Authentication Required',
+  408 : 'Request Time-out',
+  409 : 'Conflict',
+  410 : 'Gone',
+  411 : 'Length Required',
+  412 : 'Precondition Failed',
+  413 : 'Request Entity Too Large',
+  414 : 'Request-URI Too Large',
+  415 : 'Unsupported Media Type',
+  416 : 'Requested Range Not Satisfiable',
+  417 : 'Expectation Failed',
+  418 : 'I\'m a teapot',              // RFC 2324
+  422 : 'Unprocessable Entity',       // RFC 4918
+  423 : 'Locked',                     // RFC 4918
+  424 : 'Failed Dependency',          // RFC 4918
+  425 : 'Unordered Collection',       // RFC 4918
+  426 : 'Upgrade Required',           // RFC 2817
+  500 : 'Internal Server Error',
+  501 : 'Not Implemented',
+  502 : 'Bad Gateway',
+  503 : 'Service Unavailable',
+  504 : 'Gateway Time-out',
+  505 : 'HTTP Version not supported',
+  506 : 'Variant Also Negotiates',    // RFC 2295
+  507 : 'Insufficient Storage',       // RFC 4918
+  509 : 'Bandwidth Limit Exceeded',
+  510 : 'Not Extended'                // RFC 2774
+};
+}); // module: utils/constants.js
 
 require.register("utils/eql.js", function(module, exports, require){
 // This is directly from Node.js assert
