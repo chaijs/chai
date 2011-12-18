@@ -361,6 +361,50 @@ var expectTests = module.exports = {
       }, "expected [ 'milk', 'sugar', 'smile' ] to have a length of 4 but got 3");
 
       expect(tea).to.be.a('object').and.have.property('name', 'chai');
+    },
+
+    'test throw': function () {
+      var goodFn = function () { 1==1; }
+        , badFn = function () { throw new Error('testing'); }
+        , refErrFn = function () { throw new ReferenceError(); };
+
+      expect(goodFn).to.not.throw();
+      expect(goodFn).to.not.throw(Error);
+      expect(badFn).to.throw();
+      expect(badFn).to.throw(Error);
+      expect(badFn).to.not.throw(ReferenceError);
+      expect(refErrFn).to.throw();
+      expect(refErrFn).to.throw(ReferenceError);
+      expect(refErrFn).to.not.throw(Error);
+      expect(refErrFn).to.not.throw(TypeError);
+
+      err(function(){
+        expect(goodFn).to.throw();
+      }, "expected [Function] to throw an error");
+
+      err(function(){
+        expect(goodFn).to.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError");
+
+      err(function(){
+        expect(badFn).to.not.throw();
+      }, "expected [Function] to not throw an error");
+
+      err(function(){
+        expect(badFn).to.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError but a Error was thrown");
+
+      err(function(){
+        expect(badFn).to.not.throw(Error);
+      }, "expected [Function] to not throw Error");
+
+      err(function(){
+        expect(refErrFn).to.not.throw(ReferenceError);
+      }, "expected [Function] to not throw ReferenceError");
+
+      err(function(){
+        expect(refErrFn).to.throw(Error);
+      }, "expected [Function] to throw Error but a ReferenceError was thrown");
     }
   }
 };

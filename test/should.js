@@ -341,15 +341,53 @@ module.exports = {
       }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
     },
 
-    'test chaining': function(){
-      var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
-      tea.should.have.property('extras').with.lengthOf(3);
+    'test throw': function () {
+      var goodFn = function () { 1==1; }
+        , badFn = function () { throw new Error('testing'); }
+        , refErrFn = function () { throw new ReferenceError(); };
+
+      (goodFn).should.not.throw();
+      (goodFn).should.not.throw(Error);
+      (badFn).should.throw();
+      (badFn).should.throw(Error);
+      (badFn).should.not.throw(ReferenceError);
+      (refErrFn).should.throw();
+      (refErrFn).should.throw(ReferenceError);
+      (refErrFn).should.not.throw(Error);
+      (refErrFn).should.not.throw(TypeError);
+
+      should.throw(badFn);
+      should.throw(refErrFn, ReferenceError);
+      should.not.throw(goodFn);
+      should.not.throw(badFn, ReferenceError);
 
       err(function(){
-        tea.should.have.property('extras').with.lengthOf(4);
-      }, "expected [ 'milk', 'sugar', 'smile' ] to have a length of 4 but got 3");
+        (goodFn).should.throw();
+      }, "expected [Function] to throw an error");
 
-      tea.should.be.a('object').and.have.property('name', 'chai');
+      err(function(){
+        (goodFn).should.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError");
+
+      err(function(){
+        (badFn).should.not.throw();
+      }, "expected [Function] to not throw an error");
+
+      err(function(){
+        (badFn).should.throw(ReferenceError);
+      }, "expected [Function] to throw ReferenceError but a Error was thrown");
+
+      err(function(){
+        (badFn).should.not.throw(Error);
+      }, "expected [Function] to not throw Error");
+
+      err(function(){
+        (refErrFn).should.not.throw(ReferenceError);
+      }, "expected [Function] to not throw ReferenceError");
+
+      err(function(){
+        (refErrFn).should.throw(Error);
+      }, "expected [Function] to throw Error but a ReferenceError was thrown");
     }
   }
 };
