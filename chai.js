@@ -1,3 +1,9 @@
+!function (name, definition) {
+  if (typeof define == 'function' && typeof define.amd  == 'object') define(definition);
+  else this[name] = definition();
+
+  console.log(this);
+}('chai', function () {
 
 // CommonJS require()
 
@@ -1983,8 +1989,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 }); // module: utils/inspect.js
-chai = require('chai');
 
-expect = chai.expect;
-assert = chai.assert;
 
+  return require('chai');
+});
