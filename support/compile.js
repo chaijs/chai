@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs')
+  , join = require('path').join;
 
 var args = process.argv.slice(2)
   , pending = args.length
@@ -31,6 +32,11 @@ function compile() {
     buf += js;
     buf += '\n}); // module: ' + file + '\n';
   });
+
+  var prefix = fs.readFileSync(join(__dirname, 'prefix.js'), 'utf8')
+    , suffix = fs.readFileSync(join(__dirname, 'suffix.js'), 'utf8');
+
+  buf = prefix + '\n' + buf + '\n' + suffix;
 
   fs.writeFile('chai.js', buf, function(err){
     if (err) throw err;
