@@ -7,9 +7,11 @@
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script src="../../chai.js"></script>
     <script src="../expect.js"></script>
+    <script src="../should.js"></script>
     <script>mocha.setup('exports', module.exports)</script>
     <script>onload = function() {
       mocha.add(expectTests);
+      mocha.add(shouldTests);
       mocha.run();
     }
     </script>
