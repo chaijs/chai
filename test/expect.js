@@ -201,6 +201,14 @@ var expectTests = module.exports = {
       }, 'expected {} to have a property \'length\'');
 
       err(function(){
+        expect([ 'hello', 'world' ]).to.be.empty;
+      }, "expected [ \'hello\', \'world\' ] to be empty");
+
+      err(function(){
+        expect([ { hello: 'world' } ]).to.be.empty;
+      }, "expected [ { hello: \'world\' } ] to be empty");
+
+      err(function(){
         expect('asd').to.be.empty;
       }, "expected 'asd' to be empty");
 
@@ -406,6 +414,22 @@ var expectTests = module.exports = {
       err(function(){
         expect(refErrFn).to.throw(Error);
       }, "expected [Function] to throw Error but a ReferenceError was thrown");
+    },
+/*
+    'test async': function (done) {
+      setTimeout(function() {
+
+        expect('').to.not.be.empty;
+        expect([]).to.be.empty;
+        expect({ length: 0 }).to.be.empty;
+
+        err(function(){
+          expect({}).to.be.empty;
+        }, 'expected {} to have a property \'length\'');
+        done();
+
+      }, 1000);
     }
+    */
   }
 };
