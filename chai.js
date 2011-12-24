@@ -542,7 +542,7 @@ Assertion.prototype.a = function (type) {
 };
 
 /**
- * # .instanceOf(constructor)
+ * # .instanceof(constructor)
  *
  * Assert instanceof.
  *
@@ -551,7 +551,7 @@ Assertion.prototype.a = function (type) {
  *
  *      expect(Chai).to.be.an.instanceOf(Tea);
  *
- * @name instanceOf
+ * @name instanceof
  * @param {Constructor}
  * @api public
  */
@@ -1043,7 +1043,8 @@ require.register("interface/assert.js", function(module, exports, require){
 /*!
  * Module dependencies.
  */
-var Assertion = require('../assertion');
+var Assertion = require('../assertion')
+  , inspect = require('../utils/inspect')
 
 /*!
  * Module export.
@@ -1084,7 +1085,12 @@ assert.ok = function (val, msg) {
  */
 
 assert.equal = function (act, exp, msg) {
-  new Assertion(act, msg).to.equal(exp);
+  var test = new Assertion(act, msg);
+
+  test.assert(
+      exp == test.obj
+    , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+    , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
 };
 
 /**
@@ -1102,6 +1108,19 @@ assert.equal = function (act, exp, msg) {
  */
 
 assert.notEqual = function (act, exp, msg) {
+  var test = new Assertion(act, msg);
+
+  test.assert(
+      exp != test.obj
+    , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+    , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+};
+
+assert.strictEqual = function (act, exp, msg) {
+  new Assertion(act, msg).to.equal(exp);
+};
+
+assert.notStrictEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.not.equal(exp);
 };
 
@@ -1382,16 +1401,14 @@ assert.instanceOf = function (val, type, msg) {
 /**
  * # .include(value, includes, [message])
  *
- * Assert the inclusion of an object in another.
- *
- *      var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
- *      assert.include(obj, {foo: 'bar'}, 'object contains subobject');
+ * Assert the inclusion of an object in another. Works
+ * for strings and arrays.
  *
  *      assert.include('foobar', 'bar', 'foobar contains string `var`);
  *      assert.include([ 1, 2, 3], 3, 'array contains value);
  *
  * @name include
- * @param {Array|String|Object} value
+ * @param {Array|String} value
  * @param {*} includes
  * @param {String} message
  * @api public
@@ -1401,16 +1418,14 @@ assert.include = function (exp, inc, msg) {
   var obj = new Assertion(exp, msg);
 
   if (Array.isArray(exp)) {
-    obj.to.contain(inc);
+    obj.to.include(inc);
   } else if ('string' === typeof exp) {
-    obj.to.include.string(inc);
-  } else {
-    obj.to.include.object(inc);
+    obj.to.contain.string(inc);
   }
 };
 
 /**
- * # .match(value, constructor, [message])
+ * # .match(value, regex, [message])
  *
  * Assert that `value` matches regular expression.
  *
@@ -1447,7 +1462,7 @@ assert.length = function (exp, len, msg) {
 };
 
 /**
- * # .throw(function, constructor, [message])
+ * # .throws(function, [constructor], [message])
  *
  * Assert that a function will throw a specific
  * type of error.
@@ -1455,8 +1470,8 @@ assert.length = function (exp, len, msg) {
  *      var fn = function () { throw new ReferenceError(''); }
  *      assert.throw(fn, ReferenceError, 'function throw reference error');
  *
- * @name throw
- * @alias throws
+ * @name throws
+ * @alias throw
  * @param {Function} function to test
  * @param {ErrorConstructor} constructor
  * @param {String} message
@@ -1464,8 +1479,26 @@ assert.length = function (exp, len, msg) {
  * @api public
  */
 
-assert.throw = function (fn, type, msg) {
-  new Assertions(fn, msg).to.throw(type);
+assert.throws = function (fn, type, msg) {
+  if ('string' === typeof type) {
+    msg = type;
+    type = null;
+  }
+
+  new Assertion(fn, msg).to.throw(type);
+};
+
+assert.doesNotThrow = function (fn, type, msg) {
+  if ('string' === typeof type) {
+    msg = type;
+    type = null;
+  }
+
+  new Assertion(fn, msg).to.not.throw(type);
+};
+
+assert.ifError = function (val, msg) {
+  new Assertion(val, msg).to.not.be.ok;
 };
 
 /*!
@@ -1476,7 +1509,8 @@ assert.throw = function (fn, type, msg) {
   assert[as] = assert[name];
   return alias;
 })
-('length', 'lengthOf');
+('length', 'lengthOf')
+('throws', 'throw');
 //('keys', 'key')
 //('ownProperty', 'haveOwnProperty')
 //('above', 'greaterThan')
