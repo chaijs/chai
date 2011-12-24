@@ -2,8 +2,12 @@
  * Module dependencies.
  */
 
-var chai = require('../')
-  , should = chai.should();
+
+if (!chai) {
+  var chai = require('..');
+}
+
+var should = chai.should();
 
 function err(fn, msg) {
   try {
@@ -14,7 +18,7 @@ function err(fn, msg) {
   }
 }
 
-module.exports = {
+var shouldTests = module.exports = {
   'should': {
     'test .version': function(){
       chai.version.should.match(/^\d+\.\d+\.\d+$/);
