@@ -1,4 +1,16 @@
 
+0.1.4 / 2011-12-26
+==================
+
+  * browser lib update for new assert interface compatiblitiy
+  * inspect typos
+  * added strict equal + negatives and ifError
+  * interface assert had doesNotThrow
+  * added should tests to browser
+  * new expect empty tests
+  * should test browser compat
+  * Fix typo for instanceof docs. Closes #3 [ci skip]
+
 0.1.3 / 2011-12-18
 ==================
 

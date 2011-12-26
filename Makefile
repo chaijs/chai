@@ -23,7 +23,7 @@ clean-docs:
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
-		--ui exports \
+		--ui tdd \
 		$(TESTS)
 
 .PHONY: clean test docs clean-docs
