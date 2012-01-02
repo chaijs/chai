@@ -5,13 +5,11 @@
     <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
+    <script>mocha.setup('tdd')</script>
     <script src="../../chai.js"></script>
     <script src="../expect.js"></script>
     <script src="../should.js"></script>
-    <script>mocha.setup('exports', module.exports)</script>
     <script>onload = function() {
-      mocha.add(expectTests);
-      mocha.add(shouldTests);
       mocha.run();
     }
     </script>
