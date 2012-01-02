@@ -33,6 +33,21 @@ suite('should', function() {
     should.equal('foo', 'foo');
   });
 
+  test('root exist', function () {
+    var foo = 'foo'
+      , bar = undefined;
+    should.exist(foo);
+    should.not.exist(bar);
+
+    err(function () {
+      should.exist(bar);
+    }, "expected undefined to exist");
+
+    err(function () {
+      should.not.exist(foo);
+    }, "expected 'foo' to not exist")
+  });
+
   test('true', function(){
     true.should.be.true;
     false.should.not.be.true;
