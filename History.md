@@ -1,4 +1,10 @@
 
+0.1.6 / 2012-01-02
+==================
+
+  * commenting for assert interface
+  * updated codex dep
+
 0.1.5 / 2012-01-02
 ==================
 
