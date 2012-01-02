@@ -1096,7 +1096,7 @@ assert.equal = function (act, exp, msg) {
 /**
  * # .notEqual(actual, expected, [message])
  *
- * Assert not strict equality.
+ * Assert not equal.
  *
  *      assert.notEqual(3, 4, 'these numbers are not equal');
  *
@@ -1116,9 +1116,37 @@ assert.notEqual = function (act, exp, msg) {
     , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
 };
 
+/**
+ * # .strictEqual(actual, expected, [message])
+ *
+ * Assert strict equality.
+ *
+ *      assert.strictEqual(true, true, 'these booleans are strictly equal');
+ *
+ * @name strictEqual
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
+
 assert.strictEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.equal(exp);
 };
+
+/**
+ * # .notStrictEqual(actual, expected, [message])
+ *
+ * Assert strict equality.
+ *
+ *      assert.notStrictEqual(1, true, 'these booleans are not strictly equal');
+ *
+ * @name notStrictEqual
+ * @param {*} actual
+ * @param {*} expected
+ * @param {String} message
+ * @api public
+ */
 
 assert.notStrictEqual = function (act, exp, msg) {
   new Assertion(act, msg).to.not.equal(exp);
@@ -1488,6 +1516,23 @@ assert.throws = function (fn, type, msg) {
   new Assertion(fn, msg).to.throw(type);
 };
 
+/**
+ * # .doesNotThrow(function, [constructor], [message])
+ *
+ * Assert that a function will throw a specific
+ * type of error.
+ *
+ *      var fn = function (err) { if (err) throw Error(err) };
+ *      assert.doesNotThrow(fn, Error, 'function throw reference error');
+ *
+ * @name doesNotThrow
+ * @param {Function} function to test
+ * @param {ErrorConstructor} constructor
+ * @param {String} message
+ * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
+ * @api public
+ */
+
 assert.doesNotThrow = function (fn, type, msg) {
   if ('string' === typeof type) {
     msg = type;
@@ -1496,6 +1541,10 @@ assert.doesNotThrow = function (fn, type, msg) {
 
   new Assertion(fn, msg).to.not.throw(type);
 };
+
+/*!
+ * Undocumented / untested
+ */
 
 assert.ifError = function (val, msg) {
   new Assertion(val, msg).to.not.be.ok;
