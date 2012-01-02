@@ -944,7 +944,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.1.3';
+exports.version = '0.1.4';
 
 exports.expect = require('./interface/expect');
 exports.assert = require('./interface/assert');
@@ -1572,16 +1572,24 @@ module.exports = function () {
     new Assertion(fn).to.throw(err);
   };
 
+  should.exist = function (val) {
+    new Assertion(val).to.exist;
+  }
+
   // negation
   should.not = {}
 
   should.not.equal = function (val1, val2) {
-    new Assertion(val).to.not.equal(val2);
+    new Assertion(val1).to.not.equal(val2);
   };
 
   should.not.throw = function (fn, err) {
     new Assertion(fn).to.not.throw(err);
   };
+
+  should.not.exist = function (val) {
+    new Assertion(val).to.not.exist;
+  }
 
   return should;
 };
