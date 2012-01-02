@@ -944,7 +944,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.1.4';
+exports.version = '0.1.5';
 
 exports.expect = require('./interface/expect');
 exports.assert = require('./interface/assert');

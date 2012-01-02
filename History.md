@@ -1,4 +1,14 @@
 
+0.1.5 / 2012-01-02
+==================
+
+  * browser tests pass
+  * type in should.not.equal
+  * test for should (not) exist
+  * added should.exist and should.not.exist
+  * browser uses tdd
+  * convert tests to tdd
+
 0.1.4 / 2011-12-26
 ==================
 
