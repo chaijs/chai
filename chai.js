@@ -553,6 +553,7 @@ Assertion.prototype.a = function (type) {
  *
  * @name instanceof
  * @param {Constructor}
+ * @alias instanceOf
  * @api public
  */
 
@@ -932,7 +933,9 @@ Object.defineProperty(Assertion.prototype, 'html',
 ('ownProperty', 'haveOwnProperty')
 ('above', 'greaterThan')
 ('below', 'lessThan')
-('throw', 'throws');
+('throw', 'throws')
+('instanceof', 'instanceOf');
+
 }); // module: assertion.js
 
 require.register("chai.js", function(module, exports, require){
@@ -1565,6 +1568,7 @@ assert.ifError = function (val, msg) {
 //('above', 'greaterThan')
 //('below', 'lessThan')
 //('throw', 'throws');
+
 }); // module: interface/assert.js
 
 require.register("interface/expect.js", function(module, exports, require){
