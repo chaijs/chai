@@ -1312,7 +1312,7 @@ assert.isFunction = function (val, msg) {
  */
 
 assert.isObject = function (val, msg) {
-  new Assertion(val, msg).to.be.an('object');
+  new Assertion(val, msg).to.be.a('object');
 };
 
 /**
@@ -1610,6 +1610,11 @@ module.exports = function () {
   Object.defineProperty(Object.prototype, 'should', {
     set: function(){},
     get: function(){
+      if (this instanceof String || this instanceof Number) {
+        return new Assertion(this.constructor(this));
+      } else if (this instanceof Boolean) {
+        return new Assertion(this == true);
+      }
       return new Assertion(this);
     },
     configurable: true
@@ -1646,6 +1651,7 @@ module.exports = function () {
 
   return should;
 };
+
 }); // module: interface/should.js
 
 require.register("utils/constants.js", function(module, exports, require){
