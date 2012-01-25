@@ -95,4 +95,23 @@ suite('Assert', function () {
       assert.instanceOf(5, Foo);
     }, "expected 5 to be an instance of Foo");
   });
+
+  test('isObject', function () {
+    function Foo(){}
+    assert.isObject({});
+    assert.isObject(new Foo());
+
+    err(function() {
+      assert.isObject(true);
+    }, "expected true to be a object");
+
+    err(function() {
+      assert.isObject(Foo);
+    }, "expected [Function: Foo] to be a object");
+
+    err(function() {
+      assert.isObject('foo');
+    }, "expected 'foo' to be a object");
+  });
+
 });
