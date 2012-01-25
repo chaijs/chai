@@ -1312,7 +1312,7 @@ assert.isFunction = function (val, msg) {
  */
 
 assert.isObject = function (val, msg) {
-  new Assertion(val, msg).to.be.an('object');
+  new Assertion(val, msg).to.be.a('object');
 };
 
 /**
