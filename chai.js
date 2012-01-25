@@ -947,7 +947,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.1.6';
+exports.version = '0.1.7';
 
 exports.expect = require('./interface/expect');
 exports.assert = require('./interface/assert');
@@ -966,6 +966,7 @@ exports.fail = function (actual, expected, message, operator, stackStartFunction
     stackStartFunction: stackStartFunction
   });
 };
+
 }); // module: chai.js
 
 require.register("error.js", function(module, exports, require){
