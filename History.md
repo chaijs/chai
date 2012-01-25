@@ -1,4 +1,15 @@
 
+0.1.7 / 2012-01-25 
+==================
+
+  * added assert tests to browser test runner
+  * browser update
+  * `should` interface patch for primitives support in FF
+  * fix isObject() Thanks @milewise
+  * travis only on branch `master`
+  * add instanceof alias `instanceOf`. #6
+  * some tests for assert module
+
 0.1.6 / 2012-01-02
 ==================
 
