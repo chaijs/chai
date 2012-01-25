@@ -20,7 +20,7 @@ function err(fn, msg) {
   }
 }
 
-suite('Assert', function () {
+suite('assert', function () {
 
   test('version', function () {
     assert.match(chai.version, /^\d+\.\d+\.\d+$/ );
