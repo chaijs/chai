@@ -949,13 +949,15 @@ var exports = module.exports = {};
 
 exports.version = '0.1.7';
 
-exports.expect = require('./interface/expect');
-exports.assert = require('./interface/assert');
-exports.should = require('./interface/should');
-
-
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
+
+exports.inspect = require('./utils/inspect');
+
+exports.use = function (fn) {
+  fn(this);
+  return this;
+};
 
 exports.fail = function (actual, expected, message, operator, stackStartFunction) {
   throw new exports.AssertionError({
@@ -966,6 +968,15 @@ exports.fail = function (actual, expected, message, operator, stackStartFunction
     stackStartFunction: stackStartFunction
   });
 };
+
+var expect = require('./interface/expect');
+exports.use(expect);
+
+var should = require('./interface/should');
+exports.use(should);
+
+var assert = require('./interface/assert');
+exports.use(assert);
 
 }); // module: chai.js
 
@@ -1044,531 +1055,528 @@ require.register("interface/assert.js", function(module, exports, require){
  *      assert.equal(foo, 'bar');
  */
 
-/*!
- * Module dependencies.
- */
-var Assertion = require('../assertion')
-  , inspect = require('../utils/inspect')
+module.exports = function (chai) {
+  /*!
+   * Chai dependencies.
+   */
+  var Assertion = chai.Assertion
+    , inspect = chai.inspect;
 
-/*!
- * Module export.
- */
+  /*!
+   * Module export.
+   */
 
-var assert = module.exports = {};
+  var assert = chai.assert = {};
 
-/**
- * # .ok(object, [message])
- *
- * Assert object is truthy.
- *
- *      assert.ok('everthing', 'everything is ok');
- *      assert.ok(false, 'this will fail');
- *
- * @name ok
- * @param {*} object to test
- * @param {String} message
- * @api public
- */
+  /**
+   * # .ok(object, [message])
+   *
+   * Assert object is truthy.
+   *
+   *      assert.ok('everthing', 'everything is ok');
+   *      assert.ok(false, 'this will fail');
+   *
+   * @name ok
+   * @param {*} object to test
+   * @param {String} message
+   * @api public
+   */
 
-assert.ok = function (val, msg) {
-  new Assertion(val, msg).is.ok;
+  assert.ok = function (val, msg) {
+    new Assertion(val, msg).is.ok;
+  };
+
+  /**
+   * # .equal(actual, expected, [message])
+   *
+   * Assert strict equality.
+   *
+   *      assert.equal(3, 3, 'these numbers are equal');
+   *
+   * @name equal
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.equal = function (act, exp, msg) {
+    var test = new Assertion(act, msg);
+
+    test.assert(
+        exp == test.obj
+      , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+  };
+
+  /**
+   * # .notEqual(actual, expected, [message])
+   *
+   * Assert not equal.
+   *
+   *      assert.notEqual(3, 4, 'these numbers are not equal');
+   *
+   * @name notEqual
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notEqual = function (act, exp, msg) {
+    var test = new Assertion(act, msg);
+
+    test.assert(
+        exp != test.obj
+      , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+  };
+
+  /**
+   * # .strictEqual(actual, expected, [message])
+   *
+   * Assert strict equality.
+   *
+   *      assert.strictEqual(true, true, 'these booleans are strictly equal');
+   *
+   * @name strictEqual
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.strictEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.equal(exp);
+  };
+
+  /**
+   * # .notStrictEqual(actual, expected, [message])
+   *
+   * Assert strict equality.
+   *
+   *      assert.notStrictEqual(1, true, 'these booleans are not strictly equal');
+   *
+   * @name notStrictEqual
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notStrictEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.not.equal(exp);
+  };
+
+  /**
+   * # .deepEqual(actual, expected, [message])
+   *
+   * Assert not deep equality.
+   *
+   *      assert.deepEqual({ tea: 'green' }, { tea: 'green' });
+   *
+   * @name deepEqual
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.deepEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.eql(exp);
+  };
+
+  /**
+   * # .notDeepEqual(actual, expected, [message])
+   *
+   * Assert not deep equality.
+   *
+   *      assert.notDeepEqual({ tea: 'green' }, { tea: 'jasmine' });
+   *
+   * @name notDeepEqual
+   * @param {*} actual
+   * @param {*} expected
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notDeepEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.not.eql(exp);
+  };
+
+  /**
+   * # .isTrue(value, [message])
+   *
+   * Assert `value` is true.
+   *
+   *      var tea_served = true;
+   *      assert.isTrue(tea_served, 'the tea has been served');
+   *
+   * @name isTrue
+   * @param {Boolean} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isTrue = function (val, msg) {
+    new Assertion(val, msg).is.true;
+  };
+
+  /**
+   * # .isFalse(value, [message])
+   *
+   * Assert `value` is false.
+   *
+   *      var tea_served = false;
+   *      assert.isFalse(tea_served, 'no tea yet? hmm...');
+   *
+   * @name isFalse
+   * @param {Boolean} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isFalse = function (val, msg) {
+    new Assertion(val, msg).is.false;
+  };
+
+  /**
+   * # .isNull(value, [message])
+   *
+   * Assert `value` is null.
+   *
+   *      assert.isNull(err, 'no errors');
+   *
+   * @name isNull
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isNull = function (val, msg) {
+    new Assertion(val, msg).to.not.exist;
+  };
+
+  /**
+   * # .isNotNull(value, [message])
+   *
+   * Assert `value` is not null.
+   *
+   *      var tea = 'tasty chai';
+   *      assert.isNotNull(tea, 'great, time for tea!');
+   *
+   * @name isNotNull
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isNotNull = function (val, msg) {
+    new Assertion(val, msg).to.exist;
+  };
+
+  /**
+   * # .isUndefined(value, [message])
+   *
+   * Assert `value` is undefined.
+   *
+   *      assert.isUndefined(tea, 'no tea defined');
+   *
+   * @name isUndefined
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isUndefined = function (val, msg) {
+    new Assertion(val, msg).to.equal(undefined);
+  };
+
+  /**
+   * # .isFunction(value, [message])
+   *
+   * Assert `value` is a function.
+   *
+   *      var serve_tea = function () { return 'cup of tea'; };
+   *      assert.isFunction(serve_tea, 'great, we can have tea now');
+   *
+   * @name isFunction
+   * @param {Function} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isFunction = function (val, msg) {
+    new Assertion(val, msg).to.be.a('function');
+  };
+
+  /**
+   * # .isObject(value, [message])
+   *
+   * Assert `value` is an object.
+   *
+   *      var selection = { name: 'Chai', serve: 'with spices' };
+   *      assert.isObject(selection, 'tea selection is an object');
+   *
+   * @name isObject
+   * @param {Object} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isObject = function (val, msg) {
+    new Assertion(val, msg).to.be.a('object');
+  };
+
+  /**
+   * # .isArray(value, [message])
+   *
+   * Assert `value` is an instance of Array.
+   *
+   *      var menu = [ 'green', 'chai', 'oolong' ];
+   *      assert.isArray(menu, 'what kind of tea do we want?');
+   *
+   * @name isArray
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isArray = function (val, msg) {
+    new Assertion(val, msg).to.be.instanceof(Array);
+  };
+
+  /**
+   * # .isString(value, [message])
+   *
+   * Assert `value` is a string.
+   *
+   *      var teaorder = 'chai';
+   *      assert.isString(tea_order, 'order placed');
+   *
+   * @name isString
+   * @param {String} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isString = function (val, msg) {
+    new Assertion(val, msg).to.be.a('string');
+  };
+
+  /**
+   * # .isNumber(value, [message])
+   *
+   * Assert `value` is a number
+   *
+   *      var cups = 2;
+   *      assert.isNumber(cups, 'how many cups');
+   *
+   * @name isNumber
+   * @param {Number} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isNumber = function (val, msg) {
+    new Assertion(val, msg).to.be.instanceof(Number);
+  };
+
+  /**
+   * # .isBoolean(value, [message])
+   *
+   * Assert `value` is a boolean
+   *
+   *      var teaready = true
+   *        , teaserved = false;
+   *
+   *      assert.isBoolean(tea_ready, 'is the tea ready');
+   *      assert.isBoolean(tea_served, 'has tea been served');
+   *
+   * @name isBoolean
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isBoolean = function (val, msg) {
+    new Assertion(val, msg).to.be.a('boolean');
+  };
+
+  /**
+   * # .typeOf(value, name, [message])
+   *
+   * Assert typeof `value` is `name`.
+   *
+   *      assert.typeOf('tea', 'string', 'we have a string');
+   *
+   * @name typeOf
+   * @param {*} value
+   * @param {String} typeof name
+   * @param {String} message
+   * @api public
+   */
+
+  assert.typeOf = function (val, type, msg) {
+    new Assertion(val, msg).to.be.a(type);
+  };
+
+  /**
+   * # .instanceOf(object, constructor, [message])
+   *
+   * Assert `value` is instanceof `constructor`.
+   *
+   *      var Tea = function (name) { this.name = name; }
+   *        , Chai = new Tea('chai');
+   *
+   *      assert.instanceOf(Chai, Tea, 'chai is an instance of tea');
+   *
+   * @name instanceOf
+   * @param {Object} object
+   * @param {Constructor} constructor
+   * @param {String} message
+   * @api public
+   */
+
+  assert.instanceOf = function (val, type, msg) {
+    new Assertion(val, msg).to.be.instanceof(type);
+  };
+
+  /**
+   * # .include(value, includes, [message])
+   *
+   * Assert the inclusion of an object in another. Works
+   * for strings and arrays.
+   *
+   *      assert.include('foobar', 'bar', 'foobar contains string `var`);
+   *      assert.include([ 1, 2, 3], 3, 'array contains value);
+   *
+   * @name include
+   * @param {Array|String} value
+   * @param {*} includes
+   * @param {String} message
+   * @api public
+   */
+
+  assert.include = function (exp, inc, msg) {
+    var obj = new Assertion(exp, msg);
+
+    if (Array.isArray(exp)) {
+      obj.to.include(inc);
+    } else if ('string' === typeof exp) {
+      obj.to.contain.string(inc);
+    }
+  };
+
+  /**
+   * # .match(value, regex, [message])
+   *
+   * Assert that `value` matches regular expression.
+   *
+   *      assert.match('foobar', /^foo/, 'Regexp matches');
+   *
+   * @name match
+   * @param {*} value
+   * @param {RegExp} RegularExpression
+   * @param {String} message
+   * @api public
+   */
+
+  assert.match = function (exp, re, msg) {
+    new Assertion(exp, msg).to.match(re);
+  };
+
+  /**
+   * # .length(value, constructor, [message])
+   *
+   * Assert that object has expected length.
+   *
+   *      assert.length([1,2,3], 3, 'Array has length of 3');
+   *      assert.length('foobar', 5, 'String has length of 6');
+   *
+   * @name length
+   * @param {*} value
+   * @param {Number} length
+   * @param {String} message
+   * @api public
+   */
+
+  assert.length = function (exp, len, msg) {
+    new Assertion(exp, msg).to.have.length(len);
+  };
+
+  /**
+   * # .throws(function, [constructor], [message])
+   *
+   * Assert that a function will throw a specific
+   * type of error.
+   *
+   *      var fn = function () { throw new ReferenceError(''); }
+   *      assert.throw(fn, ReferenceError, 'function throw reference error');
+   *
+   * @name throws
+   * @alias throw
+   * @param {Function} function to test
+   * @param {ErrorConstructor} constructor
+   * @param {String} message
+   * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
+   * @api public
+   */
+
+  assert.throws = function (fn, type, msg) {
+    if ('string' === typeof type) {
+      msg = type;
+      type = null;
+    }
+
+    new Assertion(fn, msg).to.throw(type);
+  };
+
+  /**
+   * # .doesNotThrow(function, [constructor], [message])
+   *
+   * Assert that a function will throw a specific
+   * type of error.
+   *
+   *      var fn = function (err) { if (err) throw Error(err) };
+   *      assert.doesNotThrow(fn, Error, 'function throw reference error');
+   *
+   * @name doesNotThrow
+   * @param {Function} function to test
+   * @param {ErrorConstructor} constructor
+   * @param {String} message
+   * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
+   * @api public
+   */
+
+  assert.doesNotThrow = function (fn, type, msg) {
+    if ('string' === typeof type) {
+      msg = type;
+      type = null;
+    }
+
+    new Assertion(fn, msg).to.not.throw(type);
+  };
+
+  /*!
+   * Undocumented / untested
+   */
+
+  assert.ifError = function (val, msg) {
+    new Assertion(val, msg).to.not.be.ok;
+  };
+
+  /*!
+   * Aliases.
+   */
+
+  (function alias(name, as){
+    assert[as] = assert[name];
+    return alias;
+  })
+  ('length', 'lengthOf')
+  ('throws', 'throw');
 };
-
-/**
- * # .equal(actual, expected, [message])
- *
- * Assert strict equality.
- *
- *      assert.equal(3, 3, 'these numbers are equal');
- *
- * @name equal
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.equal = function (act, exp, msg) {
-  var test = new Assertion(act, msg);
-
-  test.assert(
-      exp == test.obj
-    , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-    , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
-};
-
-/**
- * # .notEqual(actual, expected, [message])
- *
- * Assert not equal.
- *
- *      assert.notEqual(3, 4, 'these numbers are not equal');
- *
- * @name notEqual
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.notEqual = function (act, exp, msg) {
-  var test = new Assertion(act, msg);
-
-  test.assert(
-      exp != test.obj
-    , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-    , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
-};
-
-/**
- * # .strictEqual(actual, expected, [message])
- *
- * Assert strict equality.
- *
- *      assert.strictEqual(true, true, 'these booleans are strictly equal');
- *
- * @name strictEqual
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.strictEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.equal(exp);
-};
-
-/**
- * # .notStrictEqual(actual, expected, [message])
- *
- * Assert strict equality.
- *
- *      assert.notStrictEqual(1, true, 'these booleans are not strictly equal');
- *
- * @name notStrictEqual
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.notStrictEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.not.equal(exp);
-};
-
-/**
- * # .deepEqual(actual, expected, [message])
- *
- * Assert not deep equality.
- *
- *      assert.deepEqual({ tea: 'green' }, { tea: 'green' });
- *
- * @name deepEqual
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.deepEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.eql(exp);
-};
-
-/**
- * # .notDeepEqual(actual, expected, [message])
- *
- * Assert not deep equality.
- *
- *      assert.notDeepEqual({ tea: 'green' }, { tea: 'jasmine' });
- *
- * @name notDeepEqual
- * @param {*} actual
- * @param {*} expected
- * @param {String} message
- * @api public
- */
-
-assert.notDeepEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.not.eql(exp);
-};
-
-/**
- * # .isTrue(value, [message])
- *
- * Assert `value` is true.
- *
- *      var tea_served = true;
- *      assert.isTrue(tea_served, 'the tea has been served');
- *
- * @name isTrue
- * @param {Boolean} value
- * @param {String} message
- * @api public
- */
-
-assert.isTrue = function (val, msg) {
-  new Assertion(val, msg).is.true;
-};
-
-/**
- * # .isFalse(value, [message])
- *
- * Assert `value` is false.
- *
- *      var tea_served = false;
- *      assert.isFalse(tea_served, 'no tea yet? hmm...');
- *
- * @name isFalse
- * @param {Boolean} value
- * @param {String} message
- * @api public
- */
-
-assert.isFalse = function (val, msg) {
-  new Assertion(val, msg).is.false;
-};
-
-/**
- * # .isNull(value, [message])
- *
- * Assert `value` is null.
- *
- *      assert.isNull(err, 'no errors');
- *
- * @name isNull
- * @param {*} value
- * @param {String} message
- * @api public
- */
-
-assert.isNull = function (val, msg) {
-  new Assertion(val, msg).to.not.exist;
-};
-
-/**
- * # .isNotNull(value, [message])
- *
- * Assert `value` is not null.
- *
- *      var tea = 'tasty chai';
- *      assert.isNotNull(tea, 'great, time for tea!');
- *
- * @name isNotNull
- * @param {*} value
- * @param {String} message
- * @api public
- */
-
-assert.isNotNull = function (val, msg) {
-  new Assertion(val, msg).to.exist;
-};
-
-/**
- * # .isUndefined(value, [message])
- *
- * Assert `value` is undefined.
- *
- *      assert.isUndefined(tea, 'no tea defined');
- *
- * @name isUndefined
- * @param {*} value
- * @param {String} message
- * @api public
- */
-
-assert.isUndefined = function (val, msg) {
-  new Assertion(val, msg).to.equal(undefined);
-};
-
-/**
- * # .isFunction(value, [message])
- *
- * Assert `value` is a function.
- *
- *      var serve_tea = function () { return 'cup of tea'; };
- *      assert.isFunction(serve_tea, 'great, we can have tea now');
- *
- * @name isFunction
- * @param {Function} value
- * @param {String} message
- * @api public
- */
-
-assert.isFunction = function (val, msg) {
-  new Assertion(val, msg).to.be.a('function');
-};
-
-/**
- * # .isObject(value, [message])
- *
- * Assert `value` is an object.
- *
- *      var selection = { name: 'Chai', serve: 'with spices' };
- *      assert.isObject(selection, 'tea selection is an object');
- *
- * @name isObject
- * @param {Object} value
- * @param {String} message
- * @api public
- */
-
-assert.isObject = function (val, msg) {
-  new Assertion(val, msg).to.be.a('object');
-};
-
-/**
- * # .isArray(value, [message])
- *
- * Assert `value` is an instance of Array.
- *
- *      var menu = [ 'green', 'chai', 'oolong' ];
- *      assert.isArray(menu, 'what kind of tea do we want?');
- *
- * @name isArray
- * @param {*} value
- * @param {String} message
- * @api public
- */
-
-assert.isArray = function (val, msg) {
-  new Assertion(val, msg).to.be.instanceof(Array);
-};
-
-/**
- * # .isString(value, [message])
- *
- * Assert `value` is a string.
- *
- *      var teaorder = 'chai';
- *      assert.isString(tea_order, 'order placed');
- *
- * @name isString
- * @param {String} value
- * @param {String} message
- * @api public
- */
-
-assert.isString = function (val, msg) {
-  new Assertion(val, msg).to.be.a('string');
-};
-
-/**
- * # .isNumber(value, [message])
- *
- * Assert `value` is a number
- *
- *      var cups = 2;
- *      assert.isNumber(cups, 'how many cups');
- *
- * @name isNumber
- * @param {Number} value
- * @param {String} message
- * @api public
- */
-
-assert.isNumber = function (val, msg) {
-  new Assertion(val, msg).to.be.instanceof(Number);
-};
-
-/**
- * # .isBoolean(value, [message])
- *
- * Assert `value` is a boolean
- *
- *      var teaready = true
- *        , teaserved = false;
- *
- *      assert.isBoolean(tea_ready, 'is the tea ready');
- *      assert.isBoolean(tea_served, 'has tea been served');
- *
- * @name isBoolean
- * @param {*} value
- * @param {String} message
- * @api public
- */
-
-assert.isBoolean = function (val, msg) {
-  new Assertion(val, msg).to.be.a('boolean');
-};
-
-/**
- * # .typeOf(value, name, [message])
- *
- * Assert typeof `value` is `name`.
- *
- *      assert.typeOf('tea', 'string', 'we have a string');
- *
- * @name typeOf
- * @param {*} value
- * @param {String} typeof name
- * @param {String} message
- * @api public
- */
-
-assert.typeOf = function (val, type, msg) {
-  new Assertion(val, msg).to.be.a(type);
-};
-
-/**
- * # .instanceOf(object, constructor, [message])
- *
- * Assert `value` is instanceof `constructor`.
- *
- *      var Tea = function (name) { this.name = name; }
- *        , Chai = new Tea('chai');
- *
- *      assert.instanceOf(Chai, Tea, 'chai is an instance of tea');
- *
- * @name instanceOf
- * @param {Object} object
- * @param {Constructor} constructor
- * @param {String} message
- * @api public
- */
-
-assert.instanceOf = function (val, type, msg) {
-  new Assertion(val, msg).to.be.instanceof(type);
-};
-
-/**
- * # .include(value, includes, [message])
- *
- * Assert the inclusion of an object in another. Works
- * for strings and arrays.
- *
- *      assert.include('foobar', 'bar', 'foobar contains string `var`);
- *      assert.include([ 1, 2, 3], 3, 'array contains value);
- *
- * @name include
- * @param {Array|String} value
- * @param {*} includes
- * @param {String} message
- * @api public
- */
-
-assert.include = function (exp, inc, msg) {
-  var obj = new Assertion(exp, msg);
-
-  if (Array.isArray(exp)) {
-    obj.to.include(inc);
-  } else if ('string' === typeof exp) {
-    obj.to.contain.string(inc);
-  }
-};
-
-/**
- * # .match(value, regex, [message])
- *
- * Assert that `value` matches regular expression.
- *
- *      assert.match('foobar', /^foo/, 'Regexp matches');
- *
- * @name match
- * @param {*} value
- * @param {RegExp} RegularExpression
- * @param {String} message
- * @api public
- */
-
-assert.match = function (exp, re, msg) {
-  new Assertion(exp, msg).to.match(re);
-};
-
-/**
- * # .length(value, constructor, [message])
- *
- * Assert that object has expected length.
- *
- *      assert.length([1,2,3], 3, 'Array has length of 3');
- *      assert.length('foobar', 5, 'String has length of 6');
- *
- * @name length
- * @param {*} value
- * @param {Number} length
- * @param {String} message
- * @api public
- */
-
-assert.length = function (exp, len, msg) {
-  new Assertion(exp, msg).to.have.length(len);
-};
-
-/**
- * # .throws(function, [constructor], [message])
- *
- * Assert that a function will throw a specific
- * type of error.
- *
- *      var fn = function () { throw new ReferenceError(''); }
- *      assert.throw(fn, ReferenceError, 'function throw reference error');
- *
- * @name throws
- * @alias throw
- * @param {Function} function to test
- * @param {ErrorConstructor} constructor
- * @param {String} message
- * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
- * @api public
- */
-
-assert.throws = function (fn, type, msg) {
-  if ('string' === typeof type) {
-    msg = type;
-    type = null;
-  }
-
-  new Assertion(fn, msg).to.throw(type);
-};
-
-/**
- * # .doesNotThrow(function, [constructor], [message])
- *
- * Assert that a function will throw a specific
- * type of error.
- *
- *      var fn = function (err) { if (err) throw Error(err) };
- *      assert.doesNotThrow(fn, Error, 'function throw reference error');
- *
- * @name doesNotThrow
- * @param {Function} function to test
- * @param {ErrorConstructor} constructor
- * @param {String} message
- * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
- * @api public
- */
-
-assert.doesNotThrow = function (fn, type, msg) {
-  if ('string' === typeof type) {
-    msg = type;
-    type = null;
-  }
-
-  new Assertion(fn, msg).to.not.throw(type);
-};
-
-/*!
- * Undocumented / untested
- */
-
-assert.ifError = function (val, msg) {
-  new Assertion(val, msg).to.not.be.ok;
-};
-
-/*!
- * Aliases.
- */
-
-(function alias(name, as){
-  assert[as] = assert[name];
-  return alias;
-})
-('length', 'lengthOf')
-('throws', 'throw');
-//('keys', 'key')
-//('ownProperty', 'haveOwnProperty')
-//('above', 'greaterThan')
-//('below', 'lessThan')
-//('throw', 'throws');
 
 }); // module: interface/assert.js
 
@@ -1579,11 +1587,13 @@ require.register("interface/expect.js", function(module, exports, require){
  * MIT Licensed
  */
 
-var Assertion = require('../assertion');
-
-module.exports = function (val, message) {
-  return new Assertion(val, message);
+module.exports = function (chai) {
+  chai.expect = function (val, message) {
+    return new chai.Assertion(val, message);
+  };
 };
+
+
 }); // module: interface/expect.js
 
 require.register("interface/should.js", function(module, exports, require){
@@ -1593,64 +1603,55 @@ require.register("interface/should.js", function(module, exports, require){
  * MIT Licensed
  */
 
-var Assertion = require('../assertion');
+module.exports = function (chai) {
+  var Assertion = chai.Assertion;
 
-/**
- * Expose api via `Object#should`.
- *
- * @api public
- */
+  chai.should = function () {
+    // modify Object.prototype to have `should`
+    Object.defineProperty(Object.prototype, 'should', {
+      set: function(){},
+      get: function(){
+        if (this instanceof String || this instanceof Number) {
+          return new Assertion(this.constructor(this));
+        } else if (this instanceof Boolean) {
+          return new Assertion(this == true);
+        }
+        return new Assertion(this);
+      },
+      configurable: true
+    });
 
-module.exports = function () {
+    var should = {};
 
-  /*!
-   * Originally from: should.js
-   * Copyright(c) 2010 TJ Holowaychuk <tj@vision-media.ca>
-   * MIT Licensed
-   */
-  Object.defineProperty(Object.prototype, 'should', {
-    set: function(){},
-    get: function(){
-      if (this instanceof String || this instanceof Number) {
-        return new Assertion(this.constructor(this));
-      } else if (this instanceof Boolean) {
-        return new Assertion(this == true);
-      }
-      return new Assertion(this);
-    },
-    configurable: true
-  });
+    should.equal = function (val1, val2) {
+      new Assertion(val1).to.equal(val2);
+    };
 
-  var should = {};
+    should.throw = function (fn, err) {
+      new Assertion(fn).to.throw(err);
+    };
 
-  should.equal = function (val1, val2) {
-    new Assertion(val1).to.equal(val2);
+    should.exist = function (val) {
+      new Assertion(val).to.exist;
+    }
+
+    // negation
+    should.not = {}
+
+    should.not.equal = function (val1, val2) {
+      new Assertion(val1).to.not.equal(val2);
+    };
+
+    should.not.throw = function (fn, err) {
+      new Assertion(fn).to.not.throw(err);
+    };
+
+    should.not.exist = function (val) {
+      new Assertion(val).to.not.exist;
+    }
+
+    return should;
   };
-
-  should.throw = function (fn, err) {
-    new Assertion(fn).to.throw(err);
-  };
-
-  should.exist = function (val) {
-    new Assertion(val).to.exist;
-  }
-
-  // negation
-  should.not = {}
-
-  should.not.equal = function (val1, val2) {
-    new Assertion(val1).to.not.equal(val2);
-  };
-
-  should.not.throw = function (fn, err) {
-    new Assertion(fn).to.not.throw(err);
-  };
-
-  should.not.exist = function (val) {
-    new Assertion(val).to.not.exist;
-  }
-
-  return should;
 };
 
 }); // module: interface/should.js
