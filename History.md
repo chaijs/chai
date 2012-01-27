@@ -1,4 +1,14 @@
 
+0.2.0 / 2012-01-26 
+==================
+
+  * update gitignore for vim *.swp
+  * Merge branch 'feature/plugins'
+  * browser build
+  * interfaces now work with use
+  * simple .use function. See #9.
+  * readme notice on browser compat
+
 0.1.7 / 2012-01-25 
 ==================
 
