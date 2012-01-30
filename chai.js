@@ -811,6 +811,7 @@ Assertion.prototype.keys = function(keys) {
  *
  * @name throw
  * @alias throws
+ * @alias Throw
  * @param {ErrorConstructor} constructor
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
  * @api public
@@ -934,6 +935,7 @@ Object.defineProperty(Assertion.prototype, 'html',
 ('above', 'greaterThan')
 ('below', 'lessThan')
 ('throw', 'throws')
+('throw', 'Throw') // for troublesome browsers
 ('instanceof', 'instanceOf');
 
 }); // module: assertion.js
@@ -947,7 +949,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.2.0';
+exports.version = '0.2.1';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
