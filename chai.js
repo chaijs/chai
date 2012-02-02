@@ -186,6 +186,21 @@ Object.defineProperty(Assertion.prototype, 'be',
 });
 
 /**
+ * # been
+ *
+ * Language chain.
+ *
+ * @name been
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'been',
+  { get: function () {
+      return this;
+    }
+});
+
+/**
  * # an
  *
  * Language chain.
@@ -936,7 +951,6 @@ Object.defineProperty(Assertion.prototype, 'html',
 ('below', 'lessThan')
 ('throw', 'throws')
 ('throw', 'Throw') // for troublesome browsers
-('be', 'been') // past tense
 ('instanceof', 'instanceOf');
 
 }); // module: assertion.js
@@ -950,7 +964,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.2.2';
+exports.version = '0.2.3';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
