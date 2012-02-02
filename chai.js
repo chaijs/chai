@@ -188,7 +188,8 @@ Object.defineProperty(Assertion.prototype, 'be',
 /**
  * # been
  *
- * Language chain.
+ * Language chain. Also tests `tense` to past for addon
+ * modules that use the tense feature.
  *
  * @name been
  * @api public
@@ -196,6 +197,7 @@ Object.defineProperty(Assertion.prototype, 'be',
 
 Object.defineProperty(Assertion.prototype, 'been',
   { get: function () {
+      this.tense = 'past';
       return this;
     }
 });
@@ -964,7 +966,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.2.3';
+exports.version = '0.2.4';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
