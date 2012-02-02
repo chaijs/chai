@@ -936,6 +936,7 @@ Object.defineProperty(Assertion.prototype, 'html',
 ('below', 'lessThan')
 ('throw', 'throws')
 ('throw', 'Throw') // for troublesome browsers
+('be', 'been') // past tense
 ('instanceof', 'instanceOf');
 
 }); // module: assertion.js
@@ -949,7 +950,7 @@ require.register("chai.js", function(module, exports, require){
 
 var exports = module.exports = {};
 
-exports.version = '0.2.1';
+exports.version = '0.2.2';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
