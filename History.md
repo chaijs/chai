@@ -1,4 +1,15 @@
 
+0.3.0 / 2012-02-07 
+==================
+
+  * Merge branch 'feature/03x'
+  * browser build
+  * remove html/json/headers testign
+  * regex error.message testing
+  * tests for using plugins
+  * Merge pull request #11 from domenic/master
+  * Make `chai.use` a no-op if the function has already been used.
+
 0.2.4 / 2012-02-02 
 ==================
 
