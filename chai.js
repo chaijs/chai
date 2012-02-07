@@ -841,7 +841,7 @@ Assertion.prototype.throw = function (constructor) {
   try {
     this.obj();
   } catch (err) {
-    if (constructor && 'function' === typeof constructor) {
+    if (constructor && 'function' === typeof constructor && constructor.constructor != RegExp) {
       this.assert(
           err instanceof constructor && err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
@@ -850,8 +850,8 @@ Assertion.prototype.throw = function (constructor) {
     } else if (constructor && constructor instanceof RegExp) {
       this.assert(
           constructor.exec(err.message)
-        , 'expected ' + this.inspect + ' to throw error matching ' + inspect(constructor) + ' but got ' + inspect(err.message)
-        , 'expected ' + this.inspect + ' to throw error not matching ' + inspect(constructor) );
+        , 'expected ' + this.inspect + ' to throw error matching ' + constructor + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + constructor);
       return this;
     } else {
       thrown = true;
@@ -897,7 +897,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.3.0';
+exports.version = '0.3.1';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
