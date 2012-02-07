@@ -375,6 +375,9 @@ suite('should', function() {
     (refErrFn).should.not.throw(Error);
     (refErrFn).should.not.throw(TypeError);
 
+    (badFn).should.throw(/testing/);
+    (badFn).should.not.throw(/hello/);
+
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
     should.not.throw(goodFn);
@@ -407,5 +410,13 @@ suite('should', function() {
     err(function(){
       (refErrFn).should.throw(Error);
     }, "expected [Function] to throw Error but a ReferenceError was thrown");
+
+    err(function (){
+      (badFn).should.not.throw(/testing/);
+    }, "expected [Function] to throw error not matching /testing/");
+
+    err(function () {
+      (badFn).should.throw(/hello/);
+    }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
   });
 });
