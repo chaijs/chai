@@ -387,6 +387,9 @@ suite('expect', function () {
     expect(refErrFn).to.not.throw(Error);
     expect(refErrFn).to.not.throw(TypeError);
 
+    expect(badFn).to.throw(/testing/);
+    expect(badFn).to.not.throw(/hello/);
+
     err(function(){
       expect(goodFn).to.throw();
     }, "expected [Function] to throw an error");
@@ -414,6 +417,14 @@ suite('expect', function () {
     err(function(){
       expect(refErrFn).to.throw(Error);
     }, "expected [Function] to throw Error but a ReferenceError was thrown");
+
+    err(function (){
+      expect(badFn).to.not.throw(/testing/);
+    }, "expected [Function] to throw error not matching /testing/");
+
+    err(function () {
+      expect(badFn).to.throw(/hello/);
+    }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
   });
 
 });

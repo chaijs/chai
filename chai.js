@@ -92,8 +92,7 @@ require.register("assertion.js", function(module, exports, require){
 
 var AssertionError = require('./error')
   , eql = require('./utils/eql')
-  , inspect = require('./utils/inspect')
-  , statusCodes = require('./utils/constants').STATUS_CODES;
+  , inspect = require('./utils/inspect');
 
 /*!
  * Module export.
@@ -842,12 +841,17 @@ Assertion.prototype.throw = function (constructor) {
   try {
     this.obj();
   } catch (err) {
-    if (constructor) {
+    if (constructor && 'function' === typeof constructor) {
       this.assert(
           err instanceof constructor && err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
         , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
-
+      return this;
+    } else if (constructor && constructor instanceof RegExp) {
+      this.assert(
+          constructor.exec(err.message)
+        , 'expected ' + this.inspect + ' to throw error matching ' + inspect(constructor) + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + inspect(constructor) );
       return this;
     } else {
       thrown = true;
@@ -863,80 +867,6 @@ Assertion.prototype.throw = function (constructor) {
 
   return this;
 };
-
-/**
- * # .header(code)
- *
- * Assert `header` field has expected `value`.
- *
- * @name header
- * @param {String} field
- * @param {String} value
- * @api public
- */
-
-Assertion.prototype.header = function (field, val) {
-  new Assertion(this.obj)
-        .to.have.property('headers').and
-        .to.have.property(field.toLowerCase(), val);
-
-  return this;
-}
-
-/**
- * # .status(code)
- *
- * Assert `statusCode` of `code'.
- *
- * @name status
- * @param {Number} code
- * @api public
- */
-
-Assertion.prototype.status = function (code) {
-  new Assertion(this.obj).to.have.property('statusCode');
-
-  var status = this.obj.statusCode;
-
-  this.assert(
-      code == status
-    , 'expected response code of ' + code + ' ' + inspect(statusCodes[code])
-        + ', but got ' + status + ' ' + inspect(statusCodes[status])
-    , 'expected to not respond with ' + code + ' ' + inspect(statusCodes[code]));
-}
-
-/**
- * # json
- *
- * Assert that this response has content-type: application/json.
- *
- * @name json
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'json',
-  { get: function () {
-      new Assertion(this.obj).to.have.header('content-type', 'application/json; charset=utf-8');
-      return this;
-    }
-});
-
-/**
- * # html
- *
- * Assert that this response has content-type: text/html.
- *
- * @name html
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'html',
-  { get: function () {
-      new Assertion(this.obj).to.have.header('content-type', 'text/html; charset=utf-8');
-      return this;
-    }
-});
-
 
 /*!
  * Aliases.
@@ -960,10 +890,11 @@ Object.defineProperty(Assertion.prototype, 'html',
 require.register("chai.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
+var used = [];
 var exports = module.exports = {};
 
 exports.version = '0.2.4';
@@ -974,7 +905,11 @@ exports.AssertionError = require('./error');
 exports.inspect = require('./utils/inspect');
 
 exports.use = function (fn) {
-  fn(this);
+  if (!~used.indexOf(fn)) {
+    fn(this);
+    used.push(fn);
+  }
+
   return this;
 };
 
@@ -1674,71 +1609,6 @@ module.exports = function (chai) {
 };
 
 }); // module: interface/should.js
-
-require.register("utils/constants.js", function(module, exports, require){
-
-var exports = module.exports = {};
-
-/**
- * More includes from node.js code
- * https://github.com/joyent/node/blob/master/lib/http.js
- */
-
-exports.STATUS_CODES = {
-  100 : 'Continue',
-  101 : 'Switching Protocols',
-  102 : 'Processing',                 // RFC 2518, obsoleted by RFC 4918
-  200 : 'OK',
-  201 : 'Created',
-  202 : 'Accepted',
-  203 : 'Non-Authoritative Information',
-  204 : 'No Content',
-  205 : 'Reset Content',
-  206 : 'Partial Content',
-  207 : 'Multi-Status',               // RFC 4918
-  300 : 'Multiple Choices',
-  301 : 'Moved Permanently',
-  302 : 'Moved Temporarily',
-  303 : 'See Other',
-  304 : 'Not Modified',
-  305 : 'Use Proxy',
-  307 : 'Temporary Redirect',
-  400 : 'Bad Request',
-  401 : 'Unauthorized',
-  402 : 'Payment Required',
-  403 : 'Forbidden',
-  404 : 'Not Found',
-  405 : 'Method Not Allowed',
-  406 : 'Not Acceptable',
-  407 : 'Proxy Authentication Required',
-  408 : 'Request Time-out',
-  409 : 'Conflict',
-  410 : 'Gone',
-  411 : 'Length Required',
-  412 : 'Precondition Failed',
-  413 : 'Request Entity Too Large',
-  414 : 'Request-URI Too Large',
-  415 : 'Unsupported Media Type',
-  416 : 'Requested Range Not Satisfiable',
-  417 : 'Expectation Failed',
-  418 : 'I\'m a teapot',              // RFC 2324
-  422 : 'Unprocessable Entity',       // RFC 4918
-  423 : 'Locked',                     // RFC 4918
-  424 : 'Failed Dependency',          // RFC 4918
-  425 : 'Unordered Collection',       // RFC 4918
-  426 : 'Upgrade Required',           // RFC 2817
-  500 : 'Internal Server Error',
-  501 : 'Not Implemented',
-  502 : 'Bad Gateway',
-  503 : 'Service Unavailable',
-  504 : 'Gateway Time-out',
-  505 : 'HTTP Version not supported',
-  506 : 'Variant Also Negotiates',    // RFC 2295
-  507 : 'Insufficient Storage',       // RFC 4918
-  509 : 'Bandwidth Limit Exceeded',
-  510 : 'Not Extended'                // RFC 2774
-};
-}); // module: utils/constants.js
 
 require.register("utils/eql.js", function(module, exports, require){
 // This is directly from Node.js assert
