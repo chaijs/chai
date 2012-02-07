@@ -960,10 +960,11 @@ Object.defineProperty(Assertion.prototype, 'html',
 require.register("chai.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
+var used = [];
 var exports = module.exports = {};
 
 exports.version = '0.2.4';
@@ -974,7 +975,11 @@ exports.AssertionError = require('./error');
 exports.inspect = require('./utils/inspect');
 
 exports.use = function (fn) {
-  fn(this);
+  if (!~used.indexOf(fn)) {
+    fn(this);
+    used.push(fn);
+  }
+
   return this;
 };
 
