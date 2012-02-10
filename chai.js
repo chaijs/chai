@@ -1460,12 +1460,11 @@ module.exports = function (chai) {
   };
 
   /**
-   * # .throws(function, [constructor], [message])
+   * # .throws(function, [constructor/regexp], [message])
    *
    * Assert that a function will throw a specific
    * type of error.
    *
-   *      var fn = function () { throw new ReferenceError(''); }
    *      assert.throw(fn, ReferenceError, 'function throw reference error');
    *
    * @name throws
@@ -1487,7 +1486,7 @@ module.exports = function (chai) {
   };
 
   /**
-   * # .doesNotThrow(function, [constructor], [message])
+   * # .doesNotThrow(function, [constructor/regexp], [message])
    *
    * Assert that a function will throw a specific
    * type of error.

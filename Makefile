@@ -1,6 +1,6 @@
 
 TESTS = test/*.js
-REPORTER = dot
+REPORTER = spec
 SRC = $(shell find lib -name "*.js" -type f)
 
 all: chai.js
@@ -12,10 +12,11 @@ clean:
 	rm -f chai.js
 
 docs: clean-docs
-	@./node_modules/.bin/codex build docs \
-		--out docs/out
+	@./node_modules/.bin/codex build \
+		-i docs
+	@cp chai.js docs/out/chai.js
 	@./node_modules/.bin/codex serve \
-		--out docs/out
+		-d docs/out
 
 clean-docs:
 	@rm -rf docs/out
