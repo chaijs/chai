@@ -48,6 +48,10 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#notEqual" class="scroll">notEqual</a>
                 </li>
+                <li class="keepcase"><a href="#strictEqual" class="scroll">strictEqual</a>
+                </li>
+                <li class="keepcase"><a href="#notStrictEqual" class="scroll">notStrictEqual</a>
+                </li>
                 <li class="keepcase"><a href="#deepEqual" class="scroll">deepEqual</a>
                 </li>
                 <li class="keepcase"><a href="#notDeepEqual" class="scroll">notDeepEqual</a>
@@ -84,7 +88,9 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#length" class="scroll">length</a>
                 </li>
-                <li class="keepcase"><a href="#throw" class="scroll">throw</a>
+                <li class="keepcase"><a href="#throws" class="scroll">throws</a>
+                </li>
+                <li class="keepcase"><a href="#doesNotThrow" class="scroll">doesNotThrow</a>
                 </li>
               </ul>
             </div>
@@ -129,6 +135,10 @@ _gaq.push(['_trackPageview']);
         <article id="undefined-section" class="codeblock">
           <div class="header"><h3>TDD Style Introduction</h3>
           </div>
+          <div class="ctx">
+            <h3>module.exports()
+            </h3>
+          </div>
           <div class="description"><p>The TDD style is exposed through <code>assert</code> interfaces. This provides<br />the classic assert.<code>test</code> notation, similiar to that packaged with<br />node.js. This assert module, however, provides several additional<br />tests and is browser compatible.</p>
 
 <pre><code> // assert
@@ -138,6 +148,12 @@ _gaq.push(['_trackPageview']);
  assert.typeOf(foo, 'string');
  assert.equal(foo, 'bar');
 </code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>module.exports = function (chai) {</code>
+            </pre>
           </div>
         </article>
         <article id="ok-section" class="codeblock">
@@ -166,8 +182,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.ok = function (val, msg) {
-  new Assertion(val, msg).is.ok;
-};</code>
+    new Assertion(val, msg).is.ok;
+  };</code>
             </pre>
           </div>
         </article>
@@ -198,8 +214,13 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.equal = function (act, exp, msg) {
-  new Assertion(act, msg).to.equal(exp);
-};</code>
+    var test = new Assertion(act, msg);
+
+    test.assert(
+        exp == test.obj
+      , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+  };</code>
             </pre>
           </div>
         </article>
@@ -221,7 +242,7 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert not strict equality.</p>
+          <div class="description"><p>Assert not equal.</p>
 
 <pre><code> assert.notEqual(3, 4, 'these numbers are not equal');
 </code></pre>
@@ -230,8 +251,77 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.notEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.not.equal(exp);
-};</code>
+    var test = new Assertion(act, msg);
+
+    test.assert(
+        exp != test.obj
+      , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+  };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="strictEqual-section" class="codeblock">
+          <div class="header"><h1>.strictEqual(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.strictEqual()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert strict equality.</p>
+
+<pre><code> assert.strictEqual(true, true, 'these booleans are strictly equal');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.strictEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.equal(exp);
+  };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="notStrictEqual-section" class="codeblock">
+          <div class="header"><h1>.notStrictEqual(actual, expected, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.notStrictEqual()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert strict equality.</p>
+
+<pre><code> assert.notStrictEqual(1, true, 'these booleans are not strictly equal');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.notStrictEqual = function (act, exp, msg) {
+    new Assertion(act, msg).to.not.equal(exp);
+  };</code>
             </pre>
           </div>
         </article>
@@ -262,8 +352,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.deepEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.eql(exp);
-};</code>
+    new Assertion(act, msg).to.eql(exp);
+  };</code>
             </pre>
           </div>
         </article>
@@ -294,8 +384,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.notDeepEqual = function (act, exp, msg) {
-  new Assertion(act, msg).to.not.eql(exp);
-};</code>
+    new Assertion(act, msg).to.not.eql(exp);
+  };</code>
             </pre>
           </div>
         </article>
@@ -325,8 +415,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isTrue = function (val, msg) {
-  new Assertion(val, msg).is.true;
-};</code>
+    new Assertion(val, msg).is.true;
+  };</code>
             </pre>
           </div>
         </article>
@@ -356,8 +446,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isFalse = function (val, msg) {
-  new Assertion(val, msg).is.false;
-};</code>
+    new Assertion(val, msg).is.false;
+  };</code>
             </pre>
           </div>
         </article>
@@ -386,8 +476,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNull = function (val, msg) {
-  new Assertion(val, msg).to.not.exist;
-};</code>
+    new Assertion(val, msg).to.not.exist;
+  };</code>
             </pre>
           </div>
         </article>
@@ -417,8 +507,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNotNull = function (val, msg) {
-  new Assertion(val, msg).to.exist;
-};</code>
+    new Assertion(val, msg).to.exist;
+  };</code>
             </pre>
           </div>
         </article>
@@ -447,8 +537,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isUndefined = function (val, msg) {
-  new Assertion(val, msg).to.equal(undefined);
-};</code>
+    new Assertion(val, msg).to.equal(undefined);
+  };</code>
             </pre>
           </div>
         </article>
@@ -478,8 +568,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isFunction = function (val, msg) {
-  new Assertion(val, msg).to.be.a('function');
-};</code>
+    new Assertion(val, msg).to.be.a('function');
+  };</code>
             </pre>
           </div>
         </article>
@@ -509,8 +599,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isObject = function (val, msg) {
-  new Assertion(val, msg).to.be.an('object');
-};</code>
+    new Assertion(val, msg).to.be.a('object');
+  };</code>
             </pre>
           </div>
         </article>
@@ -540,8 +630,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isArray = function (val, msg) {
-  new Assertion(val, msg).to.be.instanceof(Array);
-};</code>
+    new Assertion(val, msg).to.be.instanceof(Array);
+  };</code>
             </pre>
           </div>
         </article>
@@ -571,8 +661,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isString = function (val, msg) {
-  new Assertion(val, msg).to.be.a('string');
-};</code>
+    new Assertion(val, msg).to.be.a('string');
+  };</code>
             </pre>
           </div>
         </article>
@@ -602,8 +692,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNumber = function (val, msg) {
-  new Assertion(val, msg).to.be.instanceof(Number);
-};</code>
+    new Assertion(val, msg).to.be.instanceof(Number);
+  };</code>
             </pre>
           </div>
         </article>
@@ -636,8 +726,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isBoolean = function (val, msg) {
-  new Assertion(val, msg).to.be.a('boolean');
-};</code>
+    new Assertion(val, msg).to.be.a('boolean');
+  };</code>
             </pre>
           </div>
         </article>
@@ -668,8 +758,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.typeOf = function (val, type, msg) {
-  new Assertion(val, msg).to.be.a(type);
-};</code>
+    new Assertion(val, msg).to.be.a(type);
+  };</code>
             </pre>
           </div>
         </article>
@@ -703,8 +793,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.instanceOf = function (val, type, msg) {
-  new Assertion(val, msg).to.be.instanceof(type);
-};</code>
+    new Assertion(val, msg).to.be.instanceof(type);
+  };</code>
             </pre>
           </div>
         </article>
@@ -717,7 +807,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="tags">
             <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array | String | Object &#125;</span><span class="name">value</span><span class="desc"></span>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array | String &#125;</span><span class="name">value</span><span class="desc"></span>
             </div>
             <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">includes</span><span class="desc"></span>
             </div>
@@ -726,12 +816,9 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert the inclusion of an object in another.</p>
+          <div class="description"><p>Assert the inclusion of an object in another. Works<br />for strings and arrays.</p>
 
-<pre><code> var obj = {foo: 'bar', baz: {baaz: 42}, qux: 13};
- assert.include(obj, {foo: 'bar'}, 'object contains subobject');
-
- assert.include('foobar', 'bar', 'foobar contains string `var`);
+<pre><code> assert.include('foobar', 'bar', 'foobar contains string `var`);
  assert.include([ 1, 2, 3], 3, 'array contains value);
 </code></pre>
           </div>
@@ -739,21 +826,19 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.include = function (exp, inc, msg) {
-  var obj = new Assertion(exp, msg);
+    var obj = new Assertion(exp, msg);
 
-  if (Array.isArray(exp)) {
-    obj.to.contain(inc);
-  } else if ('string' === typeof exp) {
-    obj.to.include.string(inc);
-  } else {
-    obj.to.include.object(inc);
-  }
-};</code>
+    if (Array.isArray(exp)) {
+      obj.to.include(inc);
+    } else if ('string' === typeof exp) {
+      obj.to.contain.string(inc);
+    }
+  };</code>
             </pre>
           </div>
         </article>
         <article id="match-section" class="codeblock">
-          <div class="header"><h1>.match(value, constructor, [message])</h1>
+          <div class="header"><h1>.match(value, regex, [message])</h1>
           </div>
           <div class="ctx">
             <h3>assert.match()
@@ -779,8 +864,8 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.match = function (exp, re, msg) {
-  new Assertion(exp, msg).to.match(re);
-};</code>
+    new Assertion(exp, msg).to.match(re);
+  };</code>
             </pre>
           </div>
         </article>
@@ -812,21 +897,21 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.length = function (exp, len, msg) {
-  new Assertion(exp, msg).to.have.length(len);
-};</code>
+    new Assertion(exp, msg).to.have.length(len);
+  };</code>
             </pre>
           </div>
         </article>
-        <article id="throw-section" class="codeblock">
-          <div class="header"><h1>.throw(function, constructor, [message])</h1>
+        <article id="throws-section" class="codeblock">
+          <div class="header"><h1>.throws(function, [constructor/regexp], [message])</h1>
           </div>
           <div class="ctx">
-            <h3>assert.throw()
+            <h3>assert.throws()
             </h3>
           </div>
           <div class="tags">
             <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span>
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">throw</span>
             </div>
             <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">function</span><span class="desc">to test</span>
             </div>
@@ -841,16 +926,60 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="description"><p>Assert that a function will throw a specific<br />type of error.</p>
 
-<pre><code> var fn = function () { throw new ReferenceError(''); }
- assert.throw(fn, ReferenceError, 'function throw reference error');
+<pre><code> assert.throw(fn, ReferenceError, 'function throw reference error');
 </code></pre>
           </div>
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>assert.throw = function (fn, type, msg) {
-  new Assertions(fn, msg).to.throw(type);
-};</code>
+            <pre class="source prettyprint"><code>assert.throws = function (fn, type, msg) {
+    if ('string' === typeof type) {
+      msg = type;
+      type = null;
+    }
+
+    new Assertion(fn, msg).to.throw(type);
+  };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="doesNotThrow-section" class="codeblock">
+          <div class="header"><h1>.doesNotThrow(function, [constructor/regexp], [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.doesNotThrow()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">function</span><span class="desc">to test</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;see</span><span class="name"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that a function will throw a specific<br />type of error.</p>
+
+<pre><code> var fn = function (err) { if (err) throw Error(err) };
+ assert.doesNotThrow(fn, Error, 'function throw reference error');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.doesNotThrow = function (fn, type, msg) {
+    if ('string' === typeof type) {
+      msg = type;
+      type = null;
+    }
+
+    new Assertion(fn, msg).to.not.throw(type);
+  };</code>
             </pre>
           </div>
         </article>

@@ -21,3 +21,6 @@ Include the chai browser build in your testing suite.
 
     <script src="chai.js" type="text/javascript"></script>
 
+Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+
+
+The latest tagged version will also be available for linking at [http://chaijs.com/chai.js](/chai.js).

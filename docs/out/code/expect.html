@@ -46,6 +46,8 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#be" class="scroll">be</a>
                 </li>
+                <li class="keepcase"><a href="#been" class="scroll">been</a>
+                </li>
                 <li class="keepcase"><a href="#an" class="scroll">an</a>
                 </li>
                 <li class="keepcase"><a href="#is" class="scroll">is</a>
@@ -101,14 +103,6 @@ _gaq.push(['_trackPageview']);
                 <li class="keepcase"><a href="#keys" class="scroll">keys</a>
                 </li>
                 <li class="keepcase"><a href="#throw" class="scroll">throw</a>
-                </li>
-                <li class="keepcase"><a href="#header" class="scroll">header</a>
-                </li>
-                <li class="keepcase"><a href="#status" class="scroll">status</a>
-                </li>
-                <li class="keepcase"><a href="#json" class="scroll">json</a>
-                </li>
-                <li class="keepcase"><a href="#html" class="scroll">html</a>
                 </li>
               </ul>
             </div>
@@ -207,6 +201,28 @@ _gaq.push(['_trackPageview']);
           <div class="code-wrap">
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'be',
   { get: function () {
+      return this;
+    }
+});</code>
+            </pre>
+          </div>
+        </article>
+        <article id="been-section" class="codeblock">
+          <div class="header"><h1>been</h1>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Language chain. Also tests <code>tense</code> to past for addon<br />modules that use the tense feature.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'been',
+  { get: function () {
+      this.tense = 'past';
       return this;
     }
 });</code>
@@ -730,6 +746,8 @@ _gaq.push(['_trackPageview']);
             <!-- ignroing this-->
             <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name"></span><span class="desc"></span>
             </div>
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">instanceOf</span>
+            </div>
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
@@ -1094,6 +1112,8 @@ _gaq.push(['_trackPageview']);
             <!-- ignroing this-->
             <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span>
             </div>
+            <div class="tag"><span class="type">&#64;alias</span><span class="desc">Throw</span>
+            </div>
             <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
             </div>
             <div class="tag"><span class="type">&#64;see</span><span class="name"></span>
@@ -1118,12 +1138,17 @@ _gaq.push(['_trackPageview']);
   try {
     this.obj();
   } catch (err) {
-    if (constructor) {
+    if (constructor &amp;&amp; 'function' === typeof constructor &amp;&amp; constructor.constructor != RegExp) {
       this.assert(
           err instanceof constructor &amp;&amp; err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
         , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
-
+      return this;
+    } else if (constructor &amp;&amp; constructor instanceof RegExp) {
+      this.assert(
+          constructor.exec(err.message)
+        , 'expected ' + this.inspect + ' to throw error matching ' + constructor + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + constructor);
       return this;
     } else {
       thrown = true;
@@ -1139,114 +1164,6 @@ _gaq.push(['_trackPageview']);
 
   return this;
 };</code>
-            </pre>
-          </div>
-        </article>
-        <article id="header-section" class="codeblock">
-          <div class="header"><h1>.header(code)</h1>
-          </div>
-          <div class="ctx">
-            <h3>Assertion.prototype.header()
-            </h3>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">field</span><span class="desc"></span>
-            </div>
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">value</span><span class="desc"></span>
-            </div>
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Assert <code>header</code> field has expected <code>value</code>.</p>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.header = function (field, val) {
-  new Assertion(this.obj)
-        .to.have.property('headers').and
-        .to.have.property(field.toLowerCase(), val);
-
-  return this;
-}</code>
-            </pre>
-          </div>
-        </article>
-        <article id="status-section" class="codeblock">
-          <div class="header"><h1>.status(code)</h1>
-          </div>
-          <div class="ctx">
-            <h3>Assertion.prototype.status()
-            </h3>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">code</span><span class="desc"></span>
-            </div>
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Assert <code>statusCode</code> of `code'.</p>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.status = function (code) {
-  new Assertion(this.obj).to.have.property('statusCode');
-
-  var status = this.obj.statusCode;
-
-  this.assert(
-      code == status
-    , 'expected response code of ' + code + ' ' + inspect(statusCodes[code])
-        + ', but got ' + status + ' ' + inspect(statusCodes[status])
-    , 'expected to not respond with ' + code + ' ' + inspect(statusCodes[code]));
-}</code>
-            </pre>
-          </div>
-        </article>
-        <article id="json-section" class="codeblock">
-          <div class="header"><h1>json</h1>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Assert that this response has content-type: application/json.</p>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'json',
-  { get: function () {
-      new Assertion(this.obj).to.have.header('content-type', 'application/json; charset=utf-8');
-      return this;
-    }
-});</code>
-            </pre>
-          </div>
-        </article>
-        <article id="html-section" class="codeblock">
-          <div class="header"><h1>html</h1>
-          </div>
-          <div class="tags">
-            <!-- ignroing this-->
-            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-            </div>
-          </div>
-          <div class="description"><p>Assert that this response has content-type: text/html.</p>
-          </div>
-          <div class="view-source">View Source
-          </div>
-          <div class="code-wrap">
-            <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'html',
-  { get: function () {
-      new Assertion(this.obj).to.have.header('content-type', 'text/html; charset=utf-8');
-      return this;
-    }
-});</code>
             </pre>
           </div>
         </article>

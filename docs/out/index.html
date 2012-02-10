@@ -80,105 +80,113 @@ _gaq.push(['_trackPageview']);
       <article>
         <h1 id="installation-section"><a name="installation">Installation</a>
         </h1>
-        <section><p>Chai is available for both user with both node.js and the browser using any
-test framework you like. Chai tests itself using <a href="https://github.com/visionmedia/mocha">mocha</a>.</p>
+        <section>
+<p>Chai is available for both user with both node.js and the browser using any
+test framework you like. Chai tests itself using <a href="https://github.com/visionmedia/mocha">mocha</a>.
 
+</p>
 <h3>Node.js</h3>
+<p>Package is available through <a href="http://npmjs.org">npm</a>:
 
-<p>Package is available through <a href="http://npmjs.org">npm</a>:</p>
-
+</p>
 <pre><code>npm install chai</code></pre>
+<p>Recommend adding it to package.json devDependancies.
 
-<p>Recommend adding it to package.json devDependancies.</p>
-
+</p>
 <h3>Browser</h3>
+<p>Include the chai browser build in your testing suite.
 
-<p>Include the chai browser build in your testing suite.</p>
+</p>
+<pre><code>&lt;script src="chai.js" type="text/javascript">&lt;/script></code></pre>
+<p>Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+
 
-<pre><code>&lt;script src=&quot;chai.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+</p>
+<p>The latest tagged version will also be available for linking at <a href="/chai.js"><a href="http://chaijs.com/chai.js">http://chaijs.com/chai.js</a></a>.
+</p>
         </section>
         <h1 id="styles-section"><a name="styles">Assertion Styles</a>
         </h1>
-        <section><h3>Expect</h3>
+        <section>
+<h3>Expect</h3>
+<p>The <code>expect</code> style is server/browser BDD style assert language.
 
-<p>The <code>expect</code> style is server/browser BDD style assert language.</p>
+</p>
+<pre><code>  <span class="keyword">var</span> expect = <span class="keyword">require</span>(<span class="string">'chai'</span>).expect
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
-<pre><code>  var expect = require(&#39;chai&#39;).expect
-    , foo = &#39;bar&#39;
-    , beverages = { tea: [ &#39;chai&#39;, &#39;matcha&#39;, &#39;oolong&#39; ] };
-
-  expect(foo).to.be.a(&#39;string&#39;);
-  expect(foo).to.equal(&#39;bar&#39;);
-  expect(foo).to.have.length(3);
-  expect(beverages).to.have.property(&#39;tea&#39;).with.length(3);</code></pre>
-
+  expect(foo).to.be.a(<span class="string">'string'</span>);
+  expect(foo).to.equal(<span class="string">'bar'</span>);
+  expect(foo).to.have.length(<span class="number">3</span>);
+  expect(beverages).to.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
 <h3>Should</h3>
-
 <p>The <code>should</code> style was inspired by <a href="https://github.com/visionmedia/should.js">should.js</a>
-and is completely API compatible.</p>
+and is completely API compatible.
 
-<pre><code>  var should = require(&#39;chai&#39;).should() //actually call the the function
-    , foo = &#39;bar&#39;
-    , beverages = { tea: [ &#39;chai&#39;, &#39;matcha&#39;, &#39;oolong&#39; ] };
+</p>
+<pre><code>  <span class="keyword">var</span> should = <span class="keyword">require</span>(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
-  foo.should.be.a(&#39;string&#39;);
-  foo.should.equal(&#39;bar&#39;);
-  foo.should.have.length(3);
-  beverages.should.have.property(&#39;tea&#39;).with.length(3);</code></pre>
-
-<p><em>Should tests do not run in the browser.</em></p>
-
+  foo.should.be.a(<span class="string">'string'</span>);
+  foo.should.equal(<span class="string">'bar'</span>);
+  foo.should.have.length(<span class="number">3</span>);
+  beverages.should.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
 <p>Notice that the <code>expect</code> require is just a reference to the <code>expect</code> function, whereas
-with the <code>should</code> require, the function is being executed.</p>
+with the <code>should</code> require, the function is being executed.
 
+</p>
 <h3>Assert</h3>
+<p>The <code>assert</code> style is like the node.js included assert utility with few extras.
 
-<p>The <code>assert</code> style is like the node.js included assert utility with few extras.</p>
+</p>
+<pre><code>  <span class="keyword">var</span> assert = <span class="keyword">require</span>(<span class="string">'chai'</span>).assert
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
-<pre><code>  var assert = require(&#39;chai&#39;).assert
-    , foo = &#39;bar&#39;
-    , beverages = { tea: [ &#39;chai&#39;, &#39;matcha&#39;, &#39;oolong&#39; ] };
-
-  assert.typeOf(foo, &#39;string&#39;, &#39;foo is a string&#39;);
-  assert.equal(foo, &#39;bar&#39;, &#39;foo equal `bar`&#39;);
-  assert.length(foo, 3, &#39;foo`s value has a length of 3&#39;);
-  assert.length(beverages.tea, 3, &#39;beverages has 3 types of tea&#39;);</code></pre>
+  assert.typeOf(foo, <span class="string">'string'</span>, <span class="string">'foo is a string'</span>);
+  assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
+  assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
+  assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
         </section>
         <h1 id="help-section"><a name="help">Getting Help</a>
         </h1>
-        <section><p>If you have questions or issues, please use this projects <a href="https://github.com/logicalparadox/chai/issues">Github Issues</a>.</p>
+        <section>
+<p>If you have questions or issues, please use this projects <a href="https://github.com/logicalparadox/chai/issues">Github Issues</a>.</p>
         </section>
         <h1 id="contributor-section"><a name="contributor">For Contributors</a>
         </h1>
-        <section><h3>Developing</h3>
-
+        <section>
+<h3>Developing</h3>
 <p>Please avoid making changes to the browser versions of chai if you are developing in the browser. All
 changes to the library are to be made to <code>lib/*</code> and then packaged for the browser using the <code>make</code>
-command.</p>
+command.
 
+</p>
 <h3>Testing</h3>
-
 <p>Tests are written in <code>exports</code> style on <a href="http://visionmedia.github.com/mocha/">mocha test framework</a>.
 There is a test file for each of the interfaces. The tests for <code>expect</code> and <code>assert</code> must pass in node.js
-and in the browser, whereas the should tests only need to pass on node.js.</p>
+and in the browser, whereas the should tests only need to pass on node.js.
 
+</p>
 <p>Browsers tests are currently known to pass in Chrome 16 and Firefox 8. Please let me know if you can test
-in other browsers or other version.</p>
+in other browsers or other version.
 
+</p>
 <h4>Server Side Testing</h4>
+<p>It&apos;s quite simple...
 
-<p>It&#39;s quite simple...</p>
-
+</p>
 <pre><code>  make test</code></pre>
-
 <h4>Browser Side Testing</h4>
+<p>It&apos;s also quite simple. Open up <code>test/browser/index.html</code> in your nearest browser.
 
-<p>It&#39;s also quite simple. Open up <code>test/browser/index.html</code> in your nearest browser.</p>
 
+</p>
 <h3>Building</h3>
+<p>If you have made changes to any of the components, you must rebuild the browser package.
 
-<p>If you have made changes to any of the components, you must rebuild the browser package.</p>
-
+</p>
 <pre><code>  $ make</code></pre>
         </section>
       </article>

@@ -10,16 +10,18 @@
     "hasdownloads": false,
     "description": "Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that can be delightfully paired with any javascript testing framework."
   },
-  "code": {
-    "expect": {
-      "title": "expect / should [bdd]",
-      "file": "../../lib/assertion.js",
-      "description": "The BDD style allows you to write your assertions in a natural, self-describing manner."
-    },
-    "assert": {
-      "title": "assert [tdd]",
-      "file": "../../lib/interface/assert.js",
-      "description": "The TDD style allows you to write your assertions using the classic 'assert dot' notation."
+  "plugins": [
+    { "name": "code"
+    , "files": [
+          { "name": "expect"
+          , "title": "expect / should [bdd]"
+          , "file": "../../lib/assertion.js"
+          , "description": "The BDD style allows you to write your assertions in a natural, self-describing manner." }
+        , { "name": "assert"
+          , "title": "assert [tdd]"
+          , "file": "../../lib/interface/assert.js"
+          , "description": "The TDD style allows you to write your assertions using the classic 'assert dot' notation." }
+      ]
     }
-  }
+  ]
 }

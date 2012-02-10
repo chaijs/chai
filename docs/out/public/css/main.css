@@ -24,7 +24,6 @@ code,
 del,
 dfn,
 em,
-font,
 img,
 ins,
 kbd,
@@ -217,8 +216,9 @@ header h1 a {
   margin: 0px auto;
   overflow: hidden;
 }
-header p {
+header .description {
   color: #666;
+  margin-bottom: 1.2em;
   font-size: 22px;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

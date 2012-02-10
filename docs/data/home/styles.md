@@ -31,8 +31,6 @@ and is completely API compatible.
       foo.should.have.length(3);
       beverages.should.have.property('tea').with.length(3);
 
-*Should tests do not run in the browser.*
-
 Notice that the `expect` require is just a reference to the `expect` function, whereas
 with the `should` require, the function is being executed.
 
