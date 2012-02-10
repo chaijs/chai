@@ -897,7 +897,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.3.1';
+exports.version = '0.3.2';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
