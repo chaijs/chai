@@ -1,4 +1,10 @@
 
+0.3.3 / 2012-02-12 
+==================
+
+  * Merge pull request #14 from jfirebaugh/configurable_properties
+  * Make Assertion.prototype properties configurable
+
 0.3.2 / 2012-02-10 
 ==================
 

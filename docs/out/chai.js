@@ -151,7 +151,8 @@ Assertion.prototype.assert = function (expr, msg, negateMsg) {
 Object.defineProperty(Assertion.prototype, 'inspect',
   { get: function () {
       return inspect(this.obj);
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -166,7 +167,8 @@ Object.defineProperty(Assertion.prototype, 'inspect',
 Object.defineProperty(Assertion.prototype, 'to',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -181,7 +183,8 @@ Object.defineProperty(Assertion.prototype, 'to',
 Object.defineProperty(Assertion.prototype, 'be',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -198,7 +201,8 @@ Object.defineProperty(Assertion.prototype, 'been',
   { get: function () {
       this.tense = 'past';
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -213,7 +217,8 @@ Object.defineProperty(Assertion.prototype, 'been',
 Object.defineProperty(Assertion.prototype, 'an',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 /**
  * # is
@@ -227,7 +232,8 @@ Object.defineProperty(Assertion.prototype, 'an',
 Object.defineProperty(Assertion.prototype, 'is',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -242,7 +248,8 @@ Object.defineProperty(Assertion.prototype, 'is',
 Object.defineProperty(Assertion.prototype, 'and',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -257,7 +264,8 @@ Object.defineProperty(Assertion.prototype, 'and',
 Object.defineProperty(Assertion.prototype, 'have',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -272,7 +280,8 @@ Object.defineProperty(Assertion.prototype, 'have',
 Object.defineProperty(Assertion.prototype, 'with',
   { get: function () {
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -288,7 +297,8 @@ Object.defineProperty(Assertion.prototype, 'not',
   { get: function () {
       this.negate = true;
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -313,7 +323,8 @@ Object.defineProperty(Assertion.prototype, 'ok',
         , 'expected ' + this.inspect + ' to be falsey');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -333,7 +344,8 @@ Object.defineProperty(Assertion.prototype, 'true',
         , 'expected ' + this.inspect + ' to be false');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -353,7 +365,8 @@ Object.defineProperty(Assertion.prototype, 'false',
         , 'expected ' + this.inspect + ' to be true');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -378,7 +391,8 @@ Object.defineProperty(Assertion.prototype, 'exist',
         , 'expected ' + this.inspect + ' to not exist');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -402,7 +416,8 @@ Object.defineProperty(Assertion.prototype, 'empty',
         , 'expected ' + this.inspect + ' not to be empty');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -426,7 +441,8 @@ Object.defineProperty(Assertion.prototype, 'arguments',
         , 'expected ' + this.inspect + ' to not be arguments');
 
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -751,7 +767,8 @@ Object.defineProperty(Assertion.prototype, 'contain',
   { get: function () {
       this.contains = true;
       return this;
-    }
+    },
+    configurable: true
 });
 
 /**
@@ -897,7 +914,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.3.2';
+exports.version = '0.3.3';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
