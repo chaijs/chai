@@ -38,6 +38,8 @@ a good resource for building chai plugins that work in both node.js and the brow
 provides deep jQuery integration with chai's `should` and `expect`.
 * [jack](https://github.com/vesln/jack) by [@vesln](https://github.com/vesln) is a mock/stub library that 
 can be used as a stand-alone or with chai.
+* [sinon-chai](https://github.com/domenic/sinon-chai) by [@domenic](https://github.com/domenic) extends chai with 
+assertions for the Sinon.js mocking framework.
 
 ## Contributors 
 
