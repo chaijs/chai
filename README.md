@@ -29,7 +29,7 @@ Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+
 
 ## Plugins
 
-The Chai community is growing! Chai allows developers to extend its supported 
+The Chai community is growing! Plugins allow developers to expand Chai's available 
 assertions. Here is what the community has come up with so far:
 
 * [chai-spies](https://github.com/logicalparadox/chai-spies) is a basic spy implementation for chai. It's also
@@ -54,7 +54,7 @@ can be used as a stand-alone or with chai.
 
 (The MIT License)
 
-Copyright (c) 2011 Jake Luer <jake@alogicalparadox.com>
+Copyright (c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,5 +1,5 @@
 ---
-  title: For Contributors
+  title: Contributing
   weight: 10
   render-file: false
 ---
@@ -36,3 +36,14 @@ It's also quite simple. Open up `test/browser/index.html` in your nearest browse
 If you have made changes to any of the components, you must rebuild the browser package.
 
       $ make
+
+### Contributors 
+
+     project: chai
+     commits: 145
+     files  : 57
+     authors: 
+       142  Jake Luer               97.9%
+         1  Domenic Denicola        0.7%
+         1  John Firebaugh          0.7%
+         1  Vinay Pulim             0.7%
