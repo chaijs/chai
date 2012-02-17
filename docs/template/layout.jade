@@ -62,9 +62,20 @@ html(lang='en')
             span#latestCommitTime Loading...
             a#latestCommitURL
           #latestCommitMessage Loading...
-          #clone
-            a.button.fork(href='https://github.com/' + site.ghuser + '/' + site.ghproject) Fork me on GitHub
-            .clone git clone https://github.com/#{site.ghuser}/#{site.ghproject}.git
+          #buttons
+            .btn
+              iframe(src="http://markdotto.github.com/github-buttons/github-btn.html?user=" + site.ghuser + "&repo=" + site.ghproject + "&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110px", height="20px")
+            .btn
+              iframe(src="http://markdotto.github.com/github-buttons/github-btn.html?user=" + site.ghuser + "&repo=" + site.ghproject + "&type=fork&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110px", height="20px")
+            .btn
+              a(href="htts://twitter.com/share", class="twitter-share-button", data-via=site.tweetvia, data-url=site.tweeturl, data-related=site.tweetrelated) Tweet
+              script
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+            - if (site.twitterfollow && site.twitterfollow.length > 0)
+              .btn
+                a(href="https://twitter.com/" + site.twitterfollow, class="twitter-follow-button", data-show-count="false") Follow @#{site.twitterfollow
+                script
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs"); 
           #links
             a#repoIssues(href='https://github.com/' + site.ghuser + '/' + site.ghproject + '/issues') GitHub Issues
             - if (site.hasdownloads)

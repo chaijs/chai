@@ -231,7 +231,7 @@ header .gh {
   border-radius: 5px;
   padding: 10px;
   position: relative;
-  min-height: 100px;
+  min-height: 90px;
 }
 header .gh:before,
 header .gh:after {
@@ -269,6 +269,21 @@ header .gh #commit a {
 header .gh #latestCommitMessage {
   line-height: 20px;
   text-shadow: 1px 1px 0px #fff;
+}
+header .gh #buttons {
+  margin-top: 10px;
+  zoom: 1;
+}
+header .gh #buttons:before,
+header .gh #buttons:after {
+  content: "";
+  display: table;
+}
+header .gh #buttons:after {
+  clear: both;
+}
+header .gh #buttons .btn {
+  float: left;
 }
 header .gh #clone {
   position: absolute;
