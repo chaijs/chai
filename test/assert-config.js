@@ -16,7 +16,9 @@ suite('assert-config', function () {
       fooThrows();
       assert.ok(false, 'should not get here because error thrown');
     } catch (err) {
-      assert.include(err.stack, 'at fooThrows', 'should have stack trace in error message');
+      if (typeof(err.stack) !== 'undefined') {  // not all browsers support err.stack
+        assert.include(err.stack, 'at fooThrows', 'should have stack trace in error message');          
+      }
     }
   });
 
@@ -26,7 +28,7 @@ suite('assert-config', function () {
       fooThrows();
       assert.ok(false, 'should not get here because error thrown');
     } catch (err) {
-      assert.equal(err.stack.indexOf('at fooThrows'), -1, 'should not have stack trace in error message');
+      assert.ok(!err.stack || err.stack.indexOf('at fooThrows') === -1, 'should not have stack trace in error message');
     }
   });
 
