@@ -176,6 +176,29 @@ _gaq.push(['_trackPageview']);
 <p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as<br />the starting point for your language assertions. Most browser don't like<br />extensions to <code>Object.prototype</code> so it is not recommended for browser use.</p>
           </div>
         </article>
+        <article id="undefined-section" class="codeblock">
+          <div class="header"><h1>Assertion.includeStack</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.includeStack
+            </h3>
+          </div>
+          <div class="tags">
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><pre><code>Assertion.includeStack = true;  // enable stack on error
+</code></pre>
+
+<p>User configurable property, influences whether stack trace<br />is included in Assertion error message. Default of false<br />suppresses stack trace in the error message</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.includeStack = false;</code>
+            </pre>
+          </div>
+        </article>
         <article id="to-section" class="codeblock">
           <div class="header"><h1>to</h1>
           </div>
