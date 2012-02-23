@@ -84,6 +84,14 @@ require.register("assertion.js", function(module, exports, require){
  * The `should` interface extends `Object.prototype` to provide a single getter as
  * the starting point for your language assertions. Most browser don't like
  * extensions to `Object.prototype` so it is not recommended for browser use.
+ *
+ * #### Configuration
+ *
+ * By default, Chai does not show stack traces upon an AssertionError. This can
+ * be changed by modifying the `includeStack` parameter for chai.Assertion. For example:
+ *
+ *      var chai = require('chai');
+ *      chai.Assertion.includeStack = true; // defaults to false
  */
 
 /*!
@@ -100,6 +108,7 @@ var AssertionError = require('./error')
 
 module.exports = Assertion;
 
+
 /*!
  * # Assertion Constructor
  *
@@ -115,6 +124,20 @@ function Assertion (obj, msg, stack) {
 }
 
 /*!
+  * ## Assertion.includeStack
+  *
+  * User configurable property, influences whether stack trace
+  * is included in Assertion error message. Default of false
+  * suppresses stack trace in the error message
+  *
+  *     Assertion.includeStack = true;  // enable stack on error
+  *
+  * @api public
+  */
+
+Assertion.includeStack = false;
+
+/*!
  * # .assert(expression, message, negateMessage)
  *
  * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
@@ -123,7 +146,7 @@ function Assertion (obj, msg, stack) {
  * @param {Philosophical} expression to be tested
  * @param {String} message to display if fails
  * @param {String} negatedMessage to display if negated expression fails
- * @api privage
+ * @api private
  */
 
 Assertion.prototype.assert = function (expr, msg, negateMsg) {
@@ -134,7 +157,7 @@ Assertion.prototype.assert = function (expr, msg, negateMsg) {
     throw new AssertionError({
       operator: this.msg,
       message: msg,
-      stackStartFunction: this.ssfi
+      stackStartFunction: (Assertion.includeStack) ? this.assert : this.ssfi
     });
   }
 };
@@ -713,7 +736,7 @@ Assertion.prototype.match = function (re) {
  *
  * Assert the inclusion of an object in an Array or substring in string.
  *
- *      expect([1,2,3]).to.contain(2);
+ *      expect([1,2,3]).to.include(2);
  *
  * @name include
  * @param {Object|String|Number} obj
@@ -734,7 +757,7 @@ Assertion.prototype.include = function (obj) {
  *
  * Assert inclusion of string in string.
  *
- *      expect('foobar').to.include.string('bar');
+ *      expect('foobar').to.have.string('bar');
  *
  * @name string
  * @param {String} string
@@ -914,7 +937,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.3.3';
+exports.version = '0.3.4';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
@@ -1024,6 +1047,14 @@ require.register("interface/assert.js", function(module, exports, require){
  *
  *      assert.typeOf(foo, 'string');
  *      assert.equal(foo, 'bar');
+ *
+ * #### Configuration
+ *
+ * By default, Chai does not show stack traces upon an AssertionError. This can
+ * be changed by modifying the `includeStack` parameter for chai.Assertion. For example:
+ *
+ *      var chai = require('chai');
+ *      chai.Assertion.includeStack = true; // defaults to false
  */
 
 module.exports = function (chai) {

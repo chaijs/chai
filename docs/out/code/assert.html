@@ -159,6 +159,14 @@ _gaq.push(['_trackPageview']);
  assert.typeOf(foo, 'string');
  assert.equal(foo, 'bar');
 </code></pre>
+
+<h4>Configuration</h4>
+
+<p>By default, Chai does not show stack traces upon an AssertionError. This can<br />be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:</p>
+
+<pre><code> var chai = require('chai');
+ chai.Assertion.includeStack = true; // defaults to false
+</code></pre>
           </div>
           <div class="view-source">View Source
           </div>

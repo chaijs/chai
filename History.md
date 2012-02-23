@@ -1,4 +1,19 @@
 
+0.3.4 / 2012-02-23 
+==================
+
+  * inline comment typos for #15
+  * Merge branch 'refs/heads/jeffbski-configErrorStackCompat'
+  * includeStack documentation for all interfaces
+  * suite name more generic
+  * Update test to be compatible with browsers that do not support err.stack
+  * udpated compiled chai.js and added to browser tests
+  * Allow inclusion of stack trace for Assert error messages to be configurable
+  * docs sharing buttons
+  * sinon-chai link
+  * doc updates
+  * read me updates include plugins
+
 0.3.3 / 2012-02-12 
 ==================
 

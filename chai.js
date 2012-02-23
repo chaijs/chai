@@ -736,7 +736,7 @@ Assertion.prototype.match = function (re) {
  *
  * Assert the inclusion of an object in an Array or substring in string.
  *
- *      expect([1,2,3]).to.contain(2);
+ *      expect([1,2,3]).to.include(2);
  *
  * @name include
  * @param {Object|String|Number} obj
@@ -757,7 +757,7 @@ Assertion.prototype.include = function (obj) {
  *
  * Assert inclusion of string in string.
  *
- *      expect('foobar').to.include.string('bar');
+ *      expect('foobar').to.have.string('bar');
  *
  * @name string
  * @param {String} string
@@ -937,7 +937,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.3.3';
+exports.version = '0.3.4';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
