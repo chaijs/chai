@@ -4,12 +4,12 @@ if (!chai) {
 
 var assert = chai.assert;
 
-suite('assert-config', function () {
+suite('configuration', function () {
 
   function fooThrows () {
-    assert.equal('foo', 'bar');        
+    assert.equal('foo', 'bar');
   }
-  
+
   test('Assertion.includeStack is true, stack trace available', function () {
     chai.Assertion.includeStack = true;
     try {
@@ -17,7 +17,7 @@ suite('assert-config', function () {
       assert.ok(false, 'should not get here because error thrown');
     } catch (err) {
       if (typeof(err.stack) !== 'undefined') {  // not all browsers support err.stack
-        assert.include(err.stack, 'at fooThrows', 'should have stack trace in error message');          
+        assert.include(err.stack, 'at fooThrows', 'should have stack trace in error message');
       }
     }
   });
