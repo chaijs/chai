@@ -39,11 +39,11 @@ If you have made changes to any of the components, you must rebuild the browser 
 
 ### Contributors 
 
-     project: chai
-     commits: 145
-     files  : 57
+     commits: 157
+     files  : 59
      authors: 
-       142  Jake Luer               97.9%
-         1  Domenic Denicola        0.7%
-         1  John Firebaugh          0.7%
-         1  Vinay Pulim             0.7%
+       151  Jake Luer               96.2%
+         3  Jeff Barczewski         1.9%
+         1  Domenic Denicola        0.6%
+         1  John Firebaugh          0.6%
+         1  Vinay Pulim             0.6%
