@@ -419,4 +419,25 @@ suite('should', function() {
       (badFn).should.throw(/hello/);
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
   });
+
+  test('respondTo', function(){
+    function Foo(){};
+    Foo.prototype.bar = function(){};
+
+    var bar = {};
+    bar.foo = function(){};
+
+    Foo.should.respondTo('bar');
+    Foo.should.not.respondTo('foo');
+
+    bar.should.respondTo('foo');
+
+    err(function(){
+      Foo.should.respondTo('baz');
+    }, "expected [Function: Foo] to respond to \'baz\'");
+
+    err(function(){
+      bar.should.respondTo('baz');
+    }, "expected { foo: [Function] } to respond to \'baz\'");
+  });
 });
