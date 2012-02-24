@@ -104,6 +104,10 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#throw" class="scroll">throw</a>
                 </li>
+                <li class="keepcase"><a href="#respondTo" class="scroll">respondTo</a>
+                </li>
+                <li class="keepcase"><a href="#satisfy" class="scroll">satisfy</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -1196,6 +1200,77 @@ _gaq.push(['_trackPageview']);
       thrown === true
     , 'expected ' + this.inspect + ' to throw ' + name
     , 'expected ' + this.inspect + ' to not throw ' + name);
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="respondTo-section" class="codeblock">
+          <div class="header"><h1>.respondTo(method)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.respondTo()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that object/class will respond to a method.</p>
+
+<pre><code> expect(Klass).to.respondTo('bar');
+ expect(obj).to.respondTo('bar');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.respondTo = function (method) {
+  var context = ('function' === typeof this.obj)
+    ? this.obj.prototype[method]
+    : this.obj[method];
+
+  this.assert(
+      'function' === typeof context
+    , 'expected ' + this.inspect + ' to respond to ' + inspect(method)
+    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method));
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="satisfy-section" class="codeblock">
+          <div class="header"><h1>.satisfy(method)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.satisfy()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">matcher</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that passes a truth test.</p>
+
+<pre><code> expect(1).to.satisfy(function(num) { return num &gt; 0; });
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.satisfy = function (matcher) {
+  this.assert(
+      matcher(this.obj)
+    , 'expected ' + this.inspect + ' to satisfy ' + inspect(matcher)
+    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher));
 
   return this;
 };</code>

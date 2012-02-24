@@ -908,6 +908,53 @@ Assertion.prototype.throw = function (constructor) {
   return this;
 };
 
+/**
+ * # .respondTo(method)
+ *
+ * Assert that object/class will respond to a method.
+ *
+ *      expect(Klass).to.respondTo('bar');
+ *      expect(obj).to.respondTo('bar');
+ *
+ * @name respondTo
+ * @param {String} method
+ * @api public
+ */
+
+Assertion.prototype.respondTo = function (method) {
+  var context = ('function' === typeof this.obj)
+    ? this.obj.prototype[method]
+    : this.obj[method];
+
+  this.assert(
+      'function' === typeof context
+    , 'expected ' + this.inspect + ' to respond to ' + inspect(method)
+    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method));
+
+  return this;
+};
+
+/**
+ * # .satisfy(method)
+ *
+ * Assert that passes a truth test.
+ *
+ *      expect(1).to.satisfy(function(num) { return num > 0; });
+ *
+ * @name satisfy
+ * @param {Function} matcher
+ * @api public
+ */
+
+Assertion.prototype.satisfy = function (matcher) {
+  this.assert(
+      matcher(this.obj)
+    , 'expected ' + this.inspect + ' to satisfy ' + inspect(matcher)
+    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher));
+
+  return this;
+};
+
 /*!
  * Aliases.
  */
