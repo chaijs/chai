@@ -446,10 +446,10 @@ suite('should', function() {
       return num === 1;
     };
 
-    1..should.satisfy(matcher);
+    (1).should.satisfy(matcher);
 
     err(function(){
-      2..should.satisfy(matcher);
+      (2).should.satisfy(matcher);
     }, "expected 2 to satisfy [Function]");
   });
 });
