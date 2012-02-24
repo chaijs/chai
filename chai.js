@@ -955,6 +955,28 @@ Assertion.prototype.satisfy = function (matcher) {
   return this;
 };
 
+/**
+ * # .closeTo(expected, delta)
+ *
+ * Assert that actual is equal to +/- delta.
+ *
+ *      expect(1.5).to.be.closeTo(1, 0.5);
+ *
+ * @name closeTo
+ * @param {Number} expected
+ * @param {Number} delta
+ * @api public
+ */
+
+Assertion.prototype.closeTo = function (expected, delta) {
+  this.assert(
+      (this.obj - delta === expected) || (this.obj + delta === expected)
+    , 'expected ' + this.inspect + ' to be close to ' + expected + ' +/- ' + delta
+    , 'expected ' + this.inspect + ' not to be close to ' + expected + ' +/- ' + delta);
+
+  return this;
+};
+
 /*!
  * Aliases.
  */
