@@ -9,7 +9,7 @@ chai.js: $(SRC)
 	@node support/compile $^
 
 clean:
-	rm -f chai.js
+	@rm -f chai.js
 
 docs: clean-docs
 	@./node_modules/.bin/codex build \
@@ -27,4 +27,11 @@ test:
 		--ui tdd \
 		$(TESTS)
 
-.PHONY: clean test docs clean-docs
+test-cov: lib-cov
+	@CHAI_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+
+lib-cov:
+	@rm -rf lib-cov
+	@jscoverage lib lib-cov
+
+.PHONY: clean test docs clean-docs test-cov lib-cov
