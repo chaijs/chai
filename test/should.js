@@ -452,4 +452,12 @@ suite('should', function() {
       (2).should.satisfy(matcher);
     }, "expected 2 to satisfy [Function]");
   });
+
+  test('closeTo', function(){
+    (1.5).should.be.closeTo(1.0, 0.5);
+
+    err(function(){
+      (2).should.be.closeTo(1.0, 0.5);
+    }, "expected 2 to be close to 1 +/- 0.5");
+  });
 });
