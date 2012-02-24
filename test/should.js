@@ -440,4 +440,16 @@ suite('should', function() {
       bar.should.respondTo('baz');
     }, "expected { foo: [Function] } to respond to \'baz\'");
   });
+
+  test('satisfy', function(){
+    var matcher = function(num){
+      return num === 1;
+    };
+
+    1..should.satisfy(matcher);
+
+    err(function(){
+      2..should.satisfy(matcher);
+    }, "expected 2 to satisfy [Function]");
+  });
 });
