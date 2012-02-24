@@ -459,4 +459,12 @@ suite('expect', function () {
       expect(2).to.satisfy(matcher);
     }, "expected 2 to satisfy [Function]");
   });
+
+  test('closeTo', function(){
+    expect(1.5).to.be.closeTo(1.0, 0.5);
+
+    err(function(){
+      expect(2).to.be.closeTo(1.0, 0.5);
+    }, "expected 2 to be close to 1 +/- 0.5");
+  });
 });
