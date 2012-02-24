@@ -939,7 +939,7 @@ Assertion.prototype.respondTo = function (method) {
  *
  * Assert that passes a truth test.
  *
- *      expect(1).to.satisfy(function(num) { num > 0; });
+ *      expect(1).to.satisfy(function(num) { return num > 0; });
  *
  * @name satisfy
  * @param {Function} matcher
