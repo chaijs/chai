@@ -447,4 +447,16 @@ suite('expect', function () {
       expect(bar).to.respondTo('baz');
     }, "expected { foo: [Function] } to respond to \'baz\'");
   });
+
+  test('satisfy', function(){
+    var matcher = function(num){
+      return num === 1;
+    };
+
+    expect(1).to.satisfy(matcher);
+
+    err(function(){
+      expect(2).to.satisfy(matcher);
+    }, "expected 2 to satisfy [Function]");
+  });
 });
