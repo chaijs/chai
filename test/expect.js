@@ -427,4 +427,24 @@ suite('expect', function () {
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
   });
 
+  test('respondTo', function(){
+    function Foo(){};
+    Foo.prototype.bar = function(){};
+
+    var bar = {};
+    bar.foo = function(){};
+
+    expect(Foo).to.respondTo('bar');
+    expect(Foo).to.not.respondTo('foo');
+
+    expect(bar).to.respondTo('foo');
+
+    err(function(){
+      expect(Foo).to.respondTo('baz');
+    }, "expected [Function: Foo] to respond to \'baz\'");
+
+    err(function(){
+      expect(bar).to.respondTo('baz');
+    }, "expected { foo: [Function] } to respond to \'baz\'");
+  });
 });
