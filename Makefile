@@ -15,11 +15,14 @@ docs: clean-docs
 	@./node_modules/.bin/codex build \
 		-i docs
 	@cp chai.js docs/out/chai.js
-	@mkdir docs/out/tests
-	@cp node_modules/mocha/mocha.js docs/out/tests
-	@cp node_modules/mocha/mocha.css docs/out/tests
-	@cp -R test/*.js docs/out/tests
-	@cp test/browser/docs.html docs/out/tests.html
+	@mkdir -p docs/out/support/tests
+	@mkdir docs/out/support/coverage
+	@cp node_modules/mocha/mocha.js docs/out/support/tests
+	@cp node_modules/mocha/mocha.css docs/out/support/tests
+	@cp -R test/*.js docs/out/support/tests
+	@cp test/browser/docs.html docs/out/support/tests/index.html
+	@make test-cov
+	@cp coverage.html docs/out/support/coverage/index.html
 	@./node_modules/.bin/codex serve \
 		-d docs/out
 
