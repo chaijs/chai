@@ -9,7 +9,8 @@ For more information view the [documentation](http://chaijs.com).
 
 ## Installation
 
-Chai is available for both node.js server-side and the browser.
+Chai is available for both node.js and the browser using any
+test framework you like. 
 
 ### Node.js
 
@@ -25,7 +26,8 @@ Include the chai browser build in your testing suite.
 
     <script src="chai.js" type="text/javascript"></script>
 
-Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+
+Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+. Want to know if your browser is compatible?
+Run the [online test suite](http://chaijs.com/support/tests/).
 
 ## Plugins
 
@@ -43,14 +45,15 @@ assertions for the Sinon.js mocking framework.
 
 ## Contributors 
 
-     commits: 157
-     files  : 59
+     commits: 185
+     files  : 71
      authors: 
-       151  Jake Luer               96.2%
-         3  Jeff Barczewski         1.9%
-         1  Domenic Denicola        0.6%
-         1  John Firebaugh          0.6%
-         1  Vinay Pulim             0.6%
+       163  Jake Luer               88.1%
+        16  Veselin Todorov         8.6%
+         3  Jeff Barczewski         1.6%
+         1  Domenic Denicola        0.5%
+         1  John Firebaugh          0.5%
+         1  Vinay Pulim             0.5%
 
 ## License
 

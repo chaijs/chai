@@ -108,6 +108,8 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#satisfy" class="scroll">satisfy</a>
                 </li>
+                <li class="keepcase"><a href="#closeTo" class="scroll">closeTo</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -1275,6 +1277,41 @@ _gaq.push(['_trackPageview']);
       matcher(this.obj)
     , 'expected ' + this.inspect + ' to satisfy ' + inspect(matcher)
     , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher));
+
+  return this;
+};</code>
+            </pre>
+          </div>
+        </article>
+        <article id="closeTo-section" class="codeblock">
+          <div class="header"><h1>.closeTo(expected, delta)</h1>
+          </div>
+          <div class="ctx">
+            <h3>Assertion.prototype.closeTo()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">expected</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">delta</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert that actual is equal to +/- delta.</p>
+
+<pre><code> expect(1.5).to.be.closeTo(1, 0.5);
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>Assertion.prototype.closeTo = function (expected, delta) {
+  this.assert(
+      (this.obj - delta === expected) || (this.obj + delta === expected)
+    , 'expected ' + this.inspect + ' to be close to ' + expected + ' +/- ' + delta
+    , 'expected ' + this.inspect + ' not to be close to ' + expected + ' +/- ' + delta);
 
   return this;
 };</code>
