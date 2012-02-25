@@ -95,6 +95,7 @@ suite('expect', function () {
     }, "expected 'test' not to be a string");
 
     expect(5).to.be.a('number');
+    expect(new Number(1)).to.be.a('number');
 
     err(function(){
       expect(5).to.not.be.a('number');
