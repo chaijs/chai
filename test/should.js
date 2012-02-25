@@ -102,6 +102,16 @@ suite('should', function() {
     }, "expected 'test' not to be a string");
 
     (5).should.be.a('number');
+    (new Number(1)).should.be.a('number');
+    Number(1).should.be.a('number');
+    (true).should.be.a('boolean');
+    (new Array()).should.be.a('array');
+    (new Object()).should.be.a('object');
+    ({}).should.be.a('object');
+    ([]).should.be.a('array');
+    (function() {}).should.be.a('function');
+
+    (5).should.be.a('number');
 
     err(function(){
       (5).should.not.be.a('number');

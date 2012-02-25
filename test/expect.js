@@ -96,6 +96,7 @@ suite('expect', function () {
 
     expect(5).to.be.a('number');
     expect(new Number(1)).to.be.a('number');
+    expect(Number(1)).to.be.a('number');
     expect(true).to.be.a('boolean');
     expect(new Array()).to.be.a('array');
     expect(new Object()).to.be.a('object');
