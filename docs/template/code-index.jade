@@ -3,10 +3,9 @@ extends layout
 block nav
   ul.pages
     li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
-    - if (files.page)
-      for page in files.page
-        - if (page.template == 'code')
-          li: a(href=site.ghbaseurl + page.href)= page.title
+    - if (files.support)
+      for page in files.support
+        li: a(href=site.ghbaseurl + page.href)= page.title
   - if (files.code)
     ul.code
       for page in files.code

@@ -7,11 +7,10 @@ block nav
         - var href = page.href.split('/')
         - href = href[href.length - 2]
         li: a.scroll(href='#' + href)= (page.menu || page.title)
-  - if (files.page)
+  - if (files.support)
     ul.pages
-      for page in files.page
-        - if (page.template == 'code')
-          li: a(href=site.ghbaseurl + page.href)= page.title
+      for page in files.support
+        li: a(href=site.ghbaseurl + page.href)= page.title
   - if (files.code)
     ul.code
       for page in files.code

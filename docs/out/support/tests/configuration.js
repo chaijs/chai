@@ -4,11 +4,11 @@ if (!chai) {
 
 var assert = chai.assert;
 
-suite('configuration', function () {
+function fooThrows () {
+  assert.equal('foo', 'bar');
+}
 
-  function fooThrows () {
-    assert.equal('foo', 'bar');
-  }
+suite('configuration', function () {
 
   test('Assertion.includeStack is true, stack trace available', function () {
     chai.Assertion.includeStack = true;

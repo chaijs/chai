@@ -40,6 +40,7 @@ html(lang='en')
       block nav
         ul.pages
           li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
+          - console.log(files);
           - if (files.page)
             for page in files.page
               - if (page.template == 'code')
