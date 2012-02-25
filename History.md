@@ -1,4 +1,37 @@
 
+0.4.0 / 2012-02-25 
+==================
+
+  * docs and readme for upcoming 0.4.0
+  * docs generated
+  * putting coverage and tests for docs in docs/out/support
+  * make docs
+  * makefile copy necessary resources for tests in docs
+  * rename configuration test
+  * Merge pull request #21 from logicalparadox/close-to
+  * Update the browser version.
+  * Update `closeTo()` docs.
+  * Add `Assertion.closeTo()` method.
+  * Add `.closeTo()` should test.
+  * Add `.closeTo()` expect test.
+  * Merge pull request #20 from logicalparadox/satisfy
+  * Update the browser version.
+  * `..` -> `()` in `.satisfy()` should test.
+  * Update example for `.satisfy()`.
+  * Update the compiled browser version.
+  * Add `Assertion.satisfy()` method.
+  * Add `.satisfy()` should test.
+  * Add `.satisfy()` expect test.
+  * Merge pull request #19 from logicalparadox/respond-to
+  * Update the compiled browser version.
+  * Add `respondTo` Assertion.
+  * Add `respondTo` should test.
+  * Add `respondTo` expect test.
+  * Merge branch 'feature/coverage'
+  * mocha coverage support
+  * doc contributors
+  * README contributors
+
 0.3.4 / 2012-02-23 
 ==================
 
