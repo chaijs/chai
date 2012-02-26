@@ -1,4 +1,15 @@
 
+0.4.1 / 2012-02-26 
+==================
+
+  * Merge pull request #27 from logicalparadox/type-fix
+  * Update the browser version.
+  * Add should tests for type checks.
+  * Add function type check test.
+  * Add more type checks tests.
+  * Add test for `new Number` type check.
+  * Fix type of actual checks.
+
 0.4.0 / 2012-02-25 
 ==================
 

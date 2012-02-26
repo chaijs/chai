@@ -769,8 +769,10 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>Assertion.prototype.a = function (type) {
+  var klass = type.charAt(0).toUpperCase() + type.slice(1);
+
   this.assert(
-      type == typeof this.obj
+      '[object ' + klass + ']' === toString.call(this.obj)
     , 'expected ' + this.inspect + ' to be a ' + type
     , 'expected ' + this.inspect + ' not to be a ' + type);
 

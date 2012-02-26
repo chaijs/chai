@@ -100,6 +100,7 @@ require.register("assertion.js", function(module, exports, require){
 
 var AssertionError = require('./error')
   , eql = require('./utils/eql')
+  , toString = Object.prototype.toString
   , inspect = require('./utils/inspect');
 
 /*!
@@ -125,6 +126,7 @@ function Assertion (obj, msg, stack) {
 
 /*!
   * ## Assertion.includeStack
+  * , toString = Object.prototype.toString 
   *
   * User configurable property, influences whether stack trace
   * is included in Assertion error message. Default of false
@@ -588,8 +590,10 @@ Assertion.prototype.within = function (start, finish) {
  */
 
 Assertion.prototype.a = function (type) {
+  var klass = type.charAt(0).toUpperCase() + type.slice(1);
+
   this.assert(
-      type == typeof this.obj
+      '[object ' + klass + ']' === toString.call(this.obj)
     , 'expected ' + this.inspect + ' to be a ' + type
     , 'expected ' + this.inspect + ' not to be a ' + type);
 
@@ -1006,7 +1010,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.4.0';
+exports.version = '0.4.1';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
