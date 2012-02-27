@@ -204,4 +204,14 @@ suite('assert', function () {
       assert.isString(1);
     }, "expected 1 to be a string");
   });
+
+  test('isNumber', function() {
+    console.log(1 instanceof Number);
+    assert.isNumber(1);
+    assert.isNumber(Number('3'));
+
+    err(function () {
+      assert.isNumber('1');
+    }, "expected \'1\' to be a number");
+  });
 });
