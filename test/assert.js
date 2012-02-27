@@ -177,4 +177,22 @@ suite('assert', function () {
       assert.isUndefined(null);
     }, "expected null to equal undefined");
   });
+
+  test('isFunction', function() {
+    var func = function() {};
+    assert.isFunction(func);
+
+    err(function () {
+      assert.isFunction({});
+    }, "expected {} to be a function");
+  });
+
+  test('isArray', function() {
+    assert.isArray([]);
+    assert.isArray(new Array);
+
+    err(function () {
+      assert.isArray({});
+    }, "expected {} to be an instance of Array");
+  });
 });
