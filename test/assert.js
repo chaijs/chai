@@ -159,6 +159,6 @@ suite('assert', function () {
 
     err(function () {
       assert.isNull(undefined);
-    }, "foo");
+    }, "expected undefined to equal null");
   });
 });
