@@ -126,7 +126,15 @@ suite('assert', function () {
     assert.strictEqual('foo', 'foo');
 
     err(function () {
-      assert.notEqual('5', 5);
+      assert.strictEqual('5', 5);
     }, "expected \'5\' to equal 5");
+  });
+
+  test('notStrictEqual', function() {
+    assert.notStrictEqual(5, '5');
+
+    err(function () {
+      assert.notStrictEqual(5, 5);
+    }, "expected 5 to not equal 5");
   });
 });
