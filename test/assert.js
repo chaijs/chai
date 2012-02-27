@@ -244,4 +244,12 @@ suite('assert', function () {
       assert.length(1, 5);
      }, "expected 1 to have a property \'length\'");
   });
+
+  test('throws', function() {
+    assert.throws(function() { throw new Error('foo'); });
+
+    err(function () {
+      assert.throws(function() {});
+     }, "expected [Function] to throw an error");
+  });
 });
