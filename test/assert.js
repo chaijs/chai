@@ -231,4 +231,17 @@ suite('assert', function () {
       assert.include('foobar', 'baz');
      }, "expected \'foobar\' to contain \'baz\'");
   });
+
+  test('length', function() {
+    assert.length([1,2,3], 3);
+    assert.length('foobar', 6);
+
+    err(function () {
+      assert.length('foobar', 5);
+     }, "expected 'foobar' to have a length of 5 but got 6");
+
+    err(function () {
+      assert.length(1, 5);
+     }, "expected 1 to have a property \'length\'");
+  });
 });
