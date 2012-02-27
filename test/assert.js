@@ -153,4 +153,12 @@ suite('assert', function () {
       assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
     }, "expected { tea: \'chai\' } to not equal { tea: \'chai\' }");
   });
+
+  test('isNull', function() {
+    assert.isNull(null);
+
+    err(function () {
+      assert.isNull(undefined);
+    }, "foo");
+  });
 });
