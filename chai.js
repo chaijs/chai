@@ -345,7 +345,7 @@ Object.defineProperty(Assertion.prototype, 'ok',
       this.assert(
           this.obj
         , 'expected ' + this.inspect + ' to be truthy'
-        , 'expected ' + this.inspect + ' to be falsey');
+        , 'expected ' + this.inspect + ' to be falsy');
 
       return this;
     },
@@ -1329,7 +1329,7 @@ module.exports = function (chai) {
    */
 
   assert.isNull = function (val, msg) {
-    new Assertion(val, msg).to.not.exist;
+    new Assertion(val, msg).to.equal(null);
   };
 
   /**
@@ -1347,7 +1347,7 @@ module.exports = function (chai) {
    */
 
   assert.isNotNull = function (val, msg) {
-    new Assertion(val, msg).to.exist;
+    new Assertion(val, msg).to.not.equal(null);
   };
 
   /**
@@ -1454,7 +1454,7 @@ module.exports = function (chai) {
    */
 
   assert.isNumber = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Number);
+    new Assertion(val, msg).to.be.a('number');
   };
 
   /**
