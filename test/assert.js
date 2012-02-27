@@ -195,4 +195,13 @@ suite('assert', function () {
       assert.isArray({});
     }, "expected {} to be an instance of Array");
   });
+
+  test('isString', function() {
+    assert.isString('Foo');
+    assert.isString(new String('foo'));
+
+    err(function () {
+      assert.isString(1);
+    }, "expected 1 to be a string");
+  });
 });
