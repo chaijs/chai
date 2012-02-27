@@ -262,4 +262,15 @@ suite('assert', function () {
       assert.doesNotThrow(function() { throw new Error('bar'); }, 'foo');
      }, 'expected [Function] to not throw an error');
   });
+
+  test('ifError', function() {
+    assert.ifError(false);
+    assert.ifError(null);
+    assert.ifError(undefined);
+
+    err(function () {
+      assert.ifError('foo');
+     }, "expected \'foo\' to be falsy");
+  });
+
 });
