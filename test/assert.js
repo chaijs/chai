@@ -137,4 +137,12 @@ suite('assert', function () {
       assert.notStrictEqual(5, 5);
     }, "expected 5 to not equal 5");
   });
+
+  test('deepEqual', function() {
+    assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
+
+    err(function () {
+      assert.deepEqual({tea: 'chai'}, {tea: 'black'});
+    }, "expected { tea: \'chai\' } to equal { tea: \'black\' }");
+  });
 });
