@@ -114,4 +114,12 @@ suite('assert', function () {
     }, "expected 'foo' to be a object");
   });
 
+  test('notEqual', function() {
+    assert.notEqual(3, 4);
+
+    err(function () {
+      assert.notEqual(5, 5);
+    }, "expected 5 to equal 5");
+  });
+
 });
