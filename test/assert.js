@@ -206,12 +206,20 @@ suite('assert', function () {
   });
 
   test('isNumber', function() {
-    console.log(1 instanceof Number);
     assert.isNumber(1);
     assert.isNumber(Number('3'));
 
     err(function () {
       assert.isNumber('1');
     }, "expected \'1\' to be a number");
+  });
+
+  test('isBoolean', function() {
+    assert.isBoolean(true);
+    assert.isBoolean(false);
+
+    err(function () {
+      assert.isBoolean('1');
+    }, "expected \'1\' to be a boolean");
   });
 });
