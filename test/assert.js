@@ -161,4 +161,12 @@ suite('assert', function () {
       assert.isNull(undefined);
     }, "expected undefined to equal null");
   });
+
+  test('isNotNull', function() {
+    assert.isNotNull(undefined);
+
+    err(function () {
+      assert.isNotNull(null);
+    }, "expected null to not equal null");
+  });
 });
