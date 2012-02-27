@@ -252,4 +252,12 @@ suite('assert', function () {
       assert.throws(function() {});
      }, "expected [Function] to throw an error");
   });
+
+  test('doesNotThrow', function() {
+    assert.doesNotThrow(function() { });
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error('foo'); });
+     }, 'expected [Function] to not throw an error');
+  });
 });
