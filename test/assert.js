@@ -222,4 +222,13 @@ suite('assert', function () {
       assert.isBoolean('1');
     }, "expected \'1\' to be a boolean");
   });
+
+  test('include', function() {
+    assert.include('foobar', 'bar');
+    assert.include([ 1, 2, 3], 3);
+
+    err(function () {
+      assert.include('foobar', 'baz');
+     }, "expected \'foobar\' to contain \'baz\'");
+  });
 });
