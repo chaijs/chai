@@ -247,6 +247,7 @@ suite('assert', function () {
 
   test('throws', function() {
     assert.throws(function() { throw new Error('foo'); });
+    assert.throws(function() { throw new Error('bar'); }, 'foo');
 
     err(function () {
       assert.throws(function() {});
@@ -258,6 +259,7 @@ suite('assert', function () {
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
+      assert.doesNotThrow(function() { throw new Error('bar'); }, 'foo');
      }, 'expected [Function] to not throw an error');
   });
 });
