@@ -122,4 +122,11 @@ suite('assert', function () {
     }, "expected 5 to equal 5");
   });
 
+  test('strictEqual', function() {
+    assert.strictEqual('foo', 'foo');
+
+    err(function () {
+      assert.notEqual('5', 5);
+    }, "expected \'5\' to equal 5");
+  });
 });
