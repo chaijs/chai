@@ -145,4 +145,12 @@ suite('assert', function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
     }, "expected { tea: \'chai\' } to equal { tea: \'black\' }");
   });
+
+  test('notDeepEqual', function() {
+    assert.notDeepEqual({tea: 'jasmine'}, {tea: 'chai'});
+
+    err(function () {
+      assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
+    }, "expected { tea: \'chai\' } to not equal { tea: \'chai\' }");
+  });
 });
