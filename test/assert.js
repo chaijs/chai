@@ -256,10 +256,10 @@ suite('assert', function () {
 
   test('doesNotThrow', function() {
     assert.doesNotThrow(function() { });
+    assert.doesNotThrow(function() { }, 'foo');
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
-      assert.doesNotThrow(function() { throw new Error('bar'); }, 'foo');
      }, 'expected [Function] to not throw an error');
   });
 
