@@ -70,7 +70,7 @@ suite('should', function() {
 
     err(function(){
       'test'.should.not.be.ok;
-    }, "expected 'test' to be falsey");
+    }, "expected 'test' to be falsy");
   });
 
   test('false', function(){
