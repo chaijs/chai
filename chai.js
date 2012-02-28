@@ -79,11 +79,11 @@ require.register("assertion.js", function(module, exports, require){
  * #### Differences
  *
  * The `expect` interface provides a function as a starting point for chaining
- * your language assertions. It works on both node.js and in the browser.
+ * your language assertions. It works on node.js and in all browsers.
  *
  * The `should` interface extends `Object.prototype` to provide a single getter as
- * the starting point for your language assertions. Most browser don't like
- * extensions to `Object.prototype` so it is not recommended for browser use.
+ * the starting point for your language assertions. It works on node.js and in
+ * all browsers except Internet Explorer.
  *
  * #### Configuration
  *
@@ -1010,7 +1010,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.4.1';
+exports.version = '0.4.2';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');

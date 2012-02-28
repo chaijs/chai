@@ -1,4 +1,36 @@
 
+0.4.2 / 2012-02-28 
+==================
+
+  * fix for `process` not available in browser when used via browserify. Closes #28
+  * Merge pull request #31 from joliss/doc
+  * Document that "should" works in browsers other than IE
+  * Merge pull request #30 from logicalparadox/assert-tests
+  * Update the browser version of chai.
+  * Update `assert.doesNotThrow` test in order to check the use case when type is a string.
+  * Add test for `assert.ifError`.
+  * Falsey -> falsy.
+  * Full coverage for `assert.throws` and `assert.doesNotThrow`.
+  * Add test for `assert.doesNotThrow`.
+  * Add test for `assert.throws`.
+  * Add test for `assert.length`.
+  * Add test for `assert.include`.
+  * Add test for `assert.isBoolean`.
+  * Fix the implementation of `assert.isNumber`.
+  * Add test for `assert.isNumber`.
+  * Add test for `assert.isString`.
+  * Add test for `assert.isArray`.
+  * Add test for `assert.isUndefined`.
+  * Add test for `assert.isNotNull`.
+  * Fix `assert.isNotNull` implementation.
+  * Fix `assert.isNull` implementation.
+  * Add test for `assert.isNull`.
+  * Add test for `assert.notDeepEqual`.
+  * Add test for `assert.deepEqual`.
+  * Add test for `assert.notStrictEqual`.
+  * Add test for `assert.strictEqual`.
+  * Add test for `assert.notEqual`.
+
 0.4.1 / 2012-02-26 
 ==================
 

@@ -499,7 +499,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNull = function (val, msg) {
-    new Assertion(val, msg).to.not.exist;
+    new Assertion(val, msg).to.equal(null);
   };</code>
             </pre>
           </div>
@@ -530,7 +530,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNotNull = function (val, msg) {
-    new Assertion(val, msg).to.exist;
+    new Assertion(val, msg).to.not.equal(null);
   };</code>
             </pre>
           </div>
@@ -715,7 +715,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isNumber = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Number);
+    new Assertion(val, msg).to.be.a('number');
   };</code>
             </pre>
           </div>

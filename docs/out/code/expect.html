@@ -181,9 +181,9 @@ _gaq.push(['_trackPageview']);
 
 <h4>Differences</h4>
 
-<p>The <code>expect</code> interface provides a function as a starting point for chaining<br />your language assertions. It works on both node.js and in the browser.</p>
+<p>The <code>expect</code> interface provides a function as a starting point for chaining<br />your language assertions. It works on node.js and in all browsers.</p>
 
-<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as<br />the starting point for your language assertions. Most browser don't like<br />extensions to <code>Object.prototype</code> so it is not recommended for browser use.</p>
+<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as<br />the starting point for your language assertions. It works on node.js and in<br />all browsers except Internet Explorer.</p>
 
 <h4>Configuration</h4>
 
@@ -418,7 +418,7 @@ _gaq.push(['_trackPageview']);
       this.assert(
           this.obj
         , 'expected ' + this.inspect + ' to be truthy'
-        , 'expected ' + this.inspect + ' to be falsey');
+        , 'expected ' + this.inspect + ' to be falsy');
 
       return this;
     },
