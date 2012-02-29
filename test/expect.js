@@ -200,13 +200,13 @@ suite('expect', function () {
   });
 
   test('empty', function(){
+    function FakeArgs() {};
+    FakeArgs.prototype.length = 0;
+
     expect('').to.be.empty;
     expect([]).to.be.empty;
-    expect({ length: 0 }).to.be.empty;
-
-    err(function(){
-      expect({}).to.be.empty;
-    }, 'expected {} to have a property \'length\'');
+    expect(new FakeArgs).to.be.empty;
+    expect({}).to.be.empty;
 
     err(function(){
       expect([ 'hello', 'world' ]).to.be.empty;

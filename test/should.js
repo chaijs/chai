@@ -209,13 +209,15 @@ suite('should', function() {
   });
 
   test('empty', function(){
+    function FakeArgs() {};
+    FakeArgs.prototype.length = 0;
+
     ''.should.be.empty;
     [].should.be.empty;
-    ({ length: 0 }).should.be.empty;
+    (new FakeArgs).should.be.empty;
 
-    err(function(){
-      ({}).should.be.empty;
-    }, 'expected {} to have a property \'length\'');
+    (new FakeArgs).should.be.empty;
+    ({}).should.be.empty;
 
     err(function(){
       'asd'.should.be.empty;
