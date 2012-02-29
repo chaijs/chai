@@ -433,10 +433,16 @@ Object.defineProperty(Assertion.prototype, 'exist',
 
 Object.defineProperty(Assertion.prototype, 'empty',
   { get: function () {
-      new Assertion(this.obj).to.have.property('length');
+      var expected = this.obj;
+
+      if (Array.isArray(this.obj)) {
+        expected = this.obj.length;
+      } else if (typeof this.obj === 'object') {
+        expected = Object.keys(this.obj).length;
+      }
 
       this.assert(
-          0 === this.obj.length
+          !expected
         , 'expected ' + this.inspect + ' to be empty'
         , 'expected ' + this.inspect + ' not to be empty');
 
