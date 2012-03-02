@@ -52,7 +52,8 @@ suite('should', function() {
   test('true', function(){
     (true).should.be.true;
     false.should.not.be.true;
-    (1).should.not.be.true;
+    (1).should.not.be.true;false
+    false.should.have.been.false;
 
     err(function(){
       'test'.should.be.true;
