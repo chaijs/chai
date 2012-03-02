@@ -1059,16 +1059,6 @@ exports.use = function (fn) {
   return this;
 };
 
-exports.fail = function (actual, expected, message, operator, stackStartFunction) {
-  throw new exports.AssertionError({
-    message: message,
-    actual: actual,
-    expected: expected,
-    operator: operator,
-    stackStartFunction: stackStartFunction
-  });
-};
-
 var expect = require('./interface/expect');
 exports.use(expect);
 
