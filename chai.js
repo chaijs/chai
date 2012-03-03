@@ -160,7 +160,7 @@ Assertion.prototype.assert = function (expr, msg, negateMsg, expected, actual) {
 
   if (!ok) {
     throw new AssertionError({
-        message: this.msg ? this.msg + ': ' + msg : msg
+        message: this.msg ? this.msg + ': ' + msg : msg // include custom message if available
       , actual: act
       , expected: exp
       , stackStartFunction: (Assertion.includeStack) ? this.assert : this.ssfi
@@ -1638,6 +1638,29 @@ module.exports = function (chai) {
     }
 
     new Assertion(fn, msg).to.not.throw(type);
+  };
+
+  /**
+   * # .operator(val, operator, val2, [message])
+   *
+   * Compare two values using operator.
+   *
+   *      assert.operator(1, '<', 2, 'everything is ok');
+   *      assert.operator(1, '>', 2, 'this will fail');
+   *
+   * @name operator
+   * @param {*} object to test
+   * @param {String} operator
+   * @param {*} second object
+   * @param {String} message
+   * @api public
+   */
+
+  assert.operator = function (val, operator, val2, msg) {
+    if (!~['==', '===', '>', '>=', '<', '<=', '!=', '!=='].indexOf(operator)) {
+      throw new Error('Invalid operator "' + operator + '"');
+    }
+    new Assertion(eval(val + operator + val2), msg).to.be.true;
   };
 
   /*!
