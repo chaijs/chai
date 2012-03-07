@@ -230,19 +230,45 @@ suite('should', function() {
     FakeArgs.prototype.length = 0;
 
     ''.should.be.empty;
-    [].should.be.empty;
+    'foo'.should.not.be.empty;
+    ([]).should.be.empty;
+    (['foo']).should.not.be.empty;
     (new FakeArgs).should.be.empty;
-
-    (new FakeArgs).should.be.empty;
+    ({arguments: 0}).should.not.be.empty;
     ({}).should.be.empty;
-
-    err(function(){
-      'asd'.should.be.empty;
-    }, "expected 'asd' to be empty");
+    ({foo: 'bar'}).should.not.be.empty;
 
     err(function(){
       ''.should.not.be.empty;
-    }, "expected '' not to be empty");
+    }, "expected \'\' not to be empty");
+
+    err(function(){
+      'foo'.should.be.empty;
+    }, "expected \'foo\' to be empty");
+
+    err(function(){
+      ([]).should.not.be.empty;
+    }, "expected [] not to be empty");
+
+    err(function(){
+      (['foo']).should.be.empty;
+    }, "expected [ \'foo\' ] to be empty");
+
+    err(function(){
+      (new FakeArgs).should.not.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      ({arguments: 0}).should.be.empty;
+    }, "expected { arguments: 0 } to be empty");
+
+    err(function(){
+      ({}).should.not.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      ({foo: 'bar'}).should.be.empty;
+    }, "expected { foo: \'bar\' } to be empty");
   });
 
   test('property(name)', function(){
