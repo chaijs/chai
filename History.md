@@ -1,4 +1,36 @@
 
+0.5.0 / 2012-03-07 
+==================
+
+  * [bug] on inspect of reg on n 0.4.12
+  * Merge branch 'bug/33-throws'
+  * Merge pull request #35 from logicalparadox/empty-object
+  * browser build
+  * updated #throw docs
+  * Assertion#throw `should` tests updated
+  * Assertion#throw `expect` tests
+  * Should interface supports multiple throw parameters
+  * Update Assertion#throw to support strings and type checks.
+  * Add more tests for `empty` in `should`.
+  * Add more tests for `empty` in `expect`.
+  * Merge branch 'master' into empty-object
+  * don't switch act/exp
+  * Merge pull request #34 from logicalparadox/assert-operator
+  * Update the compiled verison.
+  * Add `assert.operator`.
+  * Notes on messages. #22
+  * browser build
+  * have been test
+  * below tests
+  * Merge branch 'feature/actexp'
+  * browser build
+  * remove unnecessary fail export
+  * full support for actual/expected where relevant
+  * Assertion.assert support expected value
+  * clean up error
+  * Update the compiled version.
+  * Add object & sane arguments support to `Assertion#empty`.
+
 0.4.2 / 2012-02-28 
 ==================
 

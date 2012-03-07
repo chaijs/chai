@@ -273,4 +273,45 @@ suite('assert', function () {
      }, "expected \'foo\' to be falsy");
   });
 
+  test('operator', function() {
+    assert.operator(1, '<', 2);
+    assert.operator(2, '>', 1);
+    assert.operator(1, '==', 1);
+    assert.operator(1, '<=', 1);
+    assert.operator(1, '>=', 1);
+    assert.operator(1, '!=', 2);
+    assert.operator(1, '!==', 2);
+
+    err(function () {
+      assert.operator(1, '=', 2);
+     }, 'Invalid operator "="');
+
+    err(function () {
+      assert.operator(2, '<', 1);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(1, '>', 2);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(1, '==', 2);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(2, '<=', 1);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(1, '>=', 2);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(1, '!=', 1);
+     }, "expected false to be true");
+
+    err(function () {
+      assert.operator(1, '!==', '1');
+     }, "expected false to be true");
+  });
 });

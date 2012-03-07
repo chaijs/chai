@@ -126,7 +126,7 @@ function Assertion (obj, msg, stack) {
 
 /*!
   * ## Assertion.includeStack
-  * , toString = Object.prototype.toString 
+  * , toString = Object.prototype.toString
   *
   * User configurable property, influences whether stack trace
   * is included in Assertion error message. Default of false
@@ -151,15 +151,17 @@ Assertion.includeStack = false;
  * @api private
  */
 
-Assertion.prototype.assert = function (expr, msg, negateMsg) {
+Assertion.prototype.assert = function (expr, msg, negateMsg, expected, actual) {
+  actual = actual || this.obj;
   var msg = (this.negate ? negateMsg : msg)
     , ok = this.negate ? !expr : expr;
 
   if (!ok) {
     throw new AssertionError({
-      operator: this.msg,
-      message: msg,
-      stackStartFunction: (Assertion.includeStack) ? this.assert : this.ssfi
+        message: this.msg ? this.msg + ': ' + msg : msg // include custom message if available
+      , actual: actual
+      , expected: expected
+      , stackStartFunction: (Assertion.includeStack) ? this.assert : this.ssfi
     });
   }
 };
@@ -176,8 +178,8 @@ Assertion.prototype.assert = function (expr, msg, negateMsg) {
 Object.defineProperty(Assertion.prototype, 'inspect',
   { get: function () {
       return inspect(this.obj);
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -192,8 +194,8 @@ Object.defineProperty(Assertion.prototype, 'inspect',
 Object.defineProperty(Assertion.prototype, 'to',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -208,8 +210,8 @@ Object.defineProperty(Assertion.prototype, 'to',
 Object.defineProperty(Assertion.prototype, 'be',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -226,8 +228,8 @@ Object.defineProperty(Assertion.prototype, 'been',
   { get: function () {
       this.tense = 'past';
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -242,8 +244,8 @@ Object.defineProperty(Assertion.prototype, 'been',
 Object.defineProperty(Assertion.prototype, 'an',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 /**
  * # is
@@ -257,8 +259,8 @@ Object.defineProperty(Assertion.prototype, 'an',
 Object.defineProperty(Assertion.prototype, 'is',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -273,8 +275,8 @@ Object.defineProperty(Assertion.prototype, 'is',
 Object.defineProperty(Assertion.prototype, 'and',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -289,8 +291,8 @@ Object.defineProperty(Assertion.prototype, 'and',
 Object.defineProperty(Assertion.prototype, 'have',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -305,8 +307,8 @@ Object.defineProperty(Assertion.prototype, 'have',
 Object.defineProperty(Assertion.prototype, 'with',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -322,8 +324,8 @@ Object.defineProperty(Assertion.prototype, 'not',
   { get: function () {
       this.negate = true;
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -348,8 +350,8 @@ Object.defineProperty(Assertion.prototype, 'ok',
         , 'expected ' + this.inspect + ' to be falsy');
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -366,11 +368,13 @@ Object.defineProperty(Assertion.prototype, 'true',
       this.assert(
           true === this.obj
         , 'expected ' + this.inspect + ' to be true'
-        , 'expected ' + this.inspect + ' to be false');
+        , 'expected ' + this.inspect + ' to be false'
+        , this.negate ? false : true
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -387,11 +391,13 @@ Object.defineProperty(Assertion.prototype, 'false',
       this.assert(
           false === this.obj
         , 'expected ' + this.inspect + ' to be false'
-        , 'expected ' + this.inspect + ' to be true');
+        , 'expected ' + this.inspect + ' to be true'
+        , this.negate ? true : false
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -413,11 +419,12 @@ Object.defineProperty(Assertion.prototype, 'exist',
       this.assert(
           null != this.obj
         , 'expected ' + this.inspect + ' to exist'
-        , 'expected ' + this.inspect + ' to not exist');
+        , 'expected ' + this.inspect + ' to not exist'
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -433,16 +440,22 @@ Object.defineProperty(Assertion.prototype, 'exist',
 
 Object.defineProperty(Assertion.prototype, 'empty',
   { get: function () {
-      new Assertion(this.obj).to.have.property('length');
+      var expected = this.obj;
+
+      if (Array.isArray(this.obj)) {
+        expected = this.obj.length;
+      } else if (typeof this.obj === 'object') {
+        expected = Object.keys(this.obj).length;
+      }
 
       this.assert(
-          0 === this.obj.length
+          !expected
         , 'expected ' + this.inspect + ' to be empty'
         , 'expected ' + this.inspect + ' not to be empty');
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -463,11 +476,14 @@ Object.defineProperty(Assertion.prototype, 'arguments',
       this.assert(
           '[object Arguments]' == Object.prototype.toString.call(this.obj)
         , 'expected ' + this.inspect + ' to be arguments'
-        , 'expected ' + this.inspect + ' to not be arguments');
+        , 'expected ' + this.inspect + ' to not be arguments'
+        , '[object Arguments]'
+        , Object.prototype.toString.call(this.obj)
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });
 
 /**
@@ -486,7 +502,8 @@ Assertion.prototype.equal = function (val) {
   this.assert(
       val === this.obj
     , 'expected ' + this.inspect + ' to equal ' + inspect(val)
-    , 'expected ' + this.inspect + ' to not equal ' + inspect(val));
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(val)
+    , val );
 
   return this;
 };
@@ -507,7 +524,9 @@ Assertion.prototype.eql = function (obj) {
   this.assert(
       eql(obj, this.obj)
     , 'expected ' + this.inspect + ' to equal ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not equal ' + inspect(obj));
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(obj)
+    , obj );
+
   return this;
 };
 
@@ -595,7 +614,10 @@ Assertion.prototype.a = function (type) {
   this.assert(
       '[object ' + klass + ']' === toString.call(this.obj)
     , 'expected ' + this.inspect + ' to be a ' + type
-    , 'expected ' + this.inspect + ' not to be a ' + type);
+    , 'expected ' + this.inspect + ' not to be a ' + type
+    , '[object ' + klass + ']'
+    , toString.call(this.obj)
+  );
 
   return this;
 };
@@ -660,7 +682,10 @@ Assertion.prototype.property = function (name, val) {
         val === this.obj[name]
       , 'expected ' + this.inspect + ' to have a property ' + inspect(name) + ' of ' +
           inspect(val) + ', but got ' + inspect(this.obj[name])
-      , 'expected ' + this.inspect + ' to not have a property ' + inspect(name) + ' of ' +  inspect(val));
+      , 'expected ' + this.inspect + ' to not have a property ' + inspect(name) + ' of ' +  inspect(val)
+      , val
+      , this.obj[val]
+    );
   }
 
   this.obj = this.obj[name];
@@ -709,7 +734,10 @@ Assertion.prototype.length = function (n) {
   this.assert(
       len == n
     , 'expected ' + this.inspect + ' to have a length of ' + n + ' but got ' + len
-    , 'expected ' + this.inspect + ' to not have a length of ' + len);
+    , 'expected ' + this.inspect + ' to not have a length of ' + len
+    , n
+    , len
+  );
 
   return this;
 };
@@ -856,7 +884,10 @@ Assertion.prototype.keys = function(keys) {
   this.assert(
       ok
     , 'expected ' + this.inspect + ' to ' + str
-    , 'expected ' + this.inspect + ' to not ' + str);
+    , 'expected ' + this.inspect + ' to not ' + str
+    , keys
+    , Object.keys(this.obj)
+  );
 
   return this;
 }
@@ -864,10 +895,21 @@ Assertion.prototype.keys = function(keys) {
 /**
  * # .throw(constructor)
  *
- * Assert that a function will throw a specific type of error.
+ * Assert that a function will throw a specific type of error or that error
+ * thrown will match a RegExp or include a string.
  *
- *      var fn = function () { throw new ReferenceError(''); }
+ *      var fn = function () { throw new ReferenceError('This is a bad function.'); }
  *      expect(fn).to.throw(ReferenceError);
+ *      expect(fn).to.throw(/bad function/);
+ *      expect(fn).to.not.throw('good function');
+ *      expect(fn).to.throw(ReferenceError, /bad function/);
+ *
+ * Please note that when a throw expectation is negated, it will check each
+ * parameter independently, starting with Error constructor type. The appropriate way
+ * to check for the existence of a type of error but for a message that does not match
+ * is to use `and`.
+ *
+ *      expect(fn).to.throw(ReferenceError).and.not.throw(/good function/);
  *
  * @name throw
  * @alias throws
@@ -877,25 +919,44 @@ Assertion.prototype.keys = function(keys) {
  * @api public
  */
 
-Assertion.prototype.throw = function (constructor) {
+Assertion.prototype.throw = function (constructor, msg) {
   new Assertion(this.obj).is.a('function');
 
   var thrown = false;
 
+  if (arguments.length === 0) {
+    msg = null;
+    constructor = null;
+  } else if (constructor && (constructor instanceof RegExp || 'string' === typeof constructor)) {
+    msg = constructor;
+    constructor = null;
+  }
+
   try {
     this.obj();
   } catch (err) {
-    if (constructor && 'function' === typeof constructor && constructor.constructor != RegExp) {
+    // first, check constructor
+    if (constructor && 'function' === typeof constructor) {
       this.assert(
           err instanceof constructor && err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
         , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
-      return this;
-    } else if (constructor && constructor instanceof RegExp) {
+      if (!msg) return this;
+    }
+    // next, check message
+    if (err.message && msg && msg instanceof RegExp) {
       this.assert(
-          constructor.exec(err.message)
-        , 'expected ' + this.inspect + ' to throw error matching ' + constructor + ' but got ' + inspect(err.message)
-        , 'expected ' + this.inspect + ' to throw error not matching ' + constructor);
+          msg.exec(err.message)
+        , 'expected ' + this.inspect + ' to throw error matching ' + msg + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + msg
+      );
+      return this;
+    } else if (err.message && msg && 'string' === typeof msg) {
+      this.assert(
+          ~err.message.indexOf(msg)
+        , 'expected ' + this.inspect + ' to throw error including ' + inspect(msg) + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not including ' + inspect(msg)
+      );
       return this;
     } else {
       thrown = true;
@@ -933,7 +994,10 @@ Assertion.prototype.respondTo = function (method) {
   this.assert(
       'function' === typeof context
     , 'expected ' + this.inspect + ' to respond to ' + inspect(method)
-    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method));
+    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method)
+    , 'function'
+    , typeof context
+  );
 
   return this;
 };
@@ -954,7 +1018,10 @@ Assertion.prototype.satisfy = function (matcher) {
   this.assert(
       matcher(this.obj)
     , 'expected ' + this.inspect + ' to satisfy ' + inspect(matcher)
-    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher));
+    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher)
+    , this.negate ? false : true
+    , matcher(this.obj)
+  );
 
   return this;
 };
@@ -1010,7 +1077,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.4.2';
+exports.version = '0.5.0';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
@@ -1024,16 +1091,6 @@ exports.use = function (fn) {
   }
 
   return this;
-};
-
-exports.fail = function (actual, expected, message, operator, stackStartFunction) {
-  throw new exports.AssertionError({
-    message: message,
-    actual: actual,
-    expected: expected,
-    operator: operator,
-    stackStartFunction: stackStartFunction
-  });
 };
 
 var expect = require('./interface/expect');
@@ -1078,25 +1135,10 @@ function AssertionError (options) {
 
 AssertionError.prototype.__proto__ = Error.prototype;
 
-AssertionError.prototype.summary = function() {
-  var str = '';
-
-  if (this.operator) {
-    str += 'In: \'' + this.operator + '\'\n\t';
-  }
-
-  str += '' + this.name + (this.message ? ': ' + this.message : '');
-
-  return str;
-};
-
-AssertionError.prototype.details = function() {
-  return this.summary();
-};
-
 AssertionError.prototype.toString = function() {
-  return this.summary();
+  return this.message;
 };
+
 }); // module: error.js
 
 require.register("interface/assert.js", function(module, exports, require){
@@ -1632,6 +1674,29 @@ module.exports = function (chai) {
     new Assertion(fn, msg).to.not.throw(type);
   };
 
+  /**
+   * # .operator(val, operator, val2, [message])
+   *
+   * Compare two values using operator.
+   *
+   *      assert.operator(1, '<', 2, 'everything is ok');
+   *      assert.operator(1, '>', 2, 'this will fail');
+   *
+   * @name operator
+   * @param {*} object to test
+   * @param {String} operator
+   * @param {*} second object
+   * @param {String} message
+   * @api public
+   */
+
+  assert.operator = function (val, operator, val2, msg) {
+    if (!~['==', '===', '>', '>=', '<', '<=', '!=', '!=='].indexOf(operator)) {
+      throw new Error('Invalid operator "' + operator + '"');
+    }
+    new Assertion(eval(val + operator + val2), msg).to.be.true;
+  };
+
   /*!
    * Undocumented / untested
    */
@@ -1701,8 +1766,8 @@ module.exports = function (chai) {
       new Assertion(val1).to.equal(val2);
     };
 
-    should.throw = function (fn, err) {
-      new Assertion(fn).to.throw(err);
+    should.throw = function (fn, errt, errs) {
+      new Assertion(fn).to.throw(errt, errs);
     };
 
     should.exist = function (val) {
@@ -1716,8 +1781,8 @@ module.exports = function (chai) {
       new Assertion(val1).to.not.equal(val2);
     };
 
-    should.not.throw = function (fn, err) {
-      new Assertion(fn).to.not.throw(err);
+    should.not.throw = function (fn, errt, errs) {
+      new Assertion(fn).to.not.throw(errt, errs);
     };
 
     should.not.exist = function (val) {

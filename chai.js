@@ -947,8 +947,8 @@ Assertion.prototype.throw = function (constructor, msg) {
     if (err.message && msg && msg instanceof RegExp) {
       this.assert(
           msg.exec(err.message)
-        , 'expected ' + this.inspect + ' to throw error matching ' + inspect(msg) + ' but got ' + inspect(err.message)
-        , 'expected ' + this.inspect + ' to throw error not matching ' + inspect(msg)
+        , 'expected ' + this.inspect + ' to throw error matching ' + msg + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + msg
       );
       return this;
     } else if (err.message && msg && 'string' === typeof msg) {
@@ -1077,7 +1077,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.4.2';
+exports.version = '0.5.0';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');

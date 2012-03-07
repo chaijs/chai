@@ -92,6 +92,8 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#doesNotThrow" class="scroll">doesNotThrow</a>
                 </li>
+                <li class="keepcase"><a href="#operator" class="scroll">operator</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -1002,6 +1004,44 @@ _gaq.push(['_trackPageview']);
     }
 
     new Assertion(fn, msg).to.not.throw(type);
+  };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="operator-section" class="codeblock">
+          <div class="header"><h1>.operator(val, operator, val2, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.operator()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">object</span><span class="desc">to test</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">operator</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">second</span><span class="desc">object</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Compare two values using operator.</p>
+
+<pre><code> assert.operator(1, '&lt;', 2, 'everything is ok');
+ assert.operator(1, '&gt;', 2, 'this will fail');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.operator = function (val, operator, val2, msg) {
+    if (!~['==', '===', '&gt;', '&gt;=', '&lt;', '&lt;=', '!=', '!=='].indexOf(operator)) {
+      throw new Error('Invalid operator &quot;' + operator + '&quot;');
+    }
+    new Assertion(eval(val + operator + val2), msg).to.be.true;
   };</code>
             </pre>
           </div>

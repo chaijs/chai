@@ -210,8 +210,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'to',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -232,8 +232,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'be',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -255,8 +255,8 @@ _gaq.push(['_trackPageview']);
   { get: function () {
       this.tense = 'past';
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -277,8 +277,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'an',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -299,8 +299,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'is',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -321,8 +321,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'and',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -343,8 +343,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'have',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -365,8 +365,8 @@ _gaq.push(['_trackPageview']);
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'with',
   { get: function () {
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -388,8 +388,8 @@ _gaq.push(['_trackPageview']);
   { get: function () {
       this.negate = true;
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -421,8 +421,8 @@ _gaq.push(['_trackPageview']);
         , 'expected ' + this.inspect + ' to be falsy');
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -445,11 +445,13 @@ _gaq.push(['_trackPageview']);
       this.assert(
           true === this.obj
         , 'expected ' + this.inspect + ' to be true'
-        , 'expected ' + this.inspect + ' to be false');
+        , 'expected ' + this.inspect + ' to be false'
+        , this.negate ? false : true
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -472,11 +474,13 @@ _gaq.push(['_trackPageview']);
       this.assert(
           false === this.obj
         , 'expected ' + this.inspect + ' to be false'
-        , 'expected ' + this.inspect + ' to be true');
+        , 'expected ' + this.inspect + ' to be true'
+        , this.negate ? true : false
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -505,11 +509,12 @@ _gaq.push(['_trackPageview']);
       this.assert(
           null != this.obj
         , 'expected ' + this.inspect + ' to exist'
-        , 'expected ' + this.inspect + ' to not exist');
+        , 'expected ' + this.inspect + ' to not exist'
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -532,16 +537,22 @@ _gaq.push(['_trackPageview']);
           <div class="code-wrap">
             <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'empty',
   { get: function () {
-      new Assertion(this.obj).to.have.property('length');
+      var expected = this.obj;
+
+      if (Array.isArray(this.obj)) {
+        expected = this.obj.length;
+      } else if (typeof this.obj === 'object') {
+        expected = Object.keys(this.obj).length;
+      }
 
       this.assert(
-          0 === this.obj.length
+          !expected
         , 'expected ' + this.inspect + ' to be empty'
         , 'expected ' + this.inspect + ' not to be empty');
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -569,11 +580,14 @@ _gaq.push(['_trackPageview']);
       this.assert(
           '[object Arguments]' == Object.prototype.toString.call(this.obj)
         , 'expected ' + this.inspect + ' to be arguments'
-        , 'expected ' + this.inspect + ' to not be arguments');
+        , 'expected ' + this.inspect + ' to not be arguments'
+        , '[object Arguments]'
+        , Object.prototype.toString.call(this.obj)
+      );
 
       return this;
-    },
-    configurable: true
+    }
+  , configurable: true
 });</code>
             </pre>
           </div>
@@ -604,7 +618,8 @@ _gaq.push(['_trackPageview']);
   this.assert(
       val === this.obj
     , 'expected ' + this.inspect + ' to equal ' + inspect(val)
-    , 'expected ' + this.inspect + ' to not equal ' + inspect(val));
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(val)
+    , val );
 
   return this;
 };</code>
@@ -637,7 +652,9 @@ _gaq.push(['_trackPageview']);
   this.assert(
       eql(obj, this.obj)
     , 'expected ' + this.inspect + ' to equal ' + inspect(obj)
-    , 'expected ' + this.inspect + ' to not equal ' + inspect(obj));
+    , 'expected ' + this.inspect + ' to not equal ' + inspect(obj)
+    , obj );
+
   return this;
 };</code>
             </pre>
@@ -774,7 +791,10 @@ _gaq.push(['_trackPageview']);
   this.assert(
       '[object ' + klass + ']' === toString.call(this.obj)
     , 'expected ' + this.inspect + ' to be a ' + type
-    , 'expected ' + this.inspect + ' not to be a ' + type);
+    , 'expected ' + this.inspect + ' not to be a ' + type
+    , '[object ' + klass + ']'
+    , toString.call(this.obj)
+  );
 
   return this;
 };</code>
@@ -866,7 +886,10 @@ _gaq.push(['_trackPageview']);
         val === this.obj[name]
       , 'expected ' + this.inspect + ' to have a property ' + inspect(name) + ' of ' +
           inspect(val) + ', but got ' + inspect(this.obj[name])
-      , 'expected ' + this.inspect + ' to not have a property ' + inspect(name) + ' of ' +  inspect(val));
+      , 'expected ' + this.inspect + ' to not have a property ' + inspect(name) + ' of ' +  inspect(val)
+      , val
+      , this.obj[val]
+    );
   }
 
   this.obj = this.obj[name];
@@ -941,7 +964,10 @@ _gaq.push(['_trackPageview']);
   this.assert(
       len == n
     , 'expected ' + this.inspect + ' to have a length of ' + n + ' but got ' + len
-    , 'expected ' + this.inspect + ' to not have a length of ' + len);
+    , 'expected ' + this.inspect + ' to not have a length of ' + len
+    , n
+    , len
+  );
 
   return this;
 };</code>
@@ -1141,7 +1167,10 @@ _gaq.push(['_trackPageview']);
   this.assert(
       ok
     , 'expected ' + this.inspect + ' to ' + str
-    , 'expected ' + this.inspect + ' to not ' + str);
+    , 'expected ' + this.inspect + ' to not ' + str
+    , keys
+    , Object.keys(this.obj)
+  );
 
   return this;
 }</code>
@@ -1168,34 +1197,61 @@ _gaq.push(['_trackPageview']);
             <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
             </div>
           </div>
-          <div class="description"><p>Assert that a function will throw a specific type of error.</p>
+          <div class="description"><p>Assert that a function will throw a specific type of error or that error<br />thrown will match a RegExp or include a string.</p>
 
-<pre><code> var fn = function () { throw new ReferenceError(''); }
+<pre><code> var fn = function () { throw new ReferenceError('This is a bad function.'); }
  expect(fn).to.throw(ReferenceError);
+ expect(fn).to.throw(/bad function/);
+ expect(fn).to.not.throw('good function');
+ expect(fn).to.throw(ReferenceError, /bad function/);
+</code></pre>
+
+<p>Please note that when a throw expectation is negated, it will check each<br />parameter independently, starting with Error constructor type. The appropriate way<br />to check for the existence of a type of error but for a message that does not match<br />is to use <code>and</code>.</p>
+
+<pre><code> expect(fn).to.throw(ReferenceError).and.not.throw(/good function/);
 </code></pre>
           </div>
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.throw = function (constructor) {
+            <pre class="source prettyprint"><code>Assertion.prototype.throw = function (constructor, msg) {
   new Assertion(this.obj).is.a('function');
 
   var thrown = false;
 
+  if (arguments.length === 0) {
+    msg = null;
+    constructor = null;
+  } else if (constructor &amp;&amp; (constructor instanceof RegExp || 'string' === typeof constructor)) {
+    msg = constructor;
+    constructor = null;
+  }
+
   try {
     this.obj();
   } catch (err) {
-    if (constructor &amp;&amp; 'function' === typeof constructor &amp;&amp; constructor.constructor != RegExp) {
+    // first, check constructor
+    if (constructor &amp;&amp; 'function' === typeof constructor) {
       this.assert(
           err instanceof constructor &amp;&amp; err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
         , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
-      return this;
-    } else if (constructor &amp;&amp; constructor instanceof RegExp) {
+      if (!msg) return this;
+    }
+    // next, check message
+    if (err.message &amp;&amp; msg &amp;&amp; msg instanceof RegExp) {
       this.assert(
-          constructor.exec(err.message)
-        , 'expected ' + this.inspect + ' to throw error matching ' + constructor + ' but got ' + inspect(err.message)
-        , 'expected ' + this.inspect + ' to throw error not matching ' + constructor);
+          msg.exec(err.message)
+        , 'expected ' + this.inspect + ' to throw error matching ' + msg + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + msg
+      );
+      return this;
+    } else if (err.message &amp;&amp; msg &amp;&amp; 'string' === typeof msg) {
+      this.assert(
+          ~err.message.indexOf(msg)
+        , 'expected ' + this.inspect + ' to throw error including ' + inspect(msg) + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not including ' + inspect(msg)
+      );
       return this;
     } else {
       thrown = true;
@@ -1245,7 +1301,10 @@ _gaq.push(['_trackPageview']);
   this.assert(
       'function' === typeof context
     , 'expected ' + this.inspect + ' to respond to ' + inspect(method)
-    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method));
+    , 'expected ' + this.inspect + ' to not respond to ' + inspect(method)
+    , 'function'
+    , typeof context
+  );
 
   return this;
 };</code>
@@ -1278,7 +1337,10 @@ _gaq.push(['_trackPageview']);
   this.assert(
       matcher(this.obj)
     , 'expected ' + this.inspect + ' to satisfy ' + inspect(matcher)
-    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher));
+    , 'expected ' + this.inspect + ' to not satisfy' + inspect(matcher)
+    , this.negate ? false : true
+    , matcher(this.obj)
+  );
 
   return this;
 };</code>

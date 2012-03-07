@@ -39,12 +39,13 @@ If you have made changes to any of the components, you must rebuild the browser 
 
 ### Contributors 
 
-     commits: 185
+     commits: 252
      files  : 71
      authors: 
-       163  Jake Luer               88.1%
-        16  Veselin Todorov         8.6%
-         3  Jeff Barczewski         1.6%
-         1  Domenic Denicola        0.5%
-         1  John Firebaugh          0.5%
-         1  Vinay Pulim             0.5%
+       192  Jake Luer               76.2%
+        53  Veselin Todorov         21.0%
+         3  Jeff Barczewski         1.2%
+         1  Vinay Pulim             0.4%
+         1  Jo Liss                 0.4%
+         1  Domenic Denicola        0.4%
+         1  John Firebaugh          0.4%

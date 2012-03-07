@@ -148,6 +148,21 @@ suite('expect', function () {
     }, "expected 10 to be below 6");
   });
 
+  test('below(n)', function(){
+    expect(2).to.be.below(5);
+    expect(2).to.be.lessThan(5);
+    expect(2).to.not.be.below(2);
+    expect(2).to.not.be.below(1);
+
+    err(function(){
+      expect(6).to.be.below(5);
+    }, "expected 6 to be below 5");
+
+    err(function(){
+      expect(6).to.not.be.below(10);
+    }, "expected 6 to be above 10");
+  });
+
   test('match(regexp)', function(){
     expect('foobar').to.match(/^foo/)
     expect('foobar').to.not.match(/^bar/)
@@ -200,29 +215,49 @@ suite('expect', function () {
   });
 
   test('empty', function(){
+    function FakeArgs() {};
+    FakeArgs.prototype.length = 0;
+
     expect('').to.be.empty;
+    expect('foo').not.to.be.empty;
     expect([]).to.be.empty;
-    expect({ length: 0 }).to.be.empty;
+    expect(['foo']).not.to.be.empty;
+    expect(new FakeArgs).to.be.empty;
+    expect({arguments: 0}).not.to.be.empty;
+    expect({}).to.be.empty;
+    expect({foo: 'bar'}).not.to.be.empty;
 
     err(function(){
-      expect({}).to.be.empty;
-    }, 'expected {} to have a property \'length\'');
+      expect('').not.to.be.empty;
+    }, "expected \'\' not to be empty");
 
     err(function(){
-      expect([ 'hello', 'world' ]).to.be.empty;
-    }, "expected [ \'hello\', \'world\' ] to be empty");
+      expect('foo').to.be.empty;
+    }, "expected \'foo\' to be empty");
 
     err(function(){
-      expect([ { hello: 'world' } ]).to.be.empty;
-    }, "expected [ { hello: \'world\' } ] to be empty");
+      expect([]).not.to.be.empty;
+    }, "expected [] not to be empty");
 
     err(function(){
-      expect('asd').to.be.empty;
-    }, "expected 'asd' to be empty");
+      expect(['foo']).to.be.empty;
+    }, "expected [ \'foo\' ] to be empty");
 
     err(function(){
-      expect('').to.not.be.empty;
-    }, "expected '' not to be empty");
+      expect(new FakeArgs).not.to.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      expect({arguments: 0}).to.be.empty;
+    }, "expected { arguments: 0 } to be empty");
+
+    err(function(){
+      expect({}).not.to.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      expect({foo: 'bar'}).to.be.empty;
+    }, "expected { foo: \'bar\' } to be empty");
   });
 
   test('property(name)', function(){
@@ -397,6 +432,11 @@ suite('expect', function () {
 
     expect(badFn).to.throw(/testing/);
     expect(badFn).to.not.throw(/hello/);
+    expect(badFn).to.throw('testing');
+    expect(badFn).to.not.throw('hello');
+
+    expect(badFn).to.throw(Error, /testing/);
+    expect(badFn).to.throw(Error, 'testing');
 
     err(function(){
       expect(goodFn).to.throw();
@@ -433,6 +473,14 @@ suite('expect', function () {
     err(function () {
       expect(badFn).to.throw(/hello/);
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
+
+    err(function () {
+      expect(badFn).to.throw(Error, /hello/);
+    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+
+    err(function () {
+      expect(badFn).to.throw(Error, 'hello');
+    }, "expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){

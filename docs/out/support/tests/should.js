@@ -31,6 +31,7 @@ suite('should', function() {
   test('assertion', function(){
     'test'.should.be.a('string');
     should.equal('foo', 'foo');
+    should.not.equal('foo', 'bar');
   });
 
   test('root exist', function () {
@@ -49,9 +50,10 @@ suite('should', function() {
   });
 
   test('true', function(){
-    true.should.be.true;
+    (true).should.be.true;
     false.should.not.be.true;
-    (1).should.not.be.true;
+    (1).should.not.be.true;false
+    false.should.have.been.false;
 
     err(function(){
       'test'.should.be.true;
@@ -157,6 +159,21 @@ suite('should', function() {
     }, "expected 10 to be below 6");
   });
 
+  test('below(n)', function(){
+    (2).should.be.below(5);
+    (2).should.be.lessThan(5);
+    (2).should.not.be.below(2);
+    (2).should.not.be.below(1);
+
+    err(function(){
+      (6).should.be.below(5);
+    }, "expected 6 to be below 5");
+
+    err(function(){
+      (6).should.not.be.below(10);
+    }, "expected 6 to be above 10");
+  });
+
   test('match(regexp)', function(){
     'foobar'.should.match(/^foo/)
     'foobar'.should.not.match(/^bar/)
@@ -209,21 +226,49 @@ suite('should', function() {
   });
 
   test('empty', function(){
+    function FakeArgs() {};
+    FakeArgs.prototype.length = 0;
+
     ''.should.be.empty;
-    [].should.be.empty;
-    ({ length: 0 }).should.be.empty;
-
-    err(function(){
-      ({}).should.be.empty;
-    }, 'expected {} to have a property \'length\'');
-
-    err(function(){
-      'asd'.should.be.empty;
-    }, "expected 'asd' to be empty");
+    'foo'.should.not.be.empty;
+    ([]).should.be.empty;
+    (['foo']).should.not.be.empty;
+    (new FakeArgs).should.be.empty;
+    ({arguments: 0}).should.not.be.empty;
+    ({}).should.be.empty;
+    ({foo: 'bar'}).should.not.be.empty;
 
     err(function(){
       ''.should.not.be.empty;
-    }, "expected '' not to be empty");
+    }, "expected \'\' not to be empty");
+
+    err(function(){
+      'foo'.should.be.empty;
+    }, "expected \'foo\' to be empty");
+
+    err(function(){
+      ([]).should.not.be.empty;
+    }, "expected [] not to be empty");
+
+    err(function(){
+      (['foo']).should.be.empty;
+    }, "expected [ \'foo\' ] to be empty");
+
+    err(function(){
+      (new FakeArgs).should.not.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      ({arguments: 0}).should.be.empty;
+    }, "expected { arguments: 0 } to be empty");
+
+    err(function(){
+      ({}).should.not.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      ({foo: 'bar'}).should.be.empty;
+    }, "expected { foo: \'bar\' } to be empty");
   });
 
   test('property(name)', function(){
@@ -373,7 +418,7 @@ suite('should', function() {
   test('throw', function () {
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
-      , refErrFn = function () { throw new ReferenceError(); };
+      , refErrFn = function () { throw new ReferenceError('hello'); };
 
     (goodFn).should.not.throw();
     (goodFn).should.not.throw(Error);
@@ -386,12 +431,18 @@ suite('should', function() {
     (refErrFn).should.not.throw(TypeError);
 
     (badFn).should.throw(/testing/);
+    (badFn).should.throw('testing');
     (badFn).should.not.throw(/hello/);
+    (badFn).should.throw(Error, /testing/);
+    (badFn).should.throw(Error, 'testing');
 
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
     should.not.throw(goodFn);
     should.not.throw(badFn, ReferenceError);
+
+    should.throw(badFn, Error, /testing/);
+    should.throw(badFn, Error, 'testing');
 
     err(function(){
       (goodFn).should.throw();
@@ -428,6 +479,14 @@ suite('should', function() {
     err(function () {
       (badFn).should.throw(/hello/);
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
+
+    err(function () {
+      (badFn).should.throw(Error, /hello/);
+    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+
+    err(function () {
+      (badFn).should.throw(Error, 'hello');
+    }, "expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){
