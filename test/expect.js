@@ -412,6 +412,11 @@ suite('expect', function () {
 
     expect(badFn).to.throw(/testing/);
     expect(badFn).to.not.throw(/hello/);
+    expect(badFn).to.throw('testing');
+    expect(badFn).to.not.throw('hello');
+
+    expect(badFn).to.throw(Error, /testing/);
+    expect(badFn).to.throw(Error, 'testing');
 
     err(function(){
       expect(goodFn).to.throw();
@@ -448,6 +453,14 @@ suite('expect', function () {
     err(function () {
       expect(badFn).to.throw(/hello/);
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
+
+    err(function () {
+      expect(badFn).to.throw(Error, /hello/);
+    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+
+    err(function () {
+      expect(badFn).to.throw(Error, 'hello');
+    }, "expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){
