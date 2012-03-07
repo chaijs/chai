@@ -31,6 +31,7 @@ suite('should', function() {
   test('assertion', function(){
     'test'.should.be.a('string');
     should.equal('foo', 'foo');
+    should.not.equal('foo', 'bar');
   });
 
   test('root exist', function () {
@@ -49,9 +50,10 @@ suite('should', function() {
   });
 
   test('true', function(){
-    true.should.be.true;
+    (true).should.be.true;
     false.should.not.be.true;
-    (1).should.not.be.true;
+    (1).should.not.be.true;false
+    false.should.have.been.false;
 
     err(function(){
       'test'.should.be.true;
@@ -155,6 +157,21 @@ suite('should', function() {
     err(function(){
       (10).should.not.be.above(6);
     }, "expected 10 to be below 6");
+  });
+
+  test('below(n)', function(){
+    (2).should.be.below(5);
+    (2).should.be.lessThan(5);
+    (2).should.not.be.below(2);
+    (2).should.not.be.below(1);
+
+    err(function(){
+      (6).should.be.below(5);
+    }, "expected 6 to be below 5");
+
+    err(function(){
+      (6).should.not.be.below(10);
+    }, "expected 6 to be above 10");
   });
 
   test('match(regexp)', function(){

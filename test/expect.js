@@ -148,6 +148,21 @@ suite('expect', function () {
     }, "expected 10 to be below 6");
   });
 
+  test('below(n)', function(){
+    expect(2).to.be.below(5);
+    expect(2).to.be.lessThan(5);
+    expect(2).to.not.be.below(2);
+    expect(2).to.not.be.below(1);
+
+    err(function(){
+      expect(6).to.be.below(5);
+    }, "expected 6 to be below 5");
+
+    err(function(){
+      expect(6).to.not.be.below(10);
+    }, "expected 6 to be above 10");
+  });
+
   test('match(regexp)', function(){
     expect('foobar').to.match(/^foo/)
     expect('foobar').to.not.match(/^bar/)
