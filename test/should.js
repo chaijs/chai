@@ -418,7 +418,7 @@ suite('should', function() {
   test('throw', function () {
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
-      , refErrFn = function () { throw new ReferenceError(); };
+      , refErrFn = function () { throw new ReferenceError('hello'); };
 
     (goodFn).should.not.throw();
     (goodFn).should.not.throw(Error);
@@ -431,12 +431,18 @@ suite('should', function() {
     (refErrFn).should.not.throw(TypeError);
 
     (badFn).should.throw(/testing/);
+    (badFn).should.throw('testing');
     (badFn).should.not.throw(/hello/);
+    (badFn).should.throw(Error, /testing/);
+    (badFn).should.throw(Error, 'testing');
 
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
     should.not.throw(goodFn);
     should.not.throw(badFn, ReferenceError);
+
+    should.throw(badFn, Error, /testing/);
+    should.throw(badFn, Error, 'testing');
 
     err(function(){
       (goodFn).should.throw();
@@ -473,6 +479,14 @@ suite('should', function() {
     err(function () {
       (badFn).should.throw(/hello/);
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
+
+    err(function () {
+      (badFn).should.throw(Error, /hello/);
+    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+
+    err(function () {
+      (badFn).should.throw(Error, 'hello');
+    }, "expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){
