@@ -154,15 +154,13 @@ Assertion.includeStack = false;
 Assertion.prototype.assert = function (expr, msg, negateMsg, expected, actual) {
   actual = actual || this.obj;
   var msg = (this.negate ? negateMsg : msg)
-    , ok = this.negate ? !expr : expr
-    , act = this.negate ? expected : actual
-    , exp = this.negate ? actual : expected;
+    , ok = this.negate ? !expr : expr;
 
   if (!ok) {
     throw new AssertionError({
         message: this.msg ? this.msg + ': ' + msg : msg // include custom message if available
-      , actual: act
-      , expected: exp
+      , actual: actual
+      , expected: expected
       , stackStartFunction: (Assertion.includeStack) ? this.assert : this.ssfi
     });
   }
@@ -891,10 +889,21 @@ Assertion.prototype.keys = function(keys) {
 /**
  * # .throw(constructor)
  *
- * Assert that a function will throw a specific type of error.
+ * Assert that a function will throw a specific type of error or that error
+ * thrown will match a RegExp or include a string.
  *
- *      var fn = function () { throw new ReferenceError(''); }
+ *      var fn = function () { throw new ReferenceError('This is a bad function.'); }
  *      expect(fn).to.throw(ReferenceError);
+ *      expect(fn).to.throw(/bad function/);
+ *      expect(fn).to.not.throw('good function');
+ *      expect(fn).to.throw(ReferenceError, /bad function/);
+ *
+ * Please note that when a throw expectation is negated, it will check each
+ * parameter independently, starting with Error constructor type. The appropriate way
+ * to check for the existence of a type of error but for a message that does not match
+ * is to use `and`.
+ *
+ *      expect(fn).to.throw(ReferenceError).and.not.throw(/good function/);
  *
  * @name throw
  * @alias throws
@@ -904,25 +913,44 @@ Assertion.prototype.keys = function(keys) {
  * @api public
  */
 
-Assertion.prototype.throw = function (constructor) {
+Assertion.prototype.throw = function (constructor, msg) {
   new Assertion(this.obj).is.a('function');
 
   var thrown = false;
 
+  if (arguments.length === 0) {
+    msg = null;
+    constructor = null;
+  } else if (constructor && (constructor instanceof RegExp || 'string' === typeof constructor)) {
+    msg = constructor;
+    constructor = null;
+  }
+
   try {
     this.obj();
   } catch (err) {
-    if (constructor && 'function' === typeof constructor && constructor.constructor != RegExp) {
+    // first, check constructor
+    if (constructor && 'function' === typeof constructor) {
       this.assert(
           err instanceof constructor && err.name == constructor.name
         , 'expected ' + this.inspect + ' to throw ' + constructor.name + ' but a ' + err.name + ' was thrown'
         , 'expected ' + this.inspect + ' to not throw ' + constructor.name );
-      return this;
-    } else if (constructor && constructor instanceof RegExp) {
+      if (!msg) return this;
+    }
+    // next, check message
+    if (err.message && msg && msg instanceof RegExp) {
       this.assert(
-          constructor.exec(err.message)
-        , 'expected ' + this.inspect + ' to throw error matching ' + constructor + ' but got ' + inspect(err.message)
-        , 'expected ' + this.inspect + ' to throw error not matching ' + constructor);
+          msg.exec(err.message)
+        , 'expected ' + this.inspect + ' to throw error matching ' + inspect(msg) + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not matching ' + inspect(msg)
+      );
+      return this;
+    } else if (err.message && msg && 'string' === typeof msg) {
+      this.assert(
+          ~err.message.indexOf(msg)
+        , 'expected ' + this.inspect + ' to throw error including ' + inspect(msg) + ' but got ' + inspect(err.message)
+        , 'expected ' + this.inspect + ' to throw error not including ' + inspect(msg)
+      );
       return this;
     } else {
       thrown = true;
@@ -1732,8 +1760,8 @@ module.exports = function (chai) {
       new Assertion(val1).to.equal(val2);
     };
 
-    should.throw = function (fn, err) {
-      new Assertion(fn).to.throw(err);
+    should.throw = function (fn, errt, errs) {
+      new Assertion(fn).to.throw(errt, errs);
     };
 
     should.exist = function (val) {
@@ -1747,8 +1775,8 @@ module.exports = function (chai) {
       new Assertion(val1).to.not.equal(val2);
     };
 
-    should.not.throw = function (fn, err) {
-      new Assertion(fn).to.not.throw(err);
+    should.not.throw = function (fn, errt, errs) {
+      new Assertion(fn).to.not.throw(errt, errs);
     };
 
     should.not.exist = function (val) {
