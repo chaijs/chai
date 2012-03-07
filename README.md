@@ -43,17 +43,25 @@ can be used as a stand-alone or with chai.
 * [sinon-chai](https://github.com/domenic/sinon-chai) by [@domenic](https://github.com/domenic) extends chai with 
 assertions for the Sinon.js mocking framework.
 
+## Getting Help
+
+If you have questions or issues, please use this projects
+[Github Issues](https://github.com/logicalparadox/chai/issues). You can also keep up to date
+on the [Google Group](http://groups.google.com/group/chaijs) or ping [@jakeluer](http://twitter.com/jakeluer)
+directly on Twitter. Chai developers can also be found on Freenode IRC in #letstest.js. 
+
 ## Contributors 
 
-     commits: 185
+     commits: 252
      files  : 71
      authors: 
-       163  Jake Luer               88.1%
-        16  Veselin Todorov         8.6%
-         3  Jeff Barczewski         1.6%
-         1  Domenic Denicola        0.5%
-         1  John Firebaugh          0.5%
-         1  Vinay Pulim             0.5%
+       192  Jake Luer               76.2%
+        53  Veselin Todorov         21.0%
+         3  Jeff Barczewski         1.2%
+         1  Vinay Pulim             0.4%
+         1  Jo Liss                 0.4%
+         1  Domenic Denicola        0.4%
+         1  John Firebaugh          0.4%
 
 ## License
 
