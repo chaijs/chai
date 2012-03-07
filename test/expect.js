@@ -219,25 +219,45 @@ suite('expect', function () {
     FakeArgs.prototype.length = 0;
 
     expect('').to.be.empty;
+    expect('foo').not.to.be.empty;
     expect([]).to.be.empty;
+    expect(['foo']).not.to.be.empty;
     expect(new FakeArgs).to.be.empty;
+    expect({arguments: 0}).not.to.be.empty;
     expect({}).to.be.empty;
+    expect({foo: 'bar'}).not.to.be.empty;
 
     err(function(){
-      expect([ 'hello', 'world' ]).to.be.empty;
-    }, "expected [ \'hello\', \'world\' ] to be empty");
+      expect('').not.to.be.empty;
+    }, "expected \'\' not to be empty");
 
     err(function(){
-      expect([ { hello: 'world' } ]).to.be.empty;
-    }, "expected [ { hello: \'world\' } ] to be empty");
+      expect('foo').to.be.empty;
+    }, "expected \'foo\' to be empty");
 
     err(function(){
-      expect('asd').to.be.empty;
-    }, "expected 'asd' to be empty");
+      expect([]).not.to.be.empty;
+    }, "expected [] not to be empty");
 
     err(function(){
-      expect('').to.not.be.empty;
-    }, "expected '' not to be empty");
+      expect(['foo']).to.be.empty;
+    }, "expected [ \'foo\' ] to be empty");
+
+    err(function(){
+      expect(new FakeArgs).not.to.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      expect({arguments: 0}).to.be.empty;
+    }, "expected { arguments: 0 } to be empty");
+
+    err(function(){
+      expect({}).not.to.be.empty;
+    }, "expected {} not to be empty");
+
+    err(function(){
+      expect({foo: 'bar'}).to.be.empty;
+    }, "expected { foo: \'bar\' } to be empty");
   });
 
   test('property(name)', function(){
