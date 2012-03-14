@@ -12,7 +12,7 @@ var should = chai.should();
 function err(fn, msg) {
   try {
     fn();
-    chai.fail('expected an error');
+    throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
     should.equal(msg, err.message);
   }

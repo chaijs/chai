@@ -14,7 +14,7 @@ var assert = chai.assert;
 function err(fn, msg) {
   try {
     fn();
-    chai.fail('expected an error');
+    throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
     assert.equal(msg, err.message);
   }
