@@ -178,6 +178,14 @@ suite('assert', function () {
     }, "expected null to equal undefined");
   });
 
+  test('isDefined', function() {
+    assert.isDefined(null);
+
+    err(function () {
+      assert.isDefined(undefined);
+    }, "expected undefined to not equal undefined");
+  });
+
   test('isFunction', function() {
     var func = function() {};
     assert.isFunction(func);
