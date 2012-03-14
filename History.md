@@ -1,4 +1,12 @@
 
+0.5.1 / 2012-03-14 
+==================
+
+  * chai.fail no longer exists
+  * Merge branch 'feature/assertdefined'
+  * Added asset#isDefined. Closes #37.
+  * dev docs update for Assertion#assert
+
 0.5.0 / 2012-03-07 
 ==================
 

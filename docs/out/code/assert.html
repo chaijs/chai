@@ -66,6 +66,8 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#isUndefined" class="scroll">isUndefined</a>
                 </li>
+                <li class="keepcase"><a href="#isUndefined" class="scroll">isUndefined</a>
+                </li>
                 <li class="keepcase"><a href="#isFunction" class="scroll">isFunction</a>
                 </li>
                 <li class="keepcase"><a href="#isObject" class="scroll">isObject</a>
@@ -563,6 +565,37 @@ _gaq.push(['_trackPageview']);
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isUndefined = function (val, msg) {
     new Assertion(val, msg).to.equal(undefined);
+  };</code>
+            </pre>
+          </div>
+        </article>
+        <article id="isUndefined-section" class="codeblock">
+          <div class="header"><h1>.isDefined(value, [message])</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.isDefined()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Assert <code>value</code> is not undefined.</p>
+
+<pre><code> var tea = 'cup of chai';
+ assert.isDefined(tea, 'no tea defined');
+</code></pre>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.isDefined = function (val, msg) {
+    new Assertion(val, msg).to.not.equal(undefined);
   };</code>
             </pre>
           </div>

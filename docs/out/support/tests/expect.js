@@ -13,7 +13,7 @@ var expect = chai.expect;
 function err(fn, msg) {
   try {
     fn();
-    chai.fail('expected an error');
+    throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
     expect(msg).to.equal(err.message);
   }

@@ -14,7 +14,7 @@ var assert = chai.assert;
 function err(fn, msg) {
   try {
     fn();
-    chai.fail('expected an error');
+    throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
     assert.equal(msg, err.message);
   }
@@ -176,6 +176,14 @@ suite('assert', function () {
     err(function () {
       assert.isUndefined(null);
     }, "expected null to equal undefined");
+  });
+
+  test('isDefined', function() {
+    assert.isDefined(null);
+
+    err(function () {
+      assert.isDefined(undefined);
+    }, "expected undefined to not equal undefined");
   });
 
   test('isFunction', function() {

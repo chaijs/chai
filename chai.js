@@ -140,7 +140,7 @@ function Assertion (obj, msg, stack) {
 Assertion.includeStack = false;
 
 /*!
- * # .assert(expression, message, negateMessage)
+ * # .assert(expression, message, negateMessage, expected, actual)
  *
  * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
  *
@@ -148,6 +148,8 @@ Assertion.includeStack = false;
  * @param {Philosophical} expression to be tested
  * @param {String} message to display if fails
  * @param {String} negatedMessage to display if negated expression fails
+ * @param {*} expected value (remember to check for negation)
+ * @param {*} actual (optional) will default to `this.obj`
  * @api private
  */
 
@@ -1077,7 +1079,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.5.0';
+exports.version = '0.5.1';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
@@ -1407,6 +1409,24 @@ module.exports = function (chai) {
 
   assert.isUndefined = function (val, msg) {
     new Assertion(val, msg).to.equal(undefined);
+  };
+
+  /**
+   * # .isDefined(value, [message])
+   *
+   * Assert `value` is not undefined.
+   *
+   *      var tea = 'cup of chai';
+   *      assert.isDefined(tea, 'no tea defined');
+   *
+   * @name isUndefined
+   * @param {*} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.isDefined = function (val, msg) {
+    new Assertion(val, msg).to.not.equal(undefined);
   };
 
   /**
