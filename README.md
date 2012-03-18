@@ -50,6 +50,15 @@ If you have questions or issues, please use this projects
 on the [Google Group](http://groups.google.com/group/chaijs) or ping [@jakeluer](http://twitter.com/jakeluer)
 directly on Twitter. Chai developers can also be found on Freenode IRC in #letstest.js. 
 
+## Versions
+
+The current stable version tree is the `0.5.x` tree on the `master` branch. If you are interested in seeing 
+what we have planned, or if you are a plugin developer interested in preparing your plugins for the 
+next major release, see the `0.6.x` branch.
+
+- Stable: 0.5.x
+- Unstables: 0.6.x
+
 ## Contributors 
 
      commits: 252
