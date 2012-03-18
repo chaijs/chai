@@ -1117,7 +1117,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '0.5.1';
+exports.version = '0.6.0';
 
 /*!
  * Primary `Assertion` prototype
