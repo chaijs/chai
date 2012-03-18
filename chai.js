@@ -53,7 +53,7 @@ require.relative = function (parent) {
 require.register("assertion.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  *
  * Primarily a refactor of: should.js
@@ -98,10 +98,11 @@ require.register("assertion.js", function(module, exports, require){
  * Module dependencies.
  */
 
-var AssertionError = require('./error')
-  , eql = require('./utils/eql')
+var AssertionError = require('./browser/error')
   , toString = Object.prototype.toString
-  , inspect = require('./utils/inspect');
+  , util = require('./utils')
+  , inspect = util.inspect
+  , eql = util.eql;
 
 /*!
  * Module export.
@@ -1069,58 +1070,15 @@ Assertion.prototype.closeTo = function (expected, delta) {
 
 }); // module: assertion.js
 
-require.register("chai.js", function(module, exports, require){
+require.register("browser/error.js", function(module, exports, require){
 /*!
  * chai
  * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var used = [];
-var exports = module.exports = {};
-
-exports.version = '0.5.1';
-
-exports.Assertion = require('./assertion');
-exports.AssertionError = require('./error');
-
-exports.inspect = require('./utils/inspect');
-
-exports.use = function (fn) {
-  if (!~used.indexOf(fn)) {
-    fn(this);
-    used.push(fn);
-  }
-
-  return this;
-};
-
-var expect = require('./interface/expect');
-exports.use(expect);
-
-var should = require('./interface/should');
-exports.use(should);
-
-var assert = require('./interface/assert');
-exports.use(assert);
-
-}); // module: chai.js
-
-require.register("error.js", function(module, exports, require){
-/*!
- * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
-
-var fail = require('./chai').fail;
-
 module.exports = AssertionError;
 
-/*!
- * Inspired by node.js assert module
- * https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/assert.js
- */
 function AssertionError (options) {
   options = options || {};
   this.name = 'AssertionError';
@@ -1128,25 +1086,105 @@ function AssertionError (options) {
   this.actual = options.actual;
   this.expected = options.expected;
   this.operator = options.operator;
-  var stackStartFunction = options.stackStartFunction || fail;
 
-  if (Error.captureStackTrace) {
+  if (options.stackStartFunction && Error.captureStackTrace) {
+    var stackStartFunction = options.stackStartFunction;
     Error.captureStackTrace(this, stackStartFunction);
   }
 }
 
-AssertionError.prototype.__proto__ = Error.prototype;
+AssertionError.prototype = new Error;
+AssertionError.prototype.constructor = AssertionError;
+
 
 AssertionError.prototype.toString = function() {
   return this.message;
 };
 
-}); // module: error.js
+}); // module: browser/error.js
+
+require.register("chai.js", function(module, exports, require){
+/*!
+ * chai
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+var used = []
+  , exports = module.exports = {};
+
+/*!
+ * Chai version
+ */
+
+exports.version = '0.5.1';
+
+/*!
+ * Primary `Assertion` prototype
+ */
+
+exports.Assertion = require('./assertion');
+
+/*!
+ * Assertion Error
+ *
+ * // TODO: browser build should use different error
+ */
+
+exports.AssertionError = require('./browser/error');
+
+/*!
+ * Utils for plugins (not exported)
+ */
+
+var util = require('./utils');
+
+/**
+ * # .use(function)
+ *
+ * Provides a way to extend the internals of Chai
+ *
+ * @param {Function}
+ * @returns {this} for chaining
+ * @api public
+ */
+
+exports.use = function (fn) {
+  if (!~used.indexOf(fn)) {
+    fn(this, util);
+    used.push(fn);
+  }
+
+  return this;
+};
+
+/*!
+ * Expect interface
+ */
+
+var expect = require('./interface/expect');
+exports.use(expect);
+
+/*!
+ * Should interface
+ */
+
+var should = require('./interface/should');
+exports.use(should);
+
+/*!
+ * Assert interface
+ */
+
+var assert = require('./interface/assert');
+exports.use(assert);
+
+}); // module: chai.js
 
 require.register("interface/assert.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
@@ -1174,12 +1212,12 @@ require.register("interface/assert.js", function(module, exports, require){
  *      chai.Assertion.includeStack = true; // defaults to false
  */
 
-module.exports = function (chai) {
+module.exports = function (chai, util) {
   /*!
    * Chai dependencies.
    */
   var Assertion = chai.Assertion
-    , inspect = chai.inspect;
+    , inspect = util.inspect;
 
   /*!
    * Module export.
@@ -1742,11 +1780,11 @@ module.exports = function (chai) {
 require.register("interface/expect.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-module.exports = function (chai) {
+module.exports = function (chai, util) {
   chai.expect = function (val, message) {
     return new chai.Assertion(val, message);
   };
@@ -1758,11 +1796,11 @@ module.exports = function (chai) {
 require.register("interface/should.js", function(module, exports, require){
 /*!
  * chai
- * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-module.exports = function (chai) {
+module.exports = function (chai, util) {
   var Assertion = chai.Assertion;
 
   chai.should = function () {
@@ -1917,6 +1955,33 @@ function objEquiv(a, b) {
   return true;
 }
 }); // module: utils/eql.js
+
+require.register("utils/index.js", function(module, exports, require){
+/*!
+ * chai
+ * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Main exports
+ */
+
+var exports = module.exports = {};
+
+/*!
+ * Inspect util
+ */
+
+exports.inspect = require('./inspect');
+
+/*!
+ * Deep equal utility
+ */
+
+exports.eql = require('./eql');
+
+}); // module: utils/index.js
 
 require.register("utils/inspect.js", function(module, exports, require){
 // This is (almost) directly from Node.js utils
