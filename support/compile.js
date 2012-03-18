@@ -5,15 +5,42 @@ var args = process.argv.slice(2)
   , pending = args.length
   , files = {};
 
+var ignores = [
+    'error.js'
+]
+
 args.forEach(function(file){
   var mod = file.replace('lib/', '');
+  if (~ignores.indexOf(mod)) return --pending;
   fs.readFile(file, 'utf8', function(err, js){
     if (err) throw err;
     console.log('  \033[90mcompile : \033[0m\033[36m%s\033[0m', file);
-    files[file] = js;
+    files[file] = parse(js);
     --pending || compile();
   });
 });
+
+function parse (js) {
+  return parseInheritance(parseRequires(js));
+}
+
+/**
+ * Parse __proto__.
+ * @attribute https://github.com/visionmedia/mocha/blob/master/support/compile.js
+ */
+
+function parseInheritance (js) {
+  return js
+    .replace(/^ *(\w+)\.prototype\.__proto__ * = *(\w+)\.prototype *;?/gm, function(_, child, parent){
+      return child + '.prototype = new ' + parent + ';\n'
+        + child + '.prototype.constructor = '+ child + ';\n';
+    });
+}
+
+function parseRequires (js) {
+  return js
+    .replace(/require\('.\/error'\)/g, "require('./browser/error')");
+}
 
 
 function compile() {
@@ -27,6 +54,7 @@ function compile() {
 
   args.forEach(function(file){
     var js = files[file];
+    if (!js) return;
     file = file.replace('lib/', '');
     buf += '\nrequire.register("' + file + '", function(module, exports, require){\n';
     buf += js;
