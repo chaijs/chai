@@ -26,6 +26,12 @@ suite('assert', function () {
     assert.match(chai.version, /^\d+\.\d+\.\d+$/ );
   });
 
+  test('fail', function () {
+    chai.expect(function () {
+      assert.fail();
+    }).to.throw(chai.AssertionError);
+  });
+
   test('isTrue', function () {
     assert.isTrue(true);
 
@@ -296,30 +302,30 @@ suite('assert', function () {
 
     err(function () {
       assert.operator(2, '<', 1);
-     }, "expected false to be true");
+     }, "expected 2 to be < 1");
 
     err(function () {
       assert.operator(1, '>', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be > 2");
 
     err(function () {
       assert.operator(1, '==', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be == 2");
 
     err(function () {
       assert.operator(2, '<=', 1);
-     }, "expected false to be true");
+     }, "expected 2 to be <= 1");
 
     err(function () {
       assert.operator(1, '>=', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be >= 2");
 
     err(function () {
       assert.operator(1, '!=', 1);
-     }, "expected false to be true");
+     }, "expected 1 to be != 1");
 
     err(function () {
       assert.operator(1, '!==', '1');
-     }, "expected false to be true");
+     }, "expected 1 to be !== \'1\'");
   });
 });

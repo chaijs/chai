@@ -42,6 +42,8 @@ _gaq.push(['_trackPageview']);
           <div class="antiscroll-inner">
             <div class="box-inner">
               <ul class="sections">
+                <li class="keepcase"><a href="#fail" class="scroll">fail</a>
+                </li>
                 <li class="keepcase"><a href="#ok" class="scroll">ok</a>
                 </li>
                 <li class="keepcase"><a href="#equal" class="scroll">equal</a>
@@ -180,6 +182,43 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>module.exports = function (chai) {</code>
+            </pre>
+          </div>
+        </article>
+        <article id="fail-section" class="codeblock">
+          <div class="header"><h1>.fail(actual, expect, msg, operator)</h1>
+          </div>
+          <div class="ctx">
+            <h3>assert.fail()
+            </h3>
+          </div>
+          <div class="tags">
+            <!-- ignroing this-->
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">actual</span><span class="desc">value</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc">value</span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">operator</span><span class="desc"></span>
+            </div>
+            <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
+            </div>
+          </div>
+          <div class="description"><p>Throw a failure. Node.js compatible.</p>
+          </div>
+          <div class="view-source">View Source
+          </div>
+          <div class="code-wrap">
+            <pre class="source prettyprint"><code>assert.fail = function (actual, expected, message, operator) {
+    throw new chai.AssertionError({
+        actual: actual
+      , expected: expected
+      , message: message
+      , operator: operator
+      , stackStartFunction: assert.fail
+    });
+  }</code>
             </pre>
           </div>
         </article>
@@ -1074,7 +1113,11 @@ _gaq.push(['_trackPageview']);
     if (!~['==', '===', '&gt;', '&gt;=', '&lt;', '&lt;=', '!=', '!=='].indexOf(operator)) {
       throw new Error('Invalid operator &quot;' + operator + '&quot;');
     }
-    new Assertion(eval(val + operator + val2), msg).to.be.true;
+    var test = new Assertion(eval(val + operator + val2), msg);
+    test.assert(
+        true === test.obj
+      , 'expected ' + inspect(val) + ' to be ' + operator + ' ' + inspect(val2)
+      , 'expected ' + inspect(val) + ' to not be ' + operator + ' ' + inspect(val2) );
   };</code>
             </pre>
           </div>

@@ -1,4 +1,14 @@
 
+0.5.2 / 2012-03-21 
+==================
+
+  * browser build
+  * Merge branch 'feature/assert-fail'
+  * Added assert.fail. Closes #40
+  * Merge branch 'bug/operator-msg'
+  * better error message for assert.operator. Closes #39
+  * version notes
+
 0.5.1 / 2012-03-14 
 ==================
 

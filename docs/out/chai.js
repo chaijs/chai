@@ -1079,7 +1079,7 @@ require.register("chai.js", function(module, exports, require){
 var used = [];
 var exports = module.exports = {};
 
-exports.version = '0.5.1';
+exports.version = '0.5.2';
 
 exports.Assertion = require('./assertion');
 exports.AssertionError = require('./error');
@@ -1186,6 +1186,29 @@ module.exports = function (chai) {
    */
 
   var assert = chai.assert = {};
+
+  /**
+   * # .fail(actual, expect, msg, operator)
+   *
+   * Throw a failure. Node.js compatible.
+   *
+   * @name fail
+   * @param {*} actual value
+   * @param {*} expected value
+   * @param {String} message
+   * @param {String} operator
+   * @api public
+   */
+
+  assert.fail = function (actual, expected, message, operator) {
+    throw new chai.AssertionError({
+        actual: actual
+      , expected: expected
+      , message: message
+      , operator: operator
+      , stackStartFunction: assert.fail
+    });
+  }
 
   /**
    * # .ok(object, [message])
@@ -1714,7 +1737,11 @@ module.exports = function (chai) {
     if (!~['==', '===', '>', '>=', '<', '<=', '!=', '!=='].indexOf(operator)) {
       throw new Error('Invalid operator "' + operator + '"');
     }
-    new Assertion(eval(val + operator + val2), msg).to.be.true;
+    var test = new Assertion(eval(val + operator + val2), msg);
+    test.assert(
+        true === test.obj
+      , 'expected ' + inspect(val) + ' to be ' + operator + ' ' + inspect(val2)
+      , 'expected ' + inspect(val) + ' to not be ' + operator + ' ' + inspect(val2) );
   };
 
   /*!
