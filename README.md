@@ -42,6 +42,8 @@ provides deep jQuery integration with chai's `should` and `expect`.
 can be used as a stand-alone or with chai.
 * [sinon-chai](https://github.com/domenic/sinon-chai) by [@domenic](https://github.com/domenic) extends chai with 
 assertions for the Sinon.js mocking framework.
+* [chai-as-promised](https://github.com/domenic/chai-as-promised) by [@domenic](https://github.com/domenic) extends
+chai with assertions about promises.
 
 ## Getting Help
 
