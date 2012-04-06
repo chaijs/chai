@@ -427,7 +427,7 @@ suite('should', function() {
     (badFn).should.not.throw(ReferenceError);
     (refErrFn).should.throw();
     (refErrFn).should.throw(ReferenceError);
-    (refErrFn).should.not.throw(Error);
+    (refErrFn).should.throw(Error);
     (refErrFn).should.not.throw(TypeError);
 
     (badFn).should.throw(/testing/);
@@ -438,6 +438,7 @@ suite('should', function() {
 
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
+    should.throw(refErrFn, Error);
     should.not.throw(goodFn);
     should.not.throw(badFn, ReferenceError);
 
@@ -467,10 +468,6 @@ suite('should', function() {
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
     }, "expected [Function] to not throw ReferenceError");
-
-    err(function(){
-      (refErrFn).should.throw(Error);
-    }, "expected [Function] to throw Error but a ReferenceError was thrown");
 
     err(function (){
       (badFn).should.not.throw(/testing/);

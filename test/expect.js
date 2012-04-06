@@ -427,7 +427,7 @@ suite('expect', function () {
     expect(badFn).to.not.throw(ReferenceError);
     expect(refErrFn).to.throw();
     expect(refErrFn).to.throw(ReferenceError);
-    expect(refErrFn).to.not.throw(Error);
+    expect(refErrFn).to.throw(Error);
     expect(refErrFn).to.not.throw(TypeError);
 
     expect(badFn).to.throw(/testing/);
@@ -461,10 +461,6 @@ suite('expect', function () {
     err(function(){
       expect(refErrFn).to.not.throw(ReferenceError);
     }, "expected [Function] to not throw ReferenceError");
-
-    err(function(){
-      expect(refErrFn).to.throw(Error);
-    }, "expected [Function] to throw Error but a ReferenceError was thrown");
 
     err(function (){
       expect(badFn).to.not.throw(/testing/);
