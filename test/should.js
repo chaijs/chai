@@ -416,9 +416,18 @@ suite('should', function() {
   });
 
   test('throw', function () {
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function () {
+      this.name = 'PoorlyConstructedError';
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
-      , refErrFn = function () { throw new ReferenceError('hello'); };
+      , refErrFn = function () { throw new ReferenceError('hello'); }
+      , ickyErrFn = function () { throw new PoorlyConstructedError(); };
 
     (goodFn).should.not.throw();
     (goodFn).should.not.throw(Error);
@@ -429,6 +438,9 @@ suite('should', function() {
     (refErrFn).should.throw(ReferenceError);
     (refErrFn).should.throw(Error);
     (refErrFn).should.not.throw(TypeError);
+    (ickyErrFn).should.throw();
+    (ickyErrFn).should.throw(PoorlyConstructedError);
+    (ickyErrFn).should.throw(Error);
 
     (badFn).should.throw(/testing/);
     (badFn).should.throw('testing');
@@ -439,6 +451,7 @@ suite('should', function() {
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
     should.throw(refErrFn, Error);
+    should.throw(ickyErrFn, PoorlyConstructedError);
     should.not.throw(goodFn);
     should.not.throw(badFn, ReferenceError);
 
@@ -468,6 +481,18 @@ suite('should', function() {
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
     }, "expected [Function] to not throw ReferenceError");
+
+    err(function(){
+      (badFn).should.throw(PoorlyConstructedError);
+    }, "expected [Function] to throw PoorlyConstructedError but a Error was thrown");
+
+    err(function(){
+      (ickyErrFn).should.not.throw(PoorlyConstructedError);
+    }, "expected [Function] to not throw PoorlyConstructedError");
+
+    err(function(){
+      (ickyErrFn).should.throw(ReferenceError);
+    }, "expected [Function] to throw ReferenceError but a PoorlyConstructedError was thrown");
 
     err(function (){
       (badFn).should.not.throw(/testing/);
