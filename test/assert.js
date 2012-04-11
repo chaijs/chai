@@ -152,7 +152,7 @@ suite('assert', function () {
 
     err(function () {
       assert.notEqual(5, 5);
-    }, "expected 5 to equal 5");
+    }, "expected 5 to not equal 5");
   });
 
   test('strictEqual', function() {
