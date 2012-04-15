@@ -14,7 +14,7 @@ function err(fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    should.equal(msg, err.message);
+    should.equal(err.message, msg);
   }
 }
 
