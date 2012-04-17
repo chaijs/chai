@@ -1,0 +1,85 @@
+extends layout
+
+block nav
+  - if (files.home)
+    ul.sections
+      for page in files.home
+        - var href = page.href.split('/')
+        - href = href[href.length - 2]
+        li: a.scroll(href='#' + href)= (page.menu || page.title)
+  - if (files.support)
+    ul.pages
+      for page in files.support
+        li: a(href=site.ghbaseurl + page.href)= page.title
+  - if (files.code)
+    ul.code
+      for page in files.code
+        - if (page.template == 'code-index')
+          li.header: a(href=site.ghbaseurl + page.href)= page.title
+      for page in files.code
+        - if (page.template == 'code')
+          li: a(href=site.ghbaseurl + page.href)= page.title
+
+block content
+  section#home.grid_12
+    .rowInside
+      article.grid_12.desc
+        h2 Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+      if (files.home_samples)
+        for section in files.home_samples
+          article.grid_4.code
+            .wrap
+              h3= section.title
+              .code-sample!= section.prepared
+              a(href='#', class='more') Visit #{section.title} Guide &rarr;
+    .rowInside
+      article.grid_12.hrline
+      article.grid_12.desc
+        h2 Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+      article.grid_3.cplugs
+        .wrap
+          span.img &nbsp;
+          h3 Custom Plugins
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+          a(href='#', class='more') Get Custom Plugins &rarr;
+      article.grid_3.vplugs
+        .wrap
+          span.img &nbsp;
+          h3 Vendor Integration
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+          a(href='#', class='more') Get Vendor Plugins &rarr;
+      article.grid_3.pplugs
+        .wrap
+          span.img &nbsp;
+          h3 Platforms
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+          a(href='#', class='more') See Available Platorms &rarr;
+      article.grid_3.dplugs
+        .wrap
+          span.img &nbsp;
+          h3 Develop Plugins
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+          a(href='#', class='more') Plugin Developer's Guide &rarr;
+    .rowInside
+      article.grid_12.hrline
+      article.github.grid_6
+        .wrap
+          span.img &nbsp;
+          h3 Powered by Open Source
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+          a(href='#', class='more') Fork me on GitHub &rarr;
+      article.community.grid_6
+        .wrap
+          span.img &nbsp;
+          h3 Involved Community
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+          a(href='#', class='more') Visit Google Group &rarr;
+      article.subscribe.grid_12
+        .rowInside
+          .grid_6
+            .wrap
+              h3 Subscribe to the Chai Newsletter
+              p Get notified about new releases and useful tips.
+          .grid_6
+            .wrap
+              .form Form

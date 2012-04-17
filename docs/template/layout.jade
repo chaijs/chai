@@ -1,0 +1,120 @@
+!!!5
+html(lang='en')
+  head
+    block title
+      title #{file.title} - #{site.title}
+    script(type='text/javascript')
+      var ghuser = '#{site.ghuser}'
+        , ghproject = '#{site.ghproject}';
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js')
+    script(src=site.ghbaseurl + '/public/js/jq-mousewheel.js')
+    script(src=site.ghbaseurl + '/public/js/antiscroll.js')
+    script(src=site.ghbaseurl + '/public/js/prettify.js')
+    script(src=site.ghbaseurl + '/public/js/main.js')
+    link(rel='stylesheet', href=site.ghbaseurl + '/public/css/antiscroll.css', type='text/css', media='all')
+    link(rel='stylesheet', href=site.ghbaseurl + '/public/css/main.css', type='text/css', media='all')
+    link(href='http://fonts.googleapis.com/css?family=Lato:300|Redressed', rel='stylesheet', type='text/css')
+    - if (site.mixpanel)
+      script(type='text/javascript')
+        var mpq = [];
+        mpq.push(["init", "#{site.mixpanel}"]);
+        (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+        b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+        "//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+        [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+        "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+        d.length;c++){mpq[d[c]]=e(d[c])}})();
+    - if (site.googleanalytics && true == false)
+      script(type='text/javascript')
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '#{site.googleanalytics}']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+  body(class=file.template)
+    nav#primary
+      .nav-wrap
+        .logo
+          h1: a(href=site.ghbaseurl) Chai
+        .navlist
+          ul
+            li: a(href='#') Guide
+            li: a(href='#') API
+            li: a(href='#') Plugins
+            li: a(href='#') Tools
+            li: a(href='#') Blog
+    header
+      .header-wrap
+        .installation
+          .site-description!= site.description
+          .card-wrap
+            .card
+              .card-inner.install-node
+                h1 Download Chai
+                  span.version v1.0.0
+                h2 for Node
+                  small Another platform?
+                    a(href='#') Browser
+                    a(href='#') Rails
+                .download-banner 
+                  .description The <code>chai</code> package is available on npm.
+                  .command.dsp-left $ npm install chai
+                  a.button.dsp-right(href='#') View node guide
+                .tech-links
+                  a(href='#') Issues
+                  | &nbsp;|
+                  a(href='#') Upgrade notes
+                  | &nbsp;|
+                  a(href='#') Changelog
+                  | &nbsp;|
+                  a(href='#') Community
+                  | &nbsp;|
+                  a(href='#') Build status
+        .callouts
+          .call
+            a(href='#')
+              span &nbsp;
+              big Getting Started
+              small Learn how install and use Chai through a series of guided walkthroughs.
+          .call
+            a(href='#')
+              span &nbsp;
+              big API Documentation
+              small Explore the BDD &amp; TDD language specifications for all available assertions.
+          .call
+            a(href='#')
+              span &nbsp;
+              big Plugin Directory
+              small Extend Chai's with additional assertions and vendor integration.
+    .content
+      block content
+        section#content
+          .wrap!= file.prepared
+    footer
+      section#footer
+        .branding 
+          h3: a(href='#') Chai Assertion Library
+        .list
+          ul
+            li: a(href='#') Installation
+            li: a(href='#') Interface Styles
+            li: a(href='#') Developing Plugins
+        .list
+          ul
+            li: a(href='#') Expect / Should API
+            li: a(href='#') Assert API
+            li: a(href='#') Plugin Utility API
+        .list
+          ul
+            li: a(href='#') Upgrade notes
+            li: a(href='#') Test Suite
+            li: a(href='#') Test Coverage
+        .list
+          ul
+            li: a(href='#') Issues
+            li: a(href='#') Google Group
+            li: a(href='#') Build Status
