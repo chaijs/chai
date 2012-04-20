@@ -331,7 +331,7 @@ suite('should', function() {
 
   test('include()', function(){
     ['foo', 'bar'].should.include('foo');
-    ['foo', 'bar'].should.include('foo');
+    ['foo', 'bar'].should.contain('foo');
     ['foo', 'bar'].should.include('bar');
     [1,2].should.include(1);
     ['foo', 'bar'].should.not.include('baz');
@@ -350,7 +350,7 @@ suite('should', function() {
     ({ foo: 1 }).should.have.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.have.keys(['foo', 'bar']);
     ({ foo: 1, bar: 2 }).should.have.keys('foo', 'bar');
-    ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('foo', 'bar');
+    ({ foo: 1, bar: 2, baz: 3 }).should.include.keys('foo', 'bar');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('bar', 'foo');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('baz');
 
