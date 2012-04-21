@@ -634,13 +634,13 @@ Assertion.prototype.a = function (type) {
  *
  *      expect(Chai).to.be.an.instanceOf(Tea);
  *
- * @name instanceof
+ * @name instanceOf
  * @param {Constructor}
  * @alias instanceOf
  * @api public
  */
 
-Assertion.prototype.instanceof = function (constructor) {
+Assertion.prototype.instanceOf = function (constructor) {
   var name = constructor.name;
   this.assert(
       this.obj instanceof constructor
@@ -921,7 +921,7 @@ Assertion.prototype.keys = function(keys) {
  * @api public
  */
 
-Assertion.prototype.throw = function (constructor, msg) {
+Assertion.prototype.Throw = function (constructor, msg) {
   new Assertion(this.obj).is.a('function');
 
   var thrown = false;
@@ -1063,9 +1063,9 @@ Assertion.prototype.closeTo = function (expected, delta) {
 ('ownProperty', 'haveOwnProperty')
 ('above', 'greaterThan')
 ('below', 'lessThan')
-('throw', 'throws')
-('throw', 'Throw') // for troublesome browsers
-('instanceof', 'instanceOf');
+('Throw', 'throws')
+('Throw', 'throw') // for troublesome browsers
+('instanceOf', 'instanceof');
 
 }); // module: assertion.js
 
@@ -1113,8 +1113,6 @@ require.register("error.js", function(module, exports, require){
  * MIT Licensed
  */
 
-var fail = require('./chai').fail;
-
 module.exports = AssertionError;
 
 /*!
@@ -1128,10 +1126,9 @@ function AssertionError (options) {
   this.actual = options.actual;
   this.expected = options.expected;
   this.operator = options.operator;
-  var stackStartFunction = options.stackStartFunction || fail;
 
   if (Error.captureStackTrace) {
-    Error.captureStackTrace(this, stackStartFunction);
+    Error.captureStackTrace(this, options.stackStartFunction);
   }
 }
 
@@ -1248,7 +1245,10 @@ module.exports = function (chai) {
     test.assert(
         exp == test.obj
       , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp)
+      , exp
+      , act
+    );
   };
 
   /**
@@ -1271,7 +1271,10 @@ module.exports = function (chai) {
     test.assert(
         exp != test.obj
       , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp)
+      , exp
+      , act
+    );
   };
 
   /**
@@ -1361,7 +1364,7 @@ module.exports = function (chai) {
    */
 
   assert.isTrue = function (val, msg) {
-    new Assertion(val, msg).is.true;
+    new Assertion(val, msg).is['true'];
   };
 
   /**
@@ -1379,7 +1382,7 @@ module.exports = function (chai) {
    */
 
   assert.isFalse = function (val, msg) {
-    new Assertion(val, msg).is.false;
+    new Assertion(val, msg).is['false'];
   };
 
   /**
@@ -1503,7 +1506,7 @@ module.exports = function (chai) {
    */
 
   assert.isArray = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Array);
+    new Assertion(val, msg).to.be.instanceOf(Array);
   };
 
   /**
@@ -1599,7 +1602,7 @@ module.exports = function (chai) {
    */
 
   assert.instanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.be.instanceof(type);
+    new Assertion(val, msg).to.be.instanceOf(type);
   };
 
   /**
@@ -1688,7 +1691,7 @@ module.exports = function (chai) {
       type = null;
     }
 
-    new Assertion(fn, msg).to.throw(type);
+    new Assertion(fn, msg).to.Throw(type);
   };
 
   /**
@@ -1714,7 +1717,7 @@ module.exports = function (chai) {
       type = null;
     }
 
-    new Assertion(fn, msg).to.not.throw(type);
+    new Assertion(fn, msg).to.not.Throw(type);
   };
 
   /**
@@ -1813,8 +1816,8 @@ module.exports = function (chai) {
       new Assertion(val1).to.equal(val2);
     };
 
-    should.throw = function (fn, errt, errs) {
-      new Assertion(fn).to.throw(errt, errs);
+    should.Throw = function (fn, errt, errs) {
+      new Assertion(fn).to.Throw(errt, errs);
     };
 
     should.exist = function (val) {
@@ -1828,13 +1831,16 @@ module.exports = function (chai) {
       new Assertion(val1).to.not.equal(val2);
     };
 
-    should.not.throw = function (fn, errt, errs) {
-      new Assertion(fn).to.not.throw(errt, errs);
+    should.not.Throw = function (fn, errt, errs) {
+      new Assertion(fn).to.not.Throw(errt, errs);
     };
 
     should.not.exist = function (val) {
       new Assertion(val).to.not.exist;
     }
+
+    should['throw'] = should['Throw'];
+    should.not['throw'] = should.not['Throw'];
 
     return should;
   };
