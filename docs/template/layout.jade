@@ -14,7 +14,7 @@ html(lang='en')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/antiscroll.css', type='text/css', media='all')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/main.css', type='text/css', media='all')
     link(href='http://fonts.googleapis.com/css?family=Lato:300|Redressed', rel='stylesheet', type='text/css')
-    - if (site.mixpanel)
+    - if (site.mixpanel && true == false)
       script(type='text/javascript')
         var mpq = [];
         mpq.push(["init", "#{site.mixpanel}"]);
@@ -25,7 +25,7 @@ html(lang='en')
         [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
         "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
         d.length;c++){mpq[d[c]]=e(d[c])}})();
-    - if (site.googleanalytics)
+    - if (site.googleanalytics && true == false)
       script(type='text/javascript')
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', '#{site.googleanalytics}']);
@@ -35,60 +35,45 @@ html(lang='en')
           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
-  body
-    nav
-      block nav
-        ul.pages
-          li: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/') Home
-          - console.log(files);
-          - if (files.page)
-            for page in files.page
-              - if (page.template == 'code')
-                li: a(href=site.ghbaseurl + page.href)= page.title
-        - if (files.code)
-          ul.code
-            for page in files.code
-              - if (page.template == 'code-index')
-                li.header: a(href=site.ghbaseurl + page.href)= page.title
-            for page in files.code
-              - if (page.template == 'code')
-                li: a(href=site.ghbaseurl + page.href)= page.title
-    header
-      block header
-        h1: a(href= (site.ghbaseurl) ? site.ghbaseurl : '/'): img(src=site.ghbaseurl + '/public/img/chai-logo.png', title=site.title)
-        .description!= site.description
-        .gh
-          h4 Latest Update to Github
-          #commit
-            span#latestCommitTime Loading...
-            a#latestCommitURL
-          #latestCommitMessage Loading...
-          #buttons
-            .btn
-              iframe(src="http://markdotto.github.com/github-buttons/github-btn.html?user=" + site.ghuser + "&repo=" + site.ghproject + "&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110px", height="20px")
-            .btn
-              iframe(src="http://markdotto.github.com/github-buttons/github-btn.html?user=" + site.ghuser + "&repo=" + site.ghproject + "&type=fork&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110px", height="20px")
-            .btn
-              a(href="htts://twitter.com/share", class="twitter-share-button", data-via=site.tweetvia, data-url=site.tweeturl, data-related=site.tweetrelated) Tweet
-              script
-                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-            - if (site.twitterfollow && site.twitterfollow.length > 0)
-              .btn
-                a(href="https://twitter.com/" + site.twitterfollow, class="twitter-follow-button", data-show-count="false") Follow @#{site.twitterfollow
-                script
-                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs"); 
-          #links
-            a#repoIssues(href='https://github.com/' + site.ghuser + '/' + site.ghproject + '/issues') GitHub Issues
-            - if (site.hasdownloads)
-              a#repoDownload(href='https://github.com/downloads/' + site.ghuser + '/' + site.ghproject + '/' + site.ghproject + '-' + site.version + '.zip')
-                | Download v#{site.version}
-
-    section#content
-      block content
-        .wrap!= file.prepared
+  body(class=file.template)
+    nav#primary
+      .nav-wrap
+        .logo
+          h1: a(href=site.ghbaseurl + '/') Chai
+        .navlist
+          ul
+            block navlist
+              li: a(href=site.ghbaseurl + '/guide') Guide
+              li: a(href='#') API
+              li: a(href='#') Plugins
+              li: a(href='#') Tools
+              li: a(href='#') Blog
+    block header
+    .content
+      section#content
+        block content
+          .wrap!= file.prepared
     footer
-      block footer
-        .branding #{site.title} is&nbsp;
-          a(href='http://alogicalparadox.com') a logical paradox
-          | . site generated by
-          a(href='http://codexjs.com') codex.
+      section#footer
+        .branding 
+          h3: a(href='#') Chai Assertion Library
+        .list
+          ul
+            li: a(href='#') Installation
+            li: a(href='#') Interface Styles
+            li: a(href='#') Developing Plugins
+        .list
+          ul
+            li: a(href='#') Expect / Should API
+            li: a(href='#') Assert API
+            li: a(href='#') Plugin Utility API
+        .list
+          ul
+            li: a(href='#') Upgrade notes
+            li: a(href='#') Test Suite
+            li: a(href='#') Test Coverage
+        .list
+          ul
+            li: a(href='#') Issues
+            li: a(href='#') Google Group
+            li: a(href='#') Build Status

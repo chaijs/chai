@@ -26,6 +26,12 @@ suite('assert', function () {
     assert.match(chai.version, /^\d+\.\d+\.\d+$/ );
   });
 
+  test('fail', function () {
+    chai.expect(function () {
+      assert.fail();
+    }).to.throw(chai.AssertionError);
+  });
+
   test('isTrue', function () {
     assert.isTrue(true);
 
@@ -77,7 +83,7 @@ suite('assert', function () {
     assert.equal(foo, undefined);
   });
 
-  test('typeof', function () {
+  test('typeof / notTypeOf', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
@@ -85,6 +91,15 @@ suite('assert', function () {
     err(function () {
       assert.typeOf(5, 'string');
     }, "expected 5 to be a string");
+
+  });
+
+  test('notTypeOf', function () {
+    assert.notTypeOf('test', 'number');
+
+    err(function () {
+      assert.notTypeOf(5, 'number');
+    }, "expected 5 not to be a number");
   });
 
   test('instanceOf', function() {
@@ -94,6 +109,15 @@ suite('assert', function () {
     err(function () {
       assert.instanceOf(5, Foo);
     }, "expected 5 to be an instance of Foo");
+  });
+
+  test('notInstanceOf', function () {
+    function Foo(){}
+    assert.notInstanceOf(new Foo(), String);
+
+    err(function () {
+      assert.notInstanceOf(new Foo(), Foo);
+    }, "expected {} to not be an instance of Foo");
   });
 
   test('isObject', function () {
@@ -114,12 +138,21 @@ suite('assert', function () {
     }, "expected 'foo' to be a object");
   });
 
+  test('isNotObject', function () {
+    function Foo(){}
+    assert.isNotObject(5);
+
+    err(function() {
+      assert.isNotObject({});
+    }, "expected {} not to be a object");
+  });
+
   test('notEqual', function() {
     assert.notEqual(3, 4);
 
     err(function () {
       assert.notEqual(5, 5);
-    }, "expected 5 to equal 5");
+    }, "expected 5 to not equal 5");
   });
 
   test('strictEqual', function() {
@@ -195,6 +228,14 @@ suite('assert', function () {
     }, "expected {} to be a function");
   });
 
+  test('isNotFunction', function () {
+    assert.isNotFunction(5);
+
+    err(function () {
+      assert.isNotFunction(function () {});
+    }, "expected [Function] not to be a function");
+  });
+
   test('isArray', function() {
     assert.isArray([]);
     assert.isArray(new Array);
@@ -202,6 +243,18 @@ suite('assert', function () {
     err(function () {
       assert.isArray({});
     }, "expected {} to be an instance of Array");
+  });
+
+  test('isNotArray', function () {
+    assert.isNotArray(3);
+
+    err(function () {
+      assert.isNotArray([]);
+    }, "expected [] to not be an instance of Array");
+
+    err(function () {
+      assert.isNotArray(new Array);
+    }, "expected [] to not be an instance of Array");
   });
 
   test('isString', function() {
@@ -213,6 +266,15 @@ suite('assert', function () {
     }, "expected 1 to be a string");
   });
 
+  test('isNotString', function () {
+    assert.isNotString(3);
+    assert.isNotString([ 'hello' ]);
+
+    err(function () {
+      assert.isNotString('hello');
+    }, "expected 'hello' not to be a string");
+  });
+
   test('isNumber', function() {
     assert.isNumber(1);
     assert.isNumber(Number('3'));
@@ -222,6 +284,15 @@ suite('assert', function () {
     }, "expected \'1\' to be a number");
   });
 
+  test('isNotNumber', function () {
+    assert.isNotNumber('hello');
+    assert.isNotNumber([ 5 ]);
+
+    err(function () {
+      assert.isNotNumber(4);
+    }, "expected 4 not to be a number");
+  });
+
   test('isBoolean', function() {
     assert.isBoolean(true);
     assert.isBoolean(false);
@@ -229,6 +300,18 @@ suite('assert', function () {
     err(function () {
       assert.isBoolean('1');
     }, "expected \'1\' to be a boolean");
+  });
+
+  test('isNotBoolean', function () {
+    assert.isNotBoolean('true');
+
+    err(function () {
+      assert.isNotBoolean(true);
+    }, "expected true not to be a boolean");
+
+    err(function () {
+      assert.isNotBoolean(false);
+    }, "expected false not to be a boolean");
   });
 
   test('include', function() {
@@ -296,30 +379,30 @@ suite('assert', function () {
 
     err(function () {
       assert.operator(2, '<', 1);
-     }, "expected false to be true");
+     }, "expected 2 to be < 1");
 
     err(function () {
       assert.operator(1, '>', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be > 2");
 
     err(function () {
       assert.operator(1, '==', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be == 2");
 
     err(function () {
       assert.operator(2, '<=', 1);
-     }, "expected false to be true");
+     }, "expected 2 to be <= 1");
 
     err(function () {
       assert.operator(1, '>=', 2);
-     }, "expected false to be true");
+     }, "expected 1 to be >= 2");
 
     err(function () {
       assert.operator(1, '!=', 1);
-     }, "expected false to be true");
+     }, "expected 1 to be != 1");
 
     err(function () {
       assert.operator(1, '!==', '1');
-     }, "expected false to be true");
+     }, "expected 1 to be !== \'1\'");
   });
 });

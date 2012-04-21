@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Contributing - Chai
+    </title>
+    <script type="text/javascript">var ghuser = 'logicalparadox'
+  , ghproject = 'chai';
+
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="/public/js/jq-mousewheel.js"></script>
+    <script src="/public/js/antiscroll.js"></script>
+    <script src="/public/js/prettify.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
+  </head>
+  <body class="guide">
+    <nav id="primary">
+      <div class="nav-wrap">
+        <div class="logo">
+          <h1><a href="/">Chai</a>
+          </h1>
+        </div>
+        <div class="navlist">
+          <ul>
+            <li><a href="/guide" class="active">Guide</a>
+            </li>
+            <li><a href="#">API</a>
+            </li>
+            <li><a href="#">Plugins</a>
+            </li>
+            <li><a href="#">Tools</a>
+            </li>
+            <li><a href="#">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <section id="content">
+        <div id="guide" class="grid_12">
+          <div class="rowInside">
+            <article class="grid_9 prepared">
+              <h1>Contributing
+              </h1>
+              <div class="prose">
+<h3>Developing</h3>
+<p>Please avoid making changes to the browser versions of chai if you are developing in the browser. All
+changes to the library are to be made to <code>lib/*</code> and then packaged for the browser using the <code>make</code>
+command.
+
+</p>
+<h3>Testing</h3>
+<p>Tests are written in <code>exports</code> style on <a href="http://visionmedia.github.com/mocha/">mocha test framework</a>.
+There is a test file for each of the interfaces. The tests for <code>expect</code> and <code>assert</code> must pass in node.js
+and in the browser, whereas the should tests only need to pass on node.js.
+
+</p>
+<p>Browsers tests are currently known to pass in Chrome 16 and Firefox 8. Please let me know if you can test
+in other browsers or other version.
+
+</p>
+<h4>Server Side Testing</h4>
+<p>It&apos;s quite simple...
+
+</p>
+<pre><code>  make test</code></pre>
+<h4>Browser Side Testing</h4>
+<p>It&apos;s also quite simple. Open up <code>test/browser/index.html</code> in your nearest browser.
+
+
+</p>
+<h3>Building</h3>
+<p>If you have made changes to any of the components, you must rebuild the browser package.
+
+</p>
+<pre><code>  $ make</code></pre>
+<h3>Contributors</h3>
+<pre><code> commits: 252
+ files  : 71
+ authors: 
+   192  Jake Luer               76.2%
+    53  Veselin Todorov         21.0%
+     3  Jeff Barczewski         1.2%
+     1  Vinay Pulim             0.4%
+     1  Jo Liss                 0.4%
+     1  Domenic Denicola        0.4%
+     1  John Firebaugh          0.4%</code></pre>
+              </div>
+            </article>
+            <nav id="guide" class="grid_3">
+              <div class="wrap">
+                <h3>Getting Started
+                </h3>
+                <ul>
+                  <li>Installation
+                  </li>
+                  <li>Node
+                  </li>
+                  <li>Browser
+                  </li>
+                  <li>Other Platforms
+                  </li>
+                  <li>Installation
+                  </li>
+                  <li>Browser
+                  </li>
+                  <li>Installation
+                  </li>
+                  <li>Node
+                  </li>
+                  <li>Other Platforms
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <section id="footer">
+        <div class="branding">
+          <h3><a href="#">Chai Assertion Library</a>
+          </h3>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Installation</a>
+            </li>
+            <li><a href="#">Interface Styles</a>
+            </li>
+            <li><a href="#">Developing Plugins</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Expect / Should API</a>
+            </li>
+            <li><a href="#">Assert API</a>
+            </li>
+            <li><a href="#">Plugin Utility API</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Upgrade notes</a>
+            </li>
+            <li><a href="#">Test Suite</a>
+            </li>
+            <li><a href="#">Test Coverage</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Issues</a>
+            </li>
+            <li><a href="#">Google Group</a>
+            </li>
+            <li><a href="#">Build Status</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </footer>
+  </body>
+</html>

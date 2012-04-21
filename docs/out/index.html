@@ -15,242 +15,293 @@
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
-    <script type="text/javascript">var mpq = [];
-mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
-(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
-b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
-"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
-a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
-[f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
-"track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
-d.length;c++){mpq[d[c]]=e(d[c])}})();
-</script>
-    <script type="text/javascript">var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-26183904-6']);
-_gaq.push(['_trackPageview']);
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
   </head>
-  <body>
-    <nav>
-      <ul class="sections">
-        <li><a href="#installation" class="scroll">Installation</a>
-        </li>
-        <li><a href="#styles" class="scroll">Assertion Styles</a>
-        </li>
-        <li><a href="#plugins" class="scroll">Plugins</a>
-        </li>
-        <li><a href="#help" class="scroll">Getting Help</a>
-        </li>
-        <li><a href="#contributor" class="scroll">Contributing</a>
-        </li>
-      </ul>
-      <ul class="pages">
-        <li><a href="/support/tests/">Test Suite</a>
-        </li>
-        <li><a href="/support/coverage/">Test Coverage</a>
-        </li>
-      </ul>
-      <ul class="code">
-        <li class="header"><a href="/code/">Language Guide</a>
-        </li>
-        <li><a href="/code/expect.html">expect / should [bdd]</a>
-        </li>
-        <li><a href="/code/assert.html">assert [tdd]</a>
-        </li>
-      </ul>
+  <body class="index">
+    <nav id="primary">
+      <div class="nav-wrap">
+        <div class="logo">
+          <h1><a href="/">Chai</a>
+          </h1>
+        </div>
+        <div class="navlist">
+          <ul>
+            <li><a href="/guide">Guide</a>
+            </li>
+            <li><a href="#">API</a>
+            </li>
+            <li><a href="#">Plugins</a>
+            </li>
+            <li><a href="#">Tools</a>
+            </li>
+            <li><a href="#">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <header>
-      <h1><a href="/"><img src="/public/img/chai-logo.png" title="Chai"></a>
-      </h1>
-      <div class="description"><p>Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
-
-      </div>
-      <div class="gh">
-        <h4>Latest Update to Github
-        </h4>
-        <div id="commit"><span id="latestCommitTime">Loading...</span><a id="latestCommitURL"></a>
-        </div>
-        <div id="latestCommitMessage">Loading...
-        </div>
-        <div id="buttons">
-          <div class="btn">
-            <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=logicalparadox&amp;repo=chai&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px">
-            </iframe>
+      <div class="header-wrap">
+        <div class="installation">
+          <div class="site-description"><p>Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
           </div>
-          <div class="btn">
-            <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=logicalparadox&amp;repo=chai&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px">
-            </iframe>
-          </div>
-          <div class="btn"><a href="htts://twitter.com/share" data-via="jakeluer" data-url="http://chaijs.com" data-related="jakeluer" class="twitter-share-button">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-</script>
+          <div class="card-wrap">
+            <div class="card">
+              <div class="card-inner install-node">
+                <h1>Download Chai<span class="version">v1.0.0</span>
+                </h1>
+                <h2>for Node<small>Another platform?<a href="#">Browser</a><a href="#">Rails</a></small>
+                </h2>
+                <div class="download-banner">
+                  <div class="description">The <code>chai</code> package is available on npm.
+                  </div>
+                  <div class="command dsp-left">$ npm install chai
+                  </div><a href="#" class="button dsp-right">View node guide</a>
+                </div>
+                <div class="tech-links"><a href="#">Issues</a>&nbsp;|
+<a href="#">Upgrade notes</a>&nbsp;|
+<a href="#">Changelog</a>&nbsp;|
+<a href="#">Community</a>&nbsp;|
+<a href="#">Build status</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="links"><a id="repoIssues" href="https://github.com/logicalparadox/chai/issues">GitHub Issues</a>
+        <div class="callouts">
+          <div class="call"><a href="#"><span>&nbsp;</span>
+              <big>Getting Started
+              </big><small>Learn how install and use Chai through a series of guided walkthroughs.</small></a>
+          </div>
+          <div class="call"><a href="#"><span>&nbsp;</span>
+              <big>API Documentation
+              </big><small>Explore the BDD &amp; TDD language specifications for all available assertions.</small></a>
+          </div>
+          <div class="call"><a href="#"><span>&nbsp; </span>
+              <big>Plugin Directory
+              </big><small>Extend Chai's with additional assertions and vendor integration.</small></a>
+          </div>
         </div>
       </div>
     </header>
-    <section id="content">
-      <article>
-        <h1 id="installation-section"><a name="installation">Installation</a>
-        </h1>
-        <section><p>Chai is available for both node.js and the browser using any
-test framework you like. 
-
-</p>
-<h3>Node.js</h3>
-<p>Package is available through <a href="http://npmjs.org">npm</a>:
-
-</p>
-<pre><code>npm install chai</code></pre>
-<p>Recommend adding it to package.json devDependancies.
-
-</p>
-<h3>Browser</h3>
-<p>Include the chai browser build in your testing suite.
-
-</p>
-<pre><code>&lt;script src="chai.js" type="text/javascript">&lt;/script></code></pre>
-<p>Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+. 
-
-</p>
-<p>Want to know if your browser is compatible? Run the <a href="/support/tests/">online test suite</a>.
-
-</p>
-<p>The latest tagged version will also be available for hot-linking at <a href="/chai.js"><a href="http://chaijs.com/chai.js">http://chaijs.com/chai.js</a></a>.
-</p>
-
-        </section>
-        <h1 id="styles-section"><a name="styles">Assertion Styles</a>
-        </h1>
-        <section><h3>Expect</h3>
-<p>The <code>expect</code> style is server/browser BDD style assert language.
-
-</p>
-<pre><code>  <span class="keyword">var</span> expect = <span class="keyword">require</span>(<span class="string">'chai'</span>).expect
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
-
-  expect(foo).to.be.a(<span class="string">'string'</span>);
-  expect(foo).to.equal(<span class="string">'bar'</span>);
-  expect(foo).to.have.length(<span class="number">3</span>);
-  expect(beverages).to.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
-<h3>Should</h3>
-<p>The <code>should</code> style was inspired by <a href="https://github.com/visionmedia/should.js">should.js</a>
-and is completely API compatible.
-
-</p>
-<pre><code>  <span class="keyword">var</span> should = <span class="keyword">require</span>(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
-
-  foo.should.be.a(<span class="string">'string'</span>);
-  foo.should.equal(<span class="string">'bar'</span>);
-  foo.should.have.length(<span class="number">3</span>);
-  beverages.should.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
-<p>Notice that the <code>expect</code> require is just a reference to the <code>expect</code> function, whereas
-with the <code>should</code> require, the function is being executed.
-
-</p>
-<h3>Assert</h3>
-<p>The <code>assert</code> style is like the node.js included assert utility with few extras.
-
-</p>
-<pre><code>  <span class="keyword">var</span> assert = <span class="keyword">require</span>(<span class="string">'chai'</span>).assert
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
-
-  assert.typeOf(foo, <span class="string">'string'</span>, <span class="string">'foo is a string'</span>);
-  assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
-  assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
-  assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
-
-        </section>
-        <h1 id="plugins-section"><a name="plugins">Plugins</a>
-        </h1>
-        <section><h3>Available Plugins</h3>
-<p>The Chai community is growing! Plugins allow developers to expand Chai&apos;s available 
-assertions. Here is what the community has come up with so far:
-
-</p>
-<ul>
-<li><a href="https://github.com/logicalparadox/chai-spies">chai-spies</a> is a basic spy implementation for chai. It&apos;s also
-a good resource for building chai plugins that work in both node.js and the browser.</li>
-<li><a href="https://github.com/jfirebaugh/chai-jquery">chai-jquery</a> by <a href="https://github.com/jfirebaugh">@jfirebaugh</a>
-provides deep jQuery integration with chai <code>should</code> and <code>expect</code>.</li>
-<li><a href="https://github.com/vesln/jack">jack</a> by <a href="https://github.com/vesln">@vesln</a> is a mock/stub library that 
-can be used as a stand-alone or with chai.</li>
-<li><a href="https://github.com/domenic/sinon-chai">sinon-chai</a> by <a href="https://github.com/domenic">@domenic</a> extends chai with 
-assertions for the Sinon.js mocking framework.</li>
-</ul>
-
-        </section>
-        <h1 id="help-section"><a name="help">Getting Help</a>
-        </h1>
-        <section><p>If you have questions or issues, please use this projects
-<a href="https://github.com/logicalparadox/chai/issues">Github Issues</a>. You can also keep up to date
-on the <a href="http://groups.google.com/group/chaijs">Google Group</a> or ping <a href="http://twitter.com/jakeluer">@jakeluer</a>
-directly on Twitter. Chai developers can also be found on Freenode IRC in #letstest.js. 
-</p>
-
-        </section>
-        <h1 id="contributor-section"><a name="contributor">Contributing</a>
-        </h1>
-        <section><h3>Developing</h3>
-<p>Please avoid making changes to the browser versions of chai if you are developing in the browser. All
-changes to the library are to be made to <code>lib/*</code> and then packaged for the browser using the <code>make</code>
-command.
-
-</p>
-<h3>Testing</h3>
-<p>Tests are written in <code>exports</code> style on <a href="http://visionmedia.github.com/mocha/">mocha test framework</a>.
-There is a test file for each of the interfaces. The tests for <code>expect</code> and <code>assert</code> must pass in node.js
-and in the browser, whereas the should tests only need to pass on node.js.
-
-</p>
-<p>Browsers tests are currently known to pass in Chrome 16 and Firefox 8. Please let me know if you can test
-in other browsers or other version.
-
-</p>
-<h4>Server Side Testing</h4>
-<p>It&apos;s quite simple...
-
-</p>
-<pre><code>  make test</code></pre>
-<h4>Browser Side Testing</h4>
-<p>It&apos;s also quite simple. Open up <code>test/browser/index.html</code> in your nearest browser.
-
-
-</p>
-<h3>Building</h3>
-<p>If you have made changes to any of the components, you must rebuild the browser package.
-
-</p>
-<pre><code>  $ make</code></pre>
-<h3>Contributors</h3>
-<pre><code> commits: 252
- files  : 71
- authors: 
-   192  Jake Luer               76.2%
-    53  Veselin Todorov         21.0%
-     3  Jeff Barczewski         1.2%
-     1  Vinay Pulim             0.4%
-     1  Jo Liss                 0.4%
-     1  Domenic Denicola        0.4%
-     1  John Firebaugh          0.4%</code></pre>
-
-        </section>
-      </article>
-    </section>
+    <div class="content">
+      <section id="content">
+        <div id="home" class="grid_12">
+          <div class="rowInside">
+            <article class="grid_12 desc">
+              <h2>Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Should
+                </h3>
+                <div class="code-sample">
+<pre><code>foo.should.be.a('string');
+foo.should.equal('bar');
+foo.should.have.length(3);
+tea.should.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Should Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Should
+                </h3>
+                <div class="code-sample">
+<pre><code>foo.should.be.a('string');
+foo.should.equal('bar');
+foo.should.have.length(3);
+tea.should.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Should Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Expect
+                </h3>
+                <div class="code-sample">
+<pre><code>expect(foo).to.be.a('string');
+expect(foo).to.equal('bar');
+expect(foo).to.have.length(3);
+expect(tea).to.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Expect
+                </h3>
+                <div class="code-sample">
+<pre><code>expect(foo).to.be.a('string');
+expect(foo).to.equal('bar');
+expect(foo).to.have.length(3);
+expect(tea).to.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Assert
+                </h3>
+                <div class="code-sample">
+<pre><code>assert.typeOf(foo, 'string');
+assert.equal(foo, 'bar');
+assert.length(foo, 3)
+assert.ownProperty(tea, 'favors');
+assert.length(tea.flavors, 3);</code></pre>
+                </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Assert
+                </h3>
+                <div class="code-sample">
+<pre><code>assert.typeOf(foo, 'string');
+assert.equal(foo, 'bar');
+assert.length(foo, 3)
+assert.ownProperty(tea, 'favors');
+assert.length(tea.flavors, 3);</code></pre>
+                </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
+              </div>
+            </article>
+          </div>
+          <div class="rowInside">
+            <article class="grid_12 hrline">
+            </article>
+            <article class="grid_12 desc">
+              <h2>Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="grid_3 cplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Custom Plugins
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Get Custom Plugins &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 vplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Vendor Integration
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Get Vendor Plugins &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 pplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Platforms
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">See Available Platorms &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 dplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Develop Plugins
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Plugin Developer's Guide &rarr;</a>
+              </div>
+            </article>
+          </div>
+          <div class="rowInside">
+            <article class="grid_12 hrline">
+            </article>
+            <article class="grid_12 desc">
+              <h2>Chai's awesome community... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="github grid_6">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Powered by Open Source
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+                </p><a href="#" class="more">Fork me on GitHub &rarr;</a>
+              </div>
+            </article>
+            <article class="community grid_6">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Involved Community
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+                </p><a href="#" class="more">Visit Google Group &rarr;</a>
+              </div>
+            </article>
+            <article class="subscribe grid_12">
+              <div class="rowInside">
+                <div class="grid_6">
+                  <div class="wrap">
+                    <h3>Subscribe to the Chai Newsletter
+                    </h3>
+                    <p>Get notified about new releases and useful tips.
+                    </p>
+                  </div>
+                </div>
+                <div class="grid_6">
+                  <div class="wrap">
+                    <div class="form">Form
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
     <footer>
-      <div class="branding">Chai is&nbsp;<a href="http://alogicalparadox.com">a logical paradox</a>. site generated by
-<a href="http://codexjs.com">codex.</a>
-      </div>
+      <section id="footer">
+        <div class="branding">
+          <h3><a href="#">Chai Assertion Library</a>
+          </h3>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Installation</a>
+            </li>
+            <li><a href="#">Interface Styles</a>
+            </li>
+            <li><a href="#">Developing Plugins</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Expect / Should API</a>
+            </li>
+            <li><a href="#">Assert API</a>
+            </li>
+            <li><a href="#">Plugin Utility API</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Upgrade notes</a>
+            </li>
+            <li><a href="#">Test Suite</a>
+            </li>
+            <li><a href="#">Test Coverage</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Issues</a>
+            </li>
+            <li><a href="#">Google Group</a>
+            </li>
+            <li><a href="#">Build Status</a>
+            </li>
+          </ul>
+        </div>
+      </section>
     </footer>
   </body>
 </html>
