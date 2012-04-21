@@ -15,27 +15,17 @@
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
-    <script type="text/javascript">var mpq = [];
-mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
-(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
-b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
-"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
-a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
-[f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
-"track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
-d.length;c++){mpq[d[c]]=e(d[c])}})();
-</script>
   </head>
   <body class="index">
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
-          <h1><a href="">Chai</a>
+          <h1><a href="/">Chai</a>
           </h1>
         </div>
         <div class="navlist">
           <ul>
-            <li><a href="#">Guide</a>
+            <li><a href="/guide">Guide</a>
             </li>
             <li><a href="#">API</a>
             </li>
@@ -86,7 +76,7 @@ d.length;c++){mpq[d[c]]=e(d[c])}})();
               <big>API Documentation
               </big><small>Explore the BDD &amp; TDD language specifications for all available assertions.</small></a>
           </div>
-          <div class="call"><a href="#"><span>&nbsp;</span>
+          <div class="call"><a href="#"><span>&nbsp; </span>
               <big>Plugin Directory
               </big><small>Extend Chai's with additional assertions and vendor integration.</small></a>
           </div>
@@ -94,129 +84,174 @@ d.length;c++){mpq[d[c]]=e(d[c])}})();
       </div>
     </header>
     <div class="content">
-      <section id="home" class="grid_12">
-        <div class="rowInside">
-          <article class="grid_12 desc">
-            <h2>Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
-            </h2>
-          </article>
-          <article class="grid_4 code">
-            <div class="wrap">
-              <h3>Should
-              </h3>
-              <div class="code-sample">
+      <section id="content">
+        <div id="home" class="grid_12">
+          <div class="rowInside">
+            <article class="grid_12 desc">
+              <h2>Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Should
+                </h3>
+                <div class="code-sample">
 <pre><code>foo.should.be.a('string');
 foo.should.equal('bar');
 foo.should.have.length(3);
 tea.should.have.property('flavors')
   .with.length(3);</code></pre>
-              </div><a href="#" class="more">Visit Should Guide &rarr;</a>
-            </div>
-          </article>
-          <article class="grid_4 code">
-            <div class="wrap">
-              <h3>Expect
-              </h3>
-              <div class="code-sample">
+                </div><a href="#" class="more">Visit Should Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Should
+                </h3>
+                <div class="code-sample">
+<pre><code>foo.should.be.a('string');
+foo.should.equal('bar');
+foo.should.have.length(3);
+tea.should.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Should Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Expect
+                </h3>
+                <div class="code-sample">
 <pre><code>expect(foo).to.be.a('string');
 expect(foo).to.equal('bar');
 expect(foo).to.have.length(3);
 expect(tea).to.have.property('flavors')
   .with.length(3);</code></pre>
-              </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
-            </div>
-          </article>
-          <article class="grid_4 code">
-            <div class="wrap">
-              <h3>Assert
-              </h3>
-              <div class="code-sample">
+                </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Expect
+                </h3>
+                <div class="code-sample">
+<pre><code>expect(foo).to.be.a('string');
+expect(foo).to.equal('bar');
+expect(foo).to.have.length(3);
+expect(tea).to.have.property('flavors')
+  .with.length(3);</code></pre>
+                </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Assert
+                </h3>
+                <div class="code-sample">
 <pre><code>assert.typeOf(foo, 'string');
 assert.equal(foo, 'bar');
 assert.length(foo, 3)
 assert.ownProperty(tea, 'favors');
 assert.length(tea.flavors, 3);</code></pre>
-              </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
-            </div>
-          </article>
-        </div>
-        <div class="rowInside">
-          <article class="grid_12 hrline">
-          </article>
-          <article class="grid_12 desc">
-            <h2>Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
-            </h2>
-          </article>
-          <article class="grid_3 cplugs">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Custom Plugins
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
-              </p><a href="#" class="more">Get Custom Plugins &rarr;</a>
-            </div>
-          </article>
-          <article class="grid_3 vplugs">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Vendor Integration
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
-              </p><a href="#" class="more">Get Vendor Plugins &rarr;</a>
-            </div>
-          </article>
-          <article class="grid_3 pplugs">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Platforms
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
-              </p><a href="#" class="more">See Available Platorms &rarr;</a>
-            </div>
-          </article>
-          <article class="grid_3 dplugs">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Develop Plugins
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
-              </p><a href="#" class="more">Plugin Developer's Guide &rarr;</a>
-            </div>
-          </article>
-        </div>
-        <div class="rowInside">
-          <article class="grid_12 hrline">
-          </article>
-          <article class="github grid_6">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Powered by Open Source
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
-              </p><a href="#" class="more">Fork me on GitHub &rarr;</a>
-            </div>
-          </article>
-          <article class="community grid_6">
-            <div class="wrap"><span class="img">&nbsp;</span>
-              <h3>Involved Community
-              </h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
-              </p><a href="#" class="more">Visit Google Group &rarr;</a>
-            </div>
-          </article>
-          <article class="subscribe grid_12">
-            <div class="rowInside">
-              <div class="grid_6">
-                <div class="wrap">
-                  <h3>Subscribe to the Chai Newsletter
-                  </h3>
-                  <p>Get notified about new releases and useful tips.
-                  </p>
-                </div>
+                </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
               </div>
-              <div class="grid_6">
-                <div class="wrap">
-                  <div class="form">Form
+            </article>
+            <article class="grid_4 code">
+              <div class="wrap">
+                <h3>Assert
+                </h3>
+                <div class="code-sample">
+<pre><code>assert.typeOf(foo, 'string');
+assert.equal(foo, 'bar');
+assert.length(foo, 3)
+assert.ownProperty(tea, 'favors');
+assert.length(tea.flavors, 3);</code></pre>
+                </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
+              </div>
+            </article>
+          </div>
+          <div class="rowInside">
+            <article class="grid_12 hrline">
+            </article>
+            <article class="grid_12 desc">
+              <h2>Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="grid_3 cplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Custom Plugins
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Get Custom Plugins &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 vplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Vendor Integration
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Get Vendor Plugins &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 pplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Platforms
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">See Available Platorms &rarr;</a>
+              </div>
+            </article>
+            <article class="grid_3 dplugs">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Develop Plugins
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.
+                </p><a href="#" class="more">Plugin Developer's Guide &rarr;</a>
+              </div>
+            </article>
+          </div>
+          <div class="rowInside">
+            <article class="grid_12 hrline">
+            </article>
+            <article class="grid_12 desc">
+              <h2>Chai's awesome community... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
+              </h2>
+            </article>
+            <article class="github grid_6">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Powered by Open Source
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+                </p><a href="#" class="more">Fork me on GitHub &rarr;</a>
+              </div>
+            </article>
+            <article class="community grid_6">
+              <div class="wrap"><span class="img">&nbsp;</span>
+                <h3>Involved Community
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.
+                </p><a href="#" class="more">Visit Google Group &rarr;</a>
+              </div>
+            </article>
+            <article class="subscribe grid_12">
+              <div class="rowInside">
+                <div class="grid_6">
+                  <div class="wrap">
+                    <h3>Subscribe to the Chai Newsletter
+                    </h3>
+                    <p>Get notified about new releases and useful tips.
+                    </p>
+                  </div>
+                </div>
+                <div class="grid_6">
+                  <div class="wrap">
+                    <div class="form">Form
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </div>
         </div>
       </section>
     </div>

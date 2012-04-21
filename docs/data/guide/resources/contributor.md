@@ -1,7 +1,6 @@
 ---
   title: Contributing
   weight: 10
-  render-file: false
 ---
 
 ### Developing

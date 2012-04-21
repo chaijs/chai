@@ -1,7 +1,6 @@
 ---
   title: Plugins
   weight: 7
-  render-file: false
 ---
 
 ### Available Plugins

@@ -19,15 +19,17 @@ accentbg = #A32931
 
 body
   font 13px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif
+  background-color #30759C
+
+.content
   background-color #fff
 
-body.index
+body.index .content
   background-color #FAF4E8
 
 h1, h3, h4
   font-family "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif
  
-
 a
   color buttonbig
   text-decoration none
@@ -43,9 +45,9 @@ h2
   font-size 22px
 
 h3
+  margin-top 1em
   color accent
   font-size 2em
-  margin-top 1em
   clearfix()
   > a
     color accent
@@ -62,8 +64,6 @@ em
 
 .box-wrap
   margin-bottom 50px
-
-
 
 header
   background lighten(#E9CE99, 30%)
@@ -184,7 +184,20 @@ header
           &:hover
             box-shadow inset 0px 0px 1px #666
 
-section#home
+section#content
+  min-height 350px
+
+  h1
+    margin-top 30px
+  h2
+    padding-top 15px
+    margin-top 25px
+  p
+    code
+      padding 3px 5px
+      background darken(primary, 5%)
+
+#home
   clearfix()
 
   .rowInside
@@ -192,10 +205,13 @@ section#home
 
   .hrline
     border-top 1px #F0DDB8 solid
-    margin-bottom 30px
+    margin-bottom 30px !important
+    margin-top 30px !important
 
   h2
     margin-bottom 0px
+    padding-top 0px !important
+    margin-top 0px !important
     line-height 30px
     color #784942
 
@@ -267,21 +283,6 @@ section#home
       margin-left 20px
       height 120px
 
-section#content
-  margin-top 50px
-  margin-bottom 50px
-  min-height 350px
-
-  h1
-    padding-top 10px
-    margin-top 85px
-  h2
-    padding-top 15px
-    margin-top 25px
-  p
-    code
-      padding 3px 5px
-      background darken(primary, 5%)
 
 section#home
   .site-description
@@ -337,7 +338,6 @@ nav#pages
           text-decoration underline
 
 footer
-  margin-top 30px
   padding-top 30px
   padding-bottom 30px
   background-color #30759C
@@ -348,4 +348,5 @@ footer
     h3
       margin-top 0px
 
+@import 'guide'
 @import 'code'

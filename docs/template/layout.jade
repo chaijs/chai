@@ -14,7 +14,7 @@ html(lang='en')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/antiscroll.css', type='text/css', media='all')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/main.css', type='text/css', media='all')
     link(href='http://fonts.googleapis.com/css?family=Lato:300|Redressed', rel='stylesheet', type='text/css')
-    - if (site.mixpanel)
+    - if (site.mixpanel && true == false)
       script(type='text/javascript')
         var mpq = [];
         mpq.push(["init", "#{site.mixpanel}"]);
@@ -39,60 +39,19 @@ html(lang='en')
     nav#primary
       .nav-wrap
         .logo
-          h1: a(href=site.ghbaseurl) Chai
+          h1: a(href=site.ghbaseurl + '/') Chai
         .navlist
           ul
-            li: a(href='#') Guide
-            li: a(href='#') API
-            li: a(href='#') Plugins
-            li: a(href='#') Tools
-            li: a(href='#') Blog
-    header
-      .header-wrap
-        .installation
-          .site-description!= site.description
-          .card-wrap
-            .card
-              .card-inner.install-node
-                h1 Download Chai
-                  span.version v1.0.0
-                h2 for Node
-                  small Another platform?
-                    a(href='#') Browser
-                    a(href='#') Rails
-                .download-banner 
-                  .description The <code>chai</code> package is available on npm.
-                  .command.dsp-left $ npm install chai
-                  a.button.dsp-right(href='#') View node guide
-                .tech-links
-                  a(href='#') Issues
-                  | &nbsp;|
-                  a(href='#') Upgrade notes
-                  | &nbsp;|
-                  a(href='#') Changelog
-                  | &nbsp;|
-                  a(href='#') Community
-                  | &nbsp;|
-                  a(href='#') Build status
-        .callouts
-          .call
-            a(href='#')
-              span &nbsp;
-              big Getting Started
-              small Learn how install and use Chai through a series of guided walkthroughs.
-          .call
-            a(href='#')
-              span &nbsp;
-              big API Documentation
-              small Explore the BDD &amp; TDD language specifications for all available assertions.
-          .call
-            a(href='#')
-              span &nbsp;
-              big Plugin Directory
-              small Extend Chai's with additional assertions and vendor integration.
+            block navlist
+              li: a(href=site.ghbaseurl + '/guide') Guide
+              li: a(href='#') API
+              li: a(href='#') Plugins
+              li: a(href='#') Tools
+              li: a(href='#') Blog
+    block header
     .content
-      block content
-        section#content
+      section#content
+        block content
           .wrap!= file.prepared
     footer
       section#footer

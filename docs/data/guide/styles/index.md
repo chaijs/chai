@@ -1,7 +1,6 @@
 ---
   title: Assertion Styles
   weight: 5
-  render-file: false
 ---
 
 ### Expect

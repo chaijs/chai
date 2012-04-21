@@ -1,27 +1,52 @@
 extends layout
 
-block nav
-  - if (files.home)
-    ul.sections
-      for page in files.home
-        - var href = page.href.split('/')
-        - href = href[href.length - 2]
-        li: a.scroll(href='#' + href)= (page.menu || page.title)
-  - if (files.support)
-    ul.pages
-      for page in files.support
-        li: a(href=site.ghbaseurl + page.href)= page.title
-  - if (files.code)
-    ul.code
-      for page in files.code
-        - if (page.template == 'code-index')
-          li.header: a(href=site.ghbaseurl + page.href)= page.title
-      for page in files.code
-        - if (page.template == 'code')
-          li: a(href=site.ghbaseurl + page.href)= page.title
+block header
+  header
+    .header-wrap
+      .installation
+        .site-description!= site.description
+        .card-wrap
+          .card
+            .card-inner.install-node
+              h1 Download Chai
+                span.version v1.0.0
+              h2 for Node
+                small Another platform?
+                  a(href='#') Browser
+                  a(href='#') Rails
+              .download-banner 
+                .description The <code>chai</code> package is available on npm.
+                .command.dsp-left $ npm install chai
+                a.button.dsp-right(href='#') View node guide
+              .tech-links
+                a(href='#') Issues
+                | &nbsp;|
+                a(href='#') Upgrade notes
+                | &nbsp;|
+                a(href='#') Changelog
+                | &nbsp;|
+                a(href='#') Community
+                | &nbsp;|
+                a(href='#') Build status
+      .callouts
+        .call
+          a(href='#')
+            span &nbsp;
+            big Getting Started
+            small Learn how install and use Chai through a series of guided walkthroughs.
+        .call
+          a(href='#')
+            span &nbsp;
+            big API Documentation
+            small Explore the BDD &amp; TDD language specifications for all available assertions.
+        .call
+          a(href='#')
+            span &nbsp; 
+            big Plugin Directory
+            small Extend Chai's with additional assertions and vendor integration.
 
 block content
-  section#home.grid_12
+  #home.grid_12
     .rowInside
       article.grid_12.desc
         h2 Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
@@ -62,6 +87,8 @@ block content
           a(href='#', class='more') Plugin Developer's Guide &rarr;
     .rowInside
       article.grid_12.hrline
+      article.grid_12.desc
+        h2 Chai's awesome community... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
       article.github.grid_6
         .wrap
           span.img &nbsp;
