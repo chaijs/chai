@@ -84,7 +84,7 @@ _gaq.push(['_trackPageview']);
                 </li>
                 <li class="keepcase"><a href="#a" class="scroll">a</a>
                 </li>
-                <li class="keepcase"><a href="#instanceof" class="scroll">instanceof</a>
+                <li class="keepcase"><a href="#instanceOf" class="scroll">instanceOf</a>
                 </li>
                 <li class="keepcase"><a href="#property" class="scroll">property</a>
                 </li>
@@ -801,11 +801,11 @@ _gaq.push(['_trackPageview']);
             </pre>
           </div>
         </article>
-        <article id="instanceof-section" class="codeblock">
+        <article id="instanceOf-section" class="codeblock">
           <div class="header"><h1>.instanceof(constructor)</h1>
           </div>
           <div class="ctx">
-            <h3>Assertion.prototype.instanceof()
+            <h3>Assertion.prototype.instanceOf()
             </h3>
           </div>
           <div class="tags">
@@ -828,7 +828,7 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.instanceof = function (constructor) {
+            <pre class="source prettyprint"><code>Assertion.prototype.instanceOf = function (constructor) {
   var name = constructor.name;
   this.assert(
       this.obj instanceof constructor
@@ -1181,7 +1181,7 @@ _gaq.push(['_trackPageview']);
           <div class="header"><h1>.throw(constructor)</h1>
           </div>
           <div class="ctx">
-            <h3>Assertion.prototype.throw()
+            <h3>Assertion.prototype.Throw()
             </h3>
           </div>
           <div class="tags">
@@ -1214,7 +1214,7 @@ _gaq.push(['_trackPageview']);
           <div class="view-source">View Source
           </div>
           <div class="code-wrap">
-            <pre class="source prettyprint"><code>Assertion.prototype.throw = function (constructor, msg) {
+            <pre class="source prettyprint"><code>Assertion.prototype.Throw = function (constructor, msg) {
   new Assertion(this.obj).is.a('function');
 
   var thrown = false;

@@ -1,4 +1,19 @@
 
+0.5.3 / 2012-04-21 
+==================
+
+  * Merge branch 'refs/heads/jgonera-oldbrowsers'
+  * browser build
+  * fixed reserved names for old browsers in interface/assert
+  * fixed reserved names for old browsers in interface/should
+  * fixed: chai.js no longer contains fail()
+  * fixed reserved names for old browsers in Assertion
+  * Merge pull request #49 from joliss/build-order
+  * Make order of source files well-defined
+  * Merge pull request #43 from zzen/patch-1
+  * Support for expected and actual parameters in assert-style error object
+  * chai as promised - readme
+
 0.5.2 / 2012-03-21 
 ==================
 

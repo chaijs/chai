@@ -285,7 +285,10 @@ _gaq.push(['_trackPageview']);
     test.assert(
         exp == test.obj
       , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp)
+      , exp
+      , act
+    );
   };</code>
             </pre>
           </div>
@@ -322,7 +325,10 @@ _gaq.push(['_trackPageview']);
     test.assert(
         exp != test.obj
       , 'expected ' + test.inspect + ' to equal ' + inspect(exp)
-      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp));
+      , 'expected ' + test.inspect + ' to not equal ' + inspect(exp)
+      , exp
+      , act
+    );
   };</code>
             </pre>
           </div>
@@ -481,7 +487,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isTrue = function (val, msg) {
-    new Assertion(val, msg).is.true;
+    new Assertion(val, msg).is['true'];
   };</code>
             </pre>
           </div>
@@ -512,7 +518,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isFalse = function (val, msg) {
-    new Assertion(val, msg).is.false;
+    new Assertion(val, msg).is['false'];
   };</code>
             </pre>
           </div>
@@ -727,7 +733,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.isArray = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Array);
+    new Assertion(val, msg).to.be.instanceOf(Array);
   };</code>
             </pre>
           </div>
@@ -890,7 +896,7 @@ _gaq.push(['_trackPageview']);
           </div>
           <div class="code-wrap">
             <pre class="source prettyprint"><code>assert.instanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.be.instanceof(type);
+    new Assertion(val, msg).to.be.instanceOf(type);
   };</code>
             </pre>
           </div>
@@ -1035,7 +1041,7 @@ _gaq.push(['_trackPageview']);
       type = null;
     }
 
-    new Assertion(fn, msg).to.throw(type);
+    new Assertion(fn, msg).to.Throw(type);
   };</code>
             </pre>
           </div>
@@ -1075,7 +1081,7 @@ _gaq.push(['_trackPageview']);
       type = null;
     }
 
-    new Assertion(fn, msg).to.not.throw(type);
+    new Assertion(fn, msg).to.not.Throw(type);
   };</code>
             </pre>
           </div>
