@@ -218,20 +218,90 @@ Object.defineProperty(Assertion.prototype, 'been',
 });
 
 /**
- * # an
+ * # .a(type)
  *
- * Language chain.
+ * Assert typeof. Also can be used as a language chain.
  *
- * @name an
+ *      expect('test').to.be.a('string');
+ *      expect(foo).to.be.an.instanceof(Foo);
+ *
+ * @name a
+ * @alias an
+ * @param {String} type
  * @api public
  */
 
+var an = function () {
+  var assert = function(type) {
+    var obj = flag(this, 'object')
+      , klass = type.charAt(0).toUpperCase() + type.slice(1);
+
+    this.assert(
+        '[object ' + klass + ']' === toString.call(obj)
+      , 'expected #{this} to be a ' + type
+      , 'expected #{this} not to be a ' + type
+      , '[object ' + klass + ']'
+      , toString.call(obj)
+    );
+
+    return this;
+  };
+
+  assert.__proto__ = this;
+  return assert;
+};
+
 Object.defineProperty(Assertion.prototype, 'an',
-  { get: function () {
-      return this;
-    }
+  { get: an
   , configurable: true
 });
+
+Object.defineProperty(Assertion.prototype, 'a',
+  { get: an
+  , configurable: true
+});
+
+/**
+ * # .include(value)
+ *
+ * Assert the inclusion of an object in an Array or substring in string.
+ * Also toggles the `contain` flag for the `keys` assertion if used as property.
+ *
+ *      expect([1,2,3]).to.include(2);
+ *
+ * @name include
+ * @alias contain
+ * @param {Object|String|Number} obj
+ * @api public
+ */
+var include = function () {
+  flag(this, 'contains', true);
+
+  var assert = function(val) {
+    var obj = flag(this, 'object')
+    this.assert(
+        ~obj.indexOf(val)
+      , 'expected #{this} to include ' + util.inspect(val)
+      , 'expected #{this} to not include ' + util.inspect(val));
+
+    return this;
+  };
+
+  assert.__proto__ = this;
+  return assert;
+};
+
+Object.defineProperty(Assertion.prototype, 'contain',
+  { get: include
+  , configurable: true
+});
+
+Object.defineProperty(Assertion.prototype, 'include',
+  { get: include
+  , configurable: true
+});
+
+
 /**
  * # is
  *
@@ -585,33 +655,6 @@ Assertion.prototype.within = function (start, finish) {
 };
 
 /**
- * # .a(type)
- *
- * Assert typeof.
- *
- *      expect('test').to.be.a('string');
- *
- * @name a
- * @param {String} type
- * @api public
- */
-
-Assertion.prototype.a = function (type) {
-  var obj = flag(this, 'object')
-    , klass = type.charAt(0).toUpperCase() + type.slice(1);
-
-  this.assert(
-      '[object ' + klass + ']' === toString.call(obj)
-    , 'expected #{this} to be a ' + type
-    , 'expected #{this} not to be a ' + type
-    , '[object ' + klass + ']'
-    , toString.call(obj)
-  );
-
-  return this;
-};
-
-/**
  * # .instanceof(constructor)
  *
  * Assert instanceof.
@@ -628,7 +671,7 @@ Assertion.prototype.a = function (type) {
  */
 
 Assertion.prototype.instanceof = function (constructor) {
-  var name = constructor.name;
+  var name = util.getName(constructor);
   this.assert(
       flag(this, 'object') instanceof constructor
     , 'expected #{this} to be an instance of ' + name
@@ -758,27 +801,6 @@ Assertion.prototype.match = function (re) {
   return this;
 };
 
-/**
- * # .include(value)
- *
- * Assert the inclusion of an object in an Array or substring in string.
- *
- *      expect([1,2,3]).to.include(2);
- *
- * @name include
- * @param {Object|String|Number} obj
- * @api public
- */
-
-Assertion.prototype.include = function (val) {
-  var obj = flag(this, 'object')
-  this.assert(
-      ~obj.indexOf(val)
-    , 'expected #{this} to include ' + util.inspect(val)
-    , 'expected #{this} to not include ' + util.inspect(val));
-
-  return this;
-};
 
 /**
  * # .string(string)
@@ -803,25 +825,6 @@ Assertion.prototype.string = function (str) {
 
   return this;
 };
-
-
-
-/**
- * # contain
- *
- * Toggles the `contain` flag for the `keys` assertion.
- *
- * @name contain
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'contain',
-  { get: function () {
-      flag(this, 'contains', true);
-      return this;
-    }
-  , configurable: true
-});
 
 /**
  * # .keys(key1, [key2], [...])
@@ -927,7 +930,8 @@ Assertion.prototype.throw = function (constructor, msg) {
   new Assertion(obj).is.a('function');
 
   var thrown = false
-    , desiredError = null;
+    , desiredError = null
+    , name = null;
 
   if (arguments.length === 0) {
     msg = null;
@@ -939,6 +943,10 @@ Assertion.prototype.throw = function (constructor, msg) {
     desiredError = constructor;
     constructor = null;
     msg = null;
+  } else if (typeof constructor === 'function') {
+    name = (new constructor()).name;
+  } else {
+    constructor = null;
   }
 
   try {
@@ -953,9 +961,8 @@ Assertion.prototype.throw = function (constructor, msg) {
       );
       return this;
     }
-    // if we weren't passed one, check constructor
-    if (constructor && 'function' === typeof constructor) {
-      var name = (new constructor()).name;
+    // next, check constructor
+    if (constructor) {
       this.assert(
           err instanceof constructor
         , 'expected #{this} to throw ' + name + ' but a ' + err.name + ' was thrown'
@@ -984,7 +991,7 @@ Assertion.prototype.throw = function (constructor, msg) {
     }
   }
 
-  var expectedThrown = (constructor ? constructor.name : desiredError ? util.inspect(desiredError) : 'an error');
+  var expectedThrown = name ? name : desiredError ? util.inspect(desiredError) : 'an error';
 
   this.assert(
       thrown === true
@@ -1102,7 +1109,6 @@ module.exports = AssertionError;
 
 function AssertionError (options) {
   options = options || {};
-  this.name = 'AssertionError';
   this.message = options.message;
   this.actual = options.actual;
   this.expected = options.expected;
@@ -1114,9 +1120,9 @@ function AssertionError (options) {
   }
 }
 
-AssertionError.prototype = new Error;
+AssertionError.prototype = Object.create(Error.prototype);
+AssertionError.prototype.name = 'AssertionError';
 AssertionError.prototype.constructor = AssertionError;
-
 
 AssertionError.prototype.toString = function() {
   return this.message;
@@ -2057,6 +2063,85 @@ module.exports = function (chai, util) {
 
 }); // module: interface/should.js
 
+require.register("utils/addMethod.js", function(module, exports, require){
+/*!
+ * Chai - addMethod utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * # addMethod (ctx, name, method)
+ *
+ * Adds a method to the prototype of an object.
+ *
+ *      utils.addMethod(chai.Assertion, 'foo', function (str) {
+ *        var obj = utils.flag(this, 'object');
+ *        new chai.Assertion(obj).to.be.equal(str);
+ *        return this;
+ *      });
+ *
+ * Then can be used as any other assertion.
+ *
+ *      expect(fooStr).to.be.foo('bar');
+ *
+ * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {String} name of method to add
+ * @param {Function} method function to used for name
+ * @api public
+ */
+
+module.exports = function (ctx, name, method) {
+  var context = ('function' === typeof obj) ? ctx.prototype : ctx;
+  context[name] = function () {
+    method.apply(this, arguments);
+    return this;
+  };
+};
+
+}); // module: utils/addMethod.js
+
+require.register("utils/addProperty.js", function(module, exports, require){
+/*!
+ * Chai - addProperty utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * # addProperty (ctx, name, getter)
+ *
+ * Adds a property to the prototype of an object.
+ *
+ *      utils.addProperty(chai.Assertion, 'foo', function () {
+ *        var obj = utils.flag(this, 'object');
+ *        new chai.Assertion(obj).to.be.instanceof(Foo);
+ *        return this;
+ *      });
+ *
+ * Then can be used as any other assertion:
+ *
+ *      expect(myFoo).to.be.foo;
+ *
+ * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {String} name of property to add
+ * @param {Function} getter function to used for name
+ * @api public
+ */
+
+module.export = function (ctx, name, getter) {
+  var context = ('function' === typeof obj) ? ctx.prototype : ctx;
+  Object.defineProperty(context, name,
+    { get: function () {
+        getter.call(this);
+        return this;
+      }
+    , configurable: true
+  });
+};
+
+}); // module: utils/addProperty.js
+
 require.register("utils/eql.js", function(module, exports, require){
 // This is directly from Node.js assert
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/assert.js
@@ -2182,13 +2267,13 @@ require.register("utils/flag.js", function(module, exports, require){
  */
 
 module.exports = function (obj, key, value) {
-  var flags = obj.__flags || (obj.__flags = new Object(null));
+  var flags = obj.__flags || (obj.__flags = Object.create(null));
   if (arguments.length === 3) {
     flags[key] = value;
   } else {
     return flags[key];
   }
-}
+};
 
 }); // module: utils/flag.js
 
@@ -2262,6 +2347,30 @@ module.exports = function (obj, args) {
 };
 
 }); // module: utils/getMessage.js
+
+require.register("utils/getName.js", function(module, exports, require){
+/*!
+ * Chai - getName utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * # getName(func)
+ *
+ * Gets the name of a function, in a cross-browser way.
+ *
+ * @param {Function} a function (usually a constructor)
+ */
+
+module.exports = function (func) {
+  if (func.name) return func.name;
+
+  var match = /^\s?function ([^(]*)\(/.exec(func);
+  return match && match[1] ? match[1] : "";
+};
+
+}); // module: utils/getName.js
 
 require.register("utils/getPathValue.js", function(module, exports, require){
 /**
@@ -2424,12 +2533,43 @@ exports.eql = require('./eql');
 
 exports.getPathValue = require('./getPathValue');
 
+/*!
+ * Function name
+ */
+
+exports.getName = require('./getName');
+
+/*!
+ * add Property
+ */
+
+exports.addProperty = require('./addProperty');
+
+/*!
+ * add Method
+ */
+
+exports.addMethod = require('./addMethod');
+
+/*!
+ * overwrite Property
+ */
+
+exports.overwriteProperty = require('./overwriteProperty');
+
+/*!
+ * overwrite Method
+ */
+
+exports.overwriteMethod = require('./overwriteMethod');
 
 }); // module: utils/index.js
 
 require.register("utils/inspect.js", function(module, exports, require){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
+
+var getName = require('./getName');
 
 module.exports = inspect;
 
@@ -2475,10 +2615,16 @@ function formatValue(ctx, value, recurseTimes) {
   var keys = ctx.showHidden ? Object.getOwnPropertyNames(value) : visibleKeys;
 
   // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
+  // In IE, errors have a single `stack` property, or if they are vanilla `Error`,
+  // a `stack` plus `description` property; ignore those for consistency.
+  if (keys.length === 0 || (isError(value) && (
+      (keys.length === 1 && keys[0] === 'stack') ||
+      (keys.length === 2 && keys[0] === 'description' && keys[1] === 'stack')
+     ))) {
     if (typeof value === 'function') {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
+      var name = getName(value);
+      var nameSuffix = name ? ': ' + name : '';
+      return ctx.stylize('[Function' + nameSuffix + ']', 'special');
     }
     if (isRegExp(value)) {
       return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
@@ -2699,6 +2845,106 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 }); // module: utils/inspect.js
+
+require.register("utils/overwriteMethod.js", function(module, exports, require){
+/*!
+ * Chai - overwriteMethod utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * # overwriteProperty (ctx, name, fn)
+ *
+ * Overwites an already existing method and provides
+ * access to previous function. Must return function
+ * to be used for name.
+ *
+ *      utils.overwriteMethod(chai.Assertion, 'equal', function (_super) {
+ *        return function (str) {
+ *          var obj = utils.flag(this, 'object');
+ *          if (obj instanceof Foo) {
+ *            new chai.Assertion(obj.value).to.equal(str);
+ *            return this;
+ *          } else {
+ *            return _super.apply(this, argument);
+ *          }
+ *        }
+ *      });
+ *
+ * Then can be used as any other assertion.
+ *
+ *      expect(myFoo).to.equal('bar');
+ *
+ * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {String} name of method to overwrite
+ * @param {Function} method function to be used for name
+ * @api public
+ */
+
+module.exports = function (ctx, name, method) {
+  var context = ('function' === typeof obj) ? ctx.prototype : ctx
+    , _method = context[name]
+    , _super = function () { return this; };
+
+  if (_method && 'function' === typeof _method)
+    _super = _method;
+
+  context[name] = method(_super);
+};
+
+}); // module: utils/overwriteMethod.js
+
+require.register("utils/overwriteProperty.js", function(module, exports, require){
+/*!
+ * Chai - overwriteProperty utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * # overwriteProperty (ctx, name, fn)
+ *
+ * Overwites an already existing property getter and provides
+ * access to previous value. Must return function to use as getter.
+ *
+ *      utils.overwriteProperty(chai.Assertion, 'ok', function (_super) {
+ *        return function () {
+ *          var obj = utils.flag(this, 'object');
+ *          if (obj instanceof Foo) {
+ *            new chai.Assertion(obj.name).to.equal('bar');
+ *            return this;
+ *          } else {
+ *            return _super.call(this);
+ *          }
+ *        }
+ *      });
+ *
+ * Then can be used as any other assertion.
+ *
+ *      expect(myFoo).to.be.ok;
+ *
+ * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {String} name of property to overwrite
+ * @param {Function} method must return function to be used for name
+ * @api public
+ */
+
+module.exports = function (ctx, name, getter) {
+  var context = ('function' === typeof obj) ? ctx.prototype : ctx
+    , _get = Object.getOwnPropertyDescriptor(context, name)
+    , _super = function () { return this; };
+
+  if (_get && 'function' === typeof _get.get)
+    _super = _get.get
+
+  Object.defineProperty(context, name,
+    { get: getter(_super)
+    , configurable: true
+  });
+};
+
+}); // module: utils/overwriteProperty.js
 
 require.register("utils/test.js", function(module, exports, require){
 /*!
