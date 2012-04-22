@@ -54,12 +54,12 @@ directly on Twitter. Chai developers can also be found on Freenode IRC in #letst
 
 ## Versions
 
-The current stable version tree is the `0.5.x` tree on the `master` branch. If you are interested in seeing 
+The current stable version tree is the `0.5.x` branch. If you are interested in seeing 
 what we have planned, or if you are a plugin developer interested in preparing your plugins for the 
-next major release, see the `0.6.x` branch.
+next major release, see the `master` branch.
 
-- Stable: 0.5.x
-- Unstables: 0.6.x
+- Stable: 0.5.x - `0.5.x` branch
+- Unstables: 1.0.0alpha1 - `master` branch
 
 ## Contributors 
 
