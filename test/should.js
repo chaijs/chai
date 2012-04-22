@@ -14,7 +14,7 @@ function err(fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    should.equal(msg, err.message);
+    should.equal(err.message, msg);
   }
 }
 
@@ -331,7 +331,7 @@ suite('should', function() {
 
   test('include()', function(){
     ['foo', 'bar'].should.include('foo');
-    ['foo', 'bar'].should.include('foo');
+    ['foo', 'bar'].should.contain('foo');
     ['foo', 'bar'].should.include('bar');
     [1,2].should.include(1);
     ['foo', 'bar'].should.not.include('baz');
@@ -350,7 +350,7 @@ suite('should', function() {
     ({ foo: 1 }).should.have.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.have.keys(['foo', 'bar']);
     ({ foo: 1, bar: 2 }).should.have.keys('foo', 'bar');
-    ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('foo', 'bar');
+    ({ foo: 1, bar: 2, baz: 3 }).should.include.keys('foo', 'bar');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('bar', 'foo');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('baz');
 
@@ -416,19 +416,39 @@ suite('should', function() {
   });
 
   test('throw', function () {
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function () {
+      this.name = 'PoorlyConstructedError';
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
+    var specificError = new RangeError('boo');
+
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
-      , refErrFn = function () { throw new ReferenceError('hello'); };
+      , refErrFn = function () { throw new ReferenceError('hello'); }
+      , ickyErrFn = function () { throw new PoorlyConstructedError(); }
+      , specificErrFn = function () { throw specificError; };
 
     (goodFn).should.not.throw();
     (goodFn).should.not.throw(Error);
+    (goodFn).should.not.throw(specificError);
     (badFn).should.throw();
     (badFn).should.throw(Error);
     (badFn).should.not.throw(ReferenceError);
+    (badFn).should.not.throw(specificError);
     (refErrFn).should.throw();
     (refErrFn).should.throw(ReferenceError);
-    (refErrFn).should.not.throw(Error);
+    (refErrFn).should.throw(Error);
     (refErrFn).should.not.throw(TypeError);
+    (refErrFn).should.not.throw(specificError);
+    (ickyErrFn).should.throw();
+    (ickyErrFn).should.throw(PoorlyConstructedError);
+    (ickyErrFn).should.throw(Error);
+    (ickyErrFn).should.not.throw(specificError);
+    (specificErrFn).should.throw(specificError);
 
     (badFn).should.throw(/testing/);
     (badFn).should.throw('testing');
@@ -438,8 +458,12 @@ suite('should', function() {
 
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
+    should.throw(refErrFn, Error);
+    should.throw(ickyErrFn, PoorlyConstructedError);
+    should.throw(specificErrFn, specificError);
     should.not.throw(goodFn);
     should.not.throw(badFn, ReferenceError);
+    should.not.throw(badFn, specificError);
 
     should.throw(badFn, Error, /testing/);
     should.throw(badFn, Error, 'testing');
@@ -453,12 +477,20 @@ suite('should', function() {
     }, "expected [Function] to throw ReferenceError");
 
     err(function(){
+      (goodFn).should.throw(specificError);
+    }, "expected [Function] to throw [RangeError: boo]");
+
+    err(function(){
       (badFn).should.not.throw();
     }, "expected [Function] to not throw an error");
 
     err(function(){
       (badFn).should.throw(ReferenceError);
     }, "expected [Function] to throw ReferenceError but a Error was thrown");
+
+    err(function(){
+      (badFn).should.throw(specificError);
+    }, "expected [Function] to throw [RangeError: boo] but [Error: testing] was thrown");
 
     err(function(){
       (badFn).should.not.throw(Error);
@@ -469,8 +501,24 @@ suite('should', function() {
     }, "expected [Function] to not throw ReferenceError");
 
     err(function(){
-      (refErrFn).should.throw(Error);
-    }, "expected [Function] to throw Error but a ReferenceError was thrown");
+      (badFn).should.throw(PoorlyConstructedError);
+    }, "expected [Function] to throw PoorlyConstructedError but a Error was thrown");
+
+    err(function(){
+      (ickyErrFn).should.not.throw(PoorlyConstructedError);
+    }, "expected [Function] to not throw PoorlyConstructedError");
+
+    err(function(){
+      (ickyErrFn).should.throw(ReferenceError);
+    }, "expected [Function] to throw ReferenceError but a PoorlyConstructedError was thrown");
+
+    err(function(){
+      (specificErrFn).should.throw(new ReferenceError('eek'));
+    }, "expected [Function] to throw [ReferenceError: eek] but [RangeError: boo] was thrown");
+
+    err(function(){
+      (specificErrFn).should.not.throw(specificError);
+    }, "expected [Function] to not throw [RangeError: boo]");
 
     err(function (){
       (badFn).should.not.throw(/testing/);

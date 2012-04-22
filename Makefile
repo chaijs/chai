@@ -42,4 +42,10 @@ lib-cov:
 	@rm -rf lib-cov
 	@jscoverage lib lib-cov
 
+test-display:
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--reporter $(REPORTER) \
+		--ui tdd \
+		test/display/*.js
+
 .PHONY: clean test docs clean-docs test-cov lib-cov

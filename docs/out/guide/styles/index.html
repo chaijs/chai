@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Assertion Styles - Chai
+    </title>
+    <script type="text/javascript">var ghuser = 'logicalparadox'
+  , ghproject = 'chai';
+
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="/public/js/jq-mousewheel.js"></script>
+    <script src="/public/js/antiscroll.js"></script>
+    <script src="/public/js/prettify.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
+  </head>
+  <body class="guide">
+    <nav id="primary">
+      <div class="nav-wrap">
+        <div class="logo">
+          <h1><a href="/">Chai</a>
+          </h1>
+        </div>
+        <div class="navlist">
+          <ul>
+            <li><a href="/guide" class="active">Guide</a>
+            </li>
+            <li><a href="#">API</a>
+            </li>
+            <li><a href="#">Plugins</a>
+            </li>
+            <li><a href="#">Tools</a>
+            </li>
+            <li><a href="#">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <section id="content">
+        <div id="guide" class="grid_12">
+          <div class="rowInside">
+            <article class="grid_9 prepared">
+              <h1>Assertion Styles
+              </h1>
+              <div class="prose">
+<h3>Expect</h3>
+<p>The <code>expect</code> style is server/browser BDD style assert language.
+
+</p>
+<pre><code>  <span class="keyword">var</span> expect = <span class="keyword">require</span>(<span class="string">'chai'</span>).expect
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+
+  expect(foo).to.be.a(<span class="string">'string'</span>);
+  expect(foo).to.equal(<span class="string">'bar'</span>);
+  expect(foo).to.have.length(<span class="number">3</span>);
+  expect(beverages).to.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
+<h3>Should</h3>
+<p>The <code>should</code> style was inspired by <a href="https://github.com/visionmedia/should.js">should.js</a>
+and is completely API compatible.
+
+</p>
+<pre><code>  <span class="keyword">var</span> should = <span class="keyword">require</span>(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+
+  foo.should.be.a(<span class="string">'string'</span>);
+  foo.should.equal(<span class="string">'bar'</span>);
+  foo.should.have.length(<span class="number">3</span>);
+  beverages.should.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
+<p>Notice that the <code>expect</code> require is just a reference to the <code>expect</code> function, whereas
+with the <code>should</code> require, the function is being executed.
+
+</p>
+<h3>Assert</h3>
+<p>The <code>assert</code> style is like the node.js included assert utility with few extras.
+
+</p>
+<pre><code>  <span class="keyword">var</span> assert = <span class="keyword">require</span>(<span class="string">'chai'</span>).assert
+    , foo = <span class="string">'bar'</span>
+    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+
+  assert.typeOf(foo, <span class="string">'string'</span>, <span class="string">'foo is a string'</span>);
+  assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
+  assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
+  assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
+              </div>
+            </article>
+            <nav id="guide" class="grid_3">
+              <div class="wrap">
+                <h3>Getting Started
+                </h3>
+                <ul>
+                  <li>Installation
+                  </li>
+                  <li>Node
+                  </li>
+                  <li>Browser
+                  </li>
+                  <li>Other Platforms
+                  </li>
+                  <li>Installation
+                  </li>
+                  <li>Browser
+                  </li>
+                  <li>Installation
+                  </li>
+                  <li>Node
+                  </li>
+                  <li>Other Platforms
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <section id="footer">
+        <div class="branding">
+          <h3><a href="#">Chai Assertion Library</a>
+          </h3>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Installation</a>
+            </li>
+            <li><a href="#">Interface Styles</a>
+            </li>
+            <li><a href="#">Developing Plugins</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Expect / Should API</a>
+            </li>
+            <li><a href="#">Assert API</a>
+            </li>
+            <li><a href="#">Plugin Utility API</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Upgrade notes</a>
+            </li>
+            <li><a href="#">Test Suite</a>
+            </li>
+            <li><a href="#">Test Coverage</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Issues</a>
+            </li>
+            <li><a href="#">Google Group</a>
+            </li>
+            <li><a href="#">Build Status</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </footer>
+  </body>
+</html>

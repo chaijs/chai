@@ -15,100 +15,105 @@
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
-    <script type="text/javascript">var mpq = [];
-mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
-(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
-b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
-"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
-a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
-[f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
-"track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
-d.length;c++){mpq[d[c]]=e(d[c])}})();
-</script>
-    <script type="text/javascript">var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-26183904-6']);
-_gaq.push(['_trackPageview']);
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
   </head>
-  <body>
-    <nav>
-      <ul class="pages">
-        <li><a href="/">Home</a>
-        </li>
-        <li><a href="/support/tests/">Test Suite</a>
-        </li>
-        <li><a href="/support/coverage/">Test Coverage</a>
-        </li>
-      </ul>
-      <ul class="code">
-        <li class="header"><a href="/code/">Language Guide</a>
-        </li>
-        <li><a href="/code/expect.html">expect / should [bdd]</a>
-        </li>
-        <li><a href="/code/assert.html">assert [tdd]</a>
-        </li>
-      </ul>
+  <body class="code-index">
+    <nav id="primary">
+      <div class="nav-wrap">
+        <div class="logo">
+          <h1><a href="/">Chai</a>
+          </h1>
+        </div>
+        <div class="navlist">
+          <ul>
+            <li><a href="/guide">Guide</a>
+            </li>
+            <li><a href="#">API</a>
+            </li>
+            <li><a href="#">Plugins</a>
+            </li>
+            <li><a href="#">Tools</a>
+            </li>
+            <li><a href="#">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
-    <header>
-      <h1><a href="/"><img src="/public/img/chai-logo.png" title="Chai"></a>
-      </h1>
-      <div class="description"><p>Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
-
-      </div>
-      <div class="gh">
-        <h4>Latest Update to Github
-        </h4>
-        <div id="commit"><span id="latestCommitTime">Loading...</span><a id="latestCommitURL"></a>
-        </div>
-        <div id="latestCommitMessage">Loading...
-        </div>
-        <div id="buttons">
-          <div class="btn">
-            <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=logicalparadox&amp;repo=chai&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px">
-            </iframe>
+    <div class="content">
+      <section id="content">
+        <h1>Language Guide
+        </h1>
+        <article>
+          <div class="header">
           </div>
-          <div class="btn">
-            <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=logicalparadox&amp;repo=chai&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px">
-            </iframe>
+          <div class="files">
+            <h3><a href="/code/expect.html">expect / should [bdd]</a>
+            </h3>
+            <p><p>The BDD style allows you to write your assertions in a natural, self-describing manner.</p>
+            </p>
+            <h3><a href="/code/assert.html">assert [tdd]</a>
+            </h3>
+            <p><p>The TDD style allows you to write your assertions using the classic &apos;assert dot&apos; notation.</p>
+            </p>
+            <h3><a href="/code/expect.html">expect / should [bdd]</a>
+            </h3>
+            <p><p>The BDD style allows you to write your assertions in a natural, self-describing manner.</p>
+            </p>
+            <h3><a href="/code/assert.html">assert [tdd]</a>
+            </h3>
+            <p><p>The TDD style allows you to write your assertions using the classic &apos;assert dot&apos; notation.</p>
+            </p>
           </div>
-          <div class="btn"><a href="htts://twitter.com/share" data-via="jakeluer" data-url="http://chaijs.com" data-related="jakeluer" class="twitter-share-button">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-</script>
-          </div>
-        </div>
-        <div id="links"><a id="repoIssues" href="https://github.com/logicalparadox/chai/issues">GitHub Issues</a>
-        </div>
-      </div>
-    </header>
-    <section id="content">
-      <h1>Language Guide
-      </h1>
-      <article>
-        <div class="header">
-        </div>
-        <div class="files">
-          <h3><a href="/code/expect.html">expect / should [bdd]</a>
-          </h3>
-          <p><p>The BDD style allows you to write your assertions in a natural, self-describing manner.</p>
-
-          </p>
-          <h3><a href="/code/assert.html">assert [tdd]</a>
-          </h3>
-          <p><p>The TDD style allows you to write your assertions using the classic &apos;assert dot&apos; notation.</p>
-
-          </p>
-        </div>
-      </article>
-    </section>
+        </article>
+      </section>
+    </div>
     <footer>
-      <div class="branding">Chai is&nbsp;<a href="http://alogicalparadox.com">a logical paradox</a>. site generated by
-<a href="http://codexjs.com">codex.</a>
-      </div>
+      <section id="footer">
+        <div class="branding">
+          <h3><a href="#">Chai Assertion Library</a>
+          </h3>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Installation</a>
+            </li>
+            <li><a href="#">Interface Styles</a>
+            </li>
+            <li><a href="#">Developing Plugins</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Expect / Should API</a>
+            </li>
+            <li><a href="#">Assert API</a>
+            </li>
+            <li><a href="#">Plugin Utility API</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Upgrade notes</a>
+            </li>
+            <li><a href="#">Test Suite</a>
+            </li>
+            <li><a href="#">Test Coverage</a>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Issues</a>
+            </li>
+            <li><a href="#">Google Group</a>
+            </li>
+            <li><a href="#">Build Status</a>
+            </li>
+          </ul>
+        </div>
+      </section>
     </footer>
   </body>
 </html>

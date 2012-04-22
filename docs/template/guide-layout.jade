@@ -1,0 +1,24 @@
+extends layout
+
+block navlist
+  li: a(href=site.ghbaseurl + '/guide', class='active') Guide
+  li: a(href='#') API
+  li: a(href='#') Plugins
+  li: a(href='#') Tools
+  li: a(href='#') Blog
+
+block content
+  #guide.grid_12
+    .rowInside
+      article.grid_9.prepared
+        h1= file.title
+        .prose!= file.prepared
+      nav#guide.grid_3
+        .wrap
+          h3 Getting Started
+          ul
+            - console.log(files)
+            li Installation
+            for section in files.guide
+              - if (~section.href.indexOf('/guide/installation/'))
+                li= section.title

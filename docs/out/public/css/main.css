@@ -132,18 +132,144 @@ article ul li {
 code {
   font-family: "Bitstream Vera Sans Mono", "Courier", monospace;
 }
+.header-wrap {
+  width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.header-wrap .callouts {
+  min-width: 480px;
+  max-width: 480px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+.header-wrap .installation {
+  min-width: 480px;
+  max-width: 480px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+  overflow: visible;
+}
+nav#primary .nav-wrap {
+  width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+nav#primary .nav-wrap .logo {
+  min-width: 310px;
+  max-width: 310px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+nav#primary .nav-wrap .navlist {
+  min-width: 650px;
+  max-width: 650px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content {
+  width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+section#content .rowInside {
+  margin: 0 -15px;
+  display: inline-block;
+}
+section#content .grid_3 {
+  min-width: 225px;
+  max-width: 225px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content .grid_4 {
+  min-width: 310px;
+  max-width: 310px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content .grid_6 {
+  min-width: 480px;
+  max-width: 480px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content .grid_8 {
+  min-width: 650px;
+  max-width: 650px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content .grid_9 {
+  min-width: 735px;
+  max-width: 735px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+section#content .grid_12 {
+  min-width: 990px;
+  max-width: 990px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+footer section#footer {
+  width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+footer section#footer .branding {
+  min-width: 310px;
+  max-width: 310px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+footer section#footer .list {
+  min-width: 140px;
+  max-width: 140px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
 body {
   font: 13px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #fcfaf4;
+  background-color: #30759c;
+}
+.content {
+  background-color: #fff;
+}
+body.index .content {
+  background-color: #faf4e8;
 }
 h1,
-h2,
 h3,
 h4 {
   font-family: "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 a {
-  color: #a32931;
+  color: #a40802;
   text-decoration: none;
 }
 h1 {
@@ -153,10 +279,14 @@ h1 {
 h1 > a {
   color: #784942;
 }
+h2 {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 22px;
+}
 h3 {
+  margin-top: 1em;
   color: #9e7522;
   font-size: 2em;
-  margin-top: 1em;
   zoom: 1;
 }
 h3:before,
@@ -180,183 +310,191 @@ em {
   font-style: italic;
   font-weight: bold;
 }
-header,
-section#content,
-footer {
-  width: 740px;
-  margin-left: 220px;
-}
 .box-wrap {
   margin-bottom: 50px;
 }
-.box,
-.box .antiscroll-inner {
-  max-height: 340px;
-  width: 140px;
-}
 header {
-  zoom: 1;
-  margin-top: 50px;
+  background: #f0ddb8;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
-header:before,
-header:after {
-  content: "";
-  display: table;
+header .header-wrap {
+  position: relative;
 }
-header:after {
-  clear: both;
-}
-header h1 {
-  font-size: 65px;
-}
-header h1 a {
-  display: block;
-  width: 193px;
-  height: 217px;
-  margin: 0px auto;
-  overflow: hidden;
-}
-header .description {
-  color: #666;
+header .header-wrap .installation .site-description {
+  color: #784942;
   margin-bottom: 1.2em;
+  margin-top: 15px;
   font-size: 22px;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-header .gh {
+header .header-wrap .installation .card {
   zoom: 1;
-  background: #faf4e8;
-  border: 1px solid #e9ce99;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 10px;
+  background-color: #faf4e8;
+  -webkit-box-shadow: 0px 0px 1px #000;
+  -moz-box-shadow: 0px 0px 1px #000;
+  box-shadow: 0px 0px 1px #000;
+  height: 270px;
   position: relative;
-  min-height: 90px;
 }
-header .gh:before,
-header .gh:after {
+header .header-wrap .installation .card:before,
+header .header-wrap .installation .card:after {
   content: "";
   display: table;
 }
-header .gh:after {
+header .header-wrap .installation .card:after {
   clear: both;
 }
-header .gh h4 {
-  text-shadow: 1px 1px 0px #fff;
-  margin-bottom: 10px;
+header .header-wrap .installation .card .card-inner {
+  zoom: 1;
+  margin: 20px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #666;
 }
-header .gh h4 #latestCommitURL {
-  font-size: 11px;
+header .header-wrap .installation .card .card-inner:before,
+header .header-wrap .installation .card .card-inner:after {
+  content: "";
+  display: table;
+}
+header .header-wrap .installation .card .card-inner:after {
+  clear: both;
+}
+header .header-wrap .installation .card .card-inner h1 {
+  font-size: 40px;
+  margin-top: -10px;
+  margin-bottom: 0px;
+  color: #30759c;
+}
+header .header-wrap .installation .card .card-inner h1 span.version {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #666;
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 3px 6px;
+  margin-left: 10px;
+  display: inline-block;
+  position: relative;
+  top: -7px;
+}
+header .header-wrap .installation .card .card-inner h2 {
+  color: #30759c;
+  font-size: 25px;
+  margin-top: -5px;
+  font-family: "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+header .header-wrap .installation .card .card-inner h2 small {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  bottom: 1px;
+  margin-left: 15px;
+  color: #666;
+  font-size: 13px;
+}
+header .header-wrap .installation .card .card-inner h2 small a {
+  margin-left: 15px;
+}
+header .header-wrap .installation .card .card-inner .download-banner {
+  margin-top: 30px;
+}
+header .header-wrap .installation .card .card-inner .download-banner .description {
+  margin-bottom: 10px;
+}
+header .header-wrap .installation .card .card-inner .download-banner .command {
+  display: inline-block;
+  background-color: #fff;
+  float: left;
+  font-family: "Bitstream Vera Sans Mono", "Courier", monospace;
+  width: 210px;
+  line-height: 50px;
+  text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 0px 1px #666;
+  -moz-box-shadow: 0px 0px 1px #666;
+  box-shadow: 0px 0px 1px #666;
+}
+header .header-wrap .installation .card .card-inner .download-banner .button {
+  font-size: 18px;
+  display: inline-block;
+  float: left;
+  width: 210px;
+  text-align: center;
+  line-height: 50px;
+  background-color: #30759c;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #fff;
+}
+header .header-wrap .installation .card .card-inner .download-banner .dsp-left {
+  margin-right: 10px;
+}
+header .header-wrap .installation .card .card-inner .download-banner .dsp-right {
   margin-left: 10px;
 }
-header .gh #commit {
-  font-size: 10px;
-  margin-right: 10px;
-  line-height: 18px;
-  padding: 0px 5px;
-  background: #fefcf8;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  float: left;
-  color: #e0bb71;
+header .header-wrap .installation .card .card-inner .tech-links {
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  width: 440px;
 }
-header .gh #commit a {
-  color: #e0bb71;
-  font-style: italic;
-}
-header .gh #latestCommitMessage {
-  line-height: 20px;
-  text-shadow: 1px 1px 0px #fff;
-}
-header .gh #buttons {
-  margin-top: 10px;
+header .header-wrap .callouts .call a {
+  display: block;
+  position: relative;
   zoom: 1;
+  min-height: 100px;
+  padding: 20px;
 }
-header .gh #buttons:before,
-header .gh #buttons:after {
+header .header-wrap .callouts .call a:before,
+header .header-wrap .callouts .call a:after {
   content: "";
   display: table;
 }
-header .gh #buttons:after {
+header .header-wrap .callouts .call a:after {
   clear: both;
 }
-header .gh #buttons .btn {
-  float: left;
-}
-header .gh #clone {
+header .header-wrap .callouts .call a span {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #e6e6e6;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  left: 10px;
-}
-header .gh #clone .fork {
-  display: inline-block;
-  padding: 0.5em 1em;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #a02830), color-stop(1, #93252c));
-  background: -webkit-linear-gradient(top, #a02830 0%, #93252c 100%);
-  background: -moz-linear-gradient(top, #a02830 0%, #93252c 100%);
-  background: linear-gradient(top, #a02830 0%, #93252c 100%);
-  border: 1px solid #7a1f25;
-  font: 11px/normal helvetica, arial, freesans, clean, sans-serif;
-  color: #fff;
-  text-decoration: none;
-  text-shadow: 1px 1px 0px #bb2f38;
-  font-weight: bold;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  cursor: pointer;
-  float: left;
-  display: inline-block;
-}
-header .gh #clone .fork:hover {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eb3b00), color-stop(1, #c30));
-  background: -webkit-linear-gradient(top, #eb3b00 0%, #c30 100%);
-  background: -moz-linear-gradient(top, #eb3b00 0%, #c30 100%);
-  background: linear-gradient(top, #eb3b00 0%, #c30 100%);
-  color: #fff;
-  text-shadow: -1px -1px 0px #992600;
-  border: 1px solid #ad2b00;
-}
-header .gh #clone .clone {
-  color: #666;
-  float: left;
-  display: inline-block;
-  margin-left: 15px;
-  background: #f7e6be;
+  left: 20px;
+  top: 20px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 0px 15px;
-  font: 11px "Bitstream Vera Sans Mono", "Courier", monospace;
-  line-height: 25px;
-  max-width: 545px;
-  overflow: hidden;
 }
-header .gh #links {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 11px;
-  line-height: 18px;
+header .header-wrap .callouts .call a big {
+  display: block;
+  margin-left: 130px;
+  margin-top: 13px;
+  font-family: "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
 }
-header .gh #links a {
-  color: #a32931;
-  padding: 0px 10px;
+header .header-wrap .callouts .call a small {
+  display: block;
+  margin-left: 130px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #784942;
 }
-header .gh #links a:hover {
-  text-decoration: underline;
+header .header-wrap .callouts .call a:hover {
+  -webkit-box-shadow: inset 0px 0px 1px #666;
+  -moz-box-shadow: inset 0px 0px 1px #666;
+  box-shadow: inset 0px 0px 1px #666;
 }
 section#content {
-  margin-top: 50px;
-  margin-bottom: 50px;
   min-height: 350px;
 }
 section#content h1 {
-  padding-top: 10px;
-  margin-top: 85px;
+  margin-top: 30px;
 }
 section#content h2 {
   padding-top: 15px;
@@ -366,43 +504,204 @@ section#content p code {
   padding: 3px 5px;
   background: #f6ebd4;
 }
-nav {
-  position: fixed;
-  top: 65px;
-  left: 30px;
-  width: 140px;
+#home {
+  zoom: 1;
 }
-nav ul {
+#home:before,
+#home:after {
+  content: "";
+  display: table;
+}
+#home:after {
+  clear: both;
+}
+#home .rowInside {
+  margin-top: 30px;
+}
+#home .hrline {
+  border-top: 1px #f0ddb8 solid;
+  margin-bottom: 30px !important;
+  margin-top: 30px !important;
+}
+#home h2 {
+  margin-bottom: 0px;
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+  line-height: 30px;
+  color: #784942;
+}
+#home pre {
+  padding: 0px;
+  margin: 0px;
+  background: none;
+  border: none;
+}
+#home article .wrap {
+  zoom: 1;
+  padding: 20px;
+}
+#home article .wrap:before,
+#home article .wrap:after {
+  content: "";
+  display: table;
+}
+#home article .wrap:after {
+  clear: both;
+}
+#home article .more {
+  display: block;
+  float: right;
+  margin-top: 20px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  clear: both;
+}
+#home article h3 {
+  margin-top: 0px;
+  font-size: 20px;
+  color: #30759c;
+}
+#home article h3::after {
+  clear: none !important;
+}
+#home article p {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#home article.subscribe {
+  margin-top: 30px;
+}
+#home article.subscribe .rowInside {
+  margin-top: 0px;
+}
+#home article.subscribe h3,
+#home article.subscribe p {
+  margin-bottom: 0px;
+}
+#home article.desc {
+  margin-bottom: 30px;
+}
+#home article.cplugs,
+#home article.vplugs,
+#home article.pplugs,
+#home article.dplugs {
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#home article.cplugs span.img,
+#home article.vplugs span.img,
+#home article.pplugs span.img,
+#home article.dplugs span.img {
+  background: #f2f2f2;
+  display: block;
+  margin-bottom: 20px;
+  height: 80px;
+}
+#home article.code,
+#home article.subscribe,
+#home article.github,
+#home article.community {
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#home article.code span.img,
+#home article.subscribe span.img,
+#home article.github span.img,
+#home article.community span.img {
+  background: #f2f2f2;
+  display: block;
+  float: right;
+  width: 100px;
+  margin-left: 20px;
+  height: 120px;
+}
+section#home .site-description {
+  color: #666;
+  margin-bottom: 1.2em;
+  font-size: 22px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+nav#primary {
+  border-top: 5px solid #e9ce99;
+  background-color: #fff;
+}
+nav#primary .logo h1 {
+  margin-bottom: 0px;
+  line-height: 70px;
+}
+nav#primary .logo h1 a {
+  display: block;
+  float: left;
+}
+nav#primary .navlist ul {
+  list-style: none;
+  float: right;
+}
+nav#primary .navlist ul li {
+  display: block;
+  float: left;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+}
+nav#primary .navlist ul li a {
+  display: block;
+  line-height: 70px;
+  padding: 0px 25px;
+}
+nav#pages {
+  display: none;
+}
+nav#pages ul {
   list-style: none;
   margin-bottom: 50px;
 }
-nav ul li {
+nav#pages ul li {
   margin-left: 0px;
   margin-right: 12px;
   text-align: right;
 }
-nav ul li.keepcase a {
+nav#pages ul li.keepcase a {
   text-transform: none !important;
 }
-nav ul li.header {
+nav#pages ul li.header {
   font-weight: bold;
 }
-nav ul li a {
+nav#pages ul li a {
   color: #666;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
   text-transform: lowercase;
+  font-size: 14px;
 }
-nav ul li a:hover {
+nav#pages ul li a:hover {
   text-decoration: underline;
 }
 footer {
-  margin-top: 100px;
-  padding-top: 25px;
-  margin-bottom: 50px;
-  border-top: 1px solid #9e7522;
-  color: #808080;
-  text-transform: lowercase;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: #30759c;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+footer a {
+  color: #faf4e8;
+}
+footer .branding h3 {
+  margin-top: 0px;
+}
+#guide article.prepared {
+  border-top: 1px #f0ddb8 solid;
+}
+#guide nav#guide .wrap {
+  background-color: #faf4e8;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #f0ddb8;
+}
+#guide nav#guide .wrap h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 pre {
   padding: 15px;
@@ -476,7 +775,7 @@ pre.source {
   max-height: 350px;
   overflow-y: auto;
   font-size: 11px;
-  border: 1px solid #a32931;
+  border: 1px solid #a40802;
 }
 .codeblock {
   position: relative;
@@ -484,7 +783,7 @@ pre.source {
   margin-top: 85px;
 }
 .codeblock h1 {
-  color: #a32931;
+  color: #a40802;
   margin-top: 0px !important;
 }
 .codeblock code {
