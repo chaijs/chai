@@ -39,13 +39,16 @@ If you have made changes to any of the components, you must rebuild the browser 
 
 ### Contributors 
 
-     commits: 252
+     project: chai
+     commits: 278
      files  : 71
      authors: 
-       192  Jake Luer               76.2%
-        53  Veselin Todorov         21.0%
-         3  Jeff Barczewski         1.2%
+       211  Jake Luer               75.9%
+        53  Veselin Todorov         19.1%
+         5  Juliusz Gonera          1.8%
+         3  Jeff Barczewski         1.1%
+         2  Jo Liss                 0.7%
          1  Vinay Pulim             0.4%
-         1  Jo Liss                 0.4%
-         1  Domenic Denicola        0.4%
+         1  Jakub Nešetřil          0.4%
          1  John Firebaugh          0.4%
+         1  Domenic Denicola        0.4%
