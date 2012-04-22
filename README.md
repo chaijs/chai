@@ -7,6 +7,15 @@ can be delightfully paired with any javascript testing framework.
 
 For more information view the [documentation](http://chaijs.com).
 
+### Versions
+
+The current stable version tree is the `0.5.x` branch. If you are interested in seeing 
+what we have planned, or if you are a plugin developer interested in preparing your plugins for the 
+next major release, see the `master` branch.
+
+- [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png?branch=0.5.x)](http://travis-ci.org/logicalparadox/chai) Stable: 0.5.x - `0.5.x` branch
+- [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png?branch=0.5.x)](http://travis-ci.org/logicalparadox/chai) Unstable: 1.0.0alpha1 - `master` branch
+
 ## Installation
 
 Chai is available for both node.js and the browser using any
@@ -52,14 +61,6 @@ If you have questions or issues, please use this projects
 on the [Google Group](http://groups.google.com/group/chaijs) or ping [@jakeluer](http://twitter.com/jakeluer)
 directly on Twitter. Chai developers can also be found on Freenode IRC in #letstest.js. 
 
-## Versions
-
-The current stable version tree is the `0.5.x` branch. If you are interested in seeing 
-what we have planned, or if you are a plugin developer interested in preparing your plugins for the 
-next major release, see the `master` branch.
-
-- Stable: 0.5.x - `0.5.x` branch
-- Unstables: 1.0.0alpha1 - `master` branch
 
 ## Contributors 
 
