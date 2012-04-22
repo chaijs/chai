@@ -595,6 +595,7 @@ Assertion.prototype.eql = function (obj) {
  *      expect(10).to.be.above(5);
  *
  * @name above
+ * @alias mt
  * @param {Number} value
  * @api public
  */
@@ -616,6 +617,7 @@ Assertion.prototype.above = function (val) {
  *      expect(5).to.be.below(10);
  *
  * @name below
+ * @alias lt
  * @param {Number} value
  * @api public
  */
@@ -662,7 +664,7 @@ Assertion.prototype.within = function (start, finish) {
  *      var Tea = function (name) { this.name = name; }
  *        , Chai = new Tea('chai');
  *
- *      expect(Chai).to.be.an.instanceOf(Tea);
+ *      expect(Chai).to.be.an.instanceof(Tea);
  *
  * @name instanceof
  * @param {Constructor}
@@ -670,7 +672,7 @@ Assertion.prototype.within = function (start, finish) {
  * @api public
  */
 
-Assertion.prototype.instanceof = function (constructor) {
+Assertion.prototype.instanceOf = function (constructor) {
   var name = util.getName(constructor);
   this.assert(
       flag(this, 'object') instanceof constructor
@@ -925,7 +927,7 @@ Assertion.prototype.keys = function(keys) {
  * @api public
  */
 
-Assertion.prototype.throw = function (constructor, msg) {
+Assertion.prototype.Throw = function (constructor, msg) {
   var obj = flag(this, 'object');
   new Assertion(obj).is.a('function');
 
@@ -1087,14 +1089,17 @@ Assertion.prototype.closeTo = function (expected, delta) {
   Assertion.prototype[as] = Assertion.prototype[name];
   return alias;
 })
+('equal', 'eq')
+('above', 'mt')
+('below', 'lt')
 ('length', 'lengthOf')
 ('keys', 'key')
 ('ownProperty', 'haveOwnProperty')
 ('above', 'greaterThan')
 ('below', 'lessThan')
-('throw', 'throws')
-('throw', 'Throw') // for troublesome browsers
-('instanceof', 'instanceOf');
+('Throw', 'throws')
+('Throw', 'throw')
+('instanceOf', 'instanceof');
 
 }); // module: assertion.js
 
@@ -1144,7 +1149,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '0.6.0';
+exports.version = '1.0.0alpha1';
 
 /*!
  * Primary `Assertion` prototype
@@ -1432,7 +1437,7 @@ module.exports = function (chai, util) {
    */
 
   assert.isTrue = function (val, msg) {
-    new Assertion(val, msg).is.true;
+    new Assertion(val, msg).is['true'];
   };
 
   /**
@@ -1450,7 +1455,7 @@ module.exports = function (chai, util) {
    */
 
   assert.isFalse = function (val, msg) {
-    new Assertion(val, msg).is.false;
+    new Assertion(val, msg).is['false'];
   };
 
   /**
@@ -1610,7 +1615,7 @@ module.exports = function (chai, util) {
    */
 
   assert.isArray = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Array);
+    new Assertion(val, msg).to.be.instanceOf(Array);
   };
 
   /**
@@ -1628,7 +1633,7 @@ module.exports = function (chai, util) {
    */
 
   assert.isNotArray = function (val, msg) {
-    new Assertion(val, msg).to.not.be.instanceof(Array);
+    new Assertion(val, msg).to.not.be.instanceOf(Array);
   };
 
   /**
@@ -1799,7 +1804,7 @@ module.exports = function (chai, util) {
    */
 
   assert.instanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.be.instanceof(type);
+    new Assertion(val, msg).to.be.instanceOf(type);
   };
 
   /**
@@ -1820,7 +1825,7 @@ module.exports = function (chai, util) {
    */
 
   assert.notInstanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.not.be.instanceof(type);
+    new Assertion(val, msg).to.not.be.instanceOf(type);
   };
 
   /**
@@ -1909,7 +1914,7 @@ module.exports = function (chai, util) {
       type = null;
     }
 
-    new Assertion(fn, msg).to.throw(type);
+    new Assertion(fn, msg).to.Throw(type);
   };
 
   /**
@@ -1935,7 +1940,7 @@ module.exports = function (chai, util) {
       type = null;
     }
 
-    new Assertion(fn, msg).to.not.throw(type);
+    new Assertion(fn, msg).to.not.Throw(type);
   };
 
   /**
@@ -2034,8 +2039,8 @@ module.exports = function (chai, util) {
       new Assertion(val1).to.equal(val2);
     };
 
-    should.throw = function (fn, errt, errs) {
-      new Assertion(fn).to.throw(errt, errs);
+    should.Throw = function (fn, errt, errs) {
+      new Assertion(fn).to.Throw(errt, errs);
     };
 
     should.exist = function (val) {
@@ -2049,13 +2054,16 @@ module.exports = function (chai, util) {
       new Assertion(val1).to.not.equal(val2);
     };
 
-    should.not.throw = function (fn, errt, errs) {
-      new Assertion(fn).to.not.throw(errt, errs);
+    should.not.Throw = function (fn, errt, errs) {
+      new Assertion(fn).to.not.Throw(errt, errs);
     };
 
     should.not.exist = function (val) {
       new Assertion(val).to.not.exist;
     }
+
+    should['throw'] = should['Throw'];
+    should.not['throw'] = should.not['Throw'];
 
     return should;
   };
