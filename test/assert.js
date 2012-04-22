@@ -22,10 +22,6 @@ function err(fn, msg) {
 
 suite('assert', function () {
 
-  test('version', function () {
-    assert.match(chai.version, /^\d+\.\d+\.\d+$/ );
-  });
-
   test('fail', function () {
     chai.expect(function () {
       assert.fail();

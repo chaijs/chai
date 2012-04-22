@@ -20,14 +20,6 @@ function err(fn, msg) {
 
 suite('should', function() {
 
-  test('.version', function(){
-    chai.version.should.match(/^\d+\.\d+\.\d+$/);
-  });
-
-  test('double require', function(){
-    //require('chai').should().should.equal(should);
-  });
-
   test('assertion', function(){
     'test'.should.be.a('string');
     should.equal('foo', 'foo');
