@@ -5,3 +5,4 @@ node_js:
 branches:
   only:
     - master
+    - 0.5.x
