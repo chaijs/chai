@@ -1,4 +1,3 @@
-
 /*!
  * Module dependencies.
  *
@@ -152,6 +151,32 @@ suite('assert', function () {
     err(function () {
       assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
     }, "expected { tea: \'chai\' } to not equal { tea: \'chai\' }");
+  });
+  
+  test('almostEqual', function() {
+    assert.almostEqual(3.1416, 3.14159, 3);
+
+    err(function () {
+      assert.almostEqual(3.1416, 3.14159, 6); 
+    }, "expected 3.1416 to equal 3.14159 up to 6 decimal places"); 
+    
+    err(function () {
+      assert.almostEqual(3.1416, 3.14159); 
+    }, "expected 3.1416 to equal 3.14159 up to 7 decimal places"); 
+    
+  });
+
+  test('deepAlmostEqual', function() {
+    assert.deepAlmostEqual({pi: 3.1416}, {pi: 3.14159}, 3);
+
+    err(function () {
+      assert.deepAlmostEqual({pi: 3.1416}, {pi: 3.14159}, 6); 
+    }, "expected { pi: 3.1416 } to equal { pi: 3.14159 } up to 6 decimal places"); 
+    
+    err(function () {
+      assert.deepAlmostEqual({pi: 3.1416}, {pi: 3.14159}); 
+    }, "expected { pi: 3.1416 } to equal { pi: 3.14159 } up to 7 decimal places"); 
+
   });
 
   test('isNull', function() {
