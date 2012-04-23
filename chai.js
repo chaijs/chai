@@ -2100,7 +2100,7 @@ require.register("utils/addMethod.js", function(module, exports, require){
  */
 
 module.exports = function (ctx, name, method) {
-  var context = ('function' === typeof obj) ? ctx.prototype : ctx;
+  var context = ('function' === typeof ctx) ? ctx.prototype : ctx;
   context[name] = function () {
     method.apply(this, arguments);
     return this;
@@ -2137,8 +2137,8 @@ require.register("utils/addProperty.js", function(module, exports, require){
  * @api public
  */
 
-module.export = function (ctx, name, getter) {
-  var context = ('function' === typeof obj) ? ctx.prototype : ctx;
+module.exports = function (ctx, name, getter) {
+  var context = ('function' === typeof ctx) ? ctx.prototype : ctx;
   Object.defineProperty(context, name,
     { get: function () {
         getter.call(this);
@@ -2891,7 +2891,7 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  */
 
 module.exports = function (ctx, name, method) {
-  var context = ('function' === typeof obj) ? ctx.prototype : ctx
+  var context = ('function' === typeof ctx) ? ctx.prototype : ctx
     , _method = context[name]
     , _super = function () { return this; };
 
@@ -2939,7 +2939,7 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  */
 
 module.exports = function (ctx, name, getter) {
-  var context = ('function' === typeof obj) ? ctx.prototype : ctx
+  var context = ('function' === typeof ctx) ? ctx.prototype : ctx
     , _get = Object.getOwnPropertyDescriptor(context, name)
     , _super = function () { return this; };
 
