@@ -1,0 +1,2 @@
+require('./plugins');
+require('./static');
