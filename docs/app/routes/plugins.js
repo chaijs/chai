@@ -14,22 +14,36 @@ plugins.forEach(function (plug) {
   });
 });
 
-site_tags.sort(function (a, b) {
+
+function sortAlpha (a, b) {
+  if ('object' === typeof a) a = a.name;
+  if ('object' === typeof b) b = b.name;
   var A = a.toLowerCase()
     , B = b.toLowerCase();
   if (A < B) return -1;
   else if (A > B) return 1;
   else return 0;
-});
+};
+
+site_tags.sort(sortAlpha);
 
 site_tags.forEach(function (tag) {
   var query = filtr({ 'tags': { $all: [ tag ] } })
-    , res = query.test(plugins);
+    , res = query.test(plugins).sort(sortAlpha);
   plugin_locals[tag] = res;
 });
 
+var site_locals = {
+    ghbaseurl: ''
+}
+
 app.get('/plugins', function (req, res) {
-  res.json(plugin_locals);
+  var locals = {
+      site: site_locals
+    , plugins: plugin_locals
+    , body: 'plugins'
+  }
+  res.render('plugins', locals);
 });
 
 app.get('/plugins/:id', function (req, res, next) {
@@ -43,7 +57,14 @@ app.get('/plugins/:id', function (req, res, next) {
 
   function render () {
     if (!pkg || !html) return;
-    res.end(html);
+    res.render('plugins/plugin', {
+        site: site_locals
+      , plugin: {
+            pkg: pkg
+          , html: html
+        }
+      , body: 'plugin'
+    });
   }
 
   request
@@ -67,7 +88,6 @@ app.get('/plugins/:id', function (req, res, next) {
       } else {
         pkg = { error: 1 };
       }
-      console.log(pkg);
       render();
     });
 });

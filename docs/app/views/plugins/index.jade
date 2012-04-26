@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  #plugins.grid_12.panels
+    - var i = 0
+    for tag, name in plugins
+      - if (tag.length > 0)
+        .rowInside
+          - if (i !== 0)
+            article.grid_12.hrline
+          - i++
+          article.grid_12.desc
+            h2= name
+          for plugin in tag
+            article.grid_3.plugin-box_s
+              a(href=site.ghbaseurl + '/plugins/' + plugin.url, class='ablock') 
+                .wrap
+                  h3= plugin.name 
+                  p= plugin.desc

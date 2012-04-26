@@ -3,11 +3,12 @@ var http = require('http')
 
 app = express();
 
-app.configure(function () {
-  app.use(express.bodyParser());
-});
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/views');
 
+app.use(express.bodyParser());
 app.use(app.router);
+
 require('./routes');
 
 var server = module.exports = http.createServer(app);
