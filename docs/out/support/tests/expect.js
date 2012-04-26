@@ -15,18 +15,14 @@ function err(fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    expect(msg).to.equal(err.message);
+    expect(err.message).to.equal(msg);
   }
 }
 
 suite('expect', function () {
 
-  test('=.version', function() {
-    expect(chai.version).to.match(/^\d+\.\d+\.\d+$/);
-  });
-
-  test('=double require', function(){
-    //require('chai').expect().to.equal(expect);
+  test('chai.version', function() {
+    expect(chai).to.have.property('version');
   });
 
   test('assertion', function(){

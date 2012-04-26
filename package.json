@@ -21,6 +21,13 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "*",
-    "codex": "0.2.x"
+    "codex": "0.2.x",
+    "filtr": "0.2.x",
+    "express": "https://github.com/visionmedia/express/tarball/master",
+    "carbon": "0.1.0",
+    "superagent": "0.4.x",
+    "jade": "0.25.x",
+    "marked": "0.2.x",
+    "highlight": "0.2.x"
   }
 }

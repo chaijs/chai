@@ -14,19 +14,11 @@ function err(fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    should.equal(msg, err.message);
+    should.equal(err.message, msg);
   }
 }
 
 suite('should', function() {
-
-  test('.version', function(){
-    chai.version.should.match(/^\d+\.\d+\.\d+$/);
-  });
-
-  test('double require', function(){
-    //require('chai').should().should.equal(should);
-  });
 
   test('assertion', function(){
     'test'.should.be.a('string');
@@ -331,7 +323,7 @@ suite('should', function() {
 
   test('include()', function(){
     ['foo', 'bar'].should.include('foo');
-    ['foo', 'bar'].should.include('foo');
+    ['foo', 'bar'].should.contain('foo');
     ['foo', 'bar'].should.include('bar');
     [1,2].should.include(1);
     ['foo', 'bar'].should.not.include('baz');
@@ -350,7 +342,7 @@ suite('should', function() {
     ({ foo: 1 }).should.have.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.have.keys(['foo', 'bar']);
     ({ foo: 1, bar: 2 }).should.have.keys('foo', 'bar');
-    ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('foo', 'bar');
+    ({ foo: 1, bar: 2, baz: 3 }).should.include.keys('foo', 'bar');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('bar', 'foo');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('baz');
 

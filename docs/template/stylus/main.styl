@@ -25,6 +25,7 @@ body
   background-color #fff
 
 body.index .content
+body.plugins .content
   background-color #FAF4E8
 
 h1, h3, h4
@@ -197,7 +198,7 @@ section#content
       padding 3px 5px
       background darken(primary, 5%)
 
-#home
+.panels
   clearfix()
 
   .rowInside
@@ -207,6 +208,7 @@ section#content
     border-top 1px #F0DDB8 solid
     margin-bottom 30px !important
     margin-top 30px !important
+
 
   h2
     margin-bottom 0px
@@ -223,6 +225,9 @@ section#content
     border none
 
   article
+    &.desc
+      margin-bottom 30px !important
+
     .wrap
       clearfix()
       padding 20px
@@ -252,21 +257,27 @@ section#content
     p
       margin-bottom 0px
 
-  article.desc
-    margin-bottom 30px
-
-  article.cplugs
-  article.vplugs
-  article.pplugs
-  article.dplugs
+  article.plugin-box
+  article.plugin-box_s
     background-color #fff
     border-radius 5px
+
+    .wrap
+      height 315px
 
     span.img
       background lighten(#000, 95%)
       display block
       margin-bottom 20px
       height 80px
+
+    a.ablock
+      display block
+      color inherit
+
+  article.plugin-box_s
+    .wrap
+      height 150px
 
   article.code
   article.subscribe

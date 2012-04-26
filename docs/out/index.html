@@ -29,7 +29,7 @@
             </li>
             <li><a href="#">API</a>
             </li>
-            <li><a href="#">Plugins</a>
+            <li><a href="/plugins">Plugins</a>
             </li>
             <li><a href="#">Tools</a>
             </li>
@@ -43,6 +43,7 @@
       <div class="header-wrap">
         <div class="installation">
           <div class="site-description"><p>Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.</p>
+
           </div>
           <div class="card-wrap">
             <div class="card">
@@ -85,7 +86,7 @@
     </header>
     <div class="content">
       <section id="content">
-        <div id="home" class="grid_12">
+        <div id="home" class="grid_12 panels">
           <div class="rowInside">
             <article class="grid_12 desc">
               <h2>Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
@@ -95,25 +96,12 @@
               <div class="wrap">
                 <h3>Should
                 </h3>
-                <div class="code-sample">
-<pre><code>foo.should.be.a('string');
+                <div class="code-sample"><pre><code>foo.should.be.a('string');
 foo.should.equal('bar');
 foo.should.have.length(3);
 tea.should.have.property('flavors')
   .with.length(3);</code></pre>
-                </div><a href="#" class="more">Visit Should Guide &rarr;</a>
-              </div>
-            </article>
-            <article class="grid_4 code">
-              <div class="wrap">
-                <h3>Should
-                </h3>
-                <div class="code-sample">
-<pre><code>foo.should.be.a('string');
-foo.should.equal('bar');
-foo.should.have.length(3);
-tea.should.have.property('flavors')
-  .with.length(3);</code></pre>
+
                 </div><a href="#" class="more">Visit Should Guide &rarr;</a>
               </div>
             </article>
@@ -121,25 +109,12 @@ tea.should.have.property('flavors')
               <div class="wrap">
                 <h3>Expect
                 </h3>
-                <div class="code-sample">
-<pre><code>expect(foo).to.be.a('string');
+                <div class="code-sample"><pre><code>expect(foo).to.be.a('string');
 expect(foo).to.equal('bar');
 expect(foo).to.have.length(3);
 expect(tea).to.have.property('flavors')
   .with.length(3);</code></pre>
-                </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
-              </div>
-            </article>
-            <article class="grid_4 code">
-              <div class="wrap">
-                <h3>Expect
-                </h3>
-                <div class="code-sample">
-<pre><code>expect(foo).to.be.a('string');
-expect(foo).to.equal('bar');
-expect(foo).to.have.length(3);
-expect(tea).to.have.property('flavors')
-  .with.length(3);</code></pre>
+
                 </div><a href="#" class="more">Visit Expect Guide &rarr;</a>
               </div>
             </article>
@@ -147,25 +122,12 @@ expect(tea).to.have.property('flavors')
               <div class="wrap">
                 <h3>Assert
                 </h3>
-                <div class="code-sample">
-<pre><code>assert.typeOf(foo, 'string');
+                <div class="code-sample"><pre><code>assert.typeOf(foo, 'string');
 assert.equal(foo, 'bar');
 assert.length(foo, 3)
 assert.ownProperty(tea, 'favors');
 assert.length(tea.flavors, 3);</code></pre>
-                </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
-              </div>
-            </article>
-            <article class="grid_4 code">
-              <div class="wrap">
-                <h3>Assert
-                </h3>
-                <div class="code-sample">
-<pre><code>assert.typeOf(foo, 'string');
-assert.equal(foo, 'bar');
-assert.length(foo, 3)
-assert.ownProperty(tea, 'favors');
-assert.length(tea.flavors, 3);</code></pre>
+
                 </div><a href="#" class="more">Visit Assert Guide &rarr;</a>
               </div>
             </article>
@@ -177,7 +139,7 @@ assert.length(tea.flavors, 3);</code></pre>
               <h2>Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.
               </h2>
             </article>
-            <article class="grid_3 cplugs">
+            <article class="grid_3 plugin-box">
               <div class="wrap"><span class="img">&nbsp;</span>
                 <h3>Custom Plugins
                 </h3>
@@ -185,7 +147,7 @@ assert.length(tea.flavors, 3);</code></pre>
                 </p><a href="#" class="more">Get Custom Plugins &rarr;</a>
               </div>
             </article>
-            <article class="grid_3 vplugs">
+            <article class="grid_3 plugin-box">
               <div class="wrap"><span class="img">&nbsp;</span>
                 <h3>Vendor Integration
                 </h3>
@@ -193,7 +155,7 @@ assert.length(tea.flavors, 3);</code></pre>
                 </p><a href="#" class="more">Get Vendor Plugins &rarr;</a>
               </div>
             </article>
-            <article class="grid_3 pplugs">
+            <article class="grid_3 plugin-box">
               <div class="wrap"><span class="img">&nbsp;</span>
                 <h3>Platforms
                 </h3>
@@ -201,7 +163,7 @@ assert.length(tea.flavors, 3);</code></pre>
                 </p><a href="#" class="more">See Available Platorms &rarr;</a>
               </div>
             </article>
-            <article class="grid_3 dplugs">
+            <article class="grid_3 plugin-box">
               <div class="wrap"><span class="img">&nbsp;</span>
                 <h3>Develop Plugins
                 </h3>

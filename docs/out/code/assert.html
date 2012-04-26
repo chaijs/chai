@@ -29,7 +29,7 @@
             </li>
             <li><a href="#">API</a>
             </li>
-            <li><a href="#">Plugins</a>
+            <li><a href="/plugins">Plugins</a>
             </li>
             <li><a href="#">Tools</a>
             </li>
@@ -376,7 +376,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.isTrue = function (val, msg) {
-    new Assertion(val, msg).is.true;
+    new Assertion(val, msg).is['true'];
   };</code>
               </pre>
             </div>
@@ -407,7 +407,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.isFalse = function (val, msg) {
-    new Assertion(val, msg).is.false;
+    new Assertion(val, msg).is['false'];
   };</code>
               </pre>
             </div>
@@ -684,7 +684,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.isArray = function (val, msg) {
-    new Assertion(val, msg).to.be.instanceof(Array);
+    new Assertion(val, msg).to.be.instanceOf(Array);
   };</code>
               </pre>
             </div>
@@ -715,7 +715,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.isNotArray = function (val, msg) {
-    new Assertion(val, msg).to.not.be.instanceof(Array);
+    new Assertion(val, msg).to.not.be.instanceOf(Array);
   };</code>
               </pre>
             </div>
@@ -1006,7 +1006,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.instanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.be.instanceof(type);
+    new Assertion(val, msg).to.be.instanceOf(type);
   };</code>
               </pre>
             </div>
@@ -1041,7 +1041,7 @@
             </div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>assert.notInstanceOf = function (val, type, msg) {
-    new Assertion(val, msg).to.not.be.instanceof(type);
+    new Assertion(val, msg).to.not.be.instanceOf(type);
   };</code>
               </pre>
             </div>
@@ -1186,7 +1186,7 @@
       type = null;
     }
 
-    new Assertion(fn, msg).to.throw(type);
+    new Assertion(fn, msg).to.Throw(type);
   };</code>
               </pre>
             </div>
@@ -1226,7 +1226,7 @@
       type = null;
     }
 
-    new Assertion(fn, msg).to.not.throw(type);
+    new Assertion(fn, msg).to.not.Throw(type);
   };</code>
               </pre>
             </div>

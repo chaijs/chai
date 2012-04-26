@@ -1,0 +1,49 @@
+!!! 5
+html(lang='en')
+  head
+    block title
+      title Chai.js
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js')
+    link(rel='stylesheet', href=site.ghbaseurl + '/public/css/main.css', type='text/css', media='all')
+    link(href='http://fonts.googleapis.com/css?family=Lato:300|Redressed', rel='stylesheet', type='text/css') 
+  body(class=body)
+    nav#primary
+      .nav-wrap
+        .logo
+          h1: a(href=site.ghbaseurl + '/') Chai
+        .navlist
+          ul
+            block navlist
+              li: a(href=site.ghbaseurl + '/guide') Guide
+              li: a(href='#') API
+              li: a(href=site.ghbaseurl + '/plugins', class='active') Plugins
+              li: a(href='#') Tools
+              li: a(href='#') Blog
+    block header
+    .content
+      section#content
+        block content
+    footer
+      section#footer
+        .branding 
+          h3: a(href='#') Chai Assertion Library
+        .list
+          ul
+            li: a(href='#') Installation
+            li: a(href='#') Interface Styles
+            li: a(href='#') Developing Plugins
+        .list
+          ul
+            li: a(href='#') Expect / Should API
+            li: a(href='#') Assert API
+            li: a(href='#') Plugin Utility API
+        .list
+          ul
+            li: a(href='#') Upgrade notes
+            li: a(href='#') Test Suite
+            li: a(href='#') Test Coverage
+        .list
+          ul
+            li: a(href='#') Issues
+            li: a(href='#') Google Group
+            li: a(href='#') Build Status
