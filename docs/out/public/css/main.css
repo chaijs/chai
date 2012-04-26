@@ -260,7 +260,8 @@ body {
 .content {
   background-color: #fff;
 }
-body.index .content {
+body.index .content,
+body.plugins .content {
   background-color: #faf4e8;
 }
 h1,
@@ -504,112 +505,120 @@ section#content p code {
   padding: 3px 5px;
   background: #f6ebd4;
 }
-#home {
+.panels {
   zoom: 1;
 }
-#home:before,
-#home:after {
+.panels:before,
+.panels:after {
   content: "";
   display: table;
 }
-#home:after {
+.panels:after {
   clear: both;
 }
-#home .rowInside {
+.panels .rowInside {
   margin-top: 30px;
 }
-#home .hrline {
+.panels .hrline {
   border-top: 1px #f0ddb8 solid;
   margin-bottom: 30px !important;
   margin-top: 30px !important;
 }
-#home h2 {
+.panels h2 {
   margin-bottom: 0px;
   padding-top: 0px !important;
   margin-top: 0px !important;
   line-height: 30px;
   color: #784942;
 }
-#home pre {
+.panels pre {
   padding: 0px;
   margin: 0px;
   background: none;
   border: none;
 }
-#home article .wrap {
+.panels article.desc {
+  margin-bottom: 30px !important;
+}
+.panels article .wrap {
   zoom: 1;
   padding: 20px;
 }
-#home article .wrap:before,
-#home article .wrap:after {
+.panels article .wrap:before,
+.panels article .wrap:after {
   content: "";
   display: table;
 }
-#home article .wrap:after {
+.panels article .wrap:after {
   clear: both;
 }
-#home article .more {
+.panels article .more {
   display: block;
   float: right;
   margin-top: 20px;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   clear: both;
 }
-#home article h3 {
+.panels article h3 {
   margin-top: 0px;
   font-size: 20px;
   color: #30759c;
 }
-#home article h3::after {
+.panels article h3::after {
   clear: none !important;
 }
-#home article p {
+.panels article p {
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-#home article.subscribe {
+.panels article.subscribe {
   margin-top: 30px;
 }
-#home article.subscribe .rowInside {
+.panels article.subscribe .rowInside {
   margin-top: 0px;
 }
-#home article.subscribe h3,
-#home article.subscribe p {
+.panels article.subscribe h3,
+.panels article.subscribe p {
   margin-bottom: 0px;
 }
-#home article.desc {
-  margin-bottom: 30px;
-}
-#home article.cplugs,
-#home article.vplugs,
-#home article.pplugs,
-#home article.dplugs {
+.panels article.plugin-box,
+.panels article.plugin-box_s {
   background-color: #fff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-#home article.cplugs span.img,
-#home article.vplugs span.img,
-#home article.pplugs span.img,
-#home article.dplugs span.img {
+.panels article.plugin-box .wrap,
+.panels article.plugin-box_s .wrap {
+  height: 315px;
+}
+.panels article.plugin-box span.img,
+.panels article.plugin-box_s span.img {
   background: #f2f2f2;
   display: block;
   margin-bottom: 20px;
   height: 80px;
 }
-#home article.code,
-#home article.subscribe,
-#home article.github,
-#home article.community {
+.panels article.plugin-box a.ablock,
+.panels article.plugin-box_s a.ablock {
+  display: block;
+  color: inherit;
+}
+.panels article.plugin-box_s .wrap {
+  height: 150px;
+}
+.panels article.code,
+.panels article.subscribe,
+.panels article.github,
+.panels article.community {
   background-color: #fff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-#home article.code span.img,
-#home article.subscribe span.img,
-#home article.github span.img,
-#home article.community span.img {
+.panels article.code span.img,
+.panels article.subscribe span.img,
+.panels article.github span.img,
+.panels article.community span.img {
   background: #f2f2f2;
   display: block;
   float: right;
