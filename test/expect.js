@@ -73,6 +73,16 @@ suite('expect', function () {
       expect('').to.be.null;
     }, "expected '' to be null")
   });
+
+  test('undefined', function(){
+    expect(undefined).to.be.undefined;
+    expect(null).to.not.be.undefined;
+
+    err(function(){
+      expect('').to.be.undefined;
+    }, "expected '' to be undefined")
+  });
+
   test('exist', function(){
     var foo = 'bar'
       , bar;

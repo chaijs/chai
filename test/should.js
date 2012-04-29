@@ -84,6 +84,15 @@ suite('should', function() {
       ''.should.be.null;
     }, "expected '' to be null")
   });
+
+  test('undefined', function(){
+    (0).should.not.be.undefined;
+
+    err(function(){
+      ''.should.be.undefined;
+    }, "expected '' to be undefined")
+  });
+
   test('arguments', function(){
     var args = (function(){ return arguments; })(1,2,3);
     args.should.be.arguments;
