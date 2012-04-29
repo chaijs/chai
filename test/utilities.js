@@ -43,4 +43,16 @@ suite('utilities', function () {
     expect('cucumber').to.equal('cuke');
     expect('spec').not.to.equal('test');
   });
+
+  test('addMethod', function () {
+    chai.use(function(_chai, utils) {
+      utils.addMethod(_chai.Assertion, 'eqqqual', function (str) {
+        var object = utils.flag(this, 'object');
+        new _chai.Assertion(object).to.be.eql(str);
+        return this;
+      });
+    });
+
+    expect('spec').to.eqqqual('spec');
+  });
 });
