@@ -65,6 +65,14 @@ suite('expect', function () {
     }, "expected '' to be false")
   });
 
+  test('null', function(){
+    expect(null).to.be.null;
+    expect(false).to.not.be.null;
+
+    err(function(){
+      expect('').to.be.null;
+    }, "expected '' to be null")
+  });
   test('exist', function(){
     var foo = 'bar'
       , bar;

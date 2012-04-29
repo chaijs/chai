@@ -77,6 +77,13 @@ suite('should', function() {
     }, "expected '' to be false")
   });
 
+  test('null', function(){
+    (0).should.not.be.null;
+
+    err(function(){
+      ''.should.be.null;
+    }, "expected '' to be null")
+  });
   test('arguments', function(){
     var args = (function(){ return arguments; })(1,2,3);
     args.should.be.arguments;
