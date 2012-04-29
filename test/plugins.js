@@ -5,6 +5,8 @@ if (!chai) {
 suite('plugins', function () {
 
   function plugin (chai) {
+    if (chai.Assertion.prototype.testing) return;
+
     Object.defineProperty(chai.Assertion.prototype, 'testing', {
       get: function () {
         return 'successful';
