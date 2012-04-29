@@ -278,7 +278,7 @@ var include = function () {
   flag(this, 'contains', true);
 
   var assert = function(val) {
-    var obj = flag(this, 'object')
+    var obj = flag(this, 'object');
     this.assert(
         ~obj.indexOf(val)
       , 'expected #{this} to include ' + util.inspect(val)
@@ -939,7 +939,7 @@ Assertion.prototype.keys = function(keys) {
   );
 
   return this;
-}
+};
 
 /**
  * # .throw(constructor)
@@ -1324,7 +1324,7 @@ module.exports = function (chai, util) {
       , operator: operator
       , stackStartFunction: assert.fail
     });
-  }
+  };
 
   /**
    * # .ok(object, [message])
@@ -1364,16 +1364,16 @@ module.exports = function (chai, util) {
   assert.almostEqual = function(act, exp, dec, msg) {
     var test = new Assertion(act, msg);
     if (null == dec) dec = 7;
-    
+
     test.assert(
         Math.abs(act - exp) < 0.5 * Math.pow(10, -dec)
       , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + " decimal places"
       , "expected #{this} to not equal #{exp} up to " + util.inspect(dec) + " decimal places"
       , exp
       , act
-     )
+     );
   };
-    
+
 
   /**
    * # .equal(actual, expected, [message])
@@ -1480,7 +1480,7 @@ module.exports = function (chai, util) {
   assert.deepEqual = function (act, exp, msg) {
     new Assertion(act, msg).to.eql(exp);
   };
-  
+
   /**
    * # .deepAlmostEqual(actual, expected, [decimal, message])
    *
@@ -1501,7 +1501,7 @@ module.exports = function (chai, util) {
     var test = new Assertion(act, msg);
     if (null == dec) dec = 7;
     var tol = 0.5 * Math.pow(10, -dec);
-    
+
     var deepEq = function(act, exp) {
       if (Object(act) === act){
         for (var k in act) {
@@ -1515,7 +1515,7 @@ module.exports = function (chai, util) {
         return Math.abs(act - exp) < tol;
       }
     };
-    
+
     test.assert(
         deepEq(act, exp)
       , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + ' decimal places'
@@ -1523,7 +1523,7 @@ module.exports = function (chai, util) {
       , exp
       , act
     );
-  };    
+  };
 
   /**
    * # .notDeepEqual(actual, expected, [message])
@@ -2166,10 +2166,10 @@ module.exports = function (chai, util) {
 
     should.exist = function (val) {
       new Assertion(val).to.exist;
-    }
+    };
 
     // negation
-    should.not = {}
+    should.not = {};
 
     should.not.equal = function (val1, val2) {
       new Assertion(val1).to.not.equal(val2);
@@ -2181,7 +2181,7 @@ module.exports = function (chai, util) {
 
     should.not.exist = function (val) {
       new Assertion(val).to.not.exist;
-    }
+    };
 
     should['throw'] = should['Throw'];
     should.not['throw'] = should.not['Throw'];
@@ -3065,7 +3065,7 @@ module.exports = function (ctx, name, getter) {
     , _super = function () { return this; };
 
   if (_get && 'function' === typeof _get.get)
-    _super = _get.get
+    _super = _get.get;
 
   Object.defineProperty(context, name,
     { get: getter(_super)
