@@ -28,7 +28,7 @@ suite('utilities', function () {
 
   test('overwriteMethod', function () {
     chai.use(function (_chai, utils) {
-      utils.overwriteMethod(chai.Assertion, 'equal', function (_super) {
+      utils.overwriteMethod(_chai.Assertion, 'equal', function (_super) {
         return function (str) {
           var object = utils.flag(this, 'object');
           if (object == 'cucumber' && str == 'cuke') {
