@@ -26,4 +26,21 @@ suite('utilities', function () {
     });
   });
 
+  test('overwriteMethod', function () {
+    chai.use(function (_chai, utils) {
+      utils.overwriteMethod(chai.Assertion, 'equal', function (_super) {
+        return function (str) {
+          var object = utils.flag(this, 'object');
+          if (object == 'cucumber' && str == 'cuke') {
+            return;
+          } else {
+             return _super.apply(this, arguments);
+          }
+        };
+      });
+    });
+
+    expect('cucumber').to.equal('cuke');
+    expect('spec').not.to.equal('test');
+  });
 });
