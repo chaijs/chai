@@ -456,6 +456,52 @@ Object.defineProperty(Assertion.prototype, 'false',
 });
 
 /**
+ * # .null
+ *
+ * Assert object is null
+ *
+ * @name null
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'null',
+  { get: function () {
+      this.assert(
+          null === flag(this, 'object')
+        , 'expected #{this} to be null'
+        , 'expected #{this} not to be null'
+        , this.negate ? false : true
+      );
+
+      return this;
+    }
+  , configurable: true
+});
+
+/**
+ * # .undefined
+ *
+ * Assert object is undefined
+ *
+ * @name undefined
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'undefined',
+  { get: function () {
+      this.assert(
+          undefined === flag(this, 'object')
+        , 'expected #{this} to be undefined'
+        , 'expected #{this} not to be undefined'
+        , this.negate ? false : true
+      );
+
+      return this;
+    }
+  , configurable: true
+});
+
+/**
  * # .exist
  *
  * Assert object exists (null).
@@ -1298,6 +1344,37 @@ module.exports = function (chai, util) {
     new Assertion(val, msg).is.ok;
   };
 
+
+  /**
+   * # .almostEqual(actual, expected, [decimal, message])
+   *
+   * The same as NumPy's assert_almost_equal, for scalars.
+   * Assert near equality: abs(expected-actual) < 0.5 * 10**(-decimal)
+   *
+   *      assert.almostEqual(3.1416, 3.14159, 3, 'these numbers are almost equal');
+   *
+   * @name equal
+   * @param {Number} actual
+   * @param {Number} expected
+   * @param {Number} decimal
+   * @param {String} message
+   * @api public
+   */
+
+  assert.almostEqual = function(act, exp, dec, msg) {
+    var test = new Assertion(act, msg);
+    if (null == dec) dec = 7;
+    
+    test.assert(
+        Math.abs(act - exp) < 0.5 * Math.pow(10, -dec)
+      , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + " decimal places"
+      , "expected #{this} to not equal #{exp} up to " + util.inspect(dec) + " decimal places"
+      , exp
+      , act
+     )
+  };
+    
+
   /**
    * # .equal(actual, expected, [message])
    *
@@ -1403,6 +1480,50 @@ module.exports = function (chai, util) {
   assert.deepEqual = function (act, exp, msg) {
     new Assertion(act, msg).to.eql(exp);
   };
+  
+  /**
+   * # .deepAlmostEqual(actual, expected, [decimal, message])
+   *
+   * The same as NumPy's assert_almost_equal, for objects whose leaves are all numbers.
+   * Assert near equality: abs(expected-actual) < 0.5 * 10**(-decimal) for every leaf
+   *
+   *      assert.deepAlmostEqual({pi: 3.1416}, {pi: 3.14159}, 3);
+   *
+   * @name equal
+   * @param {*} actual
+   * @param {*} expected
+   * @param {Number} decimal
+   * @param {String} message
+   * @api public
+   */
+
+  assert.deepAlmostEqual = function(act, exp, dec, msg) {
+    var test = new Assertion(act, msg);
+    if (null == dec) dec = 7;
+    var tol = 0.5 * Math.pow(10, -dec);
+    
+    var deepEq = function(act, exp) {
+      if (Object(act) === act){
+        for (var k in act) {
+          if (!(deepEq(act[k], exp[k]))) {
+            return false;
+          }
+        }
+        return true;
+      }
+      else {
+        return Math.abs(act - exp) < tol;
+      }
+    };
+    
+    test.assert(
+        deepEq(act, exp)
+      , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + ' decimal places'
+      , "expected #{this} to not equal #{exp} up to " + util.inspect(dec) + ' decimal places'
+      , exp
+      , act
+    );
+  };    
 
   /**
    * # .notDeepEqual(actual, expected, [message])
