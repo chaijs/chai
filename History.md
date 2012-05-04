@@ -1,4 +1,111 @@
 
+1.0.0-rc1 / 2012-05-04 
+==================
+
+  * browser build (rc1)
+  * assert match/notMatch tests
+  * assert interface - notMatch, ownProperty, notOwnProperty, ownPropertyVal, ownPropertyNotVal
+  * cleaner should interface export.
+  * added chai.Assertion.prototype._obj (getter) for quick access to object flag
+  * moved almostEqual / almostDeepEqual to stats plugin
+  * added mocha.opts
+  * Add test for `utils.addMethod`
+  * Fix a typo
+  * Add test for `utils.overwriteMethod`
+  * Fix a typo
+  * Browser build
+  * Add undefined assertion
+  * Add null assertion
+  * Fix an issue with `mocha --watch`
+  * travis no longer tests on node 0.4.x
+  * removing unnecissary carbon dep
+  * Merge branch 'feature/plugins-app'
+  * docs build
+  * templates for docs express app for plugin directory
+  * express app for plugin and static serving
+  * added web server deps
+  * Merge pull request #54 from josher19/master
+  * Remove old test.assert code
+  * Use util.inspect instead of inspect for deepAlmostEqual and almostEqual
+  * browser build
+  * Added almostEqual and deepAlmostEqual to assert test suite.
+  * bug - context determinants for utils
+  * dec=0 means rounding, so assert.deepAlmostEqual({pi: 3.1416}, {pi: 3}, 0) is true
+  * wrong travis link
+  * readme updates for version information
+  * travis tests 0.5.x branch as well
+  * [bug] util `addProperty` not correctly exporting
+  * read me version notes
+  * browser build 1.0.0alpha1
+  * not using reserved words in internal assertions. #52
+  * version tick
+  * clean up redundant tests
+  * Merge branch 'refs/heads/0.6.x'
+  * update version tag in package 1.0.0alpha1
+  * browser build
+  * added utility tests to browser specs
+  * beginning utility testing
+  * updated utility comments
+  * utility - overwriteMethod
+  * utility - overwriteProperty
+  * utility - addMethod
+  * utility - addProperty
+  * missing ;
+  * contributors list update
+  * Merge branch 'refs/heads/0.6.x-docs' into 0.6.x
+  * Added guide link to docs. WIP
+  * Include/contain are now both properties and methods
+  * Add an alias annotation
+  * Remove usless function wrapper
+  * Fix a typo
+  * A/an are now both properties and methods
+  * [docs] new site homepage layout / color checkpoint
+  * Ignore IE-specific error properties.
+  * Fixing order of error message test.
+  * New cross-browser `getName` util.
+  * Fixing up `AssertionError` inheritance.
+  * backup docs
+  * Add doctypes
+  * [bug] was still using `constructor.name` in `throw` assertion
+  * [bug] flag Object.create(null) instead of new Object
+  * [test] browser build
+  * [refactor] all usage of Assertion.prototype.assert now uses template tags and flags
+  * [refactor] remove Assertion.prototype.inspect for testable object inspection
+  * [refactor] object to test is now stored in flag, with ssfi and custom message
+  * [bug] flag util - don't return on `set`
+  * [docs] comments for getMessage utility
+  * [feature] getMessage
+  * [feature] testing utilities
+  * [refactor] flag doesn't require `call`
+  * Make order of source files well-defined
+  * Added support for throw(errorInstance).
+  * Use a foolproof method of grabbing an error's name.
+  * Removed constructor.name check from throw.
+  * disabled stackTrack configuration tests until api is stable again
+  * first version of line displayed error for node js (unstable)
+  * refactor core Assertion to use flag utility for negation
+  * added flag utility
+  * tests for assert interface negatives. Closed #42
+  * added assertion negatives that were missing. #42
+  * Support for expected and actual parameters in assert-style error object
+  * chai as promised - readme
+  * Added assert.fail. Closes #40
+  * better error message for assert.operator. Closes #39
+  * [refactor] Assertion#property to use getPathValue property
+  * added getPathValue utility helper
+  * removed todo about browser build
+  * version notes
+  * version bumb 0.6.0
+  * browser build
+  * [refactor] browser compile function to replace with `require('./error')' with 'require('./browser/error')'
+  * [feature] browser uses different error.js
+  * [refactor] error without chai.fail
+  * Assertion & interfaces use new utils helper export
+  * [refactor] primary export for new plugin util usage
+  * added util index.js helper
+  * added 2012 to copyright headers
+  * Added DeepEqual assertions
+
 0.5.3 / 2012-04-21 
 ==================
 
