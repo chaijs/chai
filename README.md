@@ -14,7 +14,7 @@ what we have planned, or if you are a plugin developer interested in preparing y
 next major release, see the `master` branch.
 
 - [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png?branch=0.5.x)](http://travis-ci.org/logicalparadox/chai) Stable: 0.5.x - `0.5.x` branch
-- [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png?branch=master)](http://travis-ci.org/logicalparadox/chai) Unstable: 1.0.0alpha1 - `master` branch
+- [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png?branch=master)](http://travis-ci.org/logicalparadox/chai) Release Candidate: 1.0.0-rc1 - `master` branch
 
 ## Installation
 
