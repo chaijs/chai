@@ -331,6 +331,19 @@ suite('assert', function () {
      }, "expected 1 to have a property \'length\'");
   });
 
+  test('match', function () {
+    assert.match('foobar', /^foo/);
+    assert.notMatch('foobar', /^bar/);
+
+    err(function () {
+      assert.match('foobar', /^bar/i);
+    }, "expected 'foobar' to match /^bar/i");
+
+    err(function () {
+      assert.notMatch('foobar', /^foo/i);
+    }, "expected 'foobar' not to match /^foo/i");
+  });
+
   test('throws', function() {
     assert.throws(function() { throw new Error('foo'); });
     assert.throws(function() { throw new Error('bar'); }, 'foo');
