@@ -1,6 +1,6 @@
 
 TESTS = test/*.js
-REPORTER = spec
+REPORTER = dot
 SRC = $(shell find lib -name "*.js" -type f | sort)
 
 all: chai.js
