@@ -167,6 +167,24 @@ Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual) 
   }
 };
 
+/*!
+ *
+ * # ._obj
+ *
+ * Quick reference to stored `actual` value for plugin developers.
+ *
+ * @api private
+ */
+
+Object.defineProperty(Assertion.prototype, '_obj',
+  { get: function () {
+      return flag(this, 'object');
+    }
+  , set: function (val) {
+      flag(this, 'object', val);
+    }
+});
+
 /**
  * # to
  *
@@ -1195,7 +1213,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.0.0alpha1';
+exports.version = '1.0.0-rc1';
 
 /*!
  * Primary `Assertion` prototype
@@ -1344,37 +1362,6 @@ module.exports = function (chai, util) {
     new Assertion(val, msg).is.ok;
   };
 
-
-  /**
-   * # .almostEqual(actual, expected, [decimal, message])
-   *
-   * The same as NumPy's assert_almost_equal, for scalars.
-   * Assert near equality: abs(expected-actual) < 0.5 * 10**(-decimal)
-   *
-   *      assert.almostEqual(3.1416, 3.14159, 3, 'these numbers are almost equal');
-   *
-   * @name equal
-   * @param {Number} actual
-   * @param {Number} expected
-   * @param {Number} decimal
-   * @param {String} message
-   * @api public
-   */
-
-  assert.almostEqual = function(act, exp, dec, msg) {
-    var test = new Assertion(act, msg);
-    if (null == dec) dec = 7;
-    
-    test.assert(
-        Math.abs(act - exp) < 0.5 * Math.pow(10, -dec)
-      , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + " decimal places"
-      , "expected #{this} to not equal #{exp} up to " + util.inspect(dec) + " decimal places"
-      , exp
-      , act
-     )
-  };
-    
-
   /**
    * # .equal(actual, expected, [message])
    *
@@ -1480,50 +1467,6 @@ module.exports = function (chai, util) {
   assert.deepEqual = function (act, exp, msg) {
     new Assertion(act, msg).to.eql(exp);
   };
-  
-  /**
-   * # .deepAlmostEqual(actual, expected, [decimal, message])
-   *
-   * The same as NumPy's assert_almost_equal, for objects whose leaves are all numbers.
-   * Assert near equality: abs(expected-actual) < 0.5 * 10**(-decimal) for every leaf
-   *
-   *      assert.deepAlmostEqual({pi: 3.1416}, {pi: 3.14159}, 3);
-   *
-   * @name equal
-   * @param {*} actual
-   * @param {*} expected
-   * @param {Number} decimal
-   * @param {String} message
-   * @api public
-   */
-
-  assert.deepAlmostEqual = function(act, exp, dec, msg) {
-    var test = new Assertion(act, msg);
-    if (null == dec) dec = 7;
-    var tol = 0.5 * Math.pow(10, -dec);
-    
-    var deepEq = function(act, exp) {
-      if (Object(act) === act){
-        for (var k in act) {
-          if (!(deepEq(act[k], exp[k]))) {
-            return false;
-          }
-        }
-        return true;
-      }
-      else {
-        return Math.abs(act - exp) < tol;
-      }
-    };
-    
-    test.assert(
-        deepEq(act, exp)
-      , "expected #{this} to equal #{exp} up to " + util.inspect(dec) + ' decimal places'
-      , "expected #{this} to not equal #{exp} up to " + util.inspect(dec) + ' decimal places'
-      , exp
-      , act
-    );
-  };    
 
   /**
    * # .notDeepEqual(actual, expected, [message])
@@ -1994,6 +1937,101 @@ module.exports = function (chai, util) {
   };
 
   /**
+   * # .notMatch(value, regex, [message])
+   *
+   * Assert that `value` does not match regular expression.
+   *
+   *      assert.notMatch('foobar', /^foo/, 'Regexp matches');
+   *
+   * @name notMatch
+   * @param {*} value
+   * @param {RegExp} RegularExpression
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notMatch = function (exp, re, msg) {
+    new Assertion(exp, msg).to.not.match(re);
+  };
+
+  /**
+   * # .ownProperty(object, property, [message])
+   *
+   * Assert that `object` has property. Can use dot-notation for deep reference.
+   *
+   *      assert.ownProperty({ tea: { green: 'matcha' }}, 'tea.green');
+   *
+   * @name ownProperty
+   * @param {Object} object
+   * @param {String} Property address
+   * @param {String} message
+   * @api public
+   */
+
+  assert.ownProperty = function (obj, prop, msg) {
+    new Assertion(obj, msg).to.have.property(prop);
+  };
+
+  /**
+   * # .notOwnProperty(object, property, [message])
+   *
+   * Assert that `object` does not have property. Can use dot-notation for deep reference.
+   *
+   *      assert.ownProperty({ tea: { green: 'matcha' }}, 'tea.oolong');
+   *
+   * @name notOwnProperty
+   * @param {Object} object
+   * @param {String} property address
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notOwnProperty = function (obj, prop, msg) {
+    new Assertion(obj, msg).to.not.have.property(prop);
+  };
+
+  /**
+   * # .ownPropertyVal(object, property, value, [message])
+   *
+   * Assert that `object` has property with `value`.
+   * Can use dot-notation for deep reference.
+   *
+   *      assert.ownPropertyVal({ tea: { green: 'matcha' }}, 'tea.green', 'matcha');
+   *
+   * @name ownPropertyVal
+   * @param {Object} object
+   * @param {String} property address
+   * @param {Mixed} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.ownPropertyVal = function (obj, prop, val, msg) {
+    new Assertion(obj, msg).to.have.property(prop)
+      .and.equal(val);
+  };
+
+  /**
+   * # .ownPropertyNotVal(object, property, value, [message])
+   *
+   * Assert that `object` has property but `value`
+   * does not equal  `value`. Can use dot-notation for deep reference.
+   *
+   *      assert.ownPropertyNotVal({ tea: { green: 'matcha' }}, 'tea.green', 'konacha');
+   *
+   * @name ownPropertyNotVal
+   * @param {Object} object
+   * @param {String} property address
+   * @param {Mixed} value
+   * @param {String} message
+   * @api public
+   */
+  assert.ownPropertyNotVal = function (obj, prop, val, msg) {
+    new Assertion(obj, msg).to.have.property(prop)
+      .and.not.equal(val);
+  };
+
+  /**
    * # .length(object, length, [message])
    *
    * Assert that object has expected length.
@@ -2139,19 +2177,19 @@ require.register("interface/should.js", function(module, exports, require){
 module.exports = function (chai, util) {
   var Assertion = chai.Assertion;
 
-  chai.should = function () {
+  function loadShould () {
     // modify Object.prototype to have `should`
-    Object.defineProperty(Object.prototype, 'should', {
-      set: function(){},
-      get: function(){
-        if (this instanceof String || this instanceof Number) {
-          return new Assertion(this.constructor(this));
-        } else if (this instanceof Boolean) {
-          return new Assertion(this == true);
+    Object.defineProperty(Object.prototype, 'should',
+      { set: function () {}
+      , get: function(){
+          if (this instanceof String || this instanceof Number) {
+            return new Assertion(this.constructor(this));
+          } else if (this instanceof Boolean) {
+            return new Assertion(this == true);
+          }
+          return new Assertion(this);
         }
-        return new Assertion(this);
-      },
-      configurable: true
+      , configurable: true
     });
 
     var should = {};
@@ -2188,6 +2226,9 @@ module.exports = function (chai, util) {
 
     return should;
   };
+
+  chai.should = loadShould;
+  chai.Should = loadShould;
 };
 
 }); // module: interface/should.js
@@ -2996,7 +3037,7 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  *            new chai.Assertion(obj.value).to.equal(str);
  *            return this;
  *          } else {
- *            return _super.apply(this, argument);
+ *            return _super.apply(this, arguments);
  *          }
  *        }
  *      });
