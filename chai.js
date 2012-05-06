@@ -2007,8 +2007,7 @@ module.exports = function (chai, util) {
    */
 
   assert.ownPropertyVal = function (obj, prop, val, msg) {
-    new Assertion(obj, msg).to.have.property(prop)
-      .and.equal(val);
+    new Assertion(obj, msg).to.have.property(prop, val);
   };
 
   /**
@@ -2027,8 +2026,7 @@ module.exports = function (chai, util) {
    * @api public
    */
   assert.ownPropertyNotVal = function (obj, prop, val, msg) {
-    new Assertion(obj, msg).to.have.property(prop)
-      .and.not.equal(val);
+    new Assertion(obj, msg).to.not.have.property(prop, val);
   };
 
   /**
@@ -3035,9 +3033,8 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
  *            new chai.Assertion(obj.value).to.equal(str);
- *            return this;
  *          } else {
- *            return _super.apply(this, arguments);
+ *            _super.apply(this, arguments);
  *          }
  *        }
  *      });
@@ -3060,7 +3057,10 @@ module.exports = function (ctx, name, method) {
   if (_method && 'function' === typeof _method)
     _super = _method;
 
-  context[name] = method(_super);
+  context[name] = function () {
+    method(_super).apply(this, arguments);
+    return this;
+  }
 };
 
 }); // module: utils/overwriteMethod.js
@@ -3083,9 +3083,8 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
  *            new chai.Assertion(obj.name).to.equal('bar');
- *            return this;
  *          } else {
- *            return _super.call(this);
+ *            _super.call(this);
  *          }
  *        }
  *      });
@@ -3103,13 +3102,16 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
 module.exports = function (ctx, name, getter) {
   var context = ('function' === typeof ctx) ? ctx.prototype : ctx
     , _get = Object.getOwnPropertyDescriptor(context, name)
-    , _super = function () { return this; };
+    , _super = function () {};
 
   if (_get && 'function' === typeof _get.get)
     _super = _get.get
 
   Object.defineProperty(context, name,
-    { get: getter(_super)
+    { get: function () {
+        getter(_super).call(this);
+        return this;
+      }
     , configurable: true
   });
 };
