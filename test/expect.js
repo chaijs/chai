@@ -278,6 +278,11 @@ suite('expect', function () {
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
 
+    expect({ foo: { bar: 'baz' }})
+      .to.have.property('foo.bar');
+    expect({ foo: { bar: 'baz' }})
+      .to.not.have.property('foo.bar.baz');
+
     err(function(){
       expect('asd').to.have.property('foo');
     }, "expected 'asd' to have a property 'foo'");

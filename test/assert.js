@@ -15,7 +15,7 @@ function err(fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    assert.equal(err.message, msg);
+    assert.equal(msg, err.message);
   }
 }
 
@@ -342,6 +342,40 @@ suite('assert', function () {
     err(function () {
       assert.notMatch('foobar', /^foo/i);
     }, "expected 'foobar' not to match /^foo/i");
+  });
+
+  test('ownProperty', function () {
+    var obj = { foo: { bar: 'baz' }};
+    assert.ownProperty(obj, 'foo');
+    assert.ownProperty(obj, 'foo.bar');
+    assert.notOwnProperty(obj, 'baz');
+    assert.notOwnProperty(obj, 'foo.baz');
+    assert.ownPropertyVal(obj, 'foo.bar', 'baz');
+    assert.ownPropertyNotVal(obj, 'foo.bar', 'flow');
+
+    err(function () {
+      assert.ownProperty(obj, 'baz');
+    }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
+
+    err(function () {
+      assert.ownProperty(obj, 'foo.baz');
+    }, "expected { foo: { bar: 'baz' } } to have a property 'foo.baz'");
+
+    err(function () {
+      assert.notOwnProperty(obj, 'foo');
+    }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
+
+    err(function () {
+      assert.notOwnProperty(obj, 'foo.bar');
+    }, "expected { foo: { bar: 'baz' } } to not have property 'foo.bar'");
+
+    err(function () {
+      assert.ownPropertyVal(obj, 'foo.bar', 'ball');
+    }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar' of 'ball', but got 'baz'");
+
+    err(function () {
+      assert.ownPropertyNotVal(obj, 'foo.bar', 'baz');
+    }, "expected { foo: { bar: 'baz' } } to not have a property 'foo.bar' of 'baz'");
   });
 
   test('throws', function() {
