@@ -1,4 +1,16 @@
 
+1.0.0-rc2 / 2012-05-06 
+==================
+
+  * Merge branch 'feature/test-cov'
+  * browser build
+  * missing assert tests for ownProperty
+  * appropriate assert equivalent for expect.to.have.property(key, val)
+  * reset AssertionError to include full stack
+  * test for plugin utilities
+  * overwrite Property and Method now ensure chain
+  * version notes in readme
+
 1.0.0-rc1 / 2012-05-04 
 ==================
 
