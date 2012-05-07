@@ -119,4 +119,11 @@ suite('utilities', function () {
     var assert = expect('something').to.be.tea;
     expect(assert.__flags.tea).to.equal('chai');
   });
+
+  test('getMessage', function () {
+    chai.use(function (_chai, _) {
+      expect(_.getMessage({}, [])).to.equal("");
+      expect(_.getMessage({}, [null, null, null])).to.equal("");
+    });
+  });
 });
