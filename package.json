@@ -3,6 +3,10 @@
   "name": "chai",
   "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
   "keywords": [ "test", "assertion", "assert", "testing", "chai" ],
+  "contributors": [
+    "Jake Luer <jake@alogicalparadox.com>",
+    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)"
+  ],
   "version": "1.0.0-rc2",
   "repository": {
     "type": "git",
