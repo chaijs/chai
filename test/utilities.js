@@ -122,8 +122,12 @@ suite('utilities', function () {
 
   test('getMessage', function () {
     chai.use(function (_chai, _) {
-      expect(_.getMessage({}, [])).to.equal("");
-      expect(_.getMessage({}, [null, null, null])).to.equal("");
+      expect(_.getMessage({}, [])).to.equal('');
+      expect(_.getMessage({}, [null, null, null])).to.equal('');
+
+      var obj = {};
+      _.flag(obj, 'message', 'foo');
+      expect(_.getMessage(obj, [])).to.contain('foo');
     });
   });
 });
