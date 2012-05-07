@@ -36,7 +36,10 @@ module.exports = [
     , link: 'http://github.com/domenic/sinon-chai'
     , tags: [ 'vendor' ]
     , pkg: 'https://raw.github.com/domenic/sinon-chai/master/package.json'
-    , markdown: 'https://raw.github.com/domenic/sinon-chai/master/README.md' }
+    , markdown: 'https://raw.github.com/domenic/sinon-chai/master/README.md'
+    , browser:
+      { 'sinon-chai.js': 'https://raw.github.com/domenic/sinon-chai/master/lib/sinon-chai.js' }
+    }
 
   , { name: 'Chai jQuery'
     , desc: 'Function spies and assertions.'
