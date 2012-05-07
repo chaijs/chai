@@ -30,7 +30,7 @@ module.exports = [
     , markdown: 'https://raw.github.com/chaijs/chai-http/master/README.md'
     , browser: false }
 
-  , { name: 'Sinon Chai'
+  , { name: 'Sinon–Chai'
     , desc: 'Extends Chai with assertions for the Sinon.JS mocking framework.'
     , url: 'sinon-chai'
     , link: 'http://github.com/domenic/sinon-chai'
