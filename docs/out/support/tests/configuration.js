@@ -9,11 +9,7 @@ function fooThrows () {
 }
 
 suite('configuration', function () {
-/*
-  Skipping these while error / stack traces in flux
-
-
-  test('Assertion.includeStack is true, stack trace available', function () {
+  test('Assertion.includeStack is true', function () {
     chai.Assertion.includeStack = true;
     try {
       fooThrows();
@@ -25,7 +21,7 @@ suite('configuration', function () {
     }
   });
 
-  test('Assertion.includeStack is false, stack trace not available', function () {
+  test('Assertion.includeStack is false', function () {
     chai.Assertion.includeStack = false;
     try {
       fooThrows();
@@ -34,5 +30,9 @@ suite('configuration', function () {
       assert.ok(!err.stack || err.stack.indexOf('at fooThrows') === -1, 'should not have stack trace in error message');
     }
   });
-*/
+
+  test('AssertionError Properties', function () {
+    var err = new chai.AssertionError({ message: 'Chai!' });
+    assert.equal(err.toString(), 'Chai!');
+  });
 });

@@ -23,8 +23,7 @@ docs: clean-docs
 	@cp test/browser/docs.html docs/out/support/tests/index.html
 	@make test-cov
 	@cp coverage.html docs/out/support/coverage/index.html
-	@./node_modules/.bin/codex serve \
-		-d docs/out
+	@node docs/app/app.js
 
 clean-docs:
 	@rm -rf docs/out

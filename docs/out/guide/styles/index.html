@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Assertion Styles - Chai
-    </title>
-    <script type="text/javascript">var ghuser = 'logicalparadox'
-  , ghproject = 'chai';
-
-</script>
+    <title>Assertion Styles - Chai</title>
+    <script type="text/javascript">
+      var ghuser = 'logicalparadox'
+        , ghproject = 'chai';
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
     <script src="/public/js/jq-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
@@ -20,21 +19,15 @@
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
-          <h1><a href="/">Chai</a>
-          </h1>
+          <h1><a href="/">Chai</a></h1>
         </div>
         <div class="navlist">
           <ul>
-            <li><a href="/guide" class="active">Guide</a>
-            </li>
-            <li><a href="#">API</a>
-            </li>
-            <li><a href="#">Plugins</a>
-            </li>
-            <li><a href="#">Tools</a>
-            </li>
-            <li><a href="#">Blog</a>
-            </li>
+            <li><a href="/guide" class="active">Guide</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Plugins</a></li>
+            <li><a href="#">Tools</a></li>
+            <li><a href="#">Blog</a></li>
           </ul>
         </div>
       </div>
@@ -44,33 +37,32 @@
         <div id="guide" class="grid_12">
           <div class="rowInside">
             <article class="grid_9 prepared">
-              <h1>Assertion Styles
-              </h1>
+              <h1>Assertion Styles</h1>
               <div class="prose"><h3>Expect</h3>
 <p>The <code>expect</code> style is server/browser BDD style assert language.
 
 </p>
-<pre><code>  <span class="keyword">var</span> expect = <span class="keyword">require</span>(<span class="string">'chai'</span>).expect
+<pre><code>  <span class="keyword">var</span> expect = require(<span class="string">'chai'</span>).expect
     , foo = <span class="string">'bar'</span>
     , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
   expect(foo).to.be.a(<span class="string">'string'</span>);
   expect(foo).to.equal(<span class="string">'bar'</span>);
   expect(foo).to.have.length(<span class="number">3</span>);
-  expect(beverages).to.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
+  expect(beverages).to.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
 <h3>Should</h3>
 <p>The <code>should</code> style was inspired by <a href="https://github.com/visionmedia/should.js">should.js</a>
 and is completely API compatible.
 
 </p>
-<pre><code>  <span class="keyword">var</span> should = <span class="keyword">require</span>(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
+<pre><code>  <span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
     , foo = <span class="string">'bar'</span>
     , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
   foo.should.be.a(<span class="string">'string'</span>);
   foo.should.equal(<span class="string">'bar'</span>);
   foo.should.have.length(<span class="number">3</span>);
-  beverages.should.have.property(<span class="string">'tea'</span>).with.length(<span class="number">3</span>);</code></pre>
+  beverages.should.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
 <p>Notice that the <code>expect</code> require is just a reference to the <code>expect</code> function, whereas
 with the <code>should</code> require, the function is being executed.
 
@@ -79,7 +71,7 @@ with the <code>should</code> require, the function is being executed.
 <p>The <code>assert</code> style is like the node.js included assert utility with few extras.
 
 </p>
-<pre><code>  <span class="keyword">var</span> assert = <span class="keyword">require</span>(<span class="string">'chai'</span>).assert
+<pre><code>  <span class="keyword">var</span> assert = require(<span class="string">'chai'</span>).assert
     , foo = <span class="string">'bar'</span>
     , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
@@ -87,24 +79,17 @@ with the <code>should</code> require, the function is being executed.
   assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
   assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
   assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
-
-              </div>
+</div>
             </article>
             <nav id="guide" class="grid_3">
               <div class="wrap">
-                <h3>Getting Started
-                </h3>
+                <h3>Getting Started</h3>
                 <ul>
-                  <li>Installation
-                  </li>
-                  <li>Installation
-                  </li>
-                  <li>Node
-                  </li>
-                  <li>Other Platforms
-                  </li>
-                  <li>Browser
-                  </li>
+                  <li>Installation</li>
+                  <li>Installation</li>
+                  <li>Node</li>
+                  <li>Other Platforms</li>
+                  <li>Browser</li>
                 </ul>
               </div>
             </nav>
@@ -114,48 +99,35 @@ with the <code>should</code> require, the function is being executed.
     </div>
     <footer>
       <section id="footer">
-        <div class="branding">
-          <h3><a href="#">Chai Assertion Library</a>
-          </h3>
+        <div class="branding"> 
+          <h3 class="fancy"><a href="#">Chai Assertion Library</a></h3>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Installation</a>
-            </li>
-            <li><a href="#">Interface Styles</a>
-            </li>
-            <li><a href="#">Developing Plugins</a>
-            </li>
+            <li><a href="#">Installation</a></li>
+            <li><a href="#">Interface Styles</a></li>
+            <li><a href="#">Developing Plugins</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Expect / Should API</a>
-            </li>
-            <li><a href="#">Assert API</a>
-            </li>
-            <li><a href="#">Plugin Utility API</a>
-            </li>
+            <li><a href="#">Expect / Should API</a></li>
+            <li><a href="#">Assert API</a></li>
+            <li><a href="#">Plugin Utility API</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Upgrade notes</a>
-            </li>
-            <li><a href="#">Test Suite</a>
-            </li>
-            <li><a href="#">Test Coverage</a>
-            </li>
+            <li><a href="#">Upgrade notes</a></li>
+            <li><a href="#">Test Suite</a></li>
+            <li><a href="#">Test Coverage</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Issues</a>
-            </li>
-            <li><a href="#">Google Group</a>
-            </li>
-            <li><a href="#">Build Status</a>
-            </li>
+            <li><a href="#">Issues</a></li>
+            <li><a href="#">Google Group</a></li>
+            <li><a href="#">Build Status</a></li>
           </ul>
         </div>
       </section>

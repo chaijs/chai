@@ -30,13 +30,6 @@ $(function () {
       month[11] = "Dec";
 
 
-  $(function () {
-    $('.box-wrap').antiscroll();
-  });
-
-  $('pre code').addClass('prettyprint');
-  prettyPrint();
-
   $('a.scroll').click(function (e) {
     e.preventDefault();
 
@@ -78,4 +71,16 @@ $(function () {
   });
 
   $('.code-wrap').hide();
+
+  var menuOpen = false;
+  $(document).scroll(function () {
+    var pos = $(document).scrollTop();
+    if (pos > 50 && !menuOpen) {
+      console.log('open');
+      menuOpen = true;
+    } else if (pos < 50 && menuOpen) {
+      console.log('close');
+      menuOpen = false;
+    }
+  });
 });

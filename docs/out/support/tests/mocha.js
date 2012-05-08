@@ -870,7 +870,7 @@ exports = module.exports = Mocha;
  * Library version.
  */
 
-exports.version = '1.0.1';
+exports.version = '1.0.2';
 
 /**
  * Expose internals.
@@ -1222,7 +1222,7 @@ exports.list = function(failures){
 
 function Base(runner) {
   var self = this
-    , stats = this.stats = { suites: 0, tests: 0, passes: 0, failures: 0 }
+    , stats = this.stats = { suites: 0, tests: 0, passes: 0, pending: 0, failures: 0 }
     , failures = this.failures = [];
 
   if (!runner) return;
@@ -1266,6 +1266,10 @@ function Base(runner) {
     stats.end = new Date;
     stats.duration = new Date - stats.start;
   });
+
+  runner.on('pending', function(){
+    stats.pending++;
+  });
 }
 
 /**
@@ -1277,17 +1281,26 @@ function Base(runner) {
 
 Base.prototype.epilogue = function(){
   var stats = this.stats
-    , fmt;
+    , fmt
+    , tests;
 
   console.log();
+
+  function pluralize(n) {
+    return 1 == n ? 'test' : 'tests';
+  }
 
   // failure
   if (stats.failures) {
     fmt = color('bright fail', '  ✖')
-      + color('fail', ' %d of %d tests failed')
+      + color('fail', ' %d of %d %s failed')
       + color('light', ':')
 
-    console.error(fmt, stats.failures, this.runner.total);
+    console.error(fmt,
+      stats.failures,
+      this.runner.total,
+      pluralize(this.runner.total));
+
     Base.list(this.failures);
     console.error();
     return;
@@ -1295,10 +1308,22 @@ Base.prototype.epilogue = function(){
 
   // pass
   fmt = color('bright pass', '  ✔')
-    + color('green', ' %d tests complete')
+    + color('green', ' %d %s complete')
     + color('light', ' (%dms)');
 
-  console.log(fmt, stats.tests || 0, stats.duration);
+  console.log(fmt,
+    stats.tests || 0,
+    pluralize(stats.tests),
+    stats.duration);
+
+  // pending
+  if (stats.pending) {
+    fmt = color('pending', '  •')
+      + color('pending', ' %d %s pending');
+
+    console.log(fmt, stats.pending, pluralize(stats.pending));
+  }
+
   console.log();
 };
 
@@ -1637,7 +1662,7 @@ function HTML(runner) {
 
     // test
     if ('passed' == test.state) {
-      var el = fragment('<div class="test pass"><h2>%e</h2></div>', test.title);
+      var el = fragment('<div class="test pass %e"><h2>%e<span class="duration">%ems</span></h2></div>', test.speed, test.title, test.duration);
     } else if (test.pending) {
       var el = fragment('<div class="test pass pending"><h2>%e</h2></div>', test.title);
     } else {
@@ -2450,8 +2475,9 @@ function Progress(runner, options) {
 
   // tests complete
   runner.on('test end', function(){
+    complete++;
     var incomplete = total - complete
-      , percent = complete++ / total
+      , percent = complete / total
       , n = width * percent | 0
       , i = width - n;
 
@@ -3039,7 +3065,8 @@ Runner.prototype.constructor = Runner;
 
 
 /**
- * Run tests with full titles matching `re`.
+ * Run tests with full titles matching `re`. Updates runner.total
+ * with number of tests matched.
  *
  * @param {RegExp} re
  * @return {Runner} for chaining
@@ -3049,7 +3076,28 @@ Runner.prototype.constructor = Runner;
 Runner.prototype.grep = function(re){
   debug('grep %s', re);
   this._grep = re;
+  this.total = this.grepTotal(this.suite);
   return this;
+};
+
+/**
+ * Returns the number of tests matching the grep search for the 
+ * given suite.
+ *
+ * @param {Suite} suite
+ * @return {Number}
+ * @api public
+ */
+
+Runner.prototype.grepTotal = function(suite) {
+  var self = this;
+  var total = 0;
+
+  suite.eachTest(function(test){
+    if (self._grep.test(test.fullTitle())) total++;
+  });
+
+  return total;
 };
 
 /**
@@ -3328,10 +3376,14 @@ Runner.prototype.runTests = function(suite, fn){
  */
 
 Runner.prototype.runSuite = function(suite, fn){
-  var self = this
+  var total = this.grepTotal(suite)
+    , self = this
     , i = 0;
 
   debug('run suite %s', suite.fullTitle());
+
+  if (!total) return fn();
+
   this.emit('suite', this.suite = suite);
 
   function next() {
@@ -3669,6 +3721,24 @@ Suite.prototype.total = function(){
   }, 0) + this.tests.length;
 };
 
+/**
+ * Iterates through each suite recursively to find
+ * all tests. Applies a function in the format
+ * `fn(test)`.
+ *
+ * @param {Function} fn
+ * @return {Suite}
+ * @api private
+ */
+
+Suite.prototype.eachTest = function(fn){
+  utils.forEach(this.tests, fn);
+  utils.forEach(this.suites, function(suite){
+    suite.eachTest(fn);
+  });
+  return this;
+};
+
 }); // module: suite.js
 
 require.register("test.js", function(module, exports, require){
@@ -3945,15 +4015,16 @@ process.nextTick = (function(){
   var timeouts = []
     , name = 'mocha-zero-timeout'
 
+  window.addEventListener('message', function(e){
+    if (e.source == window && e.data == name) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (timeouts.length) timeouts.shift()();
+    }
+  }, true);
+
   return function(fn){
     timeouts.push(fn);
     window.postMessage(name, '*');
-    window.addEventListener('message', function(e){
-      if (e.source == window && e.data == name) {
-        if (e.stopPropagation) e.stopPropagation();
-        if (timeouts.length) timeouts.shift()();
-      }
-    }, true);
   }
 })();
 

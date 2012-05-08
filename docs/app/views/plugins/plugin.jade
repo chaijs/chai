@@ -1,4 +1,43 @@
 extends ../layout
 
 block content
-  .render!= plugin.html
+  #plugin.row(class=plugin.url)
+    - console.log(plugin.pkg)
+    .banner.grid_4 
+      .wrap
+        .title: h2.plain= plugin.spec.name
+        .desc= plugin.spec.desc
+        - if (plugin.spec.link.indexOf('github.com'))
+          - var repo = plugin.spec.link.replace(/^https?\:\/\/(www\.)?github\.com\//, '')
+          h3.link: a(href=plugin.spec.link) View the Project on GitHub
+            span= repo
+        - else
+          h3.link: a(href=plugin.spec.link) View the Homepage
+            span 
+        - if (plugin.spec.node !== false)
+          .platform.supported
+            .icon &#10003;
+            | node.js supported
+            pre: code npm install #{plugin.pkg.name}
+        - else
+          .platform.not-support 
+            .icon &times;
+            | node.js not supported
+        - if (plugin.spec.browser !== false)
+          .platform.supported
+            .icon &#10003;
+            | browser supported
+            - if ('object' == typeof plugin.spec.browser)
+              ul
+                for url, filename in plugin.spec.browser
+                  li: a(href=url)= filename
+        - else
+          .platform.not-support 
+            .icon &times;
+            | browser not supported
+        .people
+          - if (plugin.pkg.author)
+            - var author = plugin.pkg.author.split(' <')[0]
+            .author Project maintained by #{author}
+    .readme.grid_8
+      .wrap!= plugin.html

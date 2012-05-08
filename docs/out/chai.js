@@ -167,6 +167,24 @@ Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual) 
   }
 };
 
+/*!
+ *
+ * # ._obj
+ *
+ * Quick reference to stored `actual` value for plugin developers.
+ *
+ * @api private
+ */
+
+Object.defineProperty(Assertion.prototype, '_obj',
+  { get: function () {
+      return flag(this, 'object');
+    }
+  , set: function (val) {
+      flag(this, 'object', val);
+    }
+});
+
 /**
  * # to
  *
@@ -448,6 +466,52 @@ Object.defineProperty(Assertion.prototype, 'false',
         , 'expected #{this} to be false'
         , 'expected #{this} to be true'
         , this.negate ? true : false
+      );
+
+      return this;
+    }
+  , configurable: true
+});
+
+/**
+ * # .null
+ *
+ * Assert object is null
+ *
+ * @name null
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'null',
+  { get: function () {
+      this.assert(
+          null === flag(this, 'object')
+        , 'expected #{this} to be null'
+        , 'expected #{this} not to be null'
+        , this.negate ? false : true
+      );
+
+      return this;
+    }
+  , configurable: true
+});
+
+/**
+ * # .undefined
+ *
+ * Assert object is undefined
+ *
+ * @name undefined
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'undefined',
+  { get: function () {
+      this.assert(
+          undefined === flag(this, 'object')
+        , 'expected #{this} to be undefined'
+        , 'expected #{this} not to be undefined'
+        , this.negate ? false : true
       );
 
       return this;
@@ -1149,7 +1213,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.0.0alpha1';
+exports.version = '1.0.0-rc2';
 
 /*!
  * Primary `Assertion` prototype
@@ -1873,6 +1937,99 @@ module.exports = function (chai, util) {
   };
 
   /**
+   * # .notMatch(value, regex, [message])
+   *
+   * Assert that `value` does not match regular expression.
+   *
+   *      assert.notMatch('foobar', /^foo/, 'Regexp matches');
+   *
+   * @name notMatch
+   * @param {*} value
+   * @param {RegExp} RegularExpression
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notMatch = function (exp, re, msg) {
+    new Assertion(exp, msg).to.not.match(re);
+  };
+
+  /**
+   * # .ownProperty(object, property, [message])
+   *
+   * Assert that `object` has property. Can use dot-notation for deep reference.
+   *
+   *      assert.ownProperty({ tea: { green: 'matcha' }}, 'tea.green');
+   *
+   * @name ownProperty
+   * @param {Object} object
+   * @param {String} Property address
+   * @param {String} message
+   * @api public
+   */
+
+  assert.ownProperty = function (obj, prop, msg) {
+    new Assertion(obj, msg).to.have.property(prop);
+  };
+
+  /**
+   * # .notOwnProperty(object, property, [message])
+   *
+   * Assert that `object` does not have property. Can use dot-notation for deep reference.
+   *
+   *      assert.ownProperty({ tea: { green: 'matcha' }}, 'tea.oolong');
+   *
+   * @name notOwnProperty
+   * @param {Object} object
+   * @param {String} property address
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notOwnProperty = function (obj, prop, msg) {
+    new Assertion(obj, msg).to.not.have.property(prop);
+  };
+
+  /**
+   * # .ownPropertyVal(object, property, value, [message])
+   *
+   * Assert that `object` has property with `value`.
+   * Can use dot-notation for deep reference.
+   *
+   *      assert.ownPropertyVal({ tea: { green: 'matcha' }}, 'tea.green', 'matcha');
+   *
+   * @name ownPropertyVal
+   * @param {Object} object
+   * @param {String} property address
+   * @param {Mixed} value
+   * @param {String} message
+   * @api public
+   */
+
+  assert.ownPropertyVal = function (obj, prop, val, msg) {
+    new Assertion(obj, msg).to.have.property(prop, val);
+  };
+
+  /**
+   * # .ownPropertyNotVal(object, property, value, [message])
+   *
+   * Assert that `object` has property but `value`
+   * does not equal  `value`. Can use dot-notation for deep reference.
+   *
+   *      assert.ownPropertyNotVal({ tea: { green: 'matcha' }}, 'tea.green', 'konacha');
+   *
+   * @name ownPropertyNotVal
+   * @param {Object} object
+   * @param {String} property address
+   * @param {Mixed} value
+   * @param {String} message
+   * @api public
+   */
+  assert.ownPropertyNotVal = function (obj, prop, val, msg) {
+    new Assertion(obj, msg).to.not.have.property(prop, val);
+  };
+
+  /**
    * # .length(object, length, [message])
    *
    * Assert that object has expected length.
@@ -2018,19 +2175,19 @@ require.register("interface/should.js", function(module, exports, require){
 module.exports = function (chai, util) {
   var Assertion = chai.Assertion;
 
-  chai.should = function () {
+  function loadShould () {
     // modify Object.prototype to have `should`
-    Object.defineProperty(Object.prototype, 'should', {
-      set: function(){},
-      get: function(){
-        if (this instanceof String || this instanceof Number) {
-          return new Assertion(this.constructor(this));
-        } else if (this instanceof Boolean) {
-          return new Assertion(this == true);
+    Object.defineProperty(Object.prototype, 'should',
+      { set: function () {}
+      , get: function(){
+          if (this instanceof String || this instanceof Number) {
+            return new Assertion(this.constructor(this));
+          } else if (this instanceof Boolean) {
+            return new Assertion(this == true);
+          }
+          return new Assertion(this);
         }
-        return new Assertion(this);
-      },
-      configurable: true
+      , configurable: true
     });
 
     var should = {};
@@ -2067,6 +2224,9 @@ module.exports = function (chai, util) {
 
     return should;
   };
+
+  chai.should = loadShould;
+  chai.Should = loadShould;
 };
 
 }); // module: interface/should.js
@@ -2873,9 +3033,8 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
  *            new chai.Assertion(obj.value).to.equal(str);
- *            return this;
  *          } else {
- *            return _super.apply(this, argument);
+ *            _super.apply(this, arguments);
  *          }
  *        }
  *      });
@@ -2898,7 +3057,10 @@ module.exports = function (ctx, name, method) {
   if (_method && 'function' === typeof _method)
     _super = _method;
 
-  context[name] = method(_super);
+  context[name] = function () {
+    method(_super).apply(this, arguments);
+    return this;
+  }
 };
 
 }); // module: utils/overwriteMethod.js
@@ -2921,9 +3083,8 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
  *            new chai.Assertion(obj.name).to.equal('bar');
- *            return this;
  *          } else {
- *            return _super.call(this);
+ *            _super.call(this);
  *          }
  *        }
  *      });
@@ -2941,13 +3102,16 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
 module.exports = function (ctx, name, getter) {
   var context = ('function' === typeof ctx) ? ctx.prototype : ctx
     , _get = Object.getOwnPropertyDescriptor(context, name)
-    , _super = function () { return this; };
+    , _super = function () {};
 
   if (_get && 'function' === typeof _get.get)
     _super = _get.get
 
   Object.defineProperty(context, name,
-    { get: getter(_super)
+    { get: function () {
+        getter(_super).call(this);
+        return this;
+      }
     , configurable: true
   });
 };

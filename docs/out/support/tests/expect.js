@@ -65,6 +65,24 @@ suite('expect', function () {
     }, "expected '' to be false")
   });
 
+  test('null', function(){
+    expect(null).to.be.null;
+    expect(false).to.not.be.null;
+
+    err(function(){
+      expect('').to.be.null;
+    }, "expected '' to be null")
+  });
+
+  test('undefined', function(){
+    expect(undefined).to.be.undefined;
+    expect(null).to.not.be.undefined;
+
+    err(function(){
+      expect('').to.be.undefined;
+    }, "expected '' to be undefined")
+  });
+
   test('exist', function(){
     var foo = 'bar'
       , bar;
@@ -259,6 +277,11 @@ suite('expect', function () {
   test('property(name)', function(){
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
+
+    expect({ foo: { bar: 'baz' }})
+      .to.have.property('foo.bar');
+    expect({ foo: { bar: 'baz' }})
+      .to.not.have.property('foo.bar.baz');
 
     err(function(){
       expect('asd').to.have.property('foo');

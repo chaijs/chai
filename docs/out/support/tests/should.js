@@ -7,14 +7,14 @@ if (!chai) {
   var chai = require('..');
 }
 
-var should = chai.should();
+var should = chai.Should();
 
 function err(fn, msg) {
   try {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    should.equal(err.message, msg);
+    chai.expect(err.message).to.equal(msg);
   }
 }
 
@@ -75,6 +75,22 @@ suite('should', function() {
     err(function(){
       ''.should.be.false;
     }, "expected '' to be false")
+  });
+
+  test('null', function(){
+    (0).should.not.be.null;
+
+    err(function(){
+      ''.should.be.null;
+    }, "expected '' to be null")
+  });
+
+  test('undefined', function(){
+    (0).should.not.be.undefined;
+
+    err(function(){
+      ''.should.be.undefined;
+    }, "expected '' to be undefined")
   });
 
   test('arguments', function(){

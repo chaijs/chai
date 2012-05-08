@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>API Documentation for expect / should [bdd] - Chai
-    </title>
-    <script type="text/javascript">var ghuser = 'logicalparadox'
-  , ghproject = 'chai';
-
-</script>
+    <title>API Documentation for expect / should [bdd] - Chai</title>
+    <script type="text/javascript">
+      var ghuser = 'logicalparadox'
+        , ghproject = 'chai';
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
     <script src="/public/js/jq-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
@@ -20,21 +19,15 @@
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
-          <h1><a href="/">Chai</a>
-          </h1>
+          <h1><a href="/">Chai</a></h1>
         </div>
         <div class="navlist">
           <ul>
-            <li><a href="/guide">Guide</a>
-            </li>
-            <li><a href="#">API</a>
-            </li>
-            <li><a href="/plugins">Plugins</a>
-            </li>
-            <li><a href="#">Tools</a>
-            </li>
-            <li><a href="#">Blog</a>
-            </li>
+            <li><a href="/guide">Guide</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="/plugins">Plugins</a></li>
+            <li><a href="#">Tools</a></li>
+            <li><a href="#">Blog</a></li>
           </ul>
         </div>
       </div>
@@ -44,89 +37,89 @@
         <div id="code">
           <article id="undefined-section" class="codeblock">
             <div class="header"><h3>BDD Style Introduction</h3>
-            </div>
-            <div class="description"><p>The BDD style is exposed through <code>expect</code> or <code>should</code> interfaces. In both<br />scenarios, you chain together natural language assertions.</p>
+</div>
+            <div class="description"><p>The BDD style is exposed through <code>expect</code> or <code>should</code> interfaces. In both
+scenarios, you chain together natural language assertions.
 
-<pre><code> // expect
- var expect = require('chai').expect;
- expect(foo).to.equal('bar');
+</p>
+<pre><code> <span class="comment">// expect</span>
+ <span class="keyword">var</span> expect = require(<span class="string">'chai'</span>).expect;
+ expect(foo).to.equal(<span class="string">'bar'</span>);
 
- // should
- var should = require('chai').should();
- foo.should.equal('bar');
-</code></pre>
-
+ <span class="comment">// should</span>
+ <span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should();
+ foo.should.equal(<span class="string">'bar'</span>);</code></pre>
 <h4>Differences</h4>
+<p>The <code>expect</code> interface provides a function as a starting point for chaining
+your language assertions. It works on node.js and in all browsers.
 
-<p>The <code>expect</code> interface provides a function as a starting point for chaining<br />your language assertions. It works on node.js and in all browsers.</p>
+</p>
+<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as
+the starting point for your language assertions. It works on node.js and in
+all browsers except Internet Explorer.
 
-<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as<br />the starting point for your language assertions. It works on node.js and in<br />all browsers except Internet Explorer.</p>
-
+</p>
 <h4>Configuration</h4>
+<p>By default, Chai does not show stack traces upon an AssertionError. This can
+be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:
 
-<p>By default, Chai does not show stack traces upon an AssertionError. This can<br />be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:</p>
-
-<pre><code> var chai = require('chai');
- chai.Assertion.includeStack = true; // defaults to false
-</code></pre>
-            </div>
+</p>
+<pre><code> <span class="keyword">var</span> chai = require(<span class="string">'chai'</span>);
+ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
+</div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>to</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'to',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>be</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'be',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>been</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain. Also tests <code>tense</code> to past for addon<br />modules that use the tense feature.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain. Also tests <code>tense</code> to past for addon
+modules that use the tense feature.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'been',
   { get: function () {
@@ -134,34 +127,28 @@
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.a(type)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>an()
-              </h3>
+              <h3>an()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">an</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">type</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">an</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">type</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert typeof. Also can be used as a language chain.</p>
+            <div class="description"><p>Assert typeof. Also can be used as a language chain.
 
-<pre><code> expect('test').to.be.a('string');
- expect(foo).to.be.an.instanceof(Foo);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="string">'test'</span>).to.be.a(<span class="string">'string'</span>);
+ expect(foo).to.be.an.<span class="keyword">instanceof</span>(Foo);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>var an = function () {
   var assert = function(type) {
@@ -191,33 +178,28 @@ Object.defineProperty(Assertion.prototype, 'an',
 Object.defineProperty(Assertion.prototype, 'a',
   { get: an
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.include(value)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>include()
-              </h3>
+              <h3>include()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">contain</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object | String | Number &#125;</span><span class="name">obj</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">contain</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object | String | Number &#125;</span><span class="name">obj</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert the inclusion of an object in an Array or substring in string.<br />Also toggles the <code>contain</code> flag for the <code>keys</code> assertion if used as property.</p>
+            <div class="description"><p>Assert the inclusion of an object in an Array or substring in string.
+Also toggles the <code>contain</code> flag for the <code>keys</code> assertion if used as property.
 
-<pre><code> expect([1,2,3]).to.include(2);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.include(<span class="number">2</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>var include = function () {
   flag(this, 'contains', true);
@@ -244,110 +226,100 @@ Object.defineProperty(Assertion.prototype, 'contain',
 Object.defineProperty(Assertion.prototype, 'include',
   { get: include
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>is</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'is',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>and</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'and',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>have</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'have',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>with</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Language chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Language chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'with',
   { get: function () {
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.not</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Negates any of assertions following in the chain.</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Negates any of assertions following in the chain.
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'not',
   { get: function () {
@@ -355,28 +327,25 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.ok</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object truthiness.</p>
+            <div class="description"><p>Assert object truthiness.
 
-<pre><code> expect('everthing').to.be.ok;
- expect(false).to.not.be.ok;
+</p>
+<pre><code> expect(<span class="string">'everthing'</span>).to.be.ok;
+ expect(<span class="literal">false</span>).to.not.be.ok;
  expect(undefined).to.not.be.ok;
- expect(null).to.not.be.ok;
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+ expect(<span class="literal">null</span>).to.not.be.ok;</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'ok',
   { get: function () {
@@ -388,22 +357,20 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.true</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object is true</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Assert object is true
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'true',
   { get: function () {
@@ -417,22 +384,20 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.false</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object is false</p>
-            </div>
-            <div class="view-source">View Source
-            </div>
+            <div class="description"><p>Assert object is false
+</p>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'false',
   { get: function () {
@@ -446,28 +411,79 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
+            </div>
+          </article>
+          <article id="undefined-section" class="codeblock">
+            <div class="header"><h1>.null</h1>
+</div>
+            <div class="tags">
+              <!-- ignroing this-->
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
+            </div>
+            <div class="description"><p>Assert object is null
+</p>
+</div>
+            <div class="view-source">View Source</div>
+            <div class="code-wrap">
+              <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'null',
+  { get: function () {
+      this.assert(
+          null === flag(this, 'object')
+        , 'expected #{this} to be null'
+        , 'expected #{this} not to be null'
+        , this.negate ? false : true
+      );
+
+      return this;
+    }
+  , configurable: true
+});</code></pre>
+            </div>
+          </article>
+          <article id="undefined-section" class="codeblock">
+            <div class="header"><h1>.undefined</h1>
+</div>
+            <div class="tags">
+              <!-- ignroing this-->
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
+            </div>
+            <div class="description"><p>Assert object is undefined
+</p>
+</div>
+            <div class="view-source">View Source</div>
+            <div class="code-wrap">
+              <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'undefined',
+  { get: function () {
+      this.assert(
+          undefined === flag(this, 'object')
+        , 'expected #{this} to be undefined'
+        , 'expected #{this} not to be undefined'
+        , this.negate ? false : true
+      );
+
+      return this;
+    }
+  , configurable: true
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.exist</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object exists (null).</p>
+            <div class="description"><p>Assert object exists (null).
 
-<pre><code> var foo = 'hi'
+</p>
+<pre><code> <span class="keyword">var</span> foo = <span class="string">'hi'</span>
    , bar;
  expect(foo).to.exist;
- expect(bar).to.not.exist;
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+ expect(bar).to.not.exist;</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'exist',
   { get: function () {
@@ -480,25 +496,22 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.empty</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object's length to be 0.</p>
+            <div class="description"><p>Assert object&#39;s length to be 0.
 
-<pre><code> expect([]).to.be.empty;
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect([]).to.be.empty;</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'empty',
   { get: function () {
@@ -519,27 +532,24 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.arguments</h1>
-            </div>
+</div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert object is an instanceof arguments.</p>
+            <div class="description"><p>Assert object is an instanceof arguments.
 
-<pre><code> function test () {
+</p>
+<pre><code> <span class="function"><span class="keyword">function</span> <span class="title">test</span> <span class="params">()</span> {</span>
    expect(arguments).to.be.arguments;
- }
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+ }</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Object.defineProperty(Assertion.prototype, 'arguments',
   { get: function () {
@@ -555,31 +565,26 @@ Object.defineProperty(Assertion.prototype, 'include',
       return this;
     }
   , configurable: true
-});</code>
-              </pre>
+});</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.equal(value)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.equal()
-              </h3>
+              <h3>Assertion.prototype.equal()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert strict equality.</p>
+            <div class="description"><p>Assert strict equality.
 
-<pre><code> expect('hello').to.equal('hello');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="string">'hello'</span>).to.equal(<span class="string">'hello'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.equal = function (val) {
   this.assert(
@@ -589,31 +594,26 @@ Object.defineProperty(Assertion.prototype, 'include',
     , val );
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.eql(value)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.eql()
-              </h3>
+              <h3>Assertion.prototype.eql()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert deep equality.</p>
+            <div class="description"><p>Assert deep equality.
 
-<pre><code> expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect({ foo: <span class="string">'bar'</span> }).to.eql({ foo: <span class="string">'bar'</span> });</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.eql = function (obj) {
   this.assert(
@@ -623,33 +623,27 @@ Object.defineProperty(Assertion.prototype, 'include',
     , obj );
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.above(value)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.above()
-              </h3>
+              <h3>Assertion.prototype.above()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">mt</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">mt</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert greater than <code>value</code>.</p>
+            <div class="description"><p>Assert greater than <code>value</code>.
 
-<pre><code> expect(10).to.be.above(5);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="number">10</span>).to.be.above(<span class="number">5</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.above = function (val) {
   this.assert(
@@ -658,33 +652,27 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to be below ' + val);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.below(value)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.below()
-              </h3>
+              <h3>Assertion.prototype.below()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">lt</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">lt</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert less than <code>value</code>.</p>
+            <div class="description"><p>Assert less than <code>value</code>.
 
-<pre><code> expect(5).to.be.below(10);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="number">5</span>).to.be.below(<span class="number">10</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.below = function (val) {
   this.assert(
@@ -693,33 +681,27 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to be above ' + val);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.within(start, finish)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.within()
-              </h3>
+              <h3>Assertion.prototype.within()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">start</span><span class="desc">lowerbound inclusive</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">finish</span><span class="desc">upperbound inclusive</span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">start</span><span class="desc">lowerbound inclusive</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">finish</span><span class="desc">upperbound inclusive</span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that a number is within a range.</p>
+            <div class="description"><p>Assert that a number is within a range.
 
-<pre><code> expect(7).to.be.within(5,10);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="number">7</span>).to.be.within(<span class="number">5</span>,<span class="number">10</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.within = function (start, finish) {
   var obj = flag(this, 'object')
@@ -731,36 +713,30 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to not be within ' + range);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.instanceof(constructor)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.instanceOf()
-              </h3>
+              <h3>Assertion.prototype.instanceOf()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name"></span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">instanceOf</span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name"></span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">instanceOf</span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert instanceof.</p>
+            <div class="description"><p>Assert instanceof.
 
-<pre><code> var Tea = function (name) { this.name = name; }
-   , Chai = new Tea('chai');
+</p>
+<pre><code> <span class="keyword">var</span> Tea = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span> <span class="keyword">this</span>.name = name; }
+   , Chai = <span class="keyword">new</span> Tea(<span class="string">'chai'</span>);
 
- expect(Chai).to.be.an.instanceof(Tea);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+ expect(Chai).to.be.an.<span class="keyword">instanceof</span>(Tea);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.instanceOf = function (constructor) {
   var name = util.getName(constructor);
@@ -770,38 +746,31 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to not be an instance of ' + name);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.property(name, [value])</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.property()
-              </h3>
+              <h3>Assertion.prototype.property()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc">(optional)</span>
-              </div>
-              <div class="tag"><span class="type">&#64;returns</span><span class="desc">value of property for chaining</span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc">(optional)</span></div>
+              <div class="tag"><span class="type">&#64;returns</span><span class="desc">value of property for chaining</span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that property of <code>name</code> exists, optionally with <code>value</code>.</p>
+            <div class="description"><p>Assert that property of <code>name</code> exists, optionally with <code>value</code>.
 
-<pre><code> var obj = { foo: 'bar' }
- expect(obj).to.have.property('foo');
- expect(obj).to.have.property('foo', 'bar');
- expect(obj).to.have.property('foo').to.be.a('string');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> <span class="keyword">var</span> obj = { foo: <span class="string">'bar'</span> }
+ expect(obj).to.have.property(<span class="string">'foo'</span>);
+ expect(obj).to.have.property(<span class="string">'foo'</span>, <span class="string">'bar'</span>);
+ expect(obj).to.have.property(<span class="string">'foo'</span>).to.be.a(<span class="string">'string'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.property = function (name, val) {
   var obj = flag(this, 'object')
@@ -831,33 +800,27 @@ Object.defineProperty(Assertion.prototype, 'include',
 
   flag(this, 'object', value);
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.ownProperty(name)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.ownProperty()
-              </h3>
+              <h3>Assertion.prototype.ownProperty()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">haveOwnProperty</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">haveOwnProperty</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that has own property by <code>name</code>.</p>
+            <div class="description"><p>Assert that has own property by <code>name</code>.
 
-<pre><code> expect('test').to.have.ownProperty('length');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="string">'test'</span>).to.have.ownProperty(<span class="string">'length'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.ownProperty = function (name) {
   var obj = flag(this, 'object');
@@ -866,34 +829,28 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to have own property ' + util.inspect(name)
     , 'expected #{this} to not have own property ' + util.inspect(name));
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.length(val)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.length()
-              </h3>
+              <h3>Assertion.prototype.length()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">lengthOf</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">length</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">lengthOf</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">length</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that object has expected length.</p>
+            <div class="description"><p>Assert that object has expected length.
 
-<pre><code> expect([1,2,3]).to.have.length(3);
- expect('foobar').to.have.length(6);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.have.length(<span class="number">3</span>);
+ expect(<span class="string">'foobar'</span>).to.have.length(<span class="number">6</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.length = function (n) {
   var obj = flag(this, 'object');
@@ -909,31 +866,26 @@ Object.defineProperty(Assertion.prototype, 'include',
   );
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.match(regexp)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.match()
-              </h3>
+              <h3>Assertion.prototype.match()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; RegExp &#125;</span><span class="name">RegularExpression</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; RegExp &#125;</span><span class="name">RegularExpression</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that matches regular expression.</p>
+            <div class="description"><p>Assert that matches regular expression.
 
-<pre><code> expect('foobar').to.match(/^foo/);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="string">'foobar'</span>).to.match(<span class="regexp">/^foo/</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.match = function (re) {
   var obj = flag(this, 'object');
@@ -943,31 +895,26 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} not to match ' + re);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.string(string)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.string()
-              </h3>
+              <h3>Assertion.prototype.string()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">string</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">string</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert inclusion of string in string.</p>
+            <div class="description"><p>Assert inclusion of string in string.
 
-<pre><code> expect('foobar').to.have.string('bar');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="string">'foobar'</span>).to.have.string(<span class="string">'bar'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.string = function (str) {
   var obj = flag(this, 'object');
@@ -979,34 +926,28 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to not contain ' + util.inspect(str));
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.keys(key1, [key2], [...])</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.keys()
-              </h3>
+              <h3>Assertion.prototype.keys()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">key</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Array &#125;</span><span class="name">Keys</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">key</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Array &#125;</span><span class="name">Keys</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert exact keys or the inclusing of keys using the <code>contain</code> modifier.</p>
+            <div class="description"><p>Assert exact keys or the inclusing of keys using the <code>contain</code> modifier.
 
-<pre><code> expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
- expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect({ foo: <span class="number">1</span>, bar: <span class="number">2</span> }).to.have.keys([<span class="string">'foo'</span>, <span class="string">'bar'</span>]);
+ expect({ foo: <span class="number">1</span>, bar: <span class="number">2</span>, baz: <span class="number">3</span> }).to.contain.keys(<span class="string">'foo'</span>, <span class="string">'bar'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.keys = function(keys) {
   var obj = flag(this, 'object')
@@ -1059,50 +1000,46 @@ Object.defineProperty(Assertion.prototype, 'include',
   );
 
   return this;
-}</code>
-              </pre>
+}</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.throw(constructor)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.Throw()
-              </h3>
+              <h3>Assertion.prototype.Throw()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span>
-              </div>
-              <div class="tag"><span class="type">&#64;alias</span><span class="desc">Throw</span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;see</span><span class="name"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">throws</span></div>
+              <div class="tag"><span class="type">&#64;alias</span><span class="desc">Throw</span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;see</span><span class="name"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that a function will throw a specific type of error, or specific type of error<br />(as determined using <code>instanceof</code>), optionally with a RegExp or string inclusion test<br />for the error's message.</p>
+            <div class="description"><p>Assert that a function will throw a specific type of error, or specific type of error
+(as determined using <code>instanceof</code>), optionally with a RegExp or string inclusion test
+for the error&#39;s message.
 
-<pre><code> var err = new ReferenceError('This is a bad function.');
- var fn = function () { throw err; }
- expect(fn).to.throw(ReferenceError);
- expect(fn).to.throw(Error);
- expect(fn).to.throw(/bad function/);
- expect(fn).to.not.throw('good function');
- expect(fn).to.throw(ReferenceError, /bad function/);
- expect(fn).to.throw(err);
- expect(fn).to.not.throw(new RangeError('Out of range.'));
-</code></pre>
+</p>
+<pre><code> <span class="keyword">var</span> err = <span class="keyword">new</span> ReferenceError(<span class="string">'This is a bad function.'</span>);
+ <span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> <span class="keyword">throw</span> err; }
+ expect(fn).to.<span class="keyword">throw</span>(ReferenceError);
+ expect(fn).to.<span class="keyword">throw</span>(Error);
+ expect(fn).to.<span class="keyword">throw</span>(<span class="regexp">/bad function/</span>);
+ expect(fn).to.not.<span class="keyword">throw</span>(<span class="string">'good function'</span>);
+ expect(fn).to.<span class="keyword">throw</span>(ReferenceError, <span class="regexp">/bad function/</span>);
+ expect(fn).to.<span class="keyword">throw</span>(err);
+ expect(fn).to.not.<span class="keyword">throw</span>(<span class="keyword">new</span> RangeError(<span class="string">'Out of range.'</span>));</code></pre>
+<p>Please note that when a throw expectation is negated, it will check each
+parameter independently, starting with error constructor type. The appropriate way
+to check for the existence of a type of error but for a message that does not match
+is to use <code>and</code>.
 
-<p>Please note that when a throw expectation is negated, it will check each<br />parameter independently, starting with error constructor type. The appropriate way<br />to check for the existence of a type of error but for a message that does not match<br />is to use <code>and</code>.</p>
-
-<pre><code> expect(fn).to.throw(ReferenceError).and.not.throw(/good function/);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(fn).to.<span class="keyword">throw</span>(ReferenceError).and.not.<span class="keyword">throw</span>(<span class="regexp">/good function/</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.Throw = function (constructor, msg) {
   var obj = flag(this, 'object');
@@ -1178,32 +1115,27 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} to not throw ' + expectedThrown);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.respondTo(method)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.respondTo()
-              </h3>
+              <h3>Assertion.prototype.respondTo()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that object/class will respond to a method.</p>
+            <div class="description"><p>Assert that object/class will respond to a method.
 
-<pre><code> expect(Klass).to.respondTo('bar');
- expect(obj).to.respondTo('bar');
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(Klass).to.respondTo(<span class="string">'bar'</span>);
+ expect(obj).to.respondTo(<span class="string">'bar'</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.respondTo = function (method) {
   var obj = flag(this, 'object')
@@ -1220,31 +1152,26 @@ Object.defineProperty(Assertion.prototype, 'include',
   );
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.satisfy(method)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.satisfy()
-              </h3>
+              <h3>Assertion.prototype.satisfy()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">matcher</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">matcher</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that passes a truth test.</p>
+            <div class="description"><p>Assert that passes a truth test.
 
-<pre><code> expect(1).to.satisfy(function(num) { return num &gt; 0; });
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="number">1</span>).to.satisfy(<span class="keyword">function</span>(num) { <span class="keyword">return</span> num > <span class="number">0</span>; });</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.satisfy = function (matcher) {
   var obj = flag(this, 'object');
@@ -1257,33 +1184,27 @@ Object.defineProperty(Assertion.prototype, 'include',
   );
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
             <div class="header"><h1>.closeTo(expected, delta)</h1>
-            </div>
+</div>
             <div class="ctx">
-              <h3>Assertion.prototype.closeTo()
-              </h3>
+              <h3>Assertion.prototype.closeTo()</h3>
             </div>
             <div class="tags">
               <!-- ignroing this-->
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">expected</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">delta</span><span class="desc"></span>
-              </div>
-              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span>
-              </div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">expected</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">delta</span><span class="desc"></span></div>
+              <div class="tag"><span class="type">&#64;api</span><span class="visibility">public</span></div>
             </div>
-            <div class="description"><p>Assert that actual is equal to +/- delta.</p>
+            <div class="description"><p>Assert that actual is equal to +/- delta.
 
-<pre><code> expect(1.5).to.be.closeTo(1, 0.5);
-</code></pre>
-            </div>
-            <div class="view-source">View Source
-            </div>
+</p>
+<pre><code> expect(<span class="number">1.5</span>).to.be.closeTo(<span class="number">1</span>, <span class="number">0.5</span>);</code></pre>
+</div>
+            <div class="view-source">View Source</div>
             <div class="code-wrap">
               <pre class="source prettyprint"><code>Assertion.prototype.closeTo = function (expected, delta) {
   var obj = flag(this, 'object');
@@ -1293,8 +1214,7 @@ Object.defineProperty(Assertion.prototype, 'include',
     , 'expected #{this} not to be close to ' + expected + ' +/- ' + delta);
 
   return this;
-};</code>
-              </pre>
+};</code></pre>
             </div>
           </article>
         </div>
@@ -1302,48 +1222,35 @@ Object.defineProperty(Assertion.prototype, 'include',
     </div>
     <footer>
       <section id="footer">
-        <div class="branding">
-          <h3><a href="#">Chai Assertion Library</a>
-          </h3>
+        <div class="branding"> 
+          <h3 class="fancy"><a href="#">Chai Assertion Library</a></h3>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Installation</a>
-            </li>
-            <li><a href="#">Interface Styles</a>
-            </li>
-            <li><a href="#">Developing Plugins</a>
-            </li>
+            <li><a href="#">Installation</a></li>
+            <li><a href="#">Interface Styles</a></li>
+            <li><a href="#">Developing Plugins</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Expect / Should API</a>
-            </li>
-            <li><a href="#">Assert API</a>
-            </li>
-            <li><a href="#">Plugin Utility API</a>
-            </li>
+            <li><a href="#">Expect / Should API</a></li>
+            <li><a href="#">Assert API</a></li>
+            <li><a href="#">Plugin Utility API</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Upgrade notes</a>
-            </li>
-            <li><a href="#">Test Suite</a>
-            </li>
-            <li><a href="#">Test Coverage</a>
-            </li>
+            <li><a href="#">Upgrade notes</a></li>
+            <li><a href="#">Test Suite</a></li>
+            <li><a href="#">Test Coverage</a></li>
           </ul>
         </div>
         <div class="list">
           <ul>
-            <li><a href="#">Issues</a>
-            </li>
-            <li><a href="#">Google Group</a>
-            </li>
-            <li><a href="#">Build Status</a>
-            </li>
+            <li><a href="#">Issues</a></li>
+            <li><a href="#">Google Group</a></li>
+            <li><a href="#">Build Status</a></li>
           </ul>
         </div>
       </section>

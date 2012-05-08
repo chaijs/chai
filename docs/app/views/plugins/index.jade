@@ -1,19 +1,40 @@
 extends ../layout
 
+block scripts
+  script(src=site.ghbaseurl + '/public/js/jquery-css-transform.js')
+  script(src=site.ghbaseurl + '/public/js/jquery-animate-css-rotate-scale.js')
+  script(src=site.ghbaseurl + '/public/js/jquery.quicksand.js')
+  script(src=site.ghbaseurl + '/public/js/plugins.js')
+
+block header
+  header
+    .wrap
+      .section Plugins
+
 block content
-  #plugins.grid_12.panels
-    - var i = 0
-    for tag, name in plugins
-      - if (tag.length > 0)
-        .rowInside
-          - if (i !== 0)
-            article.grid_12.hrline
-          - i++
-          article.grid_12.desc
-            h2= name
-          for plugin in tag
-            article.grid_3.plugin-box_s
-              a(href=site.ghbaseurl + '/plugins/' + plugin.url, class='ablock') 
-                .wrap
-                  h3= plugin.name 
-                  p= plugin.desc
+  mixin plugin(plug)
+    article.grid_3.contrast.plugin-box_s(id=plug.url)
+      a(href=site.ghbaseurl + '/plugins/' + plug.url, class='ablock') 
+        .wrap
+          h3.fancy= plug.name 
+          p= plug.desc
+
+  #ptags.grid_3
+    .tag.active
+      .which(id='all') all plugins
+    .line
+    for tag, name in plugin_tags
+      .tag
+        .which(id=name)= name
+        span.reset &times;
+  #plugins.grid_9.panels
+    .plug_list_scratch.rowInside
+      for plugin in plugins
+        mixin plugin(plugin)
+    .plug_list.rowInside.all
+      for plugin in plugins
+        mixin plugin(plugin)
+    for tag, name in plugin_tags
+      .plug_list.rowInside(class=name)
+        for plugin in tag
+          mixin plugin(plugin)

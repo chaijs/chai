@@ -1,0 +1,139 @@
+body.plugins
+body.plugin
+  header
+    background-color chaiblue 
+    .wrap
+      row()
+      .section
+        grid(12);
+        line-height 45px
+        font-size 24px
+        font-family font_fancy 
+        color #FAF4E8
+
+body.plugins
+  .content
+    min-height 440px
+    padding-bottom 0px
+    #plugins
+      float right
+      overflow visible
+      .plug_list
+        display none
+      .plug_list_scratch
+        display block
+      article
+        margin-bottom 30px
+    #ptags
+      position fixed
+      .line
+        margin-bottom 10px
+        border-top 1px dashed lighten(headers, 65%)
+      .tag
+        position relative
+        cursor pointer
+        margin-bottom 10px
+        border-radius 3px
+        line-height 28px
+        padding 0px 6px
+
+        &:hover
+          background-color chaiswirl
+
+        span.reset
+          display none
+
+        &.active
+          background-color chaiblue
+          color chaicream
+          &:hover
+            background-color lighten(chaiblue, 10%)
+          span.reset 
+            position absolute
+            z-index: 100
+            display block
+            top 0px
+            right 6px
+            background-color lighten(chaiblue, 20%)
+            font-weight bold
+            line-height 15px
+            height 16px
+            width 16px
+            margin-top 6px
+            border-radius 16px
+            text-align center
+            padding-left 1px
+            &:hover
+              background-color chaicream
+              color chaiblue
+
+
+body.plugin
+  .banner
+    position fixed
+    .wrap
+
+      h2
+        margin-top 0px !important
+        margin-bottom 20px !important
+        padding-top 0px !important
+        color headers
+
+      h3.link
+        font-size 20px
+        font-family font_fancy
+        margin-top 20px
+        a
+          background-color #30759C
+          color #FAF4E8
+          display block
+          padding 10px 
+          border-radius 5px
+
+          &:hover
+            background-color lighten(#30759C, 15%)
+
+          span
+            display block
+            font-size 14px
+            color #FAF4E8
+            font-family font_primary
+      .platform 
+        padding-bottom 20px
+        .icon
+          float left
+          width 20px
+
+        &.supported
+          .icon
+            color green
+
+        &.not-support
+          .icon
+            color red
+
+        pre
+          margin-right 0px
+          margin-left 0px
+          margin-bottom 0px
+          margin-top 10px
+          border 0px
+          padding 0px 0px 0px 20px
+          background none
+
+        ul
+          list-style none
+          padding-left 20px
+          margin-top 10px
+      .people
+        border-top 1px dashed lighten(headers, 65%)
+        padding-top 20px
+  .readme
+    float right !important
+    overflow visible !important
+    .wrap
+      background-color #fff
+      box-shadow 0px 0px 1px headers
+      border-radius 5px
+      padding 20px
+      min-height 500px

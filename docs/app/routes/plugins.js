@@ -5,7 +5,7 @@ var filtr = require('filtr')
   , request = require('superagent');
 
 var site_tags = []
-  , plugin_locals = {};
+  , plugin_tags = {};
 
 plugins.forEach(function (plug) {
   if (!plug.tags || !Array.isArray(plug.tags)) return;
@@ -30,7 +30,7 @@ site_tags.sort(sortAlpha);
 site_tags.forEach(function (tag) {
   var query = filtr({ 'tags': { $all: [ tag ] } })
     , res = query.test(plugins).sort(sortAlpha);
-  plugin_locals[tag] = res;
+  plugin_tags[tag] = res;
 });
 
 var site_locals = {
@@ -40,10 +40,22 @@ var site_locals = {
 app.get('/plugins', function (req, res) {
   var locals = {
       site: site_locals
-    , plugins: plugin_locals
+    , plugin_tags: plugin_tags
+    , plugins: plugins
     , body: 'plugins'
   }
   res.render('plugins', locals);
+});
+
+app.get('/plugins/tags.json', function (req, res) {
+  var json = {};
+  for (var name in plugin_tags) {
+    json[name] = [];
+    plugin_tags[name].forEach(function (plugin) {
+      json[name].push(plugin.url);
+    });
+  }
+  res.json(json);
 });
 
 app.get('/plugins/:id', function (req, res, next) {
@@ -60,36 +72,54 @@ app.get('/plugins/:id', function (req, res, next) {
     res.render('plugins/plugin', {
         site: site_locals
       , plugin: {
-            pkg: pkg
+            spec: plugin
+          , pkg: pkg
           , html: html
         }
       , body: 'plugin'
     });
   }
 
-  request
-    .get(plugin.markdown)
-    .end(function (readme) {
-      html = (readme.status == 200)
-        ? parseMarkdown(readme.text)
-        : '<p>No information provided.</p>'
-      render();
-    });
+  if (!plugin.cache)
+    plugin.cache = {};
 
-  request
-    .get(plugin.pkg)
-    .end(function (pack) {
-      if (pack.status == 200) {
-        try {
-          pkg = JSON.parse(pack.text);
-        } catch (ex) {
-          pkg = { error: 2 }
+  if (!plugin.cache.html) {
+    request
+      .get(plugin.markdown)
+      .end(function (readme) {
+        html = (readme.status == 200)
+          ? parseMarkdown(readme.text)
+          : '<p>No information provided.</p>'
+        plugin.cache.html = html;
+        plugin.cache.date = new Date();
+        render();
+      });
+  } else {
+    html = plugin.cache.html;
+    render();
+  }
+
+  if (!plugin.cache.pkg) {
+    request
+      .get(plugin.pkg)
+      .end(function (pack) {
+        if (pack.status == 200) {
+          try {
+            pkg = JSON.parse(pack.text);
+          } catch (ex) {
+            pkg = { error: 2 }
+          }
+        } else {
+          pkg = { error: 1 };
         }
-      } else {
-        pkg = { error: 1 };
-      }
-      render();
-    });
+        plugin.cache.pkg = pkg;
+        plugin.cache.date = new Date();
+        render();
+      });
+  } else {
+    pkg = plugin.cache.pkg;
+    render();
+  }
 });
 
 
