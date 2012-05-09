@@ -53,46 +53,11 @@ require.relative = function (parent) {
 require.register("assertion.js", function(module, exports, require){
 /*!
  * chai
+ * http://chaijs.com
  * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- *
- * Primarily a refactor of: should.js
- * https://github.com/visionmedia/should.js
- * Copyright(c) 2011 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
  */
 
-/**
- * ### BDD Style Introduction
- *
- * The BDD style is exposed through `expect` or `should` interfaces. In both
- * scenarios, you chain together natural language assertions.
- *
- *      // expect
- *      var expect = require('chai').expect;
- *      expect(foo).to.equal('bar');
- *
- *      // should
- *      var should = require('chai').should();
- *      foo.should.equal('bar');
- *
- * #### Differences
- *
- * The `expect` interface provides a function as a starting point for chaining
- * your language assertions. It works on node.js and in all browsers.
- *
- * The `should` interface extends `Object.prototype` to provide a single getter as
- * the starting point for your language assertions. It works on node.js and in
- * all browsers except Internet Explorer.
- *
- * #### Configuration
- *
- * By default, Chai does not show stack traces upon an AssertionError. This can
- * be changed by modifying the `includeStack` parameter for chai.Assertion. For example:
- *
- *      var chai = require('chai');
- *      chai.Assertion.includeStack = true; // defaults to false
- */
 
 /*!
  * Module dependencies.
@@ -111,7 +76,7 @@ module.exports = Assertion;
 
 
 /*!
- * # Assertion Constructor
+ * Assertion Constructor
  *
  * Creates object for chaining.
  *
@@ -125,7 +90,7 @@ function Assertion (obj, msg, stack) {
 }
 
 /*!
-  * ## Assertion.includeStack
+  * ### Assertion.includeStack
   *
   * User configurable property, influences whether stack trace
   * is included in Assertion error message. Default of false
@@ -138,8 +103,24 @@ function Assertion (obj, msg, stack) {
 
 Assertion.includeStack = false;
 
+Assertion.addProperty = function (name, fn) {
+  util.addProperty(this.prototype, name, fn);
+};
+
+Assertion.addMethod = function (name, fn) {
+  util.addMethod(this.prototype, name, fn);
+};
+
+Assertion.overwriteProperty = function (name, fn) {
+  util.overwriteProperty(this.prototype, name, fn);
+};
+
+Assertion.overwriteMethod = function (name, fn) {
+  util.overwriteMethod(this.prototype, name, fn);
+};
+
 /*!
- * # .assert(expression, message, negateMessage, expected, actual)
+ * ### .assert(expression, message, negateMessage, expected, actual)
  *
  * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
  *
@@ -169,7 +150,7 @@ Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual) 
 
 /*!
  *
- * # ._obj
+ * ### ._obj
  *
  * Quick reference to stored `actual` value for plugin developers.
  *
@@ -186,57 +167,57 @@ Object.defineProperty(Assertion.prototype, '_obj',
 });
 
 /**
- * # to
+ * ### Language Chains
  *
- * Language chain.
+ * The following are provide as chainable getters to
+ * improve the readability of your assertions. They
+ * do not provide an testing capability unless they
+ * have been overwritten by a plugin.
  *
- * @name to
+ * **Chains**
+ *
+ * - to
+ * - be
+ * - been
+ * - is
+ * - and
+ * - have
+ * - with
+ *
+ * @name language chains
  * @api public
  */
 
-Object.defineProperty(Assertion.prototype, 'to',
+[ 'to', 'be', 'been'
+, 'is', 'and', 'have'
+, 'with' ].forEach(function (chain) {
+  Object.defineProperty(Assertion.prototype, chain,
+    { get: function () {
+        return this;
+      }
+    , configurable: true
+  });
+});
+
+/**
+ * ### .not
+ *
+ * Negates any of assertions following in the chain.
+ *
+ * @name not
+ * @api public
+ */
+
+Object.defineProperty(Assertion.prototype, 'not',
   { get: function () {
+      flag(this, 'negate', true);
       return this;
     }
   , configurable: true
 });
 
 /**
- * # be
- *
- * Language chain.
- *
- * @name be
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'be',
-  { get: function () {
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # been
- *
- * Language chain. Also tests `tense` to past for addon
- * modules that use the tense feature.
- *
- * @name been
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'been',
-  { get: function () {
-      flag(this, 'tense', 'past');
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # .a(type)
+ * ### .a(type)
  *
  * Assert typeof. Also can be used as a language chain.
  *
@@ -280,18 +261,21 @@ Object.defineProperty(Assertion.prototype, 'a',
 });
 
 /**
- * # .include(value)
+ * ### .include(value)
  *
  * Assert the inclusion of an object in an Array or substring in string.
  * Also toggles the `contain` flag for the `keys` assertion if used as property.
  *
- *      expect([1,2,3]).to.include(2);
+ *     expect([1,2,3]).to.include(2);
+ *     expect('foobar').to.contain('foo');
+ *     expect({ foo: 'bar', hello: 'universe' }).to.include.keys('foo');
  *
  * @name include
  * @alias contain
  * @param {Object|String|Number} obj
  * @api public
  */
+
 var include = function () {
   flag(this, 'contains', true);
 
@@ -319,90 +303,8 @@ Object.defineProperty(Assertion.prototype, 'include',
   , configurable: true
 });
 
-
 /**
- * # is
- *
- * Language chain.
- *
- * @name is
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'is',
-  { get: function () {
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # and
- *
- * Language chain.
- *
- * @name and
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'and',
-  { get: function () {
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # have
- *
- * Language chain.
- *
- * @name have
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'have',
-  { get: function () {
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # with
- *
- * Language chain.
- *
- * @name with
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'with',
-  { get: function () {
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # .not
- *
- * Negates any of assertions following in the chain.
- *
- * @name not
- * @api public
- */
-
-Object.defineProperty(Assertion.prototype, 'not',
-  { get: function () {
-      flag(this, 'negate', true);
-      return this;
-    }
-  , configurable: true
-});
-
-/**
- * # .ok
+ * ### .ok
  *
  * Assert object truthiness.
  *
@@ -428,7 +330,7 @@ Object.defineProperty(Assertion.prototype, 'ok',
 });
 
 /**
- * # .true
+ * ### .true
  *
  * Assert object is true
  *
@@ -451,7 +353,7 @@ Object.defineProperty(Assertion.prototype, 'true',
 });
 
 /**
- * # .false
+ * ### .false
  *
  * Assert object is false
  *
@@ -474,7 +376,7 @@ Object.defineProperty(Assertion.prototype, 'false',
 });
 
 /**
- * # .null
+ * ### .null
  *
  * Assert object is null
  *
@@ -497,7 +399,7 @@ Object.defineProperty(Assertion.prototype, 'null',
 });
 
 /**
- * # .undefined
+ * ### .undefined
  *
  * Assert object is undefined
  *
@@ -520,7 +422,7 @@ Object.defineProperty(Assertion.prototype, 'undefined',
 });
 
 /**
- * # .exist
+ * ### .exist
  *
  * Assert object exists (null).
  *
@@ -547,7 +449,7 @@ Object.defineProperty(Assertion.prototype, 'exist',
 });
 
 /**
- * # .empty
+ * ### .empty
  *
  * Assert object's length to be 0.
  *
@@ -579,7 +481,7 @@ Object.defineProperty(Assertion.prototype, 'empty',
 });
 
 /**
- * # .arguments
+ * ### .arguments
  *
  * Assert object is an instanceof arguments.
  *
@@ -608,14 +510,14 @@ Object.defineProperty(Assertion.prototype, 'arguments',
 });
 
 /**
- * # .equal(value)
+ * ### .equal(value)
  *
  * Assert strict equality.
  *
  *      expect('hello').to.equal('hello');
  *
  * @name equal
- * @param {*} value
+ * @param {Mixed} value
  * @api public
  */
 
@@ -630,7 +532,7 @@ Assertion.prototype.equal = function (val) {
 };
 
 /**
- * # .eql(value)
+ * ### .eql(value)
  *
  * Assert deep equality.
  *
@@ -652,14 +554,14 @@ Assertion.prototype.eql = function (obj) {
 };
 
 /**
- * # .above(value)
+ * ### .above(value)
  *
  * Assert greater than `value`.
  *
  *      expect(10).to.be.above(5);
  *
  * @name above
- * @alias mt
+ * @alias gt
  * @param {Number} value
  * @api public
  */
@@ -674,7 +576,7 @@ Assertion.prototype.above = function (val) {
 };
 
 /**
- * # .below(value)
+ * ### .below(value)
  *
  * Assert less than `value`.
  *
@@ -696,7 +598,7 @@ Assertion.prototype.below = function (val) {
 };
 
 /**
- * # .within(start, finish)
+ * ### .within(start, finish)
  *
  * Assert that a number is within a range.
  *
@@ -721,7 +623,7 @@ Assertion.prototype.within = function (start, finish) {
 };
 
 /**
- * # .instanceof(constructor)
+ * ### .instanceof(constructor)
  *
  * Assert instanceof.
  *
@@ -747,7 +649,7 @@ Assertion.prototype.instanceOf = function (constructor) {
 };
 
 /**
- * # .property(name, [value])
+ * ### .property(name, [value])
  *
  * Assert that property of `name` exists, optionally with `value`.
  *
@@ -758,7 +660,7 @@ Assertion.prototype.instanceOf = function (constructor) {
  *
  * @name property
  * @param {String} name
- * @param {*} value (optional)
+ * @param {Mixed} value (optional)
  * @returns value of property for chaining
  * @api public
  */
@@ -794,7 +696,7 @@ Assertion.prototype.property = function (name, val) {
 };
 
 /**
- * # .ownProperty(name)
+ * ### .ownProperty(name)
  *
  * Assert that has own property by `name`.
  *
@@ -816,7 +718,7 @@ Assertion.prototype.ownProperty = function (name) {
 };
 
 /**
- * # .length(val)
+ * ### .length(val)
  *
  * Assert that object has expected length.
  *
@@ -846,7 +748,7 @@ Assertion.prototype.length = function (n) {
 };
 
 /**
- * # .match(regexp)
+ * ### .match(regexp)
  *
  * Assert that matches regular expression.
  *
@@ -869,7 +771,7 @@ Assertion.prototype.match = function (re) {
 
 
 /**
- * # .string(string)
+ * ### .string(string)
  *
  * Assert inclusion of string in string.
  *
@@ -893,7 +795,7 @@ Assertion.prototype.string = function (str) {
 };
 
 /**
- * # .keys(key1, [key2], [...])
+ * ### .keys(key1, [key2], [...])
  *
  * Assert exact keys or the inclusing of keys using the `contain` modifier.
  *
@@ -960,7 +862,7 @@ Assertion.prototype.keys = function(keys) {
 }
 
 /**
- * # .throw(constructor)
+ * ### .throw(constructor)
  *
  * Assert that a function will throw a specific type of error, or specific type of error
  * (as determined using `instanceof`), optionally with a RegExp or string inclusion test
@@ -1068,7 +970,7 @@ Assertion.prototype.Throw = function (constructor, msg) {
 };
 
 /**
- * # .respondTo(method)
+ * ### .respondTo(method)
  *
  * Assert that object/class will respond to a method.
  *
@@ -1098,7 +1000,7 @@ Assertion.prototype.respondTo = function (method) {
 };
 
 /**
- * # .satisfy(method)
+ * ### .satisfy(method)
  *
  * Assert that passes a truth test.
  *
@@ -1123,7 +1025,7 @@ Assertion.prototype.satisfy = function (matcher) {
 };
 
 /**
- * # .closeTo(expected, delta)
+ * ### .closeTo(expected, delta)
  *
  * Assert that actual is equal to +/- delta.
  *
@@ -1154,7 +1056,7 @@ Assertion.prototype.closeTo = function (expected, delta) {
   return alias;
 })
 ('equal', 'eq')
-('above', 'mt')
+('above', 'gt')
 ('below', 'lt')
 ('length', 'lengthOf')
 ('keys', 'key')
@@ -1282,29 +1184,6 @@ require.register("interface/assert.js", function(module, exports, require){
  * MIT Licensed
  */
 
-/**
- * ### TDD Style Introduction
- *
- * The TDD style is exposed through `assert` interfaces. This provides
- * the classic assert.`test` notation, similiar to that packaged with
- * node.js. This assert module, however, provides several additional
- * tests and is browser compatible.
- *
- *      // assert
- *      var assert = require('chai').assert;
- *        , foo = 'bar';
- *
- *      assert.typeOf(foo, 'string');
- *      assert.equal(foo, 'bar');
- *
- * #### Configuration
- *
- * By default, Chai does not show stack traces upon an AssertionError. This can
- * be changed by modifying the `includeStack` parameter for chai.Assertion. For example:
- *
- *      var chai = require('chai');
- *      chai.Assertion.includeStack = true; // defaults to false
- */
 
 module.exports = function (chai, util) {
 
@@ -1319,10 +1198,28 @@ module.exports = function (chai, util) {
    * Module export.
    */
 
-  var assert = chai.assert = {};
+  /**
+   * ### assert(expressions, errorMessage)
+   *
+   * Write your own test expressions.
+   *
+   * @param {Mixed} expression to test for truthiness.
+   * @param {String} message to display on error
+   * @name assert
+   * @api public
+   */
+
+  var assert = chai.assert = function (express, errmsg) {
+    var test = new Assertion(null);
+    test.assert(
+        express
+      , errmsg
+      , '[ negation message unavailable ]'
+    );
+  };
 
   /**
-   * # .fail(actual, expect, msg, operator)
+   * ### .fail(actual, expect, msg, operator)
    *
    * Throw a failure. Node.js compatible.
    *
@@ -1342,10 +1239,10 @@ module.exports = function (chai, util) {
       , operator: operator
       , stackStartFunction: assert.fail
     });
-  }
+  };
 
   /**
-   * # .ok(object, [message])
+   * ### .ok(object, [message])
    *
    * Assert object is truthy.
    *
@@ -1363,7 +1260,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .equal(actual, expected, [message])
+   * ### .equal(actual, expected, [message])
    *
    * Assert strict equality.
    *
@@ -1389,7 +1286,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notEqual(actual, expected, [message])
+   * ### .notEqual(actual, expected, [message])
    *
    * Assert not equal.
    *
@@ -1415,7 +1312,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .strictEqual(actual, expected, [message])
+   * ### .strictEqual(actual, expected, [message])
    *
    * Assert strict equality.
    *
@@ -1433,7 +1330,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notStrictEqual(actual, expected, [message])
+   * ### .notStrictEqual(actual, expected, [message])
    *
    * Assert strict equality.
    *
@@ -1451,7 +1348,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .deepEqual(actual, expected, [message])
+   * ### .deepEqual(actual, expected, [message])
    *
    * Assert not deep equality.
    *
@@ -1469,7 +1366,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notDeepEqual(actual, expected, [message])
+   * ### .notDeepEqual(actual, expected, [message])
    *
    * Assert not deep equality.
    *
@@ -1487,7 +1384,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isTrue(value, [message])
+   * ### .isTrue(value, [message])
    *
    * Assert `value` is true.
    *
@@ -1505,7 +1402,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isFalse(value, [message])
+   * ### .isFalse(value, [message])
    *
    * Assert `value` is false.
    *
@@ -1523,7 +1420,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNull(value, [message])
+   * ### .isNull(value, [message])
    *
    * Assert `value` is null.
    *
@@ -1540,7 +1437,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotNull(value, [message])
+   * ### .isNotNull(value, [message])
    *
    * Assert `value` is not null.
    *
@@ -1558,7 +1455,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isUndefined(value, [message])
+   * ### .isUndefined(value, [message])
    *
    * Assert `value` is undefined.
    *
@@ -1575,7 +1472,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isDefined(value, [message])
+   * ### .isDefined(value, [message])
    *
    * Assert `value` is not undefined.
    *
@@ -1593,7 +1490,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isFunction(value, [message])
+   * ### .isFunction(value, [message])
    *
    * Assert `value` is a function.
    *
@@ -1611,7 +1508,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotFunction(value, [message])
+   * ### .isNotFunction(value, [message])
    *
    * Assert `value` is NOT a function.
    *
@@ -1629,7 +1526,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isObject(value, [message])
+   * ### .isObject(value, [message])
    *
    * Assert `value` is an object.
    *
@@ -1647,7 +1544,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotObject(value, [message])
+   * ### .isNotObject(value, [message])
    *
    * Assert `value` is NOT an object.
    *
@@ -1665,7 +1562,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isArray(value, [message])
+   * ### .isArray(value, [message])
    *
    * Assert `value` is an instance of Array.
    *
@@ -1683,7 +1580,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isArray(value, [message])
+   * ### .isArray(value, [message])
    *
    * Assert `value` is NOT an instance of Array.
    *
@@ -1701,7 +1598,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isString(value, [message])
+   * ### .isString(value, [message])
    *
    * Assert `value` is a string.
    *
@@ -1719,7 +1616,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotString(value, [message])
+   * ### .isNotString(value, [message])
    *
    * Assert `value` is NOT a string.
    *
@@ -1737,7 +1634,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNumber(value, [message])
+   * ### .isNumber(value, [message])
    *
    * Assert `value` is a number
    *
@@ -1755,7 +1652,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotNumber(value, [message])
+   * ### .isNotNumber(value, [message])
    *
    * Assert `value` NOT is a number
    *
@@ -1773,7 +1670,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isBoolean(value, [message])
+   * ### .isBoolean(value, [message])
    *
    * Assert `value` is a boolean
    *
@@ -1794,7 +1691,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .isNotBoolean(value, [message])
+   * ### .isNotBoolean(value, [message])
    *
    * Assert `value` is NOT a boolean
    *
@@ -1815,7 +1712,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .typeOf(value, name, [message])
+   * ### .typeOf(value, name, [message])
    *
    * Assert typeof `value` is `name`.
    *
@@ -1833,7 +1730,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notTypeOf(value, name, [message])
+   * ### .notTypeOf(value, name, [message])
    *
    * Assert typeof `value` is NOT `name`.
    *
@@ -1851,7 +1748,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .instanceOf(object, constructor, [message])
+   * ### .instanceOf(object, constructor, [message])
    *
    * Assert `value` is instanceof `constructor`.
    *
@@ -1872,7 +1769,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notInstanceOf(object, constructor, [message])
+   * ### .notInstanceOf(object, constructor, [message])
    *
    * Assert `value` is NOT instanceof `constructor`.
    *
@@ -1893,7 +1790,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .include(value, includes, [message])
+   * ### .include(value, includes, [message])
    *
    * Assert the inclusion of an object in another. Works
    * for strings and arrays.
@@ -1919,7 +1816,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .match(value, regex, [message])
+   * ### .match(value, regex, [message])
    *
    * Assert that `value` matches regular expression.
    *
@@ -1937,7 +1834,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .notMatch(value, regex, [message])
+   * ### .notMatch(value, regex, [message])
    *
    * Assert that `value` does not match regular expression.
    *
@@ -1955,25 +1852,25 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .ownProperty(object, property, [message])
+   * ### .property(object, property, [message])
    *
    * Assert that `object` has property. Can use dot-notation for deep reference.
    *
-   *      assert.ownProperty({ tea: { green: 'matcha' }}, 'tea.green');
+   *      assert.property({ tea: { green: 'matcha' }}, 'tea.green');
    *
-   * @name ownProperty
+   * @name property
    * @param {Object} object
    * @param {String} Property address
    * @param {String} message
    * @api public
    */
 
-  assert.ownProperty = function (obj, prop, msg) {
+  assert.property = function (obj, prop, msg) {
     new Assertion(obj, msg).to.have.property(prop);
   };
 
   /**
-   * # .notOwnProperty(object, property, [message])
+   * ### .notOwnProperty(object, property, [message])
    *
    * Assert that `object` does not have property. Can use dot-notation for deep reference.
    *
@@ -1986,19 +1883,19 @@ module.exports = function (chai, util) {
    * @api public
    */
 
-  assert.notOwnProperty = function (obj, prop, msg) {
+  assert.notProperty = function (obj, prop, msg) {
     new Assertion(obj, msg).to.not.have.property(prop);
   };
 
   /**
-   * # .ownPropertyVal(object, property, value, [message])
+   * ### .propertyVal(object, property, value, [message])
    *
    * Assert that `object` has property with `value`.
    * Can use dot-notation for deep reference.
    *
-   *      assert.ownPropertyVal({ tea: { green: 'matcha' }}, 'tea.green', 'matcha');
+   *      assert.propertyVal({ tea: { green: 'matcha' }}, 'tea.green', 'matcha');
    *
-   * @name ownPropertyVal
+   * @name propertyVal
    * @param {Object} object
    * @param {String} property address
    * @param {Mixed} value
@@ -2006,36 +1903,36 @@ module.exports = function (chai, util) {
    * @api public
    */
 
-  assert.ownPropertyVal = function (obj, prop, val, msg) {
+  assert.propertyVal = function (obj, prop, val, msg) {
     new Assertion(obj, msg).to.have.property(prop, val);
   };
 
   /**
-   * # .ownPropertyNotVal(object, property, value, [message])
+   * ### .propertyNotVal(object, property, value, [message])
    *
    * Assert that `object` has property but `value`
    * does not equal  `value`. Can use dot-notation for deep reference.
    *
-   *      assert.ownPropertyNotVal({ tea: { green: 'matcha' }}, 'tea.green', 'konacha');
+   *      assert.propertyNotVal({ tea: { green: 'matcha' }}, 'tea.green', 'konacha');
    *
-   * @name ownPropertyNotVal
+   * @name propertyNotVal
    * @param {Object} object
    * @param {String} property address
    * @param {Mixed} value
    * @param {String} message
    * @api public
    */
-  assert.ownPropertyNotVal = function (obj, prop, val, msg) {
+  assert.propertyNotVal = function (obj, prop, val, msg) {
     new Assertion(obj, msg).to.not.have.property(prop, val);
   };
 
   /**
-   * # .length(object, length, [message])
+   * ### .lengthOf(object, length, [message])
    *
    * Assert that object has expected length.
    *
-   *      assert.length([1,2,3], 3, 'Array has length of 3');
-   *      assert.length('foobar', 5, 'String has length of 6');
+   *      assert.lengthOf([1,2,3], 3, 'Array has length of 3');
+   *      assert.lengthOf('foobar', 5, 'String has length of 6');
    *
    * @name length
    * @param {*} value
@@ -2044,12 +1941,12 @@ module.exports = function (chai, util) {
    * @api public
    */
 
-  assert.length = function (exp, len, msg) {
+  assert.lengthOf = function (exp, len, msg) {
     new Assertion(exp, msg).to.have.length(len);
   };
 
   /**
-   * # .throws(function, [constructor/regexp], [message])
+   * ### .throws(function, [constructor/regexp], [message])
    *
    * Assert that a function will throw a specific
    * type of error.
@@ -2075,7 +1972,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .doesNotThrow(function, [constructor/regexp], [message])
+   * ### .doesNotThrow(function, [constructor/regexp], [message])
    *
    * Assert that a function will throw a specific
    * type of error.
@@ -2101,7 +1998,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * # .operator(val, operator, val2, [message])
+   * ### .operator(val, operator, val2, [message])
    *
    * Compare two values using operator.
    *
@@ -2143,7 +2040,6 @@ module.exports = function (chai, util) {
     assert[as] = assert[name];
     return alias;
   })
-  ('length', 'lengthOf')
   ('throws', 'throw');
 };
 
@@ -2246,22 +2142,20 @@ require.register("utils/addMethod.js", function(module, exports, require){
  *      utils.addMethod(chai.Assertion, 'foo', function (str) {
  *        var obj = utils.flag(this, 'object');
  *        new chai.Assertion(obj).to.be.equal(str);
- *        return this;
  *      });
  *
  * Then can be used as any other assertion.
  *
  *      expect(fooStr).to.be.foo('bar');
  *
- * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {Function|Object} context (such as `chai.Assertion.prototype`)
  * @param {String} name of method to add
  * @param {Function} method function to used for name
  * @api public
  */
 
 module.exports = function (ctx, name, method) {
-  var context = ('function' === typeof ctx) ? ctx.prototype : ctx;
-  context[name] = function () {
+  ctx[name] = function () {
     method.apply(this, arguments);
     return this;
   };
@@ -2284,22 +2178,20 @@ require.register("utils/addProperty.js", function(module, exports, require){
  *      utils.addProperty(chai.Assertion, 'foo', function () {
  *        var obj = utils.flag(this, 'object');
  *        new chai.Assertion(obj).to.be.instanceof(Foo);
- *        return this;
  *      });
  *
  * Then can be used as any other assertion:
  *
  *      expect(myFoo).to.be.foo;
  *
- * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {Function|Object} context (such as `chai.Assertion.prototype`)
  * @param {String} name of property to add
  * @param {Function} getter function to used for name
  * @api public
  */
 
 module.exports = function (ctx, name, getter) {
-  var context = ('function' === typeof ctx) ? ctx.prototype : ctx;
-  Object.defineProperty(context, name,
+  Object.defineProperty(ctx, name,
     { get: function () {
         getter.call(this);
         return this;
@@ -2504,14 +2396,16 @@ module.exports = function (obj, args) {
     , val = flag(obj, 'object')
     , expected = args[3]
     , actual = getActual(obj, args)
-    , msg = negate ? args[2] : args[1];
+    , msg = negate ? args[2] : args[1]
+    , flagMsg = flag(obj, 'message');
 
+  msg = msg || '';
   msg = msg
     .replace(/#{this}/g, inspect(val))
     .replace(/#{act}/g, inspect(actual))
     .replace(/#{exp}/g, inspect(expected));
 
-  return obj.msg ? obj.msg + ': ' + msg : msg;
+  return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
 }); // module: utils/getMessage.js
@@ -3050,14 +2944,13 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  */
 
 module.exports = function (ctx, name, method) {
-  var context = ('function' === typeof ctx) ? ctx.prototype : ctx
-    , _method = context[name]
+  var _method = ctx[name]
     , _super = function () { return this; };
 
   if (_method && 'function' === typeof _method)
     _super = _method;
 
-  context[name] = function () {
+  ctx[name] = function () {
     method(_super).apply(this, arguments);
     return this;
   }
@@ -3100,14 +2993,13 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  */
 
 module.exports = function (ctx, name, getter) {
-  var context = ('function' === typeof ctx) ? ctx.prototype : ctx
-    , _get = Object.getOwnPropertyDescriptor(context, name)
+  var _get = Object.getOwnPropertyDescriptor(ctx, name)
     , _super = function () {};
 
   if (_get && 'function' === typeof _get.get)
     _super = _get.get
 
-  Object.defineProperty(context, name,
+  Object.defineProperty(ctx, name,
     { get: function () {
         getter(_super).call(this);
         return this;
