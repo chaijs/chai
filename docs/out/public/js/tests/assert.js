@@ -21,6 +21,15 @@ function err(fn, msg) {
 
 suite('assert', function () {
 
+  test('assert', function () {
+    var foo = 'bar';
+    assert(foo == 'bar', "expected foo to equal `bar`");
+
+    err(function () {
+      assert(foo == 'baz', "expected foo to equal `bar`");
+    }, "expected foo to equal `bar`");
+  });
+
   test('fail', function () {
     chai.expect(function () {
       assert.fail();
@@ -318,16 +327,16 @@ suite('assert', function () {
      }, "expected \'foobar\' to contain \'baz\'");
   });
 
-  test('length', function() {
-    assert.length([1,2,3], 3);
-    assert.length('foobar', 6);
+  test('lengthOf', function() {
+    assert.lengthOf([1,2,3], 3);
+    assert.lengthOf('foobar', 6);
 
     err(function () {
-      assert.length('foobar', 5);
+      assert.lengthOf('foobar', 5);
      }, "expected 'foobar' to have a length of 5 but got 6");
 
     err(function () {
-      assert.length(1, 5);
+      assert.lengthOf(1, 5);
      }, "expected 1 to have a property \'length\'");
   });
 
@@ -344,37 +353,37 @@ suite('assert', function () {
     }, "expected 'foobar' not to match /^foo/i");
   });
 
-  test('ownProperty', function () {
+  test('property', function () {
     var obj = { foo: { bar: 'baz' }};
-    assert.ownProperty(obj, 'foo');
-    assert.ownProperty(obj, 'foo.bar');
-    assert.notOwnProperty(obj, 'baz');
-    assert.notOwnProperty(obj, 'foo.baz');
-    assert.ownPropertyVal(obj, 'foo.bar', 'baz');
-    assert.ownPropertyNotVal(obj, 'foo.bar', 'flow');
+    assert.property(obj, 'foo');
+    assert.property(obj, 'foo.bar');
+    assert.notProperty(obj, 'baz');
+    assert.notProperty(obj, 'foo.baz');
+    assert.propertyVal(obj, 'foo.bar', 'baz');
+    assert.propertyNotVal(obj, 'foo.bar', 'flow');
 
     err(function () {
-      assert.ownProperty(obj, 'baz');
+      assert.property(obj, 'baz');
     }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
 
     err(function () {
-      assert.ownProperty(obj, 'foo.baz');
+      assert.property(obj, 'foo.baz');
     }, "expected { foo: { bar: 'baz' } } to have a property 'foo.baz'");
 
     err(function () {
-      assert.notOwnProperty(obj, 'foo');
+      assert.notProperty(obj, 'foo');
     }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
 
     err(function () {
-      assert.notOwnProperty(obj, 'foo.bar');
+      assert.notProperty(obj, 'foo.bar');
     }, "expected { foo: { bar: 'baz' } } to not have property 'foo.bar'");
 
     err(function () {
-      assert.ownPropertyVal(obj, 'foo.bar', 'ball');
+      assert.propertyVal(obj, 'foo.bar', 'ball');
     }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar' of 'ball', but got 'baz'");
 
     err(function () {
-      assert.ownPropertyNotVal(obj, 'foo.bar', 'baz');
+      assert.propertyNotVal(obj, 'foo.bar', 'baz');
     }, "expected { foo: { bar: 'baz' } } to not have a property 'foo.bar' of 'baz'");
   });
 
