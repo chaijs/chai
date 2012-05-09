@@ -1,7 +1,7 @@
 ---
   title: Other Platforms
   weight: 15
-  template: guide-install
+  render-file: false
 ---
 
 Here is how to install on other platforms.

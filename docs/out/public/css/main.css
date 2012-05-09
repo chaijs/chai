@@ -330,28 +330,12 @@ em {
 .box-wrap {
   margin-bottom: 50px;
 }
-header.chaiblue {
-  background-color: #30759c;
-}
-header.chaiblue .wrap {
-  width: 1020px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-header.chaiblue .wrap .section {
-  min-width: 990px;
-  max-width: 990px;
-  margin: 0 15px;
-  overflow: hidden;
-  float: left;
-  display: inline;
-  line-height: 45px;
-  font-size: 24px;
-  font-family: "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #faf4e8;
-}
 .sticky {
   position: fixed;
+  background-color: #faf4e8;
+  -webkit-border-radius: 0px 0px 5px 5px;
+  -moz-border-radius: 0px 0px 5px 5px;
+  border-radius: 0px 0px 5px 5px;
 }
 .sticky .box,
 .sticky .box .antiscroll-inner {
@@ -1065,19 +1049,124 @@ body.plugin .readme .wrap {
   padding: 20px;
   min-height: 500px;
 }
-#guide article.prepared {
-  border-top: 1px #f0ddb8 solid;
+body.guide nav#guide {
+  min-width: 225px;
+  max-width: 225px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
 }
-#guide nav#guide .wrap {
-  background-color: #faf4e8;
+body.guide nav#guide .line {
+  margin-bottom: 10px;
+  border-top: 1px dashed #d7bab6;
+}
+body.guide nav#guide .item.primary {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  line-height: 28px;
+  padding: 0 6px 0 0;
+  color: #000;
+  display: block;
+}
+body.guide nav#guide .item.primary a.title {
+  margin-left: 34px;
+  color: #000;
+}
+body.guide nav#guide .item.primary span.expand,
+body.guide nav#guide .item.primary span.collapse,
+body.guide nav#guide .item.primary span.star {
+  overflow: hidden;
+  position: absolute;
+  z-index: 100;
+  display: block;
+  top: 0px;
+  left: 6px;
+  background-color: #4497c5;
+  font-weight: bold;
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  line-height: 15px;
+  margin-top: 6px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  text-align: center;
+  padding-left: 1px;
+}
+body.guide nav#guide .item.primary span.star:after {
+  content: '*';
+  font-size: 23px;
+  position: absolute;
+  top: 5px;
+  left: 4px;
+}
+body.guide nav#guide .item.primary span.expand {
+  display: block;
+}
+body.guide nav#guide .item.primary span.collapse {
+  display: none;
+}
+body.guide nav#guide .item.primary.expanded span.expand {
+  display: none;
+}
+body.guide nav#guide .item.primary.expanded span.collapse {
+  display: block;
+}
+body.guide nav#guide .item.primary:hover {
+  background-color: #e9ce99;
+}
+body.guide nav#guide .item.primary.active {
+  background-color: #30759c;
+  color: #faf4e8;
+}
+body.guide nav#guide .item.primary.active a.title {
+  color: #faf4e8;
+}
+body.guide nav#guide .item.primary.active:hover {
+  background-color: #3787b3;
+}
+body.guide nav#guide .subitems a {
+  display: block;
+}
+body.guide nav#guide .item.secondary {
+  display: none;
+  line-height: 24px;
+}
+body.guide nav#guide .item.secondary.expanded {
+  display: block;
+}
+body.guide nav#guide .item.secondary.active {
+  font-weight: bold;
+}
+body.guide nav#guide .subitems {
+  margin-bottom: 10px;
+  margin-left: 34px;
+}
+body.guide .documentation {
+  min-width: 735px;
+  max-width: 735px;
+  margin: 0 15px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+  float: right;
+  overflow: visible;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 1px #784942;
+  -moz-box-shadow: 0px 0px 1px #784942;
+  box-shadow: 0px 0px 1px #784942;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid #f0ddb8;
 }
-#guide nav#guide .wrap h3 {
-  margin-top: 0px;
-  margin-bottom: 0px;
+body.guide .documentation .wrap {
+  padding: 20px;
 }
 body.api-index nav#api,
 body.api nav#api {

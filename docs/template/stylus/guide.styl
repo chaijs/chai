@@ -1,13 +1,88 @@
-#guide
-  article.prepared
-    border-top 1px #F0DDB8 solid
-
+body.guide
   nav#guide
-    .wrap
-      background-color #FAF4E8 
-      border-radius 5px 
-      border 1px solid #F0DDB8 
+    grid(3)
+    .line
+      margin-bottom 10px
+      border-top 1px dashed lighten(headers, 65%)
+    .item.primary
+      position relative
+      cursor pointer
+      margin-bottom 10px
+      border-radius 3px
+      line-height 28px
+      padding 0 6px 0 0 
+      color #000
+      display block
+      a.title
+        margin-left 34px
+        color #000
+      span.expand
+      span.collapse
+      span.star
+        overflow hidden
+        position absolute
+        z-index 100
+        display block
+        top 0px
+        left 6px
+        background-color lighten(chaiblue, 20%)
+        font-weight bold
+        color #fff
+        width 16px
+        height 16px
+        line-height 15px
+        margin-top 6px
+        border-radius 16px
+        text-align center
+        padding-left 1px
 
-      h3
-        margin-top 0px
-        margin-bottom 0px
+      span.star:after
+        content '*'
+        font-size 23px
+        position absolute
+        top 5px
+        left 4px
+      span.expand
+        display block
+      span.collapse
+        display none
+
+      &.expanded
+        span.expand
+          display none
+        span.collapse
+          display block
+
+      &:hover
+        background-color chaiswirl
+      &.active
+        background-color chaiblue
+        color chaicream
+        a.title
+          color chaicream
+        &:hover
+          background-color lighten(chaiblue, 10%)
+
+    .subitems a
+      display block
+
+    .item.secondary
+      display none
+      line-height 24px
+      &.expanded
+        display block
+      &.active
+        font-weight bold
+
+    .subitems
+      margin-bottom 10px
+      margin-left 34px
+  .documentation
+    grid(9)
+    float right
+    overflow visible
+    background-color #fff
+    box-shadow 0px 0px 1px headers
+    border-radius 5px
+    .wrap
+      padding 20px

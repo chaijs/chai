@@ -6,7 +6,6 @@ $(function () {
 
     $(document).scroll(function () {
       var top = $(document).scrollTop();
-      console.log(offset, top);
       if ((offset - 105) <= top) {
         $stick.css({
             position: 'fixed'

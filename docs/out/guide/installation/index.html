@@ -10,11 +10,12 @@
     <script src="/public/js/jquery-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="/public/js/guide.js"></script>
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
   </head>
-  <body class="guide-install">
+  <body class="guide">
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
@@ -31,26 +32,61 @@
     </nav>
     <div class="content">
       <section id="content">
-        <div id="guide" class="grid_12">
-          <div class="rowInside">
-            <article class="grid_9 prepared">
-              <h1>Installation</h1>
-              <div class="prose"><p>Here is how to install.
+        <nav id="guide" class="sidebar sticky">
+          <div id="guide-index" class="item primary "><span class="star"></span><a href="/guide/" class="title">Getting Started Guide</a></div>
+          <div class="line"></div>
+          <div id="installation" class="item primary active expanded"><span class="expand">+</span><span class="collapse">-</span><a href="/guide/installation/" class="title">Installation</a></div>
+          <div id="installation" class="subitems"><a href="#node" id="node" class="item secondary expanded scroll group-installation">Node</a><a href="#browser" id="browser" class="item secondary expanded scroll group-installation">Browser</a><a href="#other" id="other" class="item secondary expanded scroll group-installation">Other Platforms</a>
+          </div>
+          <div id="styles" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/styles/" class="title">Assertion Styles</a></div>
+          <div id="styles" class="subitems"><a href="/guide/styles/#expect" id="expect" class="item secondary group-styles">Expect</a><a href="/guide/styles/#should" id="should" class="item secondary group-styles">Should</a><a href="/guide/styles/#assert" id="assert" class="item secondary group-styles">Assert</a>
+          </div>
+          <div id="plugins" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/plugins/" class="title">Plugins</a></div>
+          <div id="plugins" class="subitems">
+          </div>
+          <div id="resources" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/resources/" class="title">Resources</a></div>
+          <div id="resources" class="subitems"><a href="/guide/resources/#help" id="help" class="item secondary group-resources">Getting Help</a><a href="/guide/resources/#contributor" id="contributor" class="item secondary group-resources">Contributing</a>
+          </div>
+        </nav>
+        <div class="documentation">
+          <div class="wrap">
+            <div class="rendered">
+              <div class="header"><p>Here is how to install.
 </p>
 </div>
-            </article>
-            <nav id="guide" class="grid_3">
-              <div class="wrap">
-                <h3>Getting Started</h3>
-                <ul>
-                  <li>Installation</li>
-                  <li>Installation</li>
-                  <li>Node</li>
-                  <li>Other Platforms</li>
-                  <li>Browser</li>
-                </ul>
-              </div>
-            </nav>
+              <article id="node-section"><p>Chai is available for both node.js and the browser using any
+test framework you like. 
+
+</p>
+<h3>Node.js</h3>
+<p>Package is available through <a href="http://npmjs.org">npm</a>:
+
+</p>
+<pre><code>npm install chai</code></pre>
+<p>Recommend adding it to package.json devDependancies.
+
+</p>
+<h3>Browser</h3>
+<p>Include the chai browser build in your testing suite.
+
+</p>
+<pre><code>&lt;script src="chai.js" type="text/javascript">&lt;/script></code></pre>
+<p>Currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+. 
+
+</p>
+<p>Want to know if your browser is compatible? Run the <a href="/support/tests/">online test suite</a>.
+
+</p>
+<p>The latest tagged version will also be available for hot-linking at <a href="/chai.js"><a href="http://chaijs.com/chai.js">http://chaijs.com/chai.js</a></a>.
+</p>
+</article>
+              <article id="browser-section"><p>Here is how to install for browser.
+</p>
+</article>
+              <article id="other-section"><p>Here is how to install on other platforms.
+</p>
+</article>
+            </div>
           </div>
         </div>
       </section>

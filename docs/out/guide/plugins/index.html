@@ -10,6 +10,7 @@
     <script src="/public/js/jquery-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="/public/js/guide.js"></script>
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
@@ -31,11 +32,26 @@
     </nav>
     <div class="content">
       <section id="content">
-        <div id="guide" class="grid_12">
-          <div class="rowInside">
-            <article class="grid_9 prepared">
-              <h1>Plugins</h1>
-              <div class="prose"><h3>Available Plugins</h3>
+        <nav id="guide" class="sidebar sticky">
+          <div id="guide-index" class="item primary "><span class="star"></span><a href="/guide/" class="title">Getting Started Guide</a></div>
+          <div class="line"></div>
+          <div id="installation" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/installation/" class="title">Installation</a></div>
+          <div id="installation" class="subitems"><a href="/guide/installation/#node" id="node" class="item secondary group-installation">Node</a><a href="/guide/installation/#browser" id="browser" class="item secondary group-installation">Browser</a><a href="/guide/installation/#other" id="other" class="item secondary group-installation">Other Platforms</a>
+          </div>
+          <div id="styles" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/styles/" class="title">Assertion Styles</a></div>
+          <div id="styles" class="subitems"><a href="/guide/styles/#expect" id="expect" class="item secondary group-styles">Expect</a><a href="/guide/styles/#should" id="should" class="item secondary group-styles">Should</a><a href="/guide/styles/#assert" id="assert" class="item secondary group-styles">Assert</a>
+          </div>
+          <div id="plugins" class="item primary active expanded"><span class="expand">+</span><span class="collapse">-</span><a href="/guide/plugins/" class="title">Plugins</a></div>
+          <div id="plugins" class="subitems">
+          </div>
+          <div id="resources" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/resources/" class="title">Resources</a></div>
+          <div id="resources" class="subitems"><a href="/guide/resources/#help" id="help" class="item secondary group-resources">Getting Help</a><a href="/guide/resources/#contributor" id="contributor" class="item secondary group-resources">Contributing</a>
+          </div>
+        </nav>
+        <div class="documentation">
+          <div class="wrap">
+            <div class="rendered">
+              <div class="header"><h3>Available Plugins</h3>
 <p>The Chai community is growing! Plugins allow developers to expand Chai&#39;s available 
 assertions. Here is what the community has come up with so far:
 
@@ -51,19 +67,7 @@ can be used as a stand-alone or with chai.</li>
 assertions for the Sinon.js mocking framework.</li>
 </ul>
 </div>
-            </article>
-            <nav id="guide" class="grid_3">
-              <div class="wrap">
-                <h3>Getting Started</h3>
-                <ul>
-                  <li>Installation</li>
-                  <li>Installation</li>
-                  <li>Node</li>
-                  <li>Other Platforms</li>
-                  <li>Browser</li>
-                </ul>
-              </div>
-            </nav>
+            </div>
           </div>
         </div>
       </section>

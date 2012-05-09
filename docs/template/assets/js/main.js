@@ -5,8 +5,9 @@ $(function () {
     var section = $(this).attr('href')
       , $scrollto = $(section + '-section');
 
+    console.log(section, $scrollto);
     $('html,body').animate({
-      scrollTop: $scrollto.offset().top
+      scrollTop: $scrollto.offset().top - 90
     });
   });
 

@@ -1,7 +1,7 @@
 ---
   title: Browser
   weight: 10
-  template: guide-install
+  render-file: false
 ---
 
 Here is how to install for browser.

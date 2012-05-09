@@ -1,7 +1,7 @@
 ---
   title: Node
   weight: 5
-  template: guide-install
+  render-file: false
 ---
 
 Chai is available for both node.js and the browser using any
