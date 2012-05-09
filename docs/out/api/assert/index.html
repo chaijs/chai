@@ -31,11 +31,11 @@
     </nav>
     <div class="content">
       <section id="content">
-        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item ">Expect / Should</a><a href="/api/assert/" class="item active">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a>
+        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item ">Expect / Should</a><a href="/api/assert/" class="item active">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a><a href="/api/test/" class="item ">Online Test Suite</a>
           <div class="list box-wrap antiscroll-wrap">
             <div class="box">
               <div class="antiscroll-inner">
-                <div class="box-inner"><a id="fail" class="item">fail</a><a id="ok" class="item">ok</a><a id="equal" class="item">equal</a><a id="notEqual" class="item">notEqual</a><a id="strictEqual" class="item">strictEqual</a><a id="notStrictEqual" class="item">notStrictEqual</a><a id="deepEqual" class="item">deepEqual</a><a id="notDeepEqual" class="item">notDeepEqual</a><a id="isTrue" class="item">isTrue</a><a id="isFalse" class="item">isFalse</a><a id="isNull" class="item">isNull</a><a id="isNotNull" class="item">isNotNull</a><a id="isUndefined" class="item">isUndefined</a><a id="isUndefined" class="item">isUndefined</a><a id="isFunction" class="item">isFunction</a><a id="isNotFunction" class="item">isNotFunction</a><a id="isObject" class="item">isObject</a><a id="isNotObject" class="item">isNotObject</a><a id="isArray" class="item">isArray</a><a id="isNotArray" class="item">isNotArray</a><a id="isString" class="item">isString</a><a id="isNotString" class="item">isNotString</a><a id="isNumber" class="item">isNumber</a><a id="isNotNumber" class="item">isNotNumber</a><a id="isBoolean" class="item">isBoolean</a><a id="isNotBoolean" class="item">isNotBoolean</a><a id="typeOf" class="item">typeOf</a><a id="notTypeOf" class="item">notTypeOf</a><a id="instanceOf" class="item">instanceOf</a><a id="notInstanceOf" class="item">notInstanceOf</a><a id="include" class="item">include</a><a id="match" class="item">match</a><a id="notMatch" class="item">notMatch</a><a id="ownProperty" class="item">ownProperty</a><a id="notOwnProperty" class="item">notOwnProperty</a><a id="ownPropertyVal" class="item">ownPropertyVal</a><a id="ownPropertyNotVal" class="item">ownPropertyNotVal</a><a id="length" class="item">length</a><a id="throws" class="item">throws</a><a id="doesNotThrow" class="item">doesNotThrow</a><a id="operator" class="item">operator</a>
+                <div class="box-inner"><a id="assert" class="item">assert</a><a id="fail" class="item">fail</a><a id="ok" class="item">ok</a><a id="equal" class="item">equal</a><a id="notEqual" class="item">notEqual</a><a id="strictEqual" class="item">strictEqual</a><a id="notStrictEqual" class="item">notStrictEqual</a><a id="deepEqual" class="item">deepEqual</a><a id="notDeepEqual" class="item">notDeepEqual</a><a id="isTrue" class="item">isTrue</a><a id="isFalse" class="item">isFalse</a><a id="isNull" class="item">isNull</a><a id="isNotNull" class="item">isNotNull</a><a id="isUndefined" class="item">isUndefined</a><a id="isUndefined" class="item">isUndefined</a><a id="isFunction" class="item">isFunction</a><a id="isNotFunction" class="item">isNotFunction</a><a id="isObject" class="item">isObject</a><a id="isNotObject" class="item">isNotObject</a><a id="isArray" class="item">isArray</a><a id="isNotArray" class="item">isNotArray</a><a id="isString" class="item">isString</a><a id="isNotString" class="item">isNotString</a><a id="isNumber" class="item">isNumber</a><a id="isNotNumber" class="item">isNotNumber</a><a id="isBoolean" class="item">isBoolean</a><a id="isNotBoolean" class="item">isNotBoolean</a><a id="typeOf" class="item">typeOf</a><a id="notTypeOf" class="item">notTypeOf</a><a id="instanceOf" class="item">instanceOf</a><a id="notInstanceOf" class="item">notInstanceOf</a><a id="include" class="item">include</a><a id="match" class="item">match</a><a id="notMatch" class="item">notMatch</a><a id="property" class="item">property</a><a id="notOwnProperty" class="item">notOwnProperty</a><a id="propertyVal" class="item">propertyVal</a><a id="propertyNotVal" class="item">propertyNotVal</a><a id="length" class="item">length</a><a id="throws" class="item">throws / throw</a><a id="doesNotThrow" class="item">doesNotThrow</a><a id="operator" class="item">operator</a>
                 </div>
               </div>
             </div>
@@ -65,6 +65,17 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
 chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
 <h2>Assert API</h2>
 </article>
+              <div id="assert" class="segment">
+                <div class="summary"><h3>assert(expressions, errorMessage)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">expression</span><span class="desc">to test for truthiness.</span></li>
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc">to display on error</span></li>
+                </ul>
+                <div class="description"><p>Write your own test expressions.
+</p>
+</div>
+              </div>
               <div id="fail" class="segment">
                 <div class="summary"><h3>.fail(actual, expect, msg, operator)</h3>
 </div>
@@ -538,8 +549,8 @@ for strings and arrays.
 <pre><code> assert.notMatch(<span class="string">'foobar'</span>, <span class="regexp">/^foo/</span>, <span class="string">'Regexp matches'</span>);</code></pre>
 </div>
               </div>
-              <div id="ownProperty" class="segment">
-                <div class="summary"><h3>.ownProperty(object, property, [message])</h3>
+              <div id="property" class="segment">
+                <div class="summary"><h3>.property(object, property, [message])</h3>
 </div>
                 <ul class="tags">
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span></li>
@@ -549,7 +560,7 @@ for strings and arrays.
                 <div class="description"><p>Assert that <code>object</code> has property. Can use dot-notation for deep reference.
 
 </p>
-<pre><code> assert.ownProperty({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>);</code></pre>
+<pre><code> assert.property({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>);</code></pre>
 </div>
               </div>
               <div id="notOwnProperty" class="segment">
@@ -566,8 +577,8 @@ for strings and arrays.
 <pre><code> assert.ownProperty({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.oolong'</span>);</code></pre>
 </div>
               </div>
-              <div id="ownPropertyVal" class="segment">
-                <div class="summary"><h3>.ownPropertyVal(object, property, value, [message])</h3>
+              <div id="propertyVal" class="segment">
+                <div class="summary"><h3>.propertyVal(object, property, value, [message])</h3>
 </div>
                 <ul class="tags">
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span></li>
@@ -579,11 +590,11 @@ for strings and arrays.
 Can use dot-notation for deep reference.
 
 </p>
-<pre><code> assert.ownPropertyVal({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>, <span class="string">'matcha'</span>);</code></pre>
+<pre><code> assert.propertyVal({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>, <span class="string">'matcha'</span>);</code></pre>
 </div>
               </div>
-              <div id="ownPropertyNotVal" class="segment">
-                <div class="summary"><h3>.ownPropertyNotVal(object, property, value, [message])</h3>
+              <div id="propertyNotVal" class="segment">
+                <div class="summary"><h3>.propertyNotVal(object, property, value, [message])</h3>
 </div>
                 <ul class="tags">
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">object</span><span class="desc"></span></li>
@@ -595,11 +606,11 @@ Can use dot-notation for deep reference.
 does not equal  <code>value</code>. Can use dot-notation for deep reference.
 
 </p>
-<pre><code> assert.ownPropertyNotVal({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>, <span class="string">'konacha'</span>);</code></pre>
+<pre><code> assert.propertyNotVal({ tea: { green: <span class="string">'matcha'</span> }}, <span class="string">'tea.green'</span>, <span class="string">'konacha'</span>);</code></pre>
 </div>
               </div>
               <div id="length" class="segment">
-                <div class="summary"><h3>.length(object, length, [message])</h3>
+                <div class="summary"><h3>.lengthOf(object, length, [message])</h3>
 </div>
                 <ul class="tags">
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span></li>
@@ -609,8 +620,8 @@ does not equal  <code>value</code>. Can use dot-notation for deep reference.
                 <div class="description"><p>Assert that object has expected length.
 
 </p>
-<pre><code> assert.length([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">3</span>, <span class="string">'Array has length of 3'</span>);
- assert.length(<span class="string">'foobar'</span>, <span class="number">5</span>, <span class="string">'String has length of 6'</span>);</code></pre>
+<pre><code> assert.lengthOf([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">3</span>, <span class="string">'Array has length of 3'</span>);
+ assert.lengthOf(<span class="string">'foobar'</span>, <span class="number">5</span>, <span class="string">'String has length of 6'</span>);</code></pre>
 </div>
               </div>
               <div id="throws" class="segment">

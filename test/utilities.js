@@ -42,7 +42,7 @@ suite('utilities', function () {
   test('addMethod', function () {
     chai.use(function(_chai, utils) {
       expect(_chai.Assertion).to.not.respondTo('eqqqual');
-      utils.addMethod(_chai.Assertion, 'eqqqual', function (str) {
+      _chai.Assertion.addMethod('eqqqual', function (str) {
         var object = utils.flag(this, 'object');
         new _chai.Assertion(object).to.be.eql(str);
       });
@@ -55,7 +55,7 @@ suite('utilities', function () {
   test('overwriteMethod', function () {
     chai.use(function (_chai, _) {
       expect(_chai.Assertion).to.respondTo('eqqqual');
-      _.overwriteMethod(_chai.Assertion, 'eqqqual', function (_super) {
+      _chai.Assertion.overwriteMethod('eqqqual', function (_super) {
         return function (str) {
           var object = _.flag(this, 'object');
           if (object == 'cucumber' && str == 'cuke') {
@@ -75,7 +75,7 @@ suite('utilities', function () {
 
     chai.use(function (_chai, _) {
       expect(_chai.Assertion).to.not.respondTo('doesnotexist');
-      _.overwriteMethod(_chai.Assertion, 'doesnotexist', function (_super) {
+      _chai.Assertion.overwriteMethod('doesnotexist', function (_super) {
         expect(_super).to.be.a('function');
         return function () {
           _.flag(this, 'doesnt', true);
@@ -90,7 +90,7 @@ suite('utilities', function () {
 
   test('addProperty', function () {
     chai.use(function (_chai, _) {
-      _.addProperty(_chai.Assertion, 'tea', function () {
+      _chai.Assertion.addProperty('tea', function () {
         _.flag(this, 'tea', 'chai');
       });
     });
@@ -102,7 +102,7 @@ suite('utilities', function () {
   test('overwriteProperty', function () {
     chai.use(function (_chai, _) {
       expect(chai.Assertion.prototype).to.have.property('tea');
-      _.overwriteProperty(_chai.Assertion, 'tea', function (_super) {
+      _chai.Assertion.overwriteProperty('tea', function (_super) {
         return function () {
           var act = _.flag(this, 'object');
           if (act === 'matcha') {

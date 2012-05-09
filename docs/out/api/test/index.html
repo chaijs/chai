@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Introduction - Chai</title>
+    <title>Online Test Suite - Chai</title>
     <script type="text/javascript">
       var ghuser = 'logicalparadox'
         , ghproject = 'chai';
@@ -10,11 +10,25 @@
     <script src="/public/js/jquery-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="/public/js/tests/mocha.js"></script>
+    <script>mocha.setup('tdd');</script><script src="/chai.js"></script>
+    <script src="/public/js/tests/configuration.js"></script>
+    <script src="/public/js/tests/expect.js"></script>
+    <script src="/public/js/tests/should.js"></script>
+    <script src="/public/js/tests/assert.js"></script>
+    <script src="/public/js/tests/plugins.js"></script>
+    <script src="/public/js/tests/utilities.js"></script>
+    <script>
+      onload = function () {
+        mocha.run();
+      }
+      
+    </script>
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
   </head>
-  <body class="api-index">
+  <body class="tests">
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
@@ -31,13 +45,14 @@
     </nav>
     <div class="content">
       <section id="content">
-        <nav id="api" class="sidebar sticky"><a href="/api/" class="item active">Introduction</a><a href="/api/bdd/" class="item ">Expect / Should</a><a href="/api/assert/" class="item ">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a><a href="/api/test/" class="item ">Online Test Suite</a>
+        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item ">Expect / Should</a><a href="/api/assert/" class="item ">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a><a href="/api/test/" class="item active">Online Test Suite</a>
         </nav>
         <div class="documentation">
           <div class="wrap">
-            <div class="rendered"><p>This is the Chai API
+            <article><p>This is the online test suite.
 </p>
-</div>
+</article>
+            <div id="mocha"></div>
           </div>
         </div>
       </section>

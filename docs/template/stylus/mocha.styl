@@ -1,0 +1,64 @@
+body.tests
+  #mocha
+    border-top 1px dashed lighten(headers, 65%)
+    padding-top 20px
+    margin-top 20px
+    ul#stats
+      clearfix()
+      list-style none
+      padding-left 0px
+      li
+        float left
+        margin-right 15px
+        line-height 40px
+        em 
+          font-size 12px
+          font-style normal
+          font-weight normal
+        &.passes em
+          color green
+        &.failures em
+          color red
+        &.duration em
+          color chaiblue
+    h1
+      color chaiblue
+      font-size 20px
+      margin-top 20px
+      margin-bottom 5px
+    .test
+      margin-left 7px
+      h2
+        font-family font_primary
+        font-size 14px
+        line-height 20px
+        margin-top 0px
+        margin-bottom 0px
+        color #000
+        padding-top 0px
+        padding 3px 6px
+        border-radius 3px
+        &:hover
+          background-color chaicream
+          cursor pointer
+        .duration
+          color #aaa
+          font-size 12px
+          margin-left 5px
+      pre
+        margin-top 5px
+      &:hover
+        h2:after
+          content: 'view source'
+          float right
+      &.pass
+        h2:before
+          content: '✓'
+          font-size: 12px
+          padding-right 6px
+      &.fail
+        h2:before
+          content: '×'
+          font-size: 14px
+          padding-right 6px
+          color red

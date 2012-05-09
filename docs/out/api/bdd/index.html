@@ -31,11 +31,11 @@
     </nav>
     <div class="content">
       <section id="content">
-        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item active">Expect / Should</a><a href="/api/assert/" class="item ">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a>
+        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item active">Expect / Should</a><a href="/api/assert/" class="item ">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a><a href="/api/test/" class="item ">Online Test Suite</a>
           <div class="list box-wrap antiscroll-wrap">
             <div class="box">
               <div class="antiscroll-inner">
-                <div class="box-inner"><a id="to" class="item">to</a><a id="be" class="item">be</a><a id="been" class="item">been</a><a id="a" class="item">a</a><a id="include" class="item">include</a><a id="is" class="item">is</a><a id="and" class="item">and</a><a id="have" class="item">have</a><a id="with" class="item">with</a><a id="not" class="item">not</a><a id="ok" class="item">ok</a><a id="true" class="item">true</a><a id="false" class="item">false</a><a id="null" class="item">null</a><a id="undefined" class="item">undefined</a><a id="exist" class="item">exist</a><a id="empty" class="item">empty</a><a id="arguments" class="item">arguments</a><a id="equal" class="item">equal</a><a id="eql" class="item">eql</a><a id="above" class="item">above</a><a id="below" class="item">below</a><a id="within" class="item">within</a><a id="instanceof" class="item">instanceof</a><a id="property" class="item">property</a><a id="ownProperty" class="item">ownProperty</a><a id="length" class="item">length</a><a id="match" class="item">match</a><a id="string" class="item">string</a><a id="keys" class="item">keys</a><a id="throw" class="item">throw</a><a id="respondTo" class="item">respondTo</a><a id="satisfy" class="item">satisfy</a><a id="closeTo" class="item">closeTo</a>
+                <div class="box-inner"><a id="language chains" class="item">language chains</a><a id="not" class="item">not</a><a id="a" class="item">a / an</a><a id="include" class="item">include / contain</a><a id="ok" class="item">ok</a><a id="true" class="item">true</a><a id="false" class="item">false</a><a id="null" class="item">null</a><a id="undefined" class="item">undefined</a><a id="exist" class="item">exist</a><a id="empty" class="item">empty</a><a id="arguments" class="item">arguments</a><a id="equal" class="item">equal</a><a id="eql" class="item">eql</a><a id="above" class="item">above / gt</a><a id="below" class="item">below / lt</a><a id="within" class="item">within</a><a id="instanceof" class="item">instanceof / instanceOf</a><a id="property" class="item">property</a><a id="ownProperty" class="item">ownProperty / haveOwnProperty</a><a id="length" class="item">length / lengthOf</a><a id="match" class="item">match</a><a id="string" class="item">string</a><a id="keys" class="item">keys / key</a><a id="throw" class="item">throw / throws / Throw</a><a id="respondTo" class="item">respondTo</a><a id="satisfy" class="item">satisfy</a><a id="closeTo" class="item">closeTo</a>
                 </div>
               </div>
             </div>
@@ -79,31 +79,37 @@ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="co
 </p>
 <h2>Language Guide</h2>
 </article>
-              <div id="to" class="segment">
-                <div class="summary"><h3>.to</h3>
+              <div id="language chains" class="segment">
+                <div class="summary"><h3>Language Chains</h3>
 </div>
                 <ul class="tags">
                 </ul>
-                <div class="description"><p>Language chain.
+                <div class="description"><p>The following are provide as chainable getters to
+improve the readability of your assertions. They
+do not provide an testing capability unless they
+have been overwritten by a plugin.
+
 </p>
+<p><strong>Chains</strong>
+
+</p>
+<ul>
+<li>to</li>
+<li>be</li>
+<li>been</li>
+<li>is</li>
+<li>and</li>
+<li>have</li>
+<li>with</li>
+</ul>
 </div>
               </div>
-              <div id="be" class="segment">
-                <div class="summary"><h3>.be</h3>
+              <div id="not" class="segment">
+                <div class="summary"><h3>.not</h3>
 </div>
                 <ul class="tags">
                 </ul>
-                <div class="description"><p>Language chain.
-</p>
-</div>
-              </div>
-              <div id="been" class="segment">
-                <div class="summary"><h3>.been</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Language chain. Also tests <code>tense</code> to past for addon
-modules that use the tense feature.
+                <div class="description"><p>Negates any of assertions following in the chain.
 </p>
 </div>
               </div>
@@ -130,52 +136,9 @@ modules that use the tense feature.
 Also toggles the <code>contain</code> flag for the <code>keys</code> assertion if used as property.
 
 </p>
-<pre><code> expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.include(<span class="number">2</span>);</code></pre>
-</div>
-              </div>
-              <div id="is" class="segment">
-                <div class="summary"><h3>.is</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Language chain.
-</p>
-</div>
-              </div>
-              <div id="and" class="segment">
-                <div class="summary"><h3>.and</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Language chain.
-</p>
-</div>
-              </div>
-              <div id="have" class="segment">
-                <div class="summary"><h3>.have</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Language chain.
-</p>
-</div>
-              </div>
-              <div id="with" class="segment">
-                <div class="summary"><h3>.with</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Language chain.
-</p>
-</div>
-              </div>
-              <div id="not" class="segment">
-                <div class="summary"><h3>.not</h3>
-</div>
-                <ul class="tags">
-                </ul>
-                <div class="description"><p>Negates any of assertions following in the chain.
-</p>
+<pre><code>expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.include(<span class="number">2</span>);
+expect(<span class="string">'foobar'</span>).to.contain(<span class="string">'foo'</span>);
+expect({ foo: <span class="string">'bar'</span>, hello: <span class="string">'universe'</span> }).to.include.keys(<span class="string">'foo'</span>);</code></pre>
 </div>
               </div>
               <div id="ok" class="segment">
