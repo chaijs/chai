@@ -6,11 +6,6 @@ block scripts
   script(src=site.ghbaseurl + '/public/js/jquery.quicksand.js')
   script(src=site.ghbaseurl + '/public/js/plugins.js')
 
-block header
-  header
-    .wrap
-      .section Plugins
-
 block content
   mixin plugin(plug)
     article.grid_3.contrast.plugin-box_s(id=plug.url)
@@ -19,13 +14,14 @@ block content
           h3.fancy= plug.name 
           p= plug.desc
 
-  #ptags.grid_3
+  #ptags.grid_3.sticky
     .tag.active
       .which(id='all') all plugins
     .line
     for tag, name in plugin_tags
+      - var tagName = name.replace(/\-/g, ' ');
       .tag
-        .which(id=name)= name
+        .which(id=name)= tagName
         span.reset &times;
   #plugins.grid_9.panels
     .plug_list_scratch.rowInside

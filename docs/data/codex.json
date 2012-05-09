@@ -16,7 +16,7 @@
   "plugins": [
     { "name": "code"
     , "files": [
-          { "name": "expect"
+          { "name": "bdd"
           , "title": "expect / should [bdd]"
           , "file": "../../lib/assertion.js"
           , "description": "The BDD style allows you to write your assertions in a natural, self-describing manner." }

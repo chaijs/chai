@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Expect / Should - Chai</title>
+    <script type="text/javascript">
+      var ghuser = 'logicalparadox'
+        , ghproject = 'chai';
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/public/js/jquery-mousewheel.js"></script>
+    <script src="/public/js/antiscroll.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
+  </head>
+  <body class="api">
+    <nav id="primary">
+      <div class="nav-wrap">
+        <div class="logo">
+          <h1><a href="/">Chai</a></h1>
+        </div>
+        <div class="navlist">
+          <ul>
+            <li><a href="/guide">Guide</a></li>
+            <li><a href="/api" class="active">API</a></li>
+            <li><a href="/plugins">Plugins</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <section id="content">
+        <nav id="api" class="sidebar sticky"><a href="/api/" class="item ">Introduction</a><a href="/api/bdd/" class="item active">Expect / Should</a><a href="/api/assert/" class="item ">Assert</a><a href="/api/plugins/" class="item ">Plugin Utilites</a>
+          <div class="list box-wrap antiscroll-wrap">
+            <div class="box">
+              <div class="antiscroll-inner">
+                <div class="box-inner"><a id="to" class="item">to</a><a id="be" class="item">be</a><a id="been" class="item">been</a><a id="a" class="item">a</a><a id="include" class="item">include</a><a id="is" class="item">is</a><a id="and" class="item">and</a><a id="have" class="item">have</a><a id="with" class="item">with</a><a id="not" class="item">not</a><a id="ok" class="item">ok</a><a id="true" class="item">true</a><a id="false" class="item">false</a><a id="null" class="item">null</a><a id="undefined" class="item">undefined</a><a id="exist" class="item">exist</a><a id="empty" class="item">empty</a><a id="arguments" class="item">arguments</a><a id="equal" class="item">equal</a><a id="eql" class="item">eql</a><a id="above" class="item">above</a><a id="below" class="item">below</a><a id="within" class="item">within</a><a id="instanceof" class="item">instanceof</a><a id="property" class="item">property</a><a id="ownProperty" class="item">ownProperty</a><a id="length" class="item">length</a><a id="match" class="item">match</a><a id="string" class="item">string</a><a id="keys" class="item">keys</a><a id="throw" class="item">throw</a><a id="respondTo" class="item">respondTo</a><a id="satisfy" class="item">satisfy</a><a id="closeTo" class="item">closeTo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="documentation">
+          <div class="wrap">
+            <div class="rendered">
+              <article><p>The BDD style is exposed through <code>expect</code> or <code>should</code> interfaces. In both
+scenarios, you chain together natural language assertions.
+
+</p>
+<pre><code class="lang-javascript"><span class="comment">// expect</span>
+<span class="keyword">var</span> expect = require(<span class="string">'chai'</span>).expect;
+expect(foo).to.equal(<span class="string">'bar'</span>);
+
+<span class="comment">// should</span>
+<span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should();
+foo.should.equal(<span class="string">'bar'</span>);</code></pre>
+<h2>Differences</h2>
+<p>The <code>expect</code> interface provides a function as a starting point for chaining
+your language assertions. It works on node.js and in all browsers.
+
+</p>
+<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as
+the starting point for your language assertions. It works on node.js and in
+all browsers except Internet Explorer.
+
+
+</p>
+<h2>Configuration</h2>
+<p>By default, Chai does not show stack traces upon an AssertionError. This can
+be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:
+
+</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> chai = require(<span class="string">'chai'</span>);
+chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
+<h2>Should Extras</h2>
+<p>Lorem ipsum
+
+</p>
+<h2>Language Guide</h2>
+</article>
+              <div id="to" class="segment">
+                <div class="summary"><h3>.to</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="be" class="segment">
+                <div class="summary"><h3>.be</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="been" class="segment">
+                <div class="summary"><h3>.been</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain. Also tests <code>tense</code> to past for addon
+modules that use the tense feature.
+</p>
+</div>
+              </div>
+              <div id="a" class="segment">
+                <div class="summary"><h3>.a(type)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">type</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert typeof. Also can be used as a language chain.
+
+</p>
+<pre><code> expect(<span class="string">'test'</span>).to.be.a(<span class="string">'string'</span>);
+ expect(foo).to.be.an.<span class="keyword">instanceof</span>(Foo);</code></pre>
+</div>
+              </div>
+              <div id="include" class="segment">
+                <div class="summary"><h3>.include(value)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object | String | Number &#125;</span><span class="name">obj</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert the inclusion of an object in an Array or substring in string.
+Also toggles the <code>contain</code> flag for the <code>keys</code> assertion if used as property.
+
+</p>
+<pre><code> expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.include(<span class="number">2</span>);</code></pre>
+</div>
+              </div>
+              <div id="is" class="segment">
+                <div class="summary"><h3>.is</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="and" class="segment">
+                <div class="summary"><h3>.and</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="have" class="segment">
+                <div class="summary"><h3>.have</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="with" class="segment">
+                <div class="summary"><h3>.with</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Language chain.
+</p>
+</div>
+              </div>
+              <div id="not" class="segment">
+                <div class="summary"><h3>.not</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Negates any of assertions following in the chain.
+</p>
+</div>
+              </div>
+              <div id="ok" class="segment">
+                <div class="summary"><h3>.ok</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object truthiness.
+
+</p>
+<pre><code> expect(<span class="string">'everthing'</span>).to.be.ok;
+ expect(<span class="literal">false</span>).to.not.be.ok;
+ expect(undefined).to.not.be.ok;
+ expect(<span class="literal">null</span>).to.not.be.ok;</code></pre>
+</div>
+              </div>
+              <div id="true" class="segment">
+                <div class="summary"><h3>.true</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object is true
+</p>
+</div>
+              </div>
+              <div id="false" class="segment">
+                <div class="summary"><h3>.false</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object is false
+</p>
+</div>
+              </div>
+              <div id="null" class="segment">
+                <div class="summary"><h3>.null</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object is null
+</p>
+</div>
+              </div>
+              <div id="undefined" class="segment">
+                <div class="summary"><h3>.undefined</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object is undefined
+</p>
+</div>
+              </div>
+              <div id="exist" class="segment">
+                <div class="summary"><h3>.exist</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object exists (null).
+
+</p>
+<pre><code> <span class="keyword">var</span> foo = <span class="string">'hi'</span>
+   , bar;
+ expect(foo).to.exist;
+ expect(bar).to.not.exist;</code></pre>
+</div>
+              </div>
+              <div id="empty" class="segment">
+                <div class="summary"><h3>.empty</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object&#39;s length to be 0.
+
+</p>
+<pre><code> expect([]).to.be.empty;</code></pre>
+</div>
+              </div>
+              <div id="arguments" class="segment">
+                <div class="summary"><h3>.arguments</h3>
+</div>
+                <ul class="tags">
+                </ul>
+                <div class="description"><p>Assert object is an instanceof arguments.
+
+</p>
+<pre><code> <span class="function"><span class="keyword">function</span> <span class="title">test</span> <span class="params">()</span> {</span>
+   expect(arguments).to.be.arguments;
+ }</code></pre>
+</div>
+              </div>
+              <div id="equal" class="segment">
+                <div class="summary"><h3>.equal(value)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">value</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert strict equality.
+
+</p>
+<pre><code> expect(<span class="string">'hello'</span>).to.equal(<span class="string">'hello'</span>);</code></pre>
+</div>
+              </div>
+              <div id="eql" class="segment">
+                <div class="summary"><h3>.eql(value)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">value</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert deep equality.
+
+</p>
+<pre><code> expect({ foo: <span class="string">'bar'</span> }).to.eql({ foo: <span class="string">'bar'</span> });</code></pre>
+</div>
+              </div>
+              <div id="above" class="segment">
+                <div class="summary"><h3>.above(value)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert greater than <code>value</code>.
+
+</p>
+<pre><code> expect(<span class="number">10</span>).to.be.above(<span class="number">5</span>);</code></pre>
+</div>
+              </div>
+              <div id="below" class="segment">
+                <div class="summary"><h3>.below(value)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">value</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert less than <code>value</code>.
+
+</p>
+<pre><code> expect(<span class="number">5</span>).to.be.below(<span class="number">10</span>);</code></pre>
+</div>
+              </div>
+              <div id="within" class="segment">
+                <div class="summary"><h3>.within(start, finish)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">start</span><span class="desc">lowerbound inclusive</span></li>
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">finish</span><span class="desc">upperbound inclusive</span></li>
+                </ul>
+                <div class="description"><p>Assert that a number is within a range.
+
+</p>
+<pre><code> expect(<span class="number">7</span>).to.be.within(<span class="number">5</span>,<span class="number">10</span>);</code></pre>
+</div>
+              </div>
+              <div id="instanceof" class="segment">
+                <div class="summary"><h3>.instanceof(constructor)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Constructor &#125;</span><span class="name"></span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert instanceof.
+
+</p>
+<pre><code> <span class="keyword">var</span> Tea = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span> <span class="keyword">this</span>.name = name; }
+   , Chai = <span class="keyword">new</span> Tea(<span class="string">'chai'</span>);
+
+ expect(Chai).to.be.an.<span class="keyword">instanceof</span>(Tea);</code></pre>
+</div>
+              </div>
+              <div id="property" class="segment">
+                <div class="summary"><h3>.property(name, [value])</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span></li>
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">value</span><span class="desc">(optional)</span></li>
+                </ul>
+                <div class="description"><p>Assert that property of <code>name</code> exists, optionally with <code>value</code>.
+
+</p>
+<pre><code> <span class="keyword">var</span> obj = { foo: <span class="string">'bar'</span> }
+ expect(obj).to.have.property(<span class="string">'foo'</span>);
+ expect(obj).to.have.property(<span class="string">'foo'</span>, <span class="string">'bar'</span>);
+ expect(obj).to.have.property(<span class="string">'foo'</span>).to.be.a(<span class="string">'string'</span>);</code></pre>
+</div>
+              </div>
+              <div id="ownProperty" class="segment">
+                <div class="summary"><h3>.ownProperty(name)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that has own property by <code>name</code>.
+
+</p>
+<pre><code> expect(<span class="string">'test'</span>).to.have.ownProperty(<span class="string">'length'</span>);</code></pre>
+</div>
+              </div>
+              <div id="length" class="segment">
+                <div class="summary"><h3>.length(val)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">length</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that object has expected length.
+
+</p>
+<pre><code> expect([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]).to.have.length(<span class="number">3</span>);
+ expect(<span class="string">'foobar'</span>).to.have.length(<span class="number">6</span>);</code></pre>
+</div>
+              </div>
+              <div id="match" class="segment">
+                <div class="summary"><h3>.match(regexp)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; RegExp &#125;</span><span class="name">RegularExpression</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that matches regular expression.
+
+</p>
+<pre><code> expect(<span class="string">'foobar'</span>).to.match(<span class="regexp">/^foo/</span>);</code></pre>
+</div>
+              </div>
+              <div id="string" class="segment">
+                <div class="summary"><h3>.string(string)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">string</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert inclusion of string in string.
+
+</p>
+<pre><code> expect(<span class="string">'foobar'</span>).to.have.string(<span class="string">'bar'</span>);</code></pre>
+</div>
+              </div>
+              <div id="keys" class="segment">
+                <div class="summary"><h3>.keys(key1, [key2], [...])</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Array &#125;</span><span class="name">Keys</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert exact keys or the inclusing of keys using the <code>contain</code> modifier.
+
+</p>
+<pre><code> expect({ foo: <span class="number">1</span>, bar: <span class="number">2</span> }).to.have.keys([<span class="string">'foo'</span>, <span class="string">'bar'</span>]);
+ expect({ foo: <span class="number">1</span>, bar: <span class="number">2</span>, baz: <span class="number">3</span> }).to.contain.keys(<span class="string">'foo'</span>, <span class="string">'bar'</span>);</code></pre>
+</div>
+              </div>
+              <div id="throw" class="segment">
+                <div class="summary"><h3>.throw(constructor)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; ErrorConstructor &#125;</span><span class="name">constructor</span><span class="desc"></span></li>
+                  <li class="tag"><span class="type">&#64;see</span><span class="type"><a href="" target="_blank">https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types</a></span>
+                  </li>
+                </ul>
+                <div class="description"><p>Assert that a function will throw a specific type of error, or specific type of error
+(as determined using <code>instanceof</code>), optionally with a RegExp or string inclusion test
+for the error&#39;s message.
+
+</p>
+<pre><code> <span class="keyword">var</span> err = <span class="keyword">new</span> ReferenceError(<span class="string">'This is a bad function.'</span>);
+ <span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> <span class="keyword">throw</span> err; }
+ expect(fn).to.<span class="keyword">throw</span>(ReferenceError);
+ expect(fn).to.<span class="keyword">throw</span>(Error);
+ expect(fn).to.<span class="keyword">throw</span>(<span class="regexp">/bad function/</span>);
+ expect(fn).to.not.<span class="keyword">throw</span>(<span class="string">'good function'</span>);
+ expect(fn).to.<span class="keyword">throw</span>(ReferenceError, <span class="regexp">/bad function/</span>);
+ expect(fn).to.<span class="keyword">throw</span>(err);
+ expect(fn).to.not.<span class="keyword">throw</span>(<span class="keyword">new</span> RangeError(<span class="string">'Out of range.'</span>));</code></pre>
+<p>Please note that when a throw expectation is negated, it will check each
+parameter independently, starting with error constructor type. The appropriate way
+to check for the existence of a type of error but for a message that does not match
+is to use <code>and</code>.
+
+</p>
+<pre><code> expect(fn).to.<span class="keyword">throw</span>(ReferenceError).and.not.<span class="keyword">throw</span>(<span class="regexp">/good function/</span>);</code></pre>
+</div>
+              </div>
+              <div id="respondTo" class="segment">
+                <div class="summary"><h3>.respondTo(method)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that object/class will respond to a method.
+
+</p>
+<pre><code> expect(Klass).to.respondTo(<span class="string">'bar'</span>);
+ expect(obj).to.respondTo(<span class="string">'bar'</span>);</code></pre>
+</div>
+              </div>
+              <div id="satisfy" class="segment">
+                <div class="summary"><h3>.satisfy(method)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">matcher</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that passes a truth test.
+
+</p>
+<pre><code> expect(<span class="number">1</span>).to.satisfy(<span class="keyword">function</span>(num) { <span class="keyword">return</span> num > <span class="number">0</span>; });</code></pre>
+</div>
+              </div>
+              <div id="closeTo" class="segment">
+                <div class="summary"><h3>.closeTo(expected, delta)</h3>
+</div>
+                <ul class="tags">
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">expected</span><span class="desc"></span></li>
+                  <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number &#125;</span><span class="name">delta</span><span class="desc"></span></li>
+                </ul>
+                <div class="description"><p>Assert that actual is equal to +/- delta.
+
+</p>
+<pre><code> expect(<span class="number">1.5</span>).to.be.closeTo(<span class="number">1</span>, <span class="number">0.5</span>);</code></pre>
+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <section id="footer">
+        <div class="branding"> 
+          <h3 class="fancy"><a href="#">Chai Assertion Library</a></h3>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Installation</a></li>
+            <li><a href="#">Interface Styles</a></li>
+            <li><a href="#">Developing Plugins</a></li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Expect / Should API</a></li>
+            <li><a href="#">Assert API</a></li>
+            <li><a href="#">Plugin Utility API</a></li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Upgrade notes</a></li>
+            <li><a href="#">Test Suite</a></li>
+            <li><a href="#">Test Coverage</a></li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li><a href="#">Issues</a></li>
+            <li><a href="#">Google Group</a></li>
+            <li><a href="#">Build Status</a></li>
+          </ul>
+        </div>
+      </section>
+    </footer>
+  </body>
+</html>

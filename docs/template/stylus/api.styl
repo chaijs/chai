@@ -1,0 +1,48 @@
+body.api-index
+body.api
+  nav#api
+    grid(3)
+    .item
+      position relative
+      cursor pointer
+      margin-bottom 10px
+      border-radius 3px
+      line-height 28px
+      padding 0 6px
+      color #000
+      display block
+      &:hover
+        background-color chaiswirl
+      &.active
+        background-color chaiblue
+        color chaicream
+        &:hover
+          background-color lighten(chaiblue, 10%)
+    .list
+      border-top  1px dashed lighten(headers, 65%)
+      border-bottom 1px dashed lighten(headers, 65%)
+      .item
+        margin-top 10px
+        margin-bottom 0px
+        &:last-child
+          margin-bottom 10px
+  
+  .documentation
+    grid(9)
+    float right
+    overflow visible
+    background-color #fff
+    box-shadow 0px 0px 1px headers
+    border-radius 5px
+    .wrap
+      padding 20px
+
+      ul.tags
+        font-size 12px
+        li.tag
+          span
+            margin-right 5px
+          span.type
+            font-weight bold
+          span.types
+            font-style italic

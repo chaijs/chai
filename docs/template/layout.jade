@@ -6,10 +6,9 @@ html(lang='en')
     script(type='text/javascript')
       var ghuser = '#{site.ghuser}'
         , ghproject = '#{site.ghproject}';
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js')
-    script(src=site.ghbaseurl + '/public/js/jq-mousewheel.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+    script(src=site.ghbaseurl + '/public/js/jquery-mousewheel.js')
     script(src=site.ghbaseurl + '/public/js/antiscroll.js')
-    script(src=site.ghbaseurl + '/public/js/prettify.js')
     script(src=site.ghbaseurl + '/public/js/main.js')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/antiscroll.css', type='text/css', media='all')
     link(rel='stylesheet', href=site.ghbaseurl + '/public/css/main.css', type='text/css', media='all')
@@ -43,11 +42,12 @@ html(lang='en')
         .navlist
           ul
             block navlist
+              - var isGuide = ~file.href.indexOf('guide') ? 'active' : ''
               li: a(href=site.ghbaseurl + '/guide') Guide
-              li: a(href='#') API
+              - var isApi = ~file.href.indexOf('api') ? 'active' : ''
+              li: a(href=site.ghbaseurl + '/api', class=isApi) API
+              - var isPlugins = ~file.href.indexOf('plugins') ? 'active' : ''
               li: a(href=site.ghbaseurl + '/plugins') Plugins
-              li: a(href='#') Tools
-              li: a(href='#') Blog
     block header
     .content
       section#content

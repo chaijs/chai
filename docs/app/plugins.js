@@ -17,7 +17,7 @@ module.exports = [
     , desc: 'Function spies and assertions.'
     , url: 'chai-spies'
     , link: 'https://github.com/chaijs/chai-spies'
-    , tags: [ 'extend' ]
+    , tags: [ 'mocks-and-spies' ]
     , pkg: 'https://raw.github.com/chaijs/chai-spies/master/package.json'
     , markdown: 'https://raw.github.com/chaijs/chai-spies/master/README.md' }
 
@@ -25,16 +25,16 @@ module.exports = [
     , desc: 'HTTP request/response assertions.'
     , url: 'chai-http'
     , link: 'https://github.com/chaijs/chai-http'
-    , tags: [ 'extend' ]
+    , tags: [ 'http' ]
     , pkg: 'https://raw.github.com/chaijs/chai-http/master/package.json'
     , markdown: 'https://raw.github.com/chaijs/chai-http/master/README.md'
     , browser: false }
 
   , { name: 'Sinon–Chai'
-    , desc: 'Extends Chai with assertions for the Sinon.JS mocking framework.'
+    , desc: 'Extend Chai with assertions for the Sinon.JS mocking framework.'
     , url: 'sinon-chai'
     , link: 'http://github.com/domenic/sinon-chai'
-    , tags: [ 'vendor' ]
+    , tags: [ 'vendor', 'mocks-and-spies' ]
     , pkg: 'https://raw.github.com/domenic/sinon-chai/master/package.json'
     , markdown: 'https://raw.github.com/domenic/sinon-chai/master/README.md'
     , browser:
@@ -42,18 +42,22 @@ module.exports = [
     }
 
   , { name: 'Chai jQuery'
-    , desc: 'Function spies and assertions.'
+    , desc: 'Extend Chai with assertions for the DOM and jQuery.'
     , url: 'chai-jquery'
     , link: 'https://github.com/chaijs/chai-spies'
-    , tags: [ 'vendor' ]
-    , pkg: 'https://raw.github.com/jfirebaugh/chai-jquery/master/package.json'
-    , markdown: 'https://raw.github.com/jfirebaugh/chai-jquery/master/README.md' }
+    , tags: [ 'vendor', 'dom' ]
+    , pkg: 'https://raw.github.com/chaijs/chai-jquery/master/package.json'
+    , markdown: 'https://raw.github.com/chaijs/chai-jquery/master/README.md'
+    , node: false
+    , browser:
+      { 'chai-jquery.js': 'https://raw.github.com/chaijs/chai-jquery/master/chai-jquery.js' }
+    }
 
   , { name: 'Chai Timers'
     , desc: 'Function spies and assertions.'
     , url: 'chai-timers'
     , link: 'https://github.com/chaijs/chai-timers'
-    , tags: [ 'extend' ]
+    , tags: [ 'math' ]
     , pkg: 'https://raw.github.com/chaijs/chai-spies/master/package.json'
     , markdown: 'https://raw.github.com/chaijs/chai-timer/master/README.md' }
 
@@ -61,8 +65,29 @@ module.exports = [
     , desc: 'Function spies and assertions.'
     , url: 'chai-stats'
     , link: 'https://github.com/chaijs/chai-stats'
-    , tags: [ 'extend' ]
+    , tags: [ 'math' ]
     , pkg: 'https://raw.github.com/chaijs/chai-spies/master/package.json'
     , markdown: 'https://raw.github.com/chaijs/chai-stats/master/README.md' }
 
+  , { name: 'Chai Null'
+    , desc: 'Null Object Pattern implmentation for Chai.'
+    , url: 'chai-null'
+    , link: 'https://github.com/chaijs/chai-null'
+    , tags: [ 'object-constructors' ]
+    , pkg: 'https://raw.github.com/chaijs/chai-null/master/package.json'
+    , markdown: 'https://raw.github.com/chaijs/chai-null/master/Readme.md'
+    , browser:
+      { 'chai-null.js': 'https://raw.github.com/chaijs/chai-null/master/chai-null.js' }
+    }
+
+  , { name: 'Chai Factories'
+    , desc: 'A simple &amp; straight-forward factory builder for your awesome tests.'
+    , url: 'chai-factories'
+    , link: 'https://github.com/chaijs/chai-factories'
+    , tags: [ 'object-constructors' ]
+    , pkg: 'https://raw.github.com/chaijs/chai-factories/master/package.json'
+    , markdown: 'https://raw.github.com/chaijs/chai-factories/master/Readme.md'
+    , browser:
+      { 'chai-factories.js': 'https://raw.github.com/chaijs/chai-null/master/chai-factories.js' }
+    }
 ];

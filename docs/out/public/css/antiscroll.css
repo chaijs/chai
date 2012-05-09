@@ -5,11 +5,14 @@
 }
 
 .antiscroll-scrollbar {
-  background: #666;
-  background: rgba(0, 0, 0, .6);
+  background: gray;
+  background: rgba(0, 0, 0, 0.5);
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   border-radius: 7px;
+  -webkit-box-shadow: 0 0 1px #fff;
+  -moz-box-shadow: 0 0 1px #fff;
+  box-shadow: 0 0 1px #fff;
   position: absolute;
   opacity: 0;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);

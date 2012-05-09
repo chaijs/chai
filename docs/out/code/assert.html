@@ -6,10 +6,9 @@
       var ghuser = 'logicalparadox'
         , ghproject = 'chai';
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-    <script src="/public/js/jq-mousewheel.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/public/js/jquery-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
-    <script src="/public/js/prettify.js"></script>
     <script src="/public/js/main.js"></script>
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
@@ -24,10 +23,8 @@
         <div class="navlist">
           <ul>
             <li><a href="/guide">Guide</a></li>
-            <li><a href="#">API</a></li>
+            <li><a href="/api" class="">API</a></li>
             <li><a href="/plugins">Plugins</a></li>
-            <li><a href="#">Tools</a></li>
-            <li><a href="#">Blog</a></li>
           </ul>
         </div>
       </div>
@@ -36,38 +33,7 @@
       <section id="content">
         <div id="code">
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h3>TDD Style Introduction</h3>
-</div>
-            <div class="ctx">
-              <h3>module.exports()</h3>
-            </div>
-            <div class="description"><p>The TDD style is exposed through <code>assert</code> interfaces. This provides
-the classic assert.<code>test</code> notation, similiar to that packaged with
-node.js. This assert module, however, provides several additional
-tests and is browser compatible.
-
-</p>
-<pre><code> <span class="comment">// assert</span>
- <span class="keyword">var</span> assert = require(<span class="string">'chai'</span>).assert;
-   , foo = <span class="string">'bar'</span>;
-
- assert.typeOf(foo, <span class="string">'string'</span>);
- assert.equal(foo, <span class="string">'bar'</span>);</code></pre>
-<h4>Configuration</h4>
-<p>By default, Chai does not show stack traces upon an AssertionError. This can
-be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:
-
-</p>
-<pre><code> <span class="keyword">var</span> chai = require(<span class="string">'chai'</span>);
- chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
-</div>
-            <div class="view-source">View Source</div>
-            <div class="code-wrap">
-              <pre class="source prettyprint"><code>module.exports = function (chai, util) {</code></pre>
-            </div>
-          </article>
-          <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.fail(actual, expect, msg, operator)</h1>
+            <div class="header"><h3>.fail(actual, expect, msg, operator)</h3>
 </div>
             <div class="ctx">
               <h3>assert.fail()</h3>
@@ -97,7 +63,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.ok(object, [message])</h1>
+            <div class="header"><h3>.ok(object, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.ok()</h3>
@@ -122,7 +88,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.equal(actual, expected, [message])</h1>
+            <div class="header"><h3>.equal(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.equal()</h3>
@@ -155,7 +121,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notEqual(actual, expected, [message])</h1>
+            <div class="header"><h3>.notEqual(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notEqual()</h3>
@@ -188,7 +154,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.strictEqual(actual, expected, [message])</h1>
+            <div class="header"><h3>.strictEqual(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.strictEqual()</h3>
@@ -213,7 +179,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notStrictEqual(actual, expected, [message])</h1>
+            <div class="header"><h3>.notStrictEqual(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notStrictEqual()</h3>
@@ -238,7 +204,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.deepEqual(actual, expected, [message])</h1>
+            <div class="header"><h3>.deepEqual(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.deepEqual()</h3>
@@ -263,7 +229,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notDeepEqual(actual, expected, [message])</h1>
+            <div class="header"><h3>.notDeepEqual(actual, expected, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notDeepEqual()</h3>
@@ -288,7 +254,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isTrue(value, [message])</h1>
+            <div class="header"><h3>.isTrue(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isTrue()</h3>
@@ -313,7 +279,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isFalse(value, [message])</h1>
+            <div class="header"><h3>.isFalse(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isFalse()</h3>
@@ -338,7 +304,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNull(value, [message])</h1>
+            <div class="header"><h3>.isNull(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNull()</h3>
@@ -362,7 +328,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotNull(value, [message])</h1>
+            <div class="header"><h3>.isNotNull(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotNull()</h3>
@@ -387,7 +353,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isUndefined(value, [message])</h1>
+            <div class="header"><h3>.isUndefined(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isUndefined()</h3>
@@ -411,7 +377,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isDefined(value, [message])</h1>
+            <div class="header"><h3>.isDefined(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isDefined()</h3>
@@ -436,7 +402,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isFunction(value, [message])</h1>
+            <div class="header"><h3>.isFunction(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isFunction()</h3>
@@ -461,7 +427,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotFunction(value, [message])</h1>
+            <div class="header"><h3>.isNotFunction(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotFunction()</h3>
@@ -486,7 +452,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isObject(value, [message])</h1>
+            <div class="header"><h3>.isObject(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isObject()</h3>
@@ -511,7 +477,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotObject(value, [message])</h1>
+            <div class="header"><h3>.isNotObject(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotObject()</h3>
@@ -536,7 +502,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isArray(value, [message])</h1>
+            <div class="header"><h3>.isArray(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isArray()</h3>
@@ -561,7 +527,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isArray(value, [message])</h1>
+            <div class="header"><h3>.isArray(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotArray()</h3>
@@ -586,7 +552,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isString(value, [message])</h1>
+            <div class="header"><h3>.isString(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isString()</h3>
@@ -611,7 +577,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotString(value, [message])</h1>
+            <div class="header"><h3>.isNotString(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotString()</h3>
@@ -636,7 +602,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNumber(value, [message])</h1>
+            <div class="header"><h3>.isNumber(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNumber()</h3>
@@ -661,7 +627,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotNumber(value, [message])</h1>
+            <div class="header"><h3>.isNotNumber(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotNumber()</h3>
@@ -686,7 +652,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isBoolean(value, [message])</h1>
+            <div class="header"><h3>.isBoolean(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isBoolean()</h3>
@@ -714,7 +680,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.isNotBoolean(value, [message])</h1>
+            <div class="header"><h3>.isNotBoolean(value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.isNotBoolean()</h3>
@@ -742,7 +708,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.typeOf(value, name, [message])</h1>
+            <div class="header"><h3>.typeOf(value, name, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.typeOf()</h3>
@@ -767,7 +733,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notTypeOf(value, name, [message])</h1>
+            <div class="header"><h3>.notTypeOf(value, name, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notTypeOf()</h3>
@@ -792,7 +758,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.instanceOf(object, constructor, [message])</h1>
+            <div class="header"><h3>.instanceOf(object, constructor, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.instanceOf()</h3>
@@ -820,7 +786,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notInstanceOf(object, constructor, [message])</h1>
+            <div class="header"><h3>.notInstanceOf(object, constructor, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notInstanceOf()</h3>
@@ -848,7 +814,7 @@ be changed by modifying the <code>includeStack</code> parameter for chai.Asserti
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.include(value, includes, [message])</h1>
+            <div class="header"><h3>.include(value, includes, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.include()</h3>
@@ -881,7 +847,7 @@ for strings and arrays.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.match(value, regex, [message])</h1>
+            <div class="header"><h3>.match(value, regex, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.match()</h3>
@@ -906,7 +872,7 @@ for strings and arrays.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notMatch(value, regex, [message])</h1>
+            <div class="header"><h3>.notMatch(value, regex, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notMatch()</h3>
@@ -931,7 +897,7 @@ for strings and arrays.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.ownProperty(object, property, [message])</h1>
+            <div class="header"><h3>.ownProperty(object, property, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.ownProperty()</h3>
@@ -956,7 +922,7 @@ for strings and arrays.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.notOwnProperty(object, property, [message])</h1>
+            <div class="header"><h3>.notOwnProperty(object, property, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.notOwnProperty()</h3>
@@ -981,7 +947,7 @@ for strings and arrays.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.ownPropertyVal(object, property, value, [message])</h1>
+            <div class="header"><h3>.ownPropertyVal(object, property, value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.ownPropertyVal()</h3>
@@ -1008,7 +974,7 @@ Can use dot-notation for deep reference.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.ownPropertyNotVal(object, property, value, [message])</h1>
+            <div class="header"><h3>.ownPropertyNotVal(object, property, value, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.ownPropertyNotVal()</h3>
@@ -1035,7 +1001,7 @@ does not equal  <code>value</code>. Can use dot-notation for deep reference.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.length(object, length, [message])</h1>
+            <div class="header"><h3>.length(object, length, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.length()</h3>
@@ -1061,7 +1027,7 @@ does not equal  <code>value</code>. Can use dot-notation for deep reference.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.throws(function, [constructor/regexp], [message])</h1>
+            <div class="header"><h3>.throws(function, [constructor/regexp], [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.throws()</h3>
@@ -1094,7 +1060,7 @@ type of error.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.doesNotThrow(function, [constructor/regexp], [message])</h1>
+            <div class="header"><h3>.doesNotThrow(function, [constructor/regexp], [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.doesNotThrow()</h3>
@@ -1127,7 +1093,7 @@ type of error.
             </div>
           </article>
           <article id="undefined-section" class="codeblock">
-            <div class="header"><h1>.operator(val, operator, val2, [message])</h1>
+            <div class="header"><h3>.operator(val, operator, val2, [message])</h3>
 </div>
             <div class="ctx">
               <h3>assert.operator()</h3>

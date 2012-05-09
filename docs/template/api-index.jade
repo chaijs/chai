@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  nav#api.sidebar.sticky
+    for section in files.api
+      - var klass = ''
+      - if (file.title === section.title)
+        - klass = 'active'
+      a.item(href=section.href, class=klass)= section.title
+    block list
+  .documentation
+    .wrap
+      block rendered
+        .rendered!= file.prepared

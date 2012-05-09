@@ -1,6 +1,5 @@
 @import 'nib'
 @import 'fez'
-@import 'scrollbar'
 
 global-reset()
 fez-reset()
@@ -29,12 +28,7 @@ body
   background-color #30759C
   padding-top 75px
 
-.content
-  background-color #fff
-
-body.index .content
-body.plugins .content
-body.plugin .content
+body .content
   background-color #FAF4E8
   padding-top 30px
   padding-bottom 30px
@@ -50,6 +44,7 @@ h2.plain
  
 h3.fancy
   font-family font_fancy
+  font-weight normal !important
 
 a
   color buttonbig
@@ -63,10 +58,12 @@ h1
 
 h2
   font-size 28px
+  color headers
 
 h3
+  font-weight bold
   margin-top 10px
-  color accent
+  color chaiblue
   font-size 20px
   clearfix()
   > a
@@ -74,6 +71,11 @@ h3
 
 h4
   font-size 1.5em
+
+ul
+  margin-bottom 1.5em
+  list-style disc
+  padding-left 40px
 
 pre
   background #fff
@@ -84,6 +86,24 @@ em
 
 .box-wrap
   margin-bottom 50px
+
+header.chaiblue
+  background-color chaiblue 
+  .wrap
+    row()
+    .section
+      grid(12);
+      line-height 45px
+      font-size 24px
+      font-family font_fancy 
+      color #FAF4E8
+
+.sticky
+  position fixed
+  .box
+  .box .antiscroll-inner
+    width 225px
+    height 276px
 
 nav#primary
   box-shadow 0px 0px 1px headers
@@ -214,7 +234,7 @@ body.index
 
 section#content
   clearfix()
-  min-height 350px
+  min-height 380px
   overflow visible
 
   h1
@@ -347,6 +367,7 @@ nav#primary
   .navlist
     ul
       list-style none
+      margin-bottom 0px 
       float right
       li
         display block
@@ -385,6 +406,9 @@ footer
   padding-bottom 30px
   background-color #30759C
   font-family "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
+  ul
+    list-style none
+    padding-left 0px
   a
     color #FAF4E8
   .branding
@@ -415,6 +439,7 @@ table
     th
       border-bottom 1px #ccc solid
 
+@import 'highlight'
 @import 'plugins'
 @import 'guide'
-@import 'code'
+@import 'api'

@@ -1,0 +1,45 @@
+extends api-index
+
+block list
+  .list.box-wrap.antiscroll-wrap
+    .box
+      .antiscroll-inner
+        .box-inner
+          for codeFile in files.code
+            - if (~file.href.indexOf(codeFile.name))
+              for comment in codeFile.prepared
+                - if (!comment.ignore)
+                  for tag in comment.tags
+                    - if (tag.type === 'name')
+                      a.item(id=tag.string)= tag.string
+
+block rendered
+  .rendered
+    article!= file.prepared
+    for codeFile in files.code
+      - if (~file.href.indexOf(codeFile.name))
+        for comment in codeFile.prepared
+          - if (!comment.ignore)
+            - var id = 'default'
+            for tag in comment.tags
+              - if (tag.type === 'name')
+                - id = tag.string
+            .segment(id=id)
+              .summary!= comment.description.summary
+              ul.tags
+                each tag in comment.tags
+                  - if (tag.type == 'param')
+                    -var types = tag.types.join(' | ')
+                    li.tag
+                      span.type &#64;#{tag.type}
+                      span.types &#123; #{types} &#125;
+                      span.name #{tag.name}
+                      span.desc #{tag.description}
+                  - else if (tag.type == 'see')
+                    li.tag
+                      span.type &#64;#{tag.type}
+                      if tag.url
+                        span.type: a(href=tag.title, target='_blank')= tag.url
+                      else
+                        span.name #{tag.local}
+              .description!= comment.description.body 

@@ -32,21 +32,44 @@
   function Antiscroll (el, opts) {
     this.el = $(el);
     this.options = opts || {};
+
+    this.x = false !== this.options.x;
+    this.y = false !== this.options.y;
     this.padding = undefined == this.options.padding ? 2 : this.options.padding;
+
     this.inner = this.el.find('.antiscroll-inner');
     this.inner.css({
         'width': '+=' + scrollbarSize()
       , 'height': '+=' + scrollbarSize()
     });
 
-    if (this.inner.get(0).scrollWidth > this.el.width()) {
+    this.refresh();
+  };
+
+  /**
+   * refresh scrollbars
+   *
+   * @api public
+   */
+
+  Antiscroll.prototype.refresh = function() {
+    var needHScroll = this.inner.get(0).scrollWidth > this.el.width()
+      , needVScroll = this.inner.get(0).scrollHeight > this.el.height();
+
+    if (!this.horizontal && needHScroll && this.x) {
       this.horizontal = new Scrollbar.Horizontal(this);
+    } else if (this.horizontal && !needHScroll)  {
+      this.horizontal.destroy();
+      this.horizontal = null
     }
 
-    if (this.inner.get(0).scrollHeight > this.el.height()) {
+    if (!this.vertical && needVScroll && this.y) {
       this.vertical = new Scrollbar.Vertical(this);
+    } else if (this.vertical && !needVScroll)  {
+      this.vertical.destroy();
+      this.vertical = null
     }
-  }
+  };
 
   /**
    * Cleans up.
@@ -66,7 +89,21 @@
   };
 
   /**
-   * Scrolbar constructor.
+   * Rebuild Antiscroll.
+   *
+   * @return {Antiscroll} for chaining
+   * @api public
+   */
+
+  Antiscroll.prototype.rebuild = function () {
+    this.destroy();
+    this.inner.attr('style', '');
+    Antiscroll.call(this, this.el, this.options);
+    return this;
+  };
+
+  /**
+   * Scrollbar constructor.
    *
    * @param {Element|jQuery} element
    * @api public
@@ -217,7 +254,8 @@
    */
 
   Scrollbar.prototype.hide = function () {
-    if (this.shown) {
+    var autoHide = this.pane.options.autoHide;
+    if (autoHide !== false && this.shown) {
       // check for dragging
       this.el.removeClass('antiscroll-scrollbar-shown');
       this.shown = false;
@@ -380,7 +418,7 @@
   var size;
 
   function scrollbarSize () {
-    if (!size) {
+    if (size === undefined) {
       var div = $(
           '<div style="width:50px;height:50px;overflow:hidden;'
         + 'position:absolute;top:-200px;left:-200px;"><div style="height:100px;">'
