@@ -25,7 +25,7 @@ test framework you like.
 
 Package is available through [npm](http://npmjs.org):
 
-    npm install chai
+    npm install -g chai
 
 Recommend adding it to package.json devDependancies.
 
