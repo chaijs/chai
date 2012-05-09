@@ -27,7 +27,7 @@ Package is available through [npm](http://npmjs.org):
 
     npm install chai
 
-Recommend adding it to package.json devDependancies.
+Recommend adding it to package.json devDependencies.
 
 ### Browser
 
