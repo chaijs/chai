@@ -1168,6 +1168,7 @@ body.guide .documentation {
 body.guide .documentation .wrap {
   padding: 20px;
 }
+body.tests nav#api,
 body.api-index nav#api,
 body.api nav#api {
   min-width: 225px;
@@ -1177,6 +1178,7 @@ body.api nav#api {
   float: left;
   display: inline;
 }
+body.tests nav#api .item,
 body.api-index nav#api .item,
 body.api nav#api .item {
   position: relative;
@@ -1190,33 +1192,40 @@ body.api nav#api .item {
   color: #000;
   display: block;
 }
+body.tests nav#api .item:hover,
 body.api-index nav#api .item:hover,
 body.api nav#api .item:hover {
   background-color: #e9ce99;
 }
+body.tests nav#api .item.active,
 body.api-index nav#api .item.active,
 body.api nav#api .item.active {
   background-color: #30759c;
   color: #faf4e8;
 }
+body.tests nav#api .item.active:hover,
 body.api-index nav#api .item.active:hover,
 body.api nav#api .item.active:hover {
   background-color: #3787b3;
 }
+body.tests nav#api .list,
 body.api-index nav#api .list,
 body.api nav#api .list {
   border-top: 1px dashed #d7bab6;
   border-bottom: 1px dashed #d7bab6;
 }
+body.tests nav#api .list .item,
 body.api-index nav#api .list .item,
 body.api nav#api .list .item {
   margin-top: 10px;
   margin-bottom: 0px;
 }
+body.tests nav#api .list .item:last-child,
 body.api-index nav#api .list .item:last-child,
 body.api nav#api .list .item:last-child {
   margin-bottom: 10px;
 }
+body.tests .documentation,
 body.api-index .documentation,
 body.api .documentation {
   min-width: 735px;
@@ -1235,23 +1244,114 @@ body.api .documentation {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+body.tests .documentation .wrap,
 body.api-index .documentation .wrap,
 body.api .documentation .wrap {
   padding: 20px;
 }
+body.tests .documentation .wrap ul.tags,
 body.api-index .documentation .wrap ul.tags,
 body.api .documentation .wrap ul.tags {
   font-size: 12px;
 }
+body.tests .documentation .wrap ul.tags li.tag span,
 body.api-index .documentation .wrap ul.tags li.tag span,
 body.api .documentation .wrap ul.tags li.tag span {
   margin-right: 5px;
 }
+body.tests .documentation .wrap ul.tags li.tag span.type,
 body.api-index .documentation .wrap ul.tags li.tag span.type,
 body.api .documentation .wrap ul.tags li.tag span.type {
   font-weight: bold;
 }
+body.tests .documentation .wrap ul.tags li.tag span.types,
 body.api-index .documentation .wrap ul.tags li.tag span.types,
 body.api .documentation .wrap ul.tags li.tag span.types {
   font-style: italic;
+}
+body.tests #mocha {
+  border-top: 1px dashed #d7bab6;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+body.tests #mocha ul#stats {
+  zoom: 1;
+  list-style: none;
+  padding-left: 0px;
+}
+body.tests #mocha ul#stats:before,
+body.tests #mocha ul#stats:after {
+  content: "";
+  display: table;
+}
+body.tests #mocha ul#stats:after {
+  clear: both;
+}
+body.tests #mocha ul#stats li {
+  float: left;
+  margin-right: 15px;
+  line-height: 40px;
+}
+body.tests #mocha ul#stats li em {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+}
+body.tests #mocha ul#stats li.passes em {
+  color: #008000;
+}
+body.tests #mocha ul#stats li.failures em {
+  color: #f00;
+}
+body.tests #mocha ul#stats li.duration em {
+  color: #30759c;
+}
+body.tests #mocha h1 {
+  color: #30759c;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+body.tests #mocha .test {
+  margin-left: 7px;
+}
+body.tests #mocha .test h2 {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #000;
+  padding-top: 0px;
+  padding: 3px 6px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+body.tests #mocha .test h2:hover {
+  background-color: #faf4e8;
+  cursor: pointer;
+}
+body.tests #mocha .test h2 .duration {
+  color: #aaa;
+  font-size: 12px;
+  margin-left: 5px;
+}
+body.tests #mocha .test pre {
+  margin-top: 5px;
+}
+body.tests #mocha .test:hover h2:after {
+  content: 'view source';
+  float: right;
+}
+body.tests #mocha .test.pass h2:before {
+  content: '✓';
+  font-size: 12px;
+  padding-right: 6px;
+}
+body.tests #mocha .test.fail h2:before {
+  content: '×';
+  font-size: 14px;
+  padding-right: 6px;
+  color: #f00;
 }

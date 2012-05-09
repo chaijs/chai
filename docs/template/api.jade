@@ -9,9 +9,12 @@ block list
             - if (~file.href.indexOf(codeFile.name))
               for comment in codeFile.prepared
                 - if (!comment.ignore)
+                  - var tagString = ''
+                  - var tagAlias = '';
                   for tag in comment.tags
-                    - if (tag.type === 'name')
-                      a.item(id=tag.string)= tag.string
+                    - if (tag.type === 'name') tagString = tag.string
+                    - if (tag.type === 'alias') tagAlias += ' / ' + tag.string
+                  a.item(id=tagString)= tagString + tagAlias
 
 block rendered
   .rendered
