@@ -1,4 +1,38 @@
 
+1.0.0-rc3 / 2012-05-09 
+==================
+
+  * Merge branch 'feature/rc3'
+  * docs update
+  * browser build
+  * assert test conformity for minor refactor api
+  * assert minor refactor
+  * update util tests for new add/overwrite prop/method format
+  * added chai.Assertion.add/overwrite prop/method for plugin toolbox
+  * add/overwrite prop/method don't make assumptions about context
+  * doc test suite
+  * docs don't need coverage
+  * refactor all simple chains into one forEach loop, for clean documentation
+  * updated npm ignore
+  * remove old docs
+  * docs checkpoint - guide styled
+  * Merge pull request #59 from joliss/doc
+  * Document how to run the test suite
+  * don't need to rebuild docs to view
+  * dep update
+  * docs checkpoint - api section
+  * comment updates for docs
+  * new doc site checkpoint - plugin directory!
+  * Merge pull request #57 from kossnocorp/patch-1
+  * Fix typo: devDependancies → devDependencies
+  * Using message flag in `getMessage` util instead of old `msg` property.
+  * Adding self to package.json contributors.
+  * `getMessage` shouldn't choke on null/omitted messages.
+  * `return this` not necessary in example.
+  * `return this` not necessary in example.
+  * Sinon–Chai has a dash
+  * updated plugins list for docs
+
 1.0.0-rc2 / 2012-05-06 
 ==================
 
