@@ -25,6 +25,9 @@ docs: clean-docs
 	@cp coverage.html docs/out/support/coverage/index.html
 	@node docs/app/app.js
 
+make doc-server:
+	@node docs/app/app.js
+
 clean-docs:
 	@rm -rf docs/out
 
@@ -47,4 +50,4 @@ test-display:
 		--ui tdd \
 		test/display/*.js
 
-.PHONY: clean test docs clean-docs test-cov lib-cov
+.PHONY: clean test docs clean-docs doc-server test-cov lib-cov
