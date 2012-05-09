@@ -15,14 +15,9 @@ docs: clean-docs
 	@./node_modules/.bin/codex build \
 		-i docs
 	@cp chai.js docs/out/chai.js
-	@mkdir -p docs/out/support/tests
-	@mkdir docs/out/support/coverage
-	@cp node_modules/mocha/mocha.js docs/out/support/tests
-	@cp node_modules/mocha/mocha.css docs/out/support/tests
-	@cp -R test/*.js docs/out/support/tests
-	@cp test/browser/docs.html docs/out/support/tests/index.html
-	@make test-cov
-	@cp coverage.html docs/out/support/coverage/index.html
+	@mkdir -p docs/out/public/js/tests
+	@cp node_modules/mocha/mocha.js docs/out/public/js/tests
+	@cp -R test/*.js docs/out/public/js/tests
 	@node docs/app/app.js
 
 make doc-server:
