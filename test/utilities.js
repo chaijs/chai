@@ -52,6 +52,16 @@ suite('utilities', function () {
     expect('spec').to.eqqqual('spec');
   });
 
+  test('addMethod returning result', function () {
+    chai.use(function(_chai, utils) {
+      _chai.Assertion.addMethod('result', function () {
+        return 'result';
+      })
+    });
+
+    expect(expect('foo').result()).to.equal('result');
+  });
+
   test('overwriteMethod', function () {
     chai.use(function (_chai, _) {
       expect(_chai.Assertion).to.respondTo('eqqqual');
@@ -88,6 +98,18 @@ suite('utilities', function () {
     expect(dne.__flags).to.have.property('doesnt');
   });
 
+  test('overwriteMethod returning result', function () {
+    chai.use(function (_chai, _) {
+      _chai.Assertion.overwriteMethod('result', function (_super) {
+        return function () {
+          return 'result';
+        }
+      });
+    });
+
+    expect(expect('foo').result()).to.equal('result');
+  });
+
   test('addProperty', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addProperty('tea', function () {
@@ -97,6 +119,16 @@ suite('utilities', function () {
 
     var assert = expect('chai').to.be.tea;
     expect(assert.__flags.tea).to.equal('chai');
+  });
+
+  test('addProperty returning result', function () {
+    chai.use(function(_chai, _) {
+      _chai.Assertion.addProperty('result', function () {
+        return 'result';
+      })
+    });
+
+    expect(expect('foo').result).to.equal('result');
   });
 
   test('overwriteProperty', function () {
@@ -118,6 +150,18 @@ suite('utilities', function () {
     expect(matcha.__flags.tea).to.equal('matcha');
     var assert = expect('something').to.be.tea;
     expect(assert.__flags.tea).to.equal('chai');
+  });
+
+  test('overwriteProperty returning result', function () {
+    chai.use(function(_chai, _) {
+      _chai.Assertion.overwriteProperty('result', function (_super) {
+        return function () {
+          return 'result';
+        }
+      });
+    });
+
+    expect(expect('foo').result).to.equal('result');
   });
 
   test('getMessage', function () {
