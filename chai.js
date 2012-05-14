@@ -2139,7 +2139,7 @@ require.register("utils/addMethod.js", function(module, exports, require){
  *
  * Adds a method to the prototype of an object.
  *
- *      utils.addMethod(chai.Assertion, 'foo', function (str) {
+ *      utils.addMethod(chai.Assertion.prototype, 'foo', function (str) {
  *        var obj = utils.flag(this, 'object');
  *        new chai.Assertion(obj).to.be.equal(str);
  *      });
@@ -2148,16 +2148,16 @@ require.register("utils/addMethod.js", function(module, exports, require){
  *
  *      expect(fooStr).to.be.foo('bar');
  *
- * @param {Function|Object} context (such as `chai.Assertion.prototype`)
+ * @param {Object} ctx object to which the method is added
  * @param {String} name of method to add
- * @param {Function} method function to used for name
+ * @param {Function} method function to be used for name
  * @api public
  */
 
 module.exports = function (ctx, name, method) {
   ctx[name] = function () {
-    method.apply(this, arguments);
-    return this;
+    var result = method.apply(this, arguments);
+    return result === undefined ? this : result;
   };
 };
 
@@ -2175,7 +2175,7 @@ require.register("utils/addProperty.js", function(module, exports, require){
  *
  * Adds a property to the prototype of an object.
  *
- *      utils.addProperty(chai.Assertion, 'foo', function () {
+ *      utils.addProperty(chai.Assertion.prototype, 'foo', function () {
  *        var obj = utils.flag(this, 'object');
  *        new chai.Assertion(obj).to.be.instanceof(Foo);
  *      });
@@ -2184,17 +2184,17 @@ require.register("utils/addProperty.js", function(module, exports, require){
  *
  *      expect(myFoo).to.be.foo;
  *
- * @param {Function|Object} context (such as `chai.Assertion.prototype`)
+ * @param {Object} ctx object to which the property is added
  * @param {String} name of property to add
- * @param {Function} getter function to used for name
+ * @param {Function} getter function to be used for name
  * @api public
  */
 
 module.exports = function (ctx, name, getter) {
   Object.defineProperty(ctx, name,
     { get: function () {
-        getter.call(this);
-        return this;
+        var result = getter.call(this);
+        return result === undefined ? this : result;
       }
     , configurable: true
   });
@@ -2916,13 +2916,13 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  */
 
 /**
- * # overwriteProperty (ctx, name, fn)
+ * # overwriteMethod (ctx, name, fn)
  *
  * Overwites an already existing method and provides
  * access to previous function. Must return function
  * to be used for name.
  *
- *      utils.overwriteMethod(chai.Assertion, 'equal', function (_super) {
+ *      utils.overwriteMethod(chai.Assertion.prototype, 'equal', function (_super) {
  *        return function (str) {
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
@@ -2937,9 +2937,9 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  *
  *      expect(myFoo).to.equal('bar');
  *
- * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {Object} ctx object whose method is to be overwritten
  * @param {String} name of method to overwrite
- * @param {Function} method function to be used for name
+ * @param {Function} method function that returns a function to be used for name
  * @api public
  */
 
@@ -2951,8 +2951,8 @@ module.exports = function (ctx, name, method) {
     _super = _method;
 
   ctx[name] = function () {
-    method(_super).apply(this, arguments);
-    return this;
+    var result = method(_super).apply(this, arguments);
+    return result === undefined ? this : result;
   }
 };
 
@@ -2971,7 +2971,7 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  * Overwites an already existing property getter and provides
  * access to previous value. Must return function to use as getter.
  *
- *      utils.overwriteProperty(chai.Assertion, 'ok', function (_super) {
+ *      utils.overwriteProperty(chai.Assertion.prototype, 'ok', function (_super) {
  *        return function () {
  *          var obj = utils.flag(this, 'object');
  *          if (obj instanceof Foo) {
@@ -2986,9 +2986,9 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  *
  *      expect(myFoo).to.be.ok;
  *
- * @param {Function|Object} context chai.Assertion || chai.Assertion.prototype
+ * @param {Object} ctx object whose property is to be overwritten
  * @param {String} name of property to overwrite
- * @param {Function} method must return function to be used for name
+ * @param {Function} getter function that returns a getter function to be used for name
  * @api public
  */
 
@@ -3001,8 +3001,8 @@ module.exports = function (ctx, name, getter) {
 
   Object.defineProperty(ctx, name,
     { get: function () {
-        getter(_super).call(this);
-        return this;
+        var result = getter(_super).call(this);
+        return result === undefined ? this : result;
       }
     , configurable: true
   });
