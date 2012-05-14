@@ -10,6 +10,7 @@
     <script src="/public/js/jquery-mousewheel.js"></script>
     <script src="/public/js/antiscroll.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="/public/js/home.js"></script>
     <link rel="stylesheet" href="/public/css/antiscroll.css" type="text/css" media="all">
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Redressed" rel="stylesheet" type="text/css">
@@ -18,7 +19,7 @@
     <nav id="primary">
       <div class="nav-wrap">
         <div class="logo">
-          <h1><a href="/">Chai</a></h1>
+          <h1><a href="/">Chai Assertion Library</a></h1>
         </div>
         <div class="navlist">
           <ul>
@@ -36,25 +37,45 @@
 </div>
           <div class="card-wrap">
             <div class="card">
-              <div class="card-inner install-node">
+              <div class="card-inner">
                 <h1>Download Chai<span class="version">v1.0.0</span></h1>
-                <h2>for Node<small>Another platform?<a href="#">Browser</a><a href="#">Rails</a></small></h2>
-                <div class="download-banner"> 
-                  <div class="description">The <code>chai</code> package is available on npm.</div>
-                  <div class="command dsp-left">$ npm install chai</div><a href="#" class="button dsp-right">View node guide</a>
+                <div id="node" class="install">
+                  <h2>for Node<small>Another platform?<a href="#browser" class="toggle">Browser</a><a href="#rails" class="toggle">Rails</a></small></h2>
+                  <div class="download-banner"> 
+                    <div class="description">The <code>chai</code> package is available on npm.</div>
+                    <div class="command dsp-left">$ npm install chai</div><a href="#" class="button dsp-right">View Node Guide</a>
+                  </div>
                 </div>
-                <div class="tech-links"><a href="#">Issues</a>&nbsp;|<a href="#">Upgrade notes</a>&nbsp;|<a href="#">Changelog</a>&nbsp;|<a href="#">Community</a>&nbsp;|<a href="#">Build status</a></div>
+                <div id="browser" class="install">
+                  <h2>for Browser<small>Another platform?<a href="#node" class="toggle">Node</a><a href="#rails" class="toggle">Rails</a></small></h2>
+                  <div class="download-banner"> 
+                    <div class="description">The <code>chai.js</code> script is available for download or a hotlink.</div><a href="http://chaijs.com/chai.js" class="button-alt dsp-left"> Download chai.js</a><a href="#" class="button dsp-right">View Browser Guide</a>
+                  </div>
+                </div>
+                <div id="rails" class="install">
+                  <h2>for Rails<small>Another platform?<a href="#node" class="toggle">Node</a><a href="#browser" class="toggle">Browser</a></small></h2>
+                  <div class="download-banner"> 
+                    <div class="description">Chai is included as part of the <code>konacha</code> gem.</div><a href="#" class="button-alt dsp-left">GitHub Project</a><a href="#" class="button dsp-right">View Rails Guide</a>
+                  </div>
+                </div>
+                <div class="tech-links"><a href="#">Issues</a>&nbsp;|&nbsp;<a href="#">Upgrade notes</a>&nbsp;|&nbsp;<a href="#">Changelog</a>&nbsp;|&nbsp;<a href="#">Community</a>&nbsp;|&nbsp;<a href="#">Build status</a></div>
               </div>
             </div>
           </div>
         </div>
         <div class="callouts">
-          <div class="call"><a href="#"><span>&nbsp;</span>
-              <big>Getting Started</big><small>Learn how install and use Chai through a series of guided walkthroughs.</small></a></div>
-          <div class="call"><a href="#"><span>&nbsp;</span>
-              <big>API Documentation</big><small>Explore the BDD &amp; TDD language specifications for all available assertions.</small></a></div>
-          <div class="call"><a href="#"><span>&nbsp; </span>
-              <big>Plugin Directory</big><small>Extend Chai's with additional assertions and vendor integration.</small></a></div>
+          <div id="guide" class="call"><a href="/guide"><span class="icon"></span>
+              <big>Getting Started</big><small>Learn how install and use Chai through a series of guided walkthroughs.</small></a>
+            <div class="bg"></div>
+          </div>
+          <div id="api" class="call"><a href="/api"><span class="icon"></span>
+              <big>API Documentation</big><small>Explore the BDD &amp; TDD language specifications for all available assertions.</small></a>
+            <div class="bg"></div>
+          </div>
+          <div id="plugins" class="call"><a href="/plugins"><span class="icon"></span>
+              <big>Plugin Directory</big><small>Extend Chai's with additional assertions and vendor integration.</small></a>
+            <div class="bg"></div>
+          </div>
         </div>
       </div>
     </header>
@@ -62,6 +83,7 @@
       <section id="content">
         <div id="home" class="grid_12 panels">
           <div class="rowInside">
+            <article class="grid_12 hrline"></article>
             <article class="grid_12 desc">
               <h2 class="plain">Chai has interfaces... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.</h2>
             </article>
@@ -73,7 +95,8 @@ foo.should.equal(<span class="string">'bar'</span>);
 foo.should.have.length(<span class="number">3</span>);
 tea.should.have.property(<span class="string">'flavors'</span>)
   .<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
-</div><a href="#" class="more">Visit Should Guide &rarr;</a>
+</div>
+                <div class="more-wrap"><a href="#" class="more">Visit Should Guide<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
             <article class="grid_4 code contrast">
@@ -84,7 +107,8 @@ expect(foo).to.equal(<span class="string">'bar'</span>);
 expect(foo).to.have.length(<span class="number">3</span>);
 expect(tea).to.have.property(<span class="string">'flavors'</span>)
   .<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
-</div><a href="#" class="more">Visit Expect Guide &rarr;</a>
+</div>
+                <div class="more-wrap"><a href="#" class="more">Visit Expect Guide<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
             <article class="grid_4 code contrast">
@@ -95,7 +119,8 @@ assert.equal(foo, <span class="string">'bar'</span>);
 assert.length(foo, <span class="number">3</span>)
 assert.ownProperty(tea, <span class="string">'favors'</span>);
 assert.length(tea.flavors, <span class="number">3</span>);</code></pre>
-</div><a href="#" class="more">Visit Assert Guide &rarr;</a>
+</div>
+                <div class="more-wrap"><a href="#" class="more">Visit Assert Guide<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
           </div>
@@ -104,28 +129,38 @@ assert.length(tea.flavors, <span class="number">3</span>);</code></pre>
             <article class="grid_12 desc">
               <h2 class="plain">Plugins extend Chai... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et purus libero, et elementum diam. Sed auctor semper dictum. Morbi vitae mauris ac velit vehicula elementum ac et massa. Donec posuere.</h2>
             </article>
-            <article class="grid_3 plugin-box contrast">
-              <div class="wrap"><span class="img">&nbsp;</span>
+            <article id="plugin-featured" class="grid_6 plugin-box contrast">
+              <div class="plugin-title">
+                <h2 class="plain accent-wrap"><span class="accented">Chai jQuery<span class="faccentl"></span><span class="faccentr"></span></span></h2>
+                <div class="action-button"><a href="#">Learn More &amp; Install<span class="arrow">&rarr;</span></a></div>
+              </div>
+              <div class="wrap">
+                <h3 class="fancy">Featured Plugin</h3>
+                <div class="plugin-desc"><p>Extend Chai with assertions for the DOM and jQuery.
+
+</p>
+<pre><code>$(<span class="string">'#header'</span>).should.have.attr(<span class="string">'foo'</span>);
+$(<span class="string">'#header'</span>).should.have.data(<span class="string">'foo'</span>);
+$(<span class="string">'.name'</span>).should.have.html(<span class="string">'&lt;em>John Doe&lt;/em>'</span>);
+$(<span class="string">'.checked'</span>).should.be.checked;
+$(<span class="string">'.header'</span>).should.have.id(<span class="string">'#main'</span>);</code></pre>
+</div>
+              </div>
+            </article>
+            <article id="plugin-dir" class="grid_3 plugin-box contrast"><span class="img">
+                <div class="icon"></div></span>
+              <div class="wrap">
                 <h3 class="fancy">Custom Plugins</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p><a href="#" class="more">Get Custom Plugins &rarr;</a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p>
+                <div class="more-wrap"><a href="#" class="more">Browse Plugins<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
-            <article class="grid_3 plugin-box contrast">
-              <div class="wrap"><span class="img">&nbsp;</span>
-                <h3 class="fancy">Vendor Integration</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p><a href="#" class="more">Get Vendor Plugins &rarr;</a>
-              </div>
-            </article>
-            <article class="grid_3 plugin-box contrast">
-              <div class="wrap"><span class="img">&nbsp;</span>
-                <h3 class="fancy">Platforms</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p><a href="#" class="more">See Available Platorms &rarr;</a>
-              </div>
-            </article>
-            <article class="grid_3 plugin-box contrast">
-              <div class="wrap"><span class="img">&nbsp;</span>
+            <article id="plugin-guide" class="grid_3 plugin-box contrast"><span class="img">
+                <div class="icon"></div></span>
+              <div class="wrap">
                 <h3 class="fancy">Develop Plugins</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p><a href="#" class="more">Plugin Developer's Guide &rarr;</a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia amet.</p>
+                <div class="more-wrap"><a href="#" class="more">Plugin Guide <span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
           </div>
@@ -137,28 +172,15 @@ assert.length(tea.flavors, <span class="number">3</span>);</code></pre>
             <article class="github grid_6 contrast">
               <div class="wrap"><span class="img">&nbsp;</span>
                 <h3 class="fancy">Powered by Open Source</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.</p><a href="#" class="more">Fork me on GitHub &rarr;</a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.</p>
+                <div class="more-wrap"><a href="#" class="more">Fork me on GitHub<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
             <article class="community grid_6 contrast">
-              <div class="wrap"><span class="img">&nbsp;</span>
+              <div class="wrap">
                 <h3 class="fancy">Involved Community</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.</p><a href="#" class="more">Visit Google Group &rarr;</a>
-              </div>
-            </article>
-            <article class="subscribe grid_12 contrast">
-              <div class="rowInside">
-                <div class="grid_6">
-                  <div class="wrap">
-                    <h3 class="fancy">Subscribe to the Chai Newsletter</h3>
-                    <p>Get notified about new releases and useful tips.</p>
-                  </div>
-                </div>
-                <div class="grid_6">
-                  <div class="wrap">
-                    <div class="form">Form</div>
-                  </div>
-                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula odio sit amet dolor porta non lacinia risus molestie. Nulla posuere.</p>
+                <div class="more-wrap"><a href="#" class="more">Visit Google Group<span class="arrow">&rarr;</span></a></div>
               </div>
             </article>
           </div>

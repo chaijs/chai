@@ -23,59 +23,6 @@ accentbg = #A32931
 font_primary =  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
 font_fancy = "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif
 
-button()
-  line-height 30px
-  display inline-block
-  background linear-gradient(top, lighten(chaiblue, 10%), chaiblue)
-  color chaicream
-  padding 0 31px 0px 8px
-  border-radius 3px
-  box-shadow 1px 1px 5px rgba(0,0,0,30%)
-  border 1px solid darken(chaiblue, 20%)
-  text-shadow 1px 1px 0px darken(chaiblue, 30%)
-  position relative
-  &:hover
-    background linear-gradient(top, lighten(chaiblue, 20%), lighten(chaiblue, 10%))
-  span.arrow
-    text-align center
-    text-shadow none
-    position absolute
-    display block
-    top 9px
-    right 8px
-    background-color chaicream
-    color chaiblue
-    border-radius 20px
-    width 13px
-    height 13px
-    line-height 7px
-    overflow hidden
-    font-size 24px
-    text-indent -15px
-
-button-simple()
-  line-height 30px
-  display inline-block
-  padding 0 31px 0px 8px
-  position relative
-  span.arrow
-    text-align center
-    text-shadow none
-    position absolute
-    display block
-    top 9px
-    right 8px
-    background-color #A40802
-    color #fff
-    border-radius 20px
-    width 13px
-    height 13px
-    line-height 7px
-    overflow hidden
-    font-size 24px
-    text-indent -15px
-  
-
 body
   font 14px/1.5 font_primary
   background-color #30759C
@@ -137,29 +84,6 @@ em
   font-style italic
   font-weight bold
 
-.accent-wrap
-  text-align center
-
-
-
-span.accented
-  line-height 50px
-  position relative
-  span.faccentl
-    display block
-    float left
-    background transparent url('/public/img/font-accents.png') no-repeat 0px 0px
-    width 50px
-    height 50px
-    overflow hidden
-  span.faccentr
-    display block
-    float right
-    background transparent url('/public/img/font-accents.png') no-repeat -50px 0px
-    width 50px
-    height 50px
-    overflow hidden
-
 .box-wrap
   margin-bottom 50px
 
@@ -173,7 +97,7 @@ span.accented
     height 276px
 
 nav#primary
-  box-shadow 0px 0px 10px lighten(headers, 40%)
+  box-shadow 0px 0px 1px headers
   width 100%
   position fixed
   z-index 1000
@@ -190,28 +114,21 @@ body.index
         .site-description
           color #784942
           margin-bottom 1.2em
-          margin-top 8px
+          margin-top 15px
           font-size 22px
           font-family "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
         .card
           clearfix()
           border-radius 5px 
-          background #fff //#f7eed9
-          box-shadow 0px 0px 1px headers
+          background #f7eed9
+          box-shadow 0px 0px 3px headers
+          height 270px
           position relative
           .card-inner
             clearfix()
-            height 230px
-            position relative
             margin 20px
             font-family "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
             color #666
-            .install
-              display none
-              position absolute
-              top 50px
-            #node.install
-              display block
             h1
               font-size 40px
               margin-top -10px
@@ -245,37 +162,27 @@ body.index
             .download-banner
               margin-top 30px
               .description
-                margin-bottom 20px
+                margin-bottom 10px
               .command
                 display inline-block
                 background-color #fff
                 float left
                 font-family "Bitstream Vera Sans Mono", "Courier", monospace
                 width 210px
-                line-height 40px
+                line-height 50px
                 text-align center
                 border-radius 3px
                 box-shadow 0px 0px 1px #666
               .button
-                button()
-                text-align center
-                font-family font_fancy
-                font-size 20px
+                font-size 18px
                 display inline-block
                 float left
-                padding-right 8px
-                width 192px
-                line-height 40px
-              .button-alt
-                button-simple()
+                width 210px
                 text-align center
-                font-family font_fancy
-                font-size 20px
-                display inline-block
-                float left
-                padding-right 8px
-                width 194px
-                line-height 40px
+                line-height 50px
+                background-color #30759c //90BFC9
+                border-radius 3px
+                color #fff
               .dsp-left
                 margin-right 10px
               .dsp-right
@@ -283,15 +190,13 @@ body.index
             .tech-links
               text-align center
               position absolute
-              bottom 0px
+              bottom 20px
               width 440px
       .callouts
         .call
-          position relative
           a
             display block
             position relative
-            z-index 200
             clearfix()
             min-height 100px
             padding 20px
@@ -306,26 +211,17 @@ body.index
               border-radius 5px
             big
               display block
-              margin-left 115px
-              margin-top 6px
+              margin-left 130px
+              margin-top 13px
               font-family "Redressed", "Helvetica Neue", Helvetica, Arial, sans-serif
               font-size 24px
             small
               display block
-              margin-left 115px
+              margin-left 130px
               font-family "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
               color #784942
-          .bg
-            position absolute
-            top 10px
-            bottom 10px
-            left 10px
-            right 10px
-            z-index 50
-            background #fff
-            border-radius 5px
-            box-shadow 0px 0px 1px headers
-            opacity 0
+            &:hover
+              box-shadow inset 0px 0px 1px #666
         #guide a span.icon
           background transparent url('/public/img/chai-icons.png') no-repeat 0px 0px
         #api a span.icon
@@ -374,7 +270,6 @@ section#content
     border none
 
   article
-    position relative
     &.desc
       margin-bottom 30px !important
 
@@ -385,16 +280,11 @@ section#content
       clearfix()
       padding 20px
 
-    .more-wrap
-      clearfix()
+    .more
+      display block
+      float right
       margin-top 20px
-      text-align right
-      position absolute
-      bottom 20px
-      left 20px
-      right 20px
-      .more
-        button-simple()
+      clear both
 
     h3
       margin-top 0px
@@ -417,28 +307,17 @@ section#content
     p
       margin-bottom 0px
 
+
   article.plugin-box
   article.plugin-box_s
-    .plugin-title
-      clearfix()
-      height 110px
-      margin-top 20px
-      h2.accent-wrap
-        margin-bottom 20px
-        margin-right 20px
-        margin-left 20px
-      .action-button
-        text-align center
-        a
-          button()
+    .wrap
+      height 315px
 
     span.img
+      background lighten(#000, 95%)
       display block
-      height 130px
-      border-radius 5px 5px 0px 0px
-
-    .wrap
-      min-height 180px
+      margin-bottom 20px
+      height 80px
 
     a.ablock
       display block
@@ -448,49 +327,21 @@ section#content
     .wrap
       height 150px
 
-  #plugin-featured
-    height 350px
-    overflow hidden
-
-  #plugin-dir
-    span.img
-      clearfix()
-      background chaiswirl url('/public/img/plugin-dir-banner.png') no-repeat
-      .icon
-        display block
-        margin 15px auto
-        width 100px
-        height 100px
-        background transparent url('/public/img/chai-icons.png') no-repeat 0px -200px
-
-  #plugin-guide
-    span.img
-      clearfix()
-      background chaiswirl url('/public/img/plugin-guide-banner.png') no-repeat
-      .icon
-        display block
-        margin 15px auto
-        width 100px
-        height 100px
-        background transparent url('/public/img/chai-icons.png') no-repeat 0px 0px
-
   article.code
   article.subscribe
   article.github
   article.community
     background-color #fff
     border-radius 5px
-    height 220px
+
 
     span.img
+      background lighten(#000, 95%)
       display block
       float right
       width 100px
       margin-left 20px
       height 120px
-  article.github
-    span.img
-      background transparent url('/public/img/octocat.png')
 
 
 section#home
@@ -508,11 +359,6 @@ nav#primary
       margin-bottom 0px
       line-height 70px
       a
-        background transparent url('/public/img/chai-logo-small.png') no-repeat 0px 10px
-        font-family font_primary
-        color #A40802
-        font-size 18px
-        padding-left 60px
         display block
         float left
   .navlist
