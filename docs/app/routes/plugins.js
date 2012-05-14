@@ -1,5 +1,5 @@
 var filtr = require('filtr')
-  , highlight = require('highlight').Highlight
+  , highlight = require('highlight.js')
   , marked = require('marked')
   , plugins = require('../plugins')
   , request = require('superagent');
@@ -35,6 +35,7 @@ site_tags.forEach(function (tag) {
 
 var site_locals = {
     ghbaseurl: ''
+  , title: 'Chai'
 }
 
 app.get('/plugins', function (req, res) {
@@ -42,7 +43,11 @@ app.get('/plugins', function (req, res) {
       site: site_locals
     , plugin_tags: plugin_tags
     , plugins: plugins
-    , body: 'plugins'
+    , file: {
+          template: 'plugins'
+        , href: '/plugins/'
+        , title: 'Chai Plugins'
+      }
   }
   res.render('plugins', locals);
 });
@@ -76,7 +81,11 @@ app.get('/plugins/:id', function (req, res, next) {
           , pkg: pkg
           , html: html
         }
-      , body: 'plugin'
+      , file: {
+          template: 'plugin'
+        , href: '/plugins/' + req.params.id
+        , title: plugin.name
+      }
     });
   }
 
@@ -87,9 +96,13 @@ app.get('/plugins/:id', function (req, res, next) {
     request
       .get(plugin.markdown)
       .end(function (readme) {
-        html = (readme.status == 200)
-          ? parseMarkdown(readme.text)
-          : '<p>No information provided.</p>'
+        try {
+          html = (readme.status == 200)
+            ? parseMarkdown(readme.text)
+            : '<p>No information provided.</p>'
+        } catch (ex) {
+          html = '<p>Error parsing markdown.</p>';
+        }
         plugin.cache.html = html;
         plugin.cache.date = new Date();
         render();
@@ -131,7 +144,9 @@ function parseMarkdown (text) {
   for (var i = 0; i < l; i++) {
     token = tokens[i];
     if (token.type == 'code') {
-      token.text = highlight(token.text);
+      var lang = token.lang || 'javascript';
+      if (lang == 'js') lang = 'javascript';
+      token.text = highlight.highlight(lang, token.text).value;
       token.escaped = true;
     }
   }

@@ -111,7 +111,7 @@ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="co
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span></li>
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span></li>
                 </ul>
-                <div class="description"><p>Assert strict equality.
+                <div class="description"><p>Assert non-strict equality (==).
 
 </p>
 <pre><code> assert.equal(<span class="number">3</span>, <span class="number">3</span>, <span class="string">'these numbers are equal'</span>);</code></pre>
@@ -125,7 +125,7 @@ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="co
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span></li>
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span></li>
                 </ul>
-                <div class="description"><p>Assert not equal.
+                <div class="description"><p>Assert non-strict inequality (!=).
 
 </p>
 <pre><code> assert.notEqual(<span class="number">3</span>, <span class="number">4</span>, <span class="string">'these numbers are not equal'</span>);</code></pre>
@@ -139,7 +139,7 @@ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="co
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span></li>
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span></li>
                 </ul>
-                <div class="description"><p>Assert strict equality.
+                <div class="description"><p>Assert strict equality (===).
 
 </p>
 <pre><code> assert.strictEqual(<span class="literal">true</span>, <span class="literal">true</span>, <span class="string">'these booleans are strictly equal'</span>);</code></pre>
@@ -153,7 +153,7 @@ chai.Assertion.includeStack = <span class="literal">true</span>; <span class="co
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; * &#125;</span><span class="name">expected</span><span class="desc"></span></li>
                   <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">message</span><span class="desc"></span></li>
                 </ul>
-                <div class="description"><p>Assert strict equality.
+                <div class="description"><p>Assert strict inequality (!==).
 
 </p>
 <pre><code> assert.notStrictEqual(<span class="number">1</span>, <span class="literal">true</span>, <span class="string">'these booleans are not strictly equal'</span>);</code></pre>

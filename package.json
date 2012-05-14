@@ -27,10 +27,10 @@
     "mocha": "*",
     "codex": "0.2.x",
     "filtr": "0.2.x",
-    "express": "https://github.com/visionmedia/express/tarball/master",
+    "express": "3.0.0alpha4",
     "superagent": "0.4.x",
     "jade": "0.25.x",
     "marked": "0.2.x",
-    "highlight": "0.2.x"
+    "highlight.js": "1.2.x"
   }
 }
