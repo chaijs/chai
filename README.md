@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/logicalparadox/chai.png)](http://travis-ci.org/logicalparadox/chai)
 
-[![Chai Documentation](https://github.com/chaijs/chai/raw/master/docs/template/assets/img/chai-logo.png)](http://chaijs.com)
+[![Chai Documentation](https://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
 
 Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
 can be delightfully paired with any javascript testing framework.
