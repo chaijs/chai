@@ -1,4 +1,23 @@
 
+1.0.0 / 2012-05-15 
+==================
+
+  * readme cleanup
+  * browser build
+  * utility comments
+  * removed docs
+  * update to package.json
+  * docs build
+  * comments / docs updates
+  * plugins app cleanup
+  * Merge pull request #61 from joliss/doc
+  * Fix and improve documentation of assert.equal and friends
+  * browser build
+  * doc checkpoint - texture
+  * Update chai-jquery link
+  * Use defined return value of Assertion extension functions
+  * Update utility docs
+
 1.0.0-rc3 / 2012-05-09 
 ==================
 
