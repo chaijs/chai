@@ -3,17 +3,21 @@
   "name": "chai",
   "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
   "keywords": [ "test", "assertion", "assert", "testing", "chai" ],
+  "homepage": "http://chaijs.com",
+  "license": "MIT",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
-    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)"
+    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
+    "Veselin Todorov <hi@vesln.com>",
+    "John Firebaugh <john.firebaugh@gmail.com>"
   ],
   "version": "1.0.0-rc3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/logicalparadox/chai"
+    "url": "https://github.com/chaijs/chai"
   },
   "bugs": {
-    "url": "https://github.com/logicalparadox/chai/issues"
+    "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
   "scripts": {
@@ -24,13 +28,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*",
-    "codex": "0.2.x",
-    "filtr": "0.2.x",
-    "express": "3.0.0alpha4",
-    "superagent": "0.4.x",
-    "jade": "0.25.x",
-    "marked": "0.2.x",
-    "highlight.js": "1.2.x"
+    "mocha": "*"
   }
 }
