@@ -2184,22 +2184,27 @@ require.register("utils/addMethod.js", function(module, exports, require){
  */
 
 /**
- * # addMethod (ctx, name, method)
+ * ### addMethod (ctx, name, method)
  *
  * Adds a method to the prototype of an object.
  *
- *      utils.addMethod(chai.Assertion.prototype, 'foo', function (str) {
- *        var obj = utils.flag(this, 'object');
- *        new chai.Assertion(obj).to.be.equal(str);
- *      });
+ *     utils.addMethod(chai.Assertion.prototype, 'foo', function (str) {
+ *       var obj = utils.flag(this, 'object');
+ *       new chai.Assertion(obj).to.be.equal(str);
+ *     });
+ *
+ * Can also be accessed directly from `chai.Assertion`.
+ *
+ *     chai.Assertion.addMethod('foo', fn);
  *
  * Then can be used as any other assertion.
  *
- *      expect(fooStr).to.be.foo('bar');
+ *     expect(fooStr).to.be.foo('bar');
  *
  * @param {Object} ctx object to which the method is added
  * @param {String} name of method to add
  * @param {Function} method function to be used for name
+ * @name addMethod
  * @api public
  */
 
@@ -2220,22 +2225,27 @@ require.register("utils/addProperty.js", function(module, exports, require){
  */
 
 /**
- * # addProperty (ctx, name, getter)
+ * ### addProperty (ctx, name, getter)
  *
  * Adds a property to the prototype of an object.
  *
- *      utils.addProperty(chai.Assertion.prototype, 'foo', function () {
- *        var obj = utils.flag(this, 'object');
- *        new chai.Assertion(obj).to.be.instanceof(Foo);
- *      });
+ *     utils.addProperty(chai.Assertion.prototype, 'foo', function () {
+ *       var obj = utils.flag(this, 'object');
+ *       new chai.Assertion(obj).to.be.instanceof(Foo);
+ *     });
  *
- * Then can be used as any other assertion:
+ * Can also be accessed directly from `chai.Assertion`.
  *
- *      expect(myFoo).to.be.foo;
+ *     chai.Assertion.addProperty('foo', fn);
+ *
+ * Then can be used as any other assertion.
+ *
+ *     expect(myFoo).to.be.foo;
  *
  * @param {Object} ctx object to which the property is added
  * @param {String} name of property to add
  * @param {Function} getter function to be used for name
+ * @name addProperty
  * @api public
  */
 
@@ -2362,16 +2372,20 @@ require.register("utils/flag.js", function(module, exports, require){
  */
 
 /**
- * # flag(object ,key, [value])
+ * ### flag(object ,key, [value])
  *
  * Get or set a flag value on an object. If a
  * value is provided it will be set, else it will
  * return the currently set value or `undefined` if
  * the value is not set.
  *
+ *     utils.flag(this, 'foo', 'bar'); // setter
+ *     utils.flag(this, 'foo'); // getter, returns `bar`
+ *
  * @param {Object} object (constructed Assertion
  * @param {String} key
  * @param {Mixed} value (optional)
+ * @name flag
  * @api private
  */
 
@@ -2484,7 +2498,7 @@ module.exports = function (func) {
 }); // module: utils/getName.js
 
 require.register("utils/getPathValue.js", function(module, exports, require){
-/**
+/*!
  * Chai - getPathValue utility
  * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
  * @see https://github.com/logicalparadox/filtr
@@ -2492,7 +2506,7 @@ require.register("utils/getPathValue.js", function(module, exports, require){
  */
 
 /**
- * # .getPathValue(path, object)
+ * ### .getPathValue(path, object)
  *
  * This allows the retrieval of values in an
  * object given a string path.
@@ -2517,6 +2531,7 @@ require.register("utils/getPathValue.js", function(module, exports, require){
  * @param {String} path
  * @param {Object} object
  * @returns {Object} value or `undefined`
+ * @name getPathValue
  * @api public
  */
 
@@ -2554,7 +2569,7 @@ function parsePath (path) {
   });
 };
 
-/**
+/*!
  * ## _getPathValue(parsed, obj)
  *
  * Helper companion function for `.parsePath` that returns
@@ -2965,30 +2980,35 @@ require.register("utils/overwriteMethod.js", function(module, exports, require){
  */
 
 /**
- * # overwriteMethod (ctx, name, fn)
+ * ### overwriteMethod (ctx, name, fn)
  *
  * Overwites an already existing method and provides
  * access to previous function. Must return function
  * to be used for name.
  *
- *      utils.overwriteMethod(chai.Assertion.prototype, 'equal', function (_super) {
- *        return function (str) {
- *          var obj = utils.flag(this, 'object');
- *          if (obj instanceof Foo) {
- *            new chai.Assertion(obj.value).to.equal(str);
- *          } else {
- *            _super.apply(this, arguments);
- *          }
- *        }
- *      });
+ *     utils.overwriteMethod(chai.Assertion.prototype, 'equal', function (_super) {
+ *       return function (str) {
+ *         var obj = utils.flag(this, 'object');
+ *         if (obj instanceof Foo) {
+ *           new chai.Assertion(obj.value).to.equal(str);
+ *         } else {
+ *           _super.apply(this, arguments);
+ *         }
+ *       }
+ *     });
+ *
+ * Can also be accessed directly from `chai.Assertion`.
+ *
+ *     chai.Assertion.overwriteMethod('foo', fn);
  *
  * Then can be used as any other assertion.
  *
- *      expect(myFoo).to.equal('bar');
+ *     expect(myFoo).to.equal('bar');
  *
  * @param {Object} ctx object whose method is to be overwritten
  * @param {String} name of method to overwrite
  * @param {Function} method function that returns a function to be used for name
+ * @name overwriteMethod
  * @api public
  */
 
@@ -3015,29 +3035,35 @@ require.register("utils/overwriteProperty.js", function(module, exports, require
  */
 
 /**
- * # overwriteProperty (ctx, name, fn)
+ * ### overwriteProperty (ctx, name, fn)
  *
  * Overwites an already existing property getter and provides
  * access to previous value. Must return function to use as getter.
  *
- *      utils.overwriteProperty(chai.Assertion.prototype, 'ok', function (_super) {
- *        return function () {
- *          var obj = utils.flag(this, 'object');
- *          if (obj instanceof Foo) {
- *            new chai.Assertion(obj.name).to.equal('bar');
- *          } else {
- *            _super.call(this);
- *          }
- *        }
- *      });
+ *     utils.overwriteProperty(chai.Assertion.prototype, 'ok', function (_super) {
+ *       return function () {
+ *         var obj = utils.flag(this, 'object');
+ *         if (obj instanceof Foo) {
+ *           new chai.Assertion(obj.name).to.equal('bar');
+ *         } else {
+ *           _super.call(this);
+ *         }
+ *       }
+ *     });
+ *
+ *
+ * Can also be accessed directly from `chai.Assertion`.
+ *
+ *     chai.Assertion.overwriteProperty('foo', fn);
  *
  * Then can be used as any other assertion.
  *
- *      expect(myFoo).to.be.ok;
+ *     expect(myFoo).to.be.ok;
  *
  * @param {Object} ctx object whose property is to be overwritten
  * @param {String} name of property to overwrite
  * @param {Function} getter function that returns a getter function to be used for name
+ * @name overwriteProperty
  * @api public
  */
 
