@@ -44,26 +44,7 @@
         <div class="documentation">
           <div class="wrap">
             <div class="rendered">
-              <article><p>The assert (TDD) style is exposed through <code>assert</code> interfaces. This provides
-the classic assert-dot notation, similiar to that packaged with
-node.js. This assert module, however, provides several additional
-tests and is browser compatible.
-
-</p>
-<pre><code class="lang-javascript"><span class="comment">// assert</span>
-<span class="keyword">var</span> assert = require(<span class="string">'chai'</span>).assert;
-  , foo = <span class="string">'bar'</span>;
-
-assert.typeOf(foo, <span class="string">'string'</span>);
-assert.equal(foo, <span class="string">'bar'</span>);</code></pre>
-<h2>Configuration</h2>
-<p>By default, Chai does not show stack traces upon an AssertionError. This can
-be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:
-
-</p>
-<pre><code class="lang-javascript"><span class="keyword">var</span> chai = require(<span class="string">'chai'</span>);
-chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
-<h2>Assert API</h2>
+              <article><h2>Assert API</h2>
 </article>
               <div id="assert" class="segment">
                 <div class="summary"><h3>assert(expressions, errorMessage)</h3>

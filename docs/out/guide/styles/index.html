@@ -39,7 +39,7 @@
           <div id="installation" class="subitems"><a href="/guide/installation/#node" id="node" class="item secondary group-installation">Node</a><a href="/guide/installation/#browser" id="browser" class="item secondary group-installation">Browser</a><a href="/guide/installation/#other" id="other" class="item secondary group-installation">Other Platforms</a>
           </div>
           <div id="styles" class="item primary active expanded"><span class="expand">+</span><span class="collapse">-</span><a href="/guide/styles/" class="title">Assertion Styles</a></div>
-          <div id="styles" class="subitems"><a href="#expect" id="expect" class="item secondary expanded scroll group-styles">Expect</a><a href="#should" id="should" class="item secondary expanded scroll group-styles">Should</a><a href="#assert" id="assert" class="item secondary expanded scroll group-styles">Assert</a>
+          <div id="styles" class="subitems"><a href="#assert" id="assert" class="item secondary expanded scroll group-styles">Assert</a><a href="#expect" id="expect" class="item secondary expanded scroll group-styles">Expect</a><a href="#should" id="should" class="item secondary expanded scroll group-styles">Should</a><a href="#differences" id="differences" class="item secondary expanded scroll group-styles">Differences</a><a href="#should-extras" id="should-extras" class="item secondary expanded scroll group-styles">Should Extras</a><a href="#configure" id="configure" class="item secondary expanded scroll group-styles">Configuration</a>
           </div>
           <div id="plugins" class="item primary "><span class="expand">+</span><span class="collapse">-</span><a href="/guide/plugins/" class="title">Plugins</a></div>
           <div id="plugins" class="subitems">
@@ -54,48 +54,116 @@
               <div class="header"><p>Looking for the API Documentation?
 </p>
 </div>
-              <article id="expect-section"><h2>Expect</h2>
-<p>The <code>expect</code> style is server/browser BDD style assert language.
+              <article id="assert-section"><h2>Assert</h2>
+<p>The assert style is exposed through <code>assert</code> interface. This provides
+the classic assert-dot notation, similiar to that packaged with
+node.js. This assert module, however, provides several additional
+tests and is browser compatible.
 
 </p>
-<pre><code>  <span class="keyword">var</span> expect = require(<span class="string">'chai'</span>).expect
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+<pre><code><span class="keyword">var</span> assert = require(<span class="string">'chai'</span>).assert
+  , foo = <span class="string">'bar'</span>
+  , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
-  expect(foo).to.be.a(<span class="string">'string'</span>);
-  expect(foo).to.equal(<span class="string">'bar'</span>);
-  expect(foo).to.have.length(<span class="number">3</span>);
-  expect(beverages).to.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
+assert.typeOf(foo, <span class="string">'string'</span>, <span class="string">'foo is a string'</span>);
+assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
+assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
+assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
+<p>In all cases, the assert style allows you to include an optional message as the
+last parameter in the <code>assert</code> statement. These will be included in the 
+error messages should your assertion not pass.
+</p>
+</article>
+              <article id="expect-section"><h2>Expect</h2>
+<p>The BDD style is exposed through <code>expect</code> or <code>should</code> interfaces. In both
+scenarios, you chain together natural language assertions.
+
+</p>
+<pre><code><span class="keyword">var</span> expect = require(<span class="string">'chai'</span>).expect
+  , foo = <span class="string">'bar'</span>
+  , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+
+expect(foo).to.be.a(<span class="string">'string'</span>);
+expect(foo).to.equal(<span class="string">'bar'</span>);
+expect(foo).to.have.length(<span class="number">3</span>);
+expect(beverages).to.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
 </article>
               <article id="should-section"><h2>Should</h2>
-<p>The <code>should</code> style was inspired by <a href="https://github.com/visionmedia/should.js">should.js</a>
-and is completely API compatible.
+<p>The <code>should</code> style allows for the same chainable assertions as the
+the <code>expect</code> interface, however is extends each object with a <code>should</code>
+property to start your chain. This style has some issues when used Internet
+Explorer, so be aware of browser compatibility. 
 
 </p>
-<pre><code>  <span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+<pre><code><span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should() <span class="comment">//actually call the the function</span>
+  , foo = <span class="string">'bar'</span>
+  , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
 
-  foo.should.be.a(<span class="string">'string'</span>);
-  foo.should.equal(<span class="string">'bar'</span>);
-  foo.should.have.length(<span class="number">3</span>);
-  beverages.should.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
-<p>Notice that the <code>expect</code> require is just a reference to the <code>expect</code> function, whereas
-with the <code>should</code> require, the function is being executed.
+foo.should.be.a(<span class="string">'string'</span>);
+foo.should.equal(<span class="string">'bar'</span>);
+foo.should.have.length(<span class="number">3</span>);
+beverages.should.have.property(<span class="string">'tea'</span>).<span class="keyword">with</span>.length(<span class="number">3</span>);</code></pre>
+</article>
+              <article id="differences-section"><h2>Differences</h2>
+<p>First of all, notice that the <code>expect</code> require is just a reference to the 
+<code>expect</code> function, whereas with the <code>should</code> require, the function is 
+being executed.
+
+</p>
+<pre><code><span class="keyword">var</span> chai = require(<span class="string">'chai'</span>)
+  , expect = chai.expect
+  , should = chai.should();</code></pre>
+<p>The <code>expect</code> interface provides a function as a starting point for chaining
+your language assertions. It works on node.js and in all browsers.
+
+</p>
+<p>The <code>should</code> interface extends <code>Object.prototype</code> to provide a single getter as
+the starting point for your language assertions. It works on node.js and in
+all browsers except Internet Explorer.
 </p>
 </article>
-              <article id="assert-section"><h2>Assert</h2>
-<p>The <code>assert</code> style is like the node.js included assert utility with few extras.
+              <article id="should-extras-section"><h2>Should Extras</h2>
+<p>Given that <code>should</code> works by extending <code>Object.prototype</code>, there are
+some scenarios where <code>should</code> will not work. Mainly, if you are trying
+to check the existence of of an object. Take the following psuedocode:
 
 </p>
-<pre><code>  <span class="keyword">var</span> assert = require(<span class="string">'chai'</span>).assert
-    , foo = <span class="string">'bar'</span>
-    , beverages = { tea: [ <span class="string">'chai'</span>, <span class="string">'matcha'</span>, <span class="string">'oolong'</span> ] };
+<pre><code>db.get(<span class="number">1234</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span> {</span>
+  <span class="comment">// we expect error to not exist</span>
+  <span class="comment">// we expect doc to exist and be an object</span>
+});</code></pre>
+<p>Given that <code>err</code> should be null or undefined, <code>err.should.not.exist</code> is
+not a valid statement as <code>undefined</code> and <code>null</code> haven&#39;t been extended
+with a <code>should</code> chain starter. As such, the appropriate few assertions
+for this scenario are as follows:
 
-  assert.typeOf(foo, <span class="string">'string'</span>, <span class="string">'foo is a string'</span>);
-  assert.equal(foo, <span class="string">'bar'</span>, <span class="string">'foo equal `bar`'</span>);
-  assert.length(foo, <span class="number">3</span>, <span class="string">'foo`s value has a length of 3'</span>);
-  assert.length(beverages.tea, <span class="number">3</span>, <span class="string">'beverages has 3 types of tea'</span>);</code></pre>
+</p>
+<pre><code><span class="keyword">var</span> should = require(<span class="string">'chai'</span>).should();
+db.get(<span class="number">1234</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span> {</span>
+  should.not.exist(err);
+  should.exist(doc);
+  doc.should.be.an(<span class="string">'object'</span>);
+});</code></pre>
+<p>Provided you assigned <code>should</code> to a var, you have access to several 
+quick helpers to keep you out of trouble when using <code>should</code>.
+
+</p>
+<ul>
+<li><code>should.exist</code></li>
+<li><code>should.not.exist</code></li>
+<li><code>should.equal</code></li>
+<li><code>should.not.equal</code></li>
+<li><code>should.Throw</code></li>
+<li><code>should.not.Throw</code></li>
+</ul>
+</article>
+              <article id="configure-section"><h2>Configuration</h2>
+<p>By default, Chai does not show stack traces upon an AssertionError. This can
+be changed by modifying the <code>includeStack</code> parameter for chai.Assertion. For example:
+
+</p>
+<pre><code><span class="keyword">var</span> chai = require(<span class="string">'chai'</span>);
+chai.Assertion.includeStack = <span class="literal">true</span>; <span class="comment">// defaults to false</span></code></pre>
 </article>
             </div>
           </div>

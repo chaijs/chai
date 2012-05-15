@@ -204,6 +204,11 @@ Object.defineProperty(Assertion.prototype, '_obj',
  *
  * Negates any of assertions following in the chain.
  *
+ *    expect(foo).to.not.equal('bar');
+ *    expect(goodFn).to.not.throw(Error);
+ *    expect({ foo: 'baz' }).to.have.property('foo')
+ *      .and.not.equal('bar');
+ *
  * @name not
  * @api public
  */
@@ -219,10 +224,16 @@ Object.defineProperty(Assertion.prototype, 'not',
 /**
  * ### .a(type)
  *
- * Assert typeof. Also can be used as a language chain.
+ * The `a` and `an` assertions are aliases that can be
+ * used either as property languague chains or to assert
+ * typeof.
  *
- *      expect('test').to.be.a('string');
- *      expect(foo).to.be.an.instanceof(Foo);
+ *     // typeof
+ *     expect('test').to.be.a('string');
+ *     expect({ foo: 'bar' }).to.be.an('object');
+ *
+ *     // language chain
+ *     expect(foo).to.be.an.instanceof(Foo);
  *
  * @name a
  * @alias an
@@ -263,8 +274,10 @@ Object.defineProperty(Assertion.prototype, 'a',
 /**
  * ### .include(value)
  *
- * Assert the inclusion of an object in an Array or substring in string.
- * Also toggles the `contain` flag for the `keys` assertion if used as property.
+ * The `include` and `contain` assertions can be used as either a property
+ * based language chain or as a method to assert the inclusion of an object
+ * in an Array or substring in string. When used as a property langugae chain,
+ * it toggles the `contain` flag for the `keys` assertion.
  *
  *     expect([1,2,3]).to.include(2);
  *     expect('foobar').to.contain('foo');
@@ -308,10 +321,11 @@ Object.defineProperty(Assertion.prototype, 'include',
  *
  * Assert object truthiness.
  *
- *      expect('everthing').to.be.ok;
- *      expect(false).to.not.be.ok;
- *      expect(undefined).to.not.be.ok;
- *      expect(null).to.not.be.ok;
+ *     expect('everthing').to.be.ok;
+ *     expect(1).to.be.ok;
+ *     expect(false).to.not.be.ok;
+ *     expect(undefined).to.not.be.ok;
+ *     expect(null).to.not.be.ok;
  *
  * @name ok
  * @api public
@@ -333,6 +347,9 @@ Object.defineProperty(Assertion.prototype, 'ok',
  * ### .true
  *
  * Assert object is true
+ *
+ *     expect(true).to.be.true;
+ *     expect(1).to.not.be.true;
  *
  * @name true
  * @api public
@@ -357,6 +374,9 @@ Object.defineProperty(Assertion.prototype, 'true',
  *
  * Assert object is false
  *
+ *     expect(false).to.be.false;
+ *     expect(0).to.not.be.false;
+ *
  * @name false
  * @api public
  */
@@ -379,6 +399,9 @@ Object.defineProperty(Assertion.prototype, 'false',
  * ### .null
  *
  * Assert object is null
+ *
+ *     expect(null).to.be.null;
+ *     expect(undefined).not.to.be.null;
  *
  * @name null
  * @api public
@@ -403,6 +426,9 @@ Object.defineProperty(Assertion.prototype, 'null',
  *
  * Assert object is undefined
  *
+ *      expect(undefined).to.be.undefined;
+ *      expect(null).to.not.be.undefined;
+ *
  * @name undefined
  * @api public
  */
@@ -426,10 +452,11 @@ Object.defineProperty(Assertion.prototype, 'undefined',
  *
  * Assert object exists (null).
  *
- *      var foo = 'hi'
- *        , bar;
- *      expect(foo).to.exist;
- *      expect(bar).to.not.exist;
+ *     var foo = 'hi'
+ *       , bar;
+ *
+ *     expect(foo).to.exist;
+ *     expect(bar).to.not.exist;
  *
  * @name exist
  * @api public
@@ -451,9 +478,13 @@ Object.defineProperty(Assertion.prototype, 'exist',
 /**
  * ### .empty
  *
- * Assert object's length to be 0.
+ * Assert object's length to be `0`. For arrays, it check
+ * the length property. For objects it gets the count of
+ * enumerable keys.
  *
- *      expect([]).to.be.empty;
+ *     expect([]).to.be.empty;
+ *     expect('').to.be.empty;
+ *     expect({}).to.be.empty;
  *
  * @name empty
  * @api public
@@ -464,7 +495,7 @@ Object.defineProperty(Assertion.prototype, 'empty',
       var obj = flag(this, 'object')
         , expected = obj;
 
-      if (Array.isArray(obj)) {
+      if (Array.isArray(obj) || 'string' === typeof object) {
         expected = obj.length;
       } else if (typeof obj === 'object') {
         expected = Object.keys(obj).length;
@@ -485,9 +516,9 @@ Object.defineProperty(Assertion.prototype, 'empty',
  *
  * Assert object is an instanceof arguments.
  *
- *      function test () {
- *        expect(arguments).to.be.arguments;
- *      }
+ *     function test () {
+ *       expect(arguments).to.be.arguments;
+ *     }
  *
  * @name arguments
  * @api public
@@ -512,9 +543,11 @@ Object.defineProperty(Assertion.prototype, 'arguments',
 /**
  * ### .equal(value)
  *
- * Assert strict equality.
+ * Assert strict equality (===).
  *
- *      expect('hello').to.equal('hello');
+ *     expect('hello').to.equal('hello');
+ *     expect(42).to.equal(42);
+ *     expect(1).to.not.equal(true);
  *
  * @name equal
  * @param {Mixed} value
@@ -536,7 +569,8 @@ Assertion.prototype.equal = function (val) {
  *
  * Assert deep equality.
  *
- *      expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
+ *     expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
+ *     expect([ 1, 2, 3 ]).to.eql([ 1, 2, 3 ]);
  *
  * @name eql
  * @param {*} value
@@ -558,7 +592,7 @@ Assertion.prototype.eql = function (obj) {
  *
  * Assert greater than `value`.
  *
- *      expect(10).to.be.above(5);
+ *     expect(10).to.be.above(5);
  *
  * @name above
  * @alias gt
@@ -580,7 +614,7 @@ Assertion.prototype.above = function (val) {
  *
  * Assert less than `value`.
  *
- *      expect(5).to.be.below(10);
+ *     expect(5).to.be.below(10);
  *
  * @name below
  * @alias lt
@@ -602,7 +636,7 @@ Assertion.prototype.below = function (val) {
  *
  * Assert that a number is within a range.
  *
- *      expect(7).to.be.within(5,10);
+ *     expect(7).to.be.within(5,10);
  *
  * @name within
  * @param {Number} start lowerbound inclusive
@@ -627,10 +661,11 @@ Assertion.prototype.within = function (start, finish) {
  *
  * Assert instanceof.
  *
- *      var Tea = function (name) { this.name = name; }
- *        , Chai = new Tea('chai');
+ *     var Tea = function (name) { this.name = name; }
+ *       , Chai = new Tea('chai');
  *
- *      expect(Chai).to.be.an.instanceof(Tea);
+ *     expect(Chai).to.be.an.instanceof(Tea);
+ *     expect([ 1, 2, 3 ]).to.be.instanceof(Array);
  *
  * @name instanceof
  * @param {Constructor}
@@ -652,11 +687,23 @@ Assertion.prototype.instanceOf = function (constructor) {
  * ### .property(name, [value])
  *
  * Assert that property of `name` exists, optionally with `value`.
+ * Can use dot-notation for deep reference.
  *
- *      var obj = { foo: 'bar' }
- *      expect(obj).to.have.property('foo');
- *      expect(obj).to.have.property('foo', 'bar');
- *      expect(obj).to.have.property('foo').to.be.a('string');
+ *     // legacy / simple referencing
+ *     var obj = { foo: 'bar' }
+ *     expect(obj).to.have.property('foo');
+ *     expect(obj).to.have.property('foo', 'bar');
+ *     expect(obj).to.have.property('foo').to.be.a('string');
+ *
+ *     // deep referencing
+ *     var deepObj = {
+ *         green: { tea: 'matcha' }
+ *       , teas: [ 'chai', 'matcha', { tea: 'konacha' } ]
+ *     };
+
+ *     expect(deepObj).to.have.property('green.tea', 'matcha');
+ *     expect(deepObj).to.have.property('teas[1]', 'matcha');
+ *     expect(deepObj).to.have.property('teas[2].tea', 'konacha');
  *
  * @name property
  * @param {String} name
@@ -700,7 +747,7 @@ Assertion.prototype.property = function (name, val) {
  *
  * Assert that has own property by `name`.
  *
- *      expect('test').to.have.ownProperty('length');
+ *     expect('test').to.have.ownProperty('length');
  *
  * @name ownProperty
  * @alias haveOwnProperty
@@ -722,8 +769,8 @@ Assertion.prototype.ownProperty = function (name) {
  *
  * Assert that object has expected length.
  *
- *      expect([1,2,3]).to.have.length(3);
- *      expect('foobar').to.have.length(6);
+ *     expect([1,2,3]).to.have.length(3);
+ *     expect('foobar').to.have.length(6);
  *
  * @name length
  * @alias lengthOf
@@ -752,7 +799,7 @@ Assertion.prototype.length = function (n) {
  *
  * Assert that matches regular expression.
  *
- *      expect('foobar').to.match(/^foo/);
+ *     expect('foobar').to.match(/^foo/);
  *
  * @name match
  * @param {RegExp} RegularExpression
@@ -775,7 +822,7 @@ Assertion.prototype.match = function (re) {
  *
  * Assert inclusion of string in string.
  *
- *      expect('foobar').to.have.string('bar');
+ *     expect('foobar').to.have.string('bar');
  *
  * @name string
  * @param {String} string
@@ -797,10 +844,11 @@ Assertion.prototype.string = function (str) {
 /**
  * ### .keys(key1, [key2], [...])
  *
- * Assert exact keys or the inclusing of keys using the `contain` modifier.
+ * Assert exact keys or the inclusing of keys
+ * using the `include` or `contain` modifier.
  *
- *      expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
- *      expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
+ *     expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
+ *     expect({ foo: 1, bar: 2, baz: 3 }).to.contain.keys('foo', 'bar');
  *
  * @name keys
  * @alias key
@@ -868,22 +916,23 @@ Assertion.prototype.keys = function(keys) {
  * (as determined using `instanceof`), optionally with a RegExp or string inclusion test
  * for the error's message.
  *
- *      var err = new ReferenceError('This is a bad function.');
- *      var fn = function () { throw err; }
- *      expect(fn).to.throw(ReferenceError);
- *      expect(fn).to.throw(Error);
- *      expect(fn).to.throw(/bad function/);
- *      expect(fn).to.not.throw('good function');
- *      expect(fn).to.throw(ReferenceError, /bad function/);
- *      expect(fn).to.throw(err);
- *      expect(fn).to.not.throw(new RangeError('Out of range.'));
+ *     var err = new ReferenceError('This is a bad function.');
+ *     var fn = function () { throw err; }
+ *     expect(fn).to.throw(ReferenceError);
+ *     expect(fn).to.throw(Error);
+ *     expect(fn).to.throw(/bad function/);
+ *     expect(fn).to.not.throw('good function');
+ *     expect(fn).to.throw(ReferenceError, /bad function/);
+ *     expect(fn).to.throw(err);
+ *     expect(fn).to.not.throw(new RangeError('Out of range.'));
  *
  * Please note that when a throw expectation is negated, it will check each
  * parameter independently, starting with error constructor type. The appropriate way
  * to check for the existence of a type of error but for a message that does not match
  * is to use `and`.
  *
- *      expect(fn).to.throw(ReferenceError).and.not.throw(/good function/);
+ *     expect(fn).to.throw(ReferenceError)
+ *        .and.not.throw(/good function/);
  *
  * @name throw
  * @alias throws
@@ -974,8 +1023,8 @@ Assertion.prototype.Throw = function (constructor, msg) {
  *
  * Assert that object/class will respond to a method.
  *
- *      expect(Klass).to.respondTo('bar');
- *      expect(obj).to.respondTo('bar');
+ *     expect(Klass).to.respondTo('bar');
+ *     expect(obj).to.respondTo('bar');
  *
  * @name respondTo
  * @param {String} method
@@ -1004,7 +1053,7 @@ Assertion.prototype.respondTo = function (method) {
  *
  * Assert that passes a truth test.
  *
- *      expect(1).to.satisfy(function(num) { return num > 0; });
+ *     expect(1).to.satisfy(function(num) { return num > 0; });
  *
  * @name satisfy
  * @param {Function} matcher
@@ -1029,7 +1078,7 @@ Assertion.prototype.satisfy = function (matcher) {
  *
  * Assert that actual is equal to +/- delta.
  *
- *      expect(1.5).to.be.closeTo(1, 0.5);
+ *     expect(1.5).to.be.closeTo(1, 0.5);
  *
  * @name closeTo
  * @param {Number} expected
@@ -1262,7 +1311,7 @@ module.exports = function (chai, util) {
   /**
    * ### .equal(actual, expected, [message])
    *
-   * Assert strict equality.
+   * Assert non-strict equality (==).
    *
    *      assert.equal(3, 3, 'these numbers are equal');
    *
@@ -1288,7 +1337,7 @@ module.exports = function (chai, util) {
   /**
    * ### .notEqual(actual, expected, [message])
    *
-   * Assert not equal.
+   * Assert non-strict inequality (!=).
    *
    *      assert.notEqual(3, 4, 'these numbers are not equal');
    *
@@ -1314,7 +1363,7 @@ module.exports = function (chai, util) {
   /**
    * ### .strictEqual(actual, expected, [message])
    *
-   * Assert strict equality.
+   * Assert strict equality (===).
    *
    *      assert.strictEqual(true, true, 'these booleans are strictly equal');
    *
@@ -1332,7 +1381,7 @@ module.exports = function (chai, util) {
   /**
    * ### .notStrictEqual(actual, expected, [message])
    *
-   * Assert strict equality.
+   * Assert strict inequality (!==).
    *
    *      assert.notStrictEqual(1, true, 'these booleans are not strictly equal');
    *
