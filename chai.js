@@ -2011,7 +2011,7 @@ module.exports = function (chai, util) {
    * @api public
    */
 
-  assert.throws = function (fn, type, msg) {
+  assert.Throw = function (fn, type, msg) {
     if ('string' === typeof type) {
       msg = type;
       type = null;
@@ -2089,7 +2089,8 @@ module.exports = function (chai, util) {
     assert[as] = assert[name];
     return alias;
   })
-  ('throws', 'throw');
+  ('Throw', 'throw')
+  ('Throw', 'throws');
 };
 
 }); // module: interface/assert.js
