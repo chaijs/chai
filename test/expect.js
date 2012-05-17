@@ -228,6 +228,10 @@ suite('expect', function () {
     }, "expected '4' to equal 4");
   });
 
+  test('deep.equal(val)', function(){
+    expect({ foo: 'bar' }).to.deep.equal({ foo: 'bar' });
+  });
+
   test('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
@@ -278,14 +282,30 @@ suite('expect', function () {
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
 
-    expect({ foo: { bar: 'baz' }})
+    expect({ 'foo.bar': 'baz' })
       .to.have.property('foo.bar');
-    expect({ foo: { bar: 'baz' }})
-      .to.not.have.property('foo.bar.baz');
+    expect({ foo: { bar: 'baz' } })
+      .to.not.have.property('foo.bar');
 
     err(function(){
       expect('asd').to.have.property('foo');
     }, "expected 'asd' to have a property 'foo'");
+    err(function(){
+      expect({ foo: { bar: 'baz' } })
+        .to.have.property('foo.bar');
+    }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar'");
+  });
+
+  test('deep.property(name)', function(){
+    expect({ 'foo.bar': 'baz'})
+      .to.not.have.deep.property('foo.bar');
+    expect({ foo: { bar: 'baz' } })
+      .to.have.deep.property('foo.bar');
+
+    err(function(){
+      expect({ 'foo.bar': 'baz' })
+        .to.have.deep.property('foo.bar');
+    }, "expected { 'foo.bar': 'baz' } to have a deep property 'foo.bar'");
   });
 
   test('property(name, val)', function(){
@@ -307,6 +327,24 @@ suite('expect', function () {
     err(function(){
       expect('asd').to.have.property('constructor', Number);
     }, "expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+  });
+
+  test('deep.property(name, val)', function(){
+    expect({ foo: { bar: 'baz' } })
+      .to.have.deep.property('foo.bar', 'baz');
+
+    err(function(){
+      expect({ foo: { bar: 'baz' } })
+        .to.have.deep.property('foo.bar', 'quux');
+    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
+    err(function(){
+      expect({ foo: { bar: 'baz' } })
+        .to.not.have.deep.property('foo.bar', 'baz');
+    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+    err(function(){
+      expect({ foo: 5 })
+        .to.not.have.deep.property('foo.bar', 'baz');
+    }, "{ foo: 5 } has no deep property 'foo.bar'");
   });
 
   test('ownProperty(name)', function(){
