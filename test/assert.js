@@ -354,37 +354,47 @@ suite('assert', function () {
   });
 
   test('property', function () {
-    var obj = { foo: { bar: 'baz' }};
+    var obj = { foo: { bar: 'baz' } };
+    var simpleObj = { foo: 'bar' };
     assert.property(obj, 'foo');
-    assert.property(obj, 'foo.bar');
+    assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
-    assert.notProperty(obj, 'foo.baz');
-    assert.propertyVal(obj, 'foo.bar', 'baz');
-    assert.propertyNotVal(obj, 'foo.bar', 'flow');
+    assert.notProperty(obj, 'foo.bar');
+    assert.notDeepProperty(obj, 'foo.baz');
+    assert.deepPropertyVal(obj, 'foo.bar', 'baz');
+    assert.deepPropertyNotVal(obj, 'foo.bar', 'flow');
 
     err(function () {
       assert.property(obj, 'baz');
     }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
 
     err(function () {
-      assert.property(obj, 'foo.baz');
-    }, "expected { foo: { bar: 'baz' } } to have a property 'foo.baz'");
+      assert.deepProperty(obj, 'foo.baz');
+    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.baz'");
 
     err(function () {
       assert.notProperty(obj, 'foo');
     }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
 
     err(function () {
-      assert.notProperty(obj, 'foo.bar');
-    }, "expected { foo: { bar: 'baz' } } to not have property 'foo.bar'");
+      assert.notDeepProperty(obj, 'foo.bar');
+    }, "expected { foo: { bar: 'baz' } } to not have deep property 'foo.bar'");
 
     err(function () {
-      assert.propertyVal(obj, 'foo.bar', 'ball');
-    }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar' of 'ball', but got 'baz'");
+      assert.propertyVal(simpleObj, 'foo', 'ball');
+    }, "expected { foo: 'bar' } to have a property 'foo' of 'ball', but got 'bar'");
 
     err(function () {
-      assert.propertyNotVal(obj, 'foo.bar', 'baz');
-    }, "expected { foo: { bar: 'baz' } } to not have a property 'foo.bar' of 'baz'");
+      assert.deepPropertyVal(obj, 'foo.bar', 'ball');
+    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'ball', but got 'baz'");
+
+    err(function () {
+      assert.propertyNotVal(simpleObj, 'foo', 'bar');
+    }, "expected { foo: 'bar' } to not have a property 'foo' of 'bar'");
+
+    err(function () {
+      assert.deepPropertyNotVal(obj, 'foo.bar', 'baz');
+    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
   });
 
   test('throws', function() {
