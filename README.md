@@ -9,22 +9,22 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ### Contributors
 
-    commits: 436
-    files  : 41
-    authors: 
-     325  Jake Luer               74.5%
-      66  Veselin Todorov         15.1%
-      12  domenic                 2.8%
-       7  Domenic Denicola        1.6%
-       5  Juliusz Gonera          1.1%
-       5  Jo Liss                 1.1%
-       4  josher19                0.9%
-       4  John Firebaugh          0.9%
-       3  Jeff Barczewski         0.7%
-       2  Jakub Nešetřil          0.5%
-       1  Sasha Koss              0.2%
-       1  Vinay Pulim             0.2%
-       1  Anand Patil             0.2%
+     commits: 450
+     files  : 41
+     authors: 
+       333  Jake Luer               74.0%
+        66  Veselin Todorov         14.7%
+        18  domenic                 4.0%
+         7  Domenic Denicola        1.6%
+         5  Juliusz Gonera          1.1%
+         5  Jo Liss                 1.1%
+         4  josher19                0.9%
+         4  John Firebaugh          0.9%
+         3  Jeff Barczewski         0.7%
+         2  Jakub Nešetřil        0.4%
+         1  Sasha Koss              0.2%
+         1  Vinay Pulim             0.2%
+         1  Anand Patil             0.2%
 
 ## License
 

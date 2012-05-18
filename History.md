@@ -1,4 +1,17 @@
 
+1.0.1 / 2012-05-18 
+==================
+
+  * browser build
+  * Fixing "an" vs. "a" grammar in type assertions.
+  * Uniformize `assert` interface inline docs.
+  * Don't use `instanceof` for `assert.isArray`.
+  * Add `deep` flag for equality and property value.
+  * Merge pull request #64 from chaijs/assertion-docs
+  * Uniformize assertion inline docs.
+  * Add npm-debug.log to .gitignore.
+  * no reserved words as actuals. #62
+
 1.0.0 / 2012-05-15 
 ==================
 
