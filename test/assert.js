@@ -131,15 +131,15 @@ suite('assert', function () {
 
     err(function() {
       assert.isObject(true);
-    }, "expected true to be a object");
+    }, "expected true to be an object");
 
     err(function() {
       assert.isObject(Foo);
-    }, "expected [Function: Foo] to be a object");
+    }, "expected [Function: Foo] to be an object");
 
     err(function() {
       assert.isObject('foo');
-    }, "expected 'foo' to be a object");
+    }, "expected 'foo' to be an object");
   });
 
   test('isNotObject', function () {
@@ -148,7 +148,7 @@ suite('assert', function () {
 
     err(function() {
       assert.isNotObject({});
-    }, "expected {} not to be a object");
+    }, "expected {} not to be an object");
   });
 
   test('notEqual', function() {
@@ -246,7 +246,7 @@ suite('assert', function () {
 
     err(function () {
       assert.isArray({});
-    }, "expected {} to be a array");
+    }, "expected {} to be an array");
   });
 
   test('isNotArray', function () {
@@ -254,11 +254,11 @@ suite('assert', function () {
 
     err(function () {
       assert.isNotArray([]);
-    }, "expected [] not to be a array");
+    }, "expected [] not to be an array");
 
     err(function () {
       assert.isNotArray(new Array);
-    }, "expected [] not to be a array");
+    }, "expected [] not to be an array");
   });
 
   test('isString', function() {
