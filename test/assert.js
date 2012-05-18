@@ -246,7 +246,7 @@ suite('assert', function () {
 
     err(function () {
       assert.isArray({});
-    }, "expected {} to be an instance of Array");
+    }, "expected {} to be a array");
   });
 
   test('isNotArray', function () {
@@ -254,11 +254,11 @@ suite('assert', function () {
 
     err(function () {
       assert.isNotArray([]);
-    }, "expected [] to not be an instance of Array");
+    }, "expected [] not to be a array");
 
     err(function () {
       assert.isNotArray(new Array);
-    }, "expected [] to not be an instance of Array");
+    }, "expected [] not to be a array");
   });
 
   test('isString', function() {
