@@ -6,4 +6,4 @@ coverage.html
 lib-cov
 .travis.yml
 Makefile
-
+.mailmap
