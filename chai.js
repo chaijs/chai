@@ -2563,6 +2563,40 @@ module.exports = function (obj, args) {
 
 }); // module: utils/getActual.js
 
+require.register("utils/getAllFlags.js", function(module, exports, require){
+/*!
+ * Chai - getAllFlags utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * ### getAllFlags(object)
+ *
+ * Get all the flags for a specific object. When working
+ * with a chai assertion will have at least: `object`, `ssfi`,
+ * and `message` if it was provided. Depending on your usage,
+ * you might want to delete those.
+ *
+ *     utils.getAllFlags(this); // returns an object
+ *
+ * @param {Object} object (constructed Assertion)
+ * @name getAllFlags
+ * @api private
+ */
+
+module.exports = function (obj) {
+  var flags = obj.__flags || (obj.__flags = Object.create(null))
+    , res = {};
+
+  for (var flag in flags)
+    res[flag] = flags[flag];
+
+  return res;
+};
+
+}); // module: utils/getAllFlags.js
+
 require.register("utils/getMessage.js", function(module, exports, require){
 /*!
  * Chai - message composition utility
@@ -2786,6 +2820,12 @@ exports.inspect = require('./inspect');
  */
 
 exports.flag = require('./flag');
+
+/*!
+ * getAllFlags utility
+ */
+
+exports.getAllFlags = require('./getAllFlags');
 
 /*!
  * Deep equal utility
