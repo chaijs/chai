@@ -17,6 +17,18 @@ suite('utilities', function () {
     test.equal(bar);
   });
 
+  test('getAllFlags', function () {
+    var foo = 'bar'
+      , test = expect(foo).not;
+
+    chai.use(function (_chai, utils) {
+      var flags = utils.getAllFlags(test);
+      expect(flags).to.be.an('object');
+      expect(flags).to.have.property('object', foo);
+      expect(flags).to.have.property('negate', true);
+    });
+  });
+
   test('getPathValue', function () {
     var object = {
         hello: 'universe'
