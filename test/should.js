@@ -217,7 +217,7 @@ suite('should', function() {
 
     err(function(){
       (4).should.eql(3);
-    }, 'expected 4 to equal 3');
+    }, 'expected 4 to deeply equal 3');
   });
 
   test('equal(val)', function(){

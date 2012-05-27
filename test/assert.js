@@ -180,7 +180,7 @@ suite('assert', function () {
 
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
-    }, "expected { tea: \'chai\' } to equal { tea: \'black\' }");
+    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
   test('notDeepEqual', function() {
@@ -188,7 +188,7 @@ suite('assert', function () {
 
     err(function () {
       assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
-    }, "expected { tea: \'chai\' } to not equal { tea: \'chai\' }");
+    }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
   });
 
   test('isNull', function() {

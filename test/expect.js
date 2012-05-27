@@ -212,7 +212,7 @@ suite('expect', function () {
 
     err(function(){
       expect(4).to.eql(3);
-    }, 'expected 4 to equal 3');
+    }, 'expected 4 to deeply equal 3');
   });
 
   test('equal(val)', function(){
