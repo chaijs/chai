@@ -1,4 +1,18 @@
 
+1.0.2 / 2012-05-26 
+==================
+
+  * Merge pull request #67 from chaijs/chaining-and-flags
+  * Browser build.
+  * Use `addChainableMethod` to get away from `__proto__` manipulation.
+  * New `addChainableMethod` utility.
+  * Replace `getAllFlags` with `transferFlags` utility.
+  * browser build
+  * test - get all flags
+  * utility - get all flags
+  * Add .mailmap to .npmignore.
+  * Add a .mailmap file to fix my name in shortlogs.
+
 1.0.1 / 2012-05-18 
 ==================
 
