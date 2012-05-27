@@ -230,6 +230,7 @@ suite('expect', function () {
 
   test('deep.equal(val)', function(){
     expect({ foo: 'bar' }).to.deep.equal({ foo: 'bar' });
+    expect({ foo: 'bar' }).not.to.deep.equal({ foo: 'baz' });
   });
 
   test('empty', function(){
