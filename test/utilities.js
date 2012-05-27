@@ -207,4 +207,28 @@ suite('utilities', function () {
       expect(_.getMessage(obj, [])).to.contain('foo');
     });
   });
+
+  test('addChainableMethod', function () {
+    chai.use(function (_chai, _) {
+      _chai.Assertion.addChainableMethod('x',
+        function () {
+          new chai.Assertion(this._obj).to.be.equal('x');
+        }
+      , function () {
+          this._obj.__x = 'X!'
+        }
+      );
+
+      expect("foo").x.to.equal("foo");
+      expect("x").x();
+
+      expect(function () {
+        expect("foo").x();
+      }).to.throw(chai.AssertionError);
+
+      var obj = {};
+      expect(obj).x.to.be.ok;
+      expect(obj).to.have.property('__x', 'X!');
+    })
+  })
 });
