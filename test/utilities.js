@@ -17,17 +17,38 @@ suite('utilities', function () {
     test.equal(bar);
   });
 
-  test('getAllFlags', function () {
+  test('transferFlags', function () {
     var foo = 'bar'
       , test = expect(foo).not;
 
     chai.use(function (_chai, utils) {
-      var flags = utils.getAllFlags(test);
-      expect(flags).to.be.an('object');
-      expect(flags).to.have.property('object', foo);
-      expect(flags).to.have.property('negate', true);
+      var obj = {};
+      utils.transferFlags(test, obj);
+      expect(utils.flag(obj, 'object')).to.equal(foo);
+      expect(utils.flag(obj, 'negate')).to.equal(true);
     });
   });
+
+  test('transferFlags, includeAll = false', function () {
+    var foo = 'bar';
+
+    chai.use(function (_chai, utils) {
+      var obj = {};
+
+      var assertion = new chai.Assertion({}, "message", test);
+      var flag = {};
+      utils.flag(obj, 'flagMe', flag);
+      utils.flag(obj, 'negate', true);
+      utils.transferFlags(test, obj, false);
+
+      expect(utils.flag(obj, 'object')).to.equal(undefined);
+      expect(utils.flag(obj, 'message')).to.equal(undefined);
+      expect(utils.flag(obj, 'ssfi')).to.equal(undefined);
+      expect(utils.flag(obj, 'negate')).to.equal(true);
+      expect(utils.flag(obj, 'flagMe')).to.equal(flag);
+    });
+  });
+
 
   test('getPathValue', function () {
     var object = {
@@ -186,4 +207,28 @@ suite('utilities', function () {
       expect(_.getMessage(obj, [])).to.contain('foo');
     });
   });
+
+  test('addChainableMethod', function () {
+    chai.use(function (_chai, _) {
+      _chai.Assertion.addChainableMethod('x',
+        function () {
+          new chai.Assertion(this._obj).to.be.equal('x');
+        }
+      , function () {
+          this._obj.__x = 'X!'
+        }
+      );
+
+      expect("foo").x.to.equal("foo");
+      expect("x").x();
+
+      expect(function () {
+        expect("foo").x();
+      }).to.throw(chai.AssertionError);
+
+      var obj = {};
+      expect(obj).x.to.be.ok;
+      expect(obj).to.have.property('__x', 'X!');
+    })
+  })
 });

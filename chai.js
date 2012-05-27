@@ -111,6 +111,10 @@ Assertion.addMethod = function (name, fn) {
   util.addMethod(this.prototype, name, fn);
 };
 
+Assertion.addChainableMethod = function (name, fn, chainingBehavior) {
+  util.addChainableMethod(this.prototype, name, fn, chainingBehavior);
+};
+
 Assertion.overwriteProperty = function (name, fn) {
   util.overwriteProperty(this.prototype, name, fn);
 };
@@ -265,37 +269,23 @@ Object.defineProperty(Assertion.prototype, 'deep',
  * @api public
  */
 
-var an = function () {
-  var assert = function(type) {
-    var obj = flag(this, 'object')
-      , klassStart = type.charAt(0).toUpperCase()
-      , klass = klassStart + type.slice(1)
-      , article = ~[ 'A', 'E', 'I', 'O', 'U' ].indexOf(klassStart) ? 'an ' : 'a ';
+function an(type) {
+  var obj = flag(this, 'object')
+    , klassStart = type.charAt(0).toUpperCase()
+    , klass = klassStart + type.slice(1)
+    , article = ~[ 'A', 'E', 'I', 'O', 'U' ].indexOf(klassStart) ? 'an ' : 'a ';
 
-    this.assert(
-        '[object ' + klass + ']' === toString.call(obj)
-      , 'expected #{this} to be ' + article + type
-      , 'expected #{this} not to be ' + article + type
-      , '[object ' + klass + ']'
-      , toString.call(obj)
-    );
+  this.assert(
+      '[object ' + klass + ']' === toString.call(obj)
+    , 'expected #{this} to be ' + article + type
+    , 'expected #{this} not to be ' + article + type
+    , '[object ' + klass + ']'
+    , toString.call(obj)
+  );
+}
 
-    return this;
-  };
-
-  assert.__proto__ = this;
-  return assert;
-};
-
-Object.defineProperty(Assertion.prototype, 'an',
-  { get: an
-  , configurable: true
-});
-
-Object.defineProperty(Assertion.prototype, 'a',
-  { get: an
-  , configurable: true
-});
+Assertion.addChainableMethod('an', an);
+Assertion.addChainableMethod('a', an);
 
 /**
  * ### .include(value)
@@ -315,32 +305,20 @@ Object.defineProperty(Assertion.prototype, 'a',
  * @api public
  */
 
-var include = function () {
+function includeChainingBehavior() {
   flag(this, 'contains', true);
+}
 
-  var assert = function(val) {
-    var obj = flag(this, 'object')
-    this.assert(
-        ~obj.indexOf(val)
-      , 'expected #{this} to include ' + util.inspect(val)
-      , 'expected #{this} to not include ' + util.inspect(val));
+function include(val) {
+  var obj = flag(this, 'object')
+  this.assert(
+      ~obj.indexOf(val)
+    , 'expected #{this} to include ' + util.inspect(val)
+    , 'expected #{this} to not include ' + util.inspect(val));
+}
 
-    return this;
-  };
-
-  assert.__proto__ = this;
-  return assert;
-};
-
-Object.defineProperty(Assertion.prototype, 'contain',
-  { get: include
-  , configurable: true
-});
-
-Object.defineProperty(Assertion.prototype, 'include',
-  { get: include
-  , configurable: true
-});
+Assertion.addChainableMethod('include', include, includeChainingBehavior);
+Assertion.addChainableMethod('contain', include, includeChainingBehavior);
 
 /**
  * ### .ok
@@ -2316,6 +2294,86 @@ module.exports = function (chai, util) {
 
 }); // module: interface/should.js
 
+require.register("utils/addChainableMethod.js", function(module, exports, require){
+/*!
+ * Chai - addChainingMethod utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Module dependencies
+ */
+
+var transferFlags = require('./transferFlags');
+
+/**
+ * ### addChainableMethod (ctx, name, method, chainingBehavior)
+ *
+ * Adds a method to an object, such that the method can also be chained.
+ *
+ *     utils.addChainableMethod(chai.Assertion.prototype, 'foo', function (str) {
+ *       var obj = utils.flag(this, 'object');
+ *       new chai.Assertion(obj).to.be.equal(str);
+ *     });
+ *
+ * Can also be accessed directly from `chai.Assertion`.
+ *
+ *     chai.Assertion.addChainableMethod('foo', fn, chainingBehavior);
+ *
+ * The result can then be used as both a method assertion, executing both `method` and
+ * `chainingBehavior`, or as a language chain, which only executes `chainingBehavior`.
+ *
+ *     expect(fooStr).to.be.foo('bar');
+ *     expect(fooStr).to.be.foo.equal('foo');
+ *
+ * @param {Object} ctx object to which the method is added
+ * @param {String} name of method to add
+ * @param {Function} method function to be used for `name`, when called
+ * @param {Function} chainingBehavior function to be called every time the property is accessed
+ * @name addChainableMethod
+ * @api public
+ */
+
+module.exports = function (ctx, name, method, chainingBehavior) {
+  if (typeof chainingBehavior !== 'function') {
+    chainingBehavior = function () { };
+  }
+
+  Object.defineProperty(ctx, name,
+    { get: function () {
+        chainingBehavior.call(this);
+
+        var assert = function () {
+          var result = method.apply(this, arguments);
+          return result === undefined ? this : result;
+        };
+
+        // Re-enumerate every time to better accomodate plugins.
+        var asserterNames = Object.getOwnPropertyNames(ctx);
+        asserterNames.forEach(function (asserterName) {
+          var pd = Object.getOwnPropertyDescriptor(ctx, asserterName);
+
+          // Avoid trying to overwrite things that we can't, like `length`
+          // and `arguments`.
+          var functionProtoPD = Object.getOwnPropertyDescriptor(Function.prototype, asserterName);
+          if (functionProtoPD && !functionProtoPD.configurable) {
+            return;
+          }
+
+          Object.defineProperty(assert, asserterName, pd);
+        });
+
+        transferFlags(this, assert);
+
+        return assert;
+      }
+    , configurable: true
+  });
+};
+
+}); // module: utils/addChainableMethod.js
+
 require.register("utils/addMethod.js", function(module, exports, require){
 /*!
  * Chai - addMethod utility
@@ -2563,40 +2621,6 @@ module.exports = function (obj, args) {
 
 }); // module: utils/getActual.js
 
-require.register("utils/getAllFlags.js", function(module, exports, require){
-/*!
- * Chai - getAllFlags utility
- * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
-
-/**
- * ### getAllFlags(object)
- *
- * Get all the flags for a specific object. When working
- * with a chai assertion will have at least: `object`, `ssfi`,
- * and `message` if it was provided. Depending on your usage,
- * you might want to delete those.
- *
- *     utils.getAllFlags(this); // returns an object
- *
- * @param {Object} object (constructed Assertion)
- * @name getAllFlags
- * @api private
- */
-
-module.exports = function (obj) {
-  var flags = obj.__flags || (obj.__flags = Object.create(null))
-    , res = {};
-
-  for (var flag in flags)
-    res[flag] = flags[flag];
-
-  return res;
-};
-
-}); // module: utils/getAllFlags.js
-
 require.register("utils/getMessage.js", function(module, exports, require){
 /*!
  * Chai - message composition utility
@@ -2822,10 +2846,10 @@ exports.inspect = require('./inspect');
 exports.flag = require('./flag');
 
 /*!
- * getAllFlags utility
+ * Flag transferring utility
  */
 
-exports.getAllFlags = require('./getAllFlags');
+exports.transferFlags = require('./transferFlags');
 
 /*!
  * Deep equal utility
@@ -2868,6 +2892,13 @@ exports.overwriteProperty = require('./overwriteProperty');
  */
 
 exports.overwriteMethod = require('./overwriteMethod');
+
+/*!
+ * Add a chainable method
+ */
+
+exports.addChainableMethod = require('./addChainableMethod');
+
 
 }); // module: utils/index.js
 
@@ -3294,6 +3325,54 @@ module.exports = function (obj, args) {
 };
 
 }); // module: utils/test.js
+
+require.register("utils/transferFlags.js", function(module, exports, require){
+/*!
+ * Chai - transferFlags utility
+ * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * ### transferFlags(assertion, object, includeAll = true)
+ *
+ * Transfer all the flags for `assertion` to `object`. If
+ * `includeAll` is set to `false`, then the base Chai
+ * assertion flags (namely `object`, `ssfi`, and `message`)
+ * will not be transferred.
+ *
+ *
+ *     var newAssertion = new Assertion();
+ *     utils.transferFlags(assertion, newAssertion);
+ *
+ *     var anotherAsseriton = new Assertion(myObj);
+ *     utils.transferFlags(assertion, anotherAssertion, false);
+ *
+ * @param {Assertion} assertion the assertion to transfer the flags from
+ * @param {Object} object the object to transfer the flags too; usually a new assertion
+ * @param {Boolean} includeAll
+ * @name getAllFlags
+ * @api private
+ */
+
+module.exports = function (assertion, object, includeAll) {
+  var flags = assertion.__flags || (assertion.__flags = Object.create(null));
+
+  if (!object.__flags) {
+    object.__flags = Object.create(null);
+  }
+
+  includeAll = arguments.length === 3 ? includeAll : true;
+
+  for (var flag in flags) {
+    if (includeAll ||
+        (flag !== 'object' && flag !== 'ssfi' && flag != 'message')) {
+      object.__flags[flag] = flags[flag];
+    }
+  }
+};
+
+}); // module: utils/transferFlags.js
 
 
   return require('chai');
