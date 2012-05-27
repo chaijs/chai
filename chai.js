@@ -567,7 +567,7 @@ Object.defineProperty(Assertion.prototype, 'arguments',
 Assertion.prototype.equal = function (val) {
   var obj = flag(this, 'object');
   if (flag(this, 'deep')) {
-    new Assertion(obj).to.eql(val);
+    return this.eql(val);
   } else {
     this.assert(
         val === obj
@@ -595,8 +595,8 @@ Assertion.prototype.equal = function (val) {
 Assertion.prototype.eql = function (obj) {
   this.assert(
       util.eql(obj, flag(this, 'object'))
-    , 'expected #{this} to equal #{exp}'
-    , 'expected #{this} to not equal #{exp}'
+    , 'expected #{this} to deeply equal #{exp}'
+    , 'expected #{this} to not deeply equal #{exp}'
     , obj );
 
   return this;
@@ -1183,7 +1183,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.0.2';
+exports.version = '1.0.3';
 
 /*!
  * Primary `Assertion` prototype

@@ -9,12 +9,12 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ### Contributors
 
-     commits: 462
+     commits: 466
      files  : 44
      authors: 
-       339  Jake Luer               73.4%
-        66  Veselin Todorov         14.3%
-        31  Domenic Denicola        6.7%
+       340  Jake Luer               73.0%
+        66  Veselin Todorov         14.2%
+        34  Domenic Denicola        7.3%
          5  Jo Liss                 1.1%
          5  Juliusz Gonera          1.1%
          4  josher19                0.9%

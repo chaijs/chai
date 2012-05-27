@@ -1,4 +1,12 @@
 
+1.0.3 / 2012-05-27 
+==================
+
+  * Point Travis badge to the right place.
+  * Make error message for eql/deep.equal more clear.
+  * Fix .not.deep.equal.
+  * contributors list
+
 1.0.2 / 2012-05-26 
 ==================
 
