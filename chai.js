@@ -305,11 +305,11 @@ Assertion.addChainableMethod('a', an);
  * @api public
  */
 
-function includeChainingBehavior() {
+function includeChainingBehavior () {
   flag(this, 'contains', true);
 }
 
-function include(val) {
+function include (val) {
   var obj = flag(this, 'object')
   this.assert(
       ~obj.indexOf(val)
@@ -527,24 +527,22 @@ Object.defineProperty(Assertion.prototype, 'empty',
  *     }
  *
  * @name arguments
+ * @alias Arguments
  * @api public
  */
 
-Object.defineProperty(Assertion.prototype, 'arguments',
-  { get: function () {
-      var obj = flag(this, 'object');
-      this.assert(
-          '[object Arguments]' == Object.prototype.toString.call(obj)
-        , 'expected #{this} to be arguments'
-        , 'expected #{this} to not be arguments'
-        , '[object Arguments]'
-        , Object.prototype.toString.call(obj)
-      );
+function checkArguments () {
+  var obj = flag(this, 'object')
+    , type = Object.prototype.toString.call(obj);
+  this.assert(
+      '[object Arguments]' === type
+    , 'expected #{this} to be arguments but got ' + type
+    , 'expected #{this} to not be arguments'
+  );
+}
 
-      return this;
-    }
-  , configurable: true
-});
+Assertion.addProperty('arguments', checkArguments);
+Assertion.addProperty('Arguments', checkArguments);
 
 /**
  * ### .equal(value)
@@ -2336,9 +2334,8 @@ var transferFlags = require('./transferFlags');
  */
 
 module.exports = function (ctx, name, method, chainingBehavior) {
-  if (typeof chainingBehavior !== 'function') {
+  if (typeof chainingBehavior !== 'function')
     chainingBehavior = function () { };
-  }
 
   Object.defineProperty(ctx, name,
     { get: function () {
@@ -2352,20 +2349,15 @@ module.exports = function (ctx, name, method, chainingBehavior) {
         // Re-enumerate every time to better accomodate plugins.
         var asserterNames = Object.getOwnPropertyNames(ctx);
         asserterNames.forEach(function (asserterName) {
-          var pd = Object.getOwnPropertyDescriptor(ctx, asserterName);
-
-          // Avoid trying to overwrite things that we can't, like `length`
-          // and `arguments`.
-          var functionProtoPD = Object.getOwnPropertyDescriptor(Function.prototype, asserterName);
-          if (functionProtoPD && !functionProtoPD.configurable) {
-            return;
-          }
-
+          var pd = Object.getOwnPropertyDescriptor(ctx, asserterName)
+            , functionProtoPD = Object.getOwnPropertyDescriptor(Function.prototype, asserterName);
+          // Avoid trying to overwrite things that we can't, like `length` and `arguments`.
+          if (functionProtoPD && !functionProtoPD.configurable) return;
+          if (asserterName === 'arguments') return; // @see chaijs/chai/issues/69
           Object.defineProperty(assert, asserterName, pd);
         });
 
         transferFlags(this, assert);
-
         return assert;
       }
     , configurable: true

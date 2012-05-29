@@ -94,6 +94,8 @@ suite('expect', function () {
     var args = (function(){ return arguments; })(1,2,3);
     expect(args).to.be.arguments;
     expect([]).to.not.be.arguments;
+    expect(args).to.be.an('arguments').and.be.arguments;
+    expect([]).to.be.an('array').and.not.be.Arguments;
   });
 
   test('.equal()', function(){
