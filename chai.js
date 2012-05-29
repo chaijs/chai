@@ -2992,7 +2992,7 @@ function formatValue(ctx, value, recurseTimes) {
 
   // Make error with message first say the error
   if (isError(value)) {
-    base = ' ' + formatError(value);
+    return formatError(value);
   }
 
   if (keys.length === 0 && (!array || value.length == 0)) {
@@ -3173,6 +3173,7 @@ function isError(e) {
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
+
 }); // module: utils/inspect.js
 
 require.register("utils/overwriteMethod.js", function(module, exports, require){
