@@ -590,18 +590,21 @@ suite('expect', function () {
   test('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};
+    Foo.func = function() {};
 
     var bar = {};
     bar.foo = function(){};
 
     expect(Foo).to.respondTo('bar');
     expect(Foo).to.not.respondTo('foo');
+    expect(Foo).itself.to.respondTo('func');
+    expect(Foo).itself.not.to.respondTo('bar');
 
     expect(bar).to.respondTo('foo');
 
     err(function(){
       expect(Foo).to.respondTo('baz');
-    }, "expected [Function: Foo] to respond to \'baz\'");
+    }, "expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
 
     err(function(){
       expect(bar).to.respondTo('baz');
