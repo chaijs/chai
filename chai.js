@@ -1040,8 +1040,15 @@ Assertion.prototype.Throw = function (constructor, msg) {
  *
  * Asserts that the object or class target will respond to a method.
  *
+ *     Klass.prototype.bar = function(){};
  *     expect(Klass).to.respondTo('bar');
  *     expect(obj).to.respondTo('bar');
+ *
+ * To check if a constructor will respond to a static function,
+ * set the `itself` flag.
+ *
+ *    Klass.baz = function(){};
+ *    expect(Klass).itself.to.respondTo('baz');
  *
  * @name respondTo
  * @param {String} method
@@ -1050,7 +1057,8 @@ Assertion.prototype.Throw = function (constructor, msg) {
 
 Assertion.prototype.respondTo = function (method) {
   var obj = flag(this, 'object')
-    , context = ('function' === typeof obj)
+    , itself = flag(this, 'itself')
+    , context = ('function' === typeof obj && !itself)
       ? obj.prototype[method]
       : obj[method];
 
@@ -1064,6 +1072,29 @@ Assertion.prototype.respondTo = function (method) {
 
   return this;
 };
+
+/**
+ * ### .itself
+ *
+ * Sets the `itself` flag, later used by the `respondTo` assertion.
+ *
+ *    function Foo() {}
+ *    Foo.bar = function() {}
+ *    Foo.prototype.baz = function() {}
+ *
+ *    expect(Foo).itself.to.respondTo('bar');
+ *    expect(Foo).itself.not.to.respondTo('baz');
+ *
+ * @name itself
+ * @api public
+ */
+Object.defineProperty(Assertion.prototype, 'itself',
+  { get: function () {
+      flag(this, 'itself', true);
+      return this;
+    }
+  , configurable: true
+});
 
 /**
  * ### .satisfy(method)
