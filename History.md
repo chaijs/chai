@@ -1,4 +1,12 @@
 
+1.0.4 / 2012-06-03 
+==================
+
+  * Merge pull request #68 from fizker/itself
+  * Added itself chain.
+  * simplify error inspections for cross browser compatibility
+  * fix safari `addChainableMethod` errors. Closes #69
+
 1.0.3 / 2012-05-27 
 ==================
 

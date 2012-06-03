@@ -1212,7 +1212,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.0.3';
+exports.version = '1.0.4';
 
 /*!
  * Primary `Assertion` prototype
