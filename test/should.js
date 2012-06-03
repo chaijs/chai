@@ -548,18 +548,21 @@ suite('should', function() {
   test('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};
+    Foo.func = function(){};
 
     var bar = {};
     bar.foo = function(){};
 
     Foo.should.respondTo('bar');
     Foo.should.not.respondTo('foo');
+    Foo.should.itself.respondTo('func');
+    Foo.should.itself.not.respondTo('bar');
 
     bar.should.respondTo('foo');
 
     err(function(){
       Foo.should.respondTo('baz');
-    }, "expected [Function: Foo] to respond to \'baz\'");
+    }, "expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
 
     err(function(){
       bar.should.respondTo('baz');
