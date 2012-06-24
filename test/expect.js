@@ -139,6 +139,8 @@ suite('expect', function () {
     expect(5).to.be.within(3,6);
     expect(5).to.be.within(3,5);
     expect(5).to.not.be.within(1,3);
+    expect('foo').to.have.length.within(2,4);
+    expect([ 1, 2, 3 ]).to.have.length.within(2,4);
 
     err(function(){
       expect(5).to.not.be.within(4,6);
@@ -147,6 +149,14 @@ suite('expect', function () {
     err(function(){
       expect(10).to.be.within(50,100);
     }, "expected 10 to be within 50..100");
+
+    err(function () {
+      expect('foo').to.have.length.within(5,7);
+    }, "expected \'foo\' to have a length within 5..7");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.length.within(5,7);
+    }, "expected [ 1, 2, 3 ] to have a length within 5..7");
   });
 
   test('above(n)', function(){
@@ -154,6 +164,8 @@ suite('expect', function () {
     expect(5).to.be.greaterThan(2);
     expect(5).to.not.be.above(5);
     expect(5).to.not.be.above(6);
+    expect('foo').to.have.length.above(2);
+    expect([ 1, 2, 3 ]).to.have.length.above(2);
 
     err(function(){
       expect(5).to.be.above(6);
@@ -162,6 +174,14 @@ suite('expect', function () {
     err(function(){
       expect(10).to.not.be.above(6);
     }, "expected 10 to be below 6");
+
+    err(function () {
+      expect('foo').to.have.length.above(4);
+    }, "expected \'foo\' to have a length above 4 but got 3");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.length.above(4);
+    }, "expected [ 1, 2, 3 ] to have a length above 4 but got 3");
   });
 
   test('below(n)', function(){
@@ -169,6 +189,8 @@ suite('expect', function () {
     expect(2).to.be.lessThan(5);
     expect(2).to.not.be.below(2);
     expect(2).to.not.be.below(1);
+    expect('foo').to.have.length.below(4);
+    expect([ 1, 2, 3 ]).to.have.length.below(4);
 
     err(function(){
       expect(6).to.be.below(5);
@@ -177,6 +199,14 @@ suite('expect', function () {
     err(function(){
       expect(6).to.not.be.below(10);
     }, "expected 6 to be above 10");
+
+    err(function () {
+      expect('foo').to.have.length.below(2);
+    }, "expected \'foo\' to have a length below 2 but got 3");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.length.below(2);
+    }, "expected [ 1, 2, 3 ] to have a length below 2 but got 3");
   });
 
   test('match(regexp)', function(){
