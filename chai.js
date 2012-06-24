@@ -311,6 +311,7 @@ module.exports = function (chai, _) {
    * - be
    * - been
    * - is
+   * - that
    * - and
    * - have
    * - with
@@ -321,7 +322,7 @@ module.exports = function (chai, _) {
 
   [ 'to', 'be', 'been'
   , 'is', 'and', 'have'
-  , 'with' ].forEach(function (chain) {
+  , 'with', 'that' ].forEach(function (chain) {
     Assertion.addProperty(chain, function () {
       return this;
     });
@@ -638,6 +639,7 @@ module.exports = function (chai, _) {
    *
    * @name equal
    * @alias eq
+   * @alias deep.equal
    * @param {Mixed} value
    * @api public
    */
@@ -688,6 +690,14 @@ module.exports = function (chai, _) {
    *
    *     expect(10).to.be.above(5);
    *
+   * Can also be used in conjunction with `length` to
+   * assert a minimum length. The benefit being a
+   * more informative error message than if the length
+   * was supplied directly.
+   *
+   *     expect('foo').to.have.length.above(2);
+   *     expect([ 1, 2, 3 ]).to.have.length.above(2);
+   *
    * @name above
    * @alias gt
    * @alias greaterThan
@@ -695,12 +705,25 @@ module.exports = function (chai, _) {
    * @api public
    */
 
-  function assertAbove (val) {
-    this.assert(
-        flag(this, 'object') > val
-      , 'expected #{this} to be above ' + val
-      , 'expected #{this} to be below ' + val
-    );
+  function assertAbove (n) {
+    var obj = flag(this, 'object');
+    if (flag(this, 'doLength')) {
+      new Assertion(obj).to.have.property('length');
+      var len = obj.length;
+      this.assert(
+          len > n
+        , 'expected #{this} to have a length above #{exp} but got #{act}'
+        , 'expected #{this} to not have a length above #{exp}'
+        , n
+        , len
+      );
+    } else {
+      this.assert(
+          obj > n
+        , 'expected #{this} to be above ' + n
+        , 'expected #{this} to be below ' + n
+      );
+    }
   }
 
   Assertion.addMethod('above', assertAbove);
@@ -714,6 +737,14 @@ module.exports = function (chai, _) {
    *
    *     expect(5).to.be.below(10);
    *
+   * Can also be used in conjunction with `length` to
+   * assert a maximum length. The benefit being a
+   * more informative error message than if the length
+   * was supplied directly.
+   *
+   *     expect('foo').to.have.length.below(4);
+   *     expect([ 1, 2, 3 ]).to.have.length.below(4);
+   *
    * @name below
    * @alias lt
    * @alias lessThan
@@ -721,12 +752,25 @@ module.exports = function (chai, _) {
    * @api public
    */
 
-  function assertBelow (val) {
-    this.assert(
-        flag(this, 'object') < val
-      , 'expected #{this} to be below ' + val
-      , 'expected #{this} to be above ' + val
-    );
+  function assertBelow (n) {
+    var obj = flag(this, 'object');
+    if (flag(this, 'doLength')) {
+      new Assertion(obj).to.have.property('length');
+      var len = obj.length;
+      this.assert(
+          len < n
+        , 'expected #{this} to have a length below #{exp} but got #{act}'
+        , 'expected #{this} to not have a length below #{exp}'
+        , n
+        , len
+      );
+    } else {
+      this.assert(
+          obj < n
+        , 'expected #{this} to be below ' + n
+        , 'expected #{this} to be above ' + n
+      );
+    }
   }
 
   Assertion.addMethod('below', assertBelow);
@@ -740,6 +784,14 @@ module.exports = function (chai, _) {
    *
    *     expect(7).to.be.within(5,10);
    *
+   * Can also be used in conjunction with `length` to
+   * assert a length range. The benefit being a
+   * more informative error message than if the length
+   * was supplied directly.
+   *
+   *     expect('foo').to.have.length.within(2,4);
+   *     expect([ 1, 2, 3 ]).to.have.length.within(2,4);
+   *
    * @name within
    * @param {Number} start lowerbound inclusive
    * @param {Number} finish upperbound inclusive
@@ -749,12 +801,21 @@ module.exports = function (chai, _) {
   Assertion.addMethod('within', function (start, finish) {
     var obj = flag(this, 'object')
       , range = start + '..' + finish;
-
-    this.assert(
-        obj >= start && obj <= finish
-      , 'expected #{this} to be within ' + range
-      , 'expected #{this} to not be within ' + range
-    );
+    if (flag(this, 'doLength')) {
+      new Assertion(obj).to.have.property('length');
+      var len = obj.length;
+      this.assert(
+          len >= start && len <= finish
+        , 'expected #{this} to have a length within ' + range
+        , 'expected #{this} to not have a length within ' + range
+      );
+    } else {
+      this.assert(
+          obj >= start && obj <= finish
+        , 'expected #{this} to be within ' + range
+        , 'expected #{this} to not be within ' + range
+      );
+    }
   });
 
   /**
@@ -798,7 +859,6 @@ module.exports = function (chai, _) {
    *     var obj = { foo: 'bar' };
    *     expect(obj).to.have.property('foo');
    *     expect(obj).to.have.property('foo', 'bar');
-   *     expect(obj).to.have.property('foo').to.be.a('string');
    *
    *     // deep referencing
    *     var deepObj = {
@@ -810,7 +870,35 @@ module.exports = function (chai, _) {
    *     expect(deepObj).to.have.deep.property('teas[1]', 'matcha');
    *     expect(deepObj).to.have.deep.property('teas[2].tea', 'konacha');
    *
+   * You can also use an array as the starting point of a `deep.property`
+   * assertion, or traverse nested arrays.
+   *
+   *     var arr = [
+   *         [ 'chai', 'matcha', 'konacha' ]
+   *       , [ { tea: 'chai' }
+   *         , { tea: 'matcha' }
+   *         , { tea: 'konacha' } ]
+   *     ];
+   *
+   *     expect(arr).to.have.deep.property('[0][1]', 'matcha');
+   *     expect(arr).to.have.deep.property('[1][2].tea', 'konacha');
+   *
+   * Furthermore, `property` changes the subject of the assertion
+   * to be the value of that property from the original object. This
+   * permits for further chainable assertions on that property.
+   *
+   *     expect(obj).to.have.property('foo')
+   *       .that.is.a('string');
+   *     expect(deepObj).to.have.property('green')
+   *       .that.is.an('object')
+   *       .that.deep.equals({ tea: 'matcha' });
+   *     expect(deepObj).to.have.property('teas')
+   *       .that.is.an('array')
+   *       .with.deep.property('[2]')
+   *         .that.deep.equals({ tea: 'konacha' });
+   *
    * @name property
+   * @alias deep.property
    * @param {String} name
    * @param {Mixed} value (optional)
    * @returns value of property for chaining
@@ -876,16 +964,31 @@ module.exports = function (chai, _) {
   /**
    * ### .length(value)
    *
-   * Asserts that the target's `length` property has the expected value.
+   * Asserts that the target's `length` property has
+   * the expected value.
    *
-   *     expect([1,2,3]).to.have.length(3);
+   *     expect([ 1, 2, 3]).to.have.length(3);
    *     expect('foobar').to.have.length(6);
+   *
+   * Can also be used as a chain precursor to a value
+   * comparison for the length property.
+   *
+   *     expect('foo').to.have.length.above(2);
+   *     expect([ 1, 2, 3 ]).to.have.length.above(2);
+   *     expect('foo').to.have.length.below(4);
+   *     expect([ 1, 2, 3 ]).to.have.length.below(4);
+   *     expect('foo').to.have.length.within(2,4);
+   *     expect([ 1, 2, 3 ]).to.have.length.within(2,4);
    *
    * @name length
    * @alias lengthOf
    * @param {Number} length
    * @api public
    */
+
+  function assertLengthChain () {
+    flag(this, 'doLength', true);
+  }
 
   function assertLength (n) {
     var obj = flag(this, 'object');
@@ -901,8 +1004,8 @@ module.exports = function (chai, _) {
     );
   }
 
-  Assertion.addMethod('length', assertLength);
-  Assertion.addMethod('lengthOf', assertLength);
+  Assertion.addChainableMethod('length', assertLength, assertLengthChain);
+  Assertion.addMethod('lengthOf', assertLength, assertLengthChain);
 
   /**
    * ### .match(regexp)
@@ -2738,13 +2841,13 @@ var getPathValue = module.exports = function (path, obj) {
  */
 
 function parsePath (path) {
-  var parts = path.split('.').filter(Boolean);
+  var str = path.replace(/\[/g, '.[')
+    , parts = str.match(/(\\\.|[^.]+?)+/g);
   return parts.map(function (value) {
-    var re = /([A-Za-z0-9]+)\[(\d+)\]$/
+    var re = /\[(\d+)\]$/
       , mArr = re.exec(value)
-      , val;
-    if (mArr) val = { p: mArr[1], i: parseFloat(mArr[2]) };
-    return val || value;
+    if (mArr) return { i: parseFloat(mArr[1]) };
+    else return { p: value };
   });
 };
 
@@ -2768,11 +2871,10 @@ function _getPathValue (parsed, obj) {
   for (var i = 0, l = parsed.length; i < l; i++) {
     var part = parsed[i];
     if (tmp) {
-      if ('object' === typeof part && tmp[part.p]) {
-        tmp = tmp[part.p][part.i];
-      } else {
-        tmp = tmp[part];
-      }
+      if ('undefined' !== typeof part.p)
+        tmp = tmp[part.p];
+      else if ('undefined' !== typeof part.i)
+        tmp = tmp[part.i];
       if (i == (l - 1)) res = tmp;
     } else {
       res = undefined;
