@@ -224,7 +224,7 @@ suite('utilities', function () {
 
       expect(function () {
         expect("foo").x();
-      }).to.throw(chai.AssertionError);
+      }).to.throw(_chai.AssertionError);
 
       var obj = {};
       expect(obj).x.to.be.ok;
