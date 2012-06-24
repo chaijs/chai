@@ -6,10 +6,10 @@ var args = process.argv.slice(2)
   , files = {};
 
 var ignores = [
-    'error.js'
+    'chai/error.js'
 ]
 
-args.forEach(function(file){
+args.forEach(function (file){
   var mod = file.replace('lib/', '');
   if (~ignores.indexOf(mod)) return --pending;
   fs.readFile(file, 'utf8', function(err, js){
@@ -39,7 +39,8 @@ function parseInheritance (js) {
 
 function parseRequires (js) {
   return js
-    .replace(/require\('.\/error'\)/g, "require('./browser/error')");
+    .replace(/require\('.\/error'\)/g, "require('./browser/error')")
+    .replace(/require\('.\/chai\/error'\)/g, "require('./chai/browser/error')");
 }
 
 
