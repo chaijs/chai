@@ -60,8 +60,11 @@ suite('utilities', function () {
       , complex: [
             { hello: 'universe' }
           , { universe: 'world' }
+          , [ { hello: 'world' } ]
         ]
     }
+
+    var arr = [ [ true ] ];
 
     chai.use(function (_chai, utils) {
       var gpv = utils.getPathValue;
@@ -69,6 +72,8 @@ suite('utilities', function () {
       expect(gpv('universe.hello', object)).to.equal('world');
       expect(gpv('world[1]', object)).to.equal('universe');
       expect(gpv('complex[1].universe', object)).to.equal('world');
+      expect(gpv('complex[2][0].hello', object)).to.equal('world');
+      expect(gpv('[0][0]', arr)).to.be.true;
     });
   });
 
