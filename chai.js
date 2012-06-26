@@ -1325,7 +1325,7 @@ module.exports = function (chai, _) {
   Assertion.addMethod('closeTo', function (expected, delta) {
     var obj = flag(this, 'object');
     this.assert(
-        (obj - delta === expected) || (obj + delta === expected)
+        Math.abs(obj - expected) <= delta
       , 'expected #{this} to be close to ' + expected + ' +/- ' + delta
       , 'expected #{this} not to be close to ' + expected + ' +/- ' + delta
     );
@@ -3067,8 +3067,9 @@ function formatValue(ctx, value, recurseTimes) {
 
   // Make functions say that they are functions
   if (typeof value === 'function') {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
+    var name = getName(value);
+    var nameSuffix = name ? ': ' + name : '';
+    base = ' [Function' + nameSuffix + ']';
   }
 
   // Make RegExps say that they are RegExps
