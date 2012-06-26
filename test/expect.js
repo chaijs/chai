@@ -655,9 +655,15 @@ suite('expect', function () {
 
   test('closeTo', function(){
     expect(1.5).to.be.closeTo(1.0, 0.5);
+    expect(10).to.be.closeTo(20, 20);
+    expect(-10).to.be.closeTo(20, 30);
 
     err(function(){
       expect(2).to.be.closeTo(1.0, 0.5);
     }, "expected 2 to be close to 1 +/- 0.5");
+
+    err(function(){
+      expect(-10).to.be.closeTo(20, 29);
+    }, "expected -10 to be close to 20 +/- 29");
   });
 });
