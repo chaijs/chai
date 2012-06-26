@@ -27,7 +27,12 @@ suite('configuration', function () {
       fooThrows();
       assert.ok(false, 'should not get here because error thrown');
     } catch (err) {
-      assert.ok(!err.stack || err.stack.indexOf('at fooThrows') === -1, 'should not have stack trace in error message');
+      // IE 10 supports err.stack in Chrome format, but without
+      // `Error.captureStackTrace` support that allows tuning of the error
+      // message.
+      if (typeof Error.captureStackTrace !== 'undefined') {
+        assert.ok(!err.stack || err.stack.indexOf('at fooThrows') === -1, 'should not have stack trace in error message');
+      }
     }
   });
 
