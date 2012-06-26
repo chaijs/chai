@@ -1,4 +1,29 @@
 
+1.1.0 / 2012-06-26 
+==================
+
+  * browser build
+  * Disable "Assertion.includeStack is false" test in IE.
+  * Use `utils.getName` for all function inspections.
+  * Merge pull request #80 from kilianc/closeTo
+  * fixes #79
+  * browser build
+  * expand  docs to indicate change of subject for chaining. Closes #78
+  * add `that` chain noop
+  * Merge branch 'bug/74'
+  * comments on how to property use `length` as chain. Closes #74
+  * tests for length as chainable property. #74
+  * add support for `length` as chainable prop/method.
+  * Merge branch 'bug/77'
+  * tests for getPathValue when working with nested arrays. Closes #77
+  * add getPathValue support for nested arrays
+  * browser build
+  * fix bug for missing browser utils
+  * compile tool aware of new folder layout
+  * Merge branch 'refactor/1dot1'
+  * move core assertions to own file and refactor all using utils
+  * rearrange folder structure
+
 1.0.4 / 2012-06-03 
 ==================
 
