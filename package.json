@@ -28,6 +28,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*"
+      "folio": "0.3.x"
+    , "mocha": "*"
   }
 }
