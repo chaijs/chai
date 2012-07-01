@@ -1,7 +1,6 @@
 
 TESTS = test/*.js
 REPORTER = dot
-SRC = $(shell find lib -name "*.js" -type f | sort)
 
 all: chai.js
 
@@ -20,8 +19,11 @@ test:
 test-cov: lib-cov
 	@CHAI_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
-lib-cov:
-	@rm -rf lib-cov
+lib-cov: clean-cov
 	@jscoverage lib lib-cov
 
-.PHONY: clean test docs clean-docs doc-server test-cov lib-cov
+clean-cov:
+	@rm -f coverage.html
+	@rm -fr lib-cov
+
+.PHONY: all chai.js clean clean-cov test docs clean-docs doc-server test-cov lib-cov
