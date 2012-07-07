@@ -664,6 +664,7 @@
       }
 
       Assertion.addMethod('equal', assertEqual);
+      Assertion.addMethod('equals', assertEqual);
       Assertion.addMethod('eq', assertEqual);
 
       /**
