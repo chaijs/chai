@@ -1,5 +1,6 @@
 !function (name, context, definition) {
-  if (typeof module !== 'undefined') module.exports = definition(name, context);
+  if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
+    module.exports = definition(name, context);
   else if (typeof define === 'function' && typeof define.amd  === 'object') define(definition);
   else context[name] = definition(name, context);
 }('chai', this, function (name, context) {
@@ -256,6 +257,38 @@
     });
 
   }); // module: chai/assertion.js
+
+  require.register("chai/browser/error.js", function(module, exports, require){
+    /*!
+     * chai
+     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    module.exports = AssertionError;
+
+    function AssertionError (options) {
+      options = options || {};
+      this.message = options.message;
+      this.actual = options.actual;
+      this.expected = options.expected;
+      this.operator = options.operator;
+
+      if (options.stackStartFunction && Error.captureStackTrace) {
+        var stackStartFunction = options.stackStartFunction;
+        Error.captureStackTrace(this, stackStartFunction);
+      }
+    }
+
+    AssertionError.prototype = Object.create(Error.prototype);
+    AssertionError.prototype.name = 'AssertionError';
+    AssertionError.prototype.constructor = AssertionError;
+
+    AssertionError.prototype.toString = function() {
+      return this.message;
+    };
+
+  }); // module: chai/browser/error.js
 
   require.register("chai/core/assertions.js", function(module, exports, require){
     /*!
@@ -2358,38 +2391,6 @@
     };
 
   }); // module: chai/interface/should.js
-
-  require.register("chai/browser/error.js", function(module, exports, require){
-    /*!
-     * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
-     * MIT Licensed
-     */
-
-    module.exports = AssertionError;
-
-    function AssertionError (options) {
-      options = options || {};
-      this.message = options.message;
-      this.actual = options.actual;
-      this.expected = options.expected;
-      this.operator = options.operator;
-
-      if (options.stackStartFunction && Error.captureStackTrace) {
-        var stackStartFunction = options.stackStartFunction;
-        Error.captureStackTrace(this, stackStartFunction);
-      }
-    }
-
-    AssertionError.prototype = Object.create(Error.prototype);
-    AssertionError.prototype.name = 'AssertionError';
-    AssertionError.prototype.constructor = AssertionError;
-
-    AssertionError.prototype.toString = function() {
-      return this.message;
-    };
-
-  }); // module: chai/browser/error.js
 
   require.register("chai/utils/addChainableMethod.js", function(module, exports, require){
     /*!
