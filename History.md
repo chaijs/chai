@@ -1,4 +1,18 @@
 
+1.1.1 / 2012-07-09 
+==================
+
+  * improve commonjs support on browser build
+  * Merge pull request #83 from tkazec/equals
+  * Document .equals
+  * Add .equals as an alias of .equal
+  * remove unused browser prefix/suffix
+  * Merge branch 'feature/folio-build'
+  * browser build
+  * using folio to compile
+  * clean up makefile
+  * early folio 0.3.x support
+
 1.1.0 / 2012-06-26 
 ==================
 
