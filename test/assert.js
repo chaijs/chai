@@ -10,12 +10,20 @@ if (!chai) {
 
 var assert = chai.assert;
 
-function err(fn, msg) {
+function err(fn, msg, extraProperties) {
   try {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
     assert.equal(msg, err.message);
+    if (extraProperties) {
+      var actual = {};
+      Object.keys(extraProperties).forEach(function(key) {
+        if (extraProperties.hasOwnProperty(key))
+          actual[key] = err[key];
+      });
+      assert.equal(JSON.stringify(extraProperties), JSON.stringify(actual));
+    }
   }
 }
 
@@ -186,7 +194,9 @@ suite('assert', function () {
 
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
-    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+    }, "expected { tea: \'chai\' } to deeply equal \'{\"tea\":\"black\"}\'",
+       { expected: "{\"tea\":\"black\"}",
+         actual:   "{\"tea\":\"chai\"}" });
   });
 
   test('notDeepEqual', function() {
@@ -194,7 +204,9 @@ suite('assert', function () {
 
     err(function () {
       assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
-    }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
+    }, "expected { tea: \'chai\' } to not deeply equal \'{\"tea\":\"chai\"}\'",
+       { expected: "{\"tea\":\"chai\"}",
+         actual:   "{\"tea\":\"chai\"}" });
   });
 
   test('isNull', function() {
