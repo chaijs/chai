@@ -113,6 +113,12 @@ suite('assert', function () {
     err(function () {
       assert.instanceOf(5, Foo);
     }, "expected 5 to be an instance of Foo");
+
+    function CrashyObject() {};
+    CrashyObject.prototype.inspect = function () {
+      throw new Error("Arg's inspect() called even though the test passed");
+    };
+    assert.instanceOf(new CrashyObject(), CrashyObject);
   });
 
   test('notInstanceOf', function () {
