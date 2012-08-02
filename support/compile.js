@@ -14,9 +14,23 @@ folio('chai')
     .line('  ')
     .pop()
   .use(folio.wrapper())
-    .template('amd')
-    .package('chai')
-    .expose("require('chai')")
+    .prefix([
+        '!function (name, context, definition) {'
+      , '  if (typeof require === \'function\' && typeof exports === \'object\' && typeof module === \'object\') {'
+      , '    module.exports = definition();'
+      , '  } else if (typeof define === \'function\' && typeof define.amd  === \'object\') {'
+      , '    define(function () {'
+      , '      return definition();'
+      , '    });'
+      , '  } else {'
+      , '    context[name] = definition();'
+      , '  }'
+      , '}(\'chai\', this, function () {\n'
+    ].join('\n'))
+    .suffix([
+        '\n  return require(\'chai\');'
+      , '});'
+    ].join('\n'))
     .pop()
   .use(folio.save())
     .file('./chai.js')

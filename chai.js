@@ -1,10 +1,14 @@
 !function (name, context, definition) {
-  if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    module.exports = definition(name, context);
-  else if (typeof define === 'function' && typeof define.amd  === 'object') define(definition);
-  else context[name] = definition(name, context);
-}('chai', this, function (name, context) {
-
+  if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
+    module.exports = definition();
+  } else if (typeof define === 'function' && typeof define.amd  === 'object') {
+    define(function () {
+      return definition();
+    });
+  } else {
+    context[name] = definition();
+  }
+}('chai', this, function () {
 
   function require(p) {
     var path = require.resolve(p)
@@ -3021,6 +3025,36 @@
       return formatValue(ctx, obj, (typeof depth === 'undefined' ? 2 : depth));
     }
 
+    // https://gist.github.com/1044128/
+    var getOuterHTML = function(element) {
+      if ('outerHTML' in element) return element.outerHTML;
+      var ns = "http://www.w3.org/1999/xhtml";
+      var container = document.createElementNS(ns, '_');
+      var elemProto = (window.HTMLElement || window.Element).prototype;
+      var xmlSerializer = new XMLSerializer();
+      var html;
+      if (document.xmlVersion) {
+        return xmlSerializer.serializeToString(element);
+      } else {
+        container.appendChild(element.cloneNode(false));
+        html = container.innerHTML.replace('><', '>' + element.innerHTML + '<');
+        container.innerHTML = '';
+        return html;
+      }
+    };
+
+    // Returns true if object is a DOM element.
+    var isDOMElement = function (object) {
+      if (typeof HTMLElement === 'object') {
+        return object instanceof HTMLElement;
+      } else {
+        return object &&
+          typeof object === 'object' &&
+          object.nodeType === 1 &&
+          typeof object.nodeName === 'string';
+      }
+    };
+
     function formatValue(ctx, value, recurseTimes) {
       // Provide a hook for user-specified inspect functions.
       // Check that value is an object with an inspect function on it
@@ -3036,6 +3070,11 @@
       var primitive = formatPrimitive(ctx, value);
       if (primitive) {
         return primitive;
+      }
+
+      // If it's DOM elem, get outer HTML.
+      if (isDOMElement(value)) {
+        return getOuterHTML(value);
       }
 
       // Look up the keys of the object.
