@@ -472,4 +472,18 @@ suite('assert', function () {
       assert.operator(1, '!==', '1');
      }, "expected 1 to be !== \'1\'");
   });
+
+  test('closeTo', function(){
+    assert.closeTo(1.5, 1.0, 0.5);
+    assert.closeTo(10, 20, 20);
+    assert.closeTo(-10, 20, 30);
+
+    err(function(){
+      assert.closeTo(2, 1.0, 0.5);
+    }, "expected 2 to be close to 1 +/- 0.5");
+
+    err(function(){
+      assert.closeTo(-10, 20, 29);
+    }, "expected -10 to be close to 20 +/- 29");
+  });
 });
