@@ -918,10 +918,12 @@
        */
 
       Assertion.addMethod('property', function (name, val) {
-        var obj = flag(this, 'object')
-          , value = flag(this, 'deep') ? _.getPathValue(name, obj) : obj[name]
-          , descriptor = flag(this, 'deep') ? 'deep property ' : 'property '
-          , negate = flag(this, 'negate');
+        var descriptor = flag(this, 'deep') ? 'deep property ' : 'property '
+          , negate = flag(this, 'negate')
+          , obj = flag(this, 'object')
+          , value = flag(this, 'deep')
+            ? _.getPathValue(name, obj)
+            : obj[name];
 
         if (negate && undefined !== val) {
           if (undefined === value) {
@@ -2292,6 +2294,25 @@
           , 'expected ' + util.inspect(val) + ' to not be ' + operator + ' ' + util.inspect(val2) );
       };
 
+      /**
+       * ### .closeTo(actual, expected, delta, [message])
+       *
+       * Asserts that the target is equal `expected`, to within a +/- `delta` range.
+       *
+       *     assert.closeTo(1.5, 1, 0.5, 'numbers are close');
+       *
+       * @name closeTo
+       * @param {Number} actual
+       * @param {Number} expected
+       * @param {Number} delta
+       * @param {String} message
+       * @api public
+       */
+
+      assert.closeTo = function (act, exp, delta, msg) {
+        new Assertion(act, msg).to.be.closeTo(exp, delta);
+      };
+
       /*!
        * Undocumented / untested
        */
@@ -2478,7 +2499,7 @@
      */
 
     /**
-     * ### addMethod (ctx, name, method)
+     * ### .addMethod (ctx, name, method)
      *
      * Adds a method to the prototype of an object.
      *
@@ -2730,10 +2751,11 @@
 
     var flag = require('./flag')
       , getActual = require('./getActual')
-      , inspect = require('./inspect');
+      , inspect = require('./inspect')
+      , objDisplay = require('./objDisplay');
 
     /**
-     * # getMessage(object, message, negateMessage)
+     * ### .getMessage(object, message, negateMessage)
      *
      * Construct the error message based on flags
      * and template tags. Template tags will return
@@ -2746,6 +2768,8 @@
      *
      * @param {Object} object (constructed Assertion)
      * @param {Arguments} chai.Assertion.prototype.assert arguments
+     * @name getMessage
+     * @api public
      */
 
     module.exports = function (obj, args) {
@@ -2758,9 +2782,9 @@
 
       msg = msg || '';
       msg = msg
-        .replace(/#{this}/g, inspect(val))
-        .replace(/#{act}/g, inspect(actual))
-        .replace(/#{exp}/g, inspect(expected));
+        .replace(/#{this}/g, objDisplay(val))
+        .replace(/#{act}/g, objDisplay(actual))
+        .replace(/#{exp}/g, objDisplay(expected));
 
       return flagMsg ? flagMsg + ': ' + msg : msg;
     };
@@ -2935,6 +2959,12 @@
     exports.inspect = require('./inspect');
 
     /*!
+     * Object Display util
+     */
+
+    exports.objDisplay = require('./objDisplay');
+
+    /*!
      * Flag utility
      */
 
@@ -3042,7 +3072,7 @@
         return html;
       }
     };
-
+      
     // Returns true if object is a DOM element.
     var isDOMElement = function (object) {
       if (typeof HTMLElement === 'object') {
@@ -3314,6 +3344,54 @@
     }
 
   }); // module: chai/utils/inspect.js
+
+  require.register("chai/utils/objDisplay.js", function(module, exports, require){
+    /*!
+     * Chai - flag utility
+     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    /*!
+     * Module dependancies
+     */
+
+    var inspect = require('./inspect');
+
+    /**
+     * ### .objDisplay (object)
+     *
+     * Determines if an object or an array matches
+     * criteria to be inspected in-line for error
+     * messages or should be truncated.
+     *
+     * @param {Mixed} javascript object to inspect
+     * @name objDisplay
+     * @api public
+     */
+
+    module.exports = function (obj) {
+      var str = inspect(obj)
+        , type = Object.prototype.toString.call(obj);
+
+      if (str.length >= 40) {
+        if (type === '[object Array]') {
+          return '[ Array(' + obj.length + ') ]';
+        } else if (type === '[object Object]') {
+          var keys = Object.keys(obj)
+            , kstr = keys.length > 2
+              ? keys.splice(0, 2).join(', ') + ', ...'
+              : keys.join(', ');
+          return '{ Object (' + kstr + ') }';
+        } else {
+          return str;
+        }
+      } else {
+        return str;
+      }
+    };
+
+  }); // module: chai/utils/objDisplay.js
 
   require.register("chai/utils/overwriteMethod.js", function(module, exports, require){
     /*!
