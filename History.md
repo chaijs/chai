@@ -1,4 +1,24 @@
 
+1.2.0 / 2012-08-07 
+==================
+
+  * Merge branch 'feature/errmsg'
+  * browser build
+  * comment updates for utilities
+  * tweak objDislay to only kick in if object inspection is too long
+  * Merge branch 'master' into feature/errmsg
+  * add display sample for error message refactor
+  * first draft of error message refactor. #93
+  * add `closeTo` assertion to `assert` interface. Closes #89.
+  * update folio build for better require.js handling. Closes #85
+  * Merge pull request #92 from paulmillr/topics/add-dom-checks
+  * Add check for DOM objects.
+  * browser build
+  * Merge branch 'master' of github.com:chaijs/chai
+  * bug - getActual not defaulting to assertion subject
+  * Merge pull request #88 from pwnall/master
+  * Don't inspect() assertion arguments if the assertion passes.
+
 1.1.1 / 2012-07-09 
 ==================
 
