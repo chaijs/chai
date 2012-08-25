@@ -4,13 +4,14 @@ if (!chai) {
 
 suite('global should', function () {
 
+  var theGlobal = typeof window !== 'undefined' ? window : global;
   test('works', function () {
-    global.should = chai.should();
+    theGlobal.should = chai.should();
 
     try {
         should.not.exist(undefined);
     } finally {
-        delete global.should;
+        delete theGlobal.should;
     }
   });
 

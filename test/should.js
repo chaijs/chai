@@ -7,8 +7,6 @@ if (!chai) {
   var chai = require('..');
 }
 
-var should = chai.Should();
-
 function err(fn, msg) {
   try {
     fn();
@@ -19,6 +17,7 @@ function err(fn, msg) {
 }
 
 suite('should', function() {
+  var should = chai.Should();
 
   test('assertion', function(){
     'test'.should.be.a('string');
