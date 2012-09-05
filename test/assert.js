@@ -418,7 +418,7 @@ suite('assert', function () {
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
-     }, 'expected [Function] to not throw an error');
+     }, 'expected [Function] to not throw an error but [Error: foo] was thrown');
   });
 
   test('ifError', function() {
