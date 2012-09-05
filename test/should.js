@@ -32,12 +32,41 @@ suite('should', function() {
     should.not.exist(bar);
 
     err(function () {
-      should.exist(bar);
-    }, "expected undefined to exist");
+      should.exist(bar, 'blah');
+    }, "blah: expected undefined to exist");
 
     err(function () {
-      should.not.exist(foo);
-    }, "expected 'foo' to not exist")
+      should.not.exist(foo, 'blah');
+    }, "blah: expected 'foo' to not exist")
+  });
+
+  test('root equal', function () {
+    var value1 = 'value'
+      , value2 = 'value'
+      , foo = 'foo';
+    should.equal(value1, value2);
+    should.not.equal(value1, foo);
+
+    err(function () {
+      should.equal(value1, foo, 'blah');
+    }, "blah: expected 'value' to equal 'foo'");
+
+    err(function () {
+      should.not.equal(value1, value2, 'blah');
+    }, "blah: expected 'value' to not equal 'value'")
+  });
+
+  test('root Throw', function () {
+    should.Throw(function() { throw new Error('error!') }, Error, 'error!');
+    should.not.Throw(function () { });
+
+    err(function () {
+      should.Throw(function () { throw new Error('error!') }, Error, 'needed user!', 'blah');
+    }, "blah: expected [Function] to throw error including 'needed user!' but got 'error!'");
+
+    err(function () {
+      should.not.Throw(function () { throw new Error('error!') }, Error, 'error!', 'blah');
+    }, "blah: expected [Function] to not throw Error but [Error: error!] was thrown");
   });
 
   test('true', function(){
@@ -132,8 +161,8 @@ suite('should', function() {
     new Foo().should.be.an.instanceof(Foo);
 
     err(function(){
-      (3).should.an.instanceof(Foo);
-    }, "expected 3 to be an instance of Foo");
+      (3).should.an.instanceof(Foo, 'blah');
+    }, "blah: expected 3 to be an instance of Foo");
   });
 
   test('within(start, finish)', function(){
@@ -143,12 +172,16 @@ suite('should', function() {
     (5).should.not.be.within(1,3);
 
     err(function(){
-      (5).should.not.be.within(4,6);
-    }, "expected 5 to not be within 4..6");
+      (5).should.not.be.within(4,6, 'blah');
+    }, "blah: expected 5 to not be within 4..6");
 
     err(function(){
-      (10).should.be.within(50,100);
-    }, "expected 10 to be within 50..100");
+      (10).should.be.within(50,100, 'blah');
+    }, "blah: expected 10 to be within 50..100");
+
+    err(function(){
+      ({ foo: 1 }).should.have.length.within(50,100, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
   test('above(n)', function(){
@@ -158,12 +191,16 @@ suite('should', function() {
     (5).should.not.be.above(6);
 
     err(function(){
-      (5).should.be.above(6);
-    }, "expected 5 to be above 6");
+      (5).should.be.above(6, 'blah');
+    }, "blah: expected 5 to be above 6");
 
     err(function(){
-      (10).should.not.be.above(6);
-    }, "expected 10 to be below 6");
+      (10).should.not.be.above(6, 'blah');
+    }, "blah: expected 10 to be below 6");
+
+    err(function(){
+      ({foo: 1}).should.have.length.above(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
   test('below(n)', function(){
@@ -173,12 +210,16 @@ suite('should', function() {
     (2).should.not.be.below(1);
 
     err(function(){
-      (6).should.be.below(5);
-    }, "expected 6 to be below 5");
+      (6).should.be.below(5, 'blah');
+    }, "blah: expected 6 to be below 5");
 
     err(function(){
-      (6).should.not.be.below(10);
-    }, "expected 6 to be above 10");
+      (6).should.not.be.below(10, 'blah');
+    }, "blah: expected 6 to be above 10");
+
+    err(function(){
+      ({foo: 1}).should.have.length.below(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
   test('match(regexp)', function(){
@@ -186,12 +227,12 @@ suite('should', function() {
     'foobar'.should.not.match(/^bar/)
 
     err(function(){
-      'foobar'.should.match(/^bar/i)
-    }, "expected 'foobar' to match /^bar/i");
+      'foobar'.should.match(/^bar/i, 'blah')
+    }, "blah: expected 'foobar' to match /^bar/i");
 
     err(function(){
-      'foobar'.should.not.match(/^foo/i)
-    }, "expected 'foobar' not to match /^foo/i");
+      'foobar'.should.not.match(/^foo/i, 'blah')
+    }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
   test('length(n)', function(){
@@ -200,12 +241,12 @@ suite('should', function() {
     [1,2,3].should.have.length(3);
 
     err(function(){
-      (4).should.have.length(3);
-    }, 'expected 4 to have a property \'length\'');
+      (4).should.have.length(3, 'blah');
+    }, 'blah: expected 4 to have a property \'length\'');
 
     err(function(){
-      'asd'.should.not.have.length(3);
-    }, "expected 'asd' to not have a length of 3");
+      'asd'.should.not.have.length(3, 'blah');
+    }, "blah: expected 'asd' to not have a length of 3");
   });
 
   test('eql(val)', function(){
@@ -215,8 +256,8 @@ suite('should', function() {
     '4'.should.not.eql(4);
 
     err(function(){
-      (4).should.eql(3);
-    }, 'expected 4 to deeply equal 3');
+      (4).should.eql(3, 'blah');
+    }, 'blah: expected 4 to deeply equal 3');
   });
 
   test('equal(val)', function(){
@@ -224,12 +265,12 @@ suite('should', function() {
     (1).should.equal(1);
 
     err(function(){
-      (4).should.equal(3);
-    }, 'expected 4 to equal 3');
+      (4).should.equal(3, 'blah');
+    }, 'blah: expected 4 to equal 3');
 
     err(function(){
-      '4'.should.equal(4);
-    }, "expected '4' to equal 4");
+      '4'.should.equal(4, 'blah');
+    }, "blah: expected '4' to equal 4");
   });
 
   test('empty', function(){
@@ -292,20 +333,20 @@ suite('should', function() {
     'asd'.should.have.property('constructor', String);
 
     err(function(){
-      'asd'.should.have.property('length', 4);
-    }, "expected 'asd' to have a property 'length' of 4, but got 3");
+      'asd'.should.have.property('length', 4, 'blah');
+    }, "blah: expected 'asd' to have a property 'length' of 4, but got 3");
 
     err(function(){
-      'asd'.should.not.have.property('length', 3);
-    }, "expected 'asd' to not have a property 'length' of 3");
+      'asd'.should.not.have.property('length', 3, 'blah');
+    }, "blah: expected 'asd' to not have a property 'length' of 3");
 
     err(function(){
-      'asd'.should.not.have.property('foo', 3);
-    }, "'asd' has no property 'foo'");
+      'asd'.should.not.have.property('foo', 3, 'blah');
+    }, "blah: 'asd' has no property 'foo'");
 
     err(function(){
-      'asd'.should.have.property('constructor', Number);
-    }, "expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+      'asd'.should.have.property('constructor', Number, 'blah');
+    }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
   test('ownProperty(name)', function(){
@@ -314,8 +355,8 @@ suite('should', function() {
     ({ length: 12 }).should.have.ownProperty('length');
 
     err(function(){
-      ({ length: 12 }).should.not.have.ownProperty('length');
-    }, "expected { length: 12 } to not have own property 'length'");
+      ({ length: 12 }).should.not.have.ownProperty('length', 'blah');
+    }, "blah: expected { length: 12 } to not have own property 'length'");
   });
 
   test('string()', function(){
@@ -324,16 +365,16 @@ suite('should', function() {
     'foobar'.should.not.contain.string('baz');
 
     err(function(){
-      (3).should.contain.string('baz');
-    }, "expected 3 to be a string");
+      (3).should.contain.string('baz', 'blah');
+    }, "blah: expected 3 to be a string");
 
     err(function(){
-      'foobar'.should.contain.string('baz');
-    }, "expected 'foobar' to contain 'baz'");
+      'foobar'.should.contain.string('baz', 'blah');
+    }, "blah: expected 'foobar' to contain 'baz'");
 
     err(function(){
-      'foobar'.should.not.contain.string('bar');
-    }, "expected 'foobar' to not contain 'bar'");
+      'foobar'.should.not.contain.string('bar', 'blah');
+    }, "blah: expected 'foobar' to not contain 'bar'");
   });
 
   test('include()', function(){
@@ -345,12 +386,12 @@ suite('should', function() {
     ['foo', 'bar'].should.not.include(1);
 
     err(function(){
-      ['foo'].should.include('bar');
-    }, "expected [ 'foo' ] to include 'bar'");
+      ['foo'].should.include('bar', 'blah');
+    }, "blah: expected [ 'foo' ] to include 'bar'");
 
     err(function(){
-      ['bar', 'foo'].should.not.include('foo');
-    }, "expected [ 'bar', 'foo' ] to not include 'foo'");
+      ['bar', 'foo'].should.not.include('foo', 'blah');
+    }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
   });
 
   test('keys(array)', function(){
@@ -489,11 +530,11 @@ suite('should', function() {
 
     err(function(){
       (badFn).should.not.throw();
-    }, "expected [Function] to not throw an error");
+    }, "expected [Function] to not throw an error but [Error: testing] was thrown");
 
     err(function(){
       (badFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but a Error was thrown");
+    }, "expected [Function] to throw ReferenceError but [Error: testing] was thrown");
 
     err(function(){
       (badFn).should.throw(specificError);
@@ -501,23 +542,23 @@ suite('should', function() {
 
     err(function(){
       (badFn).should.not.throw(Error);
-    }, "expected [Function] to not throw Error");
+    }, "expected [Function] to not throw Error but [Error: testing] was thrown");
 
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
-    }, "expected [Function] to not throw ReferenceError");
+    }, "expected [Function] to not throw ReferenceError but [ReferenceError: hello] was thrown");
 
     err(function(){
       (badFn).should.throw(PoorlyConstructedError);
-    }, "expected [Function] to throw PoorlyConstructedError but a Error was thrown");
+    }, "expected [Function] to throw PoorlyConstructedError but [Error: testing] was thrown");
 
     err(function(){
       (ickyErrFn).should.not.throw(PoorlyConstructedError);
-    }, "expected [Function] to not throw PoorlyConstructedError");
+    }, "expected [Function] to not throw PoorlyConstructedError but { name: 'PoorlyConstructedError' } was thrown");
 
     err(function(){
       (ickyErrFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but a PoorlyConstructedError was thrown");
+    }, "expected [Function] to throw ReferenceError but { name: 'PoorlyConstructedError' } was thrown");
 
     err(function(){
       (specificErrFn).should.throw(new ReferenceError('eek'));
@@ -536,12 +577,12 @@ suite('should', function() {
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
 
     err(function () {
-      (badFn).should.throw(Error, /hello/);
-    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+      (badFn).should.throw(Error, /hello/, 'blah');
+    }, "blah: expected [Function] to throw error matching /hello/ but got 'testing'");
 
     err(function () {
-      (badFn).should.throw(Error, 'hello');
-    }, "expected [Function] to throw error including 'hello' but got 'testing'");
+      (badFn).should.throw(Error, 'hello', 'blah');
+    }, "blah: expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){
@@ -560,12 +601,12 @@ suite('should', function() {
     bar.should.respondTo('foo');
 
     err(function(){
-      Foo.should.respondTo('baz');
-    }, "expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
+      Foo.should.respondTo('baz', 'blah');
+    }, "blah: expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
 
     err(function(){
-      bar.should.respondTo('baz');
-    }, "expected { foo: [Function] } to respond to \'baz\'");
+      bar.should.respondTo('baz', 'blah');
+    }, "blah: expected { foo: [Function] } to respond to \'baz\'");
   });
 
   test('satisfy', function(){
@@ -576,15 +617,15 @@ suite('should', function() {
     (1).should.satisfy(matcher);
 
     err(function(){
-      (2).should.satisfy(matcher);
-    }, "expected 2 to satisfy [Function]");
+      (2).should.satisfy(matcher, 'blah');
+    }, "blah: expected 2 to satisfy [Function]");
   });
 
   test('closeTo', function(){
     (1.5).should.be.closeTo(1.0, 0.5);
 
     err(function(){
-      (2).should.be.closeTo(1.0, 0.5);
-    }, "expected 2 to be close to 1 +/- 0.5");
+      (2).should.be.closeTo(1.0, 0.5, 'blah');
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
   });
 });
