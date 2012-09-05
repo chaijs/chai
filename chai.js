@@ -397,7 +397,7 @@
        */
 
       function an(type, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , klassStart = type.charAt(0).toUpperCase()
           , klass = klassStart + type.slice(1)
@@ -436,7 +436,7 @@
       }
 
       function include (val, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
         this.assert(
             ~obj.indexOf(val)
@@ -658,7 +658,7 @@
        */
 
       function assertEqual (val, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'deep')) {
           return this.eql(val);
@@ -690,7 +690,7 @@
        */
 
       Assertion.addMethod('eql', function (obj, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         this.assert(
             _.eql(obj, flag(this, 'object'))
           , 'expected #{this} to deeply equal #{exp}'
@@ -722,7 +722,7 @@
        */
 
       function assertAbove (n, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
           new Assertion(obj, msg).to.have.property('length');
@@ -770,7 +770,7 @@
        */
 
       function assertBelow (n, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
           new Assertion(obj, msg).to.have.property('length');
@@ -817,7 +817,7 @@
        */
 
       Assertion.addMethod('within', function (start, finish, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , range = start + '..' + finish;
         if (flag(this, 'doLength')) {
@@ -855,7 +855,7 @@
        */
 
       function assertInstanceOf (constructor, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var name = _.getName(constructor);
         this.assert(
             flag(this, 'object') instanceof constructor
@@ -926,7 +926,7 @@
        */
 
       Assertion.addMethod('property', function (name, val, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
 
         var descriptor = flag(this, 'deep') ? 'deep property ' : 'property '
           , negate = flag(this, 'negate')
@@ -975,7 +975,7 @@
        */
 
       function assertOwnProperty (name, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             obj.hasOwnProperty(name)
@@ -1017,7 +1017,7 @@
       }
 
       function assertLength (n, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         new Assertion(obj, msg).to.have.property('length');
         var len = obj.length;
@@ -1047,7 +1047,7 @@
        */
 
       Assertion.addMethod('match', function (re, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             re.exec(obj)
@@ -1069,7 +1069,7 @@
        */
 
       Assertion.addMethod('string', function (str, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         new Assertion(obj, msg).is.a('string');
 
@@ -1183,7 +1183,7 @@
        */
 
       function assertThrows (constructor, errMsg, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         new Assertion(obj, msg).is.a('function');
 
@@ -1289,7 +1289,7 @@
        */
 
       Assertion.addMethod('respondTo', function (method, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , itself = flag(this, 'itself')
           , context = ('function' === typeof obj && !itself)
@@ -1336,7 +1336,7 @@
        */
 
       Assertion.addMethod('satisfy', function (matcher, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             matcher(obj)
@@ -1361,7 +1361,7 @@
        */
 
       Assertion.addMethod('closeTo', function (expected, delta, msg) {
-        if (msg != null) { flag(this, 'message', msg); }
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             Math.abs(obj - expected) <= delta
