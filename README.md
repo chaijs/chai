@@ -9,23 +9,29 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ### Contributors
 
-     commits: 493
-     files  : 45
-     authors: 
-       363  Jake Luer               73.6%
-        66  Veselin Todorov         13.4%
-        36  Domenic Denicola        7.3%
-         5  Jo Liss                 1.0%
-         5  Juliusz Gonera          1.0%
-         4  josher19                0.8%
-         4  John Firebaugh          0.8%
+     repo age : 10 months ago
+     commits  : 540
+     active   : 96 days
+     files    : 46
+     authors  : 
+       399  Jake Luer               73.9%
+        66  Veselin Todorov         12.2%
+        38  Domenic Denicola        7.0%
+         5  Jo Liss                 0.9%
+         5  Scott Nonnenberg        0.9%
+         5  Juliusz Gonera          0.9%
+         4  josher19                0.7%
+         4  John Firebaugh          0.7%
          3  Jeff Barczewski         0.6%
+         2  Teddy Cross             0.4%
          2  Jakub Nešetřil          0.4%
-         1  Anand Patil             0.2%
-         1  Benjamin Horsleben      0.2%
-         1  Vinay Pulim             0.2%
-         1  Sasha Koss              0.2%
          1  Kilian Ciuffolo         0.2%
+         1  Benjamin Horsleben      0.2%
+         1  Anand Patil             0.2%
+         1  Paul Miller             0.2%
+         1  Sasha Koss              0.2%
+         1  Victor Costan           0.2%
+         1  Vinay Pulim             0.2%
 
 ## License
 

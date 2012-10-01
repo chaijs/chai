@@ -1,4 +1,43 @@
 
+1.3.0 / 2012-10-01 
+==================
+
+  * browser build w/ folio >= 0.3.4. Closes #99
+  * add back buffer test for deep equal
+  * do not write flags to assertion.prototype
+  * remove buffer test from expect
+  * browser build
+  * improve documentation of custom error messages
+  * Merge branch 'master' of git://github.com/Liffft/chai into Liffft-master
+  * browser build
+  * improved buffer deep equal checking
+  * mocha is npm test command
+  * Cleaning up the js style…
+  * expect tests now include message pass-through
+  * packaging up browser-side changes…
+  * Increasing Throws error message verbosity
+  * Should syntax: piping message through
+  * Make globalShould test work in browser too.
+  * Add a setter for `Object.prototype.should`. Closes #86.
+  * Release 1.2.0
+  * add node 0.8 to travis
+  * Merge branch 'feature/errmsg'
+  * browser build
+  * comment updates for utilities
+  * tweak objDislay to only kick in if object inspection is too long
+  * Merge branch 'master' into feature/errmsg
+  * add display sample for error message refactor
+  * first draft of error message refactor. #93
+  * add `closeTo` assertion to `assert` interface. Closes #89.
+  * update folio build for better require.js handling. Closes #85
+  * Merge pull request #92 from paulmillr/topics/add-dom-checks
+  * Add check for DOM objects.
+  * browser build
+  * Merge branch 'master' of github.com:chaijs/chai
+  * bug - getActual not defaulting to assertion subject
+  * Merge pull request #88 from pwnall/master
+  * Don't inspect() assertion arguments if the assertion passes.
+
 1.2.0 / 2012-08-07 
 ==================
 
