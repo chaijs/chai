@@ -121,8 +121,8 @@ suite('expect', function () {
     expect(function() {}).to.be.a('function');
 
     err(function(){
-      expect(5).to.not.be.a('number');
-    }, "expected 5 not to be a number");
+      expect(5).to.not.be.a('number', 'blah');
+    }, "blah: expected 5 not to be a number");
   });
 
   test('instanceof', function(){
@@ -130,8 +130,8 @@ suite('expect', function () {
     expect(new Foo()).to.be.an.instanceof(Foo);
 
     err(function(){
-      expect(3).to.an.instanceof(Foo);
-    }, "expected 3 to be an instance of Foo");
+      expect(3).to.an.instanceof(Foo, 'blah');
+    }, "blah: expected 3 to be an instance of Foo");
   });
 
   test('within(start, finish)', function(){
@@ -143,20 +143,20 @@ suite('expect', function () {
     expect([ 1, 2, 3 ]).to.have.length.within(2,4);
 
     err(function(){
-      expect(5).to.not.be.within(4,6);
-    }, "expected 5 to not be within 4..6");
+      expect(5).to.not.be.within(4,6, 'blah');
+    }, "blah: expected 5 to not be within 4..6", 'blah');
 
     err(function(){
-      expect(10).to.be.within(50,100);
-    }, "expected 10 to be within 50..100");
+      expect(10).to.be.within(50,100, 'blah');
+    }, "blah: expected 10 to be within 50..100");
 
     err(function () {
-      expect('foo').to.have.length.within(5,7);
-    }, "expected \'foo\' to have a length within 5..7");
+      expect('foo').to.have.length.within(5,7, 'blah');
+    }, "blah: expected \'foo\' to have a length within 5..7");
 
     err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.within(5,7);
-    }, "expected [ 1, 2, 3 ] to have a length within 5..7");
+      expect([ 1, 2, 3 ]).to.have.length.within(5,7, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
   });
 
   test('above(n)', function(){
@@ -168,20 +168,20 @@ suite('expect', function () {
     expect([ 1, 2, 3 ]).to.have.length.above(2);
 
     err(function(){
-      expect(5).to.be.above(6);
-    }, "expected 5 to be above 6");
+      expect(5).to.be.above(6, 'blah');
+    }, "blah: expected 5 to be above 6", 'blah');
 
     err(function(){
-      expect(10).to.not.be.above(6);
-    }, "expected 10 to be below 6");
+      expect(10).to.not.be.above(6, 'blah');
+    }, "blah: expected 10 to be below 6");
 
     err(function () {
-      expect('foo').to.have.length.above(4);
-    }, "expected \'foo\' to have a length above 4 but got 3");
+      expect('foo').to.have.length.above(4, 'blah');
+    }, "blah: expected \'foo\' to have a length above 4 but got 3");
 
     err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.above(4);
-    }, "expected [ 1, 2, 3 ] to have a length above 4 but got 3");
+      expect([ 1, 2, 3 ]).to.have.length.above(4, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
   });
 
   test('below(n)', function(){
@@ -193,20 +193,20 @@ suite('expect', function () {
     expect([ 1, 2, 3 ]).to.have.length.below(4);
 
     err(function(){
-      expect(6).to.be.below(5);
-    }, "expected 6 to be below 5");
+      expect(6).to.be.below(5, 'blah');
+    }, "blah: expected 6 to be below 5");
 
     err(function(){
-      expect(6).to.not.be.below(10);
-    }, "expected 6 to be above 10");
+      expect(6).to.not.be.below(10, 'blah');
+    }, "blah: expected 6 to be above 10");
 
     err(function () {
-      expect('foo').to.have.length.below(2);
-    }, "expected \'foo\' to have a length below 2 but got 3");
+      expect('foo').to.have.length.below(2, 'blah');
+    }, "blah: expected \'foo\' to have a length below 2 but got 3");
 
     err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.below(2);
-    }, "expected [ 1, 2, 3 ] to have a length below 2 but got 3");
+      expect([ 1, 2, 3 ]).to.have.length.below(2, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
   });
 
   test('match(regexp)', function(){
@@ -214,12 +214,12 @@ suite('expect', function () {
     expect('foobar').to.not.match(/^bar/)
 
     err(function(){
-      expect('foobar').to.match(/^bar/i)
-    }, "expected 'foobar' to match /^bar/i");
+      expect('foobar').to.match(/^bar/i, 'blah')
+    }, "blah: expected 'foobar' to match /^bar/i");
 
     err(function(){
-      expect('foobar').to.not.match(/^foo/i)
-    }, "expected 'foobar' not to match /^foo/i");
+      expect('foobar').to.not.match(/^foo/i, 'blah')
+    }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
   test('length(n)', function(){
@@ -228,12 +228,12 @@ suite('expect', function () {
     expect([1,2,3]).to.have.length(3);
 
     err(function(){
-      expect(4).to.have.length(3);
-    }, 'expected 4 to have a property \'length\'');
+      expect(4).to.have.length(3, 'blah');
+    }, 'blah: expected 4 to have a property \'length\'');
 
     err(function(){
-      expect('asd').to.not.have.length(3);
-    }, "expected 'asd' to not have a length of 3");
+      expect('asd').to.not.have.length(3, 'blah');
+    }, "blah: expected 'asd' to not have a length of 3");
   });
 
   test('eql(val)', function(){
@@ -243,9 +243,8 @@ suite('expect', function () {
     expect('4').to.not.eql(4);
 
     err(function(){
-      expect(4).to.eql(3);
-    }, 'expected 4 to deeply equal 3');
-
+      expect(4).to.eql(3, 'blah');
+    }, 'blah: expected 4 to deeply equal 3');
   });
 
   if ('undefined' !== typeof Buffer) {
@@ -263,12 +262,12 @@ suite('expect', function () {
     expect(1).to.equal(1);
 
     err(function(){
-      expect(4).to.equal(3);
-    }, 'expected 4 to equal 3');
+      expect(4).to.equal(3, 'blah');
+    }, 'blah: expected 4 to equal 3');
 
     err(function(){
-      expect('4').to.equal(4);
-    }, "expected '4' to equal 4");
+      expect('4').to.equal(4, 'blah');
+    }, "blah: expected '4' to equal 4");
   });
 
   test('deep.equal(val)', function(){
@@ -357,20 +356,20 @@ suite('expect', function () {
     expect('asd').to.have.property('constructor', String);
 
     err(function(){
-      expect('asd').to.have.property('length', 4);
-    }, "expected 'asd' to have a property 'length' of 4, but got 3");
+      expect('asd').to.have.property('length', 4, 'blah');
+    }, "blah: expected 'asd' to have a property 'length' of 4, but got 3");
 
     err(function(){
-      expect('asd').to.not.have.property('length', 3);
-    }, "expected 'asd' to not have a property 'length' of 3");
+      expect('asd').to.not.have.property('length', 3, 'blah');
+    }, "blah: expected 'asd' to not have a property 'length' of 3");
 
     err(function(){
-      expect('asd').to.not.have.property('foo', 3);
-    }, "'asd' has no property 'foo'");
+      expect('asd').to.not.have.property('foo', 3, 'blah');
+    }, "blah: 'asd' has no property 'foo'");
 
     err(function(){
-      expect('asd').to.have.property('constructor', Number);
-    }, "expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+      expect('asd').to.have.property('constructor', Number, 'blah');
+    }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
   test('deep.property(name, val)', function(){
@@ -379,16 +378,16 @@ suite('expect', function () {
 
     err(function(){
       expect({ foo: { bar: 'baz' } })
-        .to.have.deep.property('foo.bar', 'quux');
-    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
+        .to.have.deep.property('foo.bar', 'quux', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
     err(function(){
       expect({ foo: { bar: 'baz' } })
-        .to.not.have.deep.property('foo.bar', 'baz');
-    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+        .to.not.have.deep.property('foo.bar', 'baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
     err(function(){
       expect({ foo: 5 })
-        .to.not.have.deep.property('foo.bar', 'baz');
-    }, "{ foo: 5 } has no deep property 'foo.bar'");
+        .to.not.have.deep.property('foo.bar', 'baz', 'blah');
+    }, "blah: { foo: 5 } has no deep property 'foo.bar'");
   });
 
   test('ownProperty(name)', function(){
@@ -397,8 +396,8 @@ suite('expect', function () {
     expect({ length: 12 }).to.have.ownProperty('length');
 
     err(function(){
-      expect({ length: 12 }).to.not.have.ownProperty('length');
-    }, "expected { length: 12 } to not have own property 'length'");
+      expect({ length: 12 }).to.not.have.ownProperty('length', 'blah');
+    }, "blah: expected { length: 12 } to not have own property 'length'");
   });
 
   test('string()', function(){
@@ -411,12 +410,12 @@ suite('expect', function () {
     }, "expected 3 to be a string");
 
     err(function(){
-      expect('foobar').to.have.string('baz');
-    }, "expected 'foobar' to contain 'baz'");
+      expect('foobar').to.have.string('baz', 'blah');
+    }, "blah: expected 'foobar' to contain 'baz'");
 
     err(function(){
-      expect('foobar').to.not.have.string('bar');
-    }, "expected 'foobar' to not contain 'bar'");
+      expect('foobar').to.not.have.string('bar', 'blah');
+    }, "blah: expected 'foobar' to not contain 'bar'");
   });
 
   test('include()', function(){
@@ -428,12 +427,12 @@ suite('expect', function () {
     expect(['foo', 'bar']).to.not.include(1);
 
     err(function(){
-      expect(['foo']).to.include('bar');
-    }, "expected [ 'foo' ] to include 'bar'");
+      expect(['foo']).to.include('bar', 'blah');
+    }, "blah: expected [ 'foo' ] to include 'bar'");
 
     err(function(){
-      expect(['bar', 'foo']).to.not.include('foo');
-    }, "expected [ 'bar', 'foo' ] to not include 'foo'");
+      expect(['bar', 'foo']).to.not.include('foo', 'blah');
+    }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
   });
 
   test('keys(array)', function(){
@@ -573,11 +572,11 @@ suite('expect', function () {
 
     err(function(){
       expect(badFn).to.not.throw();
-    }, "expected [Function] to not throw an error");
+    }, "expected [Function] to not throw an error but [Error: testing] was thrown");
 
     err(function(){
       expect(badFn).to.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but a Error was thrown");
+    }, "expected [Function] to throw ReferenceError but [Error: testing] was thrown");
 
     err(function(){
       expect(badFn).to.throw(specificError);
@@ -585,23 +584,23 @@ suite('expect', function () {
 
     err(function(){
       expect(badFn).to.not.throw(Error);
-    }, "expected [Function] to not throw Error");
+    }, "expected [Function] to not throw Error but [Error: testing] was thrown");
 
     err(function(){
       expect(refErrFn).to.not.throw(ReferenceError);
-    }, "expected [Function] to not throw ReferenceError");
+    }, "expected [Function] to not throw ReferenceError but [ReferenceError: hello] was thrown");
 
     err(function(){
       expect(badFn).to.throw(PoorlyConstructedError);
-    }, "expected [Function] to throw PoorlyConstructedError but a Error was thrown");
+    }, "expected [Function] to throw PoorlyConstructedError but [Error: testing] was thrown");
 
     err(function(){
       expect(ickyErrFn).to.not.throw(PoorlyConstructedError);
-    }, "expected [Function] to not throw PoorlyConstructedError");
+    }, "expected [Function] to not throw PoorlyConstructedError but { name: 'PoorlyConstructedError' } was thrown");
 
     err(function(){
       expect(ickyErrFn).to.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but a PoorlyConstructedError was thrown");
+    }, "expected [Function] to throw ReferenceError but { name: 'PoorlyConstructedError' } was thrown");
 
     err(function(){
       expect(specificErrFn).to.throw(new ReferenceError('eek'));
@@ -620,12 +619,12 @@ suite('expect', function () {
     }, "expected [Function] to throw error matching /hello/ but got \'testing\'");
 
     err(function () {
-      expect(badFn).to.throw(Error, /hello/);
-    }, "expected [Function] to throw error matching /hello/ but got 'testing'");
+      expect(badFn).to.throw(Error, /hello/, 'blah');
+    }, "blah: expected [Function] to throw error matching /hello/ but got 'testing'");
 
     err(function () {
-      expect(badFn).to.throw(Error, 'hello');
-    }, "expected [Function] to throw error including 'hello' but got 'testing'");
+      expect(badFn).to.throw(Error, 'hello', 'blah');
+    }, "blah: expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
   test('respondTo', function(){
@@ -644,12 +643,12 @@ suite('expect', function () {
     expect(bar).to.respondTo('foo');
 
     err(function(){
-      expect(Foo).to.respondTo('baz');
-    }, "expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
+      expect(Foo).to.respondTo('baz', 'blah');
+    }, "blah: expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
 
     err(function(){
-      expect(bar).to.respondTo('baz');
-    }, "expected { foo: [Function] } to respond to \'baz\'");
+      expect(bar).to.respondTo('baz', 'blah');
+    }, "blah: expected { foo: [Function] } to respond to \'baz\'");
   });
 
   test('satisfy', function(){
@@ -660,8 +659,8 @@ suite('expect', function () {
     expect(1).to.satisfy(matcher);
 
     err(function(){
-      expect(2).to.satisfy(matcher);
-    }, "expected 2 to satisfy [Function]");
+      expect(2).to.satisfy(matcher, 'blah');
+    }, "blah: expected 2 to satisfy [Function]");
   });
 
   test('closeTo', function(){
@@ -670,11 +669,11 @@ suite('expect', function () {
     expect(-10).to.be.closeTo(20, 30);
 
     err(function(){
-      expect(2).to.be.closeTo(1.0, 0.5);
-    }, "expected 2 to be close to 1 +/- 0.5");
+      expect(2).to.be.closeTo(1.0, 0.5, 'blah');
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
 
     err(function(){
-      expect(-10).to.be.closeTo(20, 29);
-    }, "expected -10 to be close to 20 +/- 29");
+      expect(-10).to.be.closeTo(20, 29, 'blah');
+    }, "blah: expected -10 to be close to 20 +/- 29");
   });
 });

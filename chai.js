@@ -396,7 +396,8 @@
        * @api public
        */
 
-      function an(type) {
+      function an(type, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , klassStart = type.charAt(0).toUpperCase()
           , klass = klassStart + type.slice(1)
@@ -434,7 +435,8 @@
         flag(this, 'contains', true);
       }
 
-      function include (val) {
+      function include (val, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
         this.assert(
             ~obj.indexOf(val)
@@ -655,7 +657,8 @@
        * @api public
        */
 
-      function assertEqual (val) {
+      function assertEqual (val, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'deep')) {
           return this.eql(val);
@@ -686,7 +689,8 @@
        * @api public
        */
 
-      Assertion.addMethod('eql', function (obj) {
+      Assertion.addMethod('eql', function (obj, msg) {
+        if (msg) flag(this, 'message', msg);
         this.assert(
             _.eql(obj, flag(this, 'object'))
           , 'expected #{this} to deeply equal #{exp}'
@@ -717,10 +721,11 @@
        * @api public
        */
 
-      function assertAbove (n) {
+      function assertAbove (n, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
-          new Assertion(obj).to.have.property('length');
+          new Assertion(obj, msg).to.have.property('length');
           var len = obj.length;
           this.assert(
               len > n
@@ -764,10 +769,11 @@
        * @api public
        */
 
-      function assertBelow (n) {
+      function assertBelow (n, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
-          new Assertion(obj).to.have.property('length');
+          new Assertion(obj, msg).to.have.property('length');
           var len = obj.length;
           this.assert(
               len < n
@@ -810,11 +816,12 @@
        * @api public
        */
 
-      Assertion.addMethod('within', function (start, finish) {
+      Assertion.addMethod('within', function (start, finish, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , range = start + '..' + finish;
         if (flag(this, 'doLength')) {
-          new Assertion(obj).to.have.property('length');
+          new Assertion(obj, msg).to.have.property('length');
           var len = obj.length;
           this.assert(
               len >= start && len <= finish
@@ -847,7 +854,8 @@
        * @api public
        */
 
-      function assertInstanceOf (constructor) {
+      function assertInstanceOf (constructor, msg) {
+        if (msg) flag(this, 'message', msg);
         var name = _.getName(constructor);
         this.assert(
             flag(this, 'object') instanceof constructor
@@ -917,7 +925,9 @@
        * @api public
        */
 
-      Assertion.addMethod('property', function (name, val) {
+      Assertion.addMethod('property', function (name, val, msg) {
+        if (msg) flag(this, 'message', msg);
+
         var descriptor = flag(this, 'deep') ? 'deep property ' : 'property '
           , negate = flag(this, 'negate')
           , obj = flag(this, 'object')
@@ -927,7 +937,8 @@
 
         if (negate && undefined !== val) {
           if (undefined === value) {
-            throw new Error(_.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
+            msg = (msg != null) ? msg + ': ' : '';
+            throw new Error(msg + _.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
           }
         } else {
           this.assert(
@@ -963,7 +974,8 @@
        * @api public
        */
 
-      function assertOwnProperty (name) {
+      function assertOwnProperty (name, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             obj.hasOwnProperty(name)
@@ -1004,9 +1016,10 @@
         flag(this, 'doLength', true);
       }
 
-      function assertLength (n) {
+      function assertLength (n, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
-        new Assertion(obj).to.have.property('length');
+        new Assertion(obj, msg).to.have.property('length');
         var len = obj.length;
 
         this.assert(
@@ -1033,7 +1046,8 @@
        * @api public
        */
 
-      Assertion.addMethod('match', function (re) {
+      Assertion.addMethod('match', function (re, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             re.exec(obj)
@@ -1054,9 +1068,10 @@
        * @api public
        */
 
-      Assertion.addMethod('string', function (str) {
+      Assertion.addMethod('string', function (str, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
-        new Assertion(obj).is.a('string');
+        new Assertion(obj, msg).is.a('string');
 
         this.assert(
             ~obj.indexOf(str)
@@ -1167,24 +1182,26 @@
        * @api public
        */
 
-      function assertThrows (constructor, msg) {
+      function assertThrows (constructor, errMsg, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
-        new Assertion(obj).is.a('function');
+        new Assertion(obj, msg).is.a('function');
 
         var thrown = false
           , desiredError = null
-          , name = null;
+          , name = null
+          , thrownError = null;
 
         if (arguments.length === 0) {
-          msg = null;
+          errMsg = null;
           constructor = null;
         } else if (constructor && (constructor instanceof RegExp || 'string' === typeof constructor)) {
-          msg = constructor;
+          errMsg = constructor;
           constructor = null;
         } else if (constructor && constructor instanceof Error) {
           desiredError = constructor;
           constructor = null;
-          msg = null;
+          errMsg = null;
         } else if (typeof constructor === 'function') {
           name = (new constructor()).name;
         } else {
@@ -1207,38 +1224,43 @@
           if (constructor) {
             this.assert(
                 err instanceof constructor
-              , 'expected #{this} to throw ' + name + ' but a ' + err.name + ' was thrown'
-              , 'expected #{this} to not throw ' + name );
-            if (!msg) return this;
+              , 'expected #{this} to throw ' + name + ' but ' + _.inspect(err) + ' was thrown'
+              , 'expected #{this} to not throw ' + name + ' but ' + _.inspect(err) + ' was thrown');
+            if (!errMsg) return this;
           }
           // next, check message
-          if (err.message && msg && msg instanceof RegExp) {
+          if (err.message && errMsg && errMsg instanceof RegExp) {
             this.assert(
-                msg.exec(err.message)
-              , 'expected #{this} to throw error matching ' + msg + ' but got ' + _.inspect(err.message)
-              , 'expected #{this} to throw error not matching ' + msg
+                errMsg.exec(err.message)
+              , 'expected #{this} to throw error matching ' + errMsg + ' but got ' + _.inspect(err.message)
+              , 'expected #{this} to throw error not matching ' + errMsg
             );
             return this;
-          } else if (err.message && msg && 'string' === typeof msg) {
+          } else if (err.message && errMsg && 'string' === typeof errMsg) {
             this.assert(
-                ~err.message.indexOf(msg)
+                ~err.message.indexOf(errMsg)
               , 'expected #{this} to throw error including #{exp} but got #{act}'
               , 'expected #{this} to throw error not including #{act}'
-              , msg
+              , errMsg
               , err.message
             );
             return this;
           } else {
             thrown = true;
+            thrownError = err;
           }
         }
 
         var expectedThrown = name ? name : desiredError ? _.inspect(desiredError) : 'an error';
+        var actuallyGot = ''
+        if (thrown) {
+          actuallyGot = ' but ' + _.inspect(thrownError) + ' was thrown'
+        }
 
         this.assert(
             thrown === true
-          , 'expected #{this} to throw ' + expectedThrown
-          , 'expected #{this} to not throw ' + expectedThrown
+          , 'expected #{this} to throw ' + expectedThrown + actuallyGot
+          , 'expected #{this} to not throw ' + expectedThrown + actuallyGot
         );
       };
 
@@ -1266,7 +1288,8 @@
        * @api public
        */
 
-      Assertion.addMethod('respondTo', function (method) {
+      Assertion.addMethod('respondTo', function (method, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , itself = flag(this, 'itself')
           , context = ('function' === typeof obj && !itself)
@@ -1312,7 +1335,8 @@
        * @api public
        */
 
-      Assertion.addMethod('satisfy', function (matcher) {
+      Assertion.addMethod('satisfy', function (matcher, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             matcher(obj)
@@ -1336,7 +1360,8 @@
        * @api public
        */
 
-      Assertion.addMethod('closeTo', function (expected, delta) {
+      Assertion.addMethod('closeTo', function (expected, delta, msg) {
+        if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         this.assert(
             Math.abs(obj - expected) <= delta
@@ -2392,31 +2417,31 @@
 
         var should = {};
 
-        should.equal = function (val1, val2) {
-          new Assertion(val1).to.equal(val2);
+        should.equal = function (val1, val2, msg) {
+          new Assertion(val1, msg).to.equal(val2);
         };
 
-        should.Throw = function (fn, errt, errs) {
-          new Assertion(fn).to.Throw(errt, errs);
+        should.Throw = function (fn, errt, errs, msg) {
+          new Assertion(fn, msg).to.Throw(errt, errs);
         };
 
-        should.exist = function (val) {
-          new Assertion(val).to.exist;
+        should.exist = function (val, msg) {
+          new Assertion(val, msg).to.exist;
         }
 
         // negation
         should.not = {}
 
-        should.not.equal = function (val1, val2) {
-          new Assertion(val1).to.not.equal(val2);
+        should.not.equal = function (val1, val2, msg) {
+          new Assertion(val1, msg).to.not.equal(val2);
         };
 
-        should.not.Throw = function (fn, errt, errs) {
-          new Assertion(fn).to.not.Throw(errt, errs);
+        should.not.Throw = function (fn, errt, errs, msg) {
+          new Assertion(fn, msg).to.not.Throw(errt, errs);
         };
 
-        should.not.exist = function (val) {
-          new Assertion(val).to.not.exist;
+        should.not.exist = function (val, msg) {
+          new Assertion(val, msg).to.not.exist;
         }
 
         should['throw'] = should['Throw'];
