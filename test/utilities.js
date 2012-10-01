@@ -171,7 +171,7 @@ suite('utilities', function () {
 
   test('overwriteProperty', function () {
     chai.use(function (_chai, _) {
-      expect(chai.Assertion.prototype).to.have.property('tea');
+      expect(new chai.Assertion()).to.have.property('tea');
       _chai.Assertion.overwriteProperty('tea', function (_super) {
         return function () {
           var act = _.flag(this, 'object');
