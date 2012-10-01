@@ -393,6 +393,7 @@
        * @name a
        * @alias an
        * @param {String} type
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -428,6 +429,7 @@
        * @name include
        * @alias contain
        * @param {Object|String|Number} obj
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -654,6 +656,7 @@
        * @alias eq
        * @alias deep.equal
        * @param {Mixed} value
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -686,6 +689,7 @@
        *
        * @name eql
        * @param {Mixed} value
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -718,6 +722,7 @@
        * @alias gt
        * @alias greaterThan
        * @param {Number} value
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -766,6 +771,7 @@
        * @alias lt
        * @alias lessThan
        * @param {Number} value
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -813,6 +819,7 @@
        * @name within
        * @param {Number} start lowerbound inclusive
        * @param {Number} finish upperbound inclusive
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -850,6 +857,7 @@
        *
        * @name instanceof
        * @param {Constructor} constructor
+       * @param {String} message _optional_
        * @alias instanceOf
        * @api public
        */
@@ -921,6 +929,7 @@
        * @alias deep.property
        * @param {String} name
        * @param {Mixed} value (optional)
+       * @param {String} message _optional_
        * @returns value of property for chaining
        * @api public
        */
@@ -971,6 +980,7 @@
        * @name ownProperty
        * @alias haveOwnProperty
        * @param {String} name
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1009,6 +1019,7 @@
        * @name length
        * @alias lengthOf
        * @param {Number} length
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1043,6 +1054,7 @@
        *
        * @name match
        * @param {RegExp} RegularExpression
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1065,6 +1077,7 @@
        *
        * @name string
        * @param {String} string
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1178,6 +1191,8 @@
        * @alias throws
        * @alias Throw
        * @param {ErrorConstructor} constructor
+       * @param {String|RegExp} expected error message
+       * @param {String} message _optional_
        * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error#Error_types
        * @api public
        */
@@ -1285,6 +1300,7 @@
        *
        * @name respondTo
        * @param {String} method
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1332,6 +1348,7 @@
        *
        * @name satisfy
        * @param {Function} matcher
+       * @param {String} message _optional_
        * @api public
        */
 
@@ -1357,6 +1374,7 @@
        * @name closeTo
        * @param {Number} expected
        * @param {Number} delta
+       * @param {String} message _optional_
        * @api public
        */
 
