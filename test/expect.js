@@ -245,7 +245,18 @@ suite('expect', function () {
     err(function(){
       expect(4).to.eql(3);
     }, 'expected 4 to deeply equal 3');
+
   });
+
+  if ('undefined' !== typeof Buffer) {
+    test('Buffer eql()', function () {
+      expect(new Buffer([ 1 ])).to.eql(new Buffer([ 1 ]));
+
+      err(function () {
+        expect(new Buffer([ 0 ])).to.eql(new Buffer([ 1 ]));
+      }, 'expected <Buffer 00> to deeply equal <Buffer 01>');
+    });
+  }
 
   test('equal(val)', function(){
     expect('test').to.equal('test');
