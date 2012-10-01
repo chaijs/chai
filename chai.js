@@ -2364,7 +2364,21 @@
       function loadShould () {
         // modify Object.prototype to have `should`
         Object.defineProperty(Object.prototype, 'should',
-          { set: function () {}
+          {
+            set: function (value) {
+              // See https://github.com/chaijs/chai/issues/86: this makes
+              // `whatever.should = someValue` actually set `someValue`, which is
+              // especially useful for `global.should = require('chai').should()`.
+              //
+              // Note that we have to use [[DefineProperty]] instead of [[Put]]
+              // since otherwise we would trigger this very setter!
+              Object.defineProperty(this, 'should', {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+              });
+            }
           , get: function(){
               if (this instanceof String || this instanceof Number) {
                 return new Assertion(this.constructor(this));
@@ -2577,22 +2591,23 @@
   }); // module: chai/utils/addProperty.js
 
   require.register("chai/utils/eql.js", function(module, exports, require){
-    // This is directly from Node.js assert
+    // This is (almost) directly from Node.js assert
     // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/assert.js
-
 
     module.exports = _deepEqual;
 
-    // For browser implementation
-    if (!Buffer) {
-      var Buffer = {
-        isBuffer: function () {
-          return false;
-        }
+    // for the browser
+    var Buffer;
+    try {
+      Buffer = require('buffer').Buffer;
+    } catch (ex) {
+      Buffer = {
+        isBuffer: function () { return false; }
       };
     }
 
     function _deepEqual(actual, expected) {
+
       // 7.1. All identical values are equivalent, as determined by ===.
       if (actual === expected) {
         return true;
@@ -2677,6 +2692,7 @@
       }
       return true;
     }
+
   }); // module: chai/utils/eql.js
 
   require.register("chai/utils/flag.js", function(module, exports, require){
