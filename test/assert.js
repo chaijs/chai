@@ -189,12 +189,40 @@ suite('assert', function () {
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
+  test('deepEqual (circular)', function() {
+    var circularObject = {}
+      , secondCircularObject = {};
+    circularObject.field = circularObject;
+    secondCircularObject.field = secondCircularObject;
+
+    assert.deepEqual(circularObject, secondCircularObject);
+
+    err(function() {
+      secondCircularObject.field2 = secondCircularObject;
+      assert.deepEqual(circularObject, secondCircularObject);
+    }, "expected { field: [Circular] } to deeply equal { Object (field, field2) }");
+  });
+
   test('notDeepEqual', function() {
     assert.notDeepEqual({tea: 'jasmine'}, {tea: 'chai'});
 
     err(function () {
       assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
     }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
+  });
+
+  test('notDeepEqual (circular)', function() {
+    var circularObject = {}
+      , secondCircularObject = { tea: 'jasmine' };
+    circularObject.field = circularObject;
+    secondCircularObject.field = secondCircularObject;
+
+    assert.notDeepEqual(circularObject, secondCircularObject);
+
+    err(function() {
+      delete secondCircularObject.tea;
+      assert.notDeepEqual(circularObject, secondCircularObject);
+    }, "expected { field: [Circular] } to not deeply equal { field: [Circular] }");
   });
 
   test('isNull', function() {
