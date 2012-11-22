@@ -390,7 +390,10 @@ suite('assert', function () {
   test('property', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
+    var evilObj   = { gone: undefined };
+
     assert.property(obj, 'foo');
+    assert.propertyVal(evilObj, 'gone', undefined);
     assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
     assert.notProperty(obj, 'foo.bar');
