@@ -164,24 +164,37 @@ suite('expect', function () {
     expect(5).to.be.greaterThan(2);
     expect(5).to.not.be.above(5);
     expect(5).to.not.be.above(6);
-    expect('foo').to.have.length.above(2);
-    expect([ 1, 2, 3 ]).to.have.length.above(2);
 
     err(function(){
       expect(5).to.be.above(6, 'blah');
-    }, "blah: expected 5 to be above 6", 'blah');
+    }, "blah: expected 5 to be above 6");
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
+    }, "blah: expected 10 to be at most 6");
+
+    err(function(){
+      expect({foo: 1}).to.have.length.above(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
+  });
+
+  test('atLeast(n)', function(){
+    expect(5).to.be.atLeast(5);
+    expect(5).to.be.greaterThanOrEqualTo(5);
+    expect(5).to.not.be.atLeast(6);
+    expect(5).to.not.be.greaterThanOrEqualTo(6);
+
+    err(function(){
+      expect(5).to.be.atLeast(6, 'blah');
+    }, "blah: expected 5 to be at least 6");
+
+    err(function(){
+      expect(10).to.not.be.atLeast(6, 'blah');
     }, "blah: expected 10 to be below 6");
 
-    err(function () {
-      expect('foo').to.have.length.above(4, 'blah');
-    }, "blah: expected \'foo\' to have a length above 4 but got 3");
-
-    err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.above(4, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
+    err(function(){
+      expect({foo: 1}).to.have.length.above(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
   test('below(n)', function(){
@@ -189,8 +202,6 @@ suite('expect', function () {
     expect(2).to.be.lessThan(5);
     expect(2).to.not.be.below(2);
     expect(2).to.not.be.below(1);
-    expect('foo').to.have.length.below(4);
-    expect([ 1, 2, 3 ]).to.have.length.below(4);
 
     err(function(){
       expect(6).to.be.below(5, 'blah');
@@ -198,15 +209,30 @@ suite('expect', function () {
 
     err(function(){
       expect(6).to.not.be.below(10, 'blah');
+    }, "blah: expected 6 to be at least 10");
+
+    err(function(){
+      expect({foo: 1}).to.have.length.below(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
+  });
+
+  test('atMost(n)', function(){
+    expect(2).to.be.atMost(2);
+    expect(2).to.be.lessThanOrEqualTo(2);
+    expect(2).to.not.be.atMost(1);
+    expect(2).to.not.be.lessThanOrEqualTo(1);
+
+    err(function(){
+      expect(6).to.be.atMost(5, 'blah');
+    }, "blah: expected 6 to be at most 5");
+
+    err(function(){
+      expect(6).to.not.be.atMost(10, 'blah');
     }, "blah: expected 6 to be above 10");
 
-    err(function () {
-      expect('foo').to.have.length.below(2, 'blah');
-    }, "blah: expected \'foo\' to have a length below 2 but got 3");
-
-    err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.below(2, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
+    err(function(){
+      expect({foo: 1}).to.have.length.below(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
   test('match(regexp)', function(){

@@ -74,7 +74,7 @@
      * Chai version
      */
 
-    exports.version = '1.2.0';
+    exports.version = '1.3.0';
 
     /*!
      * Primary `Assertion` prototype
@@ -743,7 +743,7 @@
           this.assert(
               obj > n
             , 'expected #{this} to be above ' + n
-            , 'expected #{this} to be below ' + n
+            , 'expected #{this} to be at most ' + n
           );
         }
       }
@@ -751,6 +751,55 @@
       Assertion.addMethod('above', assertAbove);
       Assertion.addMethod('gt', assertAbove);
       Assertion.addMethod('greaterThan', assertAbove);
+    	
+      /**
+       * ### .atLeast(value)
+       *
+       * Asserts that the target is greater than or equal to `value`.
+       *
+       *     expect(10).to.be.atLeast(10);
+       *
+       * Can also be used in conjunction with `length` to
+       * assert a minimum length. The benefit being a
+       * more informative error message than if the length
+       * was supplied directly.
+       *
+       *     expect('foo').to.have.length.atLeast(2);
+       *     expect([ 1, 2, 3 ]).to.have.length.atLeast(3);
+       *
+       * @name atLeast
+       * @alias gte
+       * @alias greaterThanOrEqualTo
+       * @param {Number} value
+       * @param {String} message _optional_
+       * @api public
+       */
+
+      function assertAtLeast (n, msg) {
+        if (msg) flag(this, 'message', msg);
+        var obj = flag(this, 'object');
+        if (flag(this, 'doLength')) {
+          new Assertion(obj, msg).to.have.property('length');
+          var len = obj.length;
+          this.assert(
+              len >= n
+            , 'expected #{this} to have a length at least #{exp} but got #{act}'
+            , 'expected #{this} to not have a length below #{exp}'
+            , n
+            , len
+          );
+        } else {
+          this.assert(
+              obj >= n
+            , 'expected #{this} to be at least ' + n
+            , 'expected #{this} to be below ' + n
+          );
+        }
+      }
+
+      Assertion.addMethod('atLeast', assertAtLeast);
+      Assertion.addMethod('gte', assertAtLeast);
+      Assertion.addMethod('greaterThanOrEqualTo', assertAtLeast);
 
       /**
        * ### .below(value)
@@ -792,7 +841,7 @@
           this.assert(
               obj < n
             , 'expected #{this} to be below ' + n
-            , 'expected #{this} to be above ' + n
+            , 'expected #{this} to be at least ' + n
           );
         }
       }
@@ -800,6 +849,55 @@
       Assertion.addMethod('below', assertBelow);
       Assertion.addMethod('lt', assertBelow);
       Assertion.addMethod('lessThan', assertBelow);
+
+      /**
+       * ### .atMost(value)
+       *
+       * Asserts that the target is less than or equal to `value`.
+       *
+       *     expect(5).to.be.atMost(5);
+       *
+       * Can also be used in conjunction with `length` to
+       * assert a maximum length. The benefit being a
+       * more informative error message than if the length
+       * was supplied directly.
+       *
+       *     expect('foo').to.have.length.atMost(4);
+       *     expect([ 1, 2, 3 ]).to.have.length.atMost(3);
+       *
+       * @name atMost
+       * @alias lte
+       * @alias lessThanOrEqualTo
+       * @param {Number} value
+       * @param {String} message _optional_
+       * @api public
+       */
+
+      function assertAtMost (n, msg) {
+        if (msg) flag(this, 'message', msg);
+        var obj = flag(this, 'object');
+        if (flag(this, 'doLength')) {
+          new Assertion(obj, msg).to.have.property('length');
+          var len = obj.length;
+          this.assert(
+              len <= n
+            , 'expected #{this} to have a length at most #{exp} but got #{act}'
+            , 'expected #{this} to not have a length above #{exp}'
+            , n
+            , len
+          );
+        } else {
+          this.assert(
+              obj <= n
+            , 'expected #{this} to be at most ' + n
+            , 'expected #{this} to be above ' + n
+          );
+        }
+      }
+
+      Assertion.addMethod('atMost', assertAtMost);
+      Assertion.addMethod('lte', assertAtMost);
+      Assertion.addMethod('lessThanOrEqualTo', assertAtMost);
 
       /**
        * ### .within(start, finish)
@@ -2649,7 +2747,7 @@
       };
     }
 
-    function _deepEqual(actual, expected) {
+    function _deepEqual(actual, expected, memos) {
 
       // 7.1. All identical values are equivalent, as determined by ===.
       if (actual === expected) {
@@ -2681,7 +2779,7 @@
       // corresponding key, and an identical 'prototype' property. Note: this
       // accounts for both named and indexed properties on Arrays.
       } else {
-        return objEquiv(actual, expected);
+        return objEquiv(actual, expected, memos);
       }
     }
 
@@ -2693,11 +2791,25 @@
       return Object.prototype.toString.call(object) == '[object Arguments]';
     }
 
-    function objEquiv(a, b) {
+    function objEquiv(a, b, memos) {
       if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
         return false;
+
       // an identical 'prototype' property.
       if (a.prototype !== b.prototype) return false;
+
+      // check if we have already compared a and b
+      var i;
+      if (memos) {
+        for(i = 0; i < memos.length; i++) {
+          if ((memos[i][0] === a && memos[i][1] === b) ||
+              (memos[i][0] === b && memos[i][1] === a))
+            return true;
+        }
+      } else {
+        memos = [];
+      }
+
       //~~~I've managed to break Object.keys through screwy arguments passing.
       //   Converting to array solves the problem.
       if (isArguments(a)) {
@@ -2706,19 +2818,21 @@
         }
         a = pSlice.call(a);
         b = pSlice.call(b);
-        return _deepEqual(a, b);
+        return _deepEqual(a, b, memos);
       }
       try {
         var ka = Object.keys(a),
             kb = Object.keys(b),
-            key, i;
+            key;
       } catch (e) {//happens when one is a string literal and the other isn't
         return false;
       }
+
       // having the same number of owned properties (keys incorporates
       // hasOwnProperty)
       if (ka.length != kb.length)
         return false;
+
       //the same set of keys (although not necessarily the same order),
       ka.sort();
       kb.sort();
@@ -2727,12 +2841,17 @@
         if (ka[i] != kb[i])
           return false;
       }
+
+      // remember objects we have compared to guard against circular references
+      memos.push([ a, b ]);
+
       //equivalent values for every corresponding key, and
       //~~~possibly expensive deep test
       for (i = ka.length - 1; i >= 0; i--) {
         key = ka[i];
-        if (!_deepEqual(a[key], b[key])) return false;
+        if (!_deepEqual(a[key], b[key], memos)) return false;
       }
+
       return true;
     }
 
@@ -2792,7 +2911,7 @@
 
     module.exports = function (obj, args) {
       var actual = args[4];
-      return 'undefined' !== actual ? actual : obj._obj;
+      return 'undefined' !== typeof actual ? actual : obj._obj;
     };
 
   }); // module: chai/utils/getActual.js

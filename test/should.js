@@ -196,6 +196,25 @@ suite('should', function() {
 
     err(function(){
       (10).should.not.be.above(6, 'blah');
+    }, "blah: expected 10 to be at most 6");
+
+    err(function(){
+      ({foo: 1}).should.have.length.above(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
+  });
+
+  test('atLeast(n)', function(){
+    (5).should.be.atLeast(5);
+    (5).should.be.greaterThanOrEqualTo(5);
+    (5).should.not.be.atLeast(6);
+    (5).should.not.be.greaterThanOrEqualTo(6);
+
+    err(function(){
+      (5).should.be.atLeast(6, 'blah');
+    }, "blah: expected 5 to be at least 6");
+
+    err(function(){
+      (10).should.not.be.atLeast(6, 'blah');
     }, "blah: expected 10 to be below 6");
 
     err(function(){
@@ -215,6 +234,25 @@ suite('should', function() {
 
     err(function(){
       (6).should.not.be.below(10, 'blah');
+    }, "blah: expected 6 to be at least 10");
+
+    err(function(){
+      ({foo: 1}).should.have.length.below(3, 'blah');
+    }, "blah: expected { foo: 1 } to have a property 'length'");
+  });
+
+  test('atMost(n)', function(){
+    (2).should.be.atMost(2);
+    (2).should.be.lessThanOrEqualTo(2);
+    (2).should.not.be.atMost(1);
+    (2).should.not.be.lessThanOrEqualTo(1);
+
+    err(function(){
+      (6).should.be.atMost(5, 'blah');
+    }, "blah: expected 6 to be at most 5");
+
+    err(function(){
+      (6).should.not.be.atMost(10, 'blah');
     }, "blah: expected 6 to be above 10");
 
     err(function(){
