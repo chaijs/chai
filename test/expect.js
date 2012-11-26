@@ -186,7 +186,11 @@ suite('expect', function () {
 
   test('least(n)', function(){
     expect(5).to.be.at.least(2);
+<<<<<<< HEAD
     expect(5).to.be.at.least(5);
+=======
+    expect(5).to..be.at.least(5);
+>>>>>>> d6882d11ba29deb25fdfbaf9df0433b4d73f9edb
     expect(5).to.be.greaterThanOrEqualTo(2);
     expect(5).to.not.be.at.least(6);
     expect('foo').to.have.length.at.least(2);
