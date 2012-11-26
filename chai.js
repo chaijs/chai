@@ -332,7 +332,7 @@
 
       [ 'to', 'be', 'been'
       , 'is', 'and', 'have'
-      , 'with', 'that' ].forEach(function (chain) {
+      , 'with', 'that', 'at' ].forEach(function (chain) {
         Assertion.addProperty(chain, function () {
           return this;
         });
@@ -753,21 +753,21 @@
       Assertion.addMethod('greaterThan', assertAbove);
     	
       /**
-       * ### .atLeast(value)
+       * ### .least(value)
        *
        * Asserts that the target is greater than or equal to `value`.
        *
-       *     expect(10).to.be.atLeast(10);
+       *     expect(10).to.be.at.least(10);
        *
        * Can also be used in conjunction with `length` to
        * assert a minimum length. The benefit being a
        * more informative error message than if the length
        * was supplied directly.
        *
-       *     expect('foo').to.have.length.atLeast(2);
-       *     expect([ 1, 2, 3 ]).to.have.length.atLeast(3);
+       *     expect('foo').to.have.length.at.least(2);
+       *     expect([ 1, 2, 3 ]).to.have.length.at.least(3);
        *
-       * @name atLeast
+       * @name least
        * @alias gte
        * @alias greaterThanOrEqualTo
        * @param {Number} value
@@ -775,7 +775,7 @@
        * @api public
        */
 
-      function assertAtLeast (n, msg) {
+      function assertLeast (n, msg) {
         if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
@@ -797,9 +797,9 @@
         }
       }
 
-      Assertion.addMethod('atLeast', assertAtLeast);
-      Assertion.addMethod('gte', assertAtLeast);
-      Assertion.addMethod('greaterThanOrEqualTo', assertAtLeast);
+      Assertion.addMethod('least', assertLeast);
+      Assertion.addMethod('gte', assertLeast);
+      Assertion.addMethod('greaterThanOrEqualTo', assertLeast);
 
       /**
        * ### .below(value)
@@ -851,21 +851,21 @@
       Assertion.addMethod('lessThan', assertBelow);
 
       /**
-       * ### .atMost(value)
+       * ### .most(value)
        *
        * Asserts that the target is less than or equal to `value`.
        *
-       *     expect(5).to.be.atMost(5);
+       *     expect(5).to.be.at.most(5);
        *
        * Can also be used in conjunction with `length` to
        * assert a maximum length. The benefit being a
        * more informative error message than if the length
        * was supplied directly.
        *
-       *     expect('foo').to.have.length.atMost(4);
-       *     expect([ 1, 2, 3 ]).to.have.length.atMost(3);
+       *     expect('foo').to.have.length.at.most(4);
+       *     expect([ 1, 2, 3 ]).to.have.length.at.most(3);
        *
-       * @name atMost
+       * @name most
        * @alias lte
        * @alias lessThanOrEqualTo
        * @param {Number} value
@@ -873,7 +873,7 @@
        * @api public
        */
 
-      function assertAtMost (n, msg) {
+      function assertMost (n, msg) {
         if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object');
         if (flag(this, 'doLength')) {
@@ -895,9 +895,9 @@
         }
       }
 
-      Assertion.addMethod('atMost', assertAtMost);
-      Assertion.addMethod('lte', assertAtMost);
-      Assertion.addMethod('lessThanOrEqualTo', assertAtMost);
+      Assertion.addMethod('most', assertMost);
+      Assertion.addMethod('lte', assertMost);
+      Assertion.addMethod('lessThanOrEqualTo', assertMost);
 
       /**
        * ### .within(start, finish)
