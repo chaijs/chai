@@ -4,10 +4,19 @@
     <title>Mocha</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>mocha.setup('tdd')</script>
     <script src="../../chai.js"></script>
+    <script>
+      err = function (fn, msg) {
+        try {
+          fn();
+          throw new chai.AssertionError({ message: 'Expected an error' });
+        } catch (err) {
+          chai.expect(err.message).to.equal(msg);
+        }
+      };
+    </script>
     <script src="../configuration.js"></script>
     <script src="../expect.js"></script>
     <script src="../should.js"></script>

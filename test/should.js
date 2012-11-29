@@ -1,21 +1,3 @@
-/**
- * Module dependencies.
- */
-
-
-if (!chai) {
-  var chai = require('..');
-}
-
-function err(fn, msg) {
-  try {
-    fn();
-    throw new chai.AssertionError({ message: 'Expected an error' });
-  } catch (err) {
-    chai.expect(err.message).to.equal(msg);
-  }
-}
-
 suite('should', function() {
   var should = chai.Should();
 

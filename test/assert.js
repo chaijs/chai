@@ -1,25 +1,5 @@
-/*!
- * Module dependencies.
- *
- * Chai is automatically included in the browser.
- */
-
-if (!chai) {
-  var chai = require('..');
-}
-
-var assert = chai.assert;
-
-function err(fn, msg) {
-  try {
-    fn();
-    throw new chai.AssertionError({ message: 'Expected an error' });
-  } catch (err) {
-    assert.equal(msg, err.message);
-  }
-}
-
 suite('assert', function () {
+  var assert = chai.assert;
 
   test('assert', function () {
     var foo = 'bar';

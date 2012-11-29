@@ -1,8 +1,5 @@
-if (!chai) var chai = require('..');
-
-var expect = chai.expect;
-
 suite('utilities', function () {
+  var expect = chai.expect;
 
   test('_obj', function () {
     var foo = 'bar'

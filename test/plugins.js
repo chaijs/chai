@@ -1,7 +1,3 @@
-if (!chai) {
-  var chai = require('..');
-}
-
 suite('plugins', function () {
 
   function plugin (chai) {

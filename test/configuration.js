@@ -1,14 +1,10 @@
-if (!chai) {
-  var chai = require('..');
-}
-
-var assert = chai.assert;
-
-function fooThrows () {
-  assert.equal('foo', 'bar');
-}
-
 suite('configuration', function () {
+  var assert = chai.assert;
+
+  function fooThrows () {
+    assert.equal('foo', 'bar');
+  }
+
   test('Assertion.includeStack is true', function () {
     chai.Assertion.includeStack = true;
     try {
