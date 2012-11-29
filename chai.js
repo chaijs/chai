@@ -74,7 +74,7 @@
      * Chai version
      */
 
-    exports.version = '1.3.0';
+    exports.version = '1.4.0';
 
     /*!
      * Primary `Assertion` prototype
@@ -324,9 +324,9 @@
        * - that
        * - and
        * - have
-    	 * - with
-    	 * - at
-    	 * - of
+       * - with
+       * - at
+       * - of
        *
        * @name language chains
        * @api public
@@ -335,7 +335,7 @@
       [ 'to', 'be', 'been'
       , 'is', 'and', 'have'
       , 'with', 'that', 'at'
-    	, 'of' ].forEach(function (chain) {
+      , 'of' ].forEach(function (chain) {
         Assertion.addProperty(chain, function () {
           return this;
         });
