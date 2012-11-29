@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/chaijs/chai/issues"
   },
-  "main": "./lib/chai",
+  "main": "./index",
   "scripts": {
     "test": "mocha"
   },
