@@ -12,6 +12,7 @@ clean:
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--require ./test/bootstrap \
 		--reporter $(REPORTER) \
 		--ui tdd \
 		$(TESTS)
