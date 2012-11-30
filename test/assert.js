@@ -413,7 +413,26 @@ suite('assert', function () {
 
   test('throws', function() {
     assert.throws(function() { throw new Error('foo'); });
-    assert.throws(function() { throw new Error('bar'); }, 'foo');
+    assert.throws(function() { throw new Error('bar'); }, 'bar');
+    assert.throws(function() { throw new Error('bar'); }, /bar/);
+    assert.throws(function() { throw new Error('bar'); }, Error);
+    assert.throws(function() { throw new Error('bar'); }, Error, 'bar');
+
+    err(function () {
+      assert.throws(function() { throw new Error('foo') }, TypeError);
+     }, "expected [Function] to throw TypeError but [Error: foo] was thrown")
+
+    err(function () {
+      assert.throws(function() { throw new Error('foo') }, 'bar');
+     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+
+    err(function () {
+      assert.throws(function() { throw new Error('foo') }, Error, 'bar');
+     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+
+    err(function () {
+      assert.throws(function() { throw new Error('foo') }, TypeError, 'bar');
+     }, "expected [Function] to throw TypeError but [Error: foo] was thrown")
 
     err(function () {
       assert.throws(function() {});
