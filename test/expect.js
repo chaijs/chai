@@ -99,6 +99,7 @@ suite('expect', function () {
     expect({}).to.be.a('object');
     expect([]).to.be.a('array');
     expect(function() {}).to.be.a('function');
+    expect(null).to.be.a('null');
 
     err(function(){
       expect(5).to.not.be.a('number', 'blah');
