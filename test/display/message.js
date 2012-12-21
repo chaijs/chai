@@ -19,6 +19,8 @@ var deepObj2 = {
     ]
 };
 
+chai.Assertion.includeStack = true;
+
 suite('object display', function () {
 
   test('property', function () {
@@ -27,6 +29,10 @@ suite('object display', function () {
 
   test('deep equal', function () {
     deepObj.should.deep.equal(deepObj2);
+  });
+
+  test('deep equal array', function () {
+    [ 'one', 'two', 'three' ].should.deep.equal([ 'one', 'two', 'three', 'four' ]);
   });
 
 });
