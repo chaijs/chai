@@ -74,7 +74,7 @@
      * Chai version
      */
 
-    exports.version = '1.4.0';
+    exports.version = '1.4.1';
 
     /*!
      * Primary `Assertion` prototype
@@ -228,8 +228,9 @@
      * @api private
      */
 
-    Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual) {
+    Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual, showDiff) {
       var ok = util.test(this, arguments);
+      if (true !== showDiff) showDiff = false;
 
       if (!ok) {
         var msg = util.getMessage(this, arguments)
@@ -239,6 +240,7 @@
           , actual: actual
           , expected: expected
           , stackStartFunction: (Assertion.includeStack) ? this.assert : flag(this, 'ssfi')
+          , showDiff: showDiff
         });
       }
     };
@@ -674,6 +676,8 @@
             , 'expected #{this} to equal #{exp}'
             , 'expected #{this} to not equal #{exp}'
             , val
+            , this._obj
+            , true
           );
         }
       }
@@ -703,6 +707,8 @@
           , 'expected #{this} to deeply equal #{exp}'
           , 'expected #{this} to not deeply equal #{exp}'
           , obj
+          , this._obj
+          , true
         );
       });
 
@@ -2352,13 +2358,17 @@
       };
 
       /**
-       * ### .throws(function, [constructor/regexp], [message])
+       * ### .throws(function, [constructor/string/regexp], [string/regexp], [message])
        *
        * Asserts that `function` will throw an error that is an instance of
        * `constructor`, or alternately that it will throw an error with message
        * matching `regexp`.
        *
+       *     assert.throw(fn, 'function throws a reference error');
+       *     assert.throw(fn, /function throws a reference error/);
+       *     assert.throw(fn, ReferenceError);
        *     assert.throw(fn, ReferenceError, 'function throws a reference error');
+       *     assert.throw(fn, ReferenceError, /function throws a reference error/);
        *
        * @name throws
        * @alias throw
@@ -2371,13 +2381,13 @@
        * @api public
        */
 
-      assert.Throw = function (fn, type, msg) {
-        if ('string' === typeof type) {
-          msg = type;
-          type = null;
+      assert.Throw = function (fn, errt, errs, msg) {
+        if ('string' === typeof errt || errt instanceof RegExp) {
+          errs = errt;
+          errt = null;
         }
 
-        new Assertion(fn, msg).to.Throw(type);
+        new Assertion(fn, msg).to.Throw(errt, errs);
       };
 
       /**

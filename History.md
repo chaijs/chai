@@ -1,4 +1,13 @@
 
+1.4.1 / 2012-12-21 
+==================
+
+  * showDiff: force diff for equal and eql. #106
+  * test: [expect] type null. #122
+  * Merge pull request #115 from eshao/fix-assert-Throw
+  * FIX: assert.Throw checks error type/message
+  * TST: assert.Throw should check error type/message
+
 1.4.0 / 2012-11-29 
 ==================
 
