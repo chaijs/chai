@@ -1,4 +1,11 @@
 
+1.4.2 / 2012-12-21 
+==================
+
+  * browser build: (object diff support when used with mocha) #106
+  * test: [display] array test for mocha object diff
+  * browser: no longer need different AssertionError constructor
+
 1.4.1 / 2012-12-21 
 ==================
 

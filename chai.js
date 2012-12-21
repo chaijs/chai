@@ -74,7 +74,7 @@
      * Chai version
      */
 
-    exports.version = '1.4.1';
+    exports.version = '1.4.2';
 
     /*!
      * Primary `Assertion` prototype
