@@ -86,7 +86,7 @@
      * Assertion Error
      */
 
-    exports.AssertionError = require('./chai/browser/error');
+    exports.AssertionError = require('./chai/error');
 
     /*!
      * Utils for plugins (not exported)
@@ -155,7 +155,7 @@
      * Module dependencies.
      */
 
-    var AssertionError = require('./browser/error')
+    var AssertionError = require('./error')
       , util = require('./utils')
       , flag = util.flag;
 
@@ -263,38 +263,6 @@
     });
 
   }); // module: chai/assertion.js
-
-  require.register("chai/browser/error.js", function(module, exports, require){
-    /*!
-     * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
-     * MIT Licensed
-     */
-
-    module.exports = AssertionError;
-
-    function AssertionError (options) {
-      options = options || {};
-      this.message = options.message;
-      this.actual = options.actual;
-      this.expected = options.expected;
-      this.operator = options.operator;
-
-      if (options.stackStartFunction && Error.captureStackTrace) {
-        var stackStartFunction = options.stackStartFunction;
-        Error.captureStackTrace(this, stackStartFunction);
-      }
-    }
-
-    AssertionError.prototype = Object.create(Error.prototype);
-    AssertionError.prototype.name = 'AssertionError';
-    AssertionError.prototype.constructor = AssertionError;
-
-    AssertionError.prototype.toString = function() {
-      return this.message;
-    };
-
-  }); // module: chai/browser/error.js
 
   require.register("chai/core/assertions.js", function(module, exports, require){
     /*!
@@ -1494,6 +1462,70 @@
     };
 
   }); // module: chai/core/assertions.js
+
+  require.register("chai/error.js", function(module, exports, require){
+    /*!
+     * chai
+     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    /*!
+     * Main export
+     */
+
+    module.exports = AssertionError;
+
+    /**
+     * # AssertionError (constructor)
+     *
+     * Create a new assertion error based on the Javascript
+     * `Error` prototype.
+     *
+     * **Options**
+     * - message
+     * - actual
+     * - expected
+     * - operator
+     * - startStackFunction
+     *
+     * @param {Object} options
+     * @api public
+     */
+
+    function AssertionError (options) {
+      options = options || {};
+      this.message = options.message;
+      this.actual = options.actual;
+      this.expected = options.expected;
+      this.operator = options.operator;
+      this.showDiff = options.showDiff;
+
+      if (options.stackStartFunction && Error.captureStackTrace) {
+        var stackStartFunction = options.stackStartFunction;
+        Error.captureStackTrace(this, stackStartFunction);
+      }
+    }
+
+    /*!
+     * Inherit from Error
+     */
+
+    AssertionError.prototype = Object.create(Error.prototype);
+    AssertionError.prototype.name = 'AssertionError';
+    AssertionError.prototype.constructor = AssertionError;
+
+    /**
+     * # toString()
+     *
+     * Override default to string method
+     */
+
+    AssertionError.prototype.toString = function() {
+      return this.message;
+    };
+
+  }); // module: chai/error.js
 
   require.register("chai/interface/assert.js", function(module, exports, require){
     /*!
