@@ -320,7 +320,7 @@ suite('should', function() {
 
     err(function(){
       (new FakeArgs).should.not.be.empty;
-    }, "expected {} not to be empty");
+    }, "expected { length: 0 } not to be empty");
 
     err(function(){
       ({arguments: 0}).should.be.empty;
