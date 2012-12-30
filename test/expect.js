@@ -336,7 +336,7 @@ suite('expect', function () {
 
     err(function(){
       expect(new FakeArgs).not.to.be.empty;
-    }, "expected {} not to be empty");
+    }, "expected { length: 0 } not to be empty");
 
     err(function(){
       expect({arguments: 0}).to.be.empty;
