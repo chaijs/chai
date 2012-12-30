@@ -164,8 +164,15 @@ suite('assert', function () {
   test('deepEqual', function() {
     assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
 
+
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
+    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+
+    var obj1 = Object.create({tea: 'chai'});
+    var obj2 = Object.create({tea: 'black'});
+    err(function () {
+      assert.deepEqual(obj1, obj2);
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
