@@ -492,6 +492,7 @@ suite('should', function() {
 
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
+      , stringErrFn = function () { throw 'testing'; }
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; };
@@ -503,6 +504,9 @@ suite('should', function() {
     (badFn).should.throw(Error);
     (badFn).should.not.throw(ReferenceError);
     (badFn).should.not.throw(specificError);
+    (stringErrFn).should.throw();
+    (stringErrFn).should.not.throw(ReferenceError);
+    (stringErrFn).should.not.throw(specificError);
     (refErrFn).should.throw();
     (refErrFn).should.throw(ReferenceError);
     (refErrFn).should.throw(Error);
@@ -517,8 +521,14 @@ suite('should', function() {
     (badFn).should.throw(/testing/);
     (badFn).should.throw('testing');
     (badFn).should.not.throw(/hello/);
+    (badFn).should.not.throw('hello');
     (badFn).should.throw(Error, /testing/);
     (badFn).should.throw(Error, 'testing');
+
+    (stringErrFn).should.throw(/testing/);
+    (stringErrFn).should.throw('testing');
+    (stringErrFn).should.not.throw(/hello/);
+    (stringErrFn).should.not.throw('hello');
 
     should.throw(badFn);
     should.throw(refErrFn, ReferenceError);
@@ -559,6 +569,22 @@ suite('should', function() {
     err(function(){
       (badFn).should.not.throw(Error);
     }, "expected [Function] to not throw Error but [Error: testing] was thrown");
+
+    err(function(){
+      (stringErrFn).should.not.throw();
+    }, "expected [Function] to not throw an error but 'testing' was thrown");
+
+    err(function(){
+      (stringErrFn).should.throw(ReferenceError);
+    }, "expected [Function] to throw ReferenceError but 'testing' was thrown");
+
+    err(function(){
+      (stringErrFn).should.throw(specificError);
+    }, "expected [Function] to throw [RangeError: boo] but 'testing' was thrown");
+
+    err(function(){
+      (stringErrFn).should.not.throw('testing');
+    }, "expected [Function] to throw error not including 'testing'");
 
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
