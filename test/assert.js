@@ -444,6 +444,14 @@ suite('assert', function () {
     err(function () {
       assert.throws(function() {});
      }, "expected [Function] to throw an error");
+
+    err(function () {
+        assert.throws(function() { throw new Error('') }, 'bar');
+    }, "expected [Function] to throw error including 'bar' but got ''");
+
+    err(function () {
+        assert.throws(function() { throw new Error('') }, /bar/);
+    }, "expected [Function] to throw error matching /bar/ but got ''");
   });
 
   test('doesNotThrow', function() {
