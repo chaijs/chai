@@ -15,6 +15,10 @@ global.err = function (fn, msg) {
     fn();
     throw new chai.AssertionError({ message: 'Expected an error' });
   } catch (err) {
-    chai.expect(err.message).to.equal(msg);
+    if ('string' === typeof msg) {
+      chai.expect(err.message).to.equal(msg);
+    } else {
+      chai.expect(err.message).to.match(msg);
+    }
   }
 };
