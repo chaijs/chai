@@ -367,7 +367,7 @@
        *
        * The `a` and `an` assertions are aliases that can be
        * used either as language chains or to assert a value's
-       * type (as revealed by `Object.prototype.toString`).
+       * type.
        *
        *     // typeof
        *     expect('test').to.be.a('string');
@@ -385,15 +385,14 @@
        * @api public
        */
 
-      function an(type, msg) {
+      function an (type, msg) {
         if (msg) flag(this, 'message', msg);
+        type = type.toLowerCase();
         var obj = flag(this, 'object')
-          , klassStart = type.charAt(0).toUpperCase()
-          , klass = klassStart + type.slice(1)
-          , article = ~[ 'A', 'E', 'I', 'O', 'U' ].indexOf(klassStart) ? 'an ' : 'a ';
+          , article = ~[ 'a', 'e', 'i', 'o', 'u' ].indexOf(type.charAt(0)) ? 'an ' : 'a ';
 
         this.assert(
-            '[object ' + klass + ']' === toString.call(obj)
+            type === _.type(obj)
           , 'expected #{this} to be ' + article + type
           , 'expected #{this} not to be ' + article + type
         );
@@ -3266,6 +3265,12 @@
     exports.test = require('./test');
 
     /*!
+     * type utility
+     */
+
+    exports.type = require('./type');
+
+    /*!
      * message utility
      */
 
@@ -3910,6 +3915,55 @@
     };
 
   }); // module: chai/utils/transferFlags.js
+
+  require.register("chai/utils/type.js", function(module, exports, require){
+    /*!
+     * Chai - type utility
+     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    /*!
+     * Detectable javascript natives
+     */
+
+    var natives = {
+        '[object Arguments]': 'arguments'
+      , '[object Array]': 'array'
+      , '[object Date]': 'date'
+      , '[object Function]': 'function'
+      , '[object Number]': 'number'
+      , '[object RegExp]': 'regexp'
+      , '[object String]': 'string'
+    };
+
+    /**
+     * ### type(object)
+     *
+     * Better implementation of `typeof` detection that can
+     * be used cross-browser. Handles the inconsistencies of
+     * Array, `null`, and `undefined` detection.
+     *
+     *     utils.type({}) // 'object'
+     *     utils.type(null) // `null'
+     *     utils.type(undefined) // `undefined`
+     *     utils.type([]) // `array`
+     *
+     * @param {Mixed} object to detect type of
+     * @name type
+     * @api private
+     */
+
+    module.exports = function (obj) {
+      var str = Object.prototype.toString.call(obj);
+      if (natives[str]) return natives[str];
+      if (obj === null) return 'null';
+      if (obj === undefined) return 'undefined';
+      if (obj === Object(obj)) return 'object';
+      return typeof obj;
+    };
+
+  }); // module: chai/utils/type.js
 
   require.alias("./chai.js", "chai");
 

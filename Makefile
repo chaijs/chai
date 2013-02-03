@@ -84,4 +84,4 @@ ifeq ($(shell which phantomjs),)
 	$(error PhantomJS is not installed. Download from http://phantomjs.org or Homebrew)
 endif
 
-.PHONY: all clean clean-browser clean-components clean-cov test test-cov test-node 
+.PHONY: all chai.js clean clean-browser clean-components clean-cov test test-cov test-node 
