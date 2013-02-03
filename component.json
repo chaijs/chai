@@ -39,6 +39,7 @@
       , "lib/chai/utils/overwriteProperty.js"
       , "lib/chai/utils/test.js"
       , "lib/chai/utils/transferFlags.js"
+      , "lib/chai/utils/type.js"
     ]
   , "dependencies": {}
   , "development": {}
