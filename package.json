@@ -30,5 +30,7 @@
   "devDependencies": {
       "folio": "0.3.x"
     , "mocha": "*"
+    , "mocha-cloud": "*"
+    , "connect": "2.7.x"
   }
 }
