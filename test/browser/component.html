@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>mocha.setup('tdd')</script>
-    <script src="../../chai.js"></script>
+    <script src="../../build/build.js"></script>
     <script>
+      var chai = require('chai');
       err = function (fn, msg) {
         try {
           fn();
