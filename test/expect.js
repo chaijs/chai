@@ -187,6 +187,10 @@ suite('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.of.at.least(4, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length at least 4 but got 3");
+
+    err(function () {
+      expect([ 1, 2, 3, 4 ]).to.not.have.length.of.at.least(4, 'blah');
+    }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
   });
 
   test('below(n)', function(){
@@ -237,6 +241,10 @@ suite('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.of.at.most(2, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length at most 2 but got 3");
+
+    err(function () {
+      expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
+    }, "blah: expected [ 1, 2 ] to have a length above 2");
   });
 
   test('match(regexp)', function(){
