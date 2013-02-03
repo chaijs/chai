@@ -663,12 +663,13 @@
        *     expect([ 1, 2, 3 ]).to.eql([ 1, 2, 3 ]);
        *
        * @name eql
+       * @alias eqls
        * @param {Mixed} value
        * @param {String} message _optional_
        * @api public
        */
 
-      Assertion.addMethod('eql', function (obj, msg) {
+      function assertEql(obj, msg) {
         if (msg) flag(this, 'message', msg);
         this.assert(
             _.eql(obj, flag(this, 'object'))
@@ -678,7 +679,10 @@
           , this._obj
           , true
         );
-      });
+      }
+
+      Assertion.addMethod('eql', assertEql);
+      Assertion.addMethod('eqls', assertEql);
 
       /**
        * ### .above(value)
@@ -1315,20 +1319,21 @@
             if (!errMsg) return this;
           }
           // next, check message
-          if (err.message && errMsg && errMsg instanceof RegExp) {
+          var message = typeof(err) === 'object' && "message" in err ? err.message : '' + err;
+          if (message && errMsg && errMsg instanceof RegExp) {
             this.assert(
-                errMsg.exec(err.message)
-              , 'expected #{this} to throw error matching ' + errMsg + ' but got ' + _.inspect(err.message)
+                errMsg.exec(message)
+              , 'expected #{this} to throw error matching ' + errMsg + ' but got ' + _.inspect(message)
               , 'expected #{this} to throw error not matching ' + errMsg
             );
             return this;
-          } else if (err.message && errMsg && 'string' === typeof errMsg) {
+          } else if (message && errMsg && 'string' === typeof errMsg) {
             this.assert(
-                ~err.message.indexOf(errMsg)
+                ~message.indexOf(errMsg)
               , 'expected #{this} to throw error including #{exp} but got #{act}'
               , 'expected #{this} to throw error not including #{act}'
               , errMsg
-              , err.message
+              , message
             );
             return this;
           } else {
@@ -2626,6 +2631,18 @@
 
     var transferFlags = require('./transferFlags');
 
+    /*!
+     * Module variables
+     */
+
+    // Check whether `__proto__` is supported
+    var hasProtoSupport = '__proto__' in Object;
+
+    // Without `__proto__` support, this module will need to add properties to a function.
+    // However, some Function.prototype methods cannot be overwritten,
+    // and there seems no easy cross-platform way to detect them (@see chaijs/chai/issues/69).
+    var excludeNames = /^(?:length|name|arguments|caller)$/;
+
     /**
      * ### addChainableMethod (ctx, name, method, chainingBehavior)
      *
@@ -2667,16 +2684,20 @@
               return result === undefined ? this : result;
             };
 
-            // Re-enumerate every time to better accomodate plugins.
-            var asserterNames = Object.getOwnPropertyNames(ctx);
-            asserterNames.forEach(function (asserterName) {
-              var pd = Object.getOwnPropertyDescriptor(ctx, asserterName)
-                , functionProtoPD = Object.getOwnPropertyDescriptor(Function.prototype, asserterName);
-              // Avoid trying to overwrite things that we can't, like `length` and `arguments`.
-              if (functionProtoPD && !functionProtoPD.configurable) return;
-              if (asserterName === 'arguments') return; // @see chaijs/chai/issues/69
-              Object.defineProperty(assert, asserterName, pd);
-            });
+            // Use `__proto__` if available
+            if (hasProtoSupport) {
+              assert.__proto__ = this;
+            }
+            // Otherwise, redefine all properties (slow!)
+            else {
+              var asserterNames = Object.getOwnPropertyNames(ctx);
+              asserterNames.forEach(function (asserterName) {
+                if (!excludeNames.test(asserterName)) {
+                  var pd = Object.getOwnPropertyDescriptor(ctx, asserterName);
+                  Object.defineProperty(assert, asserterName, pd);
+                }
+              });
+            }
 
             transferFlags(this, assert);
             return assert;
@@ -2778,6 +2799,8 @@
 
     module.exports = _deepEqual;
 
+    var getEnumerableProperties = require('./getEnumerableProperties');
+
     // for the browser
     var Buffer;
     try {
@@ -2862,8 +2885,8 @@
         return _deepEqual(a, b, memos);
       }
       try {
-        var ka = Object.keys(a),
-            kb = Object.keys(b),
+        var ka = getEnumerableProperties(a),
+            kb = getEnumerableProperties(b),
             key;
       } catch (e) {//happens when one is a string literal and the other isn't
         return false;
@@ -2956,6 +2979,35 @@
     };
 
   }); // module: chai/utils/getActual.js
+
+  require.register("chai/utils/getEnumerableProperties.js", function(module, exports, require){
+    /*!
+     * Chai - getEnumerableProperties utility
+     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    /**
+     * ### .getEnumerableProperties(object)
+     *
+     * This allows the retrieval of enumerable property names of an object,
+     * inherited or not.
+     *
+     * @param {Object} object
+     * @returns {Array}
+     * @name getEnumerableProperties
+     * @api public
+     */
+
+    module.exports = function getEnumerableProperties(object) {
+      var result = [];
+      for (var name in object) {
+        result.push(name);
+      }
+      return result;
+    };
+
+  }); // module: chai/utils/getEnumerableProperties.js
 
   require.register("chai/utils/getMessage.js", function(module, exports, require){
     /*!
@@ -3140,6 +3192,45 @@
 
   }); // module: chai/utils/getPathValue.js
 
+  require.register("chai/utils/getProperties.js", function(module, exports, require){
+    /*!
+     * Chai - getProperties utility
+     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    /**
+     * ### .getProperties(object)
+     *
+     * This allows the retrieval of property names of an object, enumerable or not,
+     * inherited or not.
+     *
+     * @param {Object} object
+     * @returns {Array}
+     * @name getProperties
+     * @api public
+     */
+
+    module.exports = function getProperties(object) {
+      var result = Object.getOwnPropertyNames(subject);
+
+      function addProperty(property) {
+        if (result.indexOf(property) === -1) {
+          result.push(property);
+        }
+      }
+
+      var proto = Object.getPrototypeOf(subject);
+      while (proto !== null) {
+        Object.getOwnPropertyNames(proto).forEach(addProperty);
+        proto = Object.getPrototypeOf(proto);
+      }
+
+      return result;
+    };
+
+  }); // module: chai/utils/getProperties.js
+
   require.register("chai/utils/index.js", function(module, exports, require){
     /*!
      * chai
@@ -3251,6 +3342,8 @@
     // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
     var getName = require('./getName');
+    var getProperties = require('./getProperties');
+    var getEnumerableProperties = require('./getEnumerableProperties');
 
     module.exports = inspect;
 
@@ -3291,7 +3384,7 @@
         return html;
       }
     };
-      
+
     // Returns true if object is a DOM element.
     var isDOMElement = function (object) {
       if (typeof HTMLElement === 'object') {
@@ -3327,8 +3420,8 @@
       }
 
       // Look up the keys of the object.
-      var visibleKeys = Object.keys(value);
-      var keys = ctx.showHidden ? Object.getOwnPropertyNames(value) : visibleKeys;
+      var visibleKeys = getEnumerableProperties(value);
+      var keys = ctx.showHidden ? getProperties(value) : visibleKeys;
 
       // Some type of object without properties can be shortcutted.
       // In IE, errors have a single `stack` property, or if they are vanilla `Error`,
