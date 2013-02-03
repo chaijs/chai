@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="./mocha-cloud-client.js"></script>
+    <script>mocha.setup('tdd')</script>
+    <script src="../../chai.js"></script>
+    <script>
+      err = function (fn, msg) {
+        try {
+          fn();
+          throw new chai.AssertionError({ message: 'Expected an error' });
+        } catch (err) {
+          chai.expect(err.message).to.equal(msg);
+        }
+      };
+    </script>
+    <script src="../configuration.js"></script>
+    <script src="../expect.js"></script>
+    <script src="../should.js"></script>
+    <script src="../assert.js"></script>
+    <script src="../plugins.js"></script>
+    <script src="../utilities.js"></script>
+    <script src="../globalShould.js"></script>
+    <script>onload = function() {
+      cloud(mocha.run());
+    }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+  </body>
+</html>
