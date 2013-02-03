@@ -194,6 +194,20 @@
 
     Assertion.includeStack = false;
 
+    /*!
+     * ### Assertion.showDiff
+     *
+     * User configurable property, influences whether or not
+     * the `showDiff` flag should be included in the thrown
+     * AssertionErrors. `false` will always be `false`; `true`
+     * will be true when the assertion has requested a diff
+     * be shown.
+     *
+     * @api public
+     */
+
+    Assertion.showDiff = true;
+
     Assertion.addProperty = function (name, fn) {
       util.addProperty(this.prototype, name, fn);
     };
@@ -231,6 +245,7 @@
     Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual, showDiff) {
       var ok = util.test(this, arguments);
       if (true !== showDiff) showDiff = false;
+      if (true !== Assertion.showDiff) showDiff = false;
 
       if (!ok) {
         var msg = util.getMessage(this, arguments)
@@ -764,7 +779,7 @@
           this.assert(
               len >= n
             , 'expected #{this} to have a length at least #{exp} but got #{act}'
-            , 'expected #{this} to not have a length below #{exp}'
+            , 'expected #{this} to have a length below #{exp}'
             , n
             , len
           );
@@ -860,7 +875,7 @@
           this.assert(
               len <= n
             , 'expected #{this} to have a length at most #{exp} but got #{act}'
-            , 'expected #{this} to not have a length above #{exp}'
+            , 'expected #{this} to have a length above #{exp}'
             , n
             , len
           );
@@ -1320,14 +1335,14 @@
           }
           // next, check message
           var message = typeof(err) === 'object' && "message" in err ? err.message : '' + err;
-          if (message && errMsg && errMsg instanceof RegExp) {
+          if ((message != null) && errMsg && errMsg instanceof RegExp) {
             this.assert(
                 errMsg.exec(message)
               , 'expected #{this} to throw error matching ' + errMsg + ' but got ' + _.inspect(message)
               , 'expected #{this} to throw error not matching ' + errMsg
             );
             return this;
-          } else if (message && errMsg && 'string' === typeof errMsg) {
+          } else if ((message != null) && errMsg && 'string' === typeof errMsg) {
             this.assert(
                 ~message.indexOf(errMsg)
               , 'expected #{this} to throw error including #{exp} but got #{act}'
