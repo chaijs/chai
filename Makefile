@@ -1,30 +1,87 @@
 
 TESTS = test/*.js
-REPORTER = dot
+REPORTER = spec
 
 all: chai.js
 
-chai.js: $(SRC)
-	@node support/compile $^
+chai.js: 
+	@node support/compile
 
-clean:
-	@rm -f chai.js
+#
+# Tests
+# 
 
-test:
+test: test-node
+
+test-node:
+	@printf "\n  ==> [Node.js]"
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--require ./test/bootstrap \
 		--reporter $(REPORTER) \
 		--ui tdd \
 		$(TESTS)
 
+test-browser: chai.js has-phantomjs
+	@printf "\n  ==> [Browser Build via PhantomJS]"
+	@./node_modules/.bin/mocha-phantomjs \
+		--R ${REPORTER} \
+		./test/browser/index.html
+
+test-component: build has-phantomjs
+	@printf "\n  ==> [Component Build via PhantomJS]"
+	@./node_modules/.bin/mocha-phantomjs \
+		--R ${REPORTER} \
+		./test/browser/component.html
+
 test-cov: lib-cov
-	@CHAI_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
+		--require ./test/bootstrap \
+		--reporter html-cov \
+		--ui tdd \
+		$(TESTS) \
+		> coverage.html
+
+#
+# Components
+# 
+
+build: components lib/*
+	@./node_modules/.bin/component-build --dev
+
+components: component.json
+	@./node_modules/.bin/component-install --dev
+
+#
+# Coverage
+# 
 
 lib-cov: clean-cov
 	@jscoverage lib lib-cov
 
-clean-cov:
-	@rm -f coverage.html
-	@rm -fr lib-cov
+#
+# Clean up
+# 
 
-.PHONY: all chai.js clean clean-cov test docs clean-docs doc-server test-cov lib-cov
+clean: clean-browser clean-components clean-cov
+
+clean-browser:
+	@rm -f chai.js
+
+clean-components:
+	@rm -rf build
+	@rm -rf components
+
+clean-cov:
+	@rm -rf lib-cov
+	@rm -f coverage.html
+
+#
+# Utils
+#
+
+has-phantomjs:
+ifeq ($(shell which phantomjs),)
+	$(error PhantomJS is not installed. Download from http://phantomjs.org or Homebrew)
+endif
+
+.PHONY: all clean clean-browser clean-components clean-cov test test-cov test-node 
