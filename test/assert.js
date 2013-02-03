@@ -427,7 +427,7 @@ suite('assert', function () {
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, TypeError);
-     }, "expected [Function] to throw TypeError but [Error: foo] was thrown")
+     }, "expected [Function] to throw 'TypeError' but [Error: foo] was thrown")
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, 'bar');
@@ -439,7 +439,7 @@ suite('assert', function () {
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, TypeError, 'bar');
-     }, "expected [Function] to throw TypeError but [Error: foo] was thrown")
+     }, "expected [Function] to throw 'TypeError' but [Error: foo] was thrown")
 
     err(function () {
       assert.throws(function() {});

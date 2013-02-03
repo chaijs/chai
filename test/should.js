@@ -48,7 +48,7 @@ suite('should', function() {
 
     err(function () {
       should.not.Throw(function () { throw new Error('error!') }, Error, 'error!', 'blah');
-    }, "blah: expected [Function] to not throw Error but [Error: error!] was thrown");
+    }, "blah: expected [Function] to not throw 'Error' but [Error: error!] was thrown");
   });
 
   test('true', function(){
@@ -560,7 +560,7 @@ suite('should', function() {
 
     err(function(){
       (badFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but [Error: testing] was thrown");
+    }, "expected [Function] to throw 'ReferenceError' but [Error: testing] was thrown");
 
     err(function(){
       (badFn).should.throw(specificError);
@@ -568,7 +568,7 @@ suite('should', function() {
 
     err(function(){
       (badFn).should.not.throw(Error);
-    }, "expected [Function] to not throw Error but [Error: testing] was thrown");
+    }, "expected [Function] to not throw 'Error' but [Error: testing] was thrown");
 
     err(function(){
       (stringErrFn).should.not.throw();
@@ -576,7 +576,7 @@ suite('should', function() {
 
     err(function(){
       (stringErrFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but 'testing' was thrown");
+    }, "expected [Function] to throw 'ReferenceError' but 'testing' was thrown");
 
     err(function(){
       (stringErrFn).should.throw(specificError);
@@ -588,19 +588,19 @@ suite('should', function() {
 
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
-    }, "expected [Function] to not throw ReferenceError but [ReferenceError: hello] was thrown");
+    }, "expected [Function] to not throw 'ReferenceError' but [ReferenceError: hello] was thrown");
 
     err(function(){
       (badFn).should.throw(PoorlyConstructedError);
-    }, "expected [Function] to throw PoorlyConstructedError but [Error: testing] was thrown");
+    }, "expected [Function] to throw 'PoorlyConstructedError' but [Error: testing] was thrown")
 
     err(function(){
       (ickyErrFn).should.not.throw(PoorlyConstructedError);
-    }, "expected [Function] to not throw PoorlyConstructedError but { name: 'PoorlyConstructedError' } was thrown");
+    }, /^(expected \[Function\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       (ickyErrFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError but { name: 'PoorlyConstructedError' } was thrown");
+    }, /^(expected \[Function\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       (specificErrFn).should.throw(new ReferenceError('eek'));
@@ -643,16 +643,16 @@ suite('should', function() {
     bar.should.respondTo('foo');
 
     err(function(){
-      Foo.should.respondTo('baz', 'blah');
-    }, "blah: expected { [Function: Foo] func: [Function] } to respond to \'baz\'");
+      Foo.should.respondTo('baz', 'constructor');
+    }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
 
     err(function(){
-      bar.should.respondTo('baz', 'blah');
-    }, "blah: expected { foo: [Function] } to respond to \'baz\'");
+      bar.should.respondTo('baz', 'object');
+    }, /^(object: expected)(.*)(\{ foo: \[Function\] \}|\{ Object \()(.*)(to respond to \'baz\')$/);
   });
 
   test('satisfy', function(){
-    var matcher = function(num){
+    var matcher = function (num){
       return num === 1;
     };
 
