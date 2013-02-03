@@ -90,6 +90,10 @@ suite('expect', function () {
       expect('test').to.not.be.a('string');
     }, "expected 'test' not to be a string");
 
+    (function () {
+      expect(arguments).to.be.an('arguments');
+    })(1, 2);
+
     expect(5).to.be.a('number');
     expect(new Number(1)).to.be.a('number');
     expect(Number(1)).to.be.a('number');
