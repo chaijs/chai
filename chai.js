@@ -1319,27 +1319,40 @@
           if (desiredError) {
             this.assert(
                 err === desiredError
-              , 'expected #{this} to throw ' + _.inspect(desiredError) + ' but ' + _.inspect(err) + ' was thrown'
-              , 'expected #{this} to not throw ' + _.inspect(desiredError)
+              , 'expected #{this} to throw #{exp} but #{act} was thrown'
+              , 'expected #{this} to not throw #{exp}'
+              , desiredError
+              , err
             );
+
             return this;
           }
           // next, check constructor
           if (constructor) {
             this.assert(
                 err instanceof constructor
-              , 'expected #{this} to throw ' + name + ' but ' + _.inspect(err) + ' was thrown'
-              , 'expected #{this} to not throw ' + name + ' but ' + _.inspect(err) + ' was thrown');
+              , 'expected #{this} to throw #{exp} but #{act} was thrown'
+              , 'expected #{this} to not throw #{exp} but #{act} was thrown'
+              , name
+              , err
+            );
+
             if (!errMsg) return this;
           }
           // next, check message
-          var message = typeof(err) === 'object' && "message" in err ? err.message : '' + err;
+          var message = 'object' === _.type(err) && "message" in err
+            ? err.message
+            : '' + err;
+
           if ((message != null) && errMsg && errMsg instanceof RegExp) {
             this.assert(
                 errMsg.exec(message)
-              , 'expected #{this} to throw error matching ' + errMsg + ' but got ' + _.inspect(message)
-              , 'expected #{this} to throw error not matching ' + errMsg
+              , 'expected #{this} to throw error matching #{exp} but got #{act}'
+              , 'expected #{this} to throw error not matching #{exp}'
+              , errMsg
+              , message
             );
+
             return this;
           } else if ((message != null) && errMsg && 'string' === typeof errMsg) {
             this.assert(
@@ -1349,6 +1362,7 @@
               , errMsg
               , message
             );
+
             return this;
           } else {
             thrown = true;
@@ -1356,16 +1370,23 @@
           }
         }
 
-        var expectedThrown = name ? name : desiredError ? _.inspect(desiredError) : 'an error';
         var actuallyGot = ''
+          , expectedThrown = name !== null
+            ? name
+            : desiredError
+              ? '#{exp}' //_.inspect(desiredError)
+              : 'an error';
+
         if (thrown) {
-          actuallyGot = ' but ' + _.inspect(thrownError) + ' was thrown'
+          actuallyGot = ' but #{act} was thrown'
         }
 
         this.assert(
             thrown === true
           , 'expected #{this} to throw ' + expectedThrown + actuallyGot
           , 'expected #{this} to not throw ' + expectedThrown + actuallyGot
+          , desiredError
+          , thrownError
         );
       };
 
@@ -1398,7 +1419,7 @@
         if (msg) flag(this, 'message', msg);
         var obj = flag(this, 'object')
           , itself = flag(this, 'itself')
-          , context = ('function' === typeof obj && !itself)
+          , context = ('function' === _.type(obj) && !itself)
             ? obj.prototype[method]
             : obj[method];
 
@@ -1447,8 +1468,8 @@
         var obj = flag(this, 'object');
         this.assert(
             matcher(obj)
-          , 'expected #{this} to satisfy ' + _.inspect(matcher)
-          , 'expected #{this} to not satisfy' + _.inspect(matcher)
+          , 'expected #{this} to satisfy ' + _.objDisplay(matcher)
+          , 'expected #{this} to not satisfy' + _.objDisplay(matcher)
           , this.negate ? false : true
           , matcher(obj)
         );
@@ -3707,7 +3728,11 @@
         , type = Object.prototype.toString.call(obj);
 
       if (str.length >= 40) {
-        if (type === '[object Array]') {
+        if (type === '[object Function]') {
+          return !obj.name || obj.name === ''
+            ? '[Function]'
+            : '[Function: ' + obj.name + ']';
+        } else if (type === '[object Array]') {
           return '[ Array(' + obj.length + ') ]';
         } else if (type === '[object Object]') {
           var keys = Object.keys(obj)
