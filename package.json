@@ -28,9 +28,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-      "folio": "0.3.x"
+      "component": "*"
+    , "folio": "0.3.x"
     , "mocha": "*"
     , "mocha-cloud": "*"
+    , "mocha-phantomjs": "*"
     , "connect": "2.7.x"
   }
 }
