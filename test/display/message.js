@@ -29,4 +29,10 @@ suite('object display', function () {
     deepObj.should.deep.equal(deepObj2);
   });
 
+  test('deep equal no diff', function () {
+    chai.Assertion.showDiff = false;
+    deepObj.should.deep.equal(deepObj2);
+    chai.Assertion.showDiff = true;
+  });
+
 });
