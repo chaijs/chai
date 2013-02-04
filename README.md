@@ -10,32 +10,36 @@ For more information or to download plugins, view the [documentation](http://cha
 ### Contributors
 
      project  : chai
-     repo age : 12 months
-     active   : 103 days
-     commits  : 553
-     files    : 47
+     repo age : 1 year, 2 months
+     active   : 117 days
+     commits  : 616
+     files    : 56
      authors  : 
-       408  Jake Luer               73.8%
-        66  Veselin Todorov         11.9%
-        39  Domenic Denicola        7.1%
-         5  Jo Liss                 0.9%
-         5  Scott Nonnenberg        0.9%
-         5  Juliusz Gonera          0.9%
-         4  josher19                0.7%
-         4  John Firebaugh          0.7%
+       459  Jake Luer               74.5%
+        66  Veselin Todorov         10.7%
+        42  Domenic Denicola        6.8%
+         5  Jo Liss                 0.8%
+         5  Ruben Verborgh          0.8%
+         5  Scott Nonnenberg        0.8%
+         5  Juliusz Gonera          0.8%
+         4  josher19                0.6%
+         4  John Firebaugh          0.6%
          3  Jeff Barczewski         0.5%
-         2  Jakub Nešetřil          0.4%
-         2  Teddy Cross             0.4%
-         1  Chun-Yi                 0.2%
+         2  Edwin Shao              0.3%
+         2  Jakub Nešetřil          0.3%
+         2  Teddy Cross             0.3%
+         1  Anand Patil             0.2%
+         1  Kilian Ciuffolo         0.2%
          1  Niklas Närhinen         0.2%
          1  Paul Miller             0.2%
+         1  Chun-Yi                 0.2%
          1  Sasha Koss              0.2%
          1  Chris Connelly          0.2%
-         1  Anand Patil             0.2%
+         1  Jeff Welch              0.2%
          1  Benjamin Horsleben      0.2%
          1  Victor Costan           0.2%
          1  Vinay Pulim             0.2%
-         1  Kilian Ciuffolo         0.2%
+         1  DD                      0.2%
 
 ## License
 

@@ -1,4 +1,60 @@
 
+1.5.0 / 2013-02-03 
+==================
+
+  * docs: add Release Notes for non-gitlog summary of changes.
+  * lib: update copyright to 2013
+  * Merge branch 'refactor/travis'
+  * makefile: remove test-component for full test run
+  * pkg: script test now runs make test so travis will test browser
+  * browser: build
+  * tests: refactor some tests to support new objDisplay output
+  * test: [bootstrap] normalize boostrap across all test scenarios
+  * assertions: refactor some assertions to use objDisplay instead of inspect
+  * util: [objDisplay] normalize output of functions
+  * makefile: refactor for full build scenarios
+  * component: fix build bug where missing util:type file
+  * assertions: [throw] code cleanup
+  * Merge branch 'refactor/typeDetection'
+  * browser: build
+  * makefile: chai.js is .PHONY so it builds every time
+  * test: [expect] add arguments type detection test
+  * core/assertions: [type] (a/an) refactor to use type detection utility
+  * util: add cross-browser type detection utility
+  * Merge branch 'feature/component'
+  * browser: build
+  * component: add component.json file
+  * makefile: refactor for fine grain control of testing scenarios
+  * test: add mochaPhantomJS support and component test file
+  * deps: add component and mocha-phantomjs for browser testing
+  * ignore: update ignore files for component support
+  * travis: run for all branches
+  * Merge branch 'feature/showDiff'
+  * test: [Assertion] configruable showDiff flag. Closes #132
+  * lib: [Assertion] add configurable showDiff flag. #132
+  * Merge branch 'feature/saucelabs'
+  * Merge branch 'master' into feature/saucelabs
+  * browser: build
+  * support: add mocha cloud runner, client, and html test page
+  * test: [saucelabs] add auth placeholder
+  * deps: add mocha-cloud
+  * Merge pull request #136 from whatthejeff/message_fix
+  * Merge pull request #138 from timnew/master
+  * Fix issue #137, test message existence by using message!=null rather than using message
+  * Fixed backwards negation messages.
+  * Merge pull request #133 from RubenVerborgh/throw
+  * Functions throwing strings can reliably be tested.
+  * Merge pull request #131 from RubenVerborgh/proto
+  * Cache whether __proto__ is supported.
+  * Use __proto__ if available.
+  * Determine the property names to exclude beforehand.
+  * Merge pull request #126 from RubenVerborgh/eqls
+  * Add alias eqls for eql.
+  * Use inherited enumerable properties in deep equality comparison.
+  * Show inherited properties when inspecting an object.
+  * Add new getProperties and getEnumerableProperties utils.
+  * showDiff: force true for equal and eql
+
 1.4.2 / 2012-12-21 
 ==================
 
