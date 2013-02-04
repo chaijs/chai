@@ -63,7 +63,7 @@
   require.register("chai.js", function(module, exports, require){
     /*!
      * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -147,7 +147,7 @@
     /*!
      * chai
      * http://chaijs.com
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -283,7 +283,7 @@
     /*!
      * chai
      * http://chaijs.com
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -1506,7 +1506,7 @@
   require.register("chai/error.js", function(module, exports, require){
     /*!
      * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -1570,7 +1570,7 @@
   require.register("chai/interface/assert.js", function(module, exports, require){
     /*!
      * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2560,7 +2560,7 @@
   require.register("chai/interface/expect.js", function(module, exports, require){
     /*!
      * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2576,7 +2576,7 @@
   require.register("chai/interface/should.js", function(module, exports, require){
     /*!
      * chai
-     * Copyright(c) 2011-2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2656,7 +2656,7 @@
   require.register("chai/utils/addChainableMethod.js", function(module, exports, require){
     /*!
      * Chai - addChainingMethod utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2746,7 +2746,7 @@
   require.register("chai/utils/addMethod.js", function(module, exports, require){
     /*!
      * Chai - addMethod utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2787,7 +2787,7 @@
   require.register("chai/utils/addProperty.js", function(module, exports, require){
     /*!
      * Chai - addProperty utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2959,7 +2959,7 @@
   require.register("chai/utils/flag.js", function(module, exports, require){
     /*!
      * Chai - flag utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -2995,7 +2995,7 @@
   require.register("chai/utils/getActual.js", function(module, exports, require){
     /*!
      * Chai - getActual utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3018,7 +3018,7 @@
   require.register("chai/utils/getEnumerableProperties.js", function(module, exports, require){
     /*!
      * Chai - getEnumerableProperties utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3047,7 +3047,7 @@
   require.register("chai/utils/getMessage.js", function(module, exports, require){
     /*!
      * Chai - message composition utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3100,7 +3100,7 @@
   require.register("chai/utils/getName.js", function(module, exports, require){
     /*!
      * Chai - getName utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3124,7 +3124,7 @@
   require.register("chai/utils/getPathValue.js", function(module, exports, require){
     /*!
      * Chai - getPathValue utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * @see https://github.com/logicalparadox/filtr
      * MIT Licensed
      */
@@ -3230,7 +3230,7 @@
   require.register("chai/utils/getProperties.js", function(module, exports, require){
     /*!
      * Chai - getProperties utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3701,7 +3701,7 @@
   require.register("chai/utils/objDisplay.js", function(module, exports, require){
     /*!
      * Chai - flag utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3753,7 +3753,7 @@
   require.register("chai/utils/overwriteMethod.js", function(module, exports, require){
     /*!
      * Chai - overwriteMethod utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3808,7 +3808,7 @@
   require.register("chai/utils/overwriteProperty.js", function(module, exports, require){
     /*!
      * Chai - overwriteProperty utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3866,7 +3866,7 @@
   require.register("chai/utils/test.js", function(module, exports, require){
     /*!
      * Chai - test utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3896,7 +3896,7 @@
   require.register("chai/utils/transferFlags.js", function(module, exports, require){
     /*!
      * Chai - transferFlags utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
@@ -3944,7 +3944,7 @@
   require.register("chai/utils/type.js", function(module, exports, require){
     /*!
      * Chai - type utility
-     * Copyright(c) 2012 Jake Luer <jake@alogicalparadox.com>
+     * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
      * MIT Licensed
      */
 
