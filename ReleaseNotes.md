@@ -7,7 +7,9 @@
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:** 
-  - No changes required.
+  - _Update [2013-02-04]:_ Some users may notice a small subset of deep equality assertions will no longer pass. This is the result of 
+  [#120](https://github.com/chaijs/chai/issues/120), an improvement to our deep equality algorithm. Users will need to revise their assertions
+  to be more granular should this occur. Further information: [#139](https://github.com/chaijs/chai/issues/139).
 - **Plugin Developers:** 
   - No changes required.
 - **Core Contributors:** 
@@ -27,6 +29,8 @@ Thank you to all who took time to contribute!
 
 - Improve type detection of `.a()`/`.an()` to work in cross-browser scenarios.
 - [#116](https://github.com/chaijs/chai/issues/116): `.throw()` has cleaner display of errors when WebKit browsers.
+- [#120](https://github.com/chaijs/chai/issues/120): `.eql()` now works to compare dom nodes in browsers.
+
 
 ### Usage Updates
 
