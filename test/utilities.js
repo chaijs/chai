@@ -217,6 +217,7 @@ suite('utilities', function () {
           new chai.Assertion(this._obj).to.be.equal('x');
         }
       , function () {
+          this._obj = this._obj || {};
           this._obj.__x = 'X!'
         }
       );
@@ -227,6 +228,14 @@ suite('utilities', function () {
       expect(function () {
         expect("foo").x();
       }).to.throw(_chai.AssertionError);
+
+      // Verify whether the original Function properties are present.
+      // see https://github.com/chaijs/chai/commit/514dd6ce4#commitcomment-2593383
+      var propertyDescriptor = Object.getOwnPropertyDescriptor(chai.Assertion.prototype, "x");
+      expect(propertyDescriptor.get).to.have.property("call", Function.prototype.call);
+      expect(propertyDescriptor.get).to.have.property("apply", Function.prototype.apply);
+      expect(propertyDescriptor.get()).to.have.property("call", Function.prototype.call);
+      expect(propertyDescriptor.get()).to.have.property("apply", Function.prototype.apply);
 
       var obj = {};
       expect(obj).x.to.be.ok;
