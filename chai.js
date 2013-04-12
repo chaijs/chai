@@ -2678,6 +2678,10 @@
     // and there seems no easy cross-platform way to detect them (@see chaijs/chai/issues/69).
     var excludeNames = /^(?:length|name|arguments|caller)$/;
 
+    // Cache `Function` properties
+    var call  = Function.prototype.call,
+        apply = Function.prototype.apply;
+
     /**
      * ### addChainableMethod (ctx, name, method, chainingBehavior)
      *
@@ -2721,7 +2725,11 @@
 
             // Use `__proto__` if available
             if (hasProtoSupport) {
-              assert.__proto__ = this;
+              // Inherit all properties from the object by replacing the `Function` prototype
+              var prototype = assert.__proto__ = Object.create(this);
+              // Restore the `call` and `apply` methods from `Function`
+              prototype.call = call;
+              prototype.apply = apply;
             }
             // Otherwise, redefine all properties (slow!)
             else {
