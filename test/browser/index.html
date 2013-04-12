@@ -7,20 +7,7 @@
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>mocha.setup('tdd')</script>
     <script src="../../chai.js"></script>
-    <script>
-      err = function (fn, msg) {
-        try {
-          fn();
-          throw new chai.AssertionError({ message: 'Expected an error' });
-        } catch (err) {
-          if ('string' === typeof msg) {
-            chai.expect(err.message).to.equal(msg);
-          } else {
-            chai.expect(err.message).to.match(msg);
-          }
-        }
-      };
-    </script>
+    <script src="bootstrap.js"></script>
     <script src="../configuration.js"></script>
     <script src="../expect.js"></script>
     <script src="../should.js"></script>
