@@ -39,7 +39,7 @@
     "files": [],
     "scripts": [
       "chai.js",
-      "test/bootstrap/index.js",
+      "test/browser/bootstrap.js",
       "test/*.js"
     ],
     "harness": "mocha-tdd",
