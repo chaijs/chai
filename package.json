@@ -44,13 +44,13 @@
     ],
     "harness": "mocha-tdd",
     "browsers": [
-      "ie/6..latest",
+      "ie/10..latest",
       "chrome/20..latest",
       "chrome/canary",
       "firefox/10..latest",
       "firefox/nightly",
       "safari/latest",
-      "opera/11.0..latest",
+      "opera/11.6..latest",
       "opera/next",
       "iphone/6",
       "ipad/6"
