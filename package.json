@@ -50,7 +50,8 @@
       "firefox/10..latest",
       "firefox/nightly",
       "safari/latest",
-      "opera/11.6..latest",
+      "opera/11.6",
+      "opera/12.0",
       "opera/next",
       "iphone/6",
       "ipad/6"
