@@ -718,4 +718,24 @@ suite('expect', function () {
       expect(-10).to.be.closeTo(20, 29, 'blah');
     }, "blah: expected -10 to be close to 20 +/- 29");
   });
+
+  test('members', function() {
+    expect([1, 2, 3]).to.have.members([]);
+
+    expect([1, 2, 3]).to.have.members([3, 2]);
+
+    expect([1, 2, 3]).to.have.not.members([8, 4]);
+
+    expect([1, 2, 3]).to.have.not.members([1, 2, 3, 4]);
+  });
+
+  test('memberEquals', function() {
+    expect([5, 4]).to.be.memberEquals([4, 5]);
+    expect([5, 4]).to.be.memberEquals([5, 4]);
+
+    expect([5, 4]).to.not.be.memberEquals([]);
+    expect([5, 4]).to.not.be.memberEquals([6, 3]);
+    expect([5, 4]).to.not.be.memberEquals([5, 4, 2]);
+  });
+
 });

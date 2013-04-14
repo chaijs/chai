@@ -533,4 +533,20 @@ suite('assert', function () {
       assert.closeTo(-10, 20, 29);
     }, "expected -10 to be close to 20 +/- 29");
   });
+
+  test('members', function() {
+    assert.members([1, 2, 3], [2, 3]);
+    assert.members([1, 2, 3], []);
+    assert.members([1, 2, 3], [3]);
+
+    err(function() {
+      assert.members([5, 6], [7, 8]);
+    }, 'expected [ 5, 6 ] to be a superset of [ 7, 8 ]');
+
+    err(function() {
+      assert.members([5, 6], [5, 6, 0]);
+    }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
+  });
+
+
 });
