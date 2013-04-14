@@ -702,7 +702,7 @@ suite('expect', function () {
 
     err(function(){
       expect(2).to.satisfy(matcher, 'blah');
-    }, /blah: expected 2 to satisfy \[Function: matcher\s*\]/);
+    }, "blah: expected 2 to satisfy [Function: matcher]");
   });
 
   test('closeTo', function(){
