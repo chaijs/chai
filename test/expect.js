@@ -720,22 +720,22 @@ suite('expect', function () {
   });
 
   test('members', function() {
-    expect([1, 2, 3]).to.have.members([]);
+    expect([1, 2, 3]).to.include.members([]);
 
-    expect([1, 2, 3]).to.have.members([3, 2]);
+    expect([1, 2, 3]).to.include.members([3, 2]);
 
-    expect([1, 2, 3]).to.have.not.members([8, 4]);
+    expect([1, 2, 3]).to.not.include.members([8, 4]);
 
-    expect([1, 2, 3]).to.have.not.members([1, 2, 3, 4]);
+    expect([1, 2, 3]).to.not.include.members([1, 2, 3, 4]);
   });
 
-  test('memberEquals', function() {
-    expect([5, 4]).to.be.memberEquals([4, 5]);
-    expect([5, 4]).to.be.memberEquals([5, 4]);
+  test('same.members', function() {
+    expect([5, 4]).to.have.same.members([4, 5]);
+    expect([5, 4]).to.have.same.members([5, 4]);
 
-    expect([5, 4]).to.not.be.memberEquals([]);
-    expect([5, 4]).to.not.be.memberEquals([6, 3]);
-    expect([5, 4]).to.not.be.memberEquals([5, 4, 2]);
+    expect([5, 4]).to.not.have.same.members([]);
+    expect([5, 4]).to.not.have.same.members([6, 3]);
+    expect([5, 4]).to.not.have.same.members([5, 4, 2]);
   });
 
 });
