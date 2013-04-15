@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai)
 
+[![browser support](https://ci.testling.com/chaijs/chai.png)](https://ci.testling.com/chaijs/chai)
+
 [![Chai Documentation](http://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
 
 Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
@@ -14,7 +16,7 @@ For more information or to download plugins, view the [documentation](http://cha
      active   : 117 days
      commits  : 616
      files    : 56
-     authors  : 
+     authors  :
        459  Jake Luer               74.5%
         66  Veselin Todorov         10.7%
         42  Domenic Denicola        6.8%

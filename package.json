@@ -34,5 +34,26 @@
     , "mocha-cloud": "*"
     , "mocha-phantomjs": "*"
     , "connect": "2.7.x"
+  },
+  "testling": {
+    "files": [],
+    "scripts": [
+      "chai.js",
+      "test/browser/bootstrap.js",
+      "test/*.js"
+    ],
+    "harness": "mocha-tdd",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/20..latest",
+      "chrome/canary",
+      "firefox/10..latest",
+      "firefox/nightly",
+      "safari/latest",
+      "opera/11.0..latest",
+      "opera/next",
+      "iphone/6",
+      "ipad/6"
+    ]
   }
 }
