@@ -533,4 +533,33 @@ suite('assert', function () {
       assert.closeTo(-10, 20, 29);
     }, "expected -10 to be close to 20 +/- 29");
   });
+
+  test('members', function() {
+    assert.includeMembers([1, 2, 3], [2, 3]);
+    assert.includeMembers([1, 2, 3], []);
+    assert.includeMembers([1, 2, 3], [3]);
+
+    err(function() {
+      assert.includeMembers([5, 6], [7, 8]);
+    }, 'expected [ 5, 6 ] to be a superset of [ 7, 8 ]');
+
+    err(function() {
+      assert.includeMembers([5, 6], [5, 6, 0]);
+    }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
+  });
+
+  test('memberEquals', function() {
+    assert.sameMembers([], []);
+    assert.sameMembers([1, 2, 3], [3, 2, 1]);
+    assert.sameMembers([4, 2], [4, 2]);
+
+    err(function() {
+      assert.sameMembers([], [1, 2]);
+    }, 'expected [] to have the same members as [ 1, 2 ]');
+
+    err(function() {
+      assert.sameMembers([1, 54], [6, 1, 54]);
+    }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
+  });
+
 });

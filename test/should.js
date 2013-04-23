@@ -670,4 +670,43 @@ suite('should', function() {
       (2).should.be.closeTo(1.0, 0.5, 'blah');
     }, "blah: expected 2 to be close to 1 +/- 0.5");
   });
+
+  test('include.members', function() {
+    [1, 2, 3].should.include.members([3]);
+    [1, 2, 3].should.include.members([]);
+    [1, 2, 3].should.include.members([2, 1]);
+
+    [1, 2, 3].should.not.include.members([999]);
+    [].should.not.include.members([23]);
+
+    err(function() {
+      [].should.include.members([43]);
+    }, 'expected [] to be a superset of [ 43 ]');
+
+    err(function() {
+      [5, 2, 1].should.not.include.members([2]);
+    }, 'expected [ 5, 2, 1 ] to not be a superset of [ 2 ]');
+
+    err(function() {
+      'foo'.should.include.members([12]);
+    }, "expected 'foo' to be an array");
+
+    err(function() {
+      [1, 2, 3].should.include.members('o');
+    }, "expected 'o' to be an array");
+  });
+
+  test('memberEquals', function() {
+    [1, 2, 3].should.have.same.members([3, 2, 1]);
+    [5, 4].should.have.same.members([5, 4]);
+    [].should.have.same.members([]);
+
+    err(function() {
+      [1, 2, 3].should.have.same.members([]);
+    }, 'expected [ 1, 2, 3 ] to have the same members as []');
+
+    err(function() {
+      [1, 2, 3].should.have.same.members(4);
+    }, 'expected 4 to be an array');
+  });
 });
