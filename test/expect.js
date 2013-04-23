@@ -719,7 +719,7 @@ suite('expect', function () {
     }, "blah: expected -10 to be close to 20 +/- 29");
   });
 
-  test('members', function() {
+  test('include.members', function() {
     expect([1, 2, 3]).to.include.members([]);
 
     expect([1, 2, 3]).to.include.members([3, 2]);
@@ -737,5 +737,14 @@ suite('expect', function () {
     expect([5, 4]).to.not.have.same.members([6, 3]);
     expect([5, 4]).to.not.have.same.members([5, 4, 2]);
   });
+
+  test('members', function() {
+      expect([5, 4]).members([4, 5]);
+      expect([5, 4]).members([5, 4]);
+
+      expect([5, 4]).not.members([]);
+      expect([5, 4]).not.members([6, 3]);
+      expect([5, 4]).not.members([5, 4, 2]);  
+  })
 
 });

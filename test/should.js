@@ -671,7 +671,7 @@ suite('should', function() {
     }, "blah: expected 2 to be close to 1 +/- 0.5");
   });
 
-  test('members', function() {
+  test('include.members', function() {
     [1, 2, 3].should.include.members([3]);
     [1, 2, 3].should.include.members([]);
     [1, 2, 3].should.include.members([2, 1]);
