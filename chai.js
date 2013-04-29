@@ -2404,6 +2404,42 @@ module.exports = function (chai, util) {
       obj.to.include(inc);
     } else if ('string' === typeof exp) {
       obj.to.contain.string(inc);
+    } else {
+      throw new chai.AssertionError({
+          message: 'expected an array or string'
+        , stackStartFunction: assert.include
+      });
+    }
+  };
+
+  /**
+   * ### .notInclude(haystack, needle, [message])
+   *
+   * Asserts that `haystack` does not include `needle`. Works
+   * for strings and arrays.
+   *i
+   *     assert.notInclude('foobar', 'baz', 'string not include substring');
+   *     assert.notInclude([ 1, 2, 3 ], 4, 'array not include contain value');
+   *
+   * @name notInclude
+   * @param {Array|String} haystack
+   * @param {Mixed} needle
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notInclude = function (exp, inc, msg) {
+    var obj = new Assertion(exp, msg);
+
+    if (Array.isArray(exp)) {
+      obj.to.not.include(inc);
+    } else if ('string' === typeof exp) {
+      obj.to.not.contain.string(inc);
+    } else {
+      throw new chai.AssertionError({
+          message: 'expected an array or string'
+        , stackStartFunction: assert.include
+      });
     }
   };
 
