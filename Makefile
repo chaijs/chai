@@ -2,6 +2,8 @@
 TESTS = test/*.js
 REPORTER = dot
 
+all: chai.js
+
 #
 # Node Module
 #
@@ -15,7 +17,8 @@ node_modules: package.json
 
 chai.js: node_modules lib/*
 	@printf "\n  ==> [Browser :: build]\n"
-	@node support/compile
+	@./node_modules/.bin/component-build -s chai -o .
+	@mv build.js chai.js
 
 #
 # Components
