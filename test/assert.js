@@ -356,7 +356,16 @@ suite('assert', function () {
 
     err(function () {
       assert.include('foobar', 'baz');
-     }, "expected \'foobar\' to contain \'baz\'");
+    }, "expected \'foobar\' to contain \'baz\'");
+  });
+
+  test('notInclude', function () {
+    assert.notInclude('foobar', 'baz');
+    assert.notInclude([ 1, 2, 3 ], 4);
+
+    err(function () {
+      assert.notInclude('foobar', 'bar');
+    }, "expected \'foobar\' to not contain \'bar\'");
   });
 
   test('lengthOf', function() {
