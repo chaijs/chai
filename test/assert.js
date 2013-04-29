@@ -181,6 +181,12 @@ suite('assert', function () {
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
+  test('deepEqual (ordering)', function () {
+    var a = { a: 'b', c: 'd' }
+      , b = { c: 'd', a: 'b' };
+    assert.deepEqual(a, b);
+  });
+
   test('deepEqual (circular)', function() {
     var circularObject = {}
       , secondCircularObject = {};
