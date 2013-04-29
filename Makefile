@@ -15,7 +15,7 @@ node_modules: package.json
 # Browser Build
 # 
 
-chai.js: node_modules lib/*
+chai.js: node_modules lib/* components
 	@printf "\n  ==> [Browser :: build]\n"
 	@./node_modules/.bin/component-build -s chai -o .
 	@mv build.js chai.js
@@ -37,6 +37,7 @@ components: node_modules component.json
 # 
 
 test: test-node test-browser
+test-all: test-node test-browser test-component test-cov
 
 test-node: node_modules
 	@printf "\n  ==> [Test :: Node.js]\n"
@@ -111,4 +112,7 @@ endif
 # Instructions
 #
 
-.PHONY: all test test-node test-browser test-component test-cov clean clean-node clean-browser clean-components clean-cov has-phantomjs has-jscoverage 
+.PHONY: all 
+.PHONY: test test-all test-node test-browser test-component test-cov 
+.PHONY: clean clean-node clean-browser clean-components clean-cov 
+.PHONY: has-phantomjs has-jscoverage 
