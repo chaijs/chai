@@ -357,6 +357,10 @@ suite('assert', function () {
     err(function () {
       assert.include('foobar', 'baz');
     }, "expected \'foobar\' to contain \'baz\'");
+
+    err(function () {
+      assert.include(undefined, 'bar');
+    }, "expected an array or string");
   });
 
   test('notInclude', function () {
@@ -366,6 +370,10 @@ suite('assert', function () {
     err(function () {
       assert.notInclude('foobar', 'bar');
     }, "expected \'foobar\' to not contain \'bar\'");
+
+    err(function () {
+      assert.notInclude(undefined, 'bar');
+    }, "expected an array or string");
   });
 
   test('lengthOf', function() {
