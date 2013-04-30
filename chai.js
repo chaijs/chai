@@ -218,7 +218,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.5.0';
+exports.version = '1.6.0';
 
 /*!
  * Primary `Assertion` prototype
@@ -517,6 +517,7 @@ module.exports = function (chai, _) {
    * - with
    * - at
    * - of
+   * - same
    *
    * @name language chains
    * @api public
@@ -1719,8 +1720,8 @@ module.exports = function (chai, _) {
    *    expect([1, 2, 3]).to.include.members([3, 2]);
    *    expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
    *
-   *    expect([4, 2]).to.have.same.members([2, 4]);
-   *    expect([5, 2]).to.not.have.same.members([5, 2, 1]);
+   *    expect([4, 2]).to.have.members([2, 4]);
+   *    expect([5, 2]).to.not.have.members([5, 2, 1]);
    *
    * @name members
    * @param {Array} set
@@ -2760,12 +2761,42 @@ module.exports = function (chai, util) {
     new Assertion(act, msg).to.be.closeTo(exp, delta);
   };
 
-  assert.includeMembers = function (superset, subset, msg) {
-    new Assertion(superset, msg).to.include.members(subset);
-  }
+  /**
+   * ### .sameMembers(set1, set2, [message])
+   *
+   * Asserts that `set1` and `set2` have the same members.
+   * Order is not taken into account.
+   *
+   *     assert.sameMembers([ 1, 2, 3 ], [ 2, 1, 3 ], 'same members');
+   *
+   * @name sameMembers
+   * @param {Array} superset
+   * @param {Array} subset
+   * @param {String} message
+   * @api public
+   */
 
   assert.sameMembers = function (set1, set2, msg) {
     new Assertion(set1, msg).to.have.same.members(set2);
+  }
+
+  /**
+   * ### .includeMembers(superset, subset, [message])
+   *
+   * Asserts that `subset` is included in `superset`.
+   * Order is not taken into account.
+   *
+   *     assert.includeMembers([ 1, 2, 3 ], [ 2, 1 ], 'include members');
+   *
+   * @name includeMembers
+   * @param {Array} superset
+   * @param {Array} subset
+   * @param {String} message
+   * @api public
+   */
+
+  assert.includeMembers = function (superset, subset, msg) {
+    new Assertion(superset, msg).to.include.members(subset);
   }
 
   /*!

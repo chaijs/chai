@@ -1,5 +1,63 @@
 # Release Notes
 
+## 1.6.0 / 2013-04-29 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required.
+- **Plugin Developers:** 
+  - No changes required.
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated developement dependencies. 
+
+### New Assertions
+
+#### Array Members Inclusion
+
+Asserts that the target is a superset of `set`, or that the target and `set` have the same members.
+Order is not taken into account. Thanks to [#NickHeiner](https://github.com/NickHeiner) for the contribution.
+
+```js
+// (expect/should) full set
+expect([4, 2]).to.have.members([2, 4]);
+expect([5, 2]).to.not.have.members([5, 2, 1]);
+
+// (expect/should) inclusion
+expect([1, 2, 3]).to.include.members([3, 2]);
+expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
+
+// (assert) full set
+assert.sameMembers([ 1, 2, 3 ], [ 2, 1, 3 ], 'same members');
+
+// (assert) inclusion 
+assert.includeMembers([ 1, 2, 3 ], [ 2, 1 ], 'include members');
+
+```
+
+#### Non-inclusion for Assert Interface
+
+Most `assert` functions have a negative version, like `instanceOf()` has a corresponding `notInstaceOf()`. 
+However `include()` did not have a corresponding `notInclude()`. This has been added.
+
+```js
+assert.notInclude([ 1, 2, 3 ], 8);
+assert.notInclude('foobar', 'baz');
+```
+
+### Community Contributions
+
+- [#140](https://github.com/chaijs/chai/pull/140) Restore `call`/`apply` methods for plugin interface. [@RubenVerborgh](https://github.com/RubenVerborgh)
+- [#148](https://github.com/chaijs/chai/issues/148)/[#153](https://github.com/chaijs/chai/pull/153) Add `members` and `include.members` assertions. [#NickHeiner](https://github.com/NickHeiner)
+
+Thank you to all who took time to contribute!
+
+### Other Bug Fixes
+
+- [#142](https://github.com/chaijs/chai/issues/142) `assert#include` will no longer silently pass on wrong-type haystack.
+- [#158](https://github.com/chaijs/chai/issues/158) `assert#notInclude` has been added.
+- Travis-CI now tests Node.js `v0.10.x`. Support for `v0.6.x` has been removed. `v0.8.x` is still tested as before.
+
 ## 1.5.0 / 2013-02-03 
 
 ### Migration Requirements

@@ -1,4 +1,27 @@
 
+1.6.0 / 2013-04-29 
+==================
+
+  * build: browser
+  * assert: [(not)include] throw on incompatible haystack. Closes #142
+  * assert: [notInclude] add assert.notInclude. Closes #158
+  * browser build
+  * makefile: force browser build on browser-test
+  * makefile: use component for browser build
+  * core: [assertions] remove extraneous comments
+  * Merge branch 'master' of github.com:chaijs/chai
+  * test: [assert] deep equal ordering
+  * Merge pull request #153 from NickHeiner/array-assertions
+  * giving members a no-flag assertion
+  * Code review comments - changing syntax
+  * Code review comments
+  * Adding members and memberEquals assertions for checking for subsets and set equality. Implements chaijs/chai#148.
+  * Merge pull request #140 from RubenVerborgh/function-prototype
+  * Restore the `call` and `apply` methods of Function when adding a chainable method.
+  * readme: 2013
+  * notes: migration notes for deep equal changes
+  * test: for ever err() there must be a passing version
+
 1.5.0 / 2013-02-03 
 ==================
 
