@@ -3118,6 +3118,12 @@ function _deepEqual(actual, expected, memos) {
   if (actual === expected) {
     return true;
 
+  } else if (typeof actual !== typeof expected) {
+    return false;
+
+  } else if (Object.prototype.toString.call(actual) !== Object.prototype.toString.call(expected)) {
+    return false;
+
   } else if (Buffer.isBuffer(actual) && Buffer.isBuffer(expected)) {
     if (actual.length != expected.length) return false;
 

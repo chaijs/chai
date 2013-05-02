@@ -270,6 +270,12 @@ suite('should', function() {
     ({ foo: 'bar' }).should.eql({ foo: 'bar' });
     (1).should.eql(1);
     '4'.should.not.eql(4);
+    true.should.not.eql({});
+    true.should.not.eql([]);
+    ({}).should.not.eql([]);
+    ([]).should.not.eql({});
+    ({}).should.eql({});
+    ([]).should.eql([]);
 
     err(function(){
       (4).should.eql(3, 'blah');
