@@ -29,7 +29,7 @@
   "dependencies": {},
   "devDependencies": {
       "component": "*"
-    , "mocha": "*"
+    , "mocha": "1.8.x"
     , "mocha-cloud": "*"
     , "mocha-phantomjs": "*"
     , "connect": "2.7.x"
