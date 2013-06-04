@@ -317,6 +317,11 @@ suite('expect', function () {
     expect({ foo: 'bar' }).not.to.deep.equal({ foo: 'baz' });
   });
 
+  test('deep.equal(/regexp/)', function(){
+    expect(/a/).to.deep.equal(/a/);
+    expect(/a/).not.to.deep.equal(/b/);
+  });
+
   test('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
@@ -744,7 +749,7 @@ suite('expect', function () {
 
       expect([5, 4]).not.members([]);
       expect([5, 4]).not.members([6, 3]);
-      expect([5, 4]).not.members([5, 4, 2]);  
+      expect([5, 4]).not.members([5, 4, 2]);
   })
 
 });
