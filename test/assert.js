@@ -181,21 +181,30 @@ suite('assert', function () {
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
-  test('deepEqual (ordering)', function () {
+  test('deepEqual (ordering)', function() {
     var a = { a: 'b', c: 'd' }
       , b = { c: 'd', a: 'b' };
     assert.deepEqual(a, b);
   });
 
-  test('deepEqual /regexp/', function(){
+  test('deepEqual /regexp/', function() {
     assert.deepEqual(/a/, /a/);
     assert.notDeepEqual(/a/, /b/);
+    assert.notDeepEqual(/a/, {});
     assert.deepEqual(/a/g, /a/g);
     assert.notDeepEqual(/a/g, /b/g);
     assert.deepEqual(/a/i, /a/i);
     assert.notDeepEqual(/a/i, /b/i);
     assert.deepEqual(/a/m, /a/m);
     assert.notDeepEqual(/a/m, /b/m);
+  });
+
+  test('deepEqual (Date)', function() {
+    var a = new Date(1, 2, 3)
+      , b = new Date(4, 5, 6);
+    assert.deepEqual(a, a);
+    assert.notDeepEqual(a, b);
+    assert.notDeepEqual(a, {});
   });
 
   test('deepEqual (circular)', function() {
