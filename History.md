@@ -1,4 +1,15 @@
 
+1.6.1 / 2013-06-05 
+==================
+
+  * Merge pull request #168 from katsgeorgeek/topics/master
+  * Add test for different RegExp flags.
+  * Add test for regexp comparison.
+  * Downgrade mocha version for fix running Phantom tests.
+  * Fix comparison equality of two regexps.
+  * Merge pull request #161 from brandonpayton/master
+  * Fix documented name for assert interface's isDefined method
+
 1.6.0 / 2013-04-29 
 ==================
 

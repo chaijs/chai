@@ -1,5 +1,32 @@
 # Release Notes
 
+## 1.6.1 / 2013-06-05 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required.
+- **Plugin Developers:** 
+  - No changes required.
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated developement dependencies. 
+
+### Deep Equality
+
+Regular Expressions are now tested as part of all deep equality assertions. In previous versions
+they silently passed for all scenarios. Thanks to [@katsgeorgeek](https://github.com/katsgeorgeek) for the contribution.
+
+### Community Contributions
+
+- [#161](https://github.com/chaijs/chai/pull/161) Fix documented name for assert interface's isDefined method. [@brandonpayton](https://github.com/brandonpayton)
+- [#168](https://github.com/chaijs/chai/pull/168) Fix comparison equality of two regexps for when using deep equality. [@katsgeorgeek](https://github.com/katsgeorgeek)
+
+Thank you to all who took the time to contribute!
+
+### Additional Notes
+
+- Mocha has been locked at version `1.8.x` to ensure `mocha-phantomjs` compatibility.
+
 ## 1.6.0 / 2013-04-29 
 
 The following changes are required if you are upgrading from the previous version:
@@ -16,7 +43,7 @@ The following changes are required if you are upgrading from the previous versio
 #### Array Members Inclusion
 
 Asserts that the target is a superset of `set`, or that the target and `set` have the same members.
-Order is not taken into account. Thanks to [#NickHeiner](https://github.com/NickHeiner) for the contribution.
+Order is not taken into account. Thanks to [@NickHeiner](https://github.com/NickHeiner) for the contribution.
 
 ```js
 // (expect/should) full set
