@@ -187,6 +187,17 @@ suite('assert', function () {
     assert.deepEqual(a, b);
   });
 
+  test('deepEqual /regexp/', function(){
+    assert.deepEqual(/a/, /a/);
+    assert.notDeepEqual(/a/, /b/);
+    assert.deepEqual(/a/g, /a/g);
+    assert.notDeepEqual(/a/g, /b/g);
+    assert.deepEqual(/a/i, /a/i);
+    assert.notDeepEqual(/a/i, /b/i);
+    assert.deepEqual(/a/m, /a/m);
+    assert.notDeepEqual(/a/m, /b/m);
+  });
+
   test('deepEqual (circular)', function() {
     var circularObject = {}
       , secondCircularObject = {};

@@ -268,6 +268,14 @@ suite('should', function() {
   test('eql(val)', function(){
     'test'.should.eql('test');
     ({ foo: 'bar' }).should.eql({ foo: 'bar' });
+    /a/.should.eql(/a/);
+    /a/.should.not.eql(/b/);
+    /a/g.should.eql(/a/g);
+    /a/g.should.not.eql(/b/g);
+    /a/i.should.eql(/a/i);
+    /a/i.should.not.eql(/b/i);
+    /a/m.should.eql(/a/m);
+    /a/m.should.not.eql(/b/m);
     (1).should.eql(1);
     '4'.should.not.eql(4);
 
