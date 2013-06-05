@@ -320,6 +320,12 @@ suite('expect', function () {
   test('deep.equal(/regexp/)', function(){
     expect(/a/).to.deep.equal(/a/);
     expect(/a/).not.to.deep.equal(/b/);
+    expect(/a/g).to.deep.equal(/a/g);
+    expect(/a/g).not.to.deep.equal(/b/g);
+    expect(/a/i).to.deep.equal(/a/i);
+    expect(/a/i).not.to.deep.equal(/b/i);
+    expect(/a/m).to.deep.equal(/a/m);
+    expect(/a/m).not.to.deep.equal(/b/m);
   });
 
   test('empty', function(){
