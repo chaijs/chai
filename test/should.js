@@ -266,10 +266,17 @@ suite('should', function() {
   });
 
   test('eql(val)', function(){
+    var a = new Date(1, 2, 3)
+      , b = new Date(4, 5, 6);
+
+    a.should.eql(a);
+    a.should.not.eql(b);
+    a.should.not.eql({});
     'test'.should.eql('test');
     ({ foo: 'bar' }).should.eql({ foo: 'bar' });
     /a/.should.eql(/a/);
     /a/.should.not.eql(/b/);
+    /a/.should.not.eql({});
     /a/g.should.eql(/a/g);
     /a/g.should.not.eql(/b/g);
     /a/i.should.eql(/a/i);
