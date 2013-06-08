@@ -51,21 +51,21 @@ suite('assert', function () {
   });
 
   test('notOk', function () {
-	assert.notOk(false);
-	assert.notOk(0);
-	assert.notOk('');
+    assert.notOk(false);
+    assert.notOk(0);
+    assert.notOk('');
 
-	err(function () {
-	  assert.notOk(true);
-	}, "expected true to be falsy");
+    err(function () {
+      assert.notOk(true);
+    }, "expected true to be falsy");
 
-	err(function () {
-	  assert.notOk(1);
-	}, "expected 1 to be falsy");
+    err(function () {
+      assert.notOk(1);
+    }, "expected 1 to be falsy");
 
-	err(function () {
-	  assert.notOk('test');
-	}, "expected 'test' to be falsy");
+    err(function () {
+      assert.notOk('test');
+    }, "expected 'test' to be falsy");
   });
 
   test('isFalse', function () {
