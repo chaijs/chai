@@ -210,6 +210,20 @@ suite('utilities', function () {
     });
   });
 
+  test('inspect with custom object-returning inspect()s', function () {
+    chai.use(function (_chai, _) {
+      var obj = {
+        outer: {
+          inspect: function () {
+            return { foo: 'bar' };
+          }
+        }
+      };
+
+      expect(_.inspect(obj)).to.equal('{ outer: { foo: \'bar\' } }');
+    });
+  });
+
   test('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
