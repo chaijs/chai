@@ -29,9 +29,9 @@
   "dependencies": {},
   "devDependencies": {
       "component": "*"
-    , "mocha": "1.8.x"
+    , "mocha": "1.8.2"
     , "mocha-cloud": "*"
-    , "mocha-phantomjs": "*"
+    , "mocha-phantomjs": "2.0.2"
     , "connect": "2.7.x"
   }
 }
