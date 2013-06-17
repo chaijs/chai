@@ -41,6 +41,8 @@
       , "lib/chai/utils/transferFlags.js"
       , "lib/chai/utils/type.js"
     ]
-  , "dependencies": {}
+  , "dependencies": {
+        "chaijs/assertion-error": "1.0.0"
+    }
   , "development": {}
 }

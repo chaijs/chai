@@ -26,7 +26,9 @@
   "engines": {
     "node": ">= 0.4.0"
   },
-  "dependencies": {},
+  "dependencies": {
+      "assertion-error": "1.0.0"
+  },
   "devDependencies": {
       "component": "*"
     , "mocha": "1.8.2"
