@@ -1,4 +1,23 @@
 
+1.7.0 / 2013-06-17 
+==================
+
+  * error: remove internal assertion error constructor
+  * core: [assertion-error] replace internal assertion error with dep
+  * deps: add chaijs/assertion-error@1.0.0
+  * docs: fix typo in source file. #174
+  * Merge pull request #174 from piecioshka/master
+  * typo
+  * Merge branch 'master' of github.com:chaijs/chai
+  * pkg: lock mocha/mocha-phantomjs versions (for now)
+  * Merge pull request #173 from chaijs/inspect-fix
+  * Fix `utils.inspect` with custom object-returning inspect()s.
+  * Merge pull request #171 from Bartvds/master
+  * replaced tabs with 2 spaces
+  * added assert.notOk()
+  * Merge pull request #169 from katsgeorgeek/topics/master
+  * Fix comparison objects.
+
 1.6.1 / 2013-06-05 
 ==================
 

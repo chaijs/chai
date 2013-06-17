@@ -64,7 +64,6 @@ require.aliases = {};
 
 require.resolve = function(path) {
   if (path.charAt(0) === '/') path = path.slice(1);
-  var index = path + '/index.js';
 
   var paths = [
     path,
@@ -77,10 +76,7 @@ require.resolve = function(path) {
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
     if (require.modules.hasOwnProperty(path)) return path;
-  }
-
-  if (require.aliases.hasOwnProperty(index)) {
-    return require.aliases[index];
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
   }
 };
 
@@ -200,6 +196,119 @@ require.relative = function(parent) {
 
   return localRequire;
 };
+require.register("chaijs-assertion-error/index.js", function(exports, require, module){
+/*!
+ * assertion-error
+ * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Return a function that will copy properties from
+ * one object to another excluding any originally
+ * listed. Returned function will create a new `{}`.
+ *
+ * @param {String} excluded properties ...
+ * @return {Function}
+ */
+
+function exclude () {
+  var excludes = [].slice.call(arguments);
+
+  function excludeProps (res, obj) {
+    Object.keys(obj).forEach(function (key) {
+      if (!~excludes.indexOf(key)) res[key] = obj[key];
+    });
+  }
+
+  return function extendExclude () {
+    var args = [].slice.call(arguments)
+      , i = 0
+      , res = {};
+
+    for (; i < args.length; i++) {
+      excludeProps(res, args[i]);
+    }
+
+    return res;
+  };
+};
+
+/*!
+ * Primary Exports
+ */
+
+module.exports = AssertionError;
+
+/**
+ * ### AssertionError
+ *
+ * An extension of the JavaScript `Error` constructor for
+ * assertion and validation scenarios.
+ *
+ * @param {String} message
+ * @param {Object} properties to include (optional)
+ * @param {callee} start stack function (optional)
+ */
+
+function AssertionError (message, _props, ssf) {
+  var extend = exclude('name', 'message', 'stack', 'constructor', 'toJSON')
+    , props = extend(_props || {});
+
+  // default values
+  this.message = message || 'Unspecified AssertionError';
+  this.showDiff = false;
+
+  // copy from properties
+  for (var key in props) {
+    this[key] = props[key];
+  }
+
+  // capture stack trace
+  ssf = ssf || arguments.callee;
+  if (ssf && Error.captureStackTrace) {
+    Error.captureStackTrace(this, ssf);
+  }
+}
+
+/*!
+ * Inherit from Error.prototype
+ */
+
+AssertionError.prototype = Object.create(Error.prototype);
+
+/*!
+ * Statically set name
+ */
+
+AssertionError.prototype.name = 'AssertionError';
+
+/*!
+ * Ensure correct constructor
+ */
+
+AssertionError.prototype.constructor = AssertionError;
+
+/**
+ * Allow errors to be converted to JSON for static transfer.
+ *
+ * @param {Boolean} include stack (default: `true`)
+ * @return {Object} object that can be `JSON.stringify`
+ */
+
+AssertionError.prototype.toJSON = function (stack) {
+  var extend = exclude('constructor', 'toJSON', 'stack')
+    , props = extend({ name: this.name }, this);
+
+  // include stack if exists and not turned off
+  if (false !== stack && this.stack) {
+    props.stack = this.stack;
+  }
+
+  return props;
+};
+
+});
 require.register("chai/index.js", function(exports, require, module){
 module.exports = require('./lib/chai');
 
@@ -221,16 +330,10 @@ var used = []
 exports.version = '1.6.1';
 
 /*!
- * Primary `Assertion` prototype
- */
-
-exports.Assertion = require('./chai/assertion');
-
-/*!
  * Assertion Error
  */
 
-exports.AssertionError = require('./chai/error');
+exports.AssertionError = require('assertion-error');
 
 /*!
  * Utils for plugins (not exported)
@@ -256,6 +359,13 @@ exports.use = function (fn) {
 
   return this;
 };
+
+/*!
+ * Primary `Assertion` prototype
+ */
+
+var assertion = require('./chai/assertion');
+exports.use(assertion);
 
 /*!
  * Core Assertions
@@ -294,193 +404,128 @@ require.register("chai/lib/chai/assertion.js", function(exports, require, module
  * MIT Licensed
  */
 
-/*!
- * Module dependencies.
- */
+module.exports = function (_chai, util) {
+  /*!
+   * Module dependencies.
+   */
 
-var AssertionError = require('./error')
-  , util = require('./utils')
-  , flag = util.flag;
+  var AssertionError = _chai.AssertionError
+    , flag = util.flag;
 
-/*!
- * Module export.
- */
+  /*!
+   * Module export.
+   */
 
-module.exports = Assertion;
+  _chai.Assertion = Assertion;
 
+  /*!
+   * Assertion Constructor
+   *
+   * Creates object for chaining.
+   *
+   * @api private
+   */
 
-/*!
- * Assertion Constructor
- *
- * Creates object for chaining.
- *
- * @api private
- */
-
-function Assertion (obj, msg, stack) {
-  flag(this, 'ssfi', stack || arguments.callee);
-  flag(this, 'object', obj);
-  flag(this, 'message', msg);
-}
-
-/*!
-  * ### Assertion.includeStack
-  *
-  * User configurable property, influences whether stack trace
-  * is included in Assertion error message. Default of false
-  * suppresses stack trace in the error message
-  *
-  *     Assertion.includeStack = true;  // enable stack on error
-  *
-  * @api public
-  */
-
-Assertion.includeStack = false;
-
-/*!
- * ### Assertion.showDiff
- *
- * User configurable property, influences whether or not
- * the `showDiff` flag should be included in the thrown
- * AssertionErrors. `false` will always be `false`; `true`
- * will be true when the assertion has requested a diff
- * be shown.
- *
- * @api public
- */
-
-Assertion.showDiff = true;
-
-Assertion.addProperty = function (name, fn) {
-  util.addProperty(this.prototype, name, fn);
-};
-
-Assertion.addMethod = function (name, fn) {
-  util.addMethod(this.prototype, name, fn);
-};
-
-Assertion.addChainableMethod = function (name, fn, chainingBehavior) {
-  util.addChainableMethod(this.prototype, name, fn, chainingBehavior);
-};
-
-Assertion.overwriteProperty = function (name, fn) {
-  util.overwriteProperty(this.prototype, name, fn);
-};
-
-Assertion.overwriteMethod = function (name, fn) {
-  util.overwriteMethod(this.prototype, name, fn);
-};
-
-/*!
- * ### .assert(expression, message, negateMessage, expected, actual)
- *
- * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
- *
- * @name assert
- * @param {Philosophical} expression to be tested
- * @param {String} message to display if fails
- * @param {String} negatedMessage to display if negated expression fails
- * @param {Mixed} expected value (remember to check for negation)
- * @param {Mixed} actual (optional) will default to `this.obj`
- * @api private
- */
-
-Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual, showDiff) {
-  var ok = util.test(this, arguments);
-  if (true !== showDiff) showDiff = false;
-  if (true !== Assertion.showDiff) showDiff = false;
-
-  if (!ok) {
-    var msg = util.getMessage(this, arguments)
-      , actual = util.getActual(this, arguments);
-    throw new AssertionError({
-        message: msg
-      , actual: actual
-      , expected: expected
-      , stackStartFunction: (Assertion.includeStack) ? this.assert : flag(this, 'ssfi')
-      , showDiff: showDiff
-    });
+  function Assertion (obj, msg, stack) {
+    flag(this, 'ssfi', stack || arguments.callee);
+    flag(this, 'object', obj);
+    flag(this, 'message', msg);
   }
-};
 
-/*!
- * ### ._obj
- *
- * Quick reference to stored `actual` value for plugin developers.
- *
- * @api private
- */
+  /*!
+    * ### Assertion.includeStack
+    *
+    * User configurable property, influences whether stack trace
+    * is included in Assertion error message. Default of false
+    * suppresses stack trace in the error message
+    *
+    *     Assertion.includeStack = true;  // enable stack on error
+    *
+    * @api public
+    */
 
-Object.defineProperty(Assertion.prototype, '_obj',
-  { get: function () {
-      return flag(this, 'object');
+  Assertion.includeStack = false;
+
+  /*!
+   * ### Assertion.showDiff
+   *
+   * User configurable property, influences whether or not
+   * the `showDiff` flag should be included in the thrown
+   * AssertionErrors. `false` will always be `false`; `true`
+   * will be true when the assertion has requested a diff
+   * be shown.
+   *
+   * @api public
+   */
+
+  Assertion.showDiff = true;
+
+  Assertion.addProperty = function (name, fn) {
+    util.addProperty(this.prototype, name, fn);
+  };
+
+  Assertion.addMethod = function (name, fn) {
+    util.addMethod(this.prototype, name, fn);
+  };
+
+  Assertion.addChainableMethod = function (name, fn, chainingBehavior) {
+    util.addChainableMethod(this.prototype, name, fn, chainingBehavior);
+  };
+
+  Assertion.overwriteProperty = function (name, fn) {
+    util.overwriteProperty(this.prototype, name, fn);
+  };
+
+  Assertion.overwriteMethod = function (name, fn) {
+    util.overwriteMethod(this.prototype, name, fn);
+  };
+
+  /*!
+   * ### .assert(expression, message, negateMessage, expected, actual)
+   *
+   * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
+   *
+   * @name assert
+   * @param {Philosophical} expression to be tested
+   * @param {String} message to display if fails
+   * @param {String} negatedMessage to display if negated expression fails
+   * @param {Mixed} expected value (remember to check for negation)
+   * @param {Mixed} actual (optional) will default to `this.obj`
+   * @api private
+   */
+
+  Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual, showDiff) {
+    var ok = util.test(this, arguments);
+    if (true !== showDiff) showDiff = false;
+    if (true !== Assertion.showDiff) showDiff = false;
+
+    if (!ok) {
+      var msg = util.getMessage(this, arguments)
+        , actual = util.getActual(this, arguments);
+      throw new AssertionError(msg, {
+          actual: actual
+        , expected: expected
+        , showDiff: showDiff
+      }, (Assertion.includeStack) ? this.assert : flag(this, 'ssfi'));
     }
-  , set: function (val) {
-      flag(this, 'object', val);
-    }
-});
+  };
 
-});
-require.register("chai/lib/chai/error.js", function(exports, require, module){
-/*!
- * chai
- * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
+  /*!
+   * ### ._obj
+   *
+   * Quick reference to stored `actual` value for plugin developers.
+   *
+   * @api private
+   */
 
-/*!
- * Main export
- */
-
-module.exports = AssertionError;
-
-/**
- * # AssertionError (constructor)
- *
- * Create a new assertion error based on the Javascript
- * `Error` prototype.
- *
- * **Options**
- * - message
- * - actual
- * - expected
- * - operator
- * - startStackFunction
- *
- * @param {Object} options
- * @api public
- */
-
-function AssertionError (options) {
-  options = options || {};
-  this.message = options.message;
-  this.actual = options.actual;
-  this.expected = options.expected;
-  this.operator = options.operator;
-  this.showDiff = options.showDiff;
-
-  if (options.stackStartFunction && Error.captureStackTrace) {
-    var stackStartFunction = options.stackStartFunction;
-    Error.captureStackTrace(this, stackStartFunction);
-  }
-}
-
-/*!
- * Inherit from Error
- */
-
-AssertionError.prototype = Object.create(Error.prototype);
-AssertionError.prototype.name = 'AssertionError';
-AssertionError.prototype.constructor = AssertionError;
-
-/**
- * # toString()
- *
- * Override default to string method
- */
-
-AssertionError.prototype.toString = function() {
-  return this.message;
+  Object.defineProperty(Assertion.prototype, '_obj',
+    { get: function () {
+        return flag(this, 'object');
+      }
+    , set: function (val) {
+        flag(this, 'object', val);
+      }
+  });
 };
 
 });
@@ -1843,6 +1888,24 @@ module.exports = function (chai, util) {
   };
 
   /**
+   * ### .notOk(object, [message])
+   *
+   * Asserts that `object` is falsy.
+   *
+   *     assert.notOk('everything', 'this will fail');
+   *     assert.notOk(false, 'this will pass');
+   *
+   * @name notOk
+   * @param {Mixed} object to test
+   * @param {String} message
+   * @api public
+   */
+
+  assert.notOk = function (val, msg) {
+    new Assertion(val, msg).is.not.ok;
+  };
+
+  /**
    * ### .equal(actual, expected, [message])
    *
    * Asserts non-strict equality (`==`) of `actual` and `expected`.
@@ -2406,10 +2469,11 @@ module.exports = function (chai, util) {
     } else if ('string' === typeof exp) {
       obj.to.contain.string(inc);
     } else {
-      throw new chai.AssertionError({
-          message: 'expected an array or string'
-        , stackStartFunction: assert.include
-      });
+      throw new chai.AssertionError(
+          'expected an array or string'
+        , null
+        , assert.include
+      );
     }
   };
 
@@ -2437,10 +2501,11 @@ module.exports = function (chai, util) {
     } else if ('string' === typeof exp) {
       obj.to.not.contain.string(inc);
     } else {
-      throw new chai.AssertionError({
-          message: 'expected an array or string'
-        , stackStartFunction: assert.include
-      });
+      throw new chai.AssertionError(
+          'expected an array or string'
+        , null
+        , assert.notInclude
+      );
     }
   };
 
@@ -3708,7 +3773,11 @@ function formatValue(ctx, value, recurseTimes) {
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
-    return value.inspect(recurseTimes);
+    var ret = value.inspect(recurseTimes);
+    if (typeof ret !== 'string') {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
   }
 
   // Primitive types cannot have properties
@@ -4245,6 +4314,11 @@ module.exports = function (obj) {
 };
 
 });
+require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
+require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
+require.alias("chaijs-assertion-error/index.js", "assertion-error/index.js");
+require.alias("chaijs-assertion-error/index.js", "chaijs-assertion-error/index.js");
+
 require.alias("chai/index.js", "chai/index.js");
 
 if (typeof exports == "object") {

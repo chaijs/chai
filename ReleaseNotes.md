@@ -1,5 +1,79 @@
 # Release Notes
 
+## 1.7.0 / 2013-06-17 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required.
+- **Plugin Developers:** 
+  - Review AssertionError update notice.
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### AssertionError Update Notice
+
+Chai now uses [chaijs/assertion-error](https://github.com/chaijs/assertion-error) instead an internal
+constructor. This will allow for further iteration/experimentation of the AssertionError constructor 
+independant of Chai. Future plans include stack parsing for callsite support. 
+
+This update constructor has a different constructor param signature that conforms more with the standard
+`Error` object. If your plugin throws and `AssertionError` directly you will need to update your plugin 
+with the new signature.
+
+```js
+var AssertionError = require('chai').AssertionError;
+
+/**
+ * previous
+ *
+ * @param {Object} options
+ */
+
+throw new AssertionError({
+    message: 'An assertion error occurred'
+  , actual: actual
+  , expect: expect
+  , startStackFunction: arguments.callee
+  , showStack: true
+});
+
+/**
+ * new
+ *
+ * @param {String} message
+ * @param {Object} options
+ * @param {Function} start stack function
+ */
+
+throw new AssertionError('An assertion error occurred', {
+    actual: actual
+  , expect: expect
+  , showStack: true
+}, arguments.callee);
+
+// other signatures
+throw new AssertionError('An assertion error occurred');
+throw new AssertionError('An assertion error occurred', null, arguments.callee);
+```
+
+#### External Dependencies
+
+This is the first non-developement dependency for Chai. As Chai continues to evolve we will begin adding
+more; the next will likely be improved type detection and deep equality. With Chai's userbase continually growing
+there is an higher need for accountability and documentation. External dependencies will allow us to iterate and
+test on features independent from our interfaces. 
+
+Note: The browser packaged version `chai.js` will ALWAYS contain all dependencies needed to run Chai.
+
+### Community Contributions
+
+- [#169](https://github.com/chaijs/chai/pull/169) Fix deep equal comparison for Date/Regexp types. [@katsgeorgeek](https://github.com/katsgeorgeek)
+- [#171](https://github.com/chaijs/chai/pull/171) Add `assert.notOk()`. [@Bartvds](https://github.com/Bartvds)
+- [#173](https://github.com/chaijs/chai/pull/173) Fix `inspect` utility. [@domenic](https://github.com/domenic)
+
+Thank you to all who took the time to contribute!
+
 ## 1.6.1 / 2013-06-05 
 
 The following changes are required if you are upgrading from the previous version:
