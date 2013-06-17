@@ -40,9 +40,4 @@ suite('configuration', function () {
       }
     }
   });
-
-  test('AssertionError Properties', function () {
-    var err = new chai.AssertionError({ message: 'Chai!' });
-    assert.equal(err.toString(), 'Chai!');
-  });
 });
