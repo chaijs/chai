@@ -1,0 +1,24 @@
+{
+    "name": "chai"
+  , "version": "1.7.0"
+  , "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic."
+  , "license": "MIT"
+  , "keywords": [
+        "test"
+      , "assertion"
+      , "assert"
+      , "testing"
+      , "chai"
+    ]
+  , "main": "chai.js"
+  , "ignore": [
+        "**/.*"
+      , "**/*"
+      , "index.js"
+      , "Makefile"
+      , "*.json"
+      , ".*"
+    ]
+  , "dependencies": {}
+  , "devDependencies": {}
+}
