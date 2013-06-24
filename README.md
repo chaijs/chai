@@ -15,13 +15,13 @@ thrown upon an assertion failing.
 ### Contributors
 
      project  : chai
-     repo age : 1 year, 6 months
-     active   : 133 days
-     commits  : 662
-     files    : 54
+     repo age : 1 year, 7 months
+     active   : 134 days
+     commits  : 666
+     files    : 55
      authors  :
-       490  Jake Luer               74.0%
-        66  Veselin Todorov         10.0%
+       494  Jake Luer               74.2%
+        66  Veselin Todorov         9.9%
         43  Domenic Denicola        6.5%
          6  Ruben Verborgh          0.9%
          5  Scott Nonnenberg        0.8%
@@ -35,7 +35,7 @@ thrown upon an assertion failing.
          2  Edwin Shao              0.3%
          2  Bartvds                 0.3%
          2  Teddy Cross             0.3%
-         2  Jakub Nešetřil        0.3%
+         2  Jakub Nešetřil          0.3%
          1  piecioshka              0.2%
          1  Benjamin Horsleben      0.2%
          1  Brandon Payton          0.2%
@@ -44,7 +44,7 @@ thrown upon an assertion failing.
          1  DD                      0.2%
          1  Jeff Welch              0.2%
          1  Kilian Ciuffolo         0.2%
-         1  Niklas Närhinen        0.2%
+         1  Niklas Närhinen         0.2%
          1  Paul Miller             0.2%
          1  Sasha Koss              0.2%
          1  Victor Costan           0.2%

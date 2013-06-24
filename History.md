@@ -1,4 +1,11 @@
 
+1.7.1 / 2013-06-24 
+==================
+
+  * Merge branch 'feature/bower'. #175
+  * bower: add json file
+  * build: browser
+
 1.7.0 / 2013-06-17 
 ==================
 

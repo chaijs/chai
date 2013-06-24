@@ -1,5 +1,24 @@
 # Release Notes
 
+## 1.7.1 / 2013-06-24 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required.
+- **Plugin Developers:** 
+  - No changes required
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Official Bower Support
+
+Support has been added for the Bower Package Manager ([bower.io])(http://bower.io/). Though
+Chai could be installed via Bower in the past, this update adds official support via the `bower.json`
+specification file. 
+
+- [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`.
+
 ## 1.7.0 / 2013-06-17 
 
 The following changes are required if you are upgrading from the previous version:
