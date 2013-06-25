@@ -12,11 +12,14 @@
     ]
   , "main": "chai.js"
   , "ignore": [
-        "**/.*"
-      , "**/*"
+        "build"
+      , "components"
+      , "lib"
+      , "node_modules"
+      , "support"
+      , "test"
       , "index.js"
       , "Makefile"
-      , "*.json"
       , ".*"
     ]
   , "dependencies": {}
