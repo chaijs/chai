@@ -66,13 +66,23 @@ test-cov: lib-cov
 		--ui tdd \
 		$(TESTS) \
 		> coverage.html
+	@rm -rf lib-cov
 
+test-travisci: test-node test-browser lib-cov
+	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
+		--require ./test/bootstrap \
+		--reporter mocha-lcov-reporter \
+		--ui tdd \
+		$(TESTS) \
+		| ./node_modules/coveralls/bin/coveralls.js
+	
 #
 # Coverage
 # 
 
-lib-cov: clean-cov has-jscoverage
-	@jscoverage lib lib-cov
+lib-cov: clean-cov
+	@./node_modules/jscoverage/bin/jscoverage lib lib-cov
 
 #
 # Clean up
@@ -101,11 +111,6 @@ clean-cov:
 has-phantomjs:
 ifeq ($(shell which phantomjs),)
 	$(error PhantomJS is not installed. Download from http://phantomjs.org or Homebrew)
-endif
-
-has-jscoverage:
-ifeq ($(shell which jscoverage),)
-	$(error jsCoverage is not installed. Download from https://github.com/visionmedia/node-jscoverage)
 endif
 
 #
