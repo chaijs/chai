@@ -1,4 +1,17 @@
 
+1.7.2 / 2013-06-27 
+==================
+
+  * coverage: add coveralls badge
+  * test: [coveralls] add coveralls api integration. testing travis-ci integration
+  * Merge branch 'master' of github.com:chaijs/chai
+  * Merge branch 'feature/bower'
+  * Merge pull request #180 from tricknotes/modify-method-title
+  * Merge pull request #179 from tricknotes/highlight-code-example
+  * Modify method title to include argument name
+  * Fix to highlight code example
+  * bower: granular ignores
+
 1.7.1 / 2013-06-24 
 ==================
 

@@ -1,5 +1,28 @@
 # Release Notes
 
+## 1.7.2 / 2013-06-27 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required.
+- **Plugin Developers:** 
+  - No changes required
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Coverage Reporting
+
+Coverage reporting has always been available for core-developers but the data has never been published
+for our end users. In our ongoing effort to improve accountability this data will now be published via
+the [coveralls.io](https://coveralls.io/) service. A badge has been added to the README and the full report
+can be viewed online at the [chai coveralls project](https://coveralls.io/r/chaijs/chai). Furthermore, PRs 
+will receive automated messages indicating how their PR impacts test coverage. This service is tied to TravisCI.
+
+### Other Fixes
+
+- [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`. (Fix ignore all)
+
 ## 1.7.1 / 2013-06-24 
 
 The following changes are required if you are upgrading from the previous version:
