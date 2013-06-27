@@ -1757,16 +1757,16 @@ module.exports = function (chai, _) {
   }
 
   /**
-   * ### .members
+   * ### .members(set)
    *
    * Asserts that the target is a superset of `set`,
    * or that the target and `set` have the same members.
    *
-   *    expect([1, 2, 3]).to.include.members([3, 2]);
-   *    expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
+   *     expect([1, 2, 3]).to.include.members([3, 2]);
+   *     expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
    *
-   *    expect([4, 2]).to.have.members([2, 4]);
-   *    expect([5, 2]).to.not.have.members([5, 2, 1]);
+   *     expect([4, 2]).to.have.members([2, 4]);
+   *     expect([5, 2]).to.not.have.members([5, 2, 1]);
    *
    * @name members
    * @param {Array} set
