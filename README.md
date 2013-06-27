@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai)
+[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai) [![Coverage Status](https://coveralls.io/repos/chaijs/chai/badge.png?branch=master)](https://coveralls.io/r/chaijs/chai?branch=master)
 
 [![Chai Documentation](http://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
 
