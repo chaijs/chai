@@ -1757,7 +1757,7 @@ module.exports = function (chai, _) {
   }
 
   /**
-   * ### .members
+   * ### .members(set)
    *
    * Asserts that the target is a superset of `set`,
    * or that the target and `set` have the same members.
