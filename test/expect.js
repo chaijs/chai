@@ -283,6 +283,12 @@ suite('expect', function () {
     expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
     expect(1).to.eql(1);
     expect('4').to.not.eql(4);
+    expect(true).to.not.eql({});
+    expect(true).to.not.eql([]);
+    expect({}).to.not.eql([]);
+    expect([]).to.not.eql({});
+    expect({}).to.eql({});
+    expect([]).to.eql([]);
 
     err(function(){
       expect(4).to.eql(3, 'blah');
