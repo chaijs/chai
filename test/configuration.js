@@ -1,11 +1,11 @@
-suite('configuration', function () {
+describe('configuration', function () {
   var assert = chai.assert;
 
   function fooThrows () {
     assert.equal('foo', 'bar');
   }
 
-  test('Assertion.includeStack is true', function () {
+  it('Assertion.includeStack is true', function () {
     var orig = chai.Assertion.includeStack;
     chai.Assertion.includeStack = true;
 
@@ -22,7 +22,7 @@ suite('configuration', function () {
 
   });
 
-  test('Assertion.includeStack is false', function () {
+  it('Assertion.includeStack is false', function () {
     var orig = chai.Assertion.includeStack;
     chai.Assertion.includeStack = false;
 

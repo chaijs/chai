@@ -1,3 +1,0 @@
---require ./test/bootstrap/
---ui tdd
---reporter dot

@@ -32,11 +32,11 @@
   "devDependencies": {
       "component": "*"
     , "coveralls": "2.0.16"
-    , "mocha": "1.8.2"
-    , "mocha-cloud": "*"
-    , "mocha-lcov-reporter": "0.0.1"
-    , "mocha-phantomjs": "2.0.2"
-    , "connect": "2.7.x"
     , "jscoverage": "0.3.7"
+    , "karma": "0.10.x"
+    , "karma-mocha": "*"
+    , "karma-spec-reporter": "*"
+    , "mocha": "1.8.2"
+    , "mocha-lcov-reporter": "0.0.1"
   }
 }

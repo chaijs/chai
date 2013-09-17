@@ -1,4 +1,4 @@
-suite('plugins', function () {
+describe('plugins', function () {
 
   function plugin (chai) {
     if (chai.Assertion.prototype.testing) return;
@@ -10,13 +10,13 @@ suite('plugins', function () {
     });
   }
 
-  test('basic usage', function () {
+  it('basic usage', function () {
     chai.use(plugin);
     var expect = chai.expect;
     expect(expect('').testing).to.equal('successful');
   });
 
-  test('double plugin', function () {
+  it('double plugin', function () {
     chai.expect(function () {
       chai.use(plugin);
     }).to.not.throw();

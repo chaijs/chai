@@ -1,7 +1,7 @@
-suite('utilities', function () {
+describe('utilities', function () {
   var expect = chai.expect;
 
-  test('_obj', function () {
+  it('_obj', function () {
     var foo = 'bar'
       , test = expect(foo);
 
@@ -14,7 +14,7 @@ suite('utilities', function () {
     test.equal(bar);
   });
 
-  test('transferFlags', function () {
+  it('transferFlags', function () {
     var foo = 'bar'
       , test = expect(foo).not;
 
@@ -26,11 +26,12 @@ suite('utilities', function () {
     });
   });
 
-  test('transferFlags, includeAll = false', function () {
+  it('transferFlags, includeAll = false', function () {
     var foo = 'bar';
 
     chai.use(function (_chai, utils) {
       var obj = {};
+      var test = function() {};
 
       var assertion = new chai.Assertion({}, "message", test);
       var flag = {};
@@ -47,7 +48,7 @@ suite('utilities', function () {
   });
 
 
-  test('getPathValue', function () {
+  it('getPathValue', function () {
     var object = {
         hello: 'universe'
       , universe: {
@@ -74,7 +75,7 @@ suite('utilities', function () {
     });
   });
 
-  test('addMethod', function () {
+  it('addMethod', function () {
     chai.use(function(_chai, utils) {
       expect(_chai.Assertion).to.not.respondTo('eqqqual');
       _chai.Assertion.addMethod('eqqqual', function (str) {
@@ -87,7 +88,7 @@ suite('utilities', function () {
     expect('spec').to.eqqqual('spec');
   });
 
-  test('addMethod returning result', function () {
+  it('addMethod returning result', function () {
     chai.use(function(_chai, utils) {
       _chai.Assertion.addMethod('result', function () {
         return 'result';
@@ -97,7 +98,7 @@ suite('utilities', function () {
     expect(expect('foo').result()).to.equal('result');
   });
 
-  test('overwriteMethod', function () {
+  it('overwriteMethod', function () {
     chai.use(function (_chai, _) {
       expect(_chai.Assertion).to.respondTo('eqqqual');
       _chai.Assertion.overwriteMethod('eqqqual', function (_super) {
@@ -133,7 +134,7 @@ suite('utilities', function () {
     expect(dne.__flags).to.have.property('doesnt');
   });
 
-  test('overwriteMethod returning result', function () {
+  it('overwriteMethod returning result', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.overwriteMethod('result', function (_super) {
         return function () {
@@ -145,7 +146,7 @@ suite('utilities', function () {
     expect(expect('foo').result()).to.equal('result');
   });
 
-  test('addProperty', function () {
+  it('addProperty', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addProperty('tea', function () {
         _.flag(this, 'tea', 'chai');
@@ -156,7 +157,7 @@ suite('utilities', function () {
     expect(assert.__flags.tea).to.equal('chai');
   });
 
-  test('addProperty returning result', function () {
+  it('addProperty returning result', function () {
     chai.use(function(_chai, _) {
       _chai.Assertion.addProperty('result', function () {
         return 'result';
@@ -166,7 +167,7 @@ suite('utilities', function () {
     expect(expect('foo').result).to.equal('result');
   });
 
-  test('overwriteProperty', function () {
+  it('overwriteProperty', function () {
     chai.use(function (_chai, _) {
       expect(new chai.Assertion()).to.have.property('tea');
       _chai.Assertion.overwriteProperty('tea', function (_super) {
@@ -187,7 +188,7 @@ suite('utilities', function () {
     expect(assert.__flags.tea).to.equal('chai');
   });
 
-  test('overwriteProperty returning result', function () {
+  it('overwriteProperty returning result', function () {
     chai.use(function(_chai, _) {
       _chai.Assertion.overwriteProperty('result', function (_super) {
         return function () {
@@ -199,7 +200,7 @@ suite('utilities', function () {
     expect(expect('foo').result).to.equal('result');
   });
 
-  test('getMessage', function () {
+  it('getMessage', function () {
     chai.use(function (_chai, _) {
       expect(_.getMessage({}, [])).to.equal('');
       expect(_.getMessage({}, [null, null, null])).to.equal('');
@@ -210,7 +211,7 @@ suite('utilities', function () {
     });
   });
 
-  test('inspect with custom object-returning inspect()s', function () {
+  it('inspect with custom object-returning inspect()s', function () {
     chai.use(function (_chai, _) {
       var obj = {
         outer: {
@@ -224,7 +225,7 @@ suite('utilities', function () {
     });
   });
 
-  test('addChainableMethod', function () {
+  it('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
         function () {
