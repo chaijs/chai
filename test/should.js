@@ -1,13 +1,13 @@
-suite('should', function() {
+describe('should', function() {
   var should = chai.Should();
 
-  test('assertion', function(){
+  it('assertion', function(){
     'test'.should.be.a('string');
     should.equal('foo', 'foo');
     should.not.equal('foo', 'bar');
   });
 
-  test('root exist', function () {
+  it('root exist', function () {
     var foo = 'foo'
       , bar = undefined;
     should.exist(foo);
@@ -22,7 +22,7 @@ suite('should', function() {
     }, "blah: expected 'foo' to not exist")
   });
 
-  test('root equal', function () {
+  it('root equal', function () {
     var value1 = 'value'
       , value2 = 'value'
       , foo = 'foo';
@@ -38,7 +38,7 @@ suite('should', function() {
     }, "blah: expected 'value' to not equal 'value'")
   });
 
-  test('root Throw', function () {
+  it('root Throw', function () {
     should.Throw(function() { throw new Error('error!') }, Error, 'error!');
     should.not.Throw(function () { });
 
@@ -51,7 +51,7 @@ suite('should', function() {
     }, "blah: expected [Function] to not throw 'Error' but [Error: error!] was thrown");
   });
 
-  test('true', function(){
+  it('true', function(){
     (true).should.be.true;
     false.should.not.be.true;
     (1).should.not.be.true;false
@@ -62,7 +62,7 @@ suite('should', function() {
     }, "expected 'test' to be true")
   });
 
-  test('ok', function(){
+  it('ok', function(){
     true.should.be.ok;
     false.should.not.be.ok;
     (1).should.be.ok;
@@ -77,7 +77,7 @@ suite('should', function() {
     }, "expected 'test' to be falsy");
   });
 
-  test('false', function(){
+  it('false', function(){
     false.should.be.false;
     true.should.not.be.false;
     (0).should.not.be.false;
@@ -87,7 +87,7 @@ suite('should', function() {
     }, "expected '' to be false")
   });
 
-  test('null', function(){
+  it('null', function(){
     (0).should.not.be.null;
 
     err(function(){
@@ -95,7 +95,7 @@ suite('should', function() {
     }, "expected '' to be null")
   });
 
-  test('undefined', function(){
+  it('undefined', function(){
     (0).should.not.be.undefined;
 
     err(function(){
@@ -103,18 +103,18 @@ suite('should', function() {
     }, "expected '' to be undefined")
   });
 
-  test('arguments', function(){
+  it('arguments', function(){
     var args = (function(){ return arguments; })(1,2,3);
     args.should.be.arguments;
     [].should.not.be.arguments;
   });
 
-  test('.equal()', function(){
+  it('.equal()', function(){
     var foo;
     should.equal(undefined, foo);
   });
 
-  test('typeof', function(){
+  it('typeof', function(){
     'test'.should.be.a('string');
 
     err(function(){
@@ -138,7 +138,7 @@ suite('should', function() {
     }, "expected 5 not to be a number");
   });
 
-  test('instanceof', function(){
+  it('instanceof', function(){
     function Foo(){}
     new Foo().should.be.an.instanceof(Foo);
 
@@ -147,7 +147,7 @@ suite('should', function() {
     }, "blah: expected 3 to be an instance of Foo");
   });
 
-  test('within(start, finish)', function(){
+  it('within(start, finish)', function(){
     (5).should.be.within(5, 10);
     (5).should.be.within(3,6);
     (5).should.be.within(3,5);
@@ -166,7 +166,7 @@ suite('should', function() {
     }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
-  test('above(n)', function(){
+  it('above(n)', function(){
     (5).should.be.above(2);
     (5).should.be.greaterThan(2);
     (5).should.not.be.above(5);
@@ -185,7 +185,7 @@ suite('should', function() {
     }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
-  test('least(n)', function(){
+  it('least(n)', function(){
     (5).should.be.at.least(5);
     (5).should.not.be.at.least(6);
 
@@ -202,7 +202,7 @@ suite('should', function() {
     }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
-  test('below(n)', function(){
+  it('below(n)', function(){
     (2).should.be.below(5);
     (2).should.be.lessThan(5);
     (2).should.not.be.below(2);
@@ -221,7 +221,7 @@ suite('should', function() {
     }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
-  test('most(n)', function(){
+  it('most(n)', function(){
     (2).should.be.at.most(2);
     (2).should.not.be.at.most(1);
 
@@ -238,7 +238,7 @@ suite('should', function() {
     }, "blah: expected { foo: 1 } to have a property 'length'");
   });
 
-  test('match(regexp)', function(){
+  it('match(regexp)', function(){
     'foobar'.should.match(/^foo/)
     'foobar'.should.not.match(/^bar/)
 
@@ -251,7 +251,7 @@ suite('should', function() {
     }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
-  test('length(n)', function(){
+  it('length(n)', function(){
     'test'.should.have.length(4);
     'test'.should.not.have.length(3);
     [1,2,3].should.have.length(3);
@@ -265,7 +265,7 @@ suite('should', function() {
     }, "blah: expected 'asd' to not have a length of 3");
   });
 
-  test('eql(val)', function(){
+  it('eql(val)', function(){
     var a = new Date(1, 2, 3)
       , b = new Date(4, 5, 6);
 
@@ -291,7 +291,7 @@ suite('should', function() {
     }, 'blah: expected 4 to deeply equal 3');
   });
 
-  test('equal(val)', function(){
+  it('equal(val)', function(){
     'test'.should.equal('test');
     (1).should.equal(1);
 
@@ -304,7 +304,7 @@ suite('should', function() {
     }, "blah: expected '4' to equal 4");
   });
 
-  test('empty', function(){
+  it('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
 
@@ -350,7 +350,7 @@ suite('should', function() {
     }, "expected { foo: \'bar\' } to be empty");
   });
 
-  test('property(name)', function(){
+  it('property(name)', function(){
     'test'.should.have.property('length');
     (4).should.not.have.property('length');
 
@@ -359,7 +359,7 @@ suite('should', function() {
     }, "expected 'asd' to have a property 'foo'");
   });
 
-  test('property(name, val)', function(){
+  it('property(name, val)', function(){
     'test'.should.have.property('length', 4);
     'asd'.should.have.property('constructor', String);
 
@@ -380,7 +380,7 @@ suite('should', function() {
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
-  test('ownProperty(name)', function(){
+  it('ownProperty(name)', function(){
     'test'.should.have.ownProperty('length');
     'test'.should.haveOwnProperty('length');
     ({ length: 12 }).should.have.ownProperty('length');
@@ -390,7 +390,7 @@ suite('should', function() {
     }, "blah: expected { length: 12 } to not have own property 'length'");
   });
 
-  test('string()', function(){
+  it('string()', function(){
     'foobar'.should.contain.string('bar');
     'foobar'.should.contain.string('foo');
     'foobar'.should.not.contain.string('baz');
@@ -408,7 +408,7 @@ suite('should', function() {
     }, "blah: expected 'foobar' to not contain 'bar'");
   });
 
-  test('include()', function(){
+  it('include()', function(){
     ['foo', 'bar'].should.include('foo');
     ['foo', 'bar'].should.contain('foo');
     ['foo', 'bar'].should.include('bar');
@@ -425,7 +425,7 @@ suite('should', function() {
     }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
   });
 
-  test('keys(array)', function(){
+  it('keys(array)', function(){
     ({ foo: 1 }).should.have.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.have.keys(['foo', 'bar']);
     ({ foo: 1, bar: 2 }).should.have.keys('foo', 'bar');
@@ -494,7 +494,7 @@ suite('should', function() {
     }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
   });
 
-  test('throw', function () {
+  it('throw', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead
     // only set the name inside the constructor itself.
@@ -642,7 +642,7 @@ suite('should', function() {
     }, "blah: expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
-  test('respondTo', function(){
+  it('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};
     Foo.func = function(){};
@@ -666,7 +666,7 @@ suite('should', function() {
     }, /^(object: expected)(.*)(\{ foo: \[Function\] \}|\{ Object \()(.*)(to respond to \'baz\')$/);
   });
 
-  test('satisfy', function(){
+  it('satisfy', function(){
     var matcher = function (num){
       return num === 1;
     };
@@ -678,7 +678,7 @@ suite('should', function() {
     }, "blah: expected 2 to satisfy [Function]");
   });
 
-  test('closeTo', function(){
+  it('closeTo', function(){
     (1.5).should.be.closeTo(1.0, 0.5);
 
     err(function(){
@@ -686,7 +686,7 @@ suite('should', function() {
     }, "blah: expected 2 to be close to 1 +/- 0.5");
   });
 
-  test('include.members', function() {
+  it('include.members', function() {
     [1, 2, 3].should.include.members([3]);
     [1, 2, 3].should.include.members([]);
     [1, 2, 3].should.include.members([2, 1]);
@@ -711,7 +711,7 @@ suite('should', function() {
     }, "expected 'o' to be an array");
   });
 
-  test('memberEquals', function() {
+  it('memberEquals', function() {
     [1, 2, 3].should.have.same.members([3, 2, 1]);
     [5, 4].should.have.same.members([5, 4]);
     [].should.have.same.members([]);

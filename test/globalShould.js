@@ -1,5 +1,5 @@
-suite('global should', function () {
-  test('works', function () {
+describe('global should', function () {
+  it('works', function () {
     var theGlobal = typeof window !== 'undefined'
       ? window
       : global;

@@ -1,7 +1,7 @@
-suite('assert', function () {
+describe('assert', function () {
   var assert = chai.assert;
 
-  test('assert', function () {
+  it('assert', function () {
     var foo = 'bar';
     assert(foo == 'bar', "expected foo to equal `bar`");
 
@@ -10,13 +10,13 @@ suite('assert', function () {
     }, "expected foo to equal `bar`");
   });
 
-  test('fail', function () {
+  it('fail', function () {
     chai.expect(function () {
       assert.fail();
     }).to.throw(chai.AssertionError);
   });
 
-  test('isTrue', function () {
+  it('isTrue', function () {
     assert.isTrue(true);
 
     err(function() {
@@ -32,7 +32,7 @@ suite('assert', function () {
     }, "expected 'test' to be true");
   });
 
-  test('ok', function () {
+  it('ok', function () {
     assert.ok(true);
     assert.ok(1);
     assert.ok('test');
@@ -50,7 +50,7 @@ suite('assert', function () {
     }, "expected '' to be truthy");
   });
 
-  test('notOk', function () {
+  it('notOk', function () {
     assert.notOk(false);
     assert.notOk(0);
     assert.notOk('');
@@ -68,7 +68,7 @@ suite('assert', function () {
     }, "expected 'test' to be falsy");
   });
 
-  test('isFalse', function () {
+  it('isFalse', function () {
     assert.isFalse(false);
 
     err(function() {
@@ -80,12 +80,12 @@ suite('assert', function () {
     }, "expected 0 to be false");
   });
 
-  test('equal', function () {
+  it('equal', function () {
     var foo;
     assert.equal(foo, undefined);
   });
 
-  test('typeof / notTypeOf', function () {
+  it('typeof / notTypeOf', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
@@ -96,7 +96,7 @@ suite('assert', function () {
 
   });
 
-  test('notTypeOf', function () {
+  it('notTypeOf', function () {
     assert.notTypeOf('test', 'number');
 
     err(function () {
@@ -104,7 +104,7 @@ suite('assert', function () {
     }, "expected 5 not to be a number");
   });
 
-  test('instanceOf', function() {
+  it('instanceOf', function() {
     function Foo(){}
     assert.instanceOf(new Foo(), Foo);
 
@@ -119,7 +119,7 @@ suite('assert', function () {
     assert.instanceOf(new CrashyObject(), CrashyObject);
   });
 
-  test('notInstanceOf', function () {
+  it('notInstanceOf', function () {
     function Foo(){}
     assert.notInstanceOf(new Foo(), String);
 
@@ -128,7 +128,7 @@ suite('assert', function () {
     }, "expected {} to not be an instance of Foo");
   });
 
-  test('isObject', function () {
+  it('isObject', function () {
     function Foo(){}
     assert.isObject({});
     assert.isObject(new Foo());
@@ -146,7 +146,7 @@ suite('assert', function () {
     }, "expected 'foo' to be an object");
   });
 
-  test('isNotObject', function () {
+  it('isNotObject', function () {
     function Foo(){}
     assert.isNotObject(5);
 
@@ -155,7 +155,7 @@ suite('assert', function () {
     }, "expected {} not to be an object");
   });
 
-  test('notEqual', function() {
+  it('notEqual', function() {
     assert.notEqual(3, 4);
 
     err(function () {
@@ -163,7 +163,7 @@ suite('assert', function () {
     }, "expected 5 to not equal 5");
   });
 
-  test('strictEqual', function() {
+  it('strictEqual', function() {
     assert.strictEqual('foo', 'foo');
 
     err(function () {
@@ -171,7 +171,7 @@ suite('assert', function () {
     }, "expected \'5\' to equal 5");
   });
 
-  test('notStrictEqual', function() {
+  it('notStrictEqual', function() {
     assert.notStrictEqual(5, '5');
 
     err(function () {
@@ -179,7 +179,7 @@ suite('assert', function () {
     }, "expected 5 to not equal 5");
   });
 
-  test('deepEqual', function() {
+  it('deepEqual', function() {
     assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
 
     err(function () {
@@ -199,13 +199,13 @@ suite('assert', function () {
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
   });
 
-  test('deepEqual (ordering)', function() {
+  it('deepEqual (ordering)', function() {
     var a = { a: 'b', c: 'd' }
       , b = { c: 'd', a: 'b' };
     assert.deepEqual(a, b);
   });
 
-  test('deepEqual /regexp/', function() {
+  it('deepEqual /regexp/', function() {
     assert.deepEqual(/a/, /a/);
     assert.notDeepEqual(/a/, /b/);
     assert.notDeepEqual(/a/, {});
@@ -217,7 +217,7 @@ suite('assert', function () {
     assert.notDeepEqual(/a/m, /b/m);
   });
 
-  test('deepEqual (Date)', function() {
+  it('deepEqual (Date)', function() {
     var a = new Date(1, 2, 3)
       , b = new Date(4, 5, 6);
     assert.deepEqual(a, a);
@@ -225,7 +225,7 @@ suite('assert', function () {
     assert.notDeepEqual(a, {});
   });
 
-  test('deepEqual (circular)', function() {
+  it('deepEqual (circular)', function() {
     var circularObject = {}
       , secondCircularObject = {};
     circularObject.field = circularObject;
@@ -239,7 +239,7 @@ suite('assert', function () {
     }, "expected { field: [Circular] } to deeply equal { Object (field, field2) }");
   });
 
-  test('notDeepEqual', function() {
+  it('notDeepEqual', function() {
     assert.notDeepEqual({tea: 'jasmine'}, {tea: 'chai'});
 
     err(function () {
@@ -247,7 +247,7 @@ suite('assert', function () {
     }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
   });
 
-  test('notDeepEqual (circular)', function() {
+  it('notDeepEqual (circular)', function() {
     var circularObject = {}
       , secondCircularObject = { tea: 'jasmine' };
     circularObject.field = circularObject;
@@ -261,7 +261,7 @@ suite('assert', function () {
     }, "expected { field: [Circular] } to not deeply equal { field: [Circular] }");
   });
 
-  test('isNull', function() {
+  it('isNull', function() {
     assert.isNull(null);
 
     err(function () {
@@ -269,7 +269,7 @@ suite('assert', function () {
     }, "expected undefined to equal null");
   });
 
-  test('isNotNull', function() {
+  it('isNotNull', function() {
     assert.isNotNull(undefined);
 
     err(function () {
@@ -277,7 +277,7 @@ suite('assert', function () {
     }, "expected null to not equal null");
   });
 
-  test('isUndefined', function() {
+  it('isUndefined', function() {
     assert.isUndefined(undefined);
 
     err(function () {
@@ -285,7 +285,7 @@ suite('assert', function () {
     }, "expected null to equal undefined");
   });
 
-  test('isDefined', function() {
+  it('isDefined', function() {
     assert.isDefined(null);
 
     err(function () {
@@ -293,7 +293,7 @@ suite('assert', function () {
     }, "expected undefined to not equal undefined");
   });
 
-  test('isFunction', function() {
+  it('isFunction', function() {
     var func = function() {};
     assert.isFunction(func);
 
@@ -302,7 +302,7 @@ suite('assert', function () {
     }, "expected {} to be a function");
   });
 
-  test('isNotFunction', function () {
+  it('isNotFunction', function () {
     assert.isNotFunction(5);
 
     err(function () {
@@ -310,7 +310,7 @@ suite('assert', function () {
     }, "expected [Function] not to be a function");
   });
 
-  test('isArray', function() {
+  it('isArray', function() {
     assert.isArray([]);
     assert.isArray(new Array);
 
@@ -319,7 +319,7 @@ suite('assert', function () {
     }, "expected {} to be an array");
   });
 
-  test('isNotArray', function () {
+  it('isNotArray', function () {
     assert.isNotArray(3);
 
     err(function () {
@@ -331,7 +331,7 @@ suite('assert', function () {
     }, "expected [] not to be an array");
   });
 
-  test('isString', function() {
+  it('isString', function() {
     assert.isString('Foo');
     assert.isString(new String('foo'));
 
@@ -340,7 +340,7 @@ suite('assert', function () {
     }, "expected 1 to be a string");
   });
 
-  test('isNotString', function () {
+  it('isNotString', function () {
     assert.isNotString(3);
     assert.isNotString([ 'hello' ]);
 
@@ -349,7 +349,7 @@ suite('assert', function () {
     }, "expected 'hello' not to be a string");
   });
 
-  test('isNumber', function() {
+  it('isNumber', function() {
     assert.isNumber(1);
     assert.isNumber(Number('3'));
 
@@ -358,7 +358,7 @@ suite('assert', function () {
     }, "expected \'1\' to be a number");
   });
 
-  test('isNotNumber', function () {
+  it('isNotNumber', function () {
     assert.isNotNumber('hello');
     assert.isNotNumber([ 5 ]);
 
@@ -367,7 +367,7 @@ suite('assert', function () {
     }, "expected 4 not to be a number");
   });
 
-  test('isBoolean', function() {
+  it('isBoolean', function() {
     assert.isBoolean(true);
     assert.isBoolean(false);
 
@@ -376,7 +376,7 @@ suite('assert', function () {
     }, "expected \'1\' to be a boolean");
   });
 
-  test('isNotBoolean', function () {
+  it('isNotBoolean', function () {
     assert.isNotBoolean('true');
 
     err(function () {
@@ -388,7 +388,7 @@ suite('assert', function () {
     }, "expected false not to be a boolean");
   });
 
-  test('include', function() {
+  it('include', function() {
     assert.include('foobar', 'bar');
     assert.include([ 1, 2, 3], 3);
 
@@ -401,7 +401,7 @@ suite('assert', function () {
     }, "expected an array or string");
   });
 
-  test('notInclude', function () {
+  it('notInclude', function () {
     assert.notInclude('foobar', 'baz');
     assert.notInclude([ 1, 2, 3 ], 4);
 
@@ -414,7 +414,7 @@ suite('assert', function () {
     }, "expected an array or string");
   });
 
-  test('lengthOf', function() {
+  it('lengthOf', function() {
     assert.lengthOf([1,2,3], 3);
     assert.lengthOf('foobar', 6);
 
@@ -427,7 +427,7 @@ suite('assert', function () {
      }, "expected 1 to have a property \'length\'");
   });
 
-  test('match', function () {
+  it('match', function () {
     assert.match('foobar', /^foo/);
     assert.notMatch('foobar', /^bar/);
 
@@ -440,7 +440,7 @@ suite('assert', function () {
     }, "expected 'foobar' not to match /^foo/i");
   });
 
-  test('property', function () {
+  it('property', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
     assert.property(obj, 'foo');
@@ -484,7 +484,7 @@ suite('assert', function () {
     }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
   });
 
-  test('throws', function() {
+  it('throws', function() {
     assert.throws(function() { throw new Error('foo'); });
     assert.throws(function() { throw new Error('bar'); }, 'bar');
     assert.throws(function() { throw new Error('bar'); }, /bar/);
@@ -520,7 +520,7 @@ suite('assert', function () {
     }, "expected [Function] to throw error matching /bar/ but got ''");
   });
 
-  test('doesNotThrow', function() {
+  it('doesNotThrow', function() {
     assert.doesNotThrow(function() { });
     assert.doesNotThrow(function() { }, 'foo');
 
@@ -529,7 +529,7 @@ suite('assert', function () {
      }, 'expected [Function] to not throw an error but [Error: foo] was thrown');
   });
 
-  test('ifError', function() {
+  it('ifError', function() {
     assert.ifError(false);
     assert.ifError(null);
     assert.ifError(undefined);
@@ -539,7 +539,7 @@ suite('assert', function () {
      }, "expected \'foo\' to be falsy");
   });
 
-  test('operator', function() {
+  it('operator', function() {
     assert.operator(1, '<', 2);
     assert.operator(2, '>', 1);
     assert.operator(1, '==', 1);
@@ -581,7 +581,7 @@ suite('assert', function () {
      }, "expected 1 to be !== \'1\'");
   });
 
-  test('closeTo', function(){
+  it('closeTo', function(){
     assert.closeTo(1.5, 1.0, 0.5);
     assert.closeTo(10, 20, 20);
     assert.closeTo(-10, 20, 30);
@@ -595,7 +595,7 @@ suite('assert', function () {
     }, "expected -10 to be close to 20 +/- 29");
   });
 
-  test('members', function() {
+  it('members', function() {
     assert.includeMembers([1, 2, 3], [2, 3]);
     assert.includeMembers([1, 2, 3], []);
     assert.includeMembers([1, 2, 3], [3]);
@@ -609,7 +609,7 @@ suite('assert', function () {
     }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
   });
 
-  test('memberEquals', function() {
+  it('memberEquals', function() {
     assert.sameMembers([], []);
     assert.sameMembers([1, 2, 3], [3, 2, 1]);
     assert.sameMembers([4, 2], [4, 2]);

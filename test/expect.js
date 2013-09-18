@@ -1,16 +1,16 @@
-suite('expect', function () {
+describe('expect', function () {
   var expect = chai.expect;
 
-  test('chai.version', function() {
+  it('chai.version', function() {
     expect(chai).to.have.property('version');
   });
 
-  test('assertion', function(){
+  it('assertion', function(){
     expect('test').to.be.a('string');
     expect('foo').to.equal('foo');
   });
 
-  test('true', function(){
+  it('true', function(){
     expect(true).to.be.true;
     expect(false).to.not.be.true;
     expect(1).to.not.be.true;
@@ -20,7 +20,7 @@ suite('expect', function () {
     }, "expected 'test' to be true")
   });
 
-  test('ok', function(){
+  it('ok', function(){
     expect(true).to.be.ok;
     expect(false).to.not.be.ok;
     expect(1).to.be.ok;
@@ -35,7 +35,7 @@ suite('expect', function () {
     }, "expected 'test' to be falsy");
   });
 
-  test('false', function(){
+  it('false', function(){
     expect(false).to.be.false;
     expect(true).to.not.be.false;
     expect(0).to.not.be.false;
@@ -45,7 +45,7 @@ suite('expect', function () {
     }, "expected '' to be false")
   });
 
-  test('null', function(){
+  it('null', function(){
     expect(null).to.be.null;
     expect(false).to.not.be.null;
 
@@ -54,7 +54,7 @@ suite('expect', function () {
     }, "expected '' to be null")
   });
 
-  test('undefined', function(){
+  it('undefined', function(){
     expect(undefined).to.be.undefined;
     expect(null).to.not.be.undefined;
 
@@ -63,14 +63,14 @@ suite('expect', function () {
     }, "expected '' to be undefined")
   });
 
-  test('exist', function(){
+  it('exist', function(){
     var foo = 'bar'
       , bar;
     expect(foo).to.exist;
     expect(bar).to.not.exist;
   });
 
-  test('arguments', function(){
+  it('arguments', function(){
     var args = (function(){ return arguments; })(1,2,3);
     expect(args).to.be.arguments;
     expect([]).to.not.be.arguments;
@@ -78,12 +78,12 @@ suite('expect', function () {
     expect([]).to.be.an('array').and.not.be.Arguments;
   });
 
-  test('.equal()', function(){
+  it('.equal()', function(){
     var foo;
     expect(undefined).to.equal(foo);
   });
 
-  test('typeof', function(){
+  it('typeof', function(){
     expect('test').to.be.a('string');
 
     err(function(){
@@ -110,7 +110,7 @@ suite('expect', function () {
     }, "blah: expected 5 not to be a number");
   });
 
-  test('instanceof', function(){
+  it('instanceof', function(){
     function Foo(){}
     expect(new Foo()).to.be.an.instanceof(Foo);
 
@@ -119,7 +119,7 @@ suite('expect', function () {
     }, "blah: expected 3 to be an instance of Foo");
   });
 
-  test('within(start, finish)', function(){
+  it('within(start, finish)', function(){
     expect(5).to.be.within(5, 10);
     expect(5).to.be.within(3,6);
     expect(5).to.be.within(3,5);
@@ -144,7 +144,7 @@ suite('expect', function () {
     }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
   });
 
-  test('above(n)', function(){
+  it('above(n)', function(){
     expect(5).to.be.above(2);
     expect(5).to.be.greaterThan(2);
     expect(5).to.not.be.above(5);
@@ -169,7 +169,7 @@ suite('expect', function () {
     }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
   });
 
-  test('least(n)', function(){
+  it('least(n)', function(){
     expect(5).to.be.at.least(2);
     expect(5).to.be.at.least(5);
     expect(5).to.not.be.at.least(6);
@@ -197,7 +197,7 @@ suite('expect', function () {
     }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
   });
 
-  test('below(n)', function(){
+  it('below(n)', function(){
     expect(2).to.be.below(5);
     expect(2).to.be.lessThan(5);
     expect(2).to.not.be.below(2);
@@ -222,7 +222,7 @@ suite('expect', function () {
     }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
   });
 
-  test('most(n)', function(){
+  it('most(n)', function(){
     expect(2).to.be.at.most(5);
     expect(2).to.be.at.most(2);
     expect(2).to.not.be.at.most(1);
@@ -251,7 +251,7 @@ suite('expect', function () {
     }, "blah: expected [ 1, 2 ] to have a length above 2");
   });
 
-  test('match(regexp)', function(){
+  it('match(regexp)', function(){
     expect('foobar').to.match(/^foo/)
     expect('foobar').to.not.match(/^bar/)
 
@@ -264,7 +264,7 @@ suite('expect', function () {
     }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
-  test('length(n)', function(){
+  it('length(n)', function(){
     expect('test').to.have.length(4);
     expect('test').to.not.have.length(3);
     expect([1,2,3]).to.have.length(3);
@@ -278,7 +278,7 @@ suite('expect', function () {
     }, "blah: expected 'asd' to not have a length of 3");
   });
 
-  test('eql(val)', function(){
+  it('eql(val)', function(){
     expect('test').to.eql('test');
     expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
     expect(1).to.eql(1);
@@ -290,7 +290,7 @@ suite('expect', function () {
   });
 
   if ('undefined' !== typeof Buffer) {
-    test('Buffer eql()', function () {
+    it('Buffer eql()', function () {
       expect(new Buffer([ 1 ])).to.eql(new Buffer([ 1 ]));
 
       err(function () {
@@ -299,7 +299,7 @@ suite('expect', function () {
     });
   }
 
-  test('equal(val)', function(){
+  it('equal(val)', function(){
     expect('test').to.equal('test');
     expect(1).to.equal(1);
 
@@ -312,12 +312,12 @@ suite('expect', function () {
     }, "blah: expected '4' to equal 4");
   });
 
-  test('deep.equal(val)', function(){
+  it('deep.equal(val)', function(){
     expect({ foo: 'bar' }).to.deep.equal({ foo: 'bar' });
     expect({ foo: 'bar' }).not.to.deep.equal({ foo: 'baz' });
   });
 
-  test('deep.equal(/regexp/)', function(){
+  it('deep.equal(/regexp/)', function(){
     expect(/a/).to.deep.equal(/a/);
     expect(/a/).not.to.deep.equal(/b/);
     expect(/a/).not.to.deep.equal({});
@@ -329,7 +329,7 @@ suite('expect', function () {
     expect(/a/m).not.to.deep.equal(/b/m);
   });
 
-  test('deep.equal(Date)', function(){
+  it('deep.equal(Date)', function(){
     var a = new Date(1, 2, 3)
       , b = new Date(4, 5, 6);
     expect(a).to.deep.equal(a);
@@ -337,7 +337,7 @@ suite('expect', function () {
     expect(a).not.to.deep.equal({});
   });
 
-  test('empty', function(){
+  it('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
 
@@ -383,7 +383,7 @@ suite('expect', function () {
     }, "expected { foo: \'bar\' } to be empty");
   });
 
-  test('property(name)', function(){
+  it('property(name)', function(){
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
 
@@ -401,7 +401,7 @@ suite('expect', function () {
     }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar'");
   });
 
-  test('deep.property(name)', function(){
+  it('deep.property(name)', function(){
     expect({ 'foo.bar': 'baz'})
       .to.not.have.deep.property('foo.bar');
     expect({ foo: { bar: 'baz' } })
@@ -413,7 +413,7 @@ suite('expect', function () {
     }, "expected { 'foo.bar': 'baz' } to have a deep property 'foo.bar'");
   });
 
-  test('property(name, val)', function(){
+  it('property(name, val)', function(){
     expect('test').to.have.property('length', 4);
     expect('asd').to.have.property('constructor', String);
 
@@ -434,7 +434,7 @@ suite('expect', function () {
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
-  test('deep.property(name, val)', function(){
+  it('deep.property(name, val)', function(){
     expect({ foo: { bar: 'baz' } })
       .to.have.deep.property('foo.bar', 'baz');
 
@@ -452,7 +452,7 @@ suite('expect', function () {
     }, "blah: { foo: 5 } has no deep property 'foo.bar'");
   });
 
-  test('ownProperty(name)', function(){
+  it('ownProperty(name)', function(){
     expect('test').to.have.ownProperty('length');
     expect('test').to.haveOwnProperty('length');
     expect({ length: 12 }).to.have.ownProperty('length');
@@ -462,7 +462,7 @@ suite('expect', function () {
     }, "blah: expected { length: 12 } to not have own property 'length'");
   });
 
-  test('string()', function(){
+  it('string()', function(){
     expect('foobar').to.have.string('bar');
     expect('foobar').to.have.string('foo');
     expect('foobar').to.not.have.string('baz');
@@ -480,7 +480,7 @@ suite('expect', function () {
     }, "blah: expected 'foobar' to not contain 'bar'");
   });
 
-  test('include()', function(){
+  it('include()', function(){
     expect(['foo', 'bar']).to.include('foo');
     expect(['foo', 'bar']).to.include('foo');
     expect(['foo', 'bar']).to.include('bar');
@@ -497,7 +497,7 @@ suite('expect', function () {
     }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
   });
 
-  test('keys(array)', function(){
+  it('keys(array)', function(){
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
     expect({ foo: 1, bar: 2 }).to.have.keys('foo', 'bar');
@@ -566,7 +566,7 @@ suite('expect', function () {
     }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
   });
 
-  test('chaining', function(){
+  it('chaining', function(){
     var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
     expect(tea).to.have.property('extras').with.lengthOf(3);
 
@@ -577,7 +577,7 @@ suite('expect', function () {
     expect(tea).to.be.a('object').and.have.property('name', 'chai');
   });
 
-  test('throw', function () {
+  it('throw', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead
     // only set the name inside the constructor itself.
@@ -689,7 +689,7 @@ suite('expect', function () {
     }, "blah: expected [Function] to throw error including 'hello' but got 'testing'");
   });
 
-  test('respondTo', function(){
+  it('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};
     Foo.func = function() {};
@@ -713,8 +713,8 @@ suite('expect', function () {
     }, /^(object: expected)(.*)(\{ foo: \[Function\] \}|\{ Object \()(.*)(to respond to \'baz\')$/);
   });
 
-  test('satisfy', function(){
-    function matcher (num){
+  it('satisfy', function(){
+    var matcher = function (num) {
       return num === 1;
     };
 
@@ -722,10 +722,10 @@ suite('expect', function () {
 
     err(function(){
       expect(2).to.satisfy(matcher, 'blah');
-    }, "blah: expected 2 to satisfy [Function: matcher]");
+    }, "blah: expected 2 to satisfy [Function]");
   });
 
-  test('closeTo', function(){
+  it('closeTo', function(){
     expect(1.5).to.be.closeTo(1.0, 0.5);
     expect(10).to.be.closeTo(20, 20);
     expect(-10).to.be.closeTo(20, 30);
@@ -739,32 +739,27 @@ suite('expect', function () {
     }, "blah: expected -10 to be close to 20 +/- 29");
   });
 
-  test('include.members', function() {
+  it('include.members', function() {
     expect([1, 2, 3]).to.include.members([]);
-
     expect([1, 2, 3]).to.include.members([3, 2]);
-
     expect([1, 2, 3]).to.not.include.members([8, 4]);
-
     expect([1, 2, 3]).to.not.include.members([1, 2, 3, 4]);
   });
 
-  test('same.members', function() {
+  it('same.members', function() {
     expect([5, 4]).to.have.same.members([4, 5]);
     expect([5, 4]).to.have.same.members([5, 4]);
-
     expect([5, 4]).to.not.have.same.members([]);
     expect([5, 4]).to.not.have.same.members([6, 3]);
     expect([5, 4]).to.not.have.same.members([5, 4, 2]);
   });
 
-  test('members', function() {
-      expect([5, 4]).members([4, 5]);
-      expect([5, 4]).members([5, 4]);
-
-      expect([5, 4]).not.members([]);
-      expect([5, 4]).not.members([6, 3]);
-      expect([5, 4]).not.members([5, 4, 2]);
+  it('members', function() {
+    expect([5, 4]).members([4, 5]);
+    expect([5, 4]).members([5, 4]);
+    expect([5, 4]).not.members([]);
+    expect([5, 4]).not.members([6, 3]);
+    expect([5, 4]).not.members([5, 4, 2]);
   })
 
 });

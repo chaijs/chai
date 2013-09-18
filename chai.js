@@ -27,10 +27,14 @@ function require(path, parent, orig) {
   // perform real require()
   // by invoking the module's
   // registered function
-  if (!module.exports) {
-    module.exports = {};
-    module.client = module.component = true;
-    module.call(this, module.exports, require.relative(resolved), module);
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
   }
 
   return module.exports;
@@ -776,8 +780,8 @@ module.exports = function (chai, _) {
    *
    * Asserts that the target is `undefined`.
    *
-   *      expect(undefined).to.be.undefined;
-   *      expect(null).to.not.be.undefined;
+   *     expect(undefined).to.be.undefined;
+   *     expect(null).to.not.be.undefined;
    *
    * @name undefined
    * @api public
@@ -1657,8 +1661,8 @@ module.exports = function (chai, _) {
    * To check if a constructor will respond to a static function,
    * set the `itself` flag.
    *
-   *    Klass.baz = function(){};
-   *    expect(Klass).itself.to.respondTo('baz');
+   *     Klass.baz = function(){};
+   *     expect(Klass).itself.to.respondTo('baz');
    *
    * @name respondTo
    * @param {String} method
@@ -1686,12 +1690,12 @@ module.exports = function (chai, _) {
    *
    * Sets the `itself` flag, later used by the `respondTo` assertion.
    *
-   *    function Foo() {}
-   *    Foo.bar = function() {}
-   *    Foo.prototype.baz = function() {}
+   *     function Foo() {}
+   *     Foo.bar = function() {}
+   *     Foo.prototype.baz = function() {}
    *
-   *    expect(Foo).itself.to.respondTo('bar');
-   *    expect(Foo).itself.not.to.respondTo('baz');
+   *     expect(Foo).itself.to.respondTo('bar');
+   *     expect(Foo).itself.not.to.respondTo('baz');
    *
    * @name itself
    * @api public
@@ -4318,10 +4322,7 @@ require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/inde
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
 require.alias("chaijs-assertion-error/index.js", "assertion-error/index.js");
 require.alias("chaijs-assertion-error/index.js", "chaijs-assertion-error/index.js");
-
-require.alias("chai/index.js", "chai/index.js");
-
-if (typeof exports == "object") {
+require.alias("chai/index.js", "chai/index.js");if (typeof exports == "object") {
   module.exports = require("chai");
 } else if (typeof define == "function" && define.amd) {
   define(function(){ return require("chai"); });
