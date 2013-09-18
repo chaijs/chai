@@ -16,13 +16,6 @@ exports['SL_Safari'] = {
   , version: '6'
 };
 
-exports['SL_IE_9'] = {
-    base: 'SauceLabs'
-  , browserName: 'internet explorer'
-  , platform: 'Windows 2008'
-  , version: '9'
-};
-
 exports['SL_IE_10'] = {
     base: 'SauceLabs'
   , browserName: 'internet explorer'

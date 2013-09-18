@@ -54,8 +54,8 @@ test-cov: lib-cov
 
 test-phantom: build
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
-	@CHAI_TEST_ENV=phantom ./node_modules/.bin/karma start \
-		--single-run
+	@./node_modules/.bin/karma start \
+		--single-run --browsers PhantomJS
 
 test-sauce: build
 	@printf "==> [Test :: Karma (Sauce)]\n"
@@ -72,7 +72,6 @@ test-coveralls: lib-cov
 test-travisci: lib-cov
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
 	@make test-node
-	@make test-phantom
 	@make test-coveralls
 	@make test-sauce
 

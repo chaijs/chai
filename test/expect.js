@@ -714,7 +714,7 @@ describe('expect', function () {
   });
 
   it('satisfy', function(){
-    function matcher (num){
+    var matcher = function (num) {
       return num === 1;
     };
 
@@ -722,7 +722,7 @@ describe('expect', function () {
 
     err(function(){
       expect(2).to.satisfy(matcher, 'blah');
-    }, "blah: expected 2 to satisfy [Function: matcher]");
+    }, "blah: expected 2 to satisfy [Function]");
   });
 
   it('closeTo', function(){
