@@ -23,7 +23,6 @@
       , "lib/chai/utils/addChainableMethod.js"
       , "lib/chai/utils/addMethod.js"
       , "lib/chai/utils/addProperty.js"
-      , "lib/chai/utils/eql.js"
       , "lib/chai/utils/flag.js"
       , "lib/chai/utils/getActual.js"
       , "lib/chai/utils/getEnumerableProperties.js"
