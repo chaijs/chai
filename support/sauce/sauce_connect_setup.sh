@@ -16,6 +16,7 @@ CONNECT_URL="http://saucelabs.com/downloads/Sauce-Connect-latest.zip"
 CONNECT_DIR="/tmp/sauce-connect-$RANDOM"
 CONNECT_DOWNLOAD="Sauce_Connect.zip"
 
+mkdir -p $LOGS_DIR
 CONNECT_LOG="$LOGS_DIR/sauce-connect"
 CONNECT_STDOUT="$LOGS_DIR/sauce-connect.stdout"
 CONNECT_STDERR="$LOGS_DIR/sauce-connect.stderr"
@@ -40,8 +41,9 @@ if [ ! -z "$SAUCE_CONNECT_READY_FILE" ]; then
   ARGS="$ARGS --readyfile $SAUCE_CONNECT_READY_FILE"
 fi
 
-
-echo "Starting Sauce Connect in the background, logging into:"
+echo "Starting Sauce Connect in the background:"
+echo "  Arg: $ARGS"
+echo "Logging into:"
 echo "  Log: $CONNECT_LOG"
 echo "  Out: $CONNECT_STDOUT"
 echo "  Err: $CONNECT_STDERR"
