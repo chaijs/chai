@@ -12,9 +12,18 @@ module.exports = function(config) {
     , port: 9876
     , colors: true
     , logLevel: config.LOG_INFO
-    , autoWatch: true
+    , autoWatch: false
     , browsers: [ 'PhantomJS' ]
     , captureTimeout: 60000
-    , singleRun: false
+    , singleRun: true
   });
+
+  switch (process.env.CHAI_TEST_ENV) {
+    case 'sauce':
+      require('./karma.sauce')(config);
+      break;
+    default:
+      // ...
+      break;
+  };
 };
