@@ -74,8 +74,6 @@ test-travisci: lib-cov
 	@make test-node
 	@make test-phantom
 	@make test-coveralls
-	@./support/sauce/sauce_connect_setup.sh
-	@./support/sauce/sauce_connect_block.sh
 	@make test-sauce
 
 #
