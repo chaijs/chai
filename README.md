@@ -11,48 +11,48 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ### Related Projects
 
-- [@chaijs/assertion-error](https://github.com/chaijs/assertion-error): Custom `Error` constructor
-thrown upon an assertion failing.
+- [chaijs / assertion-error](https://github.com/chaijs/assertion-error): Custom `Error` constructor thrown upon an assertion failing.
+- [chaijs / deep-eql](https://github.com/chaijs/deep-eql): Improved deep equality testing for Node.js and the browser. 
 
 ### Contributors
 
-     project  : chai
-     repo age : 1 year, 7 months
-     active   : 136 days
-     commits  : 678
-     files    : 55
-     authors  :
-       504  Jake Luer               74.3%
-        66  Veselin Todorov         9.7%
-        43  Domenic Denicola        6.3%
-         6  Ruben Verborgh          0.9%
-         5  Juliusz Gonera          0.7%
-         5  George Kats             0.7%
-         5  Scott Nonnenberg        0.7%
-         5  Jo Liss                 0.7%
-         4  John Firebaugh          0.6%
-         4  josher19                0.6%
-         4  Nick Heiner             0.6%
-         3  Jeff Barczewski         0.4%
-         2  Ryunosuke SATO          0.3%
-         2  Bartvds                 0.3%
-         2  Teddy Cross             0.3%
-         2  Edwin Shao              0.3%
-         2  Jakub Nešetřil          0.3%
-         1  piecioshka              0.1%
-         1  Benjamin Horsleben      0.1%
-         1  Brandon Payton          0.1%
-         1  Chris Connelly          0.1%
-         1  Chun-Yi                 0.1%
-         1  DD                      0.1%
-         1  Jeff Welch              0.1%
-         1  Kilian Ciuffolo         0.1%
-         1  Niklas Närhinen         0.1%
-         1  Paul Miller             0.1%
-         1  Sasha Koss              0.1%
-         1  Victor Costan           0.1%
-         1  Vinay Pulim             0.1%
-         1  Anand Patil             0.1%
+       project  : chai
+       repo age : 1 year, 9 months
+       active   : 139 days
+       commits  : 693
+       files    : 54
+       authors  :
+         518  Jake Luer               74.7%
+          66  Veselin Todorov         9.5%
+          43  Domenic Denicola        6.2%
+           6  Ruben Verborgh          0.9%
+           5  George Kats             0.7%
+           5  Jo Liss                 0.7%
+           5  Juliusz Gonera          0.7%
+           5  Scott Nonnenberg        0.7%
+           4  John Firebaugh          0.6%
+           4  Nick Heiner             0.6%
+           4  josher19                0.6%
+           3  Jeff Barczewski         0.4%
+           3  Ryunosuke SATO          0.4%
+           2  Bartvds                 0.3%
+           2  Edwin Shao              0.3%
+           2  Jakub Nešetřil          0.3%
+           2  Teddy Cross             0.3%
+           1  Anand Patil             0.1%
+           1  Benjamin Horsleben      0.1%
+           1  Brandon Payton          0.1%
+           1  Chris Connelly          0.1%
+           1  Chun-Yi                 0.1%
+           1  DD                      0.1%
+           1  Jeff Welch              0.1%
+           1  Kilian Ciuffolo         0.1%
+           1  Niklas Närhinen         0.1%
+           1  Paul Miller             0.1%
+           1  Sasha Koss              0.1%
+           1  Victor Costan           0.1%
+           1  Vinay Pulim             0.1%
+           1  piecioshka              0.1%
 
 ## License
 

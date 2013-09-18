@@ -1,5 +1,62 @@
 # Release Notes
 
+## 1.8.0 / 2013-09-18 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - See `deep.equal` notes.
+- **Plugin Developers:** 
+  - No changes required
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Deep Equals
+
+This version of Chai focused on a overhaul to the deep equal utility. The code for this
+tool has been removed from the core lib and can now be found at: 
+[chai / deep-eql](https://github.com/chaijs/deep-eql). As stated in previous releases,
+this is part of a larger initiative to provide transparency, independent testing, and coverage for
+some of the more complicated internal tools. 
+
+For the most part `.deep.equal` will behave the same as it has. However, in order to provide a 
+consistent ruleset across all types being tested, the following changes have been made and _might_
+require changes to your tests.
+
+**1.** Strict equality for non-traversable nodes according to [egal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+
+_Previously:_ Non-traversable equal via `===`.
+
+```js
+expect(NaN).to.deep.equal(NaN);
+expect(-0).to.not.deep.equal(+0);
+```
+
+**2.** Arguments are not Arrays (and all types must be equal):
+
+_Previously:_ Some crazy nonsense that led to empty arrays deep equaling empty objects deep equaling dates.
+
+```js
+expect(arguments).to.not.deep.equal([]);
+expect(Array.prototype.slice.call(arguments)).to.deep.equal([]);
+```
+
+- [#156](https://github.com/chaijs/chai/issues/156) Empty object is eql to empty array
+- [#192](https://github.com/chaijs/chai/issues/192) empty object is eql to a Date object
+- [#194](https://github.com/chaijs/chai/issues/194) refactor deep-equal utility
+
+### CI and Browser Testing
+
+Chai now runs the browser CI suite using [Karma](http://karma-runner.github.io/) directed at 
+[SauceLabs](https://saucelabs.com/). This means we get to know where our browser support stands...
+and we get a cool badge:
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/logicalparadox.svg)](https://saucelabs.com/u/logicalparadox)
+
+Look for the list of browsers/versions to expand over the coming releases.
+
+- [#195](https://github.com/chaijs/chai/issues/195) karma test framework
+
 ## 1.7.2 / 2013-06-27 
 
 The following changes are required if you are upgrading from the previous version:

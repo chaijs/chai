@@ -1,4 +1,19 @@
 
+1.8.0 / 2013-09-18 
+==================
+
+ * test: [sauce] add a few more browsers
+ * Merge branch 'refactor/deep-equal'
+ * util: remove embedded deep equal utility
+ * util: replace embedded deep equal with external module
+ * Merge branch 'feature/karma'
+ * docs: add sauce badge to readme [ci skip]
+ * test: [sauce] use karma@canary to prevent timeouts
+ * travis: only run on node 0.10
+ * test: [karma] use karma phantomjs runner
+ * Merge pull request #181 from tricknotes/fix-highlight
+ * Fix highlight for example code
+
 1.7.2 / 2013-06-27 
 ==================
 
@@ -47,7 +62,7 @@
   * Downgrade mocha version for fix running Phantom tests.
   * Fix comparison equality of two regexps.
   * Merge pull request #161 from brandonpayton/master
-  * Fix documented name for assert interface's isDefined method
+  * Fix documented name for assert interfaces isDefined method
 
 1.6.0 / 2013-04-29 
 ==================
