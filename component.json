@@ -42,6 +42,7 @@
     ]
   , "dependencies": {
         "chaijs/assertion-error": "1.0.0"
+      , "chaijs/deep-eql": "0.1.2"
     }
   , "development": {}
 }
