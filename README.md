@@ -1,11 +1,13 @@
-[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai) [![Coverage Status](https://coveralls.io/repos/chaijs/chai/badge.png?branch=master)](https://coveralls.io/r/chaijs/chai?branch=master)
-
 [![Chai Documentation](http://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
 
 Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
 can be delightfully paired with any javascript testing framework.
 
 For more information or to download plugins, view the [documentation](http://chaijs.com).
+
+[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai) [![Coverage Status](https://coveralls.io/repos/chaijs/chai/badge.png?branch=master)](https://coveralls.io/r/chaijs/chai?branch=master)
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
 
 ### Related Projects
 
