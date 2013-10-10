@@ -1,5 +1,21 @@
 # Release Notes
 
+## 1.8.1 / 2013-10-10 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - Refresh `node_modules` folder for updated dependencies. 
+- **Plugin Developers:** 
+  - No changes required
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Browserify
+
+This is a small patch that updates the dependency tree so browserify users can install
+chai. (Remove conditional requires)
+
 ## 1.8.0 / 2013-09-18 
 
 The following changes are required if you are upgrading from the previous version:
