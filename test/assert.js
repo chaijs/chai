@@ -493,7 +493,7 @@ describe('assert', function () {
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, TypeError);
-     }, "expected [Function] to throw 'TypeError' but [Error: foo] was thrown")
+     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, 'bar');
@@ -505,7 +505,7 @@ describe('assert', function () {
 
     err(function () {
       assert.throws(function() { throw new Error('foo') }, TypeError, 'bar');
-     }, "expected [Function] to throw 'TypeError' but [Error: foo] was thrown")
+     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
     err(function () {
       assert.throws(function() {});
@@ -526,7 +526,7 @@ describe('assert', function () {
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
-     }, 'expected [Function] to not throw an error but [Error: foo] was thrown');
+     }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
   });
 
   it('ifError', function() {
