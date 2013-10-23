@@ -630,31 +630,31 @@ describe('expect', function () {
 
     err(function(){
       expect(goodFn).to.throw(specificError);
-    }, "expected [Function] to throw [RangeError: boo]");
+    }, "expected [Function] to throw 'RangeError: boo'");
 
     err(function(){
       expect(badFn).to.not.throw();
-    }, "expected [Function] to not throw an error but [Error: testing] was thrown");
+    }, "expected [Function] to not throw an error but 'Error: testing' was thrown");
 
     err(function(){
       expect(badFn).to.throw(ReferenceError);
-    }, "expected [Function] to throw 'ReferenceError' but [Error: testing] was thrown");
+    }, "expected [Function] to throw 'ReferenceError' but 'Error: testing' was thrown");
 
     err(function(){
       expect(badFn).to.throw(specificError);
-    }, "expected [Function] to throw [RangeError: boo] but [Error: testing] was thrown");
+    }, "expected [Function] to throw 'RangeError: boo' but 'Error: testing' was thrown");
 
     err(function(){
       expect(badFn).to.not.throw(Error);
-    }, "expected [Function] to not throw 'Error' but [Error: testing] was thrown");
+    }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
 
     err(function(){
       expect(refErrFn).to.not.throw(ReferenceError);
-    }, "expected [Function] to not throw 'ReferenceError' but [ReferenceError: hello] was thrown");
+    }, "expected [Function] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown");
 
     err(function(){
       expect(badFn).to.throw(PoorlyConstructedError);
-    }, "expected [Function] to throw 'PoorlyConstructedError' but [Error: testing] was thrown");
+    }, "expected [Function] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown");
 
     err(function(){
       expect(ickyErrFn).to.not.throw(PoorlyConstructedError);
@@ -666,11 +666,11 @@ describe('expect', function () {
 
     err(function(){
       expect(specificErrFn).to.throw(new ReferenceError('eek'));
-    }, "expected [Function] to throw [ReferenceError: eek] but [RangeError: boo] was thrown");
+    }, "expected [Function] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown");
 
     err(function(){
       expect(specificErrFn).to.not.throw(specificError);
-    }, "expected [Function] to not throw [RangeError: boo]");
+    }, "expected [Function] to not throw 'RangeError: boo'");
 
     err(function (){
       expect(badFn).to.not.throw(/testing/);
