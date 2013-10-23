@@ -586,13 +586,20 @@ describe('expect', function () {
     };
     PoorlyConstructedError.prototype = Object.create(Error.prototype);
 
+    function CustomError(message) {
+        this.name = 'CustomError';
+        this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
     var specificError = new RangeError('boo');
 
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
-      , specificErrFn = function () { throw specificError; };
+      , specificErrFn = function () { throw specificError; }
+      , customErrFn = function() { throw new CustomError('foo'); };
 
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
@@ -687,6 +694,10 @@ describe('expect', function () {
     err(function () {
       expect(badFn).to.throw(Error, 'hello', 'blah');
     }, "blah: expected [Function] to throw error including 'hello' but got 'testing'");
+
+    err(function () {
+      (customErrFn).should.not.throw();
+    }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
   });
 
   it('respondTo', function(){

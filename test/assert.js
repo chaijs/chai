@@ -521,12 +521,22 @@ describe('assert', function () {
   });
 
   it('doesNotThrow', function() {
+    function CustomError(message) {
+        this.name = 'CustomError';
+        this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
     assert.doesNotThrow(function() { });
     assert.doesNotThrow(function() { }, 'foo');
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
      }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
+
+    err(function () {
+        assert.doesNotThrow(function() { throw new CustomError('foo'); });
+    }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
   });
 
   it('ifError', function() {
