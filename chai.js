@@ -1699,8 +1699,11 @@ module.exports = function (chai, _) {
         throw new Error(msg + _.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
       }
     } else {
+      var finalValue = value || flag(this, 'deep') ? 
+          undefined !== value : Object.prototype.hasOwnProperty.call(obj, name);
+
       this.assert(
-          undefined !== value
+          finalValue
         , 'expected #{this} to have a ' + descriptor + _.inspect(name)
         , 'expected #{this} to not have ' + descriptor + _.inspect(name));
     }
@@ -1981,8 +1984,8 @@ module.exports = function (chai, _) {
             err === desiredError
           , 'expected #{this} to throw #{exp} but #{act} was thrown'
           , 'expected #{this} to not throw #{exp}'
-          , desiredError
-          , err
+          , (desiredError instanceof Error ? desiredError.toString() : desiredError)
+          , (err instanceof Error ? err.toString() : err)
         );
 
         return this;
@@ -1994,7 +1997,7 @@ module.exports = function (chai, _) {
           , 'expected #{this} to throw #{exp} but #{act} was thrown'
           , 'expected #{this} to not throw #{exp} but #{act} was thrown'
           , name
-          , err
+          , (err instanceof Error ? err.toString() : err)
         );
 
         if (!errMsg) return this;
@@ -2045,8 +2048,8 @@ module.exports = function (chai, _) {
         thrown === true
       , 'expected #{this} to throw ' + expectedThrown + actuallyGot
       , 'expected #{this} to not throw ' + expectedThrown + actuallyGot
-      , desiredError
-      , thrownError
+      , (desiredError instanceof Error ? desiredError.toString() : desiredError)
+      , (thrownError instanceof Error ? thrownError.toString() : thrownError)
     );
   };
 
@@ -2209,6 +2212,7 @@ module.exports = function (chai, _) {
     );
   });
 };
+
 
 });
 require.register("chai/lib/chai/interface/assert.js", function(exports, require, module){
@@ -4591,6 +4595,8 @@ module.exports = function (obj) {
 };
 
 });
+
+
 
 
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
