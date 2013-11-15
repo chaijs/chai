@@ -441,9 +441,10 @@ describe('assert', function () {
   });
 
   it('property', function () {
-    var obj = { foo: { bar: 'baz' } };
+    var obj = { foo: { bar: 'baz' }, qux: undefined };
     var simpleObj = { foo: 'bar' };
     assert.property(obj, 'foo');
+    assert.property(obj, 'qux');
     assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
     assert.notProperty(obj, 'foo.bar');
@@ -454,6 +455,10 @@ describe('assert', function () {
     err(function () {
       assert.property(obj, 'baz');
     }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
+
+    err(function() {
+      assert.property(obj, 'foo');
+    }, "expected { foo: { bar: 'baz' }, qux: undefined } } to have a property 'foo'");
 
     err(function () {
       assert.deepProperty(obj, 'foo.baz');

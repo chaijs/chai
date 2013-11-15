@@ -1699,8 +1699,11 @@ module.exports = function (chai, _) {
         throw new Error(msg + _.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
       }
     } else {
+      var finalValue = obj.hasOwnProperty(name) && undefined === value
+          ? undefined === value : undefined !== value;
+          
       this.assert(
-          undefined !== value
+          finalValue
         , 'expected #{this} to have a ' + descriptor + _.inspect(name)
         , 'expected #{this} to not have ' + descriptor + _.inspect(name));
     }
