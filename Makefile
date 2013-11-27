@@ -54,12 +54,12 @@ test-cov: lib-cov
 
 test-phantom: build
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
-	@./node_modules/.bin/karma start \
+	@./node_modules/karma/bin/karma start \
 		--single-run --browsers PhantomJS
 
 test-sauce: build
 	@printf "==> [Test :: Karma (Sauce)]\n"
-	@CHAI_TEST_ENV=sauce ./node_modules/.bin/karma start \
+	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
 
 test-coveralls: lib-cov
