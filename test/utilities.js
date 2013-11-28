@@ -1,6 +1,13 @@
 describe('utilities', function () {
   var expect = chai.expect;
 
+  after(function() {
+    // Some clean-up so we can run tests in a --watch
+    delete chai.Assertion.prototype.eqqqual;
+    delete chai.Assertion.prototype.result;
+    delete chai.Assertion.prototype.doesnotexist;
+  });
+
   it('_obj', function () {
     var foo = 'bar'
       , test = expect(foo);
