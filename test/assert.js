@@ -32,6 +32,17 @@ describe('assert', function () {
     }, "expected 'test' to be true");
   });
 
+  it('asserted', function() {
+    chai.Assertion.resetCount();
+    assert.isTrue(true);
+    assert.asserted();
+
+    chai.Assertion.resetCount();
+    err(function() {
+      assert.asserted();
+    }, "expected one or more assertions");
+  });
+
   it('ok', function () {
     assert.ok(true);
     assert.ok(1);
