@@ -40,4 +40,25 @@ describe('configuration', function () {
       }
     }
   });
+
+  it('mocha.throwError is defined', function () {
+    var wasMochaThrowErrorCalls = [];
+    global.mocha = {
+      throwError: function (err) {
+        wasMochaThrowErrorCalls.push(err);
+        throw err;
+      }
+    };
+
+    try {
+      chai.expect(function () {
+        assert.fail();
+      }).to.throw(chai.AssertionError);
+
+      assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+      assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+    } finally {
+      delete global.mocha;
+    }
+  });
 });
