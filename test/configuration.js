@@ -41,7 +41,7 @@ describe('configuration', function () {
     }
   });
 
-  it('mocha.throwError is defined', function () {
+  it('mocha.throwError is used by assert.fail', function () {
     var wasMochaThrowErrorCalls = [];
     global.mocha = {
       throwError: function (err) {
@@ -53,6 +53,27 @@ describe('configuration', function () {
     try {
       chai.expect(function () {
         assert.fail();
+      }).to.throw(chai.AssertionError);
+
+      assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+      assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+    } finally {
+      delete global.mocha;
+    }
+  });
+
+  it('mocha.throwError is used by assert.ok', function () {
+    var wasMochaThrowErrorCalls = [];
+    global.mocha = {
+      throwError: function (err) {
+        wasMochaThrowErrorCalls.push(err);
+        throw err;
+      }
+    };
+
+    try {
+      chai.expect(function () {
+        assert.ok(false);
       }).to.throw(chai.AssertionError);
 
       assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
