@@ -41,45 +41,77 @@ describe('configuration', function () {
     }
   });
 
-  it('mocha.throwError is used by assert.fail', function () {
-    var wasMochaThrowErrorCalls = [];
-    global.mocha = {
-      throwError: function (err) {
-        wasMochaThrowErrorCalls.push(err);
-        throw err;
+  describe('mocha.throwError is defined', function () {
+    var wasMochaThrowErrorCalls, mocha;
+
+    beforeEach(function () {
+      wasMochaThrowErrorCalls = [];
+      mocha = {
+        throwError: function (err) {
+          wasMochaThrowErrorCalls.push(err);
+          throw err;
+        }
+      };
+    });
+
+    it('is used by assert.fail', function () {
+      global.mocha = mocha;
+
+      try {
+        chai.expect(function () {
+          assert.fail();
+        }).to.throw(chai.AssertionError);
+
+        assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+        assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+      } finally {
+        delete global.mocha;
       }
-    };
+    });
 
-    try {
-      chai.expect(function () {
-        assert.fail();
-      }).to.throw(chai.AssertionError);
+    it('is used by assert.ok when failing', function () {
+      global.mocha = mocha;
 
-      assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
-      assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
-    } finally {
-      delete global.mocha;
-    }
-  });
+      try {
+        chai.expect(function () {
+          assert.ok(false);
+        }).to.throw(chai.AssertionError);
 
-  it('mocha.throwError is used by assert.ok', function () {
-    var wasMochaThrowErrorCalls = [];
-    global.mocha = {
-      throwError: function (err) {
-        wasMochaThrowErrorCalls.push(err);
-        throw err;
+        assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+        assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+      } finally {
+        delete global.mocha;
       }
-    };
+    });
 
-    try {
-      chai.expect(function () {
-        assert.ok(false);
-      }).to.throw(chai.AssertionError);
+    it('is used by assert.include when expected is not array nor string', function () {
+      global.mocha = mocha;
 
-      assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
-      assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
-    } finally {
-      delete global.mocha;
-    }
+      try {
+        chai.expect(function () {
+          assert.include({});
+        }).to.throw(chai.AssertionError);
+
+        assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+        assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+      } finally {
+        delete global.mocha;
+      }
+    });
+
+    it('is used by assert.notInclude when expected is not array nor string', function () {
+      global.mocha = mocha;
+
+      try {
+        chai.expect(function () {
+          assert.notInclude({});
+        }).to.throw(chai.AssertionError);
+
+        assert.ok(wasMochaThrowErrorCalls.length === 1, 'mocha.throwError should have been called once and only once');
+        assert.ok(wasMochaThrowErrorCalls[0] instanceof chai.AssertionError, 'mocha.throwError should have been called with an AssertionError');
+      } finally {
+        delete global.mocha;
+      }
+    });
   });
 });
