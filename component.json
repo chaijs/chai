@@ -35,6 +35,7 @@
       , "lib/chai/utils/objDisplay.js"
       , "lib/chai/utils/overwriteMethod.js"
       , "lib/chai/utils/overwriteProperty.js"
+      , "lib/chai/utils/overwriteChainableMethod.js"
       , "lib/chai/utils/test.js"
       , "lib/chai/utils/transferFlags.js"
       , "lib/chai/utils/type.js"
