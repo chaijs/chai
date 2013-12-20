@@ -1981,8 +1981,8 @@ module.exports = function (chai, _) {
             err === desiredError
           , 'expected #{this} to throw #{exp} but #{act} was thrown'
           , 'expected #{this} to not throw #{exp}'
-          , desiredError
-          , err
+          , (desiredError instanceof Error ? desiredError.toString() : desiredError)
+          , (err instanceof Error ? err.toString() : err)
         );
 
         return this;
@@ -1994,7 +1994,7 @@ module.exports = function (chai, _) {
           , 'expected #{this} to throw #{exp} but #{act} was thrown'
           , 'expected #{this} to not throw #{exp} but #{act} was thrown'
           , name
-          , err
+          , (err instanceof Error ? err.toString() : err)
         );
 
         if (!errMsg) return this;
@@ -2045,8 +2045,8 @@ module.exports = function (chai, _) {
         thrown === true
       , 'expected #{this} to throw ' + expectedThrown + actuallyGot
       , 'expected #{this} to not throw ' + expectedThrown + actuallyGot
-      , desiredError
-      , thrownError
+      , (desiredError instanceof Error ? desiredError.toString() : desiredError)
+      , (thrownError instanceof Error ? thrownError.toString() : thrownError)
     );
   };
 
@@ -4593,6 +4593,8 @@ module.exports = function (obj) {
 });
 
 
+
+
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
 require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
 require.alias("chaijs-assertion-error/index.js", "assertion-error/index.js");
@@ -4607,7 +4609,7 @@ require.alias("chaijs-deep-eql/lib/eql.js", "chaijs-deep-eql/index.js");
 require.alias("chai/index.js", "chai/index.js");if (typeof exports == "object") {
   module.exports = require("chai");
 } else if (typeof define == "function" && define.amd) {
-  define(function(){ return require("chai"); });
+  define([], function(){ return require("chai"); });
 } else {
   this["chai"] = require("chai");
 }})();
