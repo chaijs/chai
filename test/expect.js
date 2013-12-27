@@ -787,6 +787,15 @@ describe('expect', function () {
     expect([5, 4]).not.members([]);
     expect([5, 4]).not.members([6, 3]);
     expect([5, 4]).not.members([5, 4, 2]);
-  })
+    expect([{ id: 1 }]).not.members([{ id: 1 }]);
+  });
+
+  it('deep.members', function() {
+    expect([{ id: 1 }]).deep.members([{ id: 1 }]);
+    expect([{ id: 2 }]).not.deep.members([{ id: 1 }]);
+    err(function(){
+      expect([{ id: 1 }]).deep.members([{ id: 2 }])
+    }, "expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]");
+  });
 
 });
