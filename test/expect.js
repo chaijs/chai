@@ -771,6 +771,9 @@ describe('expect', function () {
     expect([5, 4]).not.members([]);
     expect([5, 4]).not.members([6, 3]);
     expect([5, 4]).not.members([5, 4, 2]);
-  })
+  });
 
+  it('deep.members', function() {
+    expect([{ id: 1 }]).deep.members([{ id: 1 }]);
+  });
 });
