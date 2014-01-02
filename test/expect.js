@@ -575,6 +575,10 @@ describe('expect', function () {
     }, "expected [ 'milk', 'sugar', 'smile' ] to have a length of 4 but got 3");
 
     expect(tea).to.be.a('object').and.have.property('name', 'chai');
+
+    var badFn = function () { throw new Error('testing'); };
+
+    expect(badFn).to.throw(Error).with.property('message', 'testing');
   });
 
   it('throw', function () {
