@@ -490,6 +490,7 @@ describe('expect', function () {
     expect({a:1,b:2}).to.include({b:2});
     expect({a:1,b:2}).to.not.include({b:3});
     expect({a:1,b:2}).to.include({a:1,b:2});
+    expect({a:1,b:2}).to.not.include({a:1,c:2});
 
     err(function(){
       expect(['foo']).to.include('bar', 'blah');
@@ -502,6 +503,10 @@ describe('expect', function () {
     err(function(){
       expect({a:1}).to.include({b:2});
     }, "expected { a: 1 } to have a property 'b'");
+
+    err(function(){
+      expect({a:1,b:2}).to.not.include({b:2});
+    }, "expected { a: 1, b: 2 } to not include { b: 2 }");
   });
 
   it('keys(array)', function(){
