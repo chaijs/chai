@@ -489,6 +489,7 @@ describe('expect', function () {
     expect(['foo', 'bar']).to.not.include(1);
     expect({a:1,b:2}).to.include({b:2});
     expect({a:1,b:2}).to.not.include({b:3});
+    expect({a:1,b:2}).to.include({a:1,b:2});
 
     err(function(){
       expect(['foo']).to.include('bar', 'blah');
