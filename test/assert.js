@@ -632,5 +632,4 @@ describe('assert', function () {
       assert.sameMembers([1, 54], [6, 1, 54]);
     }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
   });
-
 });
