@@ -4,7 +4,7 @@ REPORTER = dot
 
 #
 # Browser Build
-# 
+#
 
 all: chai.js
 
@@ -22,7 +22,7 @@ node_modules: package.json
 
 #
 # Components
-# 
+#
 
 build: components lib/*
 	@printf "==> [Component :: build]\n"
@@ -34,7 +34,7 @@ components: node_modules component.json
 
 #
 # Tests
-# 
+#
 
 test: test-node test-phantom
 
@@ -45,12 +45,10 @@ test-node: node_modules
 		--reporter $(REPORTER) \
 		$(TESTS)
 
-test-cov: lib-cov 
-	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
+test-cov: node_modules
+	@NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- \
 		--require ./test/bootstrap \
-		--reporter html-cov \
 		$(TESTS) \
-		> coverage.html
 
 test-phantom: build
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
@@ -62,30 +60,14 @@ test-sauce: build
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
 
-test-coveralls: lib-cov
-	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
-		--require ./test/bootstrap \
-		--reporter mocha-lcov-reporter \
-		$(TESTS) \
-		| ./node_modules/coveralls/bin/coveralls.js
-	
-test-travisci: lib-cov
+test-travisci:
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@make test-node
-	@make test-coveralls
+	@make test-cov
 	@make test-sauce
 
 #
-# Coverage
-# 
-
-lib-cov: 
-	@rm -rf lib-cov
-	@./node_modules/jscoverage/bin/jscoverage lib lib-cov
-
-#
 # Clean up
-# 
+#
 
 clean: clean-node clean-browser clean-components clean-cov
 
@@ -100,13 +82,12 @@ clean-components:
 	@rm -rf components
 
 clean-cov:
-	@rm -rf lib-cov
-	@rm -f coverage.html
+	@rm -rf coverage
 
 #
 # Instructions
 #
 
-.PHONY: all 
-.PHONY: test test-all test-node test-phantom test-sauce test-cov test-coveralls
-.PHONY: clean clean-node clean-browser clean-components clean-cov 
+.PHONY: all
+.PHONY: test test-all test-node test-phantom test-sauce test-cov
+.PHONY: clean clean-node clean-browser clean-components clean-cov

@@ -5,14 +5,14 @@ can be delightfully paired with any javascript testing framework.
 
 For more information or to download plugins, view the [documentation](http://chaijs.com).
 
-[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai) [![Coverage Status](https://coveralls.io/repos/chaijs/chai/badge.png?branch=master)](https://coveralls.io/r/chaijs/chai?branch=master)
+[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai)
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
 
 ### Related Projects
 
 - [chaijs / assertion-error](https://github.com/chaijs/assertion-error): Custom `Error` constructor thrown upon an assertion failing.
-- [chaijs / deep-eql](https://github.com/chaijs/deep-eql): Improved deep equality testing for Node.js and the browser. 
+- [chaijs / deep-eql](https://github.com/chaijs/deep-eql): Improved deep equality testing for Node.js and the browser.
 
 ### Contributors
 

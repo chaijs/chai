@@ -16,7 +16,7 @@ components
 node_modules
 npm-debug.log
 
-coverage.html
+coverage
 
 test/auth/*
 !test/auth/.gitkeep

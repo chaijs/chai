@@ -6,7 +6,7 @@ component.json
 components/
 build/
 lib-cov/
-coverage.html
+coverage/
 .travis.yml
 .mailmap
 Makefile
