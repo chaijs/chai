@@ -2,9 +2,7 @@
  * Attach chai to global
  */
 
-global.chai = (process && process.env && process.env.CHAI_COV)
-  ? require('../../lib-cov/chai')
-  : require('../..');
+global.chai = require('../..');
 
 /*!
  * Provide check for fail function.

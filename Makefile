@@ -45,7 +45,7 @@ test-node: node_modules
 		--reporter $(REPORTER) \
 		$(TESTS)
 
-test-cov: lib-cov
+test-cov:
 	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
 		--require ./test/bootstrap \
 		--reporter html-cov \
@@ -66,14 +66,6 @@ test-travisci: lib-cov
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
 	@make test-node
 	@make test-sauce
-
-#
-# Coverage
-#
-
-lib-cov:
-	@rm -rf lib-cov
-	@./node_modules/jscoverage/bin/jscoverage lib lib-cov
 
 #
 # Clean up

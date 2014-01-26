@@ -32,7 +32,6 @@
   },
   "devDependencies": {
       "component": "*"
-    , "jscoverage": "0.3.7"
     , "karma": "canary"
     , "karma-mocha": "*"
     , "karma-sauce-launcher": "git://github.com/embarkmobile/karma-sauce-launcher.git#feature-passfail"
