@@ -32,7 +32,6 @@
   },
   "devDependencies": {
       "component": "*"
-    , "coveralls": "2.0.16"
     , "jscoverage": "0.3.7"
     , "karma": "canary"
     , "karma-mocha": "*"
