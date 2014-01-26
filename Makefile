@@ -45,12 +45,10 @@ test-node: node_modules
 		--reporter $(REPORTER) \
 		$(TESTS)
 
-test-cov:
-	@CHAI_COV=1 NODE_ENV=test ./node_modules/.bin/mocha \
+test-cov: node_modules
+	@NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- \
 		--require ./test/bootstrap \
-		--reporter html-cov \
 		$(TESTS) \
-		> coverage.html
 
 test-phantom: build
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
@@ -64,7 +62,7 @@ test-sauce: build
 
 test-travisci: lib-cov
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@make test-node
+	@make test-cov
 	@make test-sauce
 
 #
@@ -84,8 +82,7 @@ clean-components:
 	@rm -rf components
 
 clean-cov:
-	@rm -rf lib-cov
-	@rm -f coverage.html
+	@rm -rf coverage
 
 #
 # Instructions
