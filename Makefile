@@ -60,7 +60,7 @@ test-sauce: build
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
 
-test-travisci: lib-cov
+test-travisci:
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
 	@make test-cov
 	@make test-sauce
