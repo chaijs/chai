@@ -1,20 +1,19 @@
 module.exports = function(config) {
   config.set({
-      basePath: ''
-    , frameworks: [ 'mocha' ]
+      frameworks: [ 'mocha' ]
     , files: [
           'build/build.js'
         , 'test/bootstrap/karma.js'
         , 'test/*.js'
       ]
-    , exclude: []
     , reporters: [ 'progress' ]
-    , port: 9876
     , colors: true
     , logLevel: config.LOG_INFO
     , autoWatch: false
     , browsers: [ 'PhantomJS' ]
-    , captureTimeout: 60000
+    , browserDisconnectTimeout: 10000
+    , browserDisconnectTolerance: 2
+    , browserNoActivityTimeout: 20000
     , singleRun: true
   });
 
