@@ -32,9 +32,9 @@
   },
   "devDependencies": {
       "component": "*"
-    , "karma": "~0.10.8"
+    , "karma": "0.11.12"
     , "karma-mocha": "*"
-    , "karma-sauce-launcher": "~0.1.8"
+    , "karma-sauce-launcher": "0.2.0"
     , "mocha": "1.8.2"
     , "istanbul": "~0.1.44"
   }
