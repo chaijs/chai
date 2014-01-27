@@ -32,9 +32,9 @@
   },
   "devDependencies": {
       "component": "*"
-    , "karma": "canary"
+    , "karma": "~0.10.8"
     , "karma-mocha": "*"
-    , "karma-sauce-launcher": "git://github.com/embarkmobile/karma-sauce-launcher.git#feature-passfail"
+    , "karma-sauce-launcher": "~0.1.8"
     , "mocha": "1.8.2"
     , "istanbul": "~0.1.44"
   }
