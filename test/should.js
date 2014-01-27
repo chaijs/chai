@@ -415,6 +415,8 @@ describe('should', function() {
     [1,2].should.include(1);
     ['foo', 'bar'].should.not.include('baz');
     ['foo', 'bar'].should.not.include(1);
+    ({a:1,b:2}).should.include({b:2});
+    ({a:1,b:2}).should.not.include({b:3});
 
     err(function(){
       ['foo'].should.include('bar', 'blah');
@@ -423,6 +425,10 @@ describe('should', function() {
     err(function(){
       ['bar', 'foo'].should.not.include('foo', 'blah');
     }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
+
+    err(function(){
+      ({a:1}).should.include({b:2});
+    }, "expected { a: 1 } to have a property 'b'")
   });
 
   it('keys(array)', function(){
