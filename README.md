@@ -16,43 +16,50 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ### Contributors
 
-       project  : chai
-       repo age : 1 year, 9 months
-       active   : 139 days
-       commits  : 693
-       files    : 54
-       authors  :
-         518  Jake Luer               74.7%
-          66  Veselin Todorov         9.5%
-          43  Domenic Denicola        6.2%
-           6  Ruben Verborgh          0.9%
-           5  George Kats             0.7%
-           5  Jo Liss                 0.7%
-           5  Juliusz Gonera          0.7%
-           5  Scott Nonnenberg        0.7%
-           4  John Firebaugh          0.6%
-           4  Nick Heiner             0.6%
-           4  josher19                0.6%
-           3  Jeff Barczewski         0.4%
-           3  Ryunosuke SATO          0.4%
-           2  Bartvds                 0.3%
-           2  Edwin Shao              0.3%
-           2  Jakub Nešetřil          0.3%
-           2  Teddy Cross             0.3%
-           1  Anand Patil             0.1%
-           1  Benjamin Horsleben      0.1%
-           1  Brandon Payton          0.1%
-           1  Chris Connelly          0.1%
-           1  Chun-Yi                 0.1%
-           1  DD                      0.1%
-           1  Jeff Welch              0.1%
-           1  Kilian Ciuffolo         0.1%
-           1  Niklas Närhinen         0.1%
-           1  Paul Miller             0.1%
-           1  Sasha Koss              0.1%
-           1  Victor Costan           0.1%
-           1  Vinay Pulim             0.1%
-           1  piecioshka              0.1%
+     project  : chai
+     repo age : 2 years, 2 months ago
+     commits  : 735
+     active   : 158 days
+     files    : 56
+     authors  :
+       532  Jake Luer               72.4%
+        79  Veselin Todorov         10.7%
+        43  Domenic Denicola        5.9%
+         6  Ruben Verborgh          0.8%
+         5  George Kats             0.7%
+         5  Jo Liss                 0.7%
+         5  Juliusz Gonera          0.7%
+         5  Scott Nonnenberg        0.7%
+         4  John Firebaugh          0.5%
+         4  Max Edmands             0.5%
+         4  Nick Heiner             0.5%
+         4  josher19                0.5%
+         3  Andrei Neculau          0.4%
+         3  Jake Rosoman            0.4%
+         3  Jeff Barczewski         0.4%
+         3  Ryunosuke SATO          0.4%
+         2  Bartvds                 0.3%
+         2  Duncan Beevers          0.3%
+         2  Edwin Shao              0.3%
+         2  Jakub Nešetřil          0.3%
+         2  Teddy Cross             0.3%
+         1  Anand Patil             0.1%
+         1  Benjamin Horsleben      0.1%
+         1  Brandon Payton          0.1%
+         1  Chris Connelly          0.1%
+         1  Chun-Yi                 0.1%
+         1  DD                      0.1%
+         1  Jeff Welch              0.1%
+         1  Kilian Ciuffolo         0.1%
+         1  Niklas Närhinen         0.1%
+         1  Paul Miller             0.1%
+         1  Sasha Koss              0.1%
+         1  Veselin                 0.1%
+         1  Victor Costan           0.1%
+         1  Vinay Pulim             0.1%
+         1  Virginie BARDALES       0.1%
+         1  laconbass               0.1%
+         1  piecioshka              0.1%
 
 ## License
 

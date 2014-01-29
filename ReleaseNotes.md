@@ -1,5 +1,36 @@
 # Release Notes
 
+## 1.9.0 / 2014-01-29 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - No changes required
+- **Plugin Developers:** 
+  - Review [#219](https://github.com/chaijs/chai/pull/219).
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Community Contributions
+
+- [#202](https://github.com/chaijs/chai/pull/201) Improve error message for .throw(). [@andreineculau](https://github.com/andreineculau)
+- [#217](https://github.com/chaijs/chai/pull/217) Chai tests can be run with `--watch`. [@demands](https://github.com/demands)
+- [#219](https://github.com/chaijs/chai/pull/219) Add overwriteChainableMethod utility. [@demands](https://github.com/demands)
+- [#224](https://github.com/chaijs/chai/pull/224) Return error on throw method to chain on error properties. [@vbardales](https://github.com/vbardales)
+- [#226](https://github.com/chaijs/chai/pull/226) Add `has` to language chains. [@duncanbeevers](https://github.com/duncanbeevers)
+- [#230](https://github.com/chaijs/chai/pull/230) Support `{a:1,b:2}.should.include({a:1})` [@jkroso](https://github.com/jkroso)
+- [#231](https://github.com/chaijs/chai/pull/231) Update Copyright notices to 2014 [@duncanbeevers](https://github.com/duncanbeevers)
+- [#232](https://github.com/chaijs/chai/pull/232) Avoid error instantiation if possible on assert.throws. [@laconbass](https://github.com/laconbass)
+
+Thank you to all who took time to contribute!
+
+### Other Bug Fixes
+
+- [#225](https://github.com/chaijs/chai/pull/225) Improved AMD wrapper provided by upstream `component(1)`.
+- [#185](https://github.com/chaijs/chai/issues/185) `assert.throws()` returns thrown error for further assertions.
+- [#237](https://github.com/chaijs/chai/pull/237) Remove coveralls/jscoverage, include istanbul coverage report in travis test.
+- Update Karma and Sauce runner versions for consistent CI results. No more karma@canary.
+
 ## 1.8.1 / 2013-10-10 
 
 The following changes are required if you are upgrading from the previous version:
