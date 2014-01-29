@@ -489,6 +489,10 @@ describe('assert', function () {
     assert.throws(function() { throw new Error('bar'); }, Error);
     assert.throws(function() { throw new Error('bar'); }, Error, 'bar');
 
+    var thrownErr = assert.throws(function() { throw new Error('foo'); });
+    assert(thrownErr instanceof Error, 'assert.throws returns error');
+    assert(thrownErr.message === 'foo', 'assert.throws returns error message');
+
     err(function () {
       assert.throws(function() { throw new Error('foo') }, TypeError);
      }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
