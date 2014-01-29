@@ -12,8 +12,8 @@ describe('assert', function () {
 
   it('fail', function () {
     chai.expect(function () {
-      assert.fail();
-    }).to.throw(chai.AssertionError);
+      assert.fail(0, 1, 'this has failed');
+    }).to.throw(chai.AssertionError, /this has failed/);
   });
 
   it('isTrue', function () {
