@@ -736,7 +736,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.8.1';
+exports.version = '1.9.0';
 
 /*!
  * Assertion Error
@@ -1093,7 +1093,11 @@ module.exports = function (chai, _) {
     if (msg) flag(this, 'message', msg);
     var obj = flag(this, 'object');
 
-    if (_.type(val) === 'object') {
+    if (_.type(obj) === 'array' && _.type(val) === 'object') {
+      for (var i in obj) {
+        if (_.eql(obj[i], val)) return this.assert(true);
+      }
+    } else if (_.type(val) === 'object') {
       if (!flag(this, 'negate')) {
         for (var k in val) new Assertion(obj).property(k, val[k]);
         return;
@@ -2190,9 +2194,13 @@ module.exports = function (chai, _) {
     );
   });
 
-  function isSubsetOf(subset, superset) {
+  function isSubsetOf(subset, superset, cmp) {
     return subset.every(function(elem) {
-      return superset.indexOf(elem) !== -1;
+      if (!cmp) return superset.indexOf(elem) !== -1;
+
+      return superset.some(function(elem2) {
+        return cmp(elem, elem2);
+      });
     })
   }
 
@@ -2200,13 +2208,17 @@ module.exports = function (chai, _) {
    * ### .members(set)
    *
    * Asserts that the target is a superset of `set`,
-   * or that the target and `set` have the same members.
+   * or that the target and `set` have the same strictly-equal (===) members.
+   * Alternately, if the `deep` flag is set, set members are compared for deep
+   * equality.
    *
    *     expect([1, 2, 3]).to.include.members([3, 2]);
    *     expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
    *
    *     expect([4, 2]).to.have.members([2, 4]);
    *     expect([5, 2]).to.not.have.members([5, 2, 1]);
+   *
+   *     expect([{ id: 1 }]).to.deep.include.members([{ id: 1 }]);
    *
    * @name members
    * @param {Array} set
@@ -2221,9 +2233,11 @@ module.exports = function (chai, _) {
     new Assertion(obj).to.be.an('array');
     new Assertion(subset).to.be.an('array');
 
+    var cmp = flag(this, 'deep') ? _.eql : undefined;
+
     if (flag(this, 'contains')) {
       return this.assert(
-          isSubsetOf(subset, obj)
+          isSubsetOf(subset, obj, cmp)
         , 'expected #{this} to be a superset of #{act}'
         , 'expected #{this} to not be a superset of #{act}'
         , obj
@@ -2232,7 +2246,7 @@ module.exports = function (chai, _) {
     }
 
     this.assert(
-        isSubsetOf(obj, subset) && isSubsetOf(subset, obj)
+        isSubsetOf(obj, subset, cmp) && isSubsetOf(subset, obj, cmp)
         , 'expected #{this} to have the same members as #{act}'
         , 'expected #{this} to not have the same members as #{act}'
         , obj
