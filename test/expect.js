@@ -511,6 +511,10 @@ describe('expect', function () {
     err(function(){
       expect({a:1,b:2}).to.not.include({b:2});
     }, "expected { a: 1, b: 2 } to not include { b: 2 }");
+
+    err(function(){
+      expect([{a:1},{b:2}]).to.not.include({b:2});
+    }, "expected [ { a: 1 }, { b: 2 } ] to not include { b: 2 }");
   });
 
   it('keys(array)', function(){
