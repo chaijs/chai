@@ -31,7 +31,7 @@ Following these guidelines helps to communicate that you respect the time of the
 ## Contributing
 
 The issue tracker is the preferred channel for [bug reports](#bugs),
-[features requests](#features) and [submitting pull
+[feature requests](#features) and [submitting pull
 requests](#pull-requests), but please respect the following restrictions:
 
 * Please **do not** use the issue tracker for personal support requests (use
@@ -75,7 +75,7 @@ Example:
 
 Feature requests are welcome. But take a moment to find out whether your idea fits with the scope and aims of the project. It's up to *you* to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
 
-Furthermore, since Chai.js has a [robust plugin API](http://chaijs.com/guide/plugins/), we encourage you to publish **new Assertions** as plugins. If your feature is an enhancement to an **existing Assertion**, please propose your changes as an issue prior to opening a pull request. If the core Chai.js contributors feel your plugin would be better suited as a core assertion, they will invite you to open a PR in [chaijs/chai](https//github.com/chaijs/chai).
+Furthermore, since Chai.js has a [robust plugin API](http://chaijs.com/guide/plugins/), we encourage you to publish **new Assertions** as plugins. If your feature is an enhancement to an **existing Assertion**, please propose your changes as an issue prior to opening a pull request. If the core Chai.js contributors feel your plugin would be better suited as a core assertion, they will invite you to open a PR in [chaijs/chai](https://github.com/chaijs/chai).
 
 <a name="pull-requests"></a>
 ### Pull Requests
@@ -90,7 +90,7 @@ Good pull requests - patches, improvements, new features - are a fantastic help.
 
 **Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code), otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
 
-Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (such as test coverage). Please review the [Chai.js Codeing Style Guide](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide).
+Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (such as test coverage). Please review the [Chai.js Coding Style Guide](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide).
 
 Follow this process if you'd like your work considered for inclusion in the project:
 
