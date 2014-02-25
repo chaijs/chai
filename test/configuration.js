@@ -2,7 +2,7 @@ describe('configuration', function () {
   var assert = chai.assert;
 
   function fooThrows () {
-    assert.equal('foo', 'bar');
+    chai.expect('foo').to.be.equal('bar');
   }
 
   it('Assertion.includeStack is true', function () {
@@ -16,7 +16,8 @@ describe('configuration', function () {
       chai.Assertion.includeStack = orig;
       // not all browsers support err.stack
       if ('undefined' !== typeof err.stack) {
-        assert.include(err.stack, 'fooThrows', 'should have stack trace in error message');
+        assert.include(err.stack, 'assertEqual', 'should have internal stack trace in error message');
+        assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
       }
     }
 
@@ -35,8 +36,9 @@ describe('configuration', function () {
       // IE 10 supports err.stack in Chrome format, but without
       // `Error.captureStackTrace` support that allows tuning of the error
       // message.
-      if ('undefined' !== typeof Error.captureStackTrace) {
-        assert.ok(!err.stack || err.stack.indexOf('at fooThrows') === -1, 'should not have stack trace in error message');
+      if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+        assert.notInclude(err.stack, 'assertEqual', 'should not have internal stack trace in error message');
+        assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
       }
     }
   });
