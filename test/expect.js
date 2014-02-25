@@ -492,6 +492,10 @@ describe('expect', function () {
     expect({a:1,b:2}).to.include({a:1,b:2});
     expect({a:1,b:2}).to.not.include({a:1,c:2});
 
+    expect([{a:1},{b:2}]).to.include({a:1});
+    expect([{a:1}]).to.include({a:1});
+    expect([{a:1}]).to.not.include({b:1});
+
     err(function(){
       expect(['foo']).to.include('bar', 'blah');
     }, "blah: expected [ 'foo' ] to include 'bar'");
@@ -507,6 +511,10 @@ describe('expect', function () {
     err(function(){
       expect({a:1,b:2}).to.not.include({b:2});
     }, "expected { a: 1, b: 2 } to not include { b: 2 }");
+
+    err(function(){
+      expect([{a:1},{b:2}]).to.not.include({b:2});
+    }, "expected [ { a: 1 }, { b: 2 } ] to not include { b: 2 }");
   });
 
   it('keys(array)', function(){
