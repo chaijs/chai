@@ -42,4 +42,33 @@ describe('configuration', function () {
       }
     }
   });
+
+  describe('Assertion.truncateThreshold', function() {
+    var orig = chai.Assertion.truncateThreshold;
+
+    beforeEach(function() {
+      chai.Assertion.showDiff = false;
+    });
+
+    afterEach(function() {
+      chai.Assertion.truncateThreshold = orig;
+      chai.Assertion.showDiff = true;
+    });
+
+    it('is 20', function() {
+      chai.Assertion.truncateThreshold = 20;
+
+      err(function() {
+        assert.deepEqual({v: 'something longer than 20'}, {v: 'x'});
+      }, "expected { Object (v) } to deeply equal { v: 'x' }");
+    });
+
+    it('is 0', function() {
+      chai.Assertion.truncateThreshold = 0;
+
+      err(function() {
+        assert.deepEqual({v: 'something longer than 20'}, {v: 'x'});
+      }, "expected { v: 'something longer than 20' } to deeply equal { v: 'x' }");
+    });
+  });
 });
