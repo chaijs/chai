@@ -55,6 +55,24 @@ describe('configuration', function () {
     }
   });
 
+  describe('truncateThreshold', function() {
+    it('is 20', function() {
+      chai.config.truncateThreshold = 20;
+
+      err(function() {
+        assert.deepEqual({v: 'something longer than 20'}, {v: 'x'});
+      }, "expected { Object (v) } to deeply equal { v: 'x' }");
+    });
+
+    it('is 0', function() {
+      chai.config.truncateThreshold = 0;
+
+      err(function() {
+        assert.deepEqual({v: 'something longer than 20'}, {v: 'x'});
+      }, "expected { v: 'something longer than 20' } to deeply equal { v: 'x' }");
+    });
+  });
+
   describe('deprecated properties', function() {
     var origWarnFn;
     var warnings;
