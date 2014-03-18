@@ -52,6 +52,7 @@ describe('expect', function () {
     err(function(){
       expect('').to.be.null;
     }, "expected '' to be null")
+
   });
 
   it('undefined', function(){
@@ -81,6 +82,10 @@ describe('expect', function () {
   it('.equal()', function(){
     var foo;
     expect(undefined).to.equal(foo);
+
+    err(function(){
+      expect(undefined).to.equal(null);
+    }, "expected undefined to equal null")
   });
 
   it('typeof', function(){

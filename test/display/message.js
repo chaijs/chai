@@ -1,4 +1,5 @@
 var chai = require('../..')
+  , expect = chai.expect
   , should = chai.should();
 
 var deepObj = {
@@ -37,4 +38,10 @@ suite('object display', function () {
     chai.config.showDiff = true;
   });
 
+});
+
+suite('undefined/null display', function() {
+  test('undefined for actual', function() {
+    expect(undefined).to.equal(null);
+  });
 });
