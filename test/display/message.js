@@ -19,7 +19,7 @@ var deepObj2 = {
     ]
 };
 
-chai.Assertion.includeStack = true;
+chai.config.includeStack = true;
 
 suite('object display', function () {
 
@@ -32,9 +32,9 @@ suite('object display', function () {
   });
 
   test('deep equal no diff', function () {
-    chai.Assertion.showDiff = false;
+    chai.config.showDiff = false;
     deepObj.should.deep.equal(deepObj2);
-    chai.Assertion.showDiff = true;
+    chai.config.showDiff = true;
   });
 
 });

@@ -16,6 +16,7 @@
         "index.js"
       , "lib/chai.js"
       , "lib/chai/assertion.js"
+      , "lib/chai/config.js"
       , "lib/chai/core/assertions.js"
       , "lib/chai/interface/assert.js"
       , "lib/chai/interface/expect.js"
