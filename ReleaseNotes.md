@@ -1,5 +1,89 @@
 # Release Notes
 
+## 1.9.1 / 2014-03-19 
+
+The following changes are required if you are upgrading from the previous version:
+
+- **Users:**
+  - Migrate configuration options to new interface. (see notes)
+- **Plugin Developers:** 
+  - No changes required
+- **Core Contributors:** 
+  - Refresh `node_modules` folder for updated dependencies. 
+
+### Configuration
+
+There have been requests for changes and additions to the configuration mechanisms
+and their impact in the Chai architecture. As such, we have decoupled the 
+configuration from the `Assertion` constructor. This not only allows for centralized
+configuration, but will allow us to shift the responsibility from the `Assertion` 
+constructor to the `assert` interface in future releases.
+
+These changes have been implemented in a non-breaking way, but a depretiation
+warning will be presented to users until they migrate. The old config method will 
+be removed in either `v1.11.0` or `v2.0.0`, whichever comes first.
+
+#### Quick Migration
+
+```js
+// change this:
+chai.Assertion.includeStack = true;
+chai.Assertion.showDiff = false;
+
+// ... to this:
+chai.config.includeStack = true;
+chai.config.showDiff = false;
+```
+
+#### All Config Options
+
+##### config.includeStack
+
+- **@param** _{Boolean}_
+- **@default** `false`
+
+User configurable property, influences whether stack trace is included in 
+Assertion error message. Default of `false` suppresses stack trace in the error 
+message.
+
+##### config.showDiff
+
+- **@param** _{Boolean}_
+- **@default** `true`
+
+User configurable property, influences whether or not the `showDiff` flag 
+should be included in the thrown AssertionErrors. `false` will always be `false`; 
+`true` will be true when the assertion has requested a diff be shown.
+
+##### config.truncateThreshold **(NEW)**
+
+- **@param** _{Number}_
+- **@default** `40`
+
+User configurable property, sets length threshold for actual and expected values 
+in assertion errors. If this threshold is exceeded, the value is truncated.
+
+Set it to zero if you want to disable truncating altogether.
+
+```js
+chai.config.truncateThreshold = 0; // disable truncating
+```
+
+### Community Contributions
+
+- [#228](https://github.com/chaijs/chai/pull/228) Deep equality check for memebers. [@duncanbeevers](https://github.com/duncanbeevers)
+- [#247](https://github.com/chaijs/chai/pull/247) Proofreading. [@didorellano](https://github.com/didoarellano)
+- [#244](https://github.com/chaijs/chai/pull/244) Fix `contain`/`include` 1.9.0 regression. [@leider](https://github.com/leider)
+- [#233](https://github.com/chaijs/chai/pull/233) Improvements to `ssfi` for `assert` interface. [@refack](https://github.com/refack)
+- [#251](https://github.com/chaijs/chai/pull/251) New config option: object display threshold. [@romario333](https://github.com/romario333)
+
+Thank you to all who took time to contribute!
+
+### Other Bug Fixes
+
+- [#183](https://github.com/chaijs/chai/issues/183) Allow `undefined` for actual. (internal api)
+- Update Karam(+plugins)/Istanbul to most recent versions.
+
 ## 1.9.0 / 2014-01-29 
 
 The following changes are required if you are upgrading from the previous version:

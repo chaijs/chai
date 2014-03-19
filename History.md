@@ -1,4 +1,28 @@
 
+1.9.1 / 2014-03-19 
+==================
+
+  * deps update
+  * util: [getActual] select actual logic now allows undefined for actual. Closes #183
+  * docs: [config] make public, express param type
+  * Merge pull request #251 from romario333/threshold3
+  * Fix issue #166 - configurable threshold in objDisplay.
+  * Move configuration options to config.js.
+  * Merge pull request #233 from Empeeric/master
+  * Merge pull request #244 from leider/fix_for_contains
+  * Merge pull request #247 from didoarellano/typo-fixes
+  * Fix typos
+  * Merge pull request #245 from lfac-pt/patch-1
+  * Update `exports.version` to 1.9.0
+  * aborting loop on finding
+  * declaring variable only once
+  * additional test finds incomplete implementation
+  * simplified code
+  * fixing #239 (without changing chai.js)
+  * ssfi as it should be
+  * Merge pull request #228 from duncanbeevers/deep_members
+  * Deep equality check for collection membership
+
 1.9.0 / 2014-01-29 
 ==================
 
