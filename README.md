@@ -5,7 +5,7 @@ can be delightfully paired with any javascript testing framework.
 
 For more information or to download plugins, view the [documentation](http://chaijs.com).
 
-[![Build Status](https://travis-ci.org/chaijs/chai.png?branch=master)](https://travis-ci.org/chaijs/chai)
+[![Build Status](https://travis-ci.org/chaijs/chai.svg?branch=master)](https://travis-ci.org/chaijs/chai)
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
 
