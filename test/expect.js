@@ -777,6 +777,18 @@ describe('expect', function () {
     err(function(){
       expect(-10).to.be.closeTo(20, 29, 'blah');
     }, "blah: expected -10 to be close to 20 +/- 29");
+
+    err(function() {
+      expect([1.5]).to.be.closeTo(1.0, 0.5);
+    }, "expected [ 1.5 ] to be a number");
+
+    err(function() {
+      expect(1.5).to.be.closeTo("1.0", 0.5);
+    }, "the arguments to closeTo must be numbers");
+
+    err(function() {
+      expect(1.5).to.be.closeTo(1.0, true);
+    }, "the arguments to closeTo must be numbers");
   });
 
   it('include.members', function() {

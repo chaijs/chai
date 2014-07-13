@@ -605,6 +605,18 @@ describe('assert', function () {
     err(function(){
       assert.closeTo(-10, 20, 29);
     }, "expected -10 to be close to 20 +/- 29");
+
+    err(function() {
+      assert.closeTo([1.5], 1.0, 0.5);
+    }, "expected [ 1.5 ] to be a number");
+
+    err(function() {
+      assert.closeTo(1.5, "1.0", 0.5);
+    }, "the arguments to closeTo must be numbers");
+
+    err(function() {
+      assert.closeTo(1.5, 1.0, true);
+    }, "the arguments to closeTo must be numbers");
   });
 
   it('members', function() {
