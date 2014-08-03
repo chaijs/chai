@@ -81,3 +81,41 @@ describe('complex object', function() {
 		});
 	});
 });
+
+describe('circular objects', function() {
+	var object = {};
+
+	before(function() {
+		object.arr = [
+			object, object
+		];
+		object.arr.push(object.arr);
+		object.obj = object;
+	});
+
+	it('should contain subdocument', function() {
+		expect(object).to.containSubset({
+			arr: [
+				{arr: []},
+				{arr: []},
+				[
+					{arr: []},
+					{arr: []}
+				]
+			]
+		});
+	});
+
+	it('should not contain similar object', function() {
+		expect(object).to.not.containSubset({
+			arr: [
+				{arr: ['just random field']},
+				{arr: []},
+				[
+					{arr: []},
+					{arr: []}
+				]
+			]
+		});
+	});
+});
