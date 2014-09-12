@@ -2,13 +2,13 @@
  * Attach chai to global
  */
 
-global.chai = require('chai');
+window.chai = require('chai');
 
 /*!
  * Provide check for fail function.
  */
 
-global.err = function (fn, msg) {
+window.err = function (fn, msg) {
   try {
     fn();
     throw new chai.AssertionError('Expected an error');
