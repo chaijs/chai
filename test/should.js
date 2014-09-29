@@ -701,6 +701,18 @@ describe('should', function() {
     err(function(){
       (2).should.be.closeTo(1.0, 0.5, 'blah');
     }, "blah: expected 2 to be close to 1 +/- 0.5");
+
+    err(function() {
+      [1.5].should.be.closeTo(1.0, 0.5);
+    }, "expected [ 1.5 ] to be a number");
+
+    err(function() {
+      (1.5).should.be.closeTo("1.0", 0.5);
+    }, "the arguments to closeTo must be numbers");
+
+    err(function() {
+      (1.5).should.be.closeTo(1.0, true);
+    }, "the arguments to closeTo must be numbers");
   });
 
   it('include.members', function() {
