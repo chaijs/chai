@@ -215,6 +215,13 @@ describe('utilities', function () {
       var obj = {};
       _.flag(obj, 'message', 'foo');
       expect(_.getMessage(obj, [])).to.contain('foo');
+
+      var obj = {};
+      msg = function() { return "expected a to eql b"; }
+      negateMsg = function() { return "expected a not to eql b"; }
+      expect(_.getMessage(obj, [null, msg, negateMsg])).to.equal("expected a to eql b");
+      _.flag(obj, 'negate', true);
+      expect(_.getMessage(obj, [null, msg, negateMsg])).to.equal("expected a not to eql b");
     });
   });
 

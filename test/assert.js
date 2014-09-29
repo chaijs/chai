@@ -8,6 +8,10 @@ describe('assert', function () {
     err(function () {
       assert(foo == 'baz', "expected foo to equal `bar`");
     }, "expected foo to equal `bar`");
+
+    err(function () {
+      assert(foo == 'baz', function() { return "expected foo to equal `bar`"; });
+    }, "expected foo to equal `bar`");
   });
 
   it('fail', function () {
