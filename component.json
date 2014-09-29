@@ -1,7 +1,7 @@
 {
     "name": "chai"
   , "repo": "chaijs/chai"
-  , "version": "1.9.1"
+  , "version": "1.9.2"
   , "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic."
   , "license": "MIT"
   , "keywords": [

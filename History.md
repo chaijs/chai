@@ -1,4 +1,26 @@
 
+1.9.2 / 2014-09-29 
+==================
+
+ * Merge pull request #268 from charlierudolph/cr-lazyMessages
+ * Merge pull request #269 from charlierudolph/cr-codeCleanup
+ * Merge pull request #277 from charlierudolph/fix-doc
+ * Merge pull request #279 from mohayonao/fix-closeTo
+ * Merge pull request #292 from boneskull/mocha
+ * resolves #255: upgrade mocha
+ * Merge pull request #289 from charlierudolph/cr-dryUpCode
+ * Dry up code
+ * Merge pull request #275 from DrRataplan/master
+ * assert: .closeTo() verify value's type before assertion
+ * Rewrite pretty-printing HTML elements to prevent throwing internal errors Fixes errors occuring when using a non-native DOM implementation
+ * Fix assert documentation
+ * Remove unused argument
+ * Allow messages to be functions
+ * Merge pull request #267 from shinnn/master
+ * Use SVG badge
+ * Merge pull request #264 from cjthompson/keys_diff
+ * Show diff for keys assertion
+
 1.9.1 / 2014-03-19 
 ==================
 
