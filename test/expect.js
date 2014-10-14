@@ -97,7 +97,7 @@ describe('expect', function () {
     expect([]).to.be.an('array').and.not.be.Arguments;
 
     expect(args).to.be.Arguments();
-    expect(args).to.be.arguments().and.not.empty;
+    expect(args).to.be.arguments().and.be.ok;
   });
 
   it('.equal()', function(){
