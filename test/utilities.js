@@ -239,6 +239,14 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect negative zero', function () {
+    chai.use(function (_chai, _) {
+      expect(_.inspect(-0)).to.equal('-0');
+      expect(_.inspect([-0])).to.equal('[ -0 ]');
+      expect(_.inspect({ hp: -0 })).to.equal('{ hp: -0 }');
+    });
+  });
+
   it('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
