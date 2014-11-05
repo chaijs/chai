@@ -17,6 +17,7 @@ describe('expect', function () {
 
     expect(true).to.be.true();
     expect(true).to.be.true().and.not.false;
+    expect(true).to.be.true.and.not.false();
 
     err(function(){
       expect('test').to.be.true;
@@ -31,6 +32,7 @@ describe('expect', function () {
 
     expect(true).to.be.ok();
     expect(true).to.be.ok().and.not.false;
+    expect(true).to.be.ok.and.not.false();
 
     err(function(){
       expect('').to.be.ok;
@@ -48,6 +50,7 @@ describe('expect', function () {
 
     expect(false).to.be.false();
     expect(false).to.be.false().and.not.true;
+    expect(false).to.be.false.and.not.true();
     
     err(function(){
       expect('').to.be.false;
@@ -60,6 +63,7 @@ describe('expect', function () {
 
     expect(null).to.be.null();
     expect(null).to.be.null().and.not.ok();
+    expect(null).to.be.null.and.not.ok();
 
     err(function(){
       expect('').to.be.null;
@@ -73,6 +77,7 @@ describe('expect', function () {
 
     expect(undefined).to.be.undefined();
     expect(undefined).to.be.undefined().and.not.ok();
+    expect(undefined).to.be.undefined.and.not.ok();
 
     err(function(){
       expect('').to.be.undefined;
@@ -98,6 +103,7 @@ describe('expect', function () {
 
     expect(args).to.be.Arguments();
     expect(args).to.be.arguments().and.be.ok;
+    expect(args).to.be.arguments.and.be.ok();
   });
 
   it('.equal()', function(){
