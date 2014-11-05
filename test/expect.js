@@ -92,6 +92,7 @@ describe('expect', function () {
 
     expect(foo).to.exist();
     expect(foo).to.exist().and.contain('bar');
+    expect(foo).to.exist.and.contain('bar');
   });
 
   it('arguments', function(){
@@ -384,6 +385,7 @@ describe('expect', function () {
 
     expect('').to.be.empty();
     expect('').to.be.empty().and.exist;
+    expect('').to.be.empty.and.exist;
 
     err(function(){
       expect('').not.to.be.empty;
