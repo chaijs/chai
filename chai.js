@@ -1779,8 +1779,11 @@ module.exports = function (chai, _) {
         throw new Error(msg + _.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
       }
     } else {
+      var finalValue = value || flag(this, 'deep') ? 
+          undefined !== value : Object.prototype.hasOwnProperty.call(obj, name);
+
       this.assert(
-          undefined !== value
+          finalValue
         , 'expected #{this} to have a ' + descriptor + _.inspect(name)
         , 'expected #{this} to not have ' + descriptor + _.inspect(name));
     }
@@ -2324,6 +2327,7 @@ module.exports = function (chai, _) {
     );
   });
 };
+
 
 });
 require.register("chai/lib/chai/interface/assert.js", function(exports, require, module){

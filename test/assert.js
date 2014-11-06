@@ -445,6 +445,7 @@ describe('assert', function () {
   it('property', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
+    var undefObj = { qux: undefined };
     assert.property(obj, 'foo');
     assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
@@ -452,6 +453,7 @@ describe('assert', function () {
     assert.notDeepProperty(obj, 'foo.baz');
     assert.deepPropertyVal(obj, 'foo.bar', 'baz');
     assert.deepPropertyNotVal(obj, 'foo.bar', 'flow');
+    assert.property(undefObj, 'qux');
 
     err(function () {
       assert.property(obj, 'baz');
@@ -484,6 +486,11 @@ describe('assert', function () {
     err(function () {
       assert.deepPropertyNotVal(obj, 'foo.bar', 'baz');
     }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+
+    err(function() {
+      assert.property(undefObj, 'baz');
+    }, "expected { qux: undefined } to have a property 'baz'");
+
   });
 
   it('throws', function() {
