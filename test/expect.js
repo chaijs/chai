@@ -15,6 +15,10 @@ describe('expect', function () {
     expect(false).to.not.be.true;
     expect(1).to.not.be.true;
 
+    expect(true).to.be.true();
+    expect(true).to.be.true().and.not.false;
+    expect(true).to.be.true.and.not.false();
+
     err(function(){
       expect('test').to.be.true;
     }, "expected 'test' to be true")
@@ -25,6 +29,10 @@ describe('expect', function () {
     expect(false).to.not.be.ok;
     expect(1).to.be.ok;
     expect(0).to.not.be.ok;
+
+    expect(true).to.be.ok();
+    expect(true).to.be.ok().and.not.false;
+    expect(true).to.be.ok.and.not.false();
 
     err(function(){
       expect('').to.be.ok;
@@ -40,6 +48,10 @@ describe('expect', function () {
     expect(true).to.not.be.false;
     expect(0).to.not.be.false;
 
+    expect(false).to.be.false();
+    expect(false).to.be.false().and.not.true;
+    expect(false).to.be.false.and.not.true();
+    
     err(function(){
       expect('').to.be.false;
     }, "expected '' to be false")
@@ -48,6 +60,10 @@ describe('expect', function () {
   it('null', function(){
     expect(null).to.be.null;
     expect(false).to.not.be.null;
+
+    expect(null).to.be.null();
+    expect(null).to.be.null().and.not.ok();
+    expect(null).to.be.null.and.not.ok();
 
     err(function(){
       expect('').to.be.null;
@@ -59,6 +75,10 @@ describe('expect', function () {
     expect(undefined).to.be.undefined;
     expect(null).to.not.be.undefined;
 
+    expect(undefined).to.be.undefined();
+    expect(undefined).to.be.undefined().and.not.ok();
+    expect(undefined).to.be.undefined.and.not.ok();
+
     err(function(){
       expect('').to.be.undefined;
     }, "expected '' to be undefined")
@@ -69,6 +89,10 @@ describe('expect', function () {
       , bar;
     expect(foo).to.exist;
     expect(bar).to.not.exist;
+
+    expect(foo).to.exist();
+    expect(foo).to.exist().and.contain('bar');
+    expect(foo).to.exist.and.contain('bar');
   });
 
   it('arguments', function(){
@@ -77,6 +101,10 @@ describe('expect', function () {
     expect([]).to.not.be.arguments;
     expect(args).to.be.an('arguments').and.be.arguments;
     expect([]).to.be.an('array').and.not.be.Arguments;
+
+    expect(args).to.be.Arguments();
+    expect(args).to.be.arguments().and.be.ok;
+    expect(args).to.be.arguments.and.be.ok();
   });
 
   it('.equal()', function(){
@@ -354,6 +382,10 @@ describe('expect', function () {
     expect({arguments: 0}).not.to.be.empty;
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
+
+    expect('').to.be.empty();
+    expect('').to.be.empty().and.exist;
+    expect('').to.be.empty.and.exist;
 
     err(function(){
       expect('').not.to.be.empty;
