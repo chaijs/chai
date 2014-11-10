@@ -1,4 +1,24 @@
 
+1.10.0 / 2014-11-10 
+==================
+
+ * Merge pull request #297 from prodatakey/noopchainfunc
+ * Merge pull request #300 from julienw/299-fix-getMessage-test
+ * Fix #299: the test is defining global variables
+ * Add a couple more unit tests
+ * Add unit tests for chained terminating property asserts
+ * Revise documentation wording
+ * Add docs for function style NOOP asserts
+ * Make the NOOP function a shared constant
+ * Merge pull request #298 from dasilvacontin/negativeZeroLogging
+ * why not more assertions
+ * added test for inspecting `-0`
+ * a more readable/simple condition statement, as pointed out by @keithamus
+ * added check for logging negative zero
+ * Change test to not trigger argument bug
+ * Allows writing lint-friendly tests
+ * readme: update contributors for 1.9.2
+
 1.9.2 / 2014-09-29 
 ==================
 

@@ -1,43 +1,108 @@
+
 ;(function(){
 
 /**
- * Require the given path.
+ * Require the module at `name`.
  *
- * @param {String} path
+ * @param {String} name
  * @return {Object} exports
  * @api public
  */
 
-function require(path, parent, orig) {
-  var resolved = require.resolve(path);
+function require(name) {
+  var module = require.modules[name];
+  if (!module) throw new Error('failed to require "' + name + '"');
 
-  // lookup failed
-  if (null == resolved) {
-    orig = orig || path;
-    parent = parent || 'root';
-    var err = new Error('Failed to require "' + orig + '" from "' + parent + '"');
-    err.path = orig;
-    err.parent = parent;
-    err.require = true;
-    throw err;
-  }
-
-  var module = require.modules[resolved];
-
-  // perform real require()
-  // by invoking the module's
-  // registered function
-  if (!module._resolving && !module.exports) {
-    var mod = {};
-    mod.exports = {};
-    mod.client = mod.component = true;
-    module._resolving = true;
-    module.call(this, mod.exports, require.relative(resolved), mod);
-    delete module._resolving;
-    module.exports = mod.exports;
+  if (!('exports' in module) && typeof module.definition === 'function') {
+    module.client = module.component = true;
+    module.definition.call(this, module.exports = {}, module);
+    delete module.definition;
   }
 
   return module.exports;
+}
+
+/**
+ * Meta info, accessible in the global scope unless you use AMD option.
+ */
+
+require.loader = 'component';
+
+/**
+ * Internal helper object, contains a sorting function for semantiv versioning
+ */
+require.helper = {};
+require.helper.semVerSort = function(a, b) {
+  var aArray = a.version.split('.');
+  var bArray = b.version.split('.');
+  for (var i=0; i<aArray.length; ++i) {
+    var aInt = parseInt(aArray[i], 10);
+    var bInt = parseInt(bArray[i], 10);
+    if (aInt === bInt) {
+      var aLex = aArray[i].substr((""+aInt).length);
+      var bLex = bArray[i].substr((""+bInt).length);
+      if (aLex === '' && bLex !== '') return 1;
+      if (aLex !== '' && bLex === '') return -1;
+      if (aLex !== '' && bLex !== '') return aLex > bLex ? 1 : -1;
+      continue;
+    } else if (aInt > bInt) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+/**
+ * Find and require a module which name starts with the provided name.
+ * If multiple modules exists, the highest semver is used. 
+ * This function can only be used for remote dependencies.
+
+ * @param {String} name - module name: `user~repo`
+ * @param {Boolean} returnPath - returns the canonical require path if true, 
+ *                               otherwise it returns the epxorted module
+ */
+require.latest = function (name, returnPath) {
+  function showError(name) {
+    throw new Error('failed to find latest module of "' + name + '"');
+  }
+  // only remotes with semvers, ignore local files conataining a '/'
+  var versionRegexp = /(.*)~(.*)@v?(\d+\.\d+\.\d+[^\/]*)$/;
+  var remoteRegexp = /(.*)~(.*)/;
+  if (!remoteRegexp.test(name)) showError(name);
+  var moduleNames = Object.keys(require.modules);
+  var semVerCandidates = [];
+  var otherCandidates = []; // for instance: name of the git branch
+  for (var i=0; i<moduleNames.length; i++) {
+    var moduleName = moduleNames[i];
+    if (new RegExp(name + '@').test(moduleName)) {
+        var version = moduleName.substr(name.length+1);
+        var semVerMatch = versionRegexp.exec(moduleName);
+        if (semVerMatch != null) {
+          semVerCandidates.push({version: version, name: moduleName});
+        } else {
+          otherCandidates.push({version: version, name: moduleName});
+        } 
+    }
+  }
+  if (semVerCandidates.concat(otherCandidates).length === 0) {
+    showError(name);
+  }
+  if (semVerCandidates.length > 0) {
+    var module = semVerCandidates.sort(require.helper.semVerSort).pop().name;
+    if (returnPath === true) {
+      return module;
+    }
+    return require(module);
+  }
+  // if the build contains more than one branch of the same module
+  // you should not use this funciton
+  var module = otherCandidates.pop().name;
+  if (returnPath === true) {
+    return module;
+  }
+  return require(module);
 }
 
 /**
@@ -47,160 +112,33 @@ function require(path, parent, orig) {
 require.modules = {};
 
 /**
- * Registered aliases.
- */
-
-require.aliases = {};
-
-/**
- * Resolve `path`.
+ * Register module at `name` with callback `definition`.
  *
- * Lookup:
- *
- *   - PATH/index.js
- *   - PATH.js
- *   - PATH
- *
- * @param {String} path
- * @return {String} path or null
- * @api private
- */
-
-require.resolve = function(path) {
-  if (path.charAt(0) === '/') path = path.slice(1);
-
-  var paths = [
-    path,
-    path + '.js',
-    path + '.json',
-    path + '/index.js',
-    path + '/index.json'
-  ];
-
-  for (var i = 0; i < paths.length; i++) {
-    var path = paths[i];
-    if (require.modules.hasOwnProperty(path)) return path;
-    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
-  }
-};
-
-/**
- * Normalize `path` relative to the current path.
- *
- * @param {String} curr
- * @param {String} path
- * @return {String}
- * @api private
- */
-
-require.normalize = function(curr, path) {
-  var segs = [];
-
-  if ('.' != path.charAt(0)) return path;
-
-  curr = curr.split('/');
-  path = path.split('/');
-
-  for (var i = 0; i < path.length; ++i) {
-    if ('..' == path[i]) {
-      curr.pop();
-    } else if ('.' != path[i] && '' != path[i]) {
-      segs.push(path[i]);
-    }
-  }
-
-  return curr.concat(segs).join('/');
-};
-
-/**
- * Register module at `path` with callback `definition`.
- *
- * @param {String} path
+ * @param {String} name
  * @param {Function} definition
  * @api private
  */
 
-require.register = function(path, definition) {
-  require.modules[path] = definition;
+require.register = function (name, definition) {
+  require.modules[name] = {
+    definition: definition
+  };
 };
 
 /**
- * Alias a module definition.
+ * Define a module's exports immediately with `exports`.
  *
- * @param {String} from
- * @param {String} to
+ * @param {String} name
+ * @param {Generic} exports
  * @api private
  */
 
-require.alias = function(from, to) {
-  if (!require.modules.hasOwnProperty(from)) {
-    throw new Error('Failed to alias "' + from + '", it does not exist');
-  }
-  require.aliases[to] = from;
-};
-
-/**
- * Return a require function relative to the `parent` path.
- *
- * @param {String} parent
- * @return {Function}
- * @api private
- */
-
-require.relative = function(parent) {
-  var p = require.normalize(parent, '..');
-
-  /**
-   * lastIndexOf helper.
-   */
-
-  function lastIndexOf(arr, obj) {
-    var i = arr.length;
-    while (i--) {
-      if (arr[i] === obj) return i;
-    }
-    return -1;
-  }
-
-  /**
-   * The relative require() itself.
-   */
-
-  function localRequire(path) {
-    var resolved = localRequire.resolve(path);
-    return require(resolved, parent, path);
-  }
-
-  /**
-   * Resolve relative to the parent.
-   */
-
-  localRequire.resolve = function(path) {
-    var c = path.charAt(0);
-    if ('/' == c) return path.slice(1);
-    if ('.' == c) return require.normalize(p, path);
-
-    // resolve deps by returning
-    // the dep in the nearest "deps"
-    // directory
-    var segs = parent.split('/');
-    var i = lastIndexOf(segs, 'deps') + 1;
-    if (!i) i = 0;
-    path = segs.slice(0, i + 1).join('/') + '/deps/' + path;
-    return path;
+require.define = function (name, exports) {
+  require.modules[name] = {
+    exports: exports
   };
-
-  /**
-   * Check if module is defined at `path`.
-   */
-
-  localRequire.exists = function(path) {
-    return require.modules.hasOwnProperty(localRequire.resolve(path));
-  };
-
-  return localRequire;
 };
-require.register("chaijs-assertion-error/index.js", function(exports, require, module){
+require.register("chaijs~assertion-error@1.0.0", function (exports, module) {
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -313,7 +251,8 @@ AssertionError.prototype.toJSON = function (stack) {
 };
 
 });
-require.register("chaijs-type-detect/lib/type.js", function(exports, require, module){
+
+require.register("chaijs~type-detect@0.1.1", function (exports, module) {
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -458,7 +397,8 @@ Library.prototype.test = function (obj, type) {
 };
 
 });
-require.register("chaijs-deep-eql/lib/eql.js", function(exports, require, module){
+
+require.register("chaijs~deep-eql@0.1.3", function (exports, module) {
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -469,7 +409,7 @@ require.register("chaijs-deep-eql/lib/eql.js", function(exports, require, module
  * Module dependencies
  */
 
-var type = require('type-detect');
+var type = require('chaijs~type-detect@0.1.1');
 
 /*!
  * Buffer.isBuffer browser shim
@@ -718,11 +658,13 @@ function objectEqual(a, b, m) {
 }
 
 });
-require.register("chai/index.js", function(exports, require, module){
-module.exports = require('./lib/chai');
+
+require.register("chai", function (exports, module) {
+module.exports = require('chai/lib/chai.js');
 
 });
-require.register("chai/lib/chai.js", function(exports, require, module){
+
+require.register("chai/lib/chai.js", function (exports, module) {
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -736,19 +678,19 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.9.2';
+exports.version = '1.10.0';
 
 /*!
  * Assertion Error
  */
 
-exports.AssertionError = require('assertion-error');
+exports.AssertionError = require('chaijs~assertion-error@1.0.0');
 
 /*!
  * Utils for plugins (not exported)
  */
 
-var util = require('./chai/utils');
+var util = require('chai/lib/chai/utils/index.js');
 
 /**
  * # .use(function)
@@ -773,46 +715,47 @@ exports.use = function (fn) {
  * Configuration
  */
 
-var config = require('./chai/config');
+var config = require('chai/lib/chai/config.js');
 exports.config = config;
 
 /*!
  * Primary `Assertion` prototype
  */
 
-var assertion = require('./chai/assertion');
+var assertion = require('chai/lib/chai/assertion.js');
 exports.use(assertion);
 
 /*!
  * Core Assertions
  */
 
-var core = require('./chai/core/assertions');
+var core = require('chai/lib/chai/core/assertions.js');
 exports.use(core);
 
 /*!
  * Expect interface
  */
 
-var expect = require('./chai/interface/expect');
+var expect = require('chai/lib/chai/interface/expect.js');
 exports.use(expect);
 
 /*!
  * Should interface
  */
 
-var should = require('./chai/interface/should');
+var should = require('chai/lib/chai/interface/should.js');
 exports.use(should);
 
 /*!
  * Assert interface
  */
 
-var assert = require('./chai/interface/assert');
+var assert = require('chai/lib/chai/interface/assert.js');
 exports.use(assert);
 
 });
-require.register("chai/lib/chai/assertion.js", function(exports, require, module){
+
+require.register("chai/lib/chai/assertion.js", function (exports, module) {
 /*!
  * chai
  * http://chaijs.com
@@ -820,7 +763,8 @@ require.register("chai/lib/chai/assertion.js", function(exports, require, module
  * MIT Licensed
  */
 
-var config = require('./config');
+var config = require('chai/lib/chai/config.js');
+var NOOP = function() { };
 
 module.exports = function (_chai, util) {
   /*!
@@ -884,6 +828,10 @@ module.exports = function (_chai, util) {
     util.addChainableMethod(this.prototype, name, fn, chainingBehavior);
   };
 
+  Assertion.addChainableNoop = function(name, fn) {
+    util.addChainableMethod(this.prototype, name, NOOP, fn);
+  };
+
   Assertion.overwriteProperty = function (name, fn) {
     util.overwriteProperty(this.prototype, name, fn);
   };
@@ -945,7 +893,8 @@ module.exports = function (_chai, util) {
 };
 
 });
-require.register("chai/lib/chai/config.js", function(exports, require, module){
+
+require.register("chai/lib/chai/config.js", function (exports, module) {
 module.exports = {
 
   /**
@@ -998,7 +947,8 @@ module.exports = {
 };
 
 });
-require.register("chai/lib/chai/core/assertions.js", function(exports, require, module){
+
+require.register("chai/lib/chai/core/assertions.js", function (exports, module) {
 /*!
  * chai
  * http://chaijs.com
@@ -1187,11 +1137,15 @@ module.exports = function (chai, _) {
    *     expect(undefined).to.not.be.ok;
    *     expect(null).to.not.be.ok;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect('everthing').to.be.ok();
+   *     
    * @name ok
    * @api public
    */
 
-  Assertion.addProperty('ok', function () {
+  Assertion.addChainableNoop('ok', function () {
     this.assert(
         flag(this, 'object')
       , 'expected #{this} to be truthy'
@@ -1206,11 +1160,15 @@ module.exports = function (chai, _) {
    *     expect(true).to.be.true;
    *     expect(1).to.not.be.true;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect(true).to.be.true();
+   *
    * @name true
    * @api public
    */
 
-  Assertion.addProperty('true', function () {
+  Assertion.addChainableNoop('true', function () {
     this.assert(
         true === flag(this, 'object')
       , 'expected #{this} to be true'
@@ -1227,11 +1185,15 @@ module.exports = function (chai, _) {
    *     expect(false).to.be.false;
    *     expect(0).to.not.be.false;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect(false).to.be.false();
+   *
    * @name false
    * @api public
    */
 
-  Assertion.addProperty('false', function () {
+  Assertion.addChainableNoop('false', function () {
     this.assert(
         false === flag(this, 'object')
       , 'expected #{this} to be false'
@@ -1248,11 +1210,15 @@ module.exports = function (chai, _) {
    *     expect(null).to.be.null;
    *     expect(undefined).not.to.be.null;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect(null).to.be.null();
+   *
    * @name null
    * @api public
    */
 
-  Assertion.addProperty('null', function () {
+  Assertion.addChainableNoop('null', function () {
     this.assert(
         null === flag(this, 'object')
       , 'expected #{this} to be null'
@@ -1268,11 +1234,15 @@ module.exports = function (chai, _) {
    *     expect(undefined).to.be.undefined;
    *     expect(null).to.not.be.undefined;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect(undefined).to.be.undefined();
+   *
    * @name undefined
    * @api public
    */
 
-  Assertion.addProperty('undefined', function () {
+  Assertion.addChainableNoop('undefined', function () {
     this.assert(
         undefined === flag(this, 'object')
       , 'expected #{this} to be undefined'
@@ -1293,11 +1263,15 @@ module.exports = function (chai, _) {
    *     expect(bar).to.not.exist;
    *     expect(baz).to.not.exist;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect(foo).to.exist();
+   *
    * @name exist
    * @api public
    */
 
-  Assertion.addProperty('exist', function () {
+  Assertion.addChainableNoop('exist', function () {
     this.assert(
         null != flag(this, 'object')
       , 'expected #{this} to exist'
@@ -1317,11 +1291,15 @@ module.exports = function (chai, _) {
    *     expect('').to.be.empty;
    *     expect({}).to.be.empty;
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     expect([]).to.be.empty();
+   *
    * @name empty
    * @api public
    */
 
-  Assertion.addProperty('empty', function () {
+  Assertion.addChainableNoop('empty', function () {
     var obj = flag(this, 'object')
       , expected = obj;
 
@@ -1347,6 +1325,12 @@ module.exports = function (chai, _) {
    *       expect(arguments).to.be.arguments;
    *     }
    *
+   * Can also be used as a function, which prevents some linter errors.
+   *
+   *     function test () {
+   *       expect(arguments).to.be.arguments();
+   *     }
+   *
    * @name arguments
    * @alias Arguments
    * @api public
@@ -1362,8 +1346,8 @@ module.exports = function (chai, _) {
     );
   }
 
-  Assertion.addProperty('arguments', checkArguments);
-  Assertion.addProperty('Arguments', checkArguments);
+  Assertion.addChainableNoop('arguments', checkArguments);
+  Assertion.addChainableNoop('Arguments', checkArguments);
 
   /**
    * ### .equal(value)
@@ -2326,7 +2310,8 @@ module.exports = function (chai, _) {
 };
 
 });
-require.register("chai/lib/chai/interface/assert.js", function(exports, require, module){
+
+require.register("chai/lib/chai/interface/assert.js", function (exports, module) {
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3385,7 +3370,8 @@ module.exports = function (chai, util) {
 };
 
 });
-require.register("chai/lib/chai/interface/expect.js", function(exports, require, module){
+
+require.register("chai/lib/chai/interface/expect.js", function (exports, module) {
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3400,7 +3386,8 @@ module.exports = function (chai, util) {
 
 
 });
-require.register("chai/lib/chai/interface/should.js", function(exports, require, module){
+
+require.register("chai/lib/chai/interface/should.js", function (exports, module) {
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3481,7 +3468,8 @@ module.exports = function (chai, util) {
 };
 
 });
-require.register("chai/lib/chai/utils/addChainableMethod.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/addChainableMethod.js", function (exports, module) {
 /*!
  * Chai - addChainingMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3492,9 +3480,9 @@ require.register("chai/lib/chai/utils/addChainableMethod.js", function(exports, 
  * Module dependencies
  */
 
-var transferFlags = require('./transferFlags');
-var flag = require('./flag');
-var config = require('../config');
+var transferFlags = require('chai/lib/chai/utils/transferFlags.js');
+var flag = require('chai/lib/chai/utils/flag.js');
+var config = require('chai/lib/chai/config.js');
 
 /*!
  * Module variables
@@ -3595,14 +3583,15 @@ module.exports = function (ctx, name, method, chainingBehavior) {
 };
 
 });
-require.register("chai/lib/chai/utils/addMethod.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/addMethod.js", function (exports, module) {
 /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var config = require('../config');
+var config = require('chai/lib/chai/config.js');
 
 /**
  * ### .addMethod (ctx, name, method)
@@ -3628,7 +3617,7 @@ var config = require('../config');
  * @name addMethod
  * @api public
  */
-var flag = require('./flag');
+var flag = require('chai/lib/chai/utils/flag.js');
 
 module.exports = function (ctx, name, method) {
   ctx[name] = function () {
@@ -3641,7 +3630,8 @@ module.exports = function (ctx, name, method) {
 };
 
 });
-require.register("chai/lib/chai/utils/addProperty.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/addProperty.js", function (exports, module) {
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3684,7 +3674,8 @@ module.exports = function (ctx, name, getter) {
 };
 
 });
-require.register("chai/lib/chai/utils/flag.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/flag.js", function (exports, module) {
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3719,7 +3710,8 @@ module.exports = function (obj, key, value) {
 };
 
 });
-require.register("chai/lib/chai/utils/getActual.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getActual.js", function (exports, module) {
 /*!
  * Chai - getActual utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3740,7 +3732,8 @@ module.exports = function (obj, args) {
 };
 
 });
-require.register("chai/lib/chai/utils/getEnumerableProperties.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getEnumerableProperties.js", function (exports, module) {
 /*!
  * Chai - getEnumerableProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3768,7 +3761,8 @@ module.exports = function getEnumerableProperties(object) {
 };
 
 });
-require.register("chai/lib/chai/utils/getMessage.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getMessage.js", function (exports, module) {
 /*!
  * Chai - message composition utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3779,10 +3773,10 @@ require.register("chai/lib/chai/utils/getMessage.js", function(exports, require,
  * Module dependancies
  */
 
-var flag = require('./flag')
-  , getActual = require('./getActual')
-  , inspect = require('./inspect')
-  , objDisplay = require('./objDisplay');
+var flag = require('chai/lib/chai/utils/flag.js')
+  , getActual = require('chai/lib/chai/utils/getActual.js')
+  , inspect = require('chai/lib/chai/utils/inspect.js')
+  , objDisplay = require('chai/lib/chai/utils/objDisplay.js');
 
 /**
  * ### .getMessage(object, message, negateMessage)
@@ -3821,7 +3815,8 @@ module.exports = function (obj, args) {
 };
 
 });
-require.register("chai/lib/chai/utils/getName.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getName.js", function (exports, module) {
 /*!
  * Chai - getName utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3844,7 +3839,8 @@ module.exports = function (func) {
 };
 
 });
-require.register("chai/lib/chai/utils/getPathValue.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getPathValue.js", function (exports, module) {
 /*!
  * Chai - getPathValue utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3949,7 +3945,8 @@ function _getPathValue (parsed, obj) {
 };
 
 });
-require.register("chai/lib/chai/utils/getProperties.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/getProperties.js", function (exports, module) {
 /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3987,7 +3984,8 @@ module.exports = function getProperties(object) {
 };
 
 });
-require.register("chai/lib/chai/utils/index.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/index.js", function (exports, module) {
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -4004,113 +4002,114 @@ var exports = module.exports = {};
  * test utility
  */
 
-exports.test = require('./test');
+exports.test = require('chai/lib/chai/utils/test.js');
 
 /*!
  * type utility
  */
 
-exports.type = require('./type');
+exports.type = require('chai/lib/chai/utils/type.js');
 
 /*!
  * message utility
  */
 
-exports.getMessage = require('./getMessage');
+exports.getMessage = require('chai/lib/chai/utils/getMessage.js');
 
 /*!
  * actual utility
  */
 
-exports.getActual = require('./getActual');
+exports.getActual = require('chai/lib/chai/utils/getActual.js');
 
 /*!
  * Inspect util
  */
 
-exports.inspect = require('./inspect');
+exports.inspect = require('chai/lib/chai/utils/inspect.js');
 
 /*!
  * Object Display util
  */
 
-exports.objDisplay = require('./objDisplay');
+exports.objDisplay = require('chai/lib/chai/utils/objDisplay.js');
 
 /*!
  * Flag utility
  */
 
-exports.flag = require('./flag');
+exports.flag = require('chai/lib/chai/utils/flag.js');
 
 /*!
  * Flag transferring utility
  */
 
-exports.transferFlags = require('./transferFlags');
+exports.transferFlags = require('chai/lib/chai/utils/transferFlags.js');
 
 /*!
  * Deep equal utility
  */
 
-exports.eql = require('deep-eql');
+exports.eql = require('chaijs~deep-eql@0.1.3');
 
 /*!
  * Deep path value
  */
 
-exports.getPathValue = require('./getPathValue');
+exports.getPathValue = require('chai/lib/chai/utils/getPathValue.js');
 
 /*!
  * Function name
  */
 
-exports.getName = require('./getName');
+exports.getName = require('chai/lib/chai/utils/getName.js');
 
 /*!
  * add Property
  */
 
-exports.addProperty = require('./addProperty');
+exports.addProperty = require('chai/lib/chai/utils/addProperty.js');
 
 /*!
  * add Method
  */
 
-exports.addMethod = require('./addMethod');
+exports.addMethod = require('chai/lib/chai/utils/addMethod.js');
 
 /*!
  * overwrite Property
  */
 
-exports.overwriteProperty = require('./overwriteProperty');
+exports.overwriteProperty = require('chai/lib/chai/utils/overwriteProperty.js');
 
 /*!
  * overwrite Method
  */
 
-exports.overwriteMethod = require('./overwriteMethod');
+exports.overwriteMethod = require('chai/lib/chai/utils/overwriteMethod.js');
 
 /*!
  * Add a chainable method
  */
 
-exports.addChainableMethod = require('./addChainableMethod');
+exports.addChainableMethod = require('chai/lib/chai/utils/addChainableMethod.js');
 
 /*!
  * Overwrite chainable method
  */
 
-exports.overwriteChainableMethod = require('./overwriteChainableMethod');
+exports.overwriteChainableMethod = require('chai/lib/chai/utils/overwriteChainableMethod.js');
 
 
 });
-require.register("chai/lib/chai/utils/inspect.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/inspect.js", function (exports, module) {
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
-var getName = require('./getName');
-var getProperties = require('./getProperties');
-var getEnumerableProperties = require('./getEnumerableProperties');
+var getName = require('chai/lib/chai/utils/getName.js');
+var getProperties = require('chai/lib/chai/utils/getProperties.js');
+var getEnumerableProperties = require('chai/lib/chai/utils/getEnumerableProperties.js');
 
 module.exports = inspect;
 
@@ -4298,6 +4297,9 @@ function formatPrimitive(ctx, value) {
       return ctx.stylize(simple, 'string');
 
     case 'number':
+      if (value === 0 && (1/value) === -Infinity) {
+        return ctx.stylize('-0', 'number');
+      }
       return ctx.stylize('' + value, 'number');
 
     case 'boolean':
@@ -4437,7 +4439,8 @@ function objectToString(o) {
 }
 
 });
-require.register("chai/lib/chai/utils/objDisplay.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/objDisplay.js", function (exports, module) {
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4448,8 +4451,8 @@ require.register("chai/lib/chai/utils/objDisplay.js", function(exports, require,
  * Module dependancies
  */
 
-var inspect = require('./inspect');
-var config = require('../config');
+var inspect = require('chai/lib/chai/utils/inspect.js');
+var config = require('chai/lib/chai/config.js');
 
 /**
  * ### .objDisplay (object)
@@ -4489,7 +4492,8 @@ module.exports = function (obj) {
 };
 
 });
-require.register("chai/lib/chai/utils/overwriteMethod.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/overwriteMethod.js", function (exports, module) {
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4543,7 +4547,8 @@ module.exports = function (ctx, name, method) {
 };
 
 });
-require.register("chai/lib/chai/utils/overwriteProperty.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/overwriteProperty.js", function (exports, module) {
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4600,7 +4605,8 @@ module.exports = function (ctx, name, getter) {
 };
 
 });
-require.register("chai/lib/chai/utils/overwriteChainableMethod.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/overwriteChainableMethod.js", function (exports, module) {
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4656,7 +4662,8 @@ module.exports = function (ctx, name, method, chainingBehavior) {
 };
 
 });
-require.register("chai/lib/chai/utils/test.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/test.js", function (exports, module) {
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4667,7 +4674,7 @@ require.register("chai/lib/chai/utils/test.js", function(exports, require, modul
  * Module dependancies
  */
 
-var flag = require('./flag');
+var flag = require('chai/lib/chai/utils/flag.js');
 
 /**
  * # test(object, expression)
@@ -4685,7 +4692,8 @@ module.exports = function (obj, args) {
 };
 
 });
-require.register("chai/lib/chai/utils/transferFlags.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/transferFlags.js", function (exports, module) {
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4732,7 +4740,8 @@ module.exports = function (assertion, object, includeAll) {
 };
 
 });
-require.register("chai/lib/chai/utils/type.js", function(exports, require, module){
+
+require.register("chai/lib/chai/utils/type.js", function (exports, module) {
 /*!
  * Chai - type utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4781,24 +4790,11 @@ module.exports = function (obj) {
 
 });
 
-
-
-
-require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
-require.alias("chaijs-assertion-error/index.js", "chai/deps/assertion-error/index.js");
-require.alias("chaijs-assertion-error/index.js", "assertion-error/index.js");
-require.alias("chaijs-assertion-error/index.js", "chaijs-assertion-error/index.js");
-require.alias("chaijs-deep-eql/lib/eql.js", "chai/deps/deep-eql/lib/eql.js");
-require.alias("chaijs-deep-eql/lib/eql.js", "chai/deps/deep-eql/index.js");
-require.alias("chaijs-deep-eql/lib/eql.js", "deep-eql/index.js");
-require.alias("chaijs-type-detect/lib/type.js", "chaijs-deep-eql/deps/type-detect/lib/type.js");
-require.alias("chaijs-type-detect/lib/type.js", "chaijs-deep-eql/deps/type-detect/index.js");
-require.alias("chaijs-type-detect/lib/type.js", "chaijs-type-detect/index.js");
-require.alias("chaijs-deep-eql/lib/eql.js", "chaijs-deep-eql/index.js");
-require.alias("chai/index.js", "chai/index.js");if (typeof exports == "object") {
+if (typeof exports == "object") {
   module.exports = require("chai");
 } else if (typeof define == "function" && define.amd) {
-  define([], function(){ return require("chai"); });
+  define("chai", [], function(){ return require("chai"); });
 } else {
-  this["chai"] = require("chai");
-}})();
+  (this || window)["chai"] = require("chai");
+}
+})()

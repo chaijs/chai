@@ -24,20 +24,22 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 
 ### Contributors
 
-     repo age : 2 years, 10 months
-     active   : 181 days
-     commits  : 776
+     repo age : 2 years, 11 months
+     active   : 189 days
+     commits  : 792
      files    : 57
      authors  :
-       550  Jake Luer               70.9%
-        79  Veselin Todorov         10.2%
-        43  Domenic Denicola        5.5%
+       551  Jake Luer               69.6%
+        79  Veselin Todorov         10.0%
+        43  Domenic Denicola        5.4%
+         7  Joshua Perry            0.9%
          6  Ruben Verborgh          0.8%
          5  George Kats             0.6%
          5  Jo Liss                 0.6%
          5  Juliusz Gonera          0.6%
          5  Scott Nonnenberg        0.6%
          5  leider                  0.6%
+         4  David da Silva          0.5%
          4  John Firebaugh          0.5%
          4  Max Edmands             0.5%
          4  Nick Heiner             0.5%
@@ -48,6 +50,7 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
          3  Duncan Beevers          0.4%
          3  Jake Rosoman            0.4%
          3  Jeff Barczewski         0.4%
+         3  Keith Cirkel            0.4%
          3  Ryunosuke SATO          0.4%
          2  Bartvds                 0.3%
          2  Edwin Shao              0.3%
@@ -64,6 +67,7 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
          1  DD                      0.1%
          1  Dido Arellano           0.1%
          1  Jeff Welch              0.1%
+         1  Julien Wajsberg         0.1%
          1  Kilian Ciuffolo         0.1%
          1  Luís Cardoso            0.1%
          1  Martin Middel           0.1%
