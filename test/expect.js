@@ -397,6 +397,14 @@ describe('expect', function () {
     expect({ foo: { bar: 'baz' } })
       .to.not.have.property('foo.bar');
 
+    // Properties with the value 'undefined' are still properties
+    var obj = { foo: undefined };
+    Object.defineProperty(obj, 'bar', {
+      get: function() { }
+    });
+    expect(obj).to.have.property('foo');
+    expect(obj).to.have.property('bar');
+
     err(function(){
       expect('asd').to.have.property('foo');
     }, "expected 'asd' to have a property 'foo'");
