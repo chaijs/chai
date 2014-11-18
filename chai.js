@@ -557,12 +557,14 @@ function enumerable(a) {
  */
 
 function iterableEqual(a, b) {
-  if (a.length !==  b.length) return false;
-
+  var lengthA = a.length;
+  var lengthB = b.length;
   var i = 0;
   var match = true;
 
-  for (; i < a.length; i++) {
+  if (lengthA !==  lengthB) return false;
+
+  for (; i < lengthA; i++) {
     if (a[i] !== b[i]) {
       match = false;
       break;
