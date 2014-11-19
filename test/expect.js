@@ -420,6 +420,9 @@ describe('expect', function () {
     expect({ foo: { bar: 'baz' } })
       .to.have.deep.property('foo.bar');
 
+    expect({ 'foo': [1, 2, 3] })
+      .to.have.deep.property('foo[1]');
+
     err(function(){
       expect({ 'foo.bar': 'baz' })
         .to.have.deep.property('foo.bar');
@@ -429,6 +432,38 @@ describe('expect', function () {
   it('property(name, val)', function(){
     expect('test').to.have.property('length', 4);
     expect('asd').to.have.property('constructor', String);
+
+    var deepObj = {
+        green: { tea: 'matcha' }
+      , teas: [ 'chai', 'matcha', { tea: 'konacha' } ]
+    };
+    expect(deepObj).to.have.deep.property('green.tea', 'matcha');
+    expect(deepObj).to.have.deep.property('teas[1]', 'matcha');
+    expect(deepObj).to.have.deep.property('teas[2].tea', 'konacha');
+    err(function(){
+      expect(deepObj).to.have.deep.property('teas[3]');
+    }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
+    err(function(){
+      expect(deepObj).to.have.deep.property('teas[3]', 'bar');
+    }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
+    
+    var arr = [
+        [ 'chai', 'matcha', 'konacha' ]
+      , [ { tea: 'chai' }
+        , { tea: 'matcha' }
+        , { tea: 'konacha' } ]
+    ];
+    expect(arr).to.have.deep.property('[0][1]', 'matcha');
+    expect(arr).to.have.deep.property('[1][2].tea', 'konacha');
+    err(function(){
+      expect(deepObj).to.have.deep.property('[2][1]');
+    }, "expected { Object (green, teas) } to have a deep property '[2][1]'");
+    err(function(){
+      expect(deepObj).to.have.deep.property('[2][1]', 'none');
+    }, "expected { Object (green, teas) } to have a deep property '[2][1]'");
+    err(function(){
+      expect(deepObj).to.have.deep.property('[0][3]', 'none');
+    }, "expected { Object (green, teas) } to have a deep property '[0][3]'");
 
     err(function(){
       expect('asd').to.have.property('length', 4, 'blah');
