@@ -446,6 +446,9 @@ describe('expect', function () {
     err(function(){
       expect(deepObj).to.have.deep.property('teas[3]', 'bar');
     }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
+    err(function(){
+      expect(deepObj).to.have.deep.property('teas[3].tea', 'bar');
+    }, "expected { Object (green, teas) } to have a deep property 'teas[3].tea'");
     
     var arr = [
         [ 'chai', 'matcha', 'konacha' ]
