@@ -456,14 +456,14 @@ describe('expect', function () {
     expect(arr).to.have.deep.property('[0][1]', 'matcha');
     expect(arr).to.have.deep.property('[1][2].tea', 'konacha');
     err(function(){
-      expect(deepObj).to.have.deep.property('[2][1]');
-    }, "expected { Object (green, teas) } to have a deep property '[2][1]'");
+      expect(arr).to.have.deep.property('[2][1]');
+    }, "expected [ Array(2) ] to have a deep property '[2][1]'");
     err(function(){
-      expect(deepObj).to.have.deep.property('[2][1]', 'none');
-    }, "expected { Object (green, teas) } to have a deep property '[2][1]'");
+      expect(arr).to.have.deep.property('[2][1]', 'none');
+    }, "expected [ Array(2) ] to have a deep property '[2][1]'");
     err(function(){
-      expect(deepObj).to.have.deep.property('[0][3]', 'none');
-    }, "expected { Object (green, teas) } to have a deep property '[0][3]'");
+      expect(arr).to.have.deep.property('[0][3]', 'none');
+    }, "expected [ Array(2) ] to have a deep property '[0][3]'");
 
     err(function(){
       expect('asd').to.have.property('length', 4, 'blah');
