@@ -30,6 +30,8 @@
       , "lib/chai/utils/getMessage.js"
       , "lib/chai/utils/getName.js"
       , "lib/chai/utils/getPathValue.js"
+      , "lib/chai/utils/getPathInfo.js"
+      , "lib/chai/utils/hasProperty.js"
       , "lib/chai/utils/getProperties.js"
       , "lib/chai/utils/index.js"
       , "lib/chai/utils/inspect.js"

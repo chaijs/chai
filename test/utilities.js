@@ -82,6 +82,62 @@ describe('utilities', function () {
     });
   });
 
+  describe('getPathInfo', function() {
+    var gpi;
+    beforeEach(function() {
+      chai.use(function (_chai, utils) {
+        var gpi = utils.getPathInfo;
+      });
+    });
+
+    describe('with array index path', function() {
+      it('isArrayIndex should be true', function() {
+        
+      }); 
+    });
+  });
+
+  describe('hasProperty', function() {
+    var hp;
+    beforeEach(function() {
+      chai.use(function (_chai, utils) {
+        hp = utils.hasProperty;
+      });
+    });
+
+    it('should handle array index', function() {
+      var arr = [1, 2, 'cheeseburger'];
+
+      hp(1, arr).should.be.true;
+      hp(3, arr).should.be.false;
+    });
+    
+    it('should handle native types', function() {
+      var s = 'string literal';
+      hp('length', 'string literal').should.be.true;
+      hp(3, 'string literal').should.be.true;
+      hp(14, 'string literal').should.be.false;
+    });
+
+    it('should handle undefined', function() {
+      var o = {
+        foo: 'bar'
+      };
+
+      hp('foo', o).should.be.true;
+      hp('baz', o).should.be.false;
+      hp(0, o).should.be.false;
+    });
+
+    it('should handle undefined', function() {
+      hp('foo', undefined).should.be.false;
+    });
+
+    it('should handle null', function() {
+      hp('foo', null).should.be.false;
+    });
+  });
+
   it('addMethod', function () {
     chai.use(function(_chai, utils) {
       expect(_chai.Assertion).to.not.respondTo('eqqqual');
