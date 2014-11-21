@@ -83,17 +83,74 @@ describe('utilities', function () {
   });
 
   describe('getPathInfo', function() {
-    var gpi;
+    var gpi,
+        obj = {
+          id: '10702S300W',
+          primes: [2, 3, 5, 7, 11],
+          dimensions: {
+            units: 'mm',
+            lengths: [[1.2, 3.5], [2.2, 1.5], [5, 7]]
+          }
+        };
+
     beforeEach(function() {
       chai.use(function (_chai, utils) {
-        var gpi = utils.getPathInfo;
+        gpi = utils.getPathInfo;
       });
     });
 
-    describe('with array index path', function() {
-      it('isArrayIndex should be true', function() {
-        
-      }); 
+    it('should handle simple property', function() {
+      var info = gpi('dimensions.units', obj);
+
+      info.parent.should.equal(obj.dimensions);
+      info.value.should.equal(obj.dimensions.units);
+      info.name.should.equal('units');
+      info.exists.should.be.true;
+    }); 
+
+    it('should handle non-existent property', function() {
+      var info = gpi('dimensions.size', obj);
+
+      info.parent.should.equal(obj.dimensions);
+      expect(info.value).to.be.undefined;
+      info.name.should.equal('size');
+      info.exists.should.be.false;
+    }); 
+
+    it('should handle array index', function() {
+      var info = gpi('primes[2]', obj);
+
+      info.parent.should.equal(obj.primes);
+      info.value.should.equal(obj.primes[2]);
+      info.name.should.equal(2);
+      info.exists.should.be.true;
+    }); 
+
+    it('should handle dimensional array', function() {
+      var info = gpi('dimensions.lengths[2][1]', obj);
+
+      info.parent.should.equal(obj.dimensions.lengths[2]);
+      info.value.should.equal(obj.dimensions.lengths[2][1]);
+      info.name.should.equal(1);
+      info.exists.should.be.true;
+    }); 
+
+    it('should handle out of bounds array index', function() {
+      var info = gpi('dimensions.lengths[3]', obj);
+
+      info.parent.should.equal(obj.dimensions.lengths);
+      expect(info.value).to.be.undefined;
+      info.name.should.equal(3);
+      info.exists.should.be.false;
+    });
+
+    it('should handle out of bounds dimensional array index', function() {
+      var info = gpi('dimensions.lengths[2][5]', obj);
+
+      info.parent.should.equal(obj.dimensions.lengths[2]);
+      expect(info.value).to.be.undefined;
+      info.name.should.equal(5);
+      info.exists.should.be.false;
     });
   });
 
@@ -112,11 +169,13 @@ describe('utilities', function () {
       hp(3, arr).should.be.false;
     });
     
-    it('should handle native types', function() {
+    it('should handle literal types', function() {
       var s = 'string literal';
-      hp('length', 'string literal').should.be.true;
-      hp(3, 'string literal').should.be.true;
-      hp(14, 'string literal').should.be.false;
+      hp('length', s).should.be.true;
+      hp(3, s).should.be.true;
+      hp(14, s).should.be.false;
+      
+      hp('foo', 1).should.be.false;
     });
 
     it('should handle undefined', function() {
