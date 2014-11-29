@@ -651,4 +651,28 @@ describe('assert', function () {
     }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
   });
 
+  it('above', function() {
+    assert.isAbove(5, 2, '5 should be above 2');
+
+    err(function() {
+      assert.isAbove(1, 3);
+    }, 'expected 1 to be above 3');
+
+    err(function() {
+      assert.isAbove(1, 1);
+    }, 'expected 1 to be above 1');
+  });
+
+  it('below', function() {
+    assert.isBelow(2, 5, '2 should be below 5');
+
+    err(function() {
+      assert.isBelow(3, 1);
+    }, 'expected 3 to be below 1');
+
+    err(function() {
+      assert.isBelow(1, 1);
+    }, 'expected 1 to be below 1');
+  });
+
 });
