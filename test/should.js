@@ -451,6 +451,19 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.not.contain.keys('foo', 'baz');
     ({ foo: 1, bar: 2 }).should.not.contain.keys('baz', 'foo');
 
+    ({ foo: 1, bar: 2 }).should.have.any.keys('foo', 'baz');
+    ({ foo: 1, bar: 2 }).should.have.any.keys('foo');
+    ({ foo: 1, bar: 2 }).should.contain.any.keys('bar', 'baz');
+    ({ foo: 1, bar: 2 }).should.contain.any.keys(['foo']);
+    ({ foo: 1, bar: 2 }).should.have.all.keys(['bar', 'foo']);
+    ({ foo: 1, bar: 2 }).should.contain.all.keys(['bar', 'foo']);
+
+    ({ foo: 1, bar: 2 }).should.not.have.any.keys('baz', 'abc', 'def');
+    ({ foo: 1, bar: 2 }).should.not.have.any.keys('baz');
+    ({ foo: 1, bar: 2 }).should.not.contain.any.keys('baz');
+    ({ foo: 1, bar: 2 }).should.not.have.all.keys(['baz', 'foo']);
+    ({ foo: 1, bar: 2 }).should.not.contain.all.keys(['baz', 'foo']);
+
     err(function(){
       ({ foo: 1 }).should.have.keys();
     }, "keys required");
@@ -498,6 +511,18 @@ describe('should', function() {
     err(function(){
       ({ foo: 1 }).should.contain.keys('foo', 'bar');
     }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+
+    err(function() {
+      ({ foo: 1 }).should.have.any.keys('baz');
+    }, "expected { foo: 1 } to have key 'baz'");
+
+    err(function(){
+      ({ foo: 1, bar: 2 }).should.not.have.all.keys(['foo', 'bar']);
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      ({ foo: 1, bar: 2 }).should.not.have.any.keys(['foo', 'baz']);
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
   });
 
   it('throw', function () {
