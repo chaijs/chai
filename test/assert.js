@@ -689,4 +689,28 @@ describe('assert', function () {
     }, 'expected [ { b: 3 } ] to have the same members as [ { b: 5 } ]');
   });
 
+  it('change', function() {
+    var obj = { value: 10 },
+        fn = function() { obj.value += 5 },
+        smFn = function() { 'foo' + 'bar' };
+
+    assert.changes(fn, obj, 'value');
+    assert.doesNotChange(smFn, obj, 'value');
+  });
+
+  it('increase, decrease', function() {
+    var obj = { value: 10 },
+        incFn = function() { obj.value += 2 },
+        decFn = function() { obj.value -= 3 },
+        smFn  = function() { obj.value += 0 };
+
+    assert.decreases(decFn, obj, 'value');
+    assert.decreasesBy(decFn, obj, 'value', 3);
+    assert.doesNotDecrease(smFn, obj, 'value');
+
+    assert.increases(incFn, obj, 'value');
+    assert.increasesBy(incFn, obj, 'value', 2);
+    assert.doesNotIncrease(smFn, obj, 'value');
+  });
+
 });
