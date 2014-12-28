@@ -778,4 +778,33 @@ describe('should', function() {
       [1, 2, 3].should.have.same.members(4);
     }, 'expected 4 to be an array');
   });
+
+  it('change', function() {
+    var obj = { value: 10 },
+        fn     = function() { obj.value += 5 },
+        sameFn = function() { 'foo' + 'bar' },
+        decFn  = function() { obj.value -= 3 };
+
+    fn.should.change(obj, 'value');
+    fn.should.change(obj, 'value').by(5);
+    decFn.should.change(obj, 'value').by(-3);
+    sameFn.should.not.change(obj, 'value');
+  });
+
+  it('increase, decrease', function() {
+    var obj = { value: 10 },
+        incFn = function() { obj.value += 2 },
+        decFn = function() { obj.value -= 3 },
+        smFn  = function() { obj.value += 0 };
+
+    smFn.should.not.increase(obj, 'value');
+    decFn.should.not.increase(obj, 'value');
+    incFn.should.increase(obj, 'value');
+    incFn.should.increase(obj, 'value').by(2);
+
+    smFn.should.not.decrease(obj, 'value');
+    incFn.should.not.decrease(obj, 'value');
+    decFn.should.decrease(obj, 'value');
+    decFn.should.decrease(obj, 'value').by(3);
+  });
 });
