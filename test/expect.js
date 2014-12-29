@@ -901,13 +901,16 @@ describe('expect', function () {
   });
 
   it('change', function() {
-    var obj = { value: 10 },
-        fn = function() { obj.value += 5 },
-        sameFn = function() { 'foo' + 'bar' };
+    var obj = { value: 10, str: 'foo' },
+        fn     = function() { obj.value += 5 },
+        sameFn = function() { 'foo' + 'bar' },
+        bangFn = function() { obj.str += '!' };
 
     expect(fn).to.change(obj, 'value');
     expect(fn).to.change(obj, 'value').by(5);
     expect(sameFn).to.not.change(obj, 'value');
+    expect(sameFn).to.not.change(obj, 'str');
+    expect(bangFn).to.change(obj, 'str');
   });
 
   it('increase, decrease', function() {

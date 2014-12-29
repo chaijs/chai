@@ -780,15 +780,18 @@ describe('should', function() {
   });
 
   it('change', function() {
-    var obj = { value: 10 },
+    var obj = { value: 10, str: 'foo' },
         fn     = function() { obj.value += 5 },
-        sameFn = function() { 'foo' + 'bar' },
-        decFn  = function() { obj.value -= 3 };
+        sameFn = function() { obj.value += 0 },
+        decFn  = function() { obj.value -= 3 },
+        bangFn = function() { obj.str += '!' }; 
 
     fn.should.change(obj, 'value');
     fn.should.change(obj, 'value').by(5);
     decFn.should.change(obj, 'value').by(-3);
     sameFn.should.not.change(obj, 'value');
+    sameFn.should.not.change(obj, 'str');
+    bangFn.should.change(obj, 'str');
   });
 
   it('increase, decrease', function() {

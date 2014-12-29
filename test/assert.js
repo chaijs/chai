@@ -690,12 +690,14 @@ describe('assert', function () {
   });
 
   it('change', function() {
-    var obj = { value: 10 },
-        fn = function() { obj.value += 5 },
-        smFn = function() { 'foo' + 'bar' };
+    var obj = { value: 10, str: 'foo' },
+        fn     = function() { obj.value += 5 },
+        bangFn = function() { obj.str += '!' },
+        smFn   = function() { 'foo' + 'bar' };
 
     assert.changes(fn, obj, 'value');
     assert.doesNotChange(smFn, obj, 'value');
+    assert.changes(bangFn, obj, 'str');
   });
 
   it('increase, decrease', function() {
