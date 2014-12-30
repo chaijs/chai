@@ -707,11 +707,9 @@ describe('assert', function () {
         smFn  = function() { obj.value += 0 };
 
     assert.decreases(decFn, obj, 'value');
-    assert.decreasesBy(decFn, obj, 'value', 3);
     assert.doesNotDecrease(smFn, obj, 'value');
 
     assert.increases(incFn, obj, 'value');
-    assert.increasesBy(incFn, obj, 'value', 2);
     assert.doesNotIncrease(smFn, obj, 'value');
   });
 

@@ -907,7 +907,6 @@ describe('expect', function () {
         bangFn = function() { obj.str += '!' };
 
     expect(fn).to.change(obj, 'value');
-    expect(fn).to.change(obj, 'value').by(5);
     expect(sameFn).to.not.change(obj, 'value');
     expect(sameFn).to.not.change(obj, 'str');
     expect(bangFn).to.change(obj, 'str');
@@ -922,12 +921,10 @@ describe('expect', function () {
     expect(smFn).to.not.increase(obj, 'value');
     expect(decFn).to.not.increase(obj, 'value');
     expect(incFn).to.increase(obj, 'value');
-    expect(incFn).to.increase(obj, 'value').by(2);
 
     expect(smFn).to.not.decrease(obj, 'value');
     expect(incFn).to.not.decrease(obj, 'value');
     expect(decFn).to.decrease(obj, 'value');
-    expect(decFn).to.decrease(obj, 'value').by(3);
   });
 
 

@@ -787,8 +787,6 @@ describe('should', function() {
         bangFn = function() { obj.str += '!' }; 
 
     fn.should.change(obj, 'value');
-    fn.should.change(obj, 'value').by(5);
-    decFn.should.change(obj, 'value').by(-3);
     sameFn.should.not.change(obj, 'value');
     sameFn.should.not.change(obj, 'str');
     bangFn.should.change(obj, 'str');
@@ -803,11 +801,9 @@ describe('should', function() {
     smFn.should.not.increase(obj, 'value');
     decFn.should.not.increase(obj, 'value');
     incFn.should.increase(obj, 'value');
-    incFn.should.increase(obj, 'value').by(2);
 
     smFn.should.not.decrease(obj, 'value');
     incFn.should.not.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value');
-    decFn.should.decrease(obj, 'value').by(3);
   });
 });
