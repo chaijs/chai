@@ -900,4 +900,32 @@ describe('expect', function () {
     }, "expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]");
   });
 
+  it('change', function() {
+    var obj = { value: 10, str: 'foo' },
+        fn     = function() { obj.value += 5 },
+        sameFn = function() { 'foo' + 'bar' },
+        bangFn = function() { obj.str += '!' };
+
+    expect(fn).to.change(obj, 'value');
+    expect(sameFn).to.not.change(obj, 'value');
+    expect(sameFn).to.not.change(obj, 'str');
+    expect(bangFn).to.change(obj, 'str');
+  });
+
+  it('increase, decrease', function() {
+    var obj = { value: 10 },
+        incFn = function() { obj.value += 2 },
+        decFn = function() { obj.value -= 3 },
+        smFn  = function() { obj.value += 0 };
+
+    expect(smFn).to.not.increase(obj, 'value');
+    expect(decFn).to.not.increase(obj, 'value');
+    expect(incFn).to.increase(obj, 'value');
+
+    expect(smFn).to.not.decrease(obj, 'value');
+    expect(incFn).to.not.decrease(obj, 'value');
+    expect(decFn).to.decrease(obj, 'value');
+  });
+
+
 });

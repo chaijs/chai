@@ -778,4 +778,32 @@ describe('should', function() {
       [1, 2, 3].should.have.same.members(4);
     }, 'expected 4 to be an array');
   });
+
+  it('change', function() {
+    var obj = { value: 10, str: 'foo' },
+        fn     = function() { obj.value += 5 },
+        sameFn = function() { obj.value += 0 },
+        decFn  = function() { obj.value -= 3 },
+        bangFn = function() { obj.str += '!' }; 
+
+    fn.should.change(obj, 'value');
+    sameFn.should.not.change(obj, 'value');
+    sameFn.should.not.change(obj, 'str');
+    bangFn.should.change(obj, 'str');
+  });
+
+  it('increase, decrease', function() {
+    var obj = { value: 10 },
+        incFn = function() { obj.value += 2 },
+        decFn = function() { obj.value -= 3 },
+        smFn  = function() { obj.value += 0 };
+
+    smFn.should.not.increase(obj, 'value');
+    decFn.should.not.increase(obj, 'value');
+    incFn.should.increase(obj, 'value');
+
+    smFn.should.not.decrease(obj, 'value');
+    incFn.should.not.decrease(obj, 'value');
+    decFn.should.decrease(obj, 'value');
+  });
 });
