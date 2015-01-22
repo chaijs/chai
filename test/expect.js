@@ -672,6 +672,8 @@ describe('expect', function () {
     var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
     expect(tea).to.have.property('extras').with.lengthOf(3);
 
+    expect(tea).to.have.property('extras').which.contains('smile');
+
     err(function(){
       expect(tea).to.have.property('extras').with.lengthOf(4);
     }, "expected [ 'milk', 'sugar', 'smile' ] to have a length of 4 but got 3");
