@@ -38,5 +38,8 @@
     , "karma-phantomjs-launcher": "0.1.1"
     , "mocha": "1.21.x"
     , "istanbul": "0.2.x"
+  },
+  "jspm": {
+    "main": "chai.js"
   }
 }
