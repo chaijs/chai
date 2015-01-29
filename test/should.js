@@ -8,9 +8,9 @@ describe('should', function() {
   });
 
   it('fail', function () {
-    chai.expect(function () {
+    err(function() {
       should.fail(0, 1, 'this has failed');
-    }).to.throw(chai.AssertionError, /this has failed/);
+    }, 'this has failed');
   });
 
   it('root exist', function () {
