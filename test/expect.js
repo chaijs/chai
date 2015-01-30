@@ -10,6 +10,12 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
+  it('fail', function () {
+    err(function() {
+      expect().fail('this has failed');
+    }, /this has failed/);
+  });
+
   it('true', function(){
     expect(true).to.be.true;
     expect(false).to.not.be.true;
