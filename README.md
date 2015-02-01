@@ -14,7 +14,7 @@ For more information or to download plugins, view the [documentation](http://cha
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
 
 - Need a plugin? View the [official plugin list](http://chaijs.com/plugins).
-- Have a plugin and want it listed? Open a Pull Request at [chaijs/chai-docs:plugin.js](https://github.com/chaijs/chai-docs/blob/master/plugins.js#L1-L12). 
+- Have a plugin and want it listed? Open a Pull Request at [chaijs/chai-docs:plugin.js](https://github.com/chaijs/chai-docs/blob/master/plugins.js#L1-L12).
 - Want to build a plugin? Read the [plugin api documentation](http://chaijs.com/guide/plugins/).
 
 ### Related Projects
@@ -88,7 +88,7 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 
 (The MIT License)
 
-Copyright (c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
+Copyright (c) 2011-2015 Jake Luer <jake@alogicalparadox.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
