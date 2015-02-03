@@ -1,7 +1,9 @@
 language: node_js
-
 node_js:
 - 0.1
+
+script:
+- make test-travisci
 
 env:
   global:
@@ -10,5 +12,11 @@ env:
   - SAUCE_CONNECT_READY_FILE=/tmp/sauce-connect-ready
   - LOGS_DIR=/tmp/chai-build/logs
 
-script:
-- make test-travisci
+deploy:
+  provider: npm
+  email: jake@alogicalparadox.com
+  api_key:
+    secure: AgNQTECM/3Gh0q77gkrMx0jASgRh/dysPdUf7Zdsm1k9Gt+i4H99k2L8lVWqpLF1+e6lhWg9w4C08Xgz6tuOTPZZr6UzeRDl+ZjniTYK3E/tpcUbqAQxxgD4b3iA6BLbF0YKGofnWrMtXBBWI8X0jekxncu7sWdBuieyhg33fik=
+  on:
+    tags: true
+    repo: chaijs/chai

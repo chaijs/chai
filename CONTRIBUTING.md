@@ -11,6 +11,7 @@ Following these guidelines helps to communicate that you respect the time of the
   - [Bug Reports](#bugs)
   - [Feature Requests](#features)
   - [Pull Requests](#pull-requests)
+- [Releasing](#releasing)
 - [Support](#support)
   - [Resources](#resources)
   - [Core Contributors](#contributors)
@@ -135,6 +136,30 @@ git push origin <topic-branch-name>
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 **IMPORTANT**: By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
+
+<a name="releasing"></a>
+## Releasing
+
+Releases can be prepared by any core-contributor or user whom has push access to
+the `chaijs/chai` repository.
+
+This process requires [git-extras](https://github.com/tj/git-extras) for some steps.
+
+1. Ensure all tests pass.
+2. Bump the version tag in-code and for all package managers.
+  - `lib/chai.js`
+  - `package.json`
+  - `component.json`
+  - `bower.json`
+3. Build the browser version with `make`.
+4. Append commit log to `HISTORY.md` using `git changelog` command.
+5. Write human-friendly `ReleaseNotes.md` based on changelog.
+  - If breaking changes, write migration tutorial(s) and reasoning.
+  - Callouts for community contributions (PRs) with links to PR and contributing user.
+  - Callouts for other fixes made by core contributors with links to issue.
+6. Update `README.md` with an updated contributors list using `git summary` command.
+7. Push a tagged release using `git release x.x.x`.
+  - All tagged releases are published to NPM.
 
 <a name="support"></a>
 ## Support
