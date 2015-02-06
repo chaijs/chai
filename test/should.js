@@ -525,6 +525,15 @@ describe('should', function() {
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
   });
 
+  it('keys(array) will not mutate array (#359)', function () {
+      var expected = [ 'b', 'a' ];
+      var original_order = [ 'b', 'a' ];
+      var obj = { "b": 1, "a": 1 };
+      expected.should.deep.equal(original_order);
+      obj.should.keys(original_order);
+      expected.should.deep.equal(original_order);
+  });
+
   it('throw', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead

@@ -668,6 +668,15 @@ describe('expect', function () {
 
   });
 
+  it('keys(array) will not mutate array (#359)', function () {
+      var expected = [ 'b', 'a' ];
+      var original_order = [ 'b', 'a' ];
+      var obj = { "b": 1, "a": 1 };
+      expect(expected).deep.equal(original_order);
+      expect(obj).keys(original_order);
+      expect(expected).deep.equal(original_order);
+  });
+
   it('chaining', function(){
     var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
     expect(tea).to.have.property('extras').with.lengthOf(3);
