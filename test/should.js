@@ -431,10 +431,14 @@ describe('should', function() {
     }, "expected { a: 1 } to have a property 'b'")
   });
 
-  it('keys(array)', function(){
+  it('keys(array|Object|arguments)', function(){
     ({ foo: 1 }).should.have.keys(['foo']);
+    ({ foo: 1 }).should.have.keys({ 'foo': 6 });
+
     ({ foo: 1, bar: 2 }).should.have.keys(['foo', 'bar']);
     ({ foo: 1, bar: 2 }).should.have.keys('foo', 'bar');
+    ({ foo: 1, bar: 2 }).should.have.keys({ 'foo': 6, 'bar': 7 });
+
     ({ foo: 1, bar: 2, baz: 3 }).should.include.keys('foo', 'bar');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('bar', 'foo');
     ({ foo: 1, bar: 2, baz: 3 }).should.contain.keys('baz');
@@ -444,6 +448,9 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.contain.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.contain.keys(['bar']);
     ({ foo: 1, bar: 2 }).should.contain.keys(['bar', 'foo']);
+    ({ foo: 1, bar: 2 }).should.contain.keys({ 'foo': 6 });
+    ({ foo: 1, bar: 2 }).should.contain.keys({ 'bar': 7 });
+    ({ foo: 1, bar: 2 }).should.contain.keys({ 'foo': 6 });
 
     ({ foo: 1, bar: 2 }).should.not.have.keys('baz');
     ({ foo: 1, bar: 2 }).should.not.have.keys('foo', 'baz');
@@ -457,12 +464,17 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.contain.any.keys(['foo']);
     ({ foo: 1, bar: 2 }).should.have.all.keys(['bar', 'foo']);
     ({ foo: 1, bar: 2 }).should.contain.all.keys(['bar', 'foo']);
+    ({ foo: 1, bar: 2 }).should.contain.any.keys({ 'foo': 6 });
+    ({ foo: 1, bar: 2 }).should.have.all.keys({ 'foo': 6, 'bar': 7 });
+    ({ foo: 1, bar: 2 }).should.contain.all.keys({ 'bar': 7, 'foo': 6 });
 
     ({ foo: 1, bar: 2 }).should.not.have.any.keys('baz', 'abc', 'def');
     ({ foo: 1, bar: 2 }).should.not.have.any.keys('baz');
     ({ foo: 1, bar: 2 }).should.not.contain.any.keys('baz');
     ({ foo: 1, bar: 2 }).should.not.have.all.keys(['baz', 'foo']);
     ({ foo: 1, bar: 2 }).should.not.contain.all.keys(['baz', 'foo']);
+    ({ foo: 1, bar: 2 }).should.not.have.all.keys({ 'baz': 8, 'foo': 7 });
+    ({ foo: 1, bar: 2 }).should.not.contain.all.keys({ 'baz': 8, 'foo': 7 });
 
     err(function(){
       ({ foo: 1 }).should.have.keys();
@@ -479,6 +491,16 @@ describe('should', function() {
     err(function(){
       ({ foo: 1 }).should.contain.keys([]);
     }, "keys required");
+
+    var mixedArgsMsg = 'keys must be given single argument of Array|Object|String, or multiple String arguments'
+
+    err(function(){
+      ({}).should.contain.keys(['a'], "b");
+    }, mixedArgsMsg);
+
+    err(function(){
+      ({}).should.contain.keys({ 'a': 1 }, "b");
+    }, mixedArgsMsg);
 
     err(function(){
       ({ foo: 1 }).should.have.keys(['bar']);
@@ -523,6 +545,52 @@ describe('should', function() {
     err(function(){
       ({ foo: 1, bar: 2 }).should.not.have.any.keys(['foo', 'baz']);
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+
+    // repeat previous tests with Object as arg.
+    err(function(){
+      ({ foo: 1 }).should.have.keys({ 'bar': 1 });
+    }, "expected { foo: 1 } to have key 'bar'");
+
+    err(function(){
+      ({ foo: 1 }).should.have.keys({ 'bar': 1, 'baz': 1});
+    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+
+    err(function(){
+      ({ foo: 1 }).should.have.keys({ 'foo': 1, 'bar': 1, 'baz': 1});
+    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+
+    err(function(){
+      ({ foo: 1 }).should.not.have.keys({ 'foo': 1 });
+    }, "expected { foo: 1 } to not have key 'foo'");
+
+    err(function(){
+      ({ foo: 1 }).should.not.have.keys({ 'foo': 1 });
+    }, "expected { foo: 1 } to not have key 'foo'");
+
+    err(function(){
+      ({ foo: 1, bar: 2 }).should.not.have.keys({ 'foo': 1, 'bar': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      ({ foo: 1 }).should.not.contain.keys({ 'foo': 1 });
+    }, "expected { foo: 1 } to not contain key 'foo'");
+
+    err(function(){
+      ({ foo: 1 }).should.contain.keys('foo', 'bar');
+    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+
+    err(function() {
+      ({ foo: 1 }).should.have.any.keys('baz');
+    }, "expected { foo: 1 } to have key 'baz'");
+
+    err(function(){
+      ({ foo: 1, bar: 2 }).should.not.have.all.keys({ 'foo': 1, 'bar': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      ({ foo: 1, bar: 2 }).should.not.have.any.keys({ 'foo': 1, 'baz': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+
   });
 
   it('keys(array) will not mutate array (#359)', function () {
