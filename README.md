@@ -24,64 +24,76 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 
 ### Contributors
 
-     repo age : 2 years, 11 months
-     active   : 189 days
-     commits  : 792
-     files    : 57
+     project  : chai
+     repo age : 3 years, 2 months
+     active   : 220 days
+     commits  : 845
+     files    : 59
      authors  :
-       551  Jake Luer               69.6%
-        79  Veselin Todorov         10.0%
-        43  Domenic Denicola        5.4%
-         7  Joshua Perry            0.9%
-         6  Ruben Verborgh          0.8%
-         5  George Kats             0.6%
-         5  Jo Liss                 0.6%
-         5  Juliusz Gonera          0.6%
-         5  Scott Nonnenberg        0.6%
-         5  leider                  0.6%
-         4  David da Silva          0.5%
-         4  John Firebaugh          0.5%
-         4  Max Edmands             0.5%
-         4  Nick Heiner             0.5%
-         4  Veselin                 0.5%
-         4  charlierudolph          0.5%
-         4  josher19                0.5%
-         3  Andrei Neculau          0.4%
-         3  Duncan Beevers          0.4%
-         3  Jake Rosoman            0.4%
-         3  Jeff Barczewski         0.4%
-         3  Keith Cirkel            0.4%
-         3  Ryunosuke SATO          0.4%
-         2  Bartvds                 0.3%
-         2  Edwin Shao              0.3%
-         2  Jakub Nešetřil          0.3%
-         2  Roman Masek             0.3%
-         2  Teddy Cross             0.3%
-         1  Anand Patil             0.1%
-         1  Benjamin Horsleben      0.1%
-         1  Brandon Payton          0.1%
-         1  Chris Connelly          0.1%
-         1  Chris Thompson          0.1%
-         1  Christopher Hiller      0.1%
-         1  Chun-Yi                 0.1%
-         1  DD                      0.1%
-         1  Dido Arellano           0.1%
-         1  Jeff Welch              0.1%
-         1  Julien Wajsberg         0.1%
-         1  Kilian Ciuffolo         0.1%
-         1  Luís Cardoso            0.1%
-         1  Martin Middel           0.1%
-         1  Niklas Närhinen         0.1%
-         1  Paul Miller             0.1%
-         1  Refael Ackermann        0.1%
-         1  Sasha Koss              0.1%
-         1  Victor Costan           0.1%
-         1  Vinay Pulim             0.1%
-         1  Virginie BARDALES       0.1%
-         1  laconbass               0.1%
-         1  mohayonao               0.1%
-         1  piecioshka              0.1%
-         1  shinnn                  0.1%
+       553  Jake Luer           65.4%
+        79  Veselin Todorov     9.3%
+        43  Domenic Denicola    5.1%
+        23  Keith Cirkel        2.7%
+        14  Joshua Perry        1.7%
+         8  Chris Polis         0.9%
+         6  Ruben Verborgh      0.7%
+         5  Scott Nonnenberg    0.6%
+         5  George Kats         0.6%
+         5  Juliusz Gonera      0.6%
+         5  leider              0.6%
+         5  Jo Liss             0.6%
+         4  Chris Jones         0.5%
+         4  David da Silva      0.5%
+         4  Nick Heiner         0.5%
+         4  John Firebaugh      0.5%
+         4  Veselin             0.5%
+         4  Max Edmands         0.5%
+         4  charlierudolph      0.5%
+         4  josher19            0.5%
+         3  Jake Rosoman        0.4%
+         3  Jeff Barczewski     0.4%
+         3  Andrei Neculau      0.4%
+         3  Duncan Beevers      0.4%
+         3  Jason Karns         0.4%
+         3  Ryunosuke SATO      0.4%
+         2  Gregg Lind          0.2%
+         2  Teddy Cross         0.2%
+         2  Bartvds             0.2%
+         2  Jakub Nešetřil      0.2%
+         2  Edwin Shao          0.2%
+         2  Roman Masek         0.2%
+         1  toastynerd          0.1%
+         1  Anand Patil         0.1%
+         1  Benjamin Horsleben  0.1%
+         1  Brandon Payton      0.1%
+         1  Chasen Le Hara      0.1%
+         1  Chris Connelly      0.1%
+         1  Chris Thompson      0.1%
+         1  Christopher Hiller  0.1%
+         1  Chun-Yi             0.1%
+         1  DD                  0.1%
+         1  Danilo Vaz          0.1%
+         1  Dido Arellano       0.1%
+         1  Jeff Welch          0.1%
+         1  Julien Wajsberg     0.1%
+         1  Kilian Ciuffolo     0.1%
+         1  Luís Cardoso        0.1%
+         1  Martin Middel       0.1%
+         1  Mathias Schreck     0.1%
+         1  Michael Lange       0.1%
+         1  Niklas Närhinen     0.1%
+         1  Paul Miller         0.1%
+         1  Refael Ackermann    0.1%
+         1  Sasha Koss          0.1%
+         1  Victor Costan       0.1%
+         1  Vinay Pulim         0.1%
+         1  Virginie BARDALES   0.1%
+         1  ericdouglas         0.1%
+         1  laconbass           0.1%
+         1  mohayonao           0.1%
+         1  piecioshka          0.1%
+         1  shinnn              0.1%
+         1  Adam Hull           0.1%
 
 
 ## License

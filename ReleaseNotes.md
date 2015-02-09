@@ -1,15 +1,52 @@
 # Release Notes
 
-## 1.10.0 / 2014-11-10 
+## 2.0.0 / 2015-02-09
+
+Unfortunately with 1.10.0 - compatibility broke with older versions because of
+the `addChainableNoop`. This change has been reverted.
+
+Any plugins using `addChainableNoop` should cease to do so.
+
+Any developers wishing for this behaviour can use [dirty-chai](https://www.npmjs.com/package/dirty-chai)
+by [@joshperry](https://github.com/joshperry)
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#361](https://github.com/chaijs/chai/pull/361) `.keys()` now accepts Objects, extracting keys from them. By [@gregglind](https://github.com/gregglind)
+ * [#359](https://github.com/chaijs/chai/pull/359) `.keys()` no longer mutates passed arrays. By [@gregglind](https://github.com/gregglind)
+ * [#349](https://github.com/chaijs/chai/pull/349) Add a new chainable keyword - `.which`. By [@toastynerd](https://github.com/toastynerd)
+ * [#333](https://github.com/chaijs/chai/pull/333) Add `.change`, `.increase` and `.decrease` assertions. By [@cmpolis](https://github.com/cmpolis)
+ * [#335](https://github.com/chaijs/chai/pull/335) `chai.util` is now exposed [@DingoEatingFuzz](https://github.com/DingoEatingFuzz)
+ * [#328](https://github.com/chaijs/chai/pull/328) Add `.includes` and `.contains` aliases (for `.include` and `.contain`). By [@lo1tuma](https://github.com/lo1tuma)
+ * [#313](https://github.com/chaijs/chai/pull/313) Add `.any.keys()` and `.all.keys()` qualifiers. By [@cjqed](https://github.com/cjqed)
+ * [#312](https://github.com/chaijs/chai/pull/312) Add `assert.sameDeepMembers()`. By [@cjqed](https://github.com/cjqed)
+ * [#311](https://github.com/chaijs/chai/pull/311) Add `assert.isAbove()` and `assert.isBelow()`. By [@cjqed](https://github.com/cjqed)
+ * [#308](https://github.com/chaijs/chai/pull/308) `property` and `deep.property` now pass if a value is set to `undefined`. By [@prodatakey](https://github.com/prodatakey)
+ * [#309](https://github.com/chaijs/chai/pull/309) optimize deep equal in Arrays. By [@ericdouglas](https://github.com/ericdouglas)
+ * [#306](https://github.com/chaijs/chai/pull/306) revert #297 - allowing lint-friendly tests. By [@keithamus](https://github.com/keithamus)
+
+#### Documentation fixes
+
+ * [#357](https://github.com/chaijs/chai/pull/357) Copyright year updated in docs. By [@danilovaz](https://github.com/danilovaz)
+ * [#325](https://github.com/chaijs/chai/pull/325) Fix documentation for overwriteChainableMethod. By [@chasenlehara](https://github.com/chasenlehara)
+ * [#334](https://github.com/chaijs/chai/pull/334) Typo fix. By [@hurrymaplelad](https://github.com/hurrymaplelad)
+ * [#317](https://github.com/chaijs/chai/pull/317) Typo fix. By [@jasonkarns](https://github.com/jasonkarns)
+ * [#318](https://github.com/chaijs/chai/pull/318) Typo fix. By [@jasonkarns](https://github.com/jasonkarns)
+ * [#316](https://github.com/chaijs/chai/pull/316) Typo fix. By [@jasonkarns](https://github.com/jasonkarns)
+
+
+## 1.10.0 / 2014-11-10
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - Review `addChainableNoop` notes below.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Noop Function for Terminating Assertion Properties
 
@@ -25,8 +62,8 @@ The following assertions can now also be used in the function-call form:
 * arguments
 * Arguments
 
-The above list of assertions are property getters that assert immediately on 
-access. Because of that, they were written to be used by terminating the assertion 
+The above list of assertions are property getters that assert immediately on
+access. Because of that, they were written to be used by terminating the assertion
 chain with a property access.
 
 ```js
@@ -34,20 +71,20 @@ expect(true).to.be.true;
 foo.should.be.ok;
 ```
 
-This syntax is definitely aesthetically pleasing but, if you are linting your 
-test code, your linter will complain with an error something like "Expected an 
-assignment or function call and instead saw an expression." Since the linter 
-doesn't know about the property getter it assumes this line has no side-effects, 
+This syntax is definitely aesthetically pleasing but, if you are linting your
+test code, your linter will complain with an error something like "Expected an
+assignment or function call and instead saw an expression." Since the linter
+doesn't know about the property getter it assumes this line has no side-effects,
 and throws a warning in case you made a mistake.
 
-Squelching these errors is not a good solution as test code is getting to be 
-just as important as, if not more than, production code. Catching syntactical 
-errors in tests using static analysis is a great tool to help make sure that your 
+Squelching these errors is not a good solution as test code is getting to be
+just as important as, if not more than, production code. Catching syntactical
+errors in tests using static analysis is a great tool to help make sure that your
 tests are well-defined and free of typos.
 
-A better option was to provide a function-call form for these assertions so that 
-the code's intent is more clear and the linters stop complaining about something 
-looking off. This form is added in addition to the existing property access form 
+A better option was to provide a function-call form for these assertions so that
+the code's intent is more clear and the linters stop complaining about something
+looking off. This form is added in addition to the existing property access form
 and does not impact existing test code.
 
 ```js
@@ -65,11 +102,11 @@ expect(true).to.be.true.and.not.false;
 
 #### Plugin Authors
 
-If you would like to provide this function-call form for your terminating assertion 
-properties, there is a new function to register these types of asserts. Instead 
-of using `addProperty` to register terminating assertions, simply use `addChainableNoop` 
-instead; the arguments to both are identical. The latter will make the assertion 
-available in both the attribute and function-call forms and should have no impact 
+If you would like to provide this function-call form for your terminating assertion
+properties, there is a new function to register these types of asserts. Instead
+of using `addProperty` to register terminating assertions, simply use `addChainableNoop`
+instead; the arguments to both are identical. The latter will make the assertion
+available in both the attribute and function-call forms and should have no impact
 on existing users of your plugin.
 
 ### Community Contributions
@@ -80,16 +117,16 @@ on existing users of your plugin.
 
 Thank you to all who took time to contribute!
 
-## 1.9.2 / 2014-09-29 
+## 1.9.2 / 2014-09-29
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Community Contributions
 
@@ -105,27 +142,27 @@ The following changes are required if you are upgrading from the previous versio
 
 Thank you to all who took time to contribute!
 
-## 1.9.1 / 2014-03-19 
+## 1.9.1 / 2014-03-19
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - Migrate configuration options to new interface. (see notes)
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Configuration
 
 There have been requests for changes and additions to the configuration mechanisms
-and their impact in the Chai architecture. As such, we have decoupled the 
+and their impact in the Chai architecture. As such, we have decoupled the
 configuration from the `Assertion` constructor. This not only allows for centralized
-configuration, but will allow us to shift the responsibility from the `Assertion` 
+configuration, but will allow us to shift the responsibility from the `Assertion`
 constructor to the `assert` interface in future releases.
 
 These changes have been implemented in a non-breaking way, but a depretiation
-warning will be presented to users until they migrate. The old config method will 
+warning will be presented to users until they migrate. The old config method will
 be removed in either `v1.11.0` or `v2.0.0`, whichever comes first.
 
 #### Quick Migration
@@ -147,8 +184,8 @@ chai.config.showDiff = false;
 - **@param** _{Boolean}_
 - **@default** `false`
 
-User configurable property, influences whether stack trace is included in 
-Assertion error message. Default of `false` suppresses stack trace in the error 
+User configurable property, influences whether stack trace is included in
+Assertion error message. Default of `false` suppresses stack trace in the error
 message.
 
 ##### config.showDiff
@@ -156,8 +193,8 @@ message.
 - **@param** _{Boolean}_
 - **@default** `true`
 
-User configurable property, influences whether or not the `showDiff` flag 
-should be included in the thrown AssertionErrors. `false` will always be `false`; 
+User configurable property, influences whether or not the `showDiff` flag
+should be included in the thrown AssertionErrors. `false` will always be `false`;
 `true` will be true when the assertion has requested a diff be shown.
 
 ##### config.truncateThreshold **(NEW)**
@@ -165,7 +202,7 @@ should be included in the thrown AssertionErrors. `false` will always be `false`
 - **@param** _{Number}_
 - **@default** `40`
 
-User configurable property, sets length threshold for actual and expected values 
+User configurable property, sets length threshold for actual and expected values
 in assertion errors. If this threshold is exceeded, the value is truncated.
 
 Set it to zero if you want to disable truncating altogether.
@@ -189,16 +226,16 @@ Thank you to all who took time to contribute!
 - [#183](https://github.com/chaijs/chai/issues/183) Allow `undefined` for actual. (internal api)
 - Update Karam(+plugins)/Istanbul to most recent versions.
 
-## 1.9.0 / 2014-01-29 
+## 1.9.0 / 2014-01-29
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - Review [#219](https://github.com/chaijs/chai/pull/219).
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Community Contributions
 
@@ -220,42 +257,42 @@ Thank you to all who took time to contribute!
 - [#237](https://github.com/chaijs/chai/pull/237) Remove coveralls/jscoverage, include istanbul coverage report in travis test.
 - Update Karma and Sauce runner versions for consistent CI results. No more karma@canary.
 
-## 1.8.1 / 2013-10-10 
+## 1.8.1 / 2013-10-10
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
-  - Refresh `node_modules` folder for updated dependencies. 
-- **Plugin Developers:** 
+  - Refresh `node_modules` folder for updated dependencies.
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Browserify
 
 This is a small patch that updates the dependency tree so browserify users can install
 chai. (Remove conditional requires)
 
-## 1.8.0 / 2013-09-18 
+## 1.8.0 / 2013-09-18
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - See `deep.equal` notes.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Deep Equals
 
 This version of Chai focused on a overhaul to the deep equal utility. The code for this
-tool has been removed from the core lib and can now be found at: 
+tool has been removed from the core lib and can now be found at:
 [chai / deep-eql](https://github.com/chaijs/deep-eql). As stated in previous releases,
 this is part of a larger initiative to provide transparency, independent testing, and coverage for
-some of the more complicated internal tools. 
+some of the more complicated internal tools.
 
-For the most part `.deep.equal` will behave the same as it has. However, in order to provide a 
+For the most part `.deep.equal` will behave the same as it has. However, in order to provide a
 consistent ruleset across all types being tested, the following changes have been made and _might_
 require changes to your tests.
 
@@ -283,7 +320,7 @@ expect(Array.prototype.slice.call(arguments)).to.deep.equal([]);
 
 ### CI and Browser Testing
 
-Chai now runs the browser CI suite using [Karma](http://karma-runner.github.io/) directed at 
+Chai now runs the browser CI suite using [Karma](http://karma-runner.github.io/) directed at
 [SauceLabs](https://saucelabs.com/). This means we get to know where our browser support stands...
 and we get a cool badge:
 
@@ -293,67 +330,67 @@ Look for the list of browsers/versions to expand over the coming releases.
 
 - [#195](https://github.com/chaijs/chai/issues/195) karma test framework
 
-## 1.7.2 / 2013-06-27 
+## 1.7.2 / 2013-06-27
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Coverage Reporting
 
 Coverage reporting has always been available for core-developers but the data has never been published
 for our end users. In our ongoing effort to improve accountability this data will now be published via
 the [coveralls.io](https://coveralls.io/) service. A badge has been added to the README and the full report
-can be viewed online at the [chai coveralls project](https://coveralls.io/r/chaijs/chai). Furthermore, PRs 
+can be viewed online at the [chai coveralls project](https://coveralls.io/r/chaijs/chai). Furthermore, PRs
 will receive automated messages indicating how their PR impacts test coverage. This service is tied to TravisCI.
 
 ### Other Fixes
 
 - [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`. (Fix ignore all)
 
-## 1.7.1 / 2013-06-24 
+## 1.7.1 / 2013-06-24
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### Official Bower Support
 
 Support has been added for the Bower Package Manager ([bower.io])(http://bower.io/). Though
 Chai could be installed via Bower in the past, this update adds official support via the `bower.json`
-specification file. 
+specification file.
 
 - [#175](https://github.com/chaijs/chai/issues/175) Add `bower.json`.
 
-## 1.7.0 / 2013-06-17 
+## 1.7.0 / 2013-06-17
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - Review AssertionError update notice.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated dependencies.
 
 ### AssertionError Update Notice
 
 Chai now uses [chaijs/assertion-error](https://github.com/chaijs/assertion-error) instead an internal
-constructor. This will allow for further iteration/experimentation of the AssertionError constructor 
-independant of Chai. Future plans include stack parsing for callsite support. 
+constructor. This will allow for further iteration/experimentation of the AssertionError constructor
+independant of Chai. Future plans include stack parsing for callsite support.
 
 This update constructor has a different constructor param signature that conforms more with the standard
-`Error` object. If your plugin throws and `AssertionError` directly you will need to update your plugin 
+`Error` object. If your plugin throws and `AssertionError` directly you will need to update your plugin
 with the new signature.
 
 ```js
@@ -397,7 +434,7 @@ throw new AssertionError('An assertion error occurred', null, arguments.callee);
 This is the first non-developement dependency for Chai. As Chai continues to evolve we will begin adding
 more; the next will likely be improved type detection and deep equality. With Chai's userbase continually growing
 there is an higher need for accountability and documentation. External dependencies will allow us to iterate and
-test on features independent from our interfaces. 
+test on features independent from our interfaces.
 
 Note: The browser packaged version `chai.js` will ALWAYS contain all dependencies needed to run Chai.
 
@@ -409,16 +446,16 @@ Note: The browser packaged version `chai.js` will ALWAYS contain all dependencie
 
 Thank you to all who took the time to contribute!
 
-## 1.6.1 / 2013-06-05 
+## 1.6.1 / 2013-06-05
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated developement dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated developement dependencies.
 
 ### Deep Equality
 
@@ -436,16 +473,16 @@ Thank you to all who took the time to contribute!
 
 - Mocha has been locked at version `1.8.x` to ensure `mocha-phantomjs` compatibility.
 
-## 1.6.0 / 2013-04-29 
+## 1.6.0 / 2013-04-29
 
 The following changes are required if you are upgrading from the previous version:
 
 - **Users:**
   - No changes required.
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
-  - Refresh `node_modules` folder for updated developement dependencies. 
+- **Core Contributors:**
+  - Refresh `node_modules` folder for updated developement dependencies.
 
 ### New Assertions
 
@@ -466,14 +503,14 @@ expect([1, 2, 3]).to.not.include.members([3, 2, 8]);
 // (assert) full set
 assert.sameMembers([ 1, 2, 3 ], [ 2, 1, 3 ], 'same members');
 
-// (assert) inclusion 
+// (assert) inclusion
 assert.includeMembers([ 1, 2, 3 ], [ 2, 1 ], 'include members');
 
 ```
 
 #### Non-inclusion for Assert Interface
 
-Most `assert` functions have a negative version, like `instanceOf()` has a corresponding `notInstaceOf()`. 
+Most `assert` functions have a negative version, like `instanceOf()` has a corresponding `notInstaceOf()`.
 However `include()` did not have a corresponding `notInclude()`. This has been added.
 
 ```js
@@ -494,19 +531,19 @@ Thank you to all who took time to contribute!
 - [#158](https://github.com/chaijs/chai/issues/158) `assert#notInclude` has been added.
 - Travis-CI now tests Node.js `v0.10.x`. Support for `v0.6.x` has been removed. `v0.8.x` is still tested as before.
 
-## 1.5.0 / 2013-02-03 
+## 1.5.0 / 2013-02-03
 
 ### Migration Requirements
 
 The following changes are required if you are upgrading from the previous version:
 
-- **Users:** 
-  - _Update [2013-02-04]:_ Some users may notice a small subset of deep equality assertions will no longer pass. This is the result of 
+- **Users:**
+  - _Update [2013-02-04]:_ Some users may notice a small subset of deep equality assertions will no longer pass. This is the result of
   [#120](https://github.com/chaijs/chai/issues/120), an improvement to our deep equality algorithm. Users will need to revise their assertions
   to be more granular should this occur. Further information: [#139](https://github.com/chaijs/chai/issues/139).
-- **Plugin Developers:** 
+- **Plugin Developers:**
   - No changes required.
-- **Core Contributors:** 
+- **Core Contributors:**
   - Refresh `node_modules` folder for updated developement dependencies.
 
 ### Community Contributions
@@ -530,10 +567,10 @@ Thank you to all who took time to contribute!
 
 #### For Users
 
-**1. Component Support:** Chai now included the proper configuration to be installed as a 
+**1. Component Support:** Chai now included the proper configuration to be installed as a
 [component](https://github.com/component/component). Component users are encouraged to consult
 [chaijs.com](http://chaijs.com) for the latest version number as using the master branch
-does not gaurantee stability. 
+does not gaurantee stability.
 
 ```js
 // relevant component.json
@@ -546,9 +583,9 @@ Alternatively, bleeding-edge is available:
 
     $ component install chaijs/chai
 
-**2. Configurable showDiff:** Some test runners (such as [mocha](http://visionmedia.github.com/mocha/)) 
-include support for showing the diff of strings and objects when an equality error occurs. Chai has 
-already included support for this, however some users may not prefer this display behavior. To revert to 
+**2. Configurable showDiff:** Some test runners (such as [mocha](http://visionmedia.github.com/mocha/))
+include support for showing the diff of strings and objects when an equality error occurs. Chai has
+already included support for this, however some users may not prefer this display behavior. To revert to
 no diff display, the following configuration is available:
 
 ```js
@@ -558,7 +595,7 @@ chai.Assertion.showDiff = true; // default, diff output enabled
 
 #### For Plugin Developers
 
-**1. New Utility - type**: The new utility `.type()` is available as a better implementation of `typeof` 
+**1. New Utility - type**: The new utility `.type()` is available as a better implementation of `typeof`
 that can be used cross-browser. It handles the inconsistencies of Array, `null`, and `undefined` detection.
 
 - **@param** _{Mixed}_ object to detect type of
@@ -576,9 +613,9 @@ chai.use(function (c, utils) {
 
 #### For Core Contributors
 
-**1. Browser Testing**: Browser testing of the `./chai.js` file is now available in the command line 
-via PhantomJS. `make test` and Travis-CI will now also rebuild and test `./chai.js`. Consequently, all 
-pull requests will now be browser tested in this way. 
+**1. Browser Testing**: Browser testing of the `./chai.js` file is now available in the command line
+via PhantomJS. `make test` and Travis-CI will now also rebuild and test `./chai.js`. Consequently, all
+pull requests will now be browser tested in this way.
 
 _Note: Contributors opening pull requests should still NOT include the browser build._
 
