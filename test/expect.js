@@ -12,7 +12,7 @@ describe('expect', function () {
 
   it('fail', function () {
     err(function() {
-      expect().fail('this has failed');
+      expect.fail(0, 1, 'this has failed');
     }, /this has failed/);
   });
 
