@@ -7,6 +7,12 @@ describe('should', function() {
     should.not.equal('foo', 'bar');
   });
 
+  it('fail', function () {
+    err(function() {
+      should.fail(0, 1, 'this has failed');
+    }, 'this has failed');
+  });
+
   it('root exist', function () {
     var foo = 'foo'
       , bar = undefined;
