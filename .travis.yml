@@ -20,3 +20,4 @@ deploy:
   on:
     tags: true
     repo: chaijs/chai
+    all_branches: true
