@@ -1,5 +1,20 @@
 # Release Notes
 
+## 2.1.0 / 2015-02-23
+
+Small release; fixes an issue where the Chai lib was incorrectly reporting the
+version number.
+
+Adds new `should.fail()` and `expect.fail()` methods, which are convinience
+methods to throw Assertion Errors.
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#356](https://github.com/chaijs/chai/pull/356) Add should.fail(), expect.fail(). By [@Soviut](https://github.com/Soviut)
+ * [#374](https://github.com/chaijs/chai/pull/374) Increment version. By [@jmm](https://github.com/jmm)
+
 ## 2.0.0 / 2015-02-09
 
 Unfortunately with 1.10.0 - compatibility broke with older versions because of

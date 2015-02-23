@@ -1,3 +1,14 @@
+2.1.0 / 2015-02-23
+==================
+
+  * Merge pull request #374 from jmm/v2.0.1
+  * Increment version to 2.0.1.
+  * Merge pull request #365 from chaijs/fix-travis
+  * Fix travis.yml deploy
+  * Merge pull request #356 from Soviut/master
+  * documented fail methods for expect and should interfaces
+  * fail method added directly to expect
+
 2.0.0 / 2015-02-09
 ==================
 

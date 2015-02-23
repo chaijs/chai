@@ -678,7 +678,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.10.0';
+exports.version = '2.1.0';
 
 /*!
  * Assertion Error
@@ -3739,8 +3739,29 @@ module.exports = function (chai, util) {
   chai.expect = function (val, message) {
     return new chai.Assertion(val, message);
   };
-};
 
+  /**
+   * ### .fail(actual, expected, [message], [operator])
+   *
+   * Throw a failure.
+   *
+   * @name fail
+   * @param {Mixed} actual
+   * @param {Mixed} expected
+   * @param {String} message
+   * @param {String} operator
+   * @api public
+   */
+
+  chai.expect.fail = function (actual, expected, message, operator) {
+    message = message || 'expect.fail()';
+    throw new chai.AssertionError(message, {
+        actual: actual
+      , expected: expected
+      , operator: operator
+    }, chai.expect.fail);
+  };
+};
 
 });
 
@@ -3786,6 +3807,28 @@ module.exports = function (chai, util) {
     });
 
     var should = {};
+
+    /**
+     * ### .fail(actual, expected, [message], [operator])
+     *
+     * Throw a failure.
+     *
+     * @name fail
+     * @param {Mixed} actual
+     * @param {Mixed} expected
+     * @param {String} message
+     * @param {String} operator
+     * @api public
+     */
+
+    should.fail = function (actual, expected, message, operator) {
+      message = message || 'should.fail()';
+      throw new chai.AssertionError(message, {
+          actual: actual
+        , expected: expected
+        , operator: operator
+      }, should.fail);
+    };
 
     should.equal = function (val1, val2, msg) {
       new Assertion(val1, msg).to.equal(val2);
