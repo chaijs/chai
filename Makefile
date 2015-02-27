@@ -36,7 +36,7 @@ components: node_modules component.json
 # Tests
 #
 
-test: test-node test-phantom
+test: test-node test-phantom test-sauce
 
 test-node: node_modules
 	@printf "==> [Test :: Node.js]\n"
