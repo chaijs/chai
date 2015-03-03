@@ -446,6 +446,12 @@ describe('expect', function () {
     expect(deepObj).to.have.deep.property('green.tea', 'matcha');
     expect(deepObj).to.have.deep.property('teas[1]', 'matcha');
     expect(deepObj).to.have.deep.property('teas[2].tea', 'konacha');
+
+    expect(deepObj).to.have.property('teas')
+      .that.is.an('array')
+      .with.deep.property('[2]')
+        .that.deep.equals({tea: 'konacha'});
+
     err(function(){
       expect(deepObj).to.have.deep.property('teas[3]');
     }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
