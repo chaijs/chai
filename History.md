@@ -1,3 +1,18 @@
+2.1.1 / 2015-03-04
+==================
+
+  * Merge pull request #385 from eldritch-fossicker/master
+  * updates to reflect code style preference from @keithamus
+  * fix indexing into array with deep propery
+  * Merge pull request #382 from astorije/patch-2
+  * Merge pull request #383 from gurdiga/config-doc-wording-improvement
+  * config.truncateThreshold docs: simpler wording
+  * Add missing docstring for showDiff argument of assert
+  * Merge pull request #381 from astorije/patch-1
+  * Add a minor precision that empty asserts on strings too.
+  * Merge pull request #379 from dcneiner/should-primitive-fix
+  * Primitives now use valueOf in shouldGetter
+
 2.1.0 / 2015-02-23
 ==================
 

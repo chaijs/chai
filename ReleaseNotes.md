@@ -1,5 +1,29 @@
 # Release Notes
 
+## 2.1.1 / 2015-03-04
+
+Two minor bugfixes. No new features.
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#385](https://github.com/chaijs/chai/pull/385) Fix a bug (also described in
+   [#387](https://github.com/chaijs/chai/pull/385)) where `deep.property` would not work with single
+   key names. By [@eldritch-fossicker](https://github.com/eldritch-fossicker)
+ * [#379](https://github.com/chaijs/chai/pull/379) Fix bug where tools which overwrite
+   primitive prototypes, such as Babel or core-js would fail.
+   By [@dcneiner](https://github.com/dcneiner)
+
+#### Documentation fixes
+
+ * [#382](https://github.com/chaijs/chai/pull/382) Add doc for showDiff argument in assert.
+   By [@astorije](https://github.com/astorije)
+ * [#383](https://github.com/chaijs/chai/pull/383) Improve wording for truncateTreshold docs
+   By [@gurdiga](https://github.com/gurdiga)
+ * [#381](https://github.com/chaijs/chai/pull/381) Improve wording for assert.empty docs
+   By [@astorije](https://github.com/astorije)
+
 ## 2.1.0 / 2015-02-23
 
 Small release; fixes an issue where the Chai lib was incorrectly reporting the
