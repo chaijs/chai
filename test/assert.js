@@ -463,27 +463,27 @@ describe('assert', function () {
 
     err(function () {
       assert.notProperty(obj, 'foo');
-    }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
+    }, "expected { foo: { bar: 'baz' } } to not have a property 'foo'");
 
     err(function () {
       assert.notDeepProperty(obj, 'foo.bar');
-    }, "expected { foo: { bar: 'baz' } } to not have deep property 'foo.bar'");
+    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar'");
 
     err(function () {
       assert.propertyVal(simpleObj, 'foo', 'ball');
-    }, "expected { foo: 'bar' } to have a property 'foo' of 'ball', but got 'bar'");
+    }, "expected { foo: 'bar' } to have a property 'foo' with value 'ball', but got 'bar'");
 
     err(function () {
       assert.deepPropertyVal(obj, 'foo.bar', 'ball');
-    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'ball', but got 'baz'");
+    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' with value 'ball', but got 'baz'");
 
     err(function () {
       assert.propertyNotVal(simpleObj, 'foo', 'bar');
-    }, "expected { foo: 'bar' } to not have a property 'foo' of 'bar'");
+    }, "expected { foo: 'bar' } to not have a property 'foo' with value 'bar'");
 
     err(function () {
       assert.deepPropertyNotVal(obj, 'foo.bar', 'baz');
-    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' with value 'baz'");
   });
 
   it('throws', function() {
@@ -673,13 +673,13 @@ describe('assert', function () {
     err(function() {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
-  
+
   });
-    
+
   it('memberDeepEquals', function() {
     assert.sameDeepMembers([ {b: 3}, {a: 2}, {c: 5} ], [ {c: 5}, {b: 3}, {a: 2} ], 'same deep members');
     assert.sameDeepMembers([ {b: 3}, {a: 2}, 5, "hello" ], [ "hello", 5, {b: 3}, {a: 2} ], 'same deep members');
-    
+
     err(function() {
       assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
     }, 'expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');

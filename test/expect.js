@@ -205,7 +205,7 @@ describe('expect', function () {
 
     err(function () {
       expect([ 1, 2, 3, 4 ]).to.not.have.length.of.at.least(4, 'blah');
-    }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
+    }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4 but got 4");
   });
 
   it('below(n)', function(){
@@ -259,7 +259,7 @@ describe('expect', function () {
 
     err(function () {
       expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
-    }, "blah: expected [ 1, 2 ] to have a length above 2");
+    }, "blah: expected [ 1, 2 ] to have a length above 2 but got 2");
   });
 
   it('match(regexp)', function(){
@@ -461,7 +461,7 @@ describe('expect', function () {
     err(function(){
       expect(deepObj).to.have.deep.property('teas[3].tea', 'bar');
     }, "expected { Object (green, teas) } to have a deep property 'teas[3].tea'");
-    
+
     var arr = [
         [ 'chai', 'matcha', 'konacha' ]
       , [ { tea: 'chai' }
@@ -482,11 +482,11 @@ describe('expect', function () {
 
     err(function(){
       expect('asd').to.have.property('length', 4, 'blah');
-    }, "blah: expected 'asd' to have a property 'length' of 4, but got 3");
+    }, "blah: expected 'asd' to have a property 'length' with value 4, but got 3");
 
     err(function(){
       expect('asd').to.not.have.property('length', 3, 'blah');
-    }, "blah: expected 'asd' to not have a property 'length' of 3");
+    }, "blah: expected 'asd' to not have a property 'length' with value 3");
 
     err(function(){
       expect('asd').to.not.have.property('foo', 3, 'blah');
@@ -494,7 +494,7 @@ describe('expect', function () {
 
     err(function(){
       expect('asd').to.have.property('constructor', Number, 'blah');
-    }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+    }, "blah: expected 'asd' to have a property 'constructor' with value [Function: Number], but got [Function: String]");
   });
 
   it('deep.property(name, val)', function(){
@@ -504,11 +504,11 @@ describe('expect', function () {
     err(function(){
       expect({ foo: { bar: 'baz' } })
         .to.have.deep.property('foo.bar', 'quux', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
+    }, "blah: expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' with value 'quux', but got 'baz'");
     err(function(){
       expect({ foo: { bar: 'baz' } })
         .to.not.have.deep.property('foo.bar', 'baz', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+    }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' with value 'baz'");
     err(function(){
       expect({ foo: 5 })
         .to.not.have.deep.property('foo.bar', 'baz', 'blah');
@@ -656,11 +656,11 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1 }).to.have.keys(['bar', 'baz']);
-    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'bar' and 'baz'");
 
     err(function(){
       expect({ foo: 1 }).to.have.keys(['foo', 'bar', 'baz']);
-    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'foo', 'bar' and 'baz'");
 
     err(function(){
       expect({ foo: 1 }).to.not.have.keys(['foo']);
@@ -672,7 +672,7 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1, bar: 2 }).to.not.have.keys(['foo', 'bar']);
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' and 'bar'");
 
     err(function(){
       expect({ foo: 1, bar: 2 }).to.have.all.keys('foo');
@@ -684,7 +684,7 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1 }).to.contain.keys('foo', 'bar');
-    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+    }, "expected { foo: 1 } to contain keys 'foo' and 'bar'");
 
     err(function() {
       expect({ foo: 1 }).to.have.any.keys('baz');
@@ -692,11 +692,11 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1, bar: 2 }).to.not.have.all.keys(['foo', 'bar']);
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' and 'bar'");
 
     err(function(){
       expect({ foo: 1, bar: 2 }).to.not.have.any.keys(['foo', 'baz']);
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' or 'baz'");
 
     // repeat previous tests with Object as arg.
     err(function(){
@@ -705,11 +705,11 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1 }).have.keys({ 'bar': 1, 'baz': 1});
-    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'bar' and 'baz'");
 
     err(function(){
       expect({ foo: 1 }).have.keys({ 'foo': 1, 'bar': 1, 'baz': 1});
-    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'foo', 'bar' and 'baz'");
 
     err(function(){
       expect({ foo: 1 }).not.have.keys({ 'foo': 1 });
@@ -721,7 +721,7 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1, bar: 2 }).not.have.keys({ 'foo': 1, 'bar': 1});
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' and 'bar'");
 
     err(function(){
       expect({ foo: 1 }).not.contain.keys({ 'foo': 1 });
@@ -729,7 +729,7 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1 }).contain.keys('foo', 'bar');
-    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+    }, "expected { foo: 1 } to contain keys 'foo' and 'bar'");
 
     err(function() {
       expect({ foo: 1 }).have.any.keys('baz');
@@ -737,7 +737,7 @@ describe('expect', function () {
 
     err(function(){
       expect({ foo: 1, bar: 2 }).not.have.all.keys({ 'foo': 1, 'bar': 1});
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' and 'bar'");
 
     err(function(){
       expect({ foo: 1, bar: 2 }).not.have.any.keys({ 'foo': 1, 'baz': 1});
@@ -831,7 +831,7 @@ describe('expect', function () {
 
     err(function(){
       expect(goodFn).to.throw(specificError);
-    }, "expected [Function] to throw 'RangeError: boo'");
+    }, "expected [Function] to throw [RangeError: boo]");
 
     err(function(){
       expect(badFn).to.not.throw();
@@ -843,7 +843,7 @@ describe('expect', function () {
 
     err(function(){
       expect(badFn).to.throw(specificError);
-    }, "expected [Function] to throw 'RangeError: boo' but 'Error: testing' was thrown");
+    }, "expected [Function] to throw [RangeError: boo] but 'Error: testing' was thrown");
 
     err(function(){
       expect(badFn).to.not.throw(Error);
@@ -867,11 +867,11 @@ describe('expect', function () {
 
     err(function(){
       expect(specificErrFn).to.throw(new ReferenceError('eek'));
-    }, "expected [Function] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown");
+    }, "expected [Function] to throw 'ReferenceError: eek' but [RangeError: boo] was thrown");
 
     err(function(){
       expect(specificErrFn).to.not.throw(specificError);
-    }, "expected [Function] to not throw 'RangeError: boo'");
+    }, "expected [Function] to not throw [RangeError: boo]");
 
     err(function (){
       expect(badFn).to.not.throw(/testing/);
