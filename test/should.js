@@ -371,11 +371,11 @@ describe('should', function() {
 
     err(function(){
       'asd'.should.have.property('length', 4, 'blah');
-    }, "blah: expected 'asd' to have a property 'length' of 4, but got 3");
+    }, "blah: expected 'asd' to have a property 'length' with value 4, but got 3");
 
     err(function(){
       'asd'.should.not.have.property('length', 3, 'blah');
-    }, "blah: expected 'asd' to not have a property 'length' of 3");
+    }, "blah: expected 'asd' to not have a property 'length' with value 3");
 
     err(function(){
       'asd'.should.not.have.property('foo', 3, 'blah');
@@ -383,7 +383,7 @@ describe('should', function() {
 
     err(function(){
       'asd'.should.have.property('constructor', Number, 'blah');
-    }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+    }, "blah: expected 'asd' to have a property 'constructor' with value [Function: Number], but got [Function: String]");
   });
 
   it('ownProperty(name)', function(){
@@ -514,11 +514,11 @@ describe('should', function() {
 
     err(function(){
       ({ foo: 1 }).should.have.keys(['bar', 'baz']);
-    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'bar' and 'baz'");
 
     err(function(){
       ({ foo: 1 }).should.have.keys(['foo', 'bar', 'baz']);
-    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys 'foo', 'bar' and 'baz'");
 
     err(function(){
       ({ foo: 1 }).should.not.have.keys(['foo']);
@@ -530,7 +530,7 @@ describe('should', function() {
 
     err(function(){
       ({ foo: 1, bar: 2 }).should.not.have.keys(['foo', 'bar']);
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo' and 'bar'");
 
     err(function(){
       ({ foo: 1 }).should.not.contain.keys(['foo']);
@@ -538,7 +538,7 @@ describe('should', function() {
 
     err(function(){
       ({ foo: 1 }).should.contain.keys('foo', 'bar');
-    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+    }, "expected { foo: 1 } to contain keys 'foo' and 'bar'");
 
     err(function() {
       ({ foo: 1 }).should.have.any.keys('baz');
@@ -688,7 +688,7 @@ describe('should', function() {
 
     err(function(){
       (goodFn).should.throw(specificError);
-    }, "expected [Function] to throw 'RangeError: boo'");
+    }, "expected [Function] to throw [RangeError: boo]");
 
     err(function(){
       (badFn).should.not.throw();
@@ -700,7 +700,7 @@ describe('should', function() {
 
     err(function(){
       (badFn).should.throw(specificError);
-    }, "expected [Function] to throw 'RangeError: boo' but 'Error: testing' was thrown");
+    }, "expected [Function] to throw [RangeError: boo] but 'Error: testing' was thrown");
 
     err(function(){
       (badFn).should.not.throw(Error);
@@ -716,7 +716,7 @@ describe('should', function() {
 
     err(function(){
       (stringErrFn).should.throw(specificError);
-    }, "expected [Function] to throw 'RangeError: boo' but 'testing' was thrown");
+    }, "expected [Function] to throw [RangeError: boo] but 'testing' was thrown");
 
     err(function(){
       (stringErrFn).should.not.throw('testing');
@@ -740,11 +740,11 @@ describe('should', function() {
 
     err(function(){
       (specificErrFn).should.throw(new ReferenceError('eek'));
-    }, "expected [Function] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown");
+    }, "expected [Function] to throw 'ReferenceError: eek' but [RangeError: boo] was thrown");
 
     err(function(){
       (specificErrFn).should.not.throw(specificError);
-    }, "expected [Function] to not throw 'RangeError: boo'");
+    }, "expected [Function] to not throw [RangeError: boo]");
 
     err(function (){
       (badFn).should.not.throw(/testing/);
@@ -867,7 +867,7 @@ describe('should', function() {
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
         decFn  = function() { obj.value -= 3 },
-        bangFn = function() { obj.str += '!' }; 
+        bangFn = function() { obj.str += '!' };
 
     fn.should.change(obj, 'value');
     sameFn.should.not.change(obj, 'value');
