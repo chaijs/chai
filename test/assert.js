@@ -556,6 +556,9 @@ describe('assert', function () {
   });
 
   it('operator', function() {
+    // For testing undefined and null with == and ===
+    var w;
+    
     assert.operator(1, '<', 2);
     assert.operator(2, '>', 1);
     assert.operator(1, '==', 1);
@@ -563,6 +566,10 @@ describe('assert', function () {
     assert.operator(1, '>=', 1);
     assert.operator(1, '!=', 2);
     assert.operator(1, '!==', 2);
+    assert.operator(1, '!==', '1');
+    assert.operator(w, '==', undefined);
+    assert.operator(w, '===', undefined);
+    assert.operator(w, '==', null);
 
     err(function () {
       assert.operator(1, '=', 2);
@@ -579,6 +586,10 @@ describe('assert', function () {
     err(function () {
       assert.operator(1, '==', 2);
      }, "expected 1 to be == 2");
+     
+    err(function () {
+      assert.operator(1, '===', '1');
+     }, "expected 1 to be === \'1\'");
 
     err(function () {
       assert.operator(2, '<=', 1);
@@ -591,10 +602,16 @@ describe('assert', function () {
     err(function () {
       assert.operator(1, '!=', 1);
      }, "expected 1 to be != 1");
-
+     
     err(function () {
-      assert.operator(1, '!==', '1');
-     }, "expected 1 to be !== \'1\'");
+      assert.operator(1, '!==', 1);
+     }, "expected 1 to be !== 1");
+    
+    err(function () {
+      assert.operator(w, '===', null);
+     }, "expected undefined to be === null");
+     
+     
   });
 
   it('closeTo', function(){
