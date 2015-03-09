@@ -196,3 +196,7 @@ Feel free to reach out to any of the core-contributors with you questions or con
   - GH: [@vesln](https://github.com/vesln/)
   - TW: [@vesln](http://twitter.com/vesln)
   - IRC: vesln
+- Keith Cirkel
+  - GH: [@keithamus](https://github.com/keithamus)
+  - TW: [@keithamus](http://twitter.com/keithamus)
+  - IRC: keithamus
