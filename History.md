@@ -1,3 +1,13 @@
+2.1.2 / 2015-03-15
+==================
+
+  * Merge pull request #396 from chaijs/add-keith-cirkel-contributing-md
+  * Add Keith Cirkel to CONTRIBUTING.md
+  * Merge pull request #395 from cjqed/386-assert-operator-no-eval
+  * No longer using eval on assert operator #386
+  * Merge pull request #389 from chaijs/update-git-summary
+  * Update `git summary` in README
+
 2.1.1 / 2015-03-04
 ==================
 

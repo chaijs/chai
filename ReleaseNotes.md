@@ -1,5 +1,17 @@
 # Release Notes
 
+## 2.1.2 / 2015-03-15
+
+A minor bug fix. No new features.
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#395](https://github.com/chaijs/chai/pull/395) Fix eval-related bugs with
+   assert.operator ([#386](https://github.com/chaijs/chai/pull/386)).
+   By [@cjqed](https://github.com/cjqed)
+
 ## 2.1.1 / 2015-03-04
 
 Two minor bugfixes. No new features.
