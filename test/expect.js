@@ -429,6 +429,9 @@ describe('expect', function () {
     expect({ 'foo': [1, 2, 3] })
       .to.have.deep.property('foo[1]');
 
+    expect({ 'foo.bar': 'baz'})
+      .to.have.deep.property('foo\\.bar');
+
     err(function(){
       expect({ 'foo.bar': 'baz' })
         .to.have.deep.property('foo.bar');
