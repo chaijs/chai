@@ -411,6 +411,9 @@ describe('expect', function () {
     expect(obj).to.have.property('foo');
     expect(obj).to.have.property('bar');
 
+    expect({ 'foo.bar[]': 'baz'})
+      .to.have.property('foo.bar[]');
+
     err(function(){
       expect('asd').to.have.property('foo');
     }, "expected 'asd' to have a property 'foo'");
@@ -429,8 +432,8 @@ describe('expect', function () {
     expect({ 'foo': [1, 2, 3] })
       .to.have.deep.property('foo[1]');
 
-    expect({ 'foo.bar': 'baz'})
-      .to.have.deep.property('foo\\.bar');
+    expect({ 'foo.bar[]': 'baz'})
+      .to.have.deep.property('foo\\.bar\\[\\]');
 
     err(function(){
       expect({ 'foo.bar': 'baz' })
