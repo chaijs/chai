@@ -551,8 +551,9 @@ describe('assert', function () {
     assert.ifError(undefined);
 
     err(function () {
-      assert.ifError('foo');
-     }, "expected \'foo\' to be falsy");
+      var err = new Error('This is an error message');
+      assert.ifError(err);
+     }, 'This is an error message');
   });
 
   it('operator', function() {
