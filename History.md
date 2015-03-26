@@ -1,3 +1,14 @@
+2.2.0 / 2015-03-26
+==================
+
+  * Merge pull request #405 from chaijs/deep-escape-doc-tweaks
+  * Tweak documentation on `.deep` flag.
+  * Merge pull request #402 from umireon/escaping-dot-should-be-taken
+  * Documentation of escaping in `.deep` flag.
+  * take regular expression apart
+  * Feature: backslash-escaping in `.deep.property`
+  * Escaping dot should be taken in deep property
+
 2.1.2 / 2015-03-15
 ==================
 
