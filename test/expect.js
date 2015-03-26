@@ -467,7 +467,7 @@ describe('expect', function () {
     err(function(){
       expect(deepObj).to.have.deep.property('teas[3].tea', 'bar');
     }, "expected { Object (green, teas) } to have a deep property 'teas[3].tea'");
-    
+
     var arr = [
         [ 'chai', 'matcha', 'konacha' ]
       , [ { tea: 'chai' }
@@ -529,6 +529,40 @@ describe('expect', function () {
     err(function(){
       expect({ length: 12 }).to.not.have.ownProperty('length', 'blah');
     }, "blah: expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownPropertyDescriptor(name)', function(){
+    expect('test').to.have.ownPropertyDescriptor('length');
+    expect('test').to.haveOwnPropertyDescriptor('length');
+    expect('test').not.to.have.ownPropertyDescriptor('foo');
+
+    var obj = {};
+    var descriptor = {
+      configurable: false,
+      enumerable: true,
+      writable: true,
+      value: NaN
+    };
+    Object.defineProperty(obj, 'test', descriptor);
+    expect(obj).to.have.ownPropertyDescriptor('test', descriptor);
+    err(function(){
+      expect(obj).not.to.have.ownPropertyDescriptor('test', descriptor, 'blah');
+    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to not match { configurable: false,\n  enumerable: true,\n  writable: true,\n  value: NaN }");
+    err(function(){
+      var wrongDescriptor = {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: NaN
+      };
+      expect(obj).to.have.ownPropertyDescriptor('test', wrongDescriptor, 'blah');
+    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to match { configurable: false,\n  enumerable: true,\n  writable: false,\n  value: NaN }, got { value: NaN,\n  writable: true,\n  enumerable: true,\n  configurable: false }");
+
+    err(function(){
+      expect(obj).to.have.ownPropertyDescriptor('test2', 'blah');
+    }, "blah: expected { test: NaN } to have an own property descriptor for 'test2'");
+
+    expect(obj).to.have.ownPropertyDescriptor('test').and.have.property('enumerable', true);
   });
 
   it('string()', function(){
