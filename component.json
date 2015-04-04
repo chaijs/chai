@@ -41,11 +41,11 @@
       , "lib/chai/utils/overwriteChainableMethod.js"
       , "lib/chai/utils/test.js"
       , "lib/chai/utils/transferFlags.js"
-      , "lib/chai/utils/type.js"
     ]
   , "dependencies": {
         "chaijs/assertion-error": "1.0.0"
       , "chaijs/deep-eql": "0.1.3"
+      , "chaijs/type-detect": "1.0.0"
     }
   , "development": {}
 }
