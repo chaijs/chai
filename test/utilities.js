@@ -90,6 +90,9 @@ describe('utilities', function () {
           dimensions: {
             units: 'mm',
             lengths: [[1.2, 3.5], [2.2, 1.5], [5, 7]]
+          },
+          'dimensions.lengths': {
+            '[2]': [1.2, 3.5]
           }
         };
 
@@ -151,6 +154,15 @@ describe('utilities', function () {
       expect(info.value).to.be.undefined;
       info.name.should.equal(5);
       info.exists.should.be.false;
+    });
+
+    it('should handle backslash-escaping for .[]', function() {
+      var info = gpi('dimensions\\.lengths.\\[2\\][1]', obj);
+
+      info.parent.should.equal(obj['dimensions.lengths']['[2]']);
+      info.value.should.equal(obj['dimensions.lengths']['[2]'][1]);
+      info.name.should.equal(1);
+      info.exists.should.be.true;
     });
   });
 

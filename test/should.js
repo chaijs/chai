@@ -396,6 +396,40 @@ describe('should', function() {
     }, "blah: expected { length: 12 } to not have own property 'length'");
   });
 
+  it('ownPropertyDescriptor(name)', function(){
+    'test'.should.haveOwnPropertyDescriptor('length');
+    'test'.should.have.ownPropertyDescriptor('length');
+    'test'.should.not.have.ownPropertyDescriptor('foo');
+
+    var obj = { };
+    var descriptor = {
+      configurable: false,
+      enumerable: true,
+      writable: true,
+      value: NaN
+    };
+    Object.defineProperty(obj, 'test', descriptor);
+    obj.should.haveOwnPropertyDescriptor('test', descriptor);
+    err(function(){
+      obj.should.not.haveOwnPropertyDescriptor('test', descriptor, 'blah');
+    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to not match { configurable: false,\n  enumerable: true,\n  writable: true,\n  value: NaN }");
+    err(function(){
+      var wrongDescriptor = {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: NaN
+      };
+      obj.should.haveOwnPropertyDescriptor('test', wrongDescriptor, 'blah');
+    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to match { configurable: false,\n  enumerable: true,\n  writable: false,\n  value: NaN }, got { value: NaN,\n  writable: true,\n  enumerable: true,\n  configurable: false }");
+
+    err(function(){
+      obj.should.haveOwnPropertyDescriptor('test2', 'blah');
+    }, "blah: expected { test: NaN } to have an own property descriptor for 'test2'");
+
+    obj.should.have.ownPropertyDescriptor('test').and.have.property('enumerable', true);
+  });
+
   it('string()', function(){
     'foobar'.should.contain.string('bar');
     'foobar'.should.contain.string('foo');

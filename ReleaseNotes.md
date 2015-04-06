@@ -1,5 +1,41 @@
 # Release Notes
 
+## 2.2.0 / 2015-03-26
+
+Deep property strings can now be escaped using `\\` - for example:
+
+```js
+var deepCss = { '.link': { '[target]': 42 }};
+expect(deepCss).to.have.deep.property('\\.link.\\[target\\]', 42)
+```
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#402](https://github.com/chaijs/chai/pull/402) Allow escaping of deep
+   property keys.
+   By [@umireon](https://github.com/umireon)
+
+#### Documentation fixes
+
+ * [#405](https://github.com/chaijs/chai/pull/405) Tweak documentation around
+ deep property escaping.
+ By [@keithamus](https://github.com/keithamus)
+
+
+## 2.1.2 / 2015-03-15
+
+A minor bug fix. No new features.
+
+### Community Contributions
+
+#### Code Features & Fixes
+
+ * [#395](https://github.com/chaijs/chai/pull/395) Fix eval-related bugs with
+   assert.operator ([#386](https://github.com/chaijs/chai/pull/386)).
+   By [@cjqed](https://github.com/cjqed)
+
 ## 2.1.1 / 2015-03-04
 
 Two minor bugfixes. No new features.

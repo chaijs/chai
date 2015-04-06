@@ -1,3 +1,24 @@
+2.2.0 / 2015-03-26
+==================
+
+  * Merge pull request #405 from chaijs/deep-escape-doc-tweaks
+  * Tweak documentation on `.deep` flag.
+  * Merge pull request #402 from umireon/escaping-dot-should-be-taken
+  * Documentation of escaping in `.deep` flag.
+  * take regular expression apart
+  * Feature: backslash-escaping in `.deep.property`
+  * Escaping dot should be taken in deep property
+
+2.1.2 / 2015-03-15
+==================
+
+  * Merge pull request #396 from chaijs/add-keith-cirkel-contributing-md
+  * Add Keith Cirkel to CONTRIBUTING.md
+  * Merge pull request #395 from cjqed/386-assert-operator-no-eval
+  * No longer using eval on assert operator #386
+  * Merge pull request #389 from chaijs/update-git-summary
+  * Update `git summary` in README
+
 2.1.1 / 2015-03-04
 ==================
 
