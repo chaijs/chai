@@ -42,6 +42,7 @@
     "karma-mocha": "*",
     "karma-sauce-launcher": "0.2.x",
     "karma-phantomjs-launcher": "0.1.1",
+    "karma-firefox-launcher": "^0.1.4",
     "mocha": "1.21.x",
     "istanbul": "0.2.x"
   }

@@ -55,6 +55,11 @@ test-phantom: build
 	@./node_modules/karma/bin/karma start \
 		--single-run --browsers PhantomJS
 
+test-firefox: build
+	@printf "==> [Test :: Karma (Firefox)]\n"
+	@./node_modules/karma/bin/karma start \
+		--browsers Firefox
+
 test-sauce: build
 	@printf "==> [Test :: Karma (Sauce)]\n"
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
