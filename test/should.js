@@ -412,7 +412,7 @@ describe('should', function() {
     obj.should.haveOwnPropertyDescriptor('test', descriptor);
     err(function(){
       obj.should.not.haveOwnPropertyDescriptor('test', descriptor, 'blah');
-    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to not match { configurable: false,\n  enumerable: true,\n  writable: true,\n  value: NaN }");
+    }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to not match \{ [^\}]+ \}$/);
     err(function(){
       var wrongDescriptor = {
         configurable: false,
@@ -421,7 +421,7 @@ describe('should', function() {
         value: NaN
       };
       obj.should.haveOwnPropertyDescriptor('test', wrongDescriptor, 'blah');
-    }, "blah: expected the own property descriptor for 'test' on { test: NaN } to match { configurable: false,\n  enumerable: true,\n  writable: false,\n  value: NaN }, got { value: NaN,\n  writable: true,\n  enumerable: true,\n  configurable: false }");
+    }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to match \{ [^\}]+ \}, got \{ [^\}]+ \}$/);
 
     err(function(){
       obj.should.haveOwnPropertyDescriptor('test2', 'blah');
