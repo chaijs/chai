@@ -18,7 +18,7 @@ deploy:
   email:
     secure: "M9J56tqJwOxn6D3PSh8BNGac/8XjTCRGCFexN5QFl7Ha9AKnyQTy1ZAaJonMGoClBhh37Dy/89wVWmqg4NPckrD5Ej7NvwhTjVfEHusllaCROqVu5m7ijS3WKlIxM/xtBzU7SqRY41JxloP+CLKxRiKRWQJDvgwUZW7OHdmAkAY="
   api_key:
-    secure: "bH1U+PiDXBwvI5M2NQMhxYmTc2Ugl9Nfw3AEttsJaBreAjCPkue6Iusr1W9QeHMOytKDDX7M1anLqrn7XpokfNkG7Jqeh1mlkdK+qlTrB1lOsiZ7hbdYH/dOUYITzm7NRTjzg4i9oIuIPOTGYvsvipbatDdCKSK+8iKxX5EBtiQ="
+    secure: "JbOrsEbeZ0URM1rMrn7SGsCpxemr1pFYlRTo5gmd01nM1HlHdWklrqr+JhaSHxDtI5B3pampTg7tl2iMX8OIzeVjFjg+itkQjpHi7U/vGebdPq8+0SrRBMHvbaOEA5ghpmMSUpXCqi8JMcTIsDG/WEMNFGwElaLXyKrEPy2hebs="
   on:
     tags: true
     repo: chaijs/chai
