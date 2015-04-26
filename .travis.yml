@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 node_js:
 - 0.1
@@ -14,9 +15,10 @@ env:
 
 deploy:
   provider: npm
-  email: jake@alogicalparadox.com
+  email:
+    secure: "M9J56tqJwOxn6D3PSh8BNGac/8XjTCRGCFexN5QFl7Ha9AKnyQTy1ZAaJonMGoClBhh37Dy/89wVWmqg4NPckrD5Ej7NvwhTjVfEHusllaCROqVu5m7ijS3WKlIxM/xtBzU7SqRY41JxloP+CLKxRiKRWQJDvgwUZW7OHdmAkAY="
   api_key:
-    secure: AgNQTECM/3Gh0q77gkrMx0jASgRh/dysPdUf7Zdsm1k9Gt+i4H99k2L8lVWqpLF1+e6lhWg9w4C08Xgz6tuOTPZZr6UzeRDl+ZjniTYK3E/tpcUbqAQxxgD4b3iA6BLbF0YKGofnWrMtXBBWI8X0jekxncu7sWdBuieyhg33fik=
+    secure: "bH1U+PiDXBwvI5M2NQMhxYmTc2Ugl9Nfw3AEttsJaBreAjCPkue6Iusr1W9QeHMOytKDDX7M1anLqrn7XpokfNkG7Jqeh1mlkdK+qlTrB1lOsiZ7hbdYH/dOUYITzm7NRTjzg4i9oIuIPOTGYvsvipbatDdCKSK+8iKxX5EBtiQ="
   on:
     tags: true
     repo: chaijs/chai
