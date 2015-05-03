@@ -1,13 +1,20 @@
 [![Chai Documentation](http://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
 
+[![license:mit](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](#license)<br>
+[![tag:?](https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square)](https://github.com/chaijs/chai/releases)
+[![build:?](https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square)](https://travis-ci.org/chaijs/chai)
+[![coverage:?](https://img.shields.io/coveralls/chaijs/chai/master.svg?style=flat-square)](https://coveralls.io/r/chaijs/chai)<br>
+[![npm:](https://img.shields.io/npm/v/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
+[![dependencies:?](https://img.shields.io/npm/dm/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
+[![devDependencies:?](https://img.shields.io/david/chaijs/chai.svg?style=flat-square)](https://david-dm.org/chaijs/chai)
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
+
+
 Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
 can be delightfully paired with any javascript testing framework.
 
 For more information or to download plugins, view the [documentation](http://chaijs.com).
-
-[![Build Status](https://travis-ci.org/chaijs/chai.svg?branch=master)](https://travis-ci.org/chaijs/chai)
-
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
 
 ### Plugins
 
