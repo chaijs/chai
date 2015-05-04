@@ -264,10 +264,15 @@ describe('expect', function () {
 
   it('match(regexp)', function(){
     expect('foobar').to.match(/^foo/)
+    expect('foobar').to.matches(/^foo/)
     expect('foobar').to.not.match(/^bar/)
 
     err(function(){
       expect('foobar').to.match(/^bar/i, 'blah')
+    }, "blah: expected 'foobar' to match /^bar/i");
+
+    err(function(){
+      expect('foobar').to.matches(/^bar/i, 'blah')
     }, "blah: expected 'foobar' to match /^bar/i");
 
     err(function(){
