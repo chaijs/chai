@@ -78,7 +78,7 @@ describe('expect', function () {
 
     err(function(){
       expect(undefined).to.be.defined;
-    }, "expected 'undefined' to be defined");
+    }, "expected undefined to be defined");
   });
 
   it('exist', function(){
