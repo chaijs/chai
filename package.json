@@ -33,7 +33,7 @@
     "node": ">= 0.4.0"
   },
   "dependencies": {
-    "assertion-error": "1.0.0",
+    "assertion-error": "1.0.1",
     "deep-eql": "0.1.3"
   },
   "devDependencies": {
