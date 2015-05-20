@@ -70,6 +70,17 @@ describe('expect', function () {
     }, "expected '' to be undefined")
   });
 
+  it("defined", function() {
+    expect({}).to.be.defined;
+    expect(function() {}).to.be.defined;
+    expect(false).to.be.defined;
+    expect(undefined).to.not.be.defined;
+
+    err(function(){
+      expect(undefined).to.be.defined;
+    }, "expected undefined to be defined");
+  });
+
   it('exist', function(){
     var foo = 'bar'
       , bar;
