@@ -37,7 +37,7 @@
     "deep-eql": "0.1.3"
   },
   "devDependencies": {
-    "component": "*",
+    "browserify": "10.2.1",
     "karma": "0.12.x",
     "karma-mocha": "*",
     "karma-sauce-launcher": "0.2.x",

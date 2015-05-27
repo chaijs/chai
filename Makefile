@@ -8,10 +8,9 @@ REPORTER = dot
 
 all: chai.js
 
-chai.js: node_modules lib/* components
+chai.js: node_modules lib/*
 	@printf "==> [Browser :: build]\n"
-	@./node_modules/.bin/component-build -s chai -o .
-	@mv build.js chai.js
+	@./node_modules/.bin/browserify --bare --outfile chai.js --standalone chai --entry index.js
 
 #
 # Node Module
@@ -19,18 +18,6 @@ chai.js: node_modules lib/* components
 
 node_modules: package.json
 	@npm install
-
-#
-# Components
-#
-
-build: components lib/*
-	@printf "==> [Component :: build]\n"
-	@./node_modules/.bin/component-build --dev
-
-components: node_modules component.json
-	@printf "==> [Component :: install]\n"
-	@./node_modules/.bin/component-install --dev
 
 #
 # Tests
@@ -50,17 +37,17 @@ test-cov: node_modules
 		--require ./test/bootstrap \
 		$(TESTS) \
 
-test-phantom: build
+test-phantom: chai.js
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
 	@./node_modules/karma/bin/karma start \
 		--single-run --browsers PhantomJS
 
-test-firefox: build
+test-firefox: chai.js
 	@printf "==> [Test :: Karma (Firefox)]\n"
 	@./node_modules/karma/bin/karma start \
 		--browsers Firefox
 
-test-sauce: build
+test-sauce: chai.js
 	@printf "==> [Test :: Karma (Sauce)]\n"
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
@@ -74,17 +61,13 @@ test-travisci:
 # Clean up
 #
 
-clean: clean-node clean-browser clean-components clean-cov
+clean: clean-node clean-browser clean-cov
 
 clean-node:
 	@rm -rf node_modules
 
 clean-browser:
 	@rm -f chai.js
-
-clean-components:
-	@rm -rf build
-	@rm -rf components
 
 clean-cov:
 	@rm -rf coverage
@@ -95,4 +78,4 @@ clean-cov:
 
 .PHONY: all
 .PHONY: test test-all test-node test-phantom test-sauce test-cov
-.PHONY: clean clean-node clean-browser clean-components clean-cov
+.PHONY: clean clean-node clean-browser clean-cov
