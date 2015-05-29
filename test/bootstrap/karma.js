@@ -1,10 +1,4 @@
 /*!
- * Attach chai to global
- */
-
-window.chai = require('chai');
-
-/*!
  * Provide check for fail function.
  */
 
