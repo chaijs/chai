@@ -445,7 +445,10 @@ describe('assert', function () {
   it('property', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
+    var undefinedKeyObj = { foo: undefined };
     assert.property(obj, 'foo');
+    assert.property(undefinedKeyObj, 'foo');
+    assert.propertyVal(undefinedKeyObj, 'foo', undefined);
     assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
     assert.notProperty(obj, 'foo.bar');
@@ -472,6 +475,10 @@ describe('assert', function () {
     err(function () {
       assert.propertyVal(simpleObj, 'foo', 'ball');
     }, "expected { foo: 'bar' } to have a property 'foo' of 'ball', but got 'bar'");
+
+    err(function () {
+      assert.propertyVal(simpleObj, 'foo', undefined);
+    }, "expected { foo: 'bar' } to have a property 'foo' of undefined, but got 'bar'");
 
     err(function () {
       assert.deepPropertyVal(obj, 'foo.bar', 'ball');
@@ -558,7 +565,7 @@ describe('assert', function () {
   it('operator', function() {
     // For testing undefined and null with == and ===
     var w;
-    
+
     assert.operator(1, '<', 2);
     assert.operator(2, '>', 1);
     assert.operator(1, '==', 1);
@@ -586,7 +593,7 @@ describe('assert', function () {
     err(function () {
       assert.operator(1, '==', 2);
      }, "expected 1 to be == 2");
-     
+
     err(function () {
       assert.operator(1, '===', '1');
      }, "expected 1 to be === \'1\'");
@@ -602,16 +609,16 @@ describe('assert', function () {
     err(function () {
       assert.operator(1, '!=', 1);
      }, "expected 1 to be != 1");
-     
+
     err(function () {
       assert.operator(1, '!==', 1);
      }, "expected 1 to be !== 1");
-    
+
     err(function () {
       assert.operator(w, '===', null);
      }, "expected undefined to be === null");
-     
-     
+
+
   });
 
   it('closeTo', function(){
@@ -690,13 +697,13 @@ describe('assert', function () {
     err(function() {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
-  
+
   });
-    
+
   it('memberDeepEquals', function() {
     assert.sameDeepMembers([ {b: 3}, {a: 2}, {c: 5} ], [ {c: 5}, {b: 3}, {a: 2} ], 'same deep members');
     assert.sameDeepMembers([ {b: 3}, {a: 2}, 5, "hello" ], [ "hello", 5, {b: 3}, {a: 2} ], 'same deep members');
-    
+
     err(function() {
       assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
     }, 'expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');
