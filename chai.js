@@ -12,7 +12,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '2.3.0';
+exports.version = '3.0.0';
 
 /*!
  * Assertion Error
@@ -93,7 +93,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion":2,"./chai/config":3,"./chai/core/assertions":4,"./chai/interface/assert":5,"./chai/interface/expect":6,"./chai/interface/should":7,"./chai/utils":20,"assertion-error":29}],2:[function(require,module,exports){
+},{"./chai/assertion":2,"./chai/config":3,"./chai/core/assertions":4,"./chai/interface/assert":5,"./chai/interface/expect":6,"./chai/interface/should":7,"./chai/utils":20,"assertion-error":28}],2:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -422,6 +422,12 @@ module.exports = function (chai, _) {
    *     expect({ foo: 'bar' }).to.be.an('object');
    *     expect(null).to.be.a('null');
    *     expect(undefined).to.be.an('undefined');
+   *     expect(new Promise).to.be.a('promise');
+   *     expect(new Float32Array()).to.be.a('float32array');
+   *     expect(Symbol()).to.be.a('symbol');
+   *
+   *     // es6 overrides
+   *     expect({[Symbol.toStringTag]:()=>'foo'}).to.be.a('foo');
    *
    *     // language chain
    *     expect(foo).to.be.an.instanceof(Foo);
@@ -1121,7 +1127,7 @@ module.exports = function (chai, _) {
         ? pathInfo.value
         : obj[name];
 
-    if (negate && undefined !== val) {
+    if (negate && arguments.length > 1) {
       if (undefined === value) {
         msg = (msg != null) ? msg + ': ' : '';
         throw new Error(msg + _.inspect(obj) + ' has no ' + descriptor + _.inspect(name));
@@ -1133,7 +1139,7 @@ module.exports = function (chai, _) {
         , 'expected #{this} to not have ' + descriptor + _.inspect(name));
     }
 
-    if (undefined !== val) {
+    if (arguments.length > 1) {
       this.assert(
           val === value
         , 'expected #{this} to have a ' + descriptor + _.inspect(name) + ' of #{exp}, but got #{act}'
@@ -1555,7 +1561,7 @@ module.exports = function (chai, _) {
       }
 
       // next, check message
-      var message = 'object' === _.type(err) && "message" in err
+      var message = 'error' === _.type(err) && "message" in err
         ? err.message
         : '' + err;
 
@@ -2603,7 +2609,7 @@ module.exports = function (chai, util) {
    *
    * Asserts that `haystack` does not include `needle`. Works
    * for strings and arrays.
-   *i
+   *
    *     assert.notInclude('foobar', 'baz', 'string not include substring');
    *     assert.notInclude([ 1, 2, 3 ], 4, 'array not include contain value');
    *
@@ -3146,11 +3152,24 @@ module.exports = function (chai, util) {
   }
 
   /*!
-   * Undocumented / untested
+   * ### .ifError(object)
+   *
+   * Asserts if value is not a false value, and throws if it is a true value.
+   * This is added to allow for chai to be a drop-in replacement for Node's 
+   * assert class.
+   *
+   *     var err = new Error('I am a custom error');
+   *     assert.ifError(err); // Rethrows err!
+   *
+   * @name ifError
+   * @param {Object} object
+   * @api public
    */
 
-  assert.ifError = function (val, msg) {
-    new Assertion(val, msg).to.not.be.ok;
+  assert.ifError = function (val) {
+    if (val) {
+      throw(val);
+    }
   };
 
   /*!
@@ -3692,7 +3711,7 @@ module.exports = function getPathInfo(path, obj) {
   var info = {
     parent: parsed.length > 1 ? _getPathValue(parsed, obj, parsed.length - 1) : obj,
     name: last.p || last.i,
-    value: _getPathValue(parsed, obj),
+    value: _getPathValue(parsed, obj)
   };
   info.exists = hasProperty(info.name, info.parent);
 
@@ -3855,7 +3874,7 @@ module.exports = function getProperties(object) {
  * MIT Licensed
  */
 
-var type = require('./type');
+var type = require('type-detect');
 
 /**
  * ### .hasProperty(object, name)
@@ -3913,7 +3932,7 @@ module.exports = function hasProperty(name, obj) {
   return name in obj;
 };
 
-},{"./type":28}],20:[function(require,module,exports){
+},{"type-detect":33}],20:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -3936,7 +3955,7 @@ exports.test = require('./test');
  * type utility
  */
 
-exports.type = require('./type');
+exports.type = require('type-detect');
 
 /*!
  * message utility
@@ -4041,7 +4060,7 @@ exports.addChainableMethod = require('./addChainableMethod');
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
 
-},{"./addChainableMethod":8,"./addMethod":9,"./addProperty":10,"./flag":11,"./getActual":12,"./getMessage":14,"./getName":15,"./getPathInfo":16,"./getPathValue":17,"./hasProperty":19,"./inspect":21,"./objDisplay":22,"./overwriteChainableMethod":23,"./overwriteMethod":24,"./overwriteProperty":25,"./test":26,"./transferFlags":27,"./type":28,"deep-eql":30}],21:[function(require,module,exports){
+},{"./addChainableMethod":8,"./addMethod":9,"./addProperty":10,"./flag":11,"./getActual":12,"./getMessage":14,"./getName":15,"./getPathInfo":16,"./getPathValue":17,"./hasProperty":19,"./inspect":21,"./objDisplay":22,"./overwriteChainableMethod":23,"./overwriteMethod":24,"./overwriteProperty":25,"./test":26,"./transferFlags":27,"deep-eql":29,"type-detect":33}],21:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -4667,53 +4686,6 @@ module.exports = function (assertion, object, includeAll) {
 
 },{}],28:[function(require,module,exports){
 /*!
- * Chai - type utility
- * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
-
-/*!
- * Detectable javascript natives
- */
-
-var natives = {
-    '[object Arguments]': 'arguments'
-  , '[object Array]': 'array'
-  , '[object Date]': 'date'
-  , '[object Function]': 'function'
-  , '[object Number]': 'number'
-  , '[object RegExp]': 'regexp'
-  , '[object String]': 'string'
-};
-
-/**
- * ### type(object)
- *
- * Better implementation of `typeof` detection that can
- * be used cross-browser. Handles the inconsistencies of
- * Array, `null`, and `undefined` detection.
- *
- *     utils.type({}) // 'object'
- *     utils.type(null) // `null'
- *     utils.type(undefined) // `undefined`
- *     utils.type([]) // `array`
- *
- * @param {Mixed} object to detect type of
- * @name type
- * @api private
- */
-
-module.exports = function (obj) {
-  var str = Object.prototype.toString.call(obj);
-  if (natives[str]) return natives[str];
-  if (obj === null) return 'null';
-  if (obj === undefined) return 'undefined';
-  if (obj === Object(obj)) return 'object';
-  return typeof obj;
-};
-
-},{}],29:[function(require,module,exports){
-/*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
  * MIT Licensed
@@ -4826,10 +4798,10 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = require('./lib/eql');
 
-},{"./lib/eql":31}],31:[function(require,module,exports){
+},{"./lib/eql":30}],30:[function(require,module,exports){
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -5088,10 +5060,10 @@ function objectEqual(a, b, m) {
   return true;
 }
 
-},{"buffer":undefined,"type-detect":32}],32:[function(require,module,exports){
+},{"buffer":undefined,"type-detect":31}],31:[function(require,module,exports){
 module.exports = require('./lib/type');
 
-},{"./lib/type":33}],33:[function(require,module,exports){
+},{"./lib/type":32}],32:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -5235,8 +5207,146 @@ Library.prototype.test = function (obj, type) {
   }
 };
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
+arguments[4][31][0].apply(exports,arguments)
+},{"./lib/type":34,"dup":31}],34:[function(require,module,exports){
+/*!
+ * type-detect
+ * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Primary Exports
+ */
+
+var exports = module.exports = getType;
+
+/**
+ * ### typeOf (obj)
+ *
+ * Use several different techniques to determine
+ * the type of object being tested.
+ *
+ *
+ * @param {Mixed} object
+ * @return {String} object type
+ * @api public
+ */
+var objectTypeRegexp = /^\[object (.*)\]$/;
+
+function getType(obj) {
+  var type = Object.prototype.toString.call(obj).match(objectTypeRegexp)[1].toLowerCase();
+  // Let "new String('')" return 'object'
+  if (typeof Promise === 'function' && obj instanceof Promise) return 'promise';
+  // PhantomJS has type "DOMWindow" for null
+  if (obj === null) return 'null';
+  // PhantomJS has type "DOMWindow" for undefined
+  if (obj === undefined) return 'undefined';
+  return type;
+}
+
+exports.Library = Library;
+
+/**
+ * ### Library
+ *
+ * Create a repository for custom type detection.
+ *
+ * ```js
+ * var lib = new type.Library;
+ * ```
+ *
+ */
+
+function Library() {
+  if (!(this instanceof Library)) return new Library();
+  this.tests = {};
+}
+
+/**
+ * #### .of (obj)
+ *
+ * Expose replacement `typeof` detection to the library.
+ *
+ * ```js
+ * if ('string' === lib.of('hello world')) {
+ *   // ...
+ * }
+ * ```
+ *
+ * @param {Mixed} object to test
+ * @return {String} type
+ */
+
+Library.prototype.of = getType;
+
+/**
+ * #### .define (type, test)
+ *
+ * Add a test to for the `.test()` assertion.
+ *
+ * Can be defined as a regular expression:
+ *
+ * ```js
+ * lib.define('int', /^[0-9]+$/);
+ * ```
+ *
+ * ... or as a function:
+ *
+ * ```js
+ * lib.define('bln', function (obj) {
+ *   if ('boolean' === lib.of(obj)) return true;
+ *   var blns = [ 'yes', 'no', 'true', 'false', 1, 0 ];
+ *   if ('string' === lib.of(obj)) obj = obj.toLowerCase();
+ *   return !! ~blns.indexOf(obj);
+ * });
+ * ```
+ *
+ * @param {String} type
+ * @param {RegExp|Function} test
+ * @api public
+ */
+
+Library.prototype.define = function(type, test) {
+  if (arguments.length === 1) return this.tests[type];
+  this.tests[type] = test;
+  return this;
+};
+
+/**
+ * #### .test (obj, test)
+ *
+ * Assert that an object is of type. Will first
+ * check natives, and if that does not pass it will
+ * use the user defined custom tests.
+ *
+ * ```js
+ * assert(lib.test('1', 'int'));
+ * assert(lib.test('yes', 'bln'));
+ * ```
+ *
+ * @param {Mixed} object
+ * @param {String} type
+ * @return {Boolean} result
+ * @api public
+ */
+
+Library.prototype.test = function(obj, type) {
+  if (type === getType(obj)) return true;
+  var test = this.tests[type];
+
+  if (test && 'regexp' === getType(test)) {
+    return test.test(obj);
+  } else if (test && 'function' === getType(test)) {
+    return test(obj);
+  } else {
+    throw new ReferenceError('Type test "' + type + '" not defined or invalid.');
+  }
+};
+
+},{}],35:[function(require,module,exports){
 module.exports = require('./lib/chai');
 
-},{"./lib/chai":1}]},{},[34])(34)
+},{"./lib/chai":1}]},{},[35])(35)
 });
