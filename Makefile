@@ -10,7 +10,31 @@ all: chai.js
 
 chai.js: node_modules lib/*
 	@printf "==> [Browser :: build]\n"
-	@./node_modules/.bin/browserify --bare --outfile chai.js --standalone chai --entry index.js
+	@./node_modules/.bin/browserify \
+	 	--bare \
+		--outfile chai.js \
+		--standalone chai \
+		--entry index.js
+
+#
+# Release Task
+#
+
+define release
+	./node_modules/.bin/bump -y --$(1) *.json lib/chai.js
+	make chai.js
+	git add --force chai.js package.json
+	npm ls --depth=-1 --long . --loglevel silent | head -1 | git commit -F-
+endef
+
+release-patch:
+	@$(call release,patch)
+
+release-minor:
+	@$(call release,minor)
+
+release-major:
+	@$(call release,major)
 
 #
 # Node Module
@@ -79,3 +103,4 @@ clean-cov:
 .PHONY: all
 .PHONY: test test-all test-node test-phantom test-sauce test-cov
 .PHONY: clean clean-node clean-browser clean-cov
+.PHONY: release-patch release-minor release-major
