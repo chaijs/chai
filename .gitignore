@@ -17,6 +17,7 @@ node_modules
 npm-debug.log
 
 coverage
+/chai.js
 
 test/auth/*
 !test/auth/.gitkeep
