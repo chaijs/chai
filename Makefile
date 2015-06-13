@@ -21,7 +21,7 @@ chai.js: node_modules lib/*
 #
 
 define release
-	./node_modules/.bin/bump -y --$(1) *.json lib/chai.js
+	./node_modules/.bin/bump -y --$(1) package.json lib/chai.js
 	make chai.js
 	git add --force chai.js lib/chai.js package.json bower.json
 	npm ls --depth=-1 --long . --loglevel silent | head -1 | git commit -F-
