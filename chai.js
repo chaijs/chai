@@ -1,4 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chai = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = require('./lib/chai');
+
+},{"./lib/chai":2}],2:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -93,7 +96,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion":2,"./chai/config":3,"./chai/core/assertions":4,"./chai/interface/assert":5,"./chai/interface/expect":6,"./chai/interface/should":7,"./chai/utils":20,"assertion-error":28}],2:[function(require,module,exports){
+},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":30}],3:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -226,7 +229,7 @@ module.exports = function (_chai, util) {
   });
 };
 
-},{"./config":3}],3:[function(require,module,exports){
+},{"./config":4}],4:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -283,13 +286,15 @@ module.exports = {
 
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
+
+ var checkError = require('../utils/checkError');
 
 module.exports = function (chai, _) {
   var Assertion = chai.Assertion
@@ -1497,123 +1502,87 @@ module.exports = function (chai, _) {
    * @returns error for chaining (null if no error)
    * @api public
    */
-
   function assertThrows (constructor, errMsg, msg) {
+    var caughtError;
     if (msg) flag(this, 'message', msg);
     var obj = flag(this, 'object');
     new Assertion(obj, msg).is.a('function');
 
-    var thrown = false
-      , desiredError = null
-      , name = null
-      , thrownError = null;
-
-    if (arguments.length === 0) {
-      errMsg = null;
-      constructor = null;
-    } else if (constructor && (constructor instanceof RegExp || 'string' === typeof constructor)) {
-      errMsg = constructor;
-      constructor = null;
-    } else if (constructor && constructor instanceof Error) {
-      desiredError = constructor;
-      constructor = null;
-      errMsg = null;
-    } else if (typeof constructor === 'function') {
-      name = constructor.prototype.name || constructor.name;
-      if (name === 'Error' && constructor !== Error) {
-        name = (new constructor()).name;
-      }
-    } else {
-      constructor = null;
-    }
-
     try {
       obj();
     } catch (err) {
-      // first, check desired error
-      if (desiredError) {
-        this.assert(
-            err === desiredError
-          , 'expected #{this} to throw #{exp} but #{act} was thrown'
-          , 'expected #{this} to not throw #{exp}'
-          , (desiredError instanceof Error ? desiredError.toString() : desiredError)
-          , (err instanceof Error ? err.toString() : err)
-        );
+      caughtError = err;
+    }
 
-        flag(this, 'object', err);
-        return this;
-      }
+    var foundErrors = checkError.call(this, caughtError, {constructor: constructor, errMsg: errMsg});
+    var self = this;
 
-      // next, check constructor
-      if (constructor) {
-        this.assert(
-            err instanceof constructor
-          , 'expected #{this} to throw #{exp} but #{act} was thrown'
-          , 'expected #{this} to not throw #{exp} but #{act} was thrown'
-          , name
-          , (err instanceof Error ? err.toString() : err)
-        );
+    foundErrors.forEach(function(foundError){
+      var expected = foundError.expected;
 
-        if (!errMsg) {
-          flag(this, 'object', err);
-          return this;
+      function getErrorMsg(options) {
+        var extra = ''
+          , typesToErrorMessages
+          , moreInfo = ''
+          , expected;
+
+        if (options.negate) {
+            extra = 'not ';
         }
+
+        if (typeof foundError.actual !== 'undefined') {
+          if (foundError.failType === 'errorMessageDoesNotMatch' ||
+              foundError.failType === 'errorMessageDoesInclude') {
+              moreInfo = ' but got #{act}';
+          }
+
+          if ((foundError.failType === 'differentErrorInstance' ||
+               foundError.failType === 'differentErrorType') &&
+               (foundError.actual !== foundError.expected)) {
+              moreInfo = ' but #{act} was thrown';
+          }
+        }
+
+        if (!!foundError.expected) {
+          expected = '#{exp}';
+        } else {
+          expected = 'an error';
+        }
+
+        if (options.negate) {
+          typesToErrorMessages = {
+              'differentErrorInstance':   'expected #{this} to ' + extra + 'throw '+expected + moreInfo
+            , 'differentErrorType':       'expected #{this} to ' + extra + 'throw '+expected + moreInfo
+            , 'errorMessageDoesNotMatch': 'expected #{this} to throw error ' + extra + 'matching #{exp}'
+            , 'errorMessageDoesInclude':  'expected #{this} to throw error ' + extra + 'including #{exp}'
+            , 'noErrorThrown':            'expected #{this} to throw ' + expected + moreInfo
+          };
+        } else {
+            typesToErrorMessages = {
+              'differentErrorInstance':   'expected #{this} to ' + extra + 'throw '+expected + moreInfo
+            , 'differentErrorType':       'expected #{this} to ' + extra + 'throw '+expected + moreInfo
+            , 'errorMessageDoesNotMatch': 'expected #{this} to throw error ' + extra + 'matching #{exp}' + moreInfo
+            , 'errorMessageDoesInclude':  'expected #{this} to throw error ' + extra + 'including #{exp}' + moreInfo
+            , 'noErrorThrown':            'expected #{this} to throw ' + expected
+          };
+
+        }
+
+        return typesToErrorMessages[foundError.failType];
       }
 
-      // next, check message
-      var message = 'error' === _.type(err) && "message" in err
-        ? err.message
-        : '' + err;
+      self.assert.call(self,
+          foundError.result
+        , getErrorMsg({negate:false})
+        , getErrorMsg({negate:true})
+        , (foundError.expected instanceof Error ? foundError.expected.toString() : foundError.expected)
+        , (foundError.actual instanceof Error ? foundError.actual.toString() : foundError.actual));
 
-      if ((message != null) && errMsg && errMsg instanceof RegExp) {
-        this.assert(
-            errMsg.exec(message)
-          , 'expected #{this} to throw error matching #{exp} but got #{act}'
-          , 'expected #{this} to throw error not matching #{exp}'
-          , errMsg
-          , message
-        );
-
-        flag(this, 'object', err);
-        return this;
-      } else if ((message != null) && errMsg && 'string' === typeof errMsg) {
-        this.assert(
-            ~message.indexOf(errMsg)
-          , 'expected #{this} to throw error including #{exp} but got #{act}'
-          , 'expected #{this} to throw error not including #{act}'
-          , errMsg
-          , message
-        );
-
-        flag(this, 'object', err);
-        return this;
-      } else {
-        thrown = true;
-        thrownError = err;
+      if (foundError.nextObject) {
+        flag(self, 'object', foundError.nextObject);
       }
-    }
-
-    var actuallyGot = ''
-      , expectedThrown = name !== null
-        ? name
-        : desiredError
-          ? '#{exp}' //_.inspect(desiredError)
-          : 'an error';
-
-    if (thrown) {
-      actuallyGot = ' but #{act} was thrown'
-    }
-
-    this.assert(
-        thrown === true
-      , 'expected #{this} to throw ' + expectedThrown + actuallyGot
-      , 'expected #{this} to not throw ' + expectedThrown + actuallyGot
-      , (desiredError instanceof Error ? desiredError.toString() : desiredError)
-      , (thrownError instanceof Error ? thrownError.toString() : thrownError)
-    );
-
-    flag(this, 'object', thrownError);
-  };
+    });
+  }
 
   Assertion.addMethod('throw', assertThrows);
   Assertion.addMethod('throws', assertThrows);
@@ -1906,7 +1875,7 @@ module.exports = function (chai, _) {
 
 };
 
-},{}],5:[function(require,module,exports){
+},{"../utils/checkError":12}],6:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3184,7 +3153,7 @@ module.exports = function (chai, util) {
   ('Throw', 'throws');
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3219,7 +3188,7 @@ module.exports = function (chai, util) {
   };
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3319,7 +3288,7 @@ module.exports = function (chai, util) {
   chai.Should = loadShould;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * Chai - addChainingMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3432,7 +3401,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   });
 };
 
-},{"../config":3,"./flag":11,"./transferFlags":27}],9:[function(require,module,exports){
+},{"../config":4,"./flag":13,"./transferFlags":29}],10:[function(require,module,exports){
 /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3477,7 +3446,7 @@ module.exports = function (ctx, name, method) {
   };
 };
 
-},{"../config":3,"./flag":11}],10:[function(require,module,exports){
+},{"../config":4,"./flag":13}],11:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3519,7 +3488,174 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+/*!
+ * Chai - checkError utility
+ * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * ### checkError (err, assertionargs)
+ *
+ * Checks that an error conforms to a given set of criteria.
+ * Returns whether the error matches, as well as details of a failed match.
+ * Result is an object containing :
+ *   - result : did it match
+ *   - failType : why it didn't match : one of the following :
+ *      differentErrorInstance : error isn't the same instance as was requested
+ *      differentErrorType : error is of a different type to the one requested
+ *      errorMessageDoesNotMatch : error message does not match of the given regex
+ *      errorMessageDoesInclude : error message does not include
+ *                                (i.e. is not a substring) of the given string
+ *      noErrorThrown : no error was provided
+ *   - expected : expected error
+ *   - actual : actual error
+ *   - nextObject: next object to be flagged
+ *
+ *
+ * @param {Error} error value to be checked
+ * @param {Object} properties to check on the error:
+ * has properties :
+ *   - constructor : either the error instance or the constructor of the desired error
+ *   - errMsg : either a substring or a regex that the error message should match
+ * @name checkError
+ * @api public
+ */
+
+ var flag = require('./flag');
+ var type = require('type-detect');
+ var Assertion = require('../assertion');
+
+module.exports = function checkError (err, assertionargs) {
+    var foundErrors = [],
+        constructor = assertionargs && assertionargs.constructor,
+        errMsg = assertionargs && assertionargs.errMsg;
+
+    var thrown = false
+      , desiredError = null
+      , name = null
+      , thrownError = null;
+
+    if (arguments.length === 0) {
+      errMsg = null;
+      constructor = null;
+    } else if (constructor && (constructor instanceof RegExp || 'string' === typeof constructor)) {
+      errMsg = constructor;
+      constructor = null;
+    } else if (constructor && constructor instanceof Error) {
+      desiredError = constructor;
+      constructor = null;
+      errMsg = null;
+    } else if (typeof constructor === 'function') {
+      name = constructor.prototype.name || constructor.name;
+      if (name === 'Error' && constructor !== Error) {
+        name = (new constructor()).name;
+      }
+    } else {
+      constructor = null;
+    }
+
+    if (err) {
+      // first, check desired error
+      if (desiredError) {
+        foundErrors.push({
+            result: err === desiredError
+          , failType: 'differentErrorInstance'
+          , expected: desiredError
+          , actual: err
+          , nextObject: err
+        });
+
+        return foundErrors;
+      }
+
+      // next, check constructor
+      if (constructor) {
+        var nextError = {
+            result: err instanceof constructor
+          , failType: 'differentErrorType'
+          , expected: name
+          , actual: err
+        };
+
+        if (!errMsg) {
+          nextError.nextObject = err;
+          foundErrors.push(nextError);
+          return foundErrors;
+        } else {
+          foundErrors.push(nextError);
+        }
+      }
+
+      // next, check message
+      var message = 'error' === type(err) && "message" in err
+        ? err.message
+        : '' + err;
+
+      if ((message != null) && errMsg && errMsg instanceof RegExp) {
+        foundErrors.push({
+            result: errMsg.exec(message) != null
+          , failType: 'errorMessageDoesNotMatch'
+          , expected: errMsg
+          , actual: message
+          , nextObject: err
+        });
+
+        return foundErrors;
+      } else if ((message != null) && errMsg && 'string' === typeof errMsg) {
+
+        foundErrors.push({
+            result: !!(~message.indexOf(errMsg))
+          , failType: 'errorMessageDoesInclude'
+          , expected: errMsg
+          , actual: message
+          , nextObject: err
+        });
+
+        return foundErrors;
+      } else {
+        thrown = true;
+        thrownError = err;
+      }
+    }
+
+    var myError = {
+        result: thrown === true
+      , expected: desiredError
+      , actual: err
+      , nextObject: thrownError
+    };
+
+    if (thrown) {
+      myError.failType =  'differentErrorInstance'
+    } else {
+      myError.failType = 'noErrorThrown';
+    }
+
+    if (!desiredError) {
+      if (!!constructor) {
+        myError.expected = constructor;
+      } else if (!!errMsg) {
+        myError.expected = errMsg;
+        if ('string' === typeof errMsg) {
+          myError.failType =  'errorMessageDoesInclude';
+        } else if (errMsg instanceof RegExp) {
+          myError.failType = 'errorMessageDoesNotMatch';
+        }
+      }
+    }
+
+    if (name !== null) {
+      myError.expected = name;
+    }
+
+    foundErrors.push(myError);
+
+    return foundErrors;
+};
+
+},{"../assertion":3,"./flag":13,"type-detect":35}],13:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3553,7 +3689,7 @@ module.exports = function (obj, key, value) {
   }
 };
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * Chai - getActual utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3573,7 +3709,7 @@ module.exports = function (obj, args) {
   return args.length > 4 ? args[4] : obj._obj;
 };
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
  * Chai - getEnumerableProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3600,7 +3736,7 @@ module.exports = function getEnumerableProperties(object) {
   return result;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
  * Chai - message composition utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3652,7 +3788,7 @@ module.exports = function (obj, args) {
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
-},{"./flag":11,"./getActual":12,"./inspect":21,"./objDisplay":22}],15:[function(require,module,exports){
+},{"./flag":13,"./getActual":14,"./inspect":23,"./objDisplay":24}],17:[function(require,module,exports){
 /*!
  * Chai - getName utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3674,7 +3810,7 @@ module.exports = function (func) {
   return match && match[1] ? match[1] : "";
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*!
  * Chai - getPathInfo utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3786,7 +3922,7 @@ function _getPathValue (parsed, obj, index) {
   return res;
 }
 
-},{"./hasProperty":19}],17:[function(require,module,exports){
+},{"./hasProperty":21}],19:[function(require,module,exports){
 /*!
  * Chai - getPathValue utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3830,7 +3966,7 @@ module.exports = function(path, obj) {
   return info.value;
 }; 
 
-},{"./getPathInfo":16}],18:[function(require,module,exports){
+},{"./getPathInfo":18}],20:[function(require,module,exports){
 /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3867,7 +4003,7 @@ module.exports = function getProperties(object) {
   return result;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*!
  * Chai - hasProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -3932,7 +4068,7 @@ module.exports = function hasProperty(name, obj) {
   return name in obj;
 };
 
-},{"type-detect":33}],20:[function(require,module,exports){
+},{"type-detect":35}],22:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -4059,8 +4195,10 @@ exports.addChainableMethod = require('./addChainableMethod');
 
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
+exports.checkError = require('./checkError');
 
-},{"./addChainableMethod":8,"./addMethod":9,"./addProperty":10,"./flag":11,"./getActual":12,"./getMessage":14,"./getName":15,"./getPathInfo":16,"./getPathValue":17,"./hasProperty":19,"./inspect":21,"./objDisplay":22,"./overwriteChainableMethod":23,"./overwriteMethod":24,"./overwriteProperty":25,"./test":26,"./transferFlags":27,"deep-eql":29,"type-detect":33}],21:[function(require,module,exports){
+
+},{"./addChainableMethod":9,"./addMethod":10,"./addProperty":11,"./checkError":12,"./flag":13,"./getActual":14,"./getMessage":16,"./getName":17,"./getPathInfo":18,"./getPathValue":19,"./hasProperty":21,"./inspect":23,"./objDisplay":24,"./overwriteChainableMethod":25,"./overwriteMethod":26,"./overwriteProperty":27,"./test":28,"./transferFlags":29,"deep-eql":31,"type-detect":35}],23:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -4395,7 +4533,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-},{"./getEnumerableProperties":13,"./getName":15,"./getProperties":18}],22:[function(require,module,exports){
+},{"./getEnumerableProperties":15,"./getName":17,"./getProperties":20}],24:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4446,7 +4584,7 @@ module.exports = function (obj) {
   }
 };
 
-},{"../config":3,"./inspect":21}],23:[function(require,module,exports){
+},{"../config":4,"./inspect":23}],25:[function(require,module,exports){
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4501,7 +4639,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   };
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4554,7 +4692,7 @@ module.exports = function (ctx, name, method) {
   }
 };
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4610,7 +4748,7 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4638,7 +4776,7 @@ module.exports = function (obj, args) {
   return negate ? !expr : expr;
 };
 
-},{"./flag":11}],27:[function(require,module,exports){
+},{"./flag":13}],29:[function(require,module,exports){
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4684,7 +4822,7 @@ module.exports = function (assertion, object, includeAll) {
   }
 };
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -4798,10 +4936,10 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = require('./lib/eql');
 
-},{"./lib/eql":30}],30:[function(require,module,exports){
+},{"./lib/eql":32}],32:[function(require,module,exports){
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -5060,10 +5198,10 @@ function objectEqual(a, b, m) {
   return true;
 }
 
-},{"buffer":undefined,"type-detect":31}],31:[function(require,module,exports){
+},{"buffer":undefined,"type-detect":33}],33:[function(require,module,exports){
 module.exports = require('./lib/type');
 
-},{"./lib/type":32}],32:[function(require,module,exports){
+},{"./lib/type":34}],34:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -5207,9 +5345,9 @@ Library.prototype.test = function (obj, type) {
   }
 };
 
-},{}],33:[function(require,module,exports){
-arguments[4][31][0].apply(exports,arguments)
-},{"./lib/type":34,"dup":31}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"./lib/type":36,"dup":33}],36:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -5345,8 +5483,5 @@ Library.prototype.test = function(obj, type) {
   }
 };
 
-},{}],35:[function(require,module,exports){
-module.exports = require('./lib/chai');
-
-},{"./lib/chai":1}]},{},[35])(35)
+},{}]},{},[1])(1)
 });
