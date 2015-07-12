@@ -1060,5 +1060,19 @@ describe('expect', function () {
     expect(decFn).to.decrease(obj, 'value');
   });
 
+  it('extensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    expect({}).to.be.extensible;
+    expect(nonExtensibleObject).to.not.be.extensible;
+
+    err(function() {
+        expect(nonExtensibleObject).to.be.extensible;
+    }, 'expected {} to be extensible');
+
+    err(function() {
+        expect({}).to.not.be.extensible;
+    }, 'expected {} to not be extensible');
+  });
 
 });

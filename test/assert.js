@@ -738,4 +738,24 @@ describe('assert', function () {
     assert.doesNotIncrease(smFn, obj, 'value');
   });
 
+  it('extensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    assert.extensible({});
+
+    err(function() {
+      assert.extensible(nonExtensibleObject);
+    }, 'expected {} to be extensible');
+  });
+
+  it('notExtensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    assert.notExtensible(nonExtensibleObject);
+
+    err(function() {
+      assert.notExtensible({});
+    }, 'expected {} to not be extensible');
+  });
+
 });
