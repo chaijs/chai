@@ -738,4 +738,64 @@ describe('assert', function () {
     assert.doesNotIncrease(smFn, obj, 'value');
   });
 
+  it('extensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    assert.extensible({});
+
+    err(function() {
+      assert.extensible(nonExtensibleObject);
+    }, 'expected {} to be extensible');
+  });
+
+  it('notExtensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    assert.notExtensible(nonExtensibleObject);
+
+    err(function() {
+      assert.notExtensible({});
+    }, 'expected {} to not be extensible');
+  });
+
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    assert.sealed(sealedObject);
+
+    err(function() {
+      assert.sealed({});
+    }, 'expected {} to be sealed');
+  });
+
+  it('notSealed', function() {
+    var sealedObject = Object.seal({});
+
+    assert.notSealed({});
+
+    err(function() {
+      assert.notSealed(sealedObject);
+    }, 'expected {} to not be sealed');
+  });
+
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    assert.frozen(frozenObject);
+
+    err(function() {
+      assert.frozen({});
+    }, 'expected {} to be frozen');
+  });
+
+  it('notFrozen', function() {
+    var frozenObject = Object.freeze({});
+
+    assert.notFrozen({});
+
+    err(function() {
+      assert.notFrozen(frozenObject);
+    }, 'expected {} to not be frozen');
+  });
+
 });

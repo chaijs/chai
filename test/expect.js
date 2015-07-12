@@ -1060,5 +1060,49 @@ describe('expect', function () {
     expect(decFn).to.decrease(obj, 'value');
   });
 
+  it('extensible', function() {
+    var nonExtensibleObject = Object.preventExtensions({});
+
+    expect({}).to.be.extensible;
+    expect(nonExtensibleObject).to.not.be.extensible;
+
+    err(function() {
+        expect(nonExtensibleObject).to.be.extensible;
+    }, 'expected {} to be extensible');
+
+    err(function() {
+        expect({}).to.not.be.extensible;
+    }, 'expected {} to not be extensible');
+  });
+
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    expect(sealedObject).to.be.sealed;
+    expect({}).to.not.be.sealed;
+
+    err(function() {
+        expect({}).to.be.sealed;
+    }, 'expected {} to be sealed');
+
+    err(function() {
+        expect(sealedObject).to.not.be.sealed;
+    }, 'expected {} to not be sealed');
+  });
+
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    expect(frozenObject).to.be.frozen;
+    expect({}).to.not.be.frozen;
+
+    err(function() {
+        expect({}).to.be.frozen;
+    }, 'expected {} to be frozen');
+
+    err(function() {
+        expect(frozenObject).to.not.be.frozen;
+    }, 'expected {} to not be frozen');
+  });
 
 });

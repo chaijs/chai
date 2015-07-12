@@ -923,4 +923,49 @@ describe('should', function() {
     incFn.should.not.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value');
   });
+
+  it('extensible', function() {
+     var nonExtensibleObject = Object.preventExtensions({});
+
+     ({}).should.be.extensible;
+     nonExtensibleObject.should.not.be.extensible;
+
+     err(function() {
+       nonExtensibleObject.should.be.extensible;
+     }, 'expected {} to be extensible');
+
+     err(function() {
+       ({}).should.not.be.extensible;
+     }, 'expected {} to not be extensible');
+  });
+
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    sealedObject.should.be.sealed;
+    ({}).should.not.be.sealed;
+
+    err(function() {
+      ({}).should.be.sealed;
+    }, 'expected {} to be sealed');
+
+    err(function() {
+      sealedObject.should.not.be.sealed;
+    }, 'expected {} to not be sealed');
+  });
+
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    frozenObject.should.be.frozen;
+    ({}).should.not.be.frozen;
+
+    err(function() {
+        ({}).should.be.frozen;
+    }, 'expected {} to be frozen');
+
+    err(function() {
+        frozenObject.should.not.be.frozen;
+    }, 'expected {} to not be frozen');
+  });
 });
