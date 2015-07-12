@@ -939,4 +939,19 @@ describe('should', function() {
      }, 'expected {} to not be extensible');
   });
 
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    sealedObject.should.be.sealed;
+    ({}).should.not.be.sealed;
+
+    err(function() {
+      ({}).should.be.sealed;
+    }, 'expected {} to be sealed');
+
+    err(function() {
+      sealedObject.should.not.be.sealed;
+    }, 'expected {} to not be sealed');
+  });
+
 });

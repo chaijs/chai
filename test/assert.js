@@ -758,4 +758,24 @@ describe('assert', function () {
     }, 'expected {} to not be extensible');
   });
 
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    assert.sealed(sealedObject);
+
+    err(function() {
+      assert.sealed({});
+    }, 'expected {} to be sealed');
+  });
+
+  it('notSealed', function() {
+    var sealedObject = Object.seal({});
+
+    assert.notSealed({});
+
+    err(function() {
+      assert.notSealed(sealedObject);
+    }, 'expected {} to not be sealed');
+  });
+
 });

@@ -1075,4 +1075,19 @@ describe('expect', function () {
     }, 'expected {} to not be extensible');
   });
 
+  it('sealed', function() {
+    var sealedObject = Object.seal({});
+
+    expect(sealedObject).to.be.sealed;
+    expect({}).to.not.be.sealed;
+
+    err(function() {
+        expect({}).to.be.sealed;
+    }, 'expected {} to be sealed');
+
+    err(function() {
+        expect(sealedObject).to.not.be.sealed;
+    }, 'expected {} to not be sealed');
+  });
+
 });
