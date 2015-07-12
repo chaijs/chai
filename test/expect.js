@@ -1090,4 +1090,19 @@ describe('expect', function () {
     }, 'expected {} to not be sealed');
   });
 
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    expect(frozenObject).to.be.frozen;
+    expect({}).to.not.be.frozen;
+
+    err(function() {
+        expect({}).to.be.frozen;
+    }, 'expected {} to be frozen');
+
+    err(function() {
+        expect(frozenObject).to.not.be.frozen;
+    }, 'expected {} to not be frozen');
+  });
+
 });

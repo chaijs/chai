@@ -778,4 +778,24 @@ describe('assert', function () {
     }, 'expected {} to not be sealed');
   });
 
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    assert.frozen(frozenObject);
+
+    err(function() {
+      assert.frozen({});
+    }, 'expected {} to be frozen');
+  });
+
+  it('notFrozen', function() {
+    var frozenObject = Object.freeze({});
+
+    assert.notFrozen({});
+
+    err(function() {
+      assert.notFrozen(frozenObject);
+    }, 'expected {} to not be frozen');
+  });
+
 });

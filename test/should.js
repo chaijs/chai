@@ -954,4 +954,18 @@ describe('should', function() {
     }, 'expected {} to not be sealed');
   });
 
+  it('frozen', function() {
+    var frozenObject = Object.freeze({});
+
+    frozenObject.should.be.frozen;
+    ({}).should.not.be.frozen;
+
+    err(function() {
+        ({}).should.be.frozen;
+    }, 'expected {} to be frozen');
+
+    err(function() {
+        frozenObject.should.not.be.frozen;
+    }, 'expected {} to not be frozen');
+  });
 });
