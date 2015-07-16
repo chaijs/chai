@@ -281,6 +281,22 @@ describe('assert', function () {
     }, "expected null to not equal null");
   });
 
+  it('isNaN', function() {
+    assert.isNaN('hello');
+
+    err(function (){
+      assert.isNaN(4);
+    }, "expected 4 to be NaN");
+  });
+
+  it('isNotNaN', function() {
+    assert.isNotNaN(4);
+
+    err(function (){
+      assert.isNotNaN('hello');
+    }, "expected 'hello' not to be NaN");
+  });
+
   it('isUndefined', function() {
     assert.isUndefined(undefined);
 

@@ -399,6 +399,26 @@ describe('expect', function () {
     }, "expected { foo: \'bar\' } to be empty");
   });
 
+  it('NaN', function() {
+    expect(NaN).to.be.NaN;
+    expect('foo').to.be.NaN;
+    expect({}).to.be.NaN;
+    expect(4).not.to.be.NaN;
+    expect([]).not.to.be.NaN;
+
+    err(function(){
+      expect(4).to.be.NaN;
+    }, "expected 4 to be NaN");
+
+    err(function(){
+      expect([]).to.be.NaN;
+    }, "expected [] to be NaN");
+
+    err(function(){
+      expect('foo').not.to.be.NaN;
+    }, "expected 'foo' not to be NaN");
+  });
+
   it('property(name)', function(){
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
