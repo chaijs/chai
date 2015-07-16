@@ -101,6 +101,15 @@ describe('should', function() {
     }, "expected '' to be null")
   });
 
+  it('NaN', function(){
+    'foo'.should.be.NaN;
+    (4).should.not.be.NaN;
+
+    err(function(){
+      (4).should.be.NaN;
+    }, "expected 4 to be NaN")
+  });
+
   it('undefined', function(){
     (0).should.not.be.undefined;
 
