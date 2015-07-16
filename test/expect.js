@@ -892,7 +892,7 @@ describe('expect', function () {
 
     err(function(){
       expect(goodFn).to.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError");
+    }, "expected [Function] to throw 'ReferenceError'");
 
     err(function(){
       expect(goodFn).to.throw(specificError);

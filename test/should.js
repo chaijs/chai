@@ -727,7 +727,7 @@ describe('should', function() {
 
     err(function(){
       (goodFn).should.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError");
+    }, "expected [Function] to throw 'ReferenceError'");
 
     err(function(){
       (goodFn).should.throw(specificError);

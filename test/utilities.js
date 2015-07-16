@@ -448,4 +448,158 @@ describe('utilities', function () {
     });
   });
 
+  describe('checkError', function() {
+    var checkError;
+    beforeEach(function() {
+      chai.use(function (_chai, utils) {
+          checkError = utils.checkError;
+      });
+    });
+
+    describe('differentErrorInstance', function() {
+      it('has error', function() {
+        var actual = new Error('matcha');
+        var expected = new Error('green tea');
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('differentErrorInstance');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual);
+        expect(output[0].result).to.be.false;
+      });
+
+      it('does not have error', function() {
+        var actual = new Error('matcha');
+        var expected = actual;
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('differentErrorInstance');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual);
+        expect(output[0].result).to.be.true;
+      });
+    });
+
+    describe('differentErrorType', function() {
+      it('has error', function() {
+        var actual = new Error('matcha');
+        var expected = SyntaxError;
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('differentErrorType');
+        expect(output[0].expected).to.equal(expected.prototype.name);
+        expect(output[0].actual).to.equal(actual);
+        expect(output[0].result).to.be.false;
+      });
+
+      it('does not have error', function() {
+        var actual = new Error('matcha');
+        var expected = Error;
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('differentErrorType');
+        expect(output[0].expected).to.equal(expected.prototype.name);
+        expect(output[0].actual).to.equal(actual);
+        expect(output[0].result).to.be.true;
+      });
+    });
+
+    describe('errorMessageDoesNotMatch', function() {
+      it('has error', function() {
+        var actual = new Error('matcha');
+        var expected = /green tea/;
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('errorMessageDoesNotMatch');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual.message);
+        expect(output[0].result).to.be.false;
+      });
+
+      it('does not have error', function() {
+        var actual = new Error('matcha');
+        var expected = /matcha/;
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('errorMessageDoesNotMatch');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual.message);
+        expect(output[0].result).to.be.true;
+      });
+    });
+
+    describe('errorMessageDoesInclude', function() {
+      it('has error', function() {
+        var actual = new Error('matcha');
+        var expected = 'green tea';
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('errorMessageDoesInclude');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual.message);
+        expect(output[0].result).to.be.false;
+      });
+
+      it('does not have error', function() {
+        var actual = new Error('green tea');
+        var expected = 'een';
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('errorMessageDoesInclude');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual.message);
+        expect(output[0].result).to.be.true;
+      });
+    });
+
+    describe('noErrorThrown', function() {
+      it('has error', function() {
+        var actual = undefined;
+        var expected = new Error('matcha');
+
+        var output = checkError(actual, {
+          constructor: expected
+        });
+
+        expect(output.length).to.equal(1);
+        expect(output[0].failType).to.equal('noErrorThrown');
+        expect(output[0].expected).to.equal(expected);
+        expect(output[0].actual).to.equal(actual);
+        expect(output[0].result).to.be.false;
+      });
+    });
+
+  });
 });
