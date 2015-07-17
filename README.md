@@ -30,6 +30,17 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - [chaijs / deep-eql](https://github.com/chaijs/deep-eql): Improved deep equality testing for Node.js and the browser.
 - [chaijs / type-detect](https://github.com/chaijs/type-detect): Improved typeof detection for node.js and the browser.
 
+### Contributing
+
+Thank you very much for considering to contribute!
+
+Here are a few issues other contributors frequently ran into when opening pull requests:
+
+- Please do not commit changes to the `chai.js` build. We do it once per release.
+- Before pushing your commits, please make sure you [rebase](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md#pull-requests) them.
+
+We also strongly encourage you to read our detailed [contribution guidelines](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md).
+
 ### Contributors
 
 Please see the full
