@@ -89,7 +89,7 @@ describe('assert', function () {
     assert.equal(foo, undefined);
   });
 
-  it('typeof / notTypeOf', function () {
+  it('typeof', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
@@ -754,64 +754,75 @@ describe('assert', function () {
     assert.doesNotIncrease(smFn, obj, 'value');
   });
 
-  it('extensible', function() {
-    var nonExtensibleObject = Object.preventExtensions({});
+  it('isExtensible / extensible', function() {
+    ['isExtensible', 'extensible'].forEach(function (isExtensible) {
+      var nonExtensibleObject = Object.preventExtensions({});
 
-    assert.extensible({});
+      assert[isExtensible]({});
 
-    err(function() {
-      assert.extensible(nonExtensibleObject);
-    }, 'expected {} to be extensible');
+      err(function() {
+        assert[isExtensible](nonExtensibleObject);
+      }, 'expected {} to be extensible');
+    });
   });
 
-  it('notExtensible', function() {
-    var nonExtensibleObject = Object.preventExtensions({});
+  it('isNotExtensible / notExtensible', function() {
+    ['isNotExtensible', 'notExtensible'].forEach(function (isNotExtensible) {
+      var nonExtensibleObject = Object.preventExtensions({});
 
-    assert.notExtensible(nonExtensibleObject);
+      assert[isNotExtensible](nonExtensibleObject);
 
-    err(function() {
-      assert.notExtensible({});
-    }, 'expected {} to not be extensible');
+      err(function() {
+        assert[isNotExtensible]({});
+      }, 'expected {} to not be extensible');
+    });
   });
 
-  it('sealed', function() {
-    var sealedObject = Object.seal({});
+  it('isSealed / sealed', function() {
+    ['isSealed', 'sealed'].forEach(function (isSealed) {
+      var sealedObject = Object.seal({});
 
-    assert.sealed(sealedObject);
+      assert[isSealed](sealedObject);
 
-    err(function() {
-      assert.sealed({});
-    }, 'expected {} to be sealed');
+      err(function() {
+        assert[isSealed]({});
+      }, 'expected {} to be sealed');
+    });
   });
 
-  it('notSealed', function() {
-    var sealedObject = Object.seal({});
+  it('isNotSealed / notSealed', function() {
+    ['isNotSealed', 'notSealed'].forEach(function (isNotSealed) {
+      var sealedObject = Object.seal({});
 
-    assert.notSealed({});
+      assert[isNotSealed]({});
 
-    err(function() {
-      assert.notSealed(sealedObject);
-    }, 'expected {} to not be sealed');
+      err(function() {
+        assert[isNotSealed](sealedObject);
+      }, 'expected {} to not be sealed');
+    });
   });
 
-  it('frozen', function() {
-    var frozenObject = Object.freeze({});
+  it('isFrozen / frozen', function() {
+    ['isFrozen', 'frozen'].forEach(function (isFrozen) {
+      var frozenObject = Object.freeze({});
 
-    assert.frozen(frozenObject);
+      assert[isFrozen](frozenObject);
 
-    err(function() {
-      assert.frozen({});
-    }, 'expected {} to be frozen');
+      err(function() {
+        assert[isFrozen]({});
+      }, 'expected {} to be frozen');
+    });
   });
 
-  it('notFrozen', function() {
-    var frozenObject = Object.freeze({});
+  it('isNotFrozen / notFrozen', function() {
+    ['isNotFrozen', 'notFrozen'].forEach(function (isNotFrozen) {
+      var frozenObject = Object.freeze({});
 
-    assert.notFrozen({});
+      assert[isNotFrozen]({});
 
-    err(function() {
-      assert.notFrozen(frozenObject);
-    }, 'expected {} to not be frozen');
+      err(function() {
+        assert[isNotFrozen](frozenObject);
+      }, 'expected {} to not be frozen');
+    });
   });
-
 });
