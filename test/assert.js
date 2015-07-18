@@ -36,40 +36,44 @@ describe('assert', function () {
     }, "expected 'test' to be true");
   });
 
-  it('ok', function () {
-    assert.ok(true);
-    assert.ok(1);
-    assert.ok('test');
+  it('isOk / ok', function () {
+    ['isOk', 'ok'].forEach(function (isOk) {
+      assert[isOk](true);
+      assert[isOk](1);
+      assert[isOk]('test');
 
-    err(function () {
-      assert.ok(false);
-    }, "expected false to be truthy");
+      err(function () {
+        assert[isOk](false);
+      }, "expected false to be truthy");
 
-    err(function () {
-      assert.ok(0);
-    }, "expected 0 to be truthy");
+      err(function () {
+        assert[isOk](0);
+      }, "expected 0 to be truthy");
 
-    err(function () {
-      assert.ok('');
-    }, "expected '' to be truthy");
+      err(function () {
+        assert[isOk]('');
+      }, "expected '' to be truthy");
+    });
   });
 
-  it('notOk', function () {
-    assert.notOk(false);
-    assert.notOk(0);
-    assert.notOk('');
+  it('isNotOk, notOk', function () {
+    ['isNotOk', 'notOk'].forEach(function (isNotOk) {
+      assert[isNotOk](false);
+      assert[isNotOk](0);
+      assert[isNotOk]('');
 
-    err(function () {
-      assert.notOk(true);
-    }, "expected true to be falsy");
+      err(function () {
+        assert[isNotOk](true);
+      }, "expected true to be falsy");
 
-    err(function () {
-      assert.notOk(1);
-    }, "expected 1 to be falsy");
+      err(function () {
+        assert[isNotOk](1);
+      }, "expected 1 to be falsy");
 
-    err(function () {
-      assert.notOk('test');
-    }, "expected 'test' to be falsy");
+      err(function () {
+        assert[isNotOk]('test');
+      }, "expected 'test' to be falsy");
+    });
   });
 
   it('isFalse', function () {
