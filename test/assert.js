@@ -513,44 +513,46 @@ describe('assert', function () {
     }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
   });
 
-  it('throws', function() {
-    assert.throws(function() { throw new Error('foo'); });
-    assert.throws(function() { throw new Error('bar'); }, 'bar');
-    assert.throws(function() { throw new Error('bar'); }, /bar/);
-    assert.throws(function() { throw new Error('bar'); }, Error);
-    assert.throws(function() { throw new Error('bar'); }, Error, 'bar');
+  it('throws / throw / Throw', function() {
+    ['throws', 'throw', 'Throw'].forEach(function (throws) {
+      assert[throws](function() { throw new Error('foo'); });
+      assert[throws](function() { throw new Error('bar'); }, 'bar');
+      assert[throws](function() { throw new Error('bar'); }, /bar/);
+      assert[throws](function() { throw new Error('bar'); }, Error);
+      assert[throws](function() { throw new Error('bar'); }, Error, 'bar');
 
-    var thrownErr = assert.throws(function() { throw new Error('foo'); });
-    assert(thrownErr instanceof Error, 'assert.throws returns error');
-    assert(thrownErr.message === 'foo', 'assert.throws returns error message');
+      var thrownErr = assert[throws](function() { throw new Error('foo'); });
+      assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
+      assert(thrownErr.message === 'foo', 'assert.' + throws + ' returns error message');
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, TypeError);
-     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, TypeError);
+       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, 'bar');
-     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, 'bar');
+       }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, Error, 'bar');
-     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, Error, 'bar');
+       }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, TypeError, 'bar');
-     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, TypeError, 'bar');
+       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
-    err(function () {
-      assert.throws(function() {});
-     }, "expected [Function] to throw an error");
+      err(function () {
+        assert[throws](function() {});
+       }, "expected [Function] to throw an error");
 
-    err(function () {
-        assert.throws(function() { throw new Error('') }, 'bar');
-    }, "expected [Function] to throw error including 'bar' but got ''");
+      err(function () {
+          assert[throws](function() { throw new Error('') }, 'bar');
+      }, "expected [Function] to throw error including 'bar' but got ''");
 
-    err(function () {
-        assert.throws(function() { throw new Error('') }, /bar/);
-    }, "expected [Function] to throw error matching /bar/ but got ''");
+      err(function () {
+          assert[throws](function() { throw new Error('') }, /bar/);
+      }, "expected [Function] to throw error matching /bar/ but got ''");
+    });
   });
 
   it('doesNotThrow', function() {
