@@ -36,40 +36,44 @@ describe('assert', function () {
     }, "expected 'test' to be true");
   });
 
-  it('ok', function () {
-    assert.ok(true);
-    assert.ok(1);
-    assert.ok('test');
+  it('isOk / ok', function () {
+    ['isOk', 'ok'].forEach(function (isOk) {
+      assert[isOk](true);
+      assert[isOk](1);
+      assert[isOk]('test');
 
-    err(function () {
-      assert.ok(false);
-    }, "expected false to be truthy");
+      err(function () {
+        assert[isOk](false);
+      }, "expected false to be truthy");
 
-    err(function () {
-      assert.ok(0);
-    }, "expected 0 to be truthy");
+      err(function () {
+        assert[isOk](0);
+      }, "expected 0 to be truthy");
 
-    err(function () {
-      assert.ok('');
-    }, "expected '' to be truthy");
+      err(function () {
+        assert[isOk]('');
+      }, "expected '' to be truthy");
+    });
   });
 
-  it('notOk', function () {
-    assert.notOk(false);
-    assert.notOk(0);
-    assert.notOk('');
+  it('isNotOk, notOk', function () {
+    ['isNotOk', 'notOk'].forEach(function (isNotOk) {
+      assert[isNotOk](false);
+      assert[isNotOk](0);
+      assert[isNotOk]('');
 
-    err(function () {
-      assert.notOk(true);
-    }, "expected true to be falsy");
+      err(function () {
+        assert[isNotOk](true);
+      }, "expected true to be falsy");
 
-    err(function () {
-      assert.notOk(1);
-    }, "expected 1 to be falsy");
+      err(function () {
+        assert[isNotOk](1);
+      }, "expected 1 to be falsy");
 
-    err(function () {
-      assert.notOk('test');
-    }, "expected 'test' to be falsy");
+      err(function () {
+        assert[isNotOk]('test');
+      }, "expected 'test' to be falsy");
+    });
   });
 
   it('isFalse', function () {
@@ -89,7 +93,7 @@ describe('assert', function () {
     assert.equal(foo, undefined);
   });
 
-  it('typeof / notTypeOf', function () {
+  it('typeof', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
@@ -509,44 +513,46 @@ describe('assert', function () {
     }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
   });
 
-  it('throws', function() {
-    assert.throws(function() { throw new Error('foo'); });
-    assert.throws(function() { throw new Error('bar'); }, 'bar');
-    assert.throws(function() { throw new Error('bar'); }, /bar/);
-    assert.throws(function() { throw new Error('bar'); }, Error);
-    assert.throws(function() { throw new Error('bar'); }, Error, 'bar');
+  it('throws / throw / Throw', function() {
+    ['throws', 'throw', 'Throw'].forEach(function (throws) {
+      assert[throws](function() { throw new Error('foo'); });
+      assert[throws](function() { throw new Error('bar'); }, 'bar');
+      assert[throws](function() { throw new Error('bar'); }, /bar/);
+      assert[throws](function() { throw new Error('bar'); }, Error);
+      assert[throws](function() { throw new Error('bar'); }, Error, 'bar');
 
-    var thrownErr = assert.throws(function() { throw new Error('foo'); });
-    assert(thrownErr instanceof Error, 'assert.throws returns error');
-    assert(thrownErr.message === 'foo', 'assert.throws returns error message');
+      var thrownErr = assert[throws](function() { throw new Error('foo'); });
+      assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
+      assert(thrownErr.message === 'foo', 'assert.' + throws + ' returns error message');
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, TypeError);
-     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, TypeError);
+       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, 'bar');
-     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, 'bar');
+       }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, Error, 'bar');
-     }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, Error, 'bar');
+       }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
-    err(function () {
-      assert.throws(function() { throw new Error('foo') }, TypeError, 'bar');
-     }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      err(function () {
+        assert[throws](function() { throw new Error('foo') }, TypeError, 'bar');
+       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
-    err(function () {
-      assert.throws(function() {});
-     }, "expected [Function] to throw an error");
+      err(function () {
+        assert[throws](function() {});
+       }, "expected [Function] to throw an error");
 
-    err(function () {
-        assert.throws(function() { throw new Error('') }, 'bar');
-    }, "expected [Function] to throw error including 'bar' but got ''");
+      err(function () {
+          assert[throws](function() { throw new Error('') }, 'bar');
+      }, "expected [Function] to throw error including 'bar' but got ''");
 
-    err(function () {
-        assert.throws(function() { throw new Error('') }, /bar/);
-    }, "expected [Function] to throw error matching /bar/ but got ''");
+      err(function () {
+          assert[throws](function() { throw new Error('') }, /bar/);
+      }, "expected [Function] to throw error matching /bar/ but got ''");
+    });
   });
 
   it('doesNotThrow', function() {
@@ -754,64 +760,75 @@ describe('assert', function () {
     assert.doesNotIncrease(smFn, obj, 'value');
   });
 
-  it('extensible', function() {
-    var nonExtensibleObject = Object.preventExtensions({});
+  it('isExtensible / extensible', function() {
+    ['isExtensible', 'extensible'].forEach(function (isExtensible) {
+      var nonExtensibleObject = Object.preventExtensions({});
 
-    assert.extensible({});
+      assert[isExtensible]({});
 
-    err(function() {
-      assert.extensible(nonExtensibleObject);
-    }, 'expected {} to be extensible');
+      err(function() {
+        assert[isExtensible](nonExtensibleObject);
+      }, 'expected {} to be extensible');
+    });
   });
 
-  it('notExtensible', function() {
-    var nonExtensibleObject = Object.preventExtensions({});
+  it('isNotExtensible / notExtensible', function() {
+    ['isNotExtensible', 'notExtensible'].forEach(function (isNotExtensible) {
+      var nonExtensibleObject = Object.preventExtensions({});
 
-    assert.notExtensible(nonExtensibleObject);
+      assert[isNotExtensible](nonExtensibleObject);
 
-    err(function() {
-      assert.notExtensible({});
-    }, 'expected {} to not be extensible');
+      err(function() {
+        assert[isNotExtensible]({});
+      }, 'expected {} to not be extensible');
+    });
   });
 
-  it('sealed', function() {
-    var sealedObject = Object.seal({});
+  it('isSealed / sealed', function() {
+    ['isSealed', 'sealed'].forEach(function (isSealed) {
+      var sealedObject = Object.seal({});
 
-    assert.sealed(sealedObject);
+      assert[isSealed](sealedObject);
 
-    err(function() {
-      assert.sealed({});
-    }, 'expected {} to be sealed');
+      err(function() {
+        assert[isSealed]({});
+      }, 'expected {} to be sealed');
+    });
   });
 
-  it('notSealed', function() {
-    var sealedObject = Object.seal({});
+  it('isNotSealed / notSealed', function() {
+    ['isNotSealed', 'notSealed'].forEach(function (isNotSealed) {
+      var sealedObject = Object.seal({});
 
-    assert.notSealed({});
+      assert[isNotSealed]({});
 
-    err(function() {
-      assert.notSealed(sealedObject);
-    }, 'expected {} to not be sealed');
+      err(function() {
+        assert[isNotSealed](sealedObject);
+      }, 'expected {} to not be sealed');
+    });
   });
 
-  it('frozen', function() {
-    var frozenObject = Object.freeze({});
+  it('isFrozen / frozen', function() {
+    ['isFrozen', 'frozen'].forEach(function (isFrozen) {
+      var frozenObject = Object.freeze({});
 
-    assert.frozen(frozenObject);
+      assert[isFrozen](frozenObject);
 
-    err(function() {
-      assert.frozen({});
-    }, 'expected {} to be frozen');
+      err(function() {
+        assert[isFrozen]({});
+      }, 'expected {} to be frozen');
+    });
   });
 
-  it('notFrozen', function() {
-    var frozenObject = Object.freeze({});
+  it('isNotFrozen / notFrozen', function() {
+    ['isNotFrozen', 'notFrozen'].forEach(function (isNotFrozen) {
+      var frozenObject = Object.freeze({});
 
-    assert.notFrozen({});
+      assert[isNotFrozen]({});
 
-    err(function() {
-      assert.notFrozen(frozenObject);
-    }, 'expected {} to not be frozen');
+      err(function() {
+        assert[isNotFrozen](frozenObject);
+      }, 'expected {} to not be frozen');
+    });
   });
-
 });
