@@ -15,7 +15,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '3.1.0';
+exports.version = '3.2.0';
 
 /*!
  * Assertion Error
@@ -1657,12 +1657,13 @@ module.exports = function (chai, _) {
    *     expect(Klass).itself.to.respondTo('baz');
    *
    * @name respondTo
+   * @alias respondsTo
    * @param {String} method
    * @param {String} message _optional_
    * @api public
    */
 
-  Assertion.addMethod('respondTo', function (method, msg) {
+  function respondTo (method, msg) {
     if (msg) flag(this, 'message', msg);
     var obj = flag(this, 'object')
       , itself = flag(this, 'itself')
@@ -1675,7 +1676,10 @@ module.exports = function (chai, _) {
       , 'expected #{this} to respond to ' + _.inspect(method)
       , 'expected #{this} to not respond to ' + _.inspect(method)
     );
-  });
+  }
+
+  Assertion.addMethod('respondTo', respondTo);
+  Assertion.addMethod('respondsTo', respondTo);
 
   /**
    * ### .itself
@@ -1705,12 +1709,13 @@ module.exports = function (chai, _) {
    *     expect(1).to.satisfy(function(num) { return num > 0; });
    *
    * @name satisfy
+   * @alias satisfies
    * @param {Function} matcher
    * @param {String} message _optional_
    * @api public
    */
 
-  Assertion.addMethod('satisfy', function (matcher, msg) {
+  function satisfy (matcher, msg) {
     if (msg) flag(this, 'message', msg);
     var obj = flag(this, 'object');
     var result = matcher(obj);
@@ -1721,7 +1726,10 @@ module.exports = function (chai, _) {
       , this.negate ? false : true
       , result
     );
-  });
+  }
+  
+  Assertion.addMethod('satisfy', satisfy);
+  Assertion.addMethod('satisfies', satisfy);
 
   /**
    * ### .closeTo(expected, delta)
@@ -2001,7 +2009,7 @@ module.exports = function (chai, _) {
     var obj = flag(this, 'object');
 
     this.assert(
-      Object.isSealed(obj)
+      Object.isFrozen(obj)
       , 'expected #{this} to be frozen'
       , 'expected #{this} to not be frozen'
     );
@@ -2076,38 +2084,40 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .ok(object, [message])
+   * ### .isOk(object, [message])
    *
    * Asserts that `object` is truthy.
    *
-   *     assert.ok('everything', 'everything is ok');
-   *     assert.ok(false, 'this will fail');
+   *     assert.isOk('everything', 'everything is ok');
+   *     assert.isOk(false, 'this will fail');
    *
-   * @name ok
+   * @name isOk
+   * @alias ok
    * @param {Mixed} object to test
    * @param {String} message
    * @api public
    */
 
-  assert.ok = function (val, msg) {
+  assert.isOk = function (val, msg) {
     new Assertion(val, msg).is.ok;
   };
 
   /**
-   * ### .notOk(object, [message])
+   * ### .isNotOk(object, [message])
    *
    * Asserts that `object` is falsy.
    *
-   *     assert.notOk('everything', 'this will fail');
-   *     assert.notOk(false, 'this will pass');
+   *     assert.isNotOk('everything', 'this will fail');
+   *     assert.isNotOk(false, 'this will pass');
    *
-   * @name notOk
+   * @name isNotOk
+   * @alias notOk
    * @param {Mixed} object to test
    * @param {String} message
    * @api public
    */
 
-  assert.notOk = function (val, msg) {
+  assert.isNotOk = function (val, msg) {
     new Assertion(val, msg).is.not.ok;
   };
 
@@ -2976,11 +2986,11 @@ module.exports = function (chai, util) {
    * `constructor`, or alternately that it will throw an error with message
    * matching `regexp`.
    *
-   *     assert.throw(fn, 'function throws a reference error');
-   *     assert.throw(fn, /function throws a reference error/);
-   *     assert.throw(fn, ReferenceError);
-   *     assert.throw(fn, ReferenceError, 'function throws a reference error');
-   *     assert.throw(fn, ReferenceError, /function throws a reference error/);
+   *     assert.throws(fn, 'function throws a reference error');
+   *     assert.throws(fn, /function throws a reference error/);
+   *     assert.throws(fn, ReferenceError);
+   *     assert.throws(fn, ReferenceError, 'function throws a reference error');
+   *     assert.throws(fn, ReferenceError, /function throws a reference error/);
    *
    * @name throws
    * @alias throw
@@ -2993,13 +3003,13 @@ module.exports = function (chai, util) {
    * @api public
    */
 
-  assert.Throw = function (fn, errt, errs, msg) {
+  assert.throws = function (fn, errt, errs, msg) {
     if ('string' === typeof errt || errt instanceof RegExp) {
       errs = errt;
       errt = null;
     }
 
-    var assertErr = new Assertion(fn, msg).to.Throw(errt, errs);
+    var assertErr = new Assertion(fn, msg).to.throw(errt, errs);
     return flag(assertErr, 'object');
   };
 
@@ -3289,7 +3299,7 @@ module.exports = function (chai, util) {
    * ### .ifError(object)
    *
    * Asserts if value is not a false value, and throws if it is a true value.
-   * This is added to allow for chai to be a drop-in replacement for Node's 
+   * This is added to allow for chai to be a drop-in replacement for Node's
    * assert class.
    *
    *     var err = new Error('I am a custom error');
@@ -3307,24 +3317,25 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .extensible(object)
+   * ### .isExtensible(object)
    *
    * Asserts that `object` is extensible (can have new properties added to it).
    *
-   *     assert.extensible({});
+   *     assert.isExtensible({});
    *
-   * @name extensible
+   * @name isExtensible
+   * @alias extensible
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.extensible = function (obj, msg) {
+  assert.isExtensible = function (obj, msg) {
     new Assertion(obj, msg).to.be.extensible;
   };
 
   /**
-   * ### .notExtensible(object)
+   * ### .isNotExtensible(object)
    *
    * Asserts that `object` is _not_ extensible.
    *
@@ -3332,22 +3343,23 @@ module.exports = function (chai, util) {
    *     var sealedObject = Object.seal({});
    *     var frozenObject = Object.freese({});
    *
-   *     assert.notExtensible(nonExtensibleObject);
-   *     assert.notExtensible(sealedObject);
-   *     assert.notExtensible(frozenObject);
+   *     assert.isNotExtensible(nonExtensibleObject);
+   *     assert.isNotExtensible(sealedObject);
+   *     assert.isNotExtensible(frozenObject);
    *
-   * @name notExtensible
+   * @name isNotExtensible
+   * @alias notExtensible
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.notExtensible = function (obj, msg) {
+  assert.isNotExtensible = function (obj, msg) {
     new Assertion(obj, msg).to.not.be.extensible;
   };
 
   /**
-   * ### .sealed(object)
+   * ### .isSealed(object)
    *
    * Asserts that `object` is sealed (cannot have new properties added to it
    * and its existing properties cannot be removed).
@@ -3355,38 +3367,40 @@ module.exports = function (chai, util) {
    *     var sealedObject = Object.seal({});
    *     var frozenObject = Object.seal({});
    *
-   *     assert.sealed(sealedObject);
-   *     assert.sealed(frozenObject);
+   *     assert.isSealed(sealedObject);
+   *     assert.isSealed(frozenObject);
    *
-   * @name sealed
+   * @name isSealed
+   * @alias sealed
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.sealed = function (obj, msg) {
+  assert.isSealed = function (obj, msg) {
     new Assertion(obj, msg).to.be.sealed;
   };
 
   /**
-   * ### .notSealed(object)
+   * ### .isNotSealed(object)
    *
    * Asserts that `object` is _not_ sealed.
    *
-   *     assert.notSealed({});
+   *     assert.isNotSealed({});
    *
-   * @name notSealed
+   * @name isNotSealed
+   * @alias notSealed
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.notSealed = function (obj, msg) {
+  assert.isNotSealed = function (obj, msg) {
     new Assertion(obj, msg).to.not.be.sealed;
   };
 
   /**
-   * ### .frozen(object)
+   * ### .isFrozen(object)
    *
    * Asserts that `object` is frozen (cannot have new properties added to it
    * and its existing properties cannot be modified).
@@ -3394,30 +3408,32 @@ module.exports = function (chai, util) {
    *     var frozenObject = Object.freeze({});
    *     assert.frozen(frozenObject);
    *
-   * @name frozen
+   * @name isFrozen
+   * @alias frozen
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.frozen = function (obj, msg) {
+  assert.isFrozen = function (obj, msg) {
     new Assertion(obj, msg).to.be.frozen;
   };
 
   /**
-   * ### .notFrozen(object)
+   * ### .isNotFrozen(object)
    *
    * Asserts that `object` is _not_ frozen.
    *
-   *     assert.notFrozen({});
+   *     assert.isNotFrozen({});
    *
-   * @name notSealed
+   * @name isNotFrozen
+   * @alias notFrozen
    * @param {Object} object
    * @param {String} message _optional_
    * @api public
    */
 
-  assert.notFrozen = function (obj, msg) {
+  assert.isNotFrozen = function (obj, msg) {
     new Assertion(obj, msg).to.not.be.frozen;
   };
 
@@ -3429,8 +3445,16 @@ module.exports = function (chai, util) {
     assert[as] = assert[name];
     return alias;
   })
-  ('Throw', 'throw')
-  ('Throw', 'throws');
+  ('isOk', 'ok')
+  ('isNotOk', 'notOk')
+  ('throws', 'throw')
+  ('throws', 'Throw')
+  ('isExtensible', 'extensible')
+  ('isNotExtensible', 'notExtensible')
+  ('isSealed', 'sealed')
+  ('isNotSealed', 'notSealed')
+  ('isFrozen', 'frozen')
+  ('isNotFrozen', 'notFrozen');
 };
 
 },{}],7:[function(require,module,exports){
@@ -4099,7 +4123,7 @@ module.exports = function(path, obj) {
  */
 
 module.exports = function getProperties(object) {
-  var result = Object.getOwnPropertyNames(subject);
+  var result = Object.getOwnPropertyNames(object);
 
   function addProperty(property) {
     if (result.indexOf(property) === -1) {
@@ -4107,7 +4131,7 @@ module.exports = function getProperties(object) {
     }
   }
 
-  var proto = Object.getPrototypeOf(subject);
+  var proto = Object.getPrototypeOf(object);
   while (proto !== null) {
     Object.getOwnPropertyNames(proto).forEach(addProperty);
     proto = Object.getPrototypeOf(proto);
