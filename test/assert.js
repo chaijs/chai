@@ -36,6 +36,14 @@ describe('assert', function () {
     }, "expected 'test' to be true");
   });
 
+  it('isNotTrue', function () {
+    assert.isNotTrue(false);
+
+    err(function() {
+      assert.isNotTrue(true);
+    }, "expected true to not equal true");
+  });
+
   it('isOk / ok', function () {
     ['isOk', 'ok'].forEach(function (isOk) {
       assert[isOk](true);
@@ -86,6 +94,14 @@ describe('assert', function () {
     err(function() {
       assert.isFalse(0);
     }, "expected 0 to be false");
+  });
+
+  it('isNotFalse', function () {
+    assert.isNotFalse(true);
+
+    err(function() {
+      assert.isNotFalse(false);
+    }, "expected false to not equal false");
   });
 
   it('equal', function () {
