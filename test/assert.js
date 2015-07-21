@@ -833,6 +833,14 @@ describe('assert', function () {
       err(function() {
         assert[isFrozen]({});
       }, 'expected {} to be frozen');
+
+      // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+      assert[isFrozen](42);
+      assert[isFrozen](null);
+      assert[isFrozen]('foo');
+      assert[isFrozen](false);
+      assert[isFrozen](undefined);
     });
   });
 
@@ -845,6 +853,28 @@ describe('assert', function () {
       err(function() {
         assert[isNotFrozen](frozenObject);
       }, 'expected {} to not be frozen');
+
+      // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+      err(function() {
+        assert[isNotFrozen](42);
+      }, 'expected 42 to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](null);
+      }, 'expected null to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen]('foo');
+      }, 'expected \'foo\' to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](false);
+      }, 'expected false to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](undefined);
+      }, 'expected undefined to not be frozen');
     });
   });
 });

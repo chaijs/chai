@@ -976,5 +976,23 @@ describe('should', function() {
     err(function() {
         frozenObject.should.not.be.frozen;
     }, 'expected {} to not be frozen');
+
+    // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+    (42).should.be.frozen;
+    'foo'.should.be.frozen;
+    false.should.be.frozen;
+
+    err(function() {
+      (42).should.not.be.frozen;
+    }, 'expected 42 to not be frozen');
+
+    err(function() {
+      'foo'.should.not.be.frozen;
+    }, 'expected \'foo\' to not be frozen');
+
+    err(function() {
+      false.should.not.be.frozen;
+    }, 'expected false to not be frozen');
   });
 });

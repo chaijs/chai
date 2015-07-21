@@ -1123,6 +1123,33 @@ describe('expect', function () {
     err(function() {
         expect(frozenObject).to.not.be.frozen;
     }, 'expected {} to not be frozen');
-  });
 
+    // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+    expect(42).to.be.frozen;
+    expect(null).to.be.frozen;
+    expect('foo').to.be.frozen;
+    expect(false).to.be.frozen;
+    expect(undefined).to.be.frozen;
+
+    err(function() {
+      expect(42).to.not.be.frozen;
+    }, 'expected 42 to not be frozen');
+
+    err(function() {
+      expect(null).to.not.be.frozen;
+    }, 'expected null to not be frozen');
+
+    err(function() {
+      expect('foo').to.not.be.frozen;
+    }, 'expected \'foo\' to not be frozen');
+
+    err(function() {
+      expect(false).to.not.be.frozen;
+    }, 'expected false to not be frozen');
+
+    err(function() {
+      expect(undefined).to.not.be.frozen;
+    }, 'expected undefined to not be frozen');
+  });
 });
