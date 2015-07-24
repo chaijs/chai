@@ -726,6 +726,15 @@ describe('assert', function () {
     }, 'expected 1 to be above 1');
   });
 
+  it('atLeast', function() {
+    assert.isAtLeast(5, 2, '5 should be above 2');
+    assert.isAtLeast(1, 1, '1 should be equal to 1');
+
+    err(function() {
+      assert.isAtLeast(1, 3);
+    }, 'expected 1 to be at least 3');
+  });
+
   it('below', function() {
     assert.isBelow(2, 5, '2 should be below 5');
 
@@ -737,6 +746,15 @@ describe('assert', function () {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
 
+  });
+
+  it('atMost', function() {
+    assert.isAtMost(2, 5, '2 should be below 5');
+    assert.isAtMost(1, 1, '1 should be equal to 1');
+
+    err(function() {
+      assert.isAtMost(3, 1);
+    }, 'expected 3 to be at most 1');
   });
 
   it('memberDeepEquals', function() {
