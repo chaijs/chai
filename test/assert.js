@@ -785,6 +785,28 @@ describe('assert', function () {
       err(function() {
         assert[isExtensible](nonExtensibleObject);
       }, 'expected {} to be extensible');
+
+      // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+      err(function() {
+        assert[isExtensible](42);
+      }, 'expected 42 to be extensible');
+
+      err(function() {
+        assert[isExtensible](null);
+      }, 'expected null to be extensible');
+
+      err(function() {
+        assert[isExtensible]('foo');
+      }, 'expected \'foo\' to be extensible');
+
+      err(function() {
+        assert[isExtensible](false);
+      }, 'expected false to be extensible');
+
+      err(function() {
+        assert[isExtensible](undefined);
+      }, 'expected undefined to be extensible');
     });
   });
 
@@ -797,6 +819,14 @@ describe('assert', function () {
       err(function() {
         assert[isNotExtensible]({});
       }, 'expected {} to not be extensible');
+
+      // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+      assert[isNotExtensible](42);
+      assert[isNotExtensible](null);
+      assert[isNotExtensible]('foo');
+      assert[isNotExtensible](false);
+      assert[isNotExtensible](undefined);
     });
   });
 

@@ -1093,6 +1093,34 @@ describe('expect', function () {
     err(function() {
         expect({}).to.not.be.extensible;
     }, 'expected {} to not be extensible');
+
+    // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+    expect(42).to.not.be.extensible;
+    expect(null).to.not.be.extensible;
+    expect('foo').to.not.be.extensible;
+    expect(false).to.not.be.extensible;
+    expect(undefined).to.not.be.extensible;
+
+    err(function() {
+      expect(42).to.be.extensible;
+    }, 'expected 42 to be extensible');
+
+    err(function() {
+      expect(null).to.be.extensible;
+    }, 'expected null to be extensible');
+
+    err(function() {
+      expect('foo').to.be.extensible;
+    }, 'expected \'foo\' to be extensible');
+
+    err(function() {
+      expect(false).to.be.extensible;
+    }, 'expected false to be extensible');
+
+    err(function() {
+      expect(undefined).to.be.extensible;
+    }, 'expected undefined to be extensible');
   });
 
   it('sealed', function() {

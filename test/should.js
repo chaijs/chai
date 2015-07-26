@@ -946,6 +946,24 @@ describe('should', function() {
      err(function() {
        ({}).should.not.be.extensible;
      }, 'expected {} to not be extensible');
+
+     // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+     (42).should.not.be.extensible;
+     'foo'.should.not.be.extensible;
+     false.should.not.be.extensible;
+
+     err(function() {
+       (42).should.be.extensible;
+     }, 'expected 42 to be extensible');
+
+     err(function() {
+       'foo'.should.be.extensible;
+     }, 'expected \'foo\' to be extensible');
+
+     err(function() {
+       false.should.be.extensible;
+     }, 'expected false to be extensible');
   });
 
   it('sealed', function() {
