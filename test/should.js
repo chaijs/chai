@@ -910,7 +910,7 @@ describe('should', function() {
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
         decFn  = function() { obj.value -= 3 },
-        bangFn = function() { obj.str += '!' }; 
+        bangFn = function() { obj.str += '!' };
 
     fn.should.change(obj, 'value');
     sameFn.should.not.change(obj, 'value');
