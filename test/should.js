@@ -961,6 +961,24 @@ describe('should', function() {
     err(function() {
       sealedObject.should.not.be.sealed;
     }, 'expected {} to not be sealed');
+
+    // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+    (42).should.be.sealed;
+    'foo'.should.be.sealed;
+    false.should.be.sealed;
+
+    err(function() {
+      (42).should.not.be.sealed;
+    }, 'expected 42 to not be sealed');
+
+    err(function() {
+      'foo'.should.not.be.sealed;
+    }, 'expected \'foo\' to not be sealed');
+
+    err(function() {
+      false.should.not.be.sealed;
+    }, 'expected false to not be sealed');
   });
 
   it('frozen', function() {

@@ -809,6 +809,14 @@ describe('assert', function () {
       err(function() {
         assert[isSealed]({});
       }, 'expected {} to be sealed');
+
+      // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+      assert[isSealed](42);
+      assert[isSealed](null);
+      assert[isSealed]('foo');
+      assert[isSealed](false);
+      assert[isSealed](undefined);
     });
   });
 
@@ -821,6 +829,28 @@ describe('assert', function () {
       err(function() {
         assert[isNotSealed](sealedObject);
       }, 'expected {} to not be sealed');
+
+      // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+      err(function() {
+        assert[isNotSealed](42);
+      }, 'expected 42 to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](null);
+      }, 'expected null to not be sealed');
+
+      err(function() {
+        assert[isNotSealed]('foo');
+      }, 'expected \'foo\' to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](false);
+      }, 'expected false to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](undefined);
+      }, 'expected undefined to not be sealed');
     });
   });
 
