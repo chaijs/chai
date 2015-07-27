@@ -643,6 +643,10 @@ describe('expect', function () {
     err(function(){
       expect([{a:1},{b:2}]).to.not.include({b:2});
     }, "expected [ { a: 1 }, { b: 2 } ] to not include { b: 2 }");
+
+    err(function(){
+      expect(42.0).to.include(42);
+    }, "argument of expect() must be an array, an object, or a string, number given");
   });
 
   it('keys(array|Object|arguments)', function(){

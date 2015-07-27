@@ -477,7 +477,11 @@ describe('should', function() {
 
     err(function(){
       ({a:1}).should.include({b:2});
-    }, "expected { a: 1 } to have a property 'b'")
+    }, "expected { a: 1 } to have a property 'b'");
+
+    err(function(){
+      (42).should.include(4);
+    }, "argument of expect() must be an array, an object, or a string, number given");
   });
 
   it('keys(array|Object|arguments)', function(){

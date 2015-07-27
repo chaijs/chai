@@ -439,8 +439,12 @@ describe('assert', function () {
     }, "expected \'foobar\' to include \'baz\'");
 
     err(function () {
+      assert.include(42, 'bar');
+    }, "argument of expect() must be an array, an object, or a string, number given");
+
+    err(function () {
       assert.include(undefined, 'bar');
-    }, "expected undefined to include 'bar'");
+    }, "argument of expect() must be an array, an object, or a string, undefined given");
   });
 
   it('notInclude', function () {
