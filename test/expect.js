@@ -119,6 +119,28 @@ describe('expect', function () {
     err(function(){
       expect(5).to.not.be.a('number', 'blah');
     }, "blah: expected 5 not to be a number");
+
+    expect('foo').to.be.a(['string', 'number', 'boolean']);
+    expect(42).to.be.a(['string', 'number', 'boolean']);
+    expect(true).to.be.a(['string', 'number', 'boolean']);
+
+    err(function(){
+      expect([]).to.be.a(['string', 'number', 'boolean']);
+    }, 'expected [] to be a string, number, boolean');
+
+    expect([]).to.not.be.a(['string', 'number', 'boolean']);
+
+    err(function(){
+      expect('foo').to.not.be.a(['string', 'number', 'boolean']);
+    }, 'expected \'foo\' not to be a string, number, boolean');
+
+    err(function(){
+      expect(42).to.not.be.a(['string', 'number', 'boolean']);
+    }, 'expected 42 not to be a string, number, boolean');
+
+    err(function(){
+      expect(true).to.not.be.a(['string', 'number', 'boolean']);
+    }, 'expected true not to be a string, number, boolean');
   });
 
   it('instanceof', function(){
