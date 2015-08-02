@@ -158,21 +158,21 @@ describe('should', function() {
 
     err(function(){
       [].should.be.a(['string', 'number', 'boolean']);
-    }, 'expected [] to be a string, number, boolean');
+    }, 'expected [] to be a string, a number, or a boolean');
 
     [].should.not.be.a(['string', 'number', 'boolean']);
 
     err(function(){
       'foo'.should.not.be.a(['string', 'number', 'boolean']);
-    }, 'expected \'foo\' not to be a string, number, boolean');
+    }, 'expected \'foo\' not to be a string, a number, or a boolean');
 
     err(function(){
       (42).should.not.be.a(['string', 'number', 'boolean']);
-    }, 'expected 42 not to be a string, number, boolean');
+    }, 'expected 42 not to be a string, a number, or a boolean');
 
     err(function(){
       (true).should.not.be.a(['string', 'number', 'boolean']);
-    }, 'expected true not to be a string, number, boolean');
+    }, 'expected true not to be a string, a number, or a boolean');
   });
 
   it('instanceof', function(){
