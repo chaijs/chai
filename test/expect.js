@@ -668,7 +668,15 @@ describe('expect', function () {
 
     err(function(){
       expect(42.0).to.include(42);
-    }, "argument of expect() must be an array, an object, or a string, number given");
+    }, "expected 42 to be an array, an object, or a string");
+
+    err(function(){
+      expect(null).to.not.include(42);
+    }, "expected null to be an array, an object, or a string");
+
+    err(function(){
+      expect(undefined).to.not.include(42);
+    }, "expected undefined to be an array, an object, or a string");
   });
 
   it('keys(array|Object|arguments)', function(){

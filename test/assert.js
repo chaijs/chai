@@ -440,17 +440,24 @@ describe('assert', function () {
 
     err(function () {
       assert.include(42, 'bar');
-    }, "argument of expect() must be an array, an object, or a string, number given");
+    }, "expected 42 to be an array, an object, or a string");
+
+    err(function(){
+      assert.include(null, 42);
+    }, "expected null to be an array, an object, or a string");
 
     err(function () {
       assert.include(undefined, 'bar');
-    }, "argument of expect() must be an array, an object, or a string, undefined given");
+    }, "expected undefined to be an array, an object, or a string");
   });
 
   it('notInclude', function () {
     assert.notInclude('foobar', 'baz');
     assert.notInclude([ 1, 2, 3 ], 4);
-    assert.notInclude(undefined, 'bar');
+
+    err(function () {
+      assert.notInclude(undefined, 'bar');
+    }, "expected undefined to be an array, an object, or a string");
 
     err(function () {
       assert.notInclude('foobar', 'bar');

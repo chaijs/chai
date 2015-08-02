@@ -503,7 +503,7 @@ describe('should', function() {
 
     err(function(){
       (42).should.include(4);
-    }, "argument of expect() must be an array, an object, or a string, number given");
+    }, "expected 42 to be an array, an object, or a string");
   });
 
   it('keys(array|Object|arguments)', function(){
