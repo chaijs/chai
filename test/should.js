@@ -910,7 +910,7 @@ describe('should', function() {
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
         decFn  = function() { obj.value -= 3 },
-        bangFn = function() { obj.str += '!' }; 
+        bangFn = function() { obj.str += '!' };
 
     fn.should.change(obj, 'value');
     sameFn.should.not.change(obj, 'value');
@@ -946,6 +946,24 @@ describe('should', function() {
      err(function() {
        ({}).should.not.be.extensible;
      }, 'expected {} to not be extensible');
+
+     // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+     (42).should.not.be.extensible;
+     'foo'.should.not.be.extensible;
+     false.should.not.be.extensible;
+
+     err(function() {
+       (42).should.be.extensible;
+     }, 'expected 42 to be extensible');
+
+     err(function() {
+       'foo'.should.be.extensible;
+     }, 'expected \'foo\' to be extensible');
+
+     err(function() {
+       false.should.be.extensible;
+     }, 'expected false to be extensible');
   });
 
   it('sealed', function() {
@@ -961,6 +979,24 @@ describe('should', function() {
     err(function() {
       sealedObject.should.not.be.sealed;
     }, 'expected {} to not be sealed');
+
+    // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+    (42).should.be.sealed;
+    'foo'.should.be.sealed;
+    false.should.be.sealed;
+
+    err(function() {
+      (42).should.not.be.sealed;
+    }, 'expected 42 to not be sealed');
+
+    err(function() {
+      'foo'.should.not.be.sealed;
+    }, 'expected \'foo\' to not be sealed');
+
+    err(function() {
+      false.should.not.be.sealed;
+    }, 'expected false to not be sealed');
   });
 
   it('frozen', function() {
@@ -976,5 +1012,23 @@ describe('should', function() {
     err(function() {
         frozenObject.should.not.be.frozen;
     }, 'expected {} to not be frozen');
+
+    // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+    (42).should.be.frozen;
+    'foo'.should.be.frozen;
+    false.should.be.frozen;
+
+    err(function() {
+      (42).should.not.be.frozen;
+    }, 'expected 42 to not be frozen');
+
+    err(function() {
+      'foo'.should.not.be.frozen;
+    }, 'expected \'foo\' to not be frozen');
+
+    err(function() {
+      false.should.not.be.frozen;
+    }, 'expected false to not be frozen');
   });
 });

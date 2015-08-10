@@ -803,6 +803,28 @@ describe('assert', function () {
       err(function() {
         assert[isExtensible](nonExtensibleObject);
       }, 'expected {} to be extensible');
+
+      // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+      err(function() {
+        assert[isExtensible](42);
+      }, 'expected 42 to be extensible');
+
+      err(function() {
+        assert[isExtensible](null);
+      }, 'expected null to be extensible');
+
+      err(function() {
+        assert[isExtensible]('foo');
+      }, 'expected \'foo\' to be extensible');
+
+      err(function() {
+        assert[isExtensible](false);
+      }, 'expected false to be extensible');
+
+      err(function() {
+        assert[isExtensible](undefined);
+      }, 'expected undefined to be extensible');
     });
   });
 
@@ -815,6 +837,14 @@ describe('assert', function () {
       err(function() {
         assert[isNotExtensible]({});
       }, 'expected {} to not be extensible');
+
+      // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+      assert[isNotExtensible](42);
+      assert[isNotExtensible](null);
+      assert[isNotExtensible]('foo');
+      assert[isNotExtensible](false);
+      assert[isNotExtensible](undefined);
     });
   });
 
@@ -827,6 +857,14 @@ describe('assert', function () {
       err(function() {
         assert[isSealed]({});
       }, 'expected {} to be sealed');
+
+      // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+      assert[isSealed](42);
+      assert[isSealed](null);
+      assert[isSealed]('foo');
+      assert[isSealed](false);
+      assert[isSealed](undefined);
     });
   });
 
@@ -839,6 +877,28 @@ describe('assert', function () {
       err(function() {
         assert[isNotSealed](sealedObject);
       }, 'expected {} to not be sealed');
+
+      // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+      err(function() {
+        assert[isNotSealed](42);
+      }, 'expected 42 to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](null);
+      }, 'expected null to not be sealed');
+
+      err(function() {
+        assert[isNotSealed]('foo');
+      }, 'expected \'foo\' to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](false);
+      }, 'expected false to not be sealed');
+
+      err(function() {
+        assert[isNotSealed](undefined);
+      }, 'expected undefined to not be sealed');
     });
   });
 
@@ -851,6 +911,14 @@ describe('assert', function () {
       err(function() {
         assert[isFrozen]({});
       }, 'expected {} to be frozen');
+
+      // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+      assert[isFrozen](42);
+      assert[isFrozen](null);
+      assert[isFrozen]('foo');
+      assert[isFrozen](false);
+      assert[isFrozen](undefined);
     });
   });
 
@@ -863,6 +931,28 @@ describe('assert', function () {
       err(function() {
         assert[isNotFrozen](frozenObject);
       }, 'expected {} to not be frozen');
+
+      // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+      err(function() {
+        assert[isNotFrozen](42);
+      }, 'expected 42 to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](null);
+      }, 'expected null to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen]('foo');
+      }, 'expected \'foo\' to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](false);
+      }, 'expected false to not be frozen');
+
+      err(function() {
+        assert[isNotFrozen](undefined);
+      }, 'expected undefined to not be frozen');
     });
   });
 });

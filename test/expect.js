@@ -1093,6 +1093,34 @@ describe('expect', function () {
     err(function() {
         expect({}).to.not.be.extensible;
     }, 'expected {} to not be extensible');
+
+    // Making sure ES6-like Object.isExtensible response is respected for all primitive types
+
+    expect(42).to.not.be.extensible;
+    expect(null).to.not.be.extensible;
+    expect('foo').to.not.be.extensible;
+    expect(false).to.not.be.extensible;
+    expect(undefined).to.not.be.extensible;
+
+    err(function() {
+      expect(42).to.be.extensible;
+    }, 'expected 42 to be extensible');
+
+    err(function() {
+      expect(null).to.be.extensible;
+    }, 'expected null to be extensible');
+
+    err(function() {
+      expect('foo').to.be.extensible;
+    }, 'expected \'foo\' to be extensible');
+
+    err(function() {
+      expect(false).to.be.extensible;
+    }, 'expected false to be extensible');
+
+    err(function() {
+      expect(undefined).to.be.extensible;
+    }, 'expected undefined to be extensible');
   });
 
   it('sealed', function() {
@@ -1108,6 +1136,34 @@ describe('expect', function () {
     err(function() {
         expect(sealedObject).to.not.be.sealed;
     }, 'expected {} to not be sealed');
+
+    // Making sure ES6-like Object.isSealed response is respected for all primitive types
+
+    expect(42).to.be.sealed;
+    expect(null).to.be.sealed;
+    expect('foo').to.be.sealed;
+    expect(false).to.be.sealed;
+    expect(undefined).to.be.sealed;
+
+    err(function() {
+      expect(42).to.not.be.sealed;
+    }, 'expected 42 to not be sealed');
+
+    err(function() {
+      expect(null).to.not.be.sealed;
+    }, 'expected null to not be sealed');
+
+    err(function() {
+      expect('foo').to.not.be.sealed;
+    }, 'expected \'foo\' to not be sealed');
+
+    err(function() {
+      expect(false).to.not.be.sealed;
+    }, 'expected false to not be sealed');
+
+    err(function() {
+      expect(undefined).to.not.be.sealed;
+    }, 'expected undefined to not be sealed');
   });
 
   it('frozen', function() {
@@ -1123,6 +1179,33 @@ describe('expect', function () {
     err(function() {
         expect(frozenObject).to.not.be.frozen;
     }, 'expected {} to not be frozen');
-  });
 
+    // Making sure ES6-like Object.isFrozen response is respected for all primitive types
+
+    expect(42).to.be.frozen;
+    expect(null).to.be.frozen;
+    expect('foo').to.be.frozen;
+    expect(false).to.be.frozen;
+    expect(undefined).to.be.frozen;
+
+    err(function() {
+      expect(42).to.not.be.frozen;
+    }, 'expected 42 to not be frozen');
+
+    err(function() {
+      expect(null).to.not.be.frozen;
+    }, 'expected null to not be frozen');
+
+    err(function() {
+      expect('foo').to.not.be.frozen;
+    }, 'expected \'foo\' to not be frozen');
+
+    err(function() {
+      expect(false).to.not.be.frozen;
+    }, 'expected false to not be frozen');
+
+    err(function() {
+      expect(undefined).to.not.be.frozen;
+    }, 'expected undefined to not be frozen');
+  });
 });
