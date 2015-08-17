@@ -102,7 +102,10 @@ describe('should', function() {
   });
 
   it('NaN', function(){
-    'foo'.should.be.NaN;
+    (NaN).should.be.NaN;
+    (Math.sqrt(-1)).should.be.NaN;
+    (parseInt('foo')).should.be.NaN;
+    'foo'.should.not.be.NaN;
     (4).should.not.be.NaN;
 
     err(function(){
