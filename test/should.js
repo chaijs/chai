@@ -102,12 +102,38 @@ describe('should', function() {
   });
 
   it('NaN', function(){
-    'foo'.should.be.NaN;
+    NaN.should.be.NaN;
+
+    Infinity.should.not.be.NaN;
+    'foo'.should.not.be.NaN;
+    ({}).should.not.be.NaN;
+    should.not.equal(undefined, NaN);
     (4).should.not.be.NaN;
 
     err(function(){
+      NaN.should.not.be.NaN;
+    }, "expected NaN not to be NaN");
+
+    err(function(){
+      Infinity.should.be.NaN;
+    }, "expected Infinity to be NaN");
+
+    err(function(){
+      'foo'.should.be.NaN;
+    }, "expected 'foo' to be NaN");
+
+    err(function(){
+      ({}).should.be.NaN;
+    }, "expected {} to be NaN");
+
+    err(function(){
+      should.equal(undefined, NaN);
+    }, "expected undefined to equal NaN");
+
+    err(function(){
       (4).should.be.NaN;
-    }, "expected 4 to be NaN")
+    }, "expected 4 to be NaN");
+
   });
 
   it('undefined', function(){
