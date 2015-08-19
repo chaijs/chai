@@ -233,6 +233,9 @@ describe('assert', function () {
     assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
     assert.deepStrictEqual({tea: 'chai'}, {tea: 'chai'});  // Alias of deepEqual
 
+    assert.deepEqual([NaN], [NaN]);
+    assert.deepEqual({tea: NaN}, {tea: NaN});
+
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
@@ -329,7 +332,19 @@ describe('assert', function () {
   });
 
   it('isNaN', function() {
-    assert.isNaN('hello');
+    assert.isNaN(NaN);
+
+    err(function (){
+      assert.isNaN(Infinity);
+    }, "expected Infinity to be NaN");
+
+    err(function (){
+      assert.isNaN(undefined);
+    }, "expected undefined to be NaN");
+
+    err(function (){
+      assert.isNaN({});
+    }, "expected {} to be NaN");
 
     err(function (){
       assert.isNaN(4);
@@ -338,10 +353,13 @@ describe('assert', function () {
 
   it('isNotNaN', function() {
     assert.isNotNaN(4);
+    assert.isNotNaN(Infinity);
+    assert.isNotNaN(undefined);
+    assert.isNotNaN({});
 
     err(function (){
-      assert.isNotNaN('hello');
-    }, "expected 'hello' not to be NaN");
+      assert.isNotNaN(NaN);
+    }, "expected NaN not to be NaN");
   });
 
   it('exists', function() {

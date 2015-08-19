@@ -500,10 +500,33 @@ describe('expect', function () {
 
   it('NaN', function() {
     expect(NaN).to.be.NaN;
-    expect('foo').to.be.NaN;
-    expect({}).to.be.NaN;
+
+    expect(undefined).not.to.be.NaN;
+    expect(Infinity).not.to.be.NaN;
+    expect('foo').not.to.be.NaN;
+    expect({}).not.to.be.NaN;
     expect(4).not.to.be.NaN;
     expect([]).not.to.be.NaN;
+
+    err(function(){
+      expect(NaN).not.to.be.NaN;
+    }, "expected NaN not to be NaN");
+
+    err(function(){
+      expect(undefined).to.be.NaN;
+    }, "expected undefined to be NaN");
+
+    err(function(){
+      expect(Infinity).to.be.NaN;
+    }, "expected Infinity to be NaN");
+
+    err(function(){
+      expect('foo').to.be.NaN;
+    }, "expected 'foo' to be NaN");
+
+    err(function(){
+      expect({}).to.be.NaN;
+    }, "expected {} to be NaN");
 
     err(function(){
       expect(4).to.be.NaN;
@@ -512,10 +535,6 @@ describe('expect', function () {
     err(function(){
       expect([]).to.be.NaN;
     }, "expected [] to be NaN");
-
-    err(function(){
-      expect('foo').not.to.be.NaN;
-    }, "expected 'foo' not to be NaN");
   });
 
   it('finite', function() {
