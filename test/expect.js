@@ -426,8 +426,10 @@ describe('expect', function () {
 
   it('NaN', function() {
     expect(NaN).to.be.NaN;
-    expect('foo').to.be.NaN;
-    expect({}).to.be.NaN;
+    expect(Math.sqrt(-1)).to.be.NaN;
+    expect(parseInt('foo')).to.be.NaN;
+    expect('foo').not.to.be.NaN;
+    expect({}).not.to.be.NaN;
     expect(4).not.to.be.NaN;
     expect([]).not.to.be.NaN;
 
@@ -440,8 +442,8 @@ describe('expect', function () {
     }, "expected [] to be NaN");
 
     err(function(){
-      expect('foo').not.to.be.NaN;
-    }, "expected 'foo' not to be NaN");
+      expect('foo').to.be.NaN;
+    }, "expected 'foo' to be NaN");
   });
 
   it('property(name)', function(){

@@ -302,7 +302,9 @@ describe('assert', function () {
   });
 
   it('isNaN', function() {
-    assert.isNaN('hello');
+    assert.isNaN(NaN);
+    assert.isNaN(Math.sqrt(-1));
+    assert.isNaN(parseInt('foo'));
 
     err(function (){
       assert.isNaN(4);
@@ -311,10 +313,13 @@ describe('assert', function () {
 
   it('isNotNaN', function() {
     assert.isNotNaN(4);
+    assert.isNotNaN('foo');
+    assert.isNotNaN([]);
+    assert.isNotNaN({});
 
     err(function (){
-      assert.isNotNaN('hello');
-    }, "expected 'hello' not to be NaN");
+      assert.isNotNaN(NaN);
+    }, "expected NaN not to be NaN");
   });
 
   it('isUndefined', function() {
