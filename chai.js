@@ -129,7 +129,7 @@ module.exports = function (_chai, util) {
    */
 
   function Assertion (obj, msg, stack) {
-    flag(this, 'ssfi', stack || arguments.callee);
+    flag(this, 'ssfi', stack || Assertion);
     flag(this, 'object', obj);
     flag(this, 'message', msg);
   }
@@ -322,6 +322,7 @@ module.exports = function (chai, _) {
    * - at
    * - of
    * - same
+   * - but
    *
    * @name language chains
    * @namespace BDD
@@ -331,10 +332,8 @@ module.exports = function (chai, _) {
   [ 'to', 'be', 'been'
   , 'is', 'and', 'has', 'have'
   , 'with', 'that', 'which', 'at'
-  , 'of', 'same' ].forEach(function (chain) {
-    Assertion.addProperty(chain, function () {
-      return this;
-    });
+  , 'of', 'same', 'but' ].forEach(function (chain) {
+    Assertion.addProperty(chain);
   });
 
   /**
@@ -468,13 +467,17 @@ module.exports = function (chai, _) {
   /**
    * ### .include(value)
    *
-   * The `include` and `contain` assertions can be used as either property
-   * based language chains or as methods to assert the inclusion of an object
-   * in an array or a substring in a string. When used as language chains,
-   * they toggle the `contains` flag for the `keys` assertion.
+   * The `include` and `contain` assertions can be used as methods to assert
+   * the inclusion of a value in an array, a substring in a string, or a subset
+   * of properties in an object.
    *
    *     expect([1,2,3]).to.include(2);
    *     expect('foobar').to.contain('foo');
+   *     expect({ foo: 'bar', hello: 'universe' }).to.include({ foo: 'bar' });
+   *
+   * These assertions can also be used as property based language chains,
+   * enabling the `contains` flag for the `keys` assertion. For instance:
+   *
    *     expect({ foo: 'bar', hello: 'universe' }).to.include.keys('foo');
    *
    * @name include
@@ -1396,7 +1399,6 @@ module.exports = function (chai, _) {
     );
   });
 
-
   /**
    * ### .keys(key1, [key2], [...])
    *
@@ -1418,6 +1420,10 @@ module.exports = function (chai, _) {
    * match the number of keys passed in (in other words, a target object must
    * have all and only all of the passed-in keys).
    *
+   * You can also use this on Sets and Maps. Please notice that these two types
+   * can have objects as keys, so, in this case, you can pass multiple objects as arguments if
+   * you want to.
+   *
    *     expect({ foo: 1, bar: 2 }).to.have.any.keys('foo', 'baz');
    *     expect({ foo: 1, bar: 2 }).to.have.any.keys('foo');
    *     expect({ foo: 1, bar: 2 }).to.contain.any.keys('bar', 'baz');
@@ -1427,7 +1433,10 @@ module.exports = function (chai, _) {
    *     expect({ foo: 1, bar: 2 }).to.have.all.keys({'bar': 6, 'foo': 7});
    *     expect({ foo: 1, bar: 2, baz: 3 }).to.contain.all.keys(['bar', 'foo']);
    *     expect({ foo: 1, bar: 2, baz: 3 }).to.contain.all.keys({'bar': 6});
-   *
+   *     expect(new Map([[{objKey: 'value'}, 'value'], [1, 2]])).to.contain.key({objKey: 'value'});
+   *     expect(new Map([[{objKey: 'value'}, 'value'], [1, 2]])).to.contain.any.keys([{objKey: 'value'}, {anotherKey: 'anotherValue'}]);
+   *     expect(new Map([['firstKey', 'firstValue'], [1, 2]])).to.contain.all.keys('firstKey', 1);
+   *     expect(new Set([['foo', 'bar'], ['example', 1]])).to.have.any.keys('foo');
    *
    * @name keys
    * @alias key
@@ -1440,27 +1449,40 @@ module.exports = function (chai, _) {
     var obj = flag(this, 'object')
       , str
       , ok = true
-      , mixedArgsMsg = 'keys must be given single argument of Array|Object|String, or multiple String arguments';
+      , mixedArgsMsg = 'when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments';
 
-    switch (_.type(keys)) {
-      case "array":
-        if (arguments.length > 1) throw (new Error(mixedArgsMsg));
-        break;
-      case "object":
-        if (arguments.length > 1) throw (new Error(mixedArgsMsg));
-        keys = Object.keys(keys);
-        break;
-      default:
+    if (_.type(obj) === 'map' || _.type(obj) === 'set') {
+      actual = Array.from(obj.keys());
+
+      if (_.type(keys) !== 'array') {
         keys = Array.prototype.slice.call(arguments);
+      }
+
+    } else {
+      actual = Object.keys(obj);
+
+      switch (_.type(keys)) {
+        case 'array':
+          if (arguments.length > 1) throw new Error(mixedArgsMsg);
+          break;
+        case 'object':
+          if (arguments.length > 1) throw new Error(mixedArgsMsg);
+          keys = Object.keys(keys);
+          break;
+        default:
+          keys = Array.prototype.slice.call(arguments);
+      }
+
+      keys = keys.map(String);
     }
 
     if (!keys.length) throw new Error('keys required');
 
-    var actual = Object.keys(obj)
-      , expected = keys
-      , len = keys.length
+    var len = keys.length
       , any = flag(this, 'any')
-      , all = flag(this, 'all');
+      , all = flag(this, 'all')
+      , expected = keys
+      , actual;
 
     if (!any && !all) {
       all = true;
@@ -1468,17 +1490,21 @@ module.exports = function (chai, _) {
 
     // Has any
     if (any) {
-      var intersection = expected.filter(function(key) {
-        return ~actual.indexOf(key);
+      ok = expected.some(function(expectedKey) {
+        return actual.some(function(actualKey) {
+          return expectedKey === actualKey;
+        });
       });
-      ok = intersection.length > 0;
     }
 
     // Has all
     if (all) {
-      ok = keys.every(function(key){
-        return ~actual.indexOf(key);
+      ok = expected.every(function(expectedKey) {
+        return actual.some(function(actualKey) {
+          return expectedKey === actualKey;
+        });
       });
+
       if (!flag(this, 'negate') && !flag(this, 'contains')) {
         ok = ok && keys.length == actual.length;
       }
@@ -1486,7 +1512,7 @@ module.exports = function (chai, _) {
 
     // Key string
     if (len > 1) {
-      keys = keys.map(function(key){
+      keys = keys.map(function(key) {
         return _.inspect(key);
       });
       var last = keys.pop();
@@ -1536,13 +1562,11 @@ module.exports = function (chai, _) {
    *     expect(fn).to.throw(ReferenceError, /bad function/);
    *     expect(fn).to.throw(err);
    *
-   * Please note that when a throw expectation is negated, it will check each
-   * parameter independently, starting with error constructor type. The appropriate way
-   * to check for the existence of a type of error but for a message that does not match
-   * is to use `and`.
+   * Furthermore, `throw` changes the context of the assertion (just like `property`)
+   * to the thrown error. This permits for further chainable assertions on the thrown error.
    *
    *     expect(fn).to.throw(ReferenceError)
-   *        .and.not.throw(/good function/);
+   *       .and.have.property('message').equal('This is a bad function.');
    *
    * @name throw
    * @alias throws
@@ -1850,19 +1874,19 @@ module.exports = function (chai, _) {
     if (flag(this, 'contains')) {
       return this.assert(
           isSubsetOf(subset, obj, cmp)
-        , 'expected #{this} to be a superset of #{act}'
-        , 'expected #{this} to not be a superset of #{act}'
-        , obj
+        , 'expected #{this} to be a superset of #{exp}'
+        , 'expected #{this} to not be a superset of #{exp}'
         , subset
+        , obj
       );
     }
 
     this.assert(
         isSubsetOf(obj, subset, cmp) && isSubsetOf(subset, obj, cmp)
-        , 'expected #{this} to have the same members as #{act}'
-        , 'expected #{this} to not have the same members as #{act}'
-        , obj
+        , 'expected #{this} to have the same members as #{exp}'
+        , 'expected #{this} to not have the same members as #{exp}'
         , subset
+        , obj
     );
   });
 
@@ -1919,26 +1943,43 @@ module.exports = function (chai, _) {
    * @name change
    * @alias changes
    * @alias Change
-   * @param {String} object
-   * @param {String} property name
+   * @param {String} target
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace BDD
    * @api public
    */
 
-  function assertChanges (object, prop, msg) {
+  function assertChanges (target, prop, msg) {
     if (msg) flag(this, 'message', msg);
     var fn = flag(this, 'object');
-    new Assertion(object, msg).to.have.property(prop);
     new Assertion(fn).is.a('function');
 
-    var initial = object[prop];
+    var initial;
+    if (!prop) {
+      new Assertion(target).is.a('function');
+      initial = target();
+    } else {
+      new Assertion(target, msg).to.have.property(prop);
+      initial = target[prop];
+    }
+
     fn();
 
+    var final = prop === undefined || prop === null ? target() : target[prop];
+    var msgObj = prop === undefined || prop === null ? initial : '.' + prop;
+
+    // This gets flagged because of the .by(delta) assertion
+    flag(this, 'deltaMsgObj', msgObj);
+    flag(this, 'initialDeltaValue', initial);
+    flag(this, 'finalDeltaValue', final);
+    flag(this, 'deltaBehavior', 'change');
+    flag(this, 'realDelta', final !== initial);
+
     this.assert(
-      initial !== object[prop]
-      , 'expected .' + prop + ' to change'
-      , 'expected .' + prop + ' to not change'
+      initial !== final
+      , 'expected ' + msgObj + ' to change'
+      , 'expected ' + msgObj + ' to not change'
     );
   }
 
@@ -1957,26 +1998,42 @@ module.exports = function (chai, _) {
    * @name increase
    * @alias increases
    * @alias Increase
-   * @param {String} object
+   * @param {String} target
    * @param {String} property name
    * @param {String} message _optional_
    * @namespace BDD
    * @api public
    */
 
-  function assertIncreases (object, prop, msg) {
+  function assertIncreases (target, prop, msg) {
     if (msg) flag(this, 'message', msg);
     var fn = flag(this, 'object');
-    new Assertion(object, msg).to.have.property(prop);
     new Assertion(fn).is.a('function');
 
-    var initial = object[prop];
+    var initial;
+    if (!prop) {
+      new Assertion(target).is.a('function');
+      initial = target();
+    } else {
+      new Assertion(target, msg).to.have.property(prop);
+      initial = target[prop];
+    }
+
     fn();
 
+    var final = prop === undefined || prop === null ? target() : target[prop];
+    var msgObj = prop === undefined || prop === null ? initial : '.' + prop;
+
+    flag(this, 'deltaMsgObj', msgObj);
+    flag(this, 'initialDeltaValue', initial);
+    flag(this, 'finalDeltaValue', final);
+    flag(this, 'deltaBehavior', 'increase');
+    flag(this, 'realDelta', final - initial);
+
     this.assert(
-      object[prop] - initial > 0
-      , 'expected .' + prop + ' to increase'
-      , 'expected .' + prop + ' to not increase'
+      final - initial > 0
+      , 'expected ' + msgObj + ' to increase'
+      , 'expected ' + msgObj + ' to not increase'
     );
   }
 
@@ -1995,31 +2052,86 @@ module.exports = function (chai, _) {
    * @name decrease
    * @alias decreases
    * @alias Decrease
-   * @param {String} object
+   * @param {String} target
    * @param {String} property name
    * @param {String} message _optional_
    * @namespace BDD
    * @api public
    */
 
-  function assertDecreases (object, prop, msg) {
+  function assertDecreases (target, prop, msg) {
     if (msg) flag(this, 'message', msg);
     var fn = flag(this, 'object');
-    new Assertion(object, msg).to.have.property(prop);
     new Assertion(fn).is.a('function');
 
-    var initial = object[prop];
+    var initial;
+    if (!prop) {
+      new Assertion(target).is.a('function');
+      initial = target();
+    } else {
+      new Assertion(target, msg).to.have.property(prop);
+      initial = target[prop];
+    }
+
     fn();
 
+    var final = prop === undefined || prop === null ? target() : target[prop];
+    var msgObj = prop === undefined || prop === null ? initial : '.' + prop;
+
+    flag(this, 'deltaMsgObj', msgObj);
+    flag(this, 'initialDeltaValue', initial);
+    flag(this, 'finalDeltaValue', final);
+    flag(this, 'deltaBehavior', 'decrease');
+    flag(this, 'realDelta', initial - final);
+
     this.assert(
-      object[prop] - initial < 0
-      , 'expected .' + prop + ' to decrease'
-      , 'expected .' + prop + ' to not decrease'
+      final - initial < 0
+      , 'expected ' + msgObj + ' to decrease'
+      , 'expected ' + msgObj + ' to not decrease'
     );
   }
 
   Assertion.addChainableMethod('decrease', assertDecreases);
   Assertion.addChainableMethod('decreases', assertDecreases);
+
+  /**
+   * ### .by
+   *
+   * Defines an amount for increase/decrease assertions.
+   *
+   *     var obj = { val: 10 };
+   *     var dec = function() { obj.val -= 5 };
+   *     var inc = function() {obj.val += 10};
+   *     expect(dec).to.decrease(obj, 'val').by(5);
+   *     expect(inc).to.increase(obj, 'val').by(10);
+   *
+   * @name by
+   * @namespace BDD
+   * @api public
+   */
+
+  function assertDelta(delta) {
+    var msgObj = flag(this, 'deltaMsgObj');
+    var initial = flag(this, 'initialDeltaValue');
+    var final = flag(this, 'finalDeltaValue');
+    var behavior = flag(this, 'deltaBehavior');
+    var realDelta = flag(this, 'realDelta');
+
+    var expression;
+    if (behavior === 'change') {
+      expression = Math.abs(final - initial) === Math.abs(delta);
+    } else {
+      expression = realDelta === Math.abs(delta);
+    }
+
+    this.assert(
+      expression
+      , 'expected ' + msgObj + ' to ' + behavior + ' by ' + delta
+      , 'expected ' + msgObj + ' to not ' + behavior + ' by ' + delta
+    );
+  }
+
+  Assertion.addMethod('by', assertDelta);
 
   /**
    * ### .extensible
@@ -2359,11 +2471,12 @@ module.exports = function (chai, util) {
    * @param {Mixed} actual
    * @param {Mixed} expected
    * @param {String} message
+   * @alias deepStrictEqual
    * @namespace Assert
    * @api public
    */
 
-  assert.deepEqual = function (act, exp, msg) {
+  assert.deepEqual = assert.deepStrictEqual = function (act, exp, msg) {
     new Assertion(act, msg).to.eql(exp);
   };
 
@@ -3238,6 +3351,150 @@ module.exports = function (chai, util) {
   };
 
   /**
+   * ### .hasAnyKeys(object, [keys], [message])
+   *
+   * Asserts that `object` has at least one of the `keys` provided.
+   * You can also provide a single object instead of a `keys` array and its keys
+   * will be used as the expected set of keys.
+   *
+   *     assert.hasAnyKey({foo: 1, bar: 2, baz: 3}, ['foo', 'iDontExist', 'baz']);
+   *     assert.hasAnyKey({foo: 1, bar: 2, baz: 3}, {foo: 30, iDontExist: 99, baz: 1337]);
+   *     assert.hasAnyKey(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{foo: 1}, 'thisKeyDoesNotExist']);
+   *     assert.hasAnyKey(new Set([{foo: 'bar'}, 'anotherKey'], [{foo: 'bar'}, 'thisKeyDoesNotExist']);
+   *
+   * @name hasAnyKeys
+   * @param {Mixed} object
+   * @param {Array|Object} keys
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.hasAnyKeys = function (obj, keys, msg) {
+    if (keys === undefined) {
+      new Assertion(obj, msg).to.not.have.all.keys();
+    }
+
+    new Assertion(obj, msg).to.have.any.keys(keys);
+  }
+
+  /**
+   * ### .hasAllKeys(object, [keys], [message])
+   *
+   * Asserts that `object` has all and only all of the `keys` provided.
+   * You can also provide a single object instead of a `keys` array and its keys
+   * will be used as the expected set of keys.
+   *
+   *     assert.hasAllKeys({foo: 1, bar: 2, baz: 3}, ['foo', 'bar', 'baz']);
+   *     assert.hasAllKeys({foo: 1, bar: 2, baz: 3}, {foo: 30, bar: 99, baz: 1337]);
+   *     assert.hasAllKeys(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{foo: 1}, 'key']);
+   *     assert.hasAllKeys(new Set([{foo: 'bar'}, 'anotherKey'], [{foo: 'bar'}, 'anotherKey']);
+   *
+   * @name hasAllKeys
+   * @param {Mixed} object
+   * @param {String[]} keys
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.hasAllKeys = function (obj, keys, msg) {
+    if (keys === undefined) {
+      new Assertion(obj, msg).to.not.have.all.keys();
+    }
+
+    new Assertion(obj, msg).to.have.all.keys(keys);
+  }
+
+  /**
+   * ### .containsAllKeys(object, [keys], [message])
+   *
+   * Asserts that `object` has all of the `keys` provided but may have more keys not listed.
+   * You can also provide a single object instead of a `keys` array and its keys
+   * will be used as the expected set of keys.
+   *
+   *     assert.containsAllKeys({foo: 1, bar: 2, baz: 3}, ['foo', 'baz']);
+   *     assert.containsAllKeys({foo: 1, bar: 2, baz: 3}, ['foo', 'bar', 'baz']);
+   *     assert.containsAllKeys({foo: 1, bar: 2, baz: 3}, {foo: 30, baz: 1337});
+   *     assert.containsAllKeys({foo: 1, bar: 2, baz: 3}, {foo: 30, bar: 99, baz: 1337});
+   *     assert.containsAllKeys(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{foo: 1}]);
+   *     assert.containsAllKeys(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{foo: 1}, 'key']);
+   *     assert.containsAllKeys(new Set([{foo: 'bar'}, 'anotherKey'], [{foo: 'bar'}]);
+   *     assert.containsAllKeys(new Set([{foo: 'bar'}, 'anotherKey'], [{foo: 'bar'}, 'anotherKey']);
+   *
+   * @name containsAllKeys
+   * @param {Mixed} object
+   * @param {String[]} keys
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.containsAllKeys = function (obj, keys, msg) {
+    if (keys === undefined) {
+      new Assertion(obj, msg).to.not.have.all.keys();
+    }
+
+    new Assertion(obj, msg).to.contain.all.keys(keys);
+  }
+
+  /**
+   * ### .doesNotHaveAnyKeys(object, [keys], [message])
+   *
+   * Asserts that `object` has none of the `keys` provided.
+   * You can also provide a single object instead of a `keys` array and its keys
+   * will be used as the expected set of keys.
+   *
+   *     assert.doesNotHaveAnyKeys({foo: 1, bar: 2, baz: 3}, ['one', 'two', 'example']);
+   *     assert.doesNotHaveAnyKeys({foo: 1, bar: 2, baz: 3}, {one: 1, two: 2, example: 'foo'});
+   *     assert.doesNotHaveAnyKeys(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{one: 'two'}, 'example']);
+   *     assert.doesNotHaveAnyKeys(new Set([{foo: 'bar'}, 'anotherKey'], [{one: 'two'}, 'example']);
+   *
+   * @name doesNotHaveAnyKeys
+   * @param {Mixed} object
+   * @param {String[]} keys
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.doesNotHaveAnyKeys = function (obj, keys, msg) {
+    if (keys === undefined) {
+      new Assertion(obj, msg).to.not.have.all.keys();
+    }
+
+    new Assertion(obj, msg).to.not.have.any.keys(keys);
+  }
+
+  /**
+   * ### .doesNotHaveAllKeys(object, [keys], [message])
+   *
+   * Asserts that `object` does not have at least one of the `keys` provided.
+   * You can also provide a single object instead of a `keys` array and its keys
+   * will be used as the expected set of keys.
+   *
+   *     assert.doesNotHaveAllKeys({foo: 1, bar: 2, baz: 3}, ['one', 'two', 'example']);
+   *     assert.doesNotHaveAllKeys({foo: 1, bar: 2, baz: 3}, {one: 1, two: 2, example: 'foo'});
+   *     assert.doesNotHaveAllKeys(new Map([[{foo: 1}, 'bar'], ['key', 'value']]), [{one: 'two'}, 'example']);
+   *     assert.doesNotHaveAllKeys(new Set([{foo: 'bar'}, 'anotherKey'], [{one: 'two'}, 'example']);
+   *
+   * @name doesNotHaveAllKeys
+   * @param {Mixed} object
+   * @param {String[]} keys
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.doesNotHaveAllKeys = function (obj, keys, msg) {
+    if (keys === undefined) {
+      new Assertion(obj, msg).to.not.have.all.keys();
+    }
+
+    new Assertion(obj, msg).to.not.have.all.keys(keys);
+  }
+
+  /**
    * ### .throws(function, [constructor/string/regexp], [string/regexp], [message])
    *
    * Asserts that `function` will throw an error that is an instance of
@@ -3494,8 +3751,8 @@ module.exports = function (chai, util) {
     new Assertion(inList, msg).to.be.oneOf(list);
   }
 
-   /**
-   * ### .changes(function, object, property)
+  /**
+   * ### .changes(function, object, property, [message])
    *
    * Asserts that a function changes the value of a property
    *
@@ -3505,21 +3762,58 @@ module.exports = function (chai, util) {
    *
    * @name changes
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.changes = function (fn, obj, prop) {
-    new Assertion(fn).to.change(obj, prop);
+  assert.changes = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.change(obj, prop);
   }
 
    /**
-   * ### .doesNotChange(function, object, property)
+   * ### .changesBy(function, object, property, delta, [message])
    *
-   * Asserts that a function does not changes the value of a property
+   * Asserts that a function changes the value of a property by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val += 2 };
+   *     assert.changesBy(fn, obj, 'val', 2);
+   *
+   * @name changesBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.changesBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.change(obj, prop).by(delta);
+  }
+
+   /**
+   * ### .doesNotChange(function, object, property, [message])
+   *
+   * Asserts that a function does not change the value of a property
    *
    *     var obj = { val: 10 };
    *     var fn = function() { console.log('foo'); };
@@ -3527,19 +3821,56 @@ module.exports = function (chai, util) {
    *
    * @name doesNotChange
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.doesNotChange = function (fn, obj, prop) {
-    new Assertion(fn).to.not.change(obj, prop);
+  assert.doesNotChange = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.not.change(obj, prop);
   }
 
-   /**
-   * ### .increases(function, object, property)
+  /**
+   * ### .changesButNotBy(function, object, property, delta, [message])
+   *
+   * Asserts that a function does not change the value of a property or of a function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val += 10 };
+   *     assert.changesButNotBy(fn, obj, 'val', 5);
+   *
+   * @name changesButNotBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.changesButNotBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.change(obj, prop).but.not.by(delta);
+  }
+
+  /**
+   * ### .increases(function, object, property, [message])
    *
    * Asserts that a function increases an object property
    *
@@ -3549,19 +3880,56 @@ module.exports = function (chai, util) {
    *
    * @name increases
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.increases = function (fn, obj, prop) {
-    new Assertion(fn).to.increase(obj, prop);
+  assert.increases = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.increase(obj, prop);
   }
 
-   /**
-   * ### .doesNotIncrease(function, object, property)
+  /**
+   * ### .increasesBy(function, object, property, delta, [message])
+   *
+   * Asserts that a function increases an object property or a function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val += 10 };
+   *     assert.increasesBy(fn, obj, 'val', 10);
+   *
+   * @name increasesBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.increasesBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.increase(obj, prop).by(delta);
+  }
+
+  /**
+   * ### .doesNotIncrease(function, object, property, [message])
    *
    * Asserts that a function does not increase object property
    *
@@ -3571,19 +3939,56 @@ module.exports = function (chai, util) {
    *
    * @name doesNotIncrease
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.doesNotIncrease = function (fn, obj, prop) {
-    new Assertion(fn).to.not.increase(obj, prop);
+  assert.doesNotIncrease = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.not.increase(obj, prop);
   }
 
-   /**
-   * ### .decreases(function, object, property)
+  /**
+   * ### .increasesButNotBy(function, object, property, [message])
+   *
+   * Asserts that a function does not increase object property or function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val = 15 };
+   *     assert.increasesButNotBy(fn, obj, 'val', 10);
+   *
+   * @name increasesButNotBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.increasesButNotBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.increase(obj, prop).but.not.by(delta);
+  }
+
+  /**
+   * ### .decreases(function, object, property, [message])
    *
    * Asserts that a function decreases an object property
    *
@@ -3593,19 +3998,56 @@ module.exports = function (chai, util) {
    *
    * @name decreases
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.decreases = function (fn, obj, prop) {
-    new Assertion(fn).to.decrease(obj, prop);
+  assert.decreases = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.decrease(obj, prop);
   }
 
-   /**
-   * ### .doesNotDecrease(function, object, property)
+  /**
+   * ### .decreasesBy(function, object, property, delta, [message])
+   *
+   * Asserts that a function decreases an object property or a function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val -= 5 };
+   *     assert.decreasesBy(fn, obj, 'val', 5);
+   *
+   * @name decreasesBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.decreasesBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.decrease(obj, prop).by(delta);
+  }
+
+  /**
+   * ### .doesNotDecrease(function, object, property, [message])
    *
    * Asserts that a function does not decreases an object property
    *
@@ -3615,15 +4057,84 @@ module.exports = function (chai, util) {
    *
    * @name doesNotDecrease
    * @param {Function} modifier function
-   * @param {Object} object
-   * @param {String} property name
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
    * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
 
-  assert.doesNotDecrease = function (fn, obj, prop) {
-    new Assertion(fn).to.not.decrease(obj, prop);
+  assert.doesNotDecrease = function (fn, obj, prop, msg) {
+    if (arguments.length === 3 && typeof obj === 'function') {
+      msg = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.not.decrease(obj, prop);
+  }
+
+  /**
+   * ### .doesNotDecreaseBy(function, object, property, delta, [message])
+   *
+   * Asserts that a function does not decreases an object property or a function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val = 5 };
+   *     assert.doesNotDecreaseBy(fn, obj, 'val', 1);
+   *
+   * @name doesNotDecrease
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.doesNotDecreaseBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    return new Assertion(fn, msg).to.not.decrease(obj, prop).by(delta);
+  }
+
+  /**
+   * ### .decreasesButNotBy(function, object, property, delta, [message])
+   *
+   * Asserts that a function does not decreases an object property or a function's return value by an amount (delta)
+   *
+   *     var obj = { val: 10 };
+   *     var fn = function() { obj.val = 5 };
+   *     assert.decreasesButNotBy(fn, obj, 'val', 1);
+   *
+   * @name decreasesButNotBy
+   * @param {Function} modifier function
+   * @param {Object} object or getter function
+   * @param {String} property name _optional_
+   * @param {Number} change amount (delta)
+   * @param {String} message _optional_
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.decreasesButNotBy = function (fn, obj, prop, delta, msg) {
+    if (arguments.length === 4 && typeof obj === 'function') {
+      var tmpMsg = delta;
+      delta = prop;
+      msg = tmpMsg;
+    } else if (arguments.length === 3) {
+      delta = prop;
+      prop = null;
+    }
+
+    new Assertion(fn, msg).to.decrease(obj, prop).but.not.by(delta);
   }
 
   /*!
@@ -3674,7 +4185,7 @@ module.exports = function (chai, util) {
    *
    *     var nonExtensibleObject = Object.preventExtensions({});
    *     var sealedObject = Object.seal({});
-   *     var frozenObject = Object.freese({});
+   *     var frozenObject = Object.freeze({});
    *
    *     assert.isNotExtensible(nonExtensibleObject);
    *     assert.isNotExtensible(sealedObject);
@@ -3817,7 +4328,7 @@ module.exports = function (chai, util) {
    * @param {Mixed} expected
    * @param {String} message
    * @param {String} operator
-   * @namespace Expect
+   * @namespace BDD
    * @api public
    */
 
@@ -3844,7 +4355,10 @@ module.exports = function (chai, util) {
   function loadShould () {
     // explicitly define this method as function as to have it's name to include as `ssfi`
     function shouldGetter() {
-      if (this instanceof String || this instanceof Number || this instanceof Boolean ) {
+      if (this instanceof String
+          || this instanceof Number
+          || this instanceof Boolean
+          || typeof Symbol === 'function' && this instanceof Symbol) {
         return new Assertion(this.valueOf(), null, shouldGetter);
       }
       return new Assertion(this, null, shouldGetter);
@@ -3882,7 +4396,7 @@ module.exports = function (chai, util) {
      * @param {Mixed} expected
      * @param {String} message
      * @param {String} operator
-     * @namespace Should
+     * @namespace BDD
      * @api public
      */
 
@@ -4047,7 +4561,6 @@ module.exports = function (chai, util) {
 
 var transferFlags = require('./transferFlags');
 var flag = require('./flag');
-var config = require('../config');
 
 /*!
  * Module variables
@@ -4116,7 +4629,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
 
         var assert = function assert() {
           var old_ssfi = flag(this, 'ssfi');
-          if (old_ssfi && config.includeStack === false)
+          if (old_ssfi)
             flag(this, 'ssfi', assert);
           var result = chainableBehavior.method.apply(this, arguments);
           return result === undefined ? this : result;
@@ -4148,14 +4661,16 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   });
 };
 
-},{"../config":4,"./flag":13,"./transferFlags":29}],10:[function(require,module,exports){
+},{"./flag":13,"./transferFlags":29}],10:[function(require,module,exports){
 /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var config = require('../config');
+var chai = require('../../chai');
+var flag = require('./flag');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .addMethod (ctx, name, method)
@@ -4182,27 +4697,34 @@ var config = require('../config');
  * @name addMethod
  * @api public
  */
-var flag = require('./flag');
 
 module.exports = function (ctx, name, method) {
   ctx[name] = function () {
+    var keep_ssfi = flag(this, 'keep_ssfi');
     var old_ssfi = flag(this, 'ssfi');
-    if (old_ssfi && config.includeStack === false)
+    if (!keep_ssfi && old_ssfi)
       flag(this, 'ssfi', ctx[name]);
+
     var result = method.apply(this, arguments);
-    return result === undefined ? this : result;
+    if (result !== undefined)
+      return result;
+
+    var newAssertion = new chai.Assertion();
+    transferFlags(this, newAssertion);
+    return newAssertion;
   };
 };
 
-},{"../config":4,"./flag":13}],11:[function(require,module,exports){
+},{"../../chai":2,"./flag":13,"./transferFlags":29}],11:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var config = require('../config');
+var chai = require('../../chai');
 var flag = require('./flag');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### addProperty (ctx, name, getter)
@@ -4231,20 +4753,28 @@ var flag = require('./flag');
  */
 
 module.exports = function (ctx, name, getter) {
+  getter = getter === undefined ? new Function() : getter;
+
   Object.defineProperty(ctx, name,
     { get: function addProperty() {
+        var keep_ssfi = flag(this, 'keep_ssfi');
         var old_ssfi = flag(this, 'ssfi');
-        if (old_ssfi && config.includeStack === false)
+        if (!keep_ssfi && old_ssfi)
           flag(this, 'ssfi', addProperty);
 
         var result = getter.call(this);
-        return result === undefined ? this : result;
+        if (result !== undefined)
+          return result;
+
+        var newAssertion = new chai.Assertion();
+        transferFlags(this, newAssertion);
+        return newAssertion;
       }
     , configurable: true
   });
 };
 
-},{"../config":4,"./flag":13}],12:[function(require,module,exports){
+},{"../../chai":2,"./flag":13,"./transferFlags":29}],12:[function(require,module,exports){
 /*!
  * Chai - expectTypes utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5296,6 +5826,8 @@ module.exports = function (ctx, name, method, chainingBehavior) {
  * MIT Licensed
  */
 
+var flag = require('./flag');
+
 /**
  * ### overwriteMethod (ctx, name, fn)
  *
@@ -5338,17 +5870,27 @@ module.exports = function (ctx, name, method) {
     _super = _method;
 
   ctx[name] = function () {
+    var keep_ssfi = flag(this, 'keep_ssfi');
+    var old_ssfi = flag(this, 'ssfi');
+    if (!keep_ssfi && old_ssfi)
+      flag(this, 'ssfi', ctx[name]);
+
+    flag(this, 'keep_ssfi', true);
     var result = method(_super).apply(this, arguments);
+    flag(this, 'keep_ssfi', false);
+
     return result === undefined ? this : result;
   }
 };
 
-},{}],27:[function(require,module,exports){
+},{"./flag":13}],27:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
+
+var flag = require('./flag');
 
 /**
  * ### overwriteProperty (ctx, name, fn)
@@ -5392,15 +5934,23 @@ module.exports = function (ctx, name, getter) {
     _super = _get.get
 
   Object.defineProperty(ctx, name,
-    { get: function () {
+    { get: function overwriteProperty() {
+        var keep_ssfi = flag(this, 'keep_ssfi');
+        var old_ssfi = flag(this, 'ssfi');
+        if (!keep_ssfi && old_ssfi)
+          flag(this, 'ssfi', overwriteProperty);
+
+        flag(this, 'keep_ssfi', true);
         var result = getter(_super).call(this);
+        flag(this, 'keep_ssfi', false);
+
         return result === undefined ? this : result;
       }
     , configurable: true
   });
 };
 
-},{}],28:[function(require,module,exports){
+},{"./flag":13}],28:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
