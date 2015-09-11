@@ -430,6 +430,7 @@ describe('assert', function () {
 
   it('include', function() {
     assert.include('foobar', 'bar');
+    assert.include('', '');
     assert.include([ 1, 2, 3], 3);
     assert.include({a:1, b:2}, {b:2});
 
