@@ -667,16 +667,36 @@ describe('expect', function () {
     }, "expected [ { a: 1 }, { b: 2 } ] to not include { b: 2 }");
 
     err(function(){
+      expect(true).to.include(true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function(){
       expect(42.0).to.include(42);
-    }, "expected 42 to be an array, an object, or a string");
+    }, "object tested must be an array, an object, or a string, but number given");
+
+    err(function(){
+      expect(null).to.include(42);
+    }, "object tested must be an array, an object, or a string, but null given");
+
+    err(function(){
+      expect(undefined).to.include(42);
+    }, "object tested must be an array, an object, or a string, but undefined given");
+
+    err(function(){
+      expect(true).to.not.include(true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function(){
+      expect(42.0).to.not.include(42);
+    }, "object tested must be an array, an object, or a string, but number given");
 
     err(function(){
       expect(null).to.not.include(42);
-    }, "expected null to be an array, an object, or a string");
+    }, "object tested must be an array, an object, or a string, but null given");
 
     err(function(){
       expect(undefined).to.not.include(42);
-    }, "expected undefined to be an array, an object, or a string");
+    }, "object tested must be an array, an object, or a string, but undefined given");
   });
 
   it('keys(array|Object|arguments)', function(){
