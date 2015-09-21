@@ -477,7 +477,23 @@ describe('should', function() {
 
     err(function(){
       ({a:1}).should.include({b:2});
-    }, "expected { a: 1 } to have a property 'b'")
+    }, "expected { a: 1 } to have a property 'b'");
+
+    err(function(){
+      (true).should.include(true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function(){
+      (42).should.include(4);
+    }, "object tested must be an array, an object, or a string, but number given");
+
+    err(function(){
+      (true).should.not.include(true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function(){
+      (42).should.not.include(4);
+    }, "object tested must be an array, an object, or a string, but number given");
   });
 
   it('keys(array|Object|arguments)', function(){

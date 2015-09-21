@@ -438,15 +438,42 @@ describe('assert', function () {
       assert.include('foobar', 'baz');
     }, "expected \'foobar\' to include \'baz\'");
 
+    err(function(){
+      assert.include(true, true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function () {
+      assert.include(42, 'bar');
+    }, "object tested must be an array, an object, or a string, but number given");
+
+    err(function(){
+      assert.include(null, 42);
+    }, "object tested must be an array, an object, or a string, but null given");
+
     err(function () {
       assert.include(undefined, 'bar');
-    }, "expected undefined to include 'bar'");
+    }, "object tested must be an array, an object, or a string, but undefined given");
   });
 
   it('notInclude', function () {
     assert.notInclude('foobar', 'baz');
     assert.notInclude([ 1, 2, 3 ], 4);
-    assert.notInclude(undefined, 'bar');
+
+    err(function(){
+      assert.notInclude(true, true);
+    }, "object tested must be an array, an object, or a string, but boolean given");
+
+    err(function () {
+      assert.notInclude(42, 'bar');
+    }, "object tested must be an array, an object, or a string, but number given");
+
+    err(function(){
+      assert.notInclude(null, 42);
+    }, "object tested must be an array, an object, or a string, but null given");
+
+    err(function () {
+      assert.notInclude(undefined, 'bar');
+    }, "object tested must be an array, an object, or a string, but undefined given");
 
     err(function () {
       assert.notInclude('foobar', 'bar');
