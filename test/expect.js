@@ -1046,11 +1046,37 @@ describe('expect', function () {
 
     err(function() {
       expect(1.5).to.be.closeTo("1.0", 0.5);
-    }, "the arguments to closeTo must be numbers");
+    }, "the arguments to closeTo or approximately must be numbers");
 
     err(function() {
       expect(1.5).to.be.closeTo(1.0, true);
-    }, "the arguments to closeTo must be numbers");
+    }, "the arguments to closeTo or approximately must be numbers");
+  });
+  
+  it('approximately', function(){
+    expect(1.5).to.be.approximately(1.0, 0.5);
+    expect(10).to.be.approximately(20, 20);
+    expect(-10).to.be.approximately(20, 30);
+
+    err(function(){
+      expect(2).to.be.approximately(1.0, 0.5, 'blah');
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
+
+    err(function(){
+      expect(-10).to.be.approximately(20, 29, 'blah');
+    }, "blah: expected -10 to be close to 20 +/- 29");
+
+    err(function() {
+      expect([1.5]).to.be.approximately(1.0, 0.5);
+    }, "expected [ 1.5 ] to be a number");
+
+    err(function() {
+      expect(1.5).to.be.approximately("1.0", 0.5);
+    }, "the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5).to.be.approximately(1.0, true);
+    }, "the arguments to closeTo or approximately must be numbers");
   });
 
   it('include.members', function() {
