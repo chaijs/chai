@@ -302,13 +302,30 @@ describe('utilities', function () {
         expect(_super).to.be.a('function');
         return function () {
           _.flag(this, 'doesnt', true);
-          _super.apply(this, arguments);
         }
       });
     });
 
     var dne = expect('something').to.doesnotexist();
     expect(dne.__flags).to.have.property('doesnt');
+
+    chai.use(function (_chai, _) {
+      expect(_chai.Assertion).to.not.respondTo('doesnotexistfail');
+      _chai.Assertion.overwriteMethod('doesnotexistfail', function (_super) {
+        expect(_super).to.be.a('function');
+        return function () {
+          _.flag(this, 'doesnt', true);
+          _super.apply(this, arguments);
+        }
+      });
+    });
+
+    var dneFail = expect('something');
+    var dneError;
+    try { dneFail.to.doesnotexistfail(); }
+    catch (e) { dneError = e; }
+    expect(dneFail.__flags).to.have.property('doesnt');
+    expect(dneError.message).to.eql('doesnotexistfail is not a function');
   });
 
   it('overwriteMethod returning result', function () {
