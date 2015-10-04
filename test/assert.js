@@ -707,11 +707,37 @@ describe('assert', function () {
 
     err(function() {
       assert.closeTo(1.5, "1.0", 0.5);
-    }, "the arguments to closeTo must be numbers");
+    }, "the arguments to closeTo or approximately must be numbers");
 
     err(function() {
       assert.closeTo(1.5, 1.0, true);
-    }, "the arguments to closeTo must be numbers");
+    }, "the arguments to closeTo or approximately must be numbers");
+  });
+  
+  it('approximately', function(){
+    assert.approximately(1.5, 1.0, 0.5);
+    assert.approximately(10, 20, 20);
+    assert.approximately(-10, 20, 30);
+
+    err(function(){
+      assert.approximately(2, 1.0, 0.5);
+    }, "expected 2 to be close to 1 +/- 0.5");
+
+    err(function(){
+      assert.approximately(-10, 20, 29);
+    }, "expected -10 to be close to 20 +/- 29");
+
+    err(function() {
+      assert.approximately([1.5], 1.0, 0.5);
+    }, "expected [ 1.5 ] to be a number");
+
+    err(function() {
+      assert.approximately(1.5, "1.0", 0.5);
+    }, "the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      assert.approximately(1.5, 1.0, true);
+    }, "the arguments to closeTo or approximately must be numbers");
   });
 
   it('members', function() {
