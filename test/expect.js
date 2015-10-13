@@ -1052,7 +1052,7 @@ describe('expect', function () {
       expect(1.5).to.be.closeTo(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
   });
-  
+
   it('approximately', function(){
     expect(1.5).to.be.approximately(1.0, 0.5);
     expect(10).to.be.approximately(20, 20);
@@ -1077,6 +1077,11 @@ describe('expect', function () {
     err(function() {
       expect(1.5).to.be.approximately(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
+  });
+
+  it('oneOf', function() {
+    expect(1).to.be.oneOf([1, 2, 3]);
+    expect('1').to.not.be.oneOf([1, 2, 3]);
   });
 
   it('include.members', function() {

@@ -713,7 +713,7 @@ describe('assert', function () {
       assert.closeTo(1.5, 1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
   });
-  
+
   it('approximately', function(){
     assert.approximately(1.5, 1.0, 0.5);
     assert.approximately(10, 20, 20);
@@ -766,6 +766,31 @@ describe('assert', function () {
     err(function() {
       assert.sameMembers([1, 54], [6, 1, 54]);
     }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
+  });
+
+  it('oneOf', function() {
+    assert.oneOf(1, [1, 2, 3]);
+
+    err(function() {
+      assert.oneOf([1], []);
+    }, 'expected [ 1 ] not to be an array');
+
+    err(function() {
+      assert.oneOf({a: 1}, []);
+    }, 'expected { a: 1 } not to be an object');
+
+    err(function() {
+      assert.oneOf(1, 1);
+    }, 'expected 1 to be an array');
+
+    err(function() {
+      assert.oneOf(1, {a: 1});
+    }, 'expected { a: 1 } to be an array');
+
+    err(function() {
+      assert.oneOf(9, [1, 2, 3], 'Message');
+    }, 'Message: expected 9 to be in [ 1, 2, 3 ]');
+
   });
 
   it('above', function() {
