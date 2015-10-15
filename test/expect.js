@@ -1082,6 +1082,9 @@ describe('expect', function () {
   it('oneOf', function() {
     expect(1).to.be.oneOf([1, 2, 3]);
     expect('1').to.not.be.oneOf([1, 2, 3]);
+    expect([3, [4]]).to.not.be.oneOf([1, 2, [3, 4]]);
+    var threeFour = [3, [4]];
+    expect(threeFour).to.be.oneOf([1, 2, threeFour]);
   });
 
   it('include.members', function() {
