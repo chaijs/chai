@@ -457,6 +457,13 @@ describe('should', function() {
     }, "blah: expected 'foobar' to not contain 'bar'");
   });
 
+  it('oneOf()', function(){
+    'foo'.should.be.oneOf(['foo', 'bar']);
+    'bar'.should.be.oneOf(['foo', 'bar']);
+    'baz'.should.not.be.oneOf(['foo', 'bar']);
+    'baz'.should.not.be.oneOf([]);
+  });
+
   it('include()', function(){
     ['foo', 'bar'].should.include('foo');
     ['foo', 'bar'].should.contain('foo');
@@ -881,7 +888,7 @@ describe('should', function() {
       (1.5).should.be.closeTo(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
   });
-  
+
   it('approximately', function(){
     (1.5).should.be.approximately(1.0, 0.5);
 
