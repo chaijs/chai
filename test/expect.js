@@ -887,6 +887,7 @@ describe('expect', function () {
 
     var goodFn = function () { 1==1; }
       , badFn = function () { throw new Error('testing'); }
+      , stringErrFn = function () { throw 'testing'; }
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
@@ -894,19 +895,33 @@ describe('expect', function () {
 
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
+    expect(goodFn).to.not.throw(new Error());
     expect(goodFn).to.not.throw(specificError);
     expect(badFn).to.throw();
     expect(badFn).to.throw(Error);
+    expect(badFn).to.throw(new Error());
+    expect(badFn).to.not.throw(Error, 'hello');
+    expect(badFn).to.not.throw(new Error('hello'));
     expect(badFn).to.not.throw(ReferenceError);
+    expect(badFn).to.not.throw(new ReferenceError());
     expect(badFn).to.not.throw(specificError);
+    expect(stringErrFn).to.throw();
+    expect(stringErrFn).to.not.throw(ReferenceError);
+    expect(stringErrFn).to.not.throw(new ReferenceError());
+    expect(stringErrFn).to.not.throw(specificError);
     expect(refErrFn).to.throw();
     expect(refErrFn).to.throw(ReferenceError);
+    expect(refErrFn).to.throw(new ReferenceError());
     expect(refErrFn).to.throw(Error);
+    expect(refErrFn).to.throw(new Error());
     expect(refErrFn).to.not.throw(TypeError);
+    expect(refErrFn).to.not.throw(new TypeError());
     expect(refErrFn).to.not.throw(specificError);
     expect(ickyErrFn).to.throw();
     expect(ickyErrFn).to.throw(PoorlyConstructedError);
+    expect(ickyErrFn).to.throw(new PoorlyConstructedError());
     expect(ickyErrFn).to.throw(Error);
+    expect(ickyErrFn).to.not.throw(new Error());
     expect(ickyErrFn).to.not.throw(specificError);
     expect(specificErrFn).to.throw(specificError);
 
@@ -914,9 +929,13 @@ describe('expect', function () {
     expect(badFn).to.not.throw(/hello/);
     expect(badFn).to.throw('testing');
     expect(badFn).to.not.throw('hello');
-
     expect(badFn).to.throw(Error, /testing/);
     expect(badFn).to.throw(Error, 'testing');
+
+    expect(stringErrFn).to.throw(/testing/);
+    expect(stringErrFn).to.throw('testing');
+    expect(stringErrFn).to.not.throw(/hello/);
+    expect(stringErrFn).to.not.throw('hello');
 
     err(function(){
       expect(goodFn).to.throw();
@@ -924,7 +943,11 @@ describe('expect', function () {
 
     err(function(){
       expect(goodFn).to.throw(ReferenceError);
-    }, "expected [Function] to throw ReferenceError");
+    }, "expected [Function] to throw 'ReferenceError'");
+
+    err(function(){
+      expect(goodFn).to.throw(new ReferenceError());
+    }, "expected [Function] to throw 'ReferenceError'");
 
     err(function(){
       expect(goodFn).to.throw(specificError);
@@ -939,6 +962,10 @@ describe('expect', function () {
     }, "expected [Function] to throw 'ReferenceError' but 'Error: testing' was thrown");
 
     err(function(){
+      expect(badFn).to.throw(new ReferenceError());
+    }, "expected [Function] to throw 'ReferenceError' but 'Error: testing' was thrown");
+
+    err(function(){
       expect(badFn).to.throw(specificError);
     }, "expected [Function] to throw 'RangeError: boo' but 'Error: testing' was thrown");
 
@@ -947,7 +974,47 @@ describe('expect', function () {
     }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
 
     err(function(){
+      expect(badFn).to.not.throw(new Error());
+    }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
+
+    err(function(){
+      expect(badFn).to.throw(Error, 'hello');
+    }, "expected [Function] to throw error including 'hello' but got 'testing'");
+
+    err(function(){
+      expect(badFn).to.throw(new Error('hello'));
+    }, "expected [Function] to throw error matching 'hello' but got 'testing'");
+
+    err(function(){
+      expect(badFn).to.not.throw(Error, 'test');
+    }, "expected [Function] to not throw error including 'test'");
+
+    err(function(){
+      expect(badFn).to.throw(new Error('test'));
+    }, "expected [Function] to throw error matching 'test' but got 'testing'");
+
+    err(function(){
+      expect(stringErrFn).to.not.throw();
+    }, "expected [Function] to not throw an error but 'testing' was thrown");
+
+    err(function(){
+      expect(stringErrFn).to.throw(ReferenceError);
+    }, "expected [Function] to throw 'ReferenceError' but 'testing' was thrown");
+
+    err(function(){
+      expect(stringErrFn).to.throw(new ReferenceError());
+    }, "expected [Function] to throw 'ReferenceError' but 'testing' was thrown");
+
+    err(function(){
+      expect(stringErrFn).to.throw(specificError);
+    }, "expected [Function] to throw 'RangeError: boo' but 'testing' was thrown");
+
+    err(function(){
       expect(refErrFn).to.not.throw(ReferenceError);
+    }, "expected [Function] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown");
+
+    err(function(){
+      expect(refErrFn).to.not.throw(new ReferenceError());
     }, "expected [Function] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown");
 
     err(function(){
@@ -955,11 +1022,23 @@ describe('expect', function () {
     }, "expected [Function] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown");
 
     err(function(){
+      expect(badFn).to.throw(new PoorlyConstructedError());
+    }, "expected [Function] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown");
+
+    err(function(){
       expect(ickyErrFn).to.not.throw(PoorlyConstructedError);
     }, /^(expected \[Function\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
+      expect(ickyErrFn).to.not.throw(new PoorlyConstructedError());
+    }, /^(expected \[Function\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+
+    err(function(){
       expect(ickyErrFn).to.throw(ReferenceError);
+    }, /^(expected \[Function\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+
+    err(function(){
+      expect(ickyErrFn).to.throw(new ReferenceError());
     }, /^(expected \[Function\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
@@ -968,11 +1047,11 @@ describe('expect', function () {
 
     err(function(){
       expect(specificErrFn).to.not.throw(specificError);
-    }, "expected [Function] to not throw 'RangeError: boo'");
+    }, "expected [Function] to not throw error matching 'boo'");
 
     err(function (){
       expect(badFn).to.not.throw(/testing/);
-    }, "expected [Function] to throw error not matching /testing/");
+    }, "expected [Function] to not throw error matching /testing/");
 
     err(function () {
       expect(badFn).to.throw(/hello/);
