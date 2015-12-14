@@ -342,13 +342,78 @@ describe('utilities', function () {
       var obj = {};
       _.flag(obj, 'message', 'foo');
       expect(_.getMessage(obj, [])).to.contain('foo');
+    });
+  });
 
+  it('getMessage passed message as function', function () {
+    chai.use(function (_chai, _) {
       var obj = {};
       var msg = function() { return "expected a to eql b"; }
       var negateMsg = function() { return "expected a not to eql b"; }
       expect(_.getMessage(obj, [null, msg, negateMsg])).to.equal("expected a to eql b");
       _.flag(obj, 'negate', true);
       expect(_.getMessage(obj, [null, msg, negateMsg])).to.equal("expected a not to eql b");
+    });
+  });
+
+  it('getMessage template tag substitution', function () {
+    chai.use(function (_chai, _) {
+      var objName = 'trojan horse';
+      var actualValue = 'an actual value';
+      var expectedValue = 'an expected value';
+      [
+          // known template tags
+          {
+              template: 'one #{this} two',
+              expected: 'one \'' + objName + '\' two'
+          },
+          {
+              template: 'one #{act} two',
+              expected: 'one \'' + actualValue + '\' two'
+          },
+          {
+              template: 'one #{exp} two',
+              expected: 'one \'' + expectedValue + '\' two'
+          },
+          // unknown template tag
+          {
+              template: 'one #{unknown} two',
+              expected: 'one #{unknown} two'
+          },
+          // repeated template tag
+          {
+              template: '#{this}#{this}',
+              expected: '\'' + objName + '\'\'' + objName + '\''
+          },
+          // multiple template tags in different order
+          {
+              template: '#{this}#{act}#{exp}#{act}#{this}',
+              expected: '\'' + objName + '\'\'' + actualValue + '\'\'' + expectedValue + '\'\'' + actualValue + '\'\'' + objName + '\''
+          },
+          // immune to string.prototype.replace() `$` substitution
+          {
+              objName: '-$$-',
+              template: '#{this}',
+              expected: '\'-$$-\''
+          },
+          {
+              actualValue: '-$$-',
+              template: '#{act}',
+              expected: '\'-$$-\''
+          },
+          {
+              expectedValue: '-$$-',
+              template: '#{exp}',
+              expected: '\'-$$-\''
+          }
+      ].forEach(function (config) {
+          config.objName = config.objName || objName;
+          config.actualValue = config.actualValue || actualValue;
+          config.expectedValue = config.expectedValue || expectedValue;
+          var obj = {_obj: config.actualValue};
+          _.flag(obj, 'object', config.objName);
+          expect(_.getMessage(obj, [null, config.template, null, config.expectedValue])).to.equal(config.expected);
+      });
     });
   });
 
