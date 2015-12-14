@@ -356,6 +356,67 @@ describe('utilities', function () {
     });
   });
 
+  it('getMessage template tag substitution', function () {
+    chai.use(function (_chai, _) {
+      var objName = 'trojan horse';
+      var actualValue = 'an actual value';
+      var expectedValue = 'an expected value';
+      [
+          // known template tags
+          {
+              template: 'one #{this} two',
+              expected: 'one \'' + objName + '\' two'
+          },
+          {
+              template: 'one #{act} two',
+              expected: 'one \'' + actualValue + '\' two'
+          },
+          {
+              template: 'one #{exp} two',
+              expected: 'one \'' + expectedValue + '\' two'
+          },
+          // unknown template tag
+          {
+              template: 'one #{unknown} two',
+              expected: 'one #{unknown} two'
+          },
+          // repeated template tag
+          {
+              template: '#{this}#{this}',
+              expected: '\'' + objName + '\'\'' + objName + '\''
+          },
+          // multiple template tags in different order
+          {
+              template: '#{this}#{act}#{exp}#{act}#{this}',
+              expected: '\'' + objName + '\'\'' + actualValue + '\'\'' + expectedValue + '\'\'' + actualValue + '\'\'' + objName + '\''
+          },
+          // immune to string.prototype.replace() `$` substitution
+          {
+              objName: '-$$-',
+              template: '#{this}',
+              expected: '\'-$$-\''
+          },
+          {
+              actualValue: '-$$-',
+              template: '#{act}',
+              expected: '\'-$$-\''
+          },
+          {
+              expectedValue: '-$$-',
+              template: '#{exp}',
+              expected: '\'-$$-\''
+          }
+      ].forEach(function (config) {
+          config.objName = config.objName || objName;
+          config.actualValue = config.actualValue || actualValue;
+          config.expectedValue = config.expectedValue || expectedValue;
+          var obj = {_obj: config.actualValue};
+          _.flag(obj, 'object', config.objName);
+          expect(_.getMessage(obj, [null, config.template, null, config.expectedValue])).to.equal(config.expected);
+      });
+    });
+  });
+
   it('inspect with custom object-returning inspect()s', function () {
     chai.use(function (_chai, _) {
       var obj = {
