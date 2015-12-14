@@ -342,7 +342,11 @@ describe('utilities', function () {
       var obj = {};
       _.flag(obj, 'message', 'foo');
       expect(_.getMessage(obj, [])).to.contain('foo');
+    });
+  });
 
+  it('getMessage passed message as function', function () {
+    chai.use(function (_chai, _) {
       var obj = {};
       var msg = function() { return "expected a to eql b"; }
       var negateMsg = function() { return "expected a not to eql b"; }
