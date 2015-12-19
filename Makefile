@@ -61,17 +61,17 @@ test-cov: node_modules
 		--require ./test/bootstrap \
 		$(TESTS) \
 
-test-phantom: chai.js
+test-phantom: clean-browser chai.js
 	@printf "==> [Test :: Karma (PhantomJS)]\n"
 	@./node_modules/karma/bin/karma start \
 		--single-run --browsers PhantomJS
 
-test-firefox: chai.js
+test-firefox: clean-browser chai.js
 	@printf "==> [Test :: Karma (Firefox)]\n"
 	@./node_modules/karma/bin/karma start \
 		--browsers Firefox
 
-test-sauce: chai.js
+test-sauce: clean-browser chai.js
 	@printf "==> [Test :: Karma (Sauce)]\n"
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
