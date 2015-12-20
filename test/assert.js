@@ -865,4 +865,33 @@ describe('assert', function () {
       }, 'expected {} to not be frozen');
     });
   });
+
+  it('showDiff true with actual and expected args', function() {
+    try {
+      new chai.Assertion().assert(
+          'one' === 'two'
+        , 'expected #{this} to equal #{exp}'
+        , 'expected #{this} to not equal #{act}'
+        , 'one'
+        , 'two'
+      );
+    } catch(e) {
+      assert.isTrue(e.showDiff);
+    }
+  });
+
+  it('showDiff false without expected and actual', function() {
+    try {
+      new chai.Assertion().assert(
+          'one' === 'two'
+        , 'expected #{this} to equal #{exp}'
+        , 'expected #{this} to not equal #{act}'
+        , 'one'
+        , 'two'
+        , false
+      );
+    } catch(e) {
+      assert.isFalse(e.showDiff);
+    }
+  });
 });
