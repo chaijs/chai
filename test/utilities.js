@@ -708,6 +708,30 @@ describe('utilities', function () {
     });
   });
 
+  it('truncate long typedArray', function () {
+    chai.use(function (_chai, _) {
+
+      var arr = []
+        , exp = '[ 1, 2, 3, 4, 5, ... ]'
+        , isNode = true;
+
+      // Filling arr with lots of elements
+      for (var i = 1; i <= 1001; i++) {
+        arr.push(i);
+      }
+
+      if (typeof window !== 'undefined') {
+        isNode = false;
+      }
+
+      if ((!isNode && 'Int8Array' in window) ||
+          isNode && typeof 'Int8Array' !== undefined) {
+
+          expect(_.inspect(new Int8Array(arr))).to.equal(exp);
+        }
+    });
+  });
+
   it('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
