@@ -391,7 +391,7 @@ describe('utilities', function () {
     });
   });
 
-  it('inspect typedArray conversion', function () {
+  it('inspect every kind of available TypedArray', function () {
     chai.use(function (_chai, _) {
       var arr = [1, 2, 3]
         , exp = '[ 1, 2, 3 ]'
@@ -427,7 +427,7 @@ describe('utilities', function () {
     });
   });
 
-  it('truncate long typedArray', function () {
+  it('truncate long TypedArray', function () {
     chai.use(function (_chai, _) {
 
       var arr = []
@@ -445,9 +445,8 @@ describe('utilities', function () {
 
       if ((!isNode && 'Int8Array' in window) ||
           isNode && typeof 'Int8Array' !== undefined) {
-
-          expect(_.inspect(new Int8Array(arr))).to.equal(exp);
-        }
+        expect(_.inspect(new Int8Array(arr))).to.equal(exp);
+      }
     });
   });
 
