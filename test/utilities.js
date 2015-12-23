@@ -391,6 +391,42 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect typedArray conversion', function () {
+    chai.use(function (_chai, _) {
+      var arr = [1, 2, 3]
+        , exp = '[ 1, 2, 3 ]'
+        , isNode = true;
+
+      if (typeof window !== 'undefined') {
+        isNode = false;
+      }
+
+      // Checks if engine supports common TypedArrays
+      if ((!isNode && 'Int8Array' in window) ||
+          isNode && typeof 'Int8Array' !== undefined) {
+        // Typed array inspections should work as array inspections do
+        expect(_.inspect(new Int8Array(arr))).to.equal(exp);
+        expect(_.inspect(new Uint8Array(arr))).to.equal(exp);
+        expect(_.inspect(new Int16Array(arr))).to.equal(exp);
+        expect(_.inspect(new Uint16Array(arr))).to.equal(exp);
+        expect(_.inspect(new Int32Array(arr))).to.equal(exp);
+        expect(_.inspect(new Uint32Array(arr))).to.equal(exp);
+        expect(_.inspect(new Float32Array(arr))).to.equal(exp);
+      }
+
+      // These ones may not be available alongside the others above
+      if ((!isNode && 'Uint8ClampedArray' in window) ||
+          isNode && typeof 'Uint8ClampedArray' !== undefined) {
+        expect(_.inspect(new Uint8ClampedArray(arr))).to.equal(exp);
+      }
+
+      if ((!isNode && 'Float64Array' in window) ||
+          isNode && typeof 'Float64Array' !== undefined) {
+        expect(_.inspect(new Float64Array(arr))).to.equal(exp);
+      }
+    });
+  });
+
   it('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
