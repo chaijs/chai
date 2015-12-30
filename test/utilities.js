@@ -430,12 +430,14 @@ describe('utilities', function () {
   it('truncate long TypedArray', function () {
     chai.use(function (_chai, _) {
 
+      _chai.config.truncateThreshold = 5;
+
       var arr = []
         , exp = '[ 1, 2, 3, 4, 5, ... ]'
         , isNode = true;
 
       // Filling arr with lots of elements
-      for (var i = 1; i <= 1001; i++) {
+      for (var i = 1; i <= 1000; i++) {
         arr.push(i);
       }
 
