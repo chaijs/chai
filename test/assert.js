@@ -855,6 +855,22 @@ describe('assert', function () {
     }, 'expected [ { b: 3 } ] to have the same members as [ { b: 5 } ]');
   });
 
+  it('includeDeepMembers', function() {
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {b:2}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], []);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}, {c:3}], [{c:3}, {c:3}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {c:3}]);
+
+    err(function() {
+      assert.includeDeepMembers([{e:5}, {f:6}], [{g:7}, {h:8}]);
+    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { g: 7 }, { h: 8 } ]');
+
+    err(function() {
+      assert.includeDeepMembers([{e:5}, {f:6}], [{e:5}, {f:6}, {z:0}]);
+    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { e: 5 }, { f: 6 }, { z: 0 } ]');
+  });
+
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
         fn     = function() { obj.value += 5 },
