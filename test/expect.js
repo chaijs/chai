@@ -1121,14 +1121,19 @@ describe('expect', function () {
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
+        heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         sameFn = function() { 'foo' + 'bar' },
-        bangFn = function() { obj.str += '!' };
+        bangFn = function() { obj.str += '!' },
+        batFn  = function() { heroes.push('batman') },
+        lenFn  = function() { return heroes.length };
 
     expect(fn).to.change(obj, 'value');
     expect(sameFn).to.not.change(obj, 'value');
     expect(sameFn).to.not.change(obj, 'str');
     expect(bangFn).to.change(obj, 'str');
+    expect(batFn).to.change(lenFn);
+    expect(sameFn).to.not.change(lenFn);
   });
 
   it('increase, decrease', function() {
