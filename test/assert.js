@@ -873,18 +873,18 @@ describe('assert', function () {
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
-        laughs = ['lol', 'haha'],
+        heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         bangFn = function() { obj.str += '!' },
         smFn   = function() { 'foo' + 'bar' },
-        addFn  = function() { laughs.push('hue') },
-        getFn  = function() { return laughs.length };
+        batFn  = function() { heroes.push('batman') },
+        lenFn  = function() { return heroes.length };
 
     assert.changes(fn, obj, 'value');
     assert.doesNotChange(smFn, obj, 'value');
     assert.changes(bangFn, obj, 'str');
-    assert.changes(addFn, getFn);
-    assert.doesNotChange(smFn, getFn);
+    assert.changes(batFn, lenFn);
+    assert.doesNotChange(smFn, lenFn);
   });
 
   it('increase, decrease', function() {

@@ -950,20 +950,20 @@ describe('should', function() {
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
-        fruits = ['apple', 'pear'],
+        heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
         decFn  = function() { obj.value -= 3 },
         bangFn = function() { obj.str += '!' },
-        nanaFn = function() { fruits.push('banana') },
-        lenFn  = function() { return fruits.length },
+        batFn  = function() { heroes.push('batman') },
+        lenFn  = function() { return heroes.length },
         noFn   = function() { return null };
 
     fn.should.change(obj, 'value');
     sameFn.should.not.change(obj, 'value');
     sameFn.should.not.change(obj, 'str');
     bangFn.should.change(obj, 'str');
-    nanaFn.should.change(lenFn);
+    batFn.should.change(lenFn);
     noFn.should.not.change(lenFn);
   });
 
