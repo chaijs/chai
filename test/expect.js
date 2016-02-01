@@ -1138,6 +1138,11 @@ describe('expect', function () {
 
   it('increase, decrease', function() {
     var obj = { value: 10 },
+        arr = ['one', 'two'],
+        pFn   = function() { arr.push('three') },
+        popFn = function() { arr.pop() },
+        nFn   = function() { return null },
+        lenFn = function() { return arr.length },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
         smFn  = function() { obj.value += 0 };
@@ -1149,6 +1154,14 @@ describe('expect', function () {
     expect(smFn).to.not.decrease(obj, 'value');
     expect(incFn).to.not.decrease(obj, 'value');
     expect(decFn).to.decrease(obj, 'value');
+
+    expect(popFn).to.not.increase(lenFn);
+    expect(nFn).to.not.increase(lenFn);
+    expect(pFn).to.increase(lenFn);
+
+    expect(popFn).to.decrease(lenFn);
+    expect(nFn).to.not.decrease(lenFn);
+    expect(pFn).to.not.decrease(lenFn);
   });
 
   it('extensible', function() {

@@ -889,6 +889,10 @@ describe('assert', function () {
 
   it('increase, decrease', function() {
     var obj = { value: 10 },
+        arr = ['one', 'two'],
+        pFn   = function() { arr.push('three') },
+        popFn  = function() { arr.pop() },
+        lenFn = function() { return arr.length },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
         smFn  = function() { obj.value += 0 };
@@ -898,6 +902,12 @@ describe('assert', function () {
 
     assert.increases(incFn, obj, 'value');
     assert.doesNotIncrease(smFn, obj, 'value');
+
+    assert.decreases(popFn, lenFn);
+    assert.doesNotDecrease(pFn, lenFn);
+
+    assert.increases(pFn, lenFn);
+    assert.doesNotIncrease(popFn, lenFn);
   });
 
   it('isExtensible / extensible', function() {
