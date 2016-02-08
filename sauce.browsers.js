@@ -59,6 +59,7 @@ exports['SL_Edge'] = {
 exports['SL_Safari'] = {
     base: 'SauceLabs'
   , browserName: 'safari'
+  , platform: 'Mac 10.11'
 };
 
 /*!

@@ -28,7 +28,7 @@ module.exports = function(config) {
   config.browsers = config.browsers.concat(browsers);
   config.customLaunchers = browserConfig;
   config.reporters.push('saucelabs');
-  config.transports = [ 'xhr-polling' ];
+  config.captureTimeout = 300000;
 
   config.sauceLabs = {
       username: auth.SAUCE_USERNAME
