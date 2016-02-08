@@ -47,7 +47,7 @@ exports['SL_IE_Old'] = {
   , version: 10
 };
 
-exports['SL_Edge']: {
+exports['SL_Edge'] = {
     base: 'SauceLabs'
   , browserName: 'microsoftedge'
 };
