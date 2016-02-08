@@ -33,7 +33,7 @@ module.exports = function(config) {
   config.sauceLabs = {
       username: auth.SAUCE_USERNAME
     , accessKey: auth.SAUCE_ACCESS_KEY
-    , startConnect: true
+    , startConnect: ('TRAVIS' in process.env) === false
     , tags: tags
     , testName: 'ChaiJS'
     , tunnelIdentifier: tunnel

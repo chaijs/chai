@@ -1,5 +1,7 @@
 sudo: false
 language: node_js
+addons:
+  sauce_connect: true
 node_js:
 - 0.1
 
