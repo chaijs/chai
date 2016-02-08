@@ -45,7 +45,7 @@
     "karma-sauce-launcher": "^0.2.11",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-firefox-launcher": "^0.1.6",
-    "mocha": "^2.2.5",
+    "mocha": "^2.4.5",
     "istanbul": "^0.3.14"
   }
 }
