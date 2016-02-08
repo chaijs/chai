@@ -12,71 +12,53 @@ exports['SL_Chrome'] = {
  * Firefox
  */
 
-/*!
- * TODO: Karma doesn't seem to like this, though sauce boots its up
- *
+ exports['SL_Firefox'] = {
+     base: 'SauceLabs'
+   , browserName: 'firefox'
+ };
 
-exports['SL_Firefox_23'] = {
-    base: 'SauceLabs'
-  , browserName: 'firefox'
-  , platform: 'Windows XP'
-  , version: '23'
-};
-
-*/
-
-exports['SL_Firefox_22'] = {
-    base: 'SauceLabs'
-  , browserName: 'firefox'
-  , platform: 'Windows 7'
-  , version: '22'
-};
+ exports['SL_Firefox_ESR'] = {
+     base: 'SauceLabs'
+   , browserName: 'firefox'
+   , version: 38
+ };
 
 /*!
  * Opera
  */
 
-exports['SL_Opera_12'] = {
+exports['SL_Opera'] = {
     base: 'SauceLabs'
   , browserName: 'opera'
-  , platform: 'Windows 7'
-  , version: '12'
-};
-
-exports['SL_Opera_11'] = {
-    base: 'SauceLabs'
-  , browserName: 'opera'
-  , platform: 'Windows 7'
-  , version: '11'
 };
 
 /*!
  * Internet Explorer
  */
 
-exports['SL_IE_10'] = {
+exports['SL_IE'] = {
     base: 'SauceLabs'
   , browserName: 'internet explorer'
-  , platform: 'Windows 2012'
-  , version: '10'
+};
+
+exports['SL_IE_Old'] = {
+    base: 'SauceLabs'
+  , browserName: 'internet explorer'
+  , version: 10
+};
+
+exports['SL_Edge']: {
+    base: 'SauceLabs'
+  , browserName: 'microsoftedge'
 };
 
 /*!
  * Safari
  */
 
-exports['SL_Safari_6'] = {
+exports['SL_Safari'] = {
     base: 'SauceLabs'
   , browserName: 'safari'
-  , platform: 'Mac 10.8'
-  , version: '6'
-};
-
-exports['SL_Safari_5'] = {
-    base: 'SauceLabs'
-  , browserName: 'safari'
-  , platform: 'Mac 10.6'
-  , version: '5'
 };
 
 /*!
