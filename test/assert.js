@@ -873,17 +873,26 @@ describe('assert', function () {
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
+        heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         bangFn = function() { obj.str += '!' },
-        smFn   = function() { 'foo' + 'bar' };
+        smFn   = function() { 'foo' + 'bar' },
+        batFn  = function() { heroes.push('batman') },
+        lenFn  = function() { return heroes.length };
 
     assert.changes(fn, obj, 'value');
     assert.doesNotChange(smFn, obj, 'value');
     assert.changes(bangFn, obj, 'str');
+    assert.changes(batFn, lenFn);
+    assert.doesNotChange(smFn, lenFn);
   });
 
   it('increase, decrease', function() {
     var obj = { value: 10 },
+        arr = ['one', 'two'],
+        pFn   = function() { arr.push('three') },
+        popFn  = function() { arr.pop() },
+        lenFn = function() { return arr.length },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
         smFn  = function() { obj.value += 0 };
@@ -893,6 +902,12 @@ describe('assert', function () {
 
     assert.increases(incFn, obj, 'value');
     assert.doesNotIncrease(smFn, obj, 'value');
+
+    assert.decreases(popFn, lenFn);
+    assert.doesNotDecrease(pFn, lenFn);
+
+    assert.increases(pFn, lenFn);
+    assert.doesNotIncrease(popFn, lenFn);
   });
 
   it('isExtensible / extensible', function() {

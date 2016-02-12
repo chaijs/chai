@@ -950,19 +950,30 @@ describe('should', function() {
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
+        heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
         decFn  = function() { obj.value -= 3 },
-        bangFn = function() { obj.str += '!' };
+        bangFn = function() { obj.str += '!' },
+        batFn  = function() { heroes.push('batman') },
+        lenFn  = function() { return heroes.length },
+        noFn   = function() { return null };
 
     fn.should.change(obj, 'value');
     sameFn.should.not.change(obj, 'value');
     sameFn.should.not.change(obj, 'str');
     bangFn.should.change(obj, 'str');
+    batFn.should.change(lenFn);
+    noFn.should.not.change(lenFn);
   });
 
   it('increase, decrease', function() {
     var obj = { value: 10 },
+        arr = ['one', 'two'],
+        pFn   = function() { arr.push('three') },
+        popFn = function() { arr.pop() },
+        lenFn = function() { return arr.length },
+        nFn   = function() { return null },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
         smFn  = function() { obj.value += 0 };
@@ -974,6 +985,14 @@ describe('should', function() {
     smFn.should.not.decrease(obj, 'value');
     incFn.should.not.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value');
+
+    nFn.should.not.increase(lenFn);
+    popFn.should.not.increase(lenFn);
+    pFn.should.increase(lenFn);
+
+    nFn.should.not.decrease(lenFn);
+    pFn.should.not.decrease(lenFn);
+    popFn.should.decrease(lenFn);
   });
 
   it('extensible', function() {
