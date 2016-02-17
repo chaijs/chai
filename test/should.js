@@ -368,6 +368,7 @@ describe('should', function() {
   it('property(name)', function(){
     'test'.should.have.property('length');
     (4).should.not.have.property('length');
+    ({ 1: 1 }).should.have.property(1);
 
     err(function(){
       'asd'.should.have.property('foo');
@@ -377,6 +378,7 @@ describe('should', function() {
   it('property(name, val)', function(){
     'test'.should.have.property('length', 4);
     'asd'.should.have.property('constructor', String);
+    ({ 1: 1 }).should.have.property(1, 1);
 
     err(function(){
       'asd'.should.have.property('length', 4, 'blah');
@@ -399,6 +401,7 @@ describe('should', function() {
     'test'.should.have.ownProperty('length');
     'test'.should.haveOwnProperty('length');
     ({ length: 12 }).should.have.ownProperty('length');
+    ({ 1: 1 }).should.have.ownProperty(1);
 
     err(function(){
       ({ length: 12 }).should.not.have.ownProperty('length', 'blah');
@@ -410,7 +413,10 @@ describe('should', function() {
     'test'.should.have.ownPropertyDescriptor('length');
     'test'.should.not.have.ownPropertyDescriptor('foo');
 
-    var obj = { };
+    ({ 1: 1 }).should.have.ownPropertyDescriptor(1);
+
+    var obj = { },
+        obj2 = { };
     var descriptor = {
       configurable: false,
       enumerable: true,
@@ -419,6 +425,10 @@ describe('should', function() {
     };
     Object.defineProperty(obj, 'test', descriptor);
     obj.should.haveOwnPropertyDescriptor('test', descriptor);
+
+    Object.defineProperty(obj2, 1, descriptor);
+    obj2.should.haveOwnPropertyDescriptor(1, descriptor);
+
     err(function(){
       obj.should.not.haveOwnPropertyDescriptor('test', descriptor, 'blah');
     }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to not match \{ [^\}]+ \}$/);
@@ -547,6 +557,10 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.not.contain.all.keys(['baz', 'foo']);
     ({ foo: 1, bar: 2 }).should.not.have.all.keys({ 'baz': 8, 'foo': 7 });
     ({ foo: 1, bar: 2 }).should.not.contain.all.keys({ 'baz': 8, 'foo': 7 });
+
+    ({ 1: 1, 2: 2 }).should.have.keys(1, 2);
+    ({ 1: 1, 2: 2 }).should.have.any.keys(1, 3);
+    ({ 1: 1, 2: 2 }).should.contain.keys(1);
 
     err(function(){
       ({ foo: 1 }).should.have.keys();
