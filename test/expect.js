@@ -1123,17 +1123,26 @@ describe('expect', function () {
     var obj = { value: 10, str: 'foo' },
         heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
+        decFn  = function() { obj.value -= 20 },
         sameFn = function() { 'foo' + 'bar' },
         bangFn = function() { obj.str += '!' },
         batFn  = function() { heroes.push('batman') },
         lenFn  = function() { return heroes.length };
 
     expect(fn).to.change(obj, 'value');
+    expect(fn).to.change(obj, 'value').by(5);
+    expect(fn).to.change(obj, 'value').by(-5);
+
+    expect(decFn).to.change(obj, 'value').by(20);
+    expect(decFn).to.change(obj, 'value').but.not.by(21);
+
     expect(sameFn).to.not.change(obj, 'value');
+
     expect(sameFn).to.not.change(obj, 'str');
     expect(bangFn).to.change(obj, 'str');
-    expect(batFn).to.change(lenFn);
-    expect(sameFn).to.not.change(lenFn);
+
+    expect(batFn).to.change(lenFn).by(1);
+    expect(batFn).to.change(lenFn).but.not.by(2);
   });
 
   it('increase, decrease', function() {
@@ -1150,16 +1159,24 @@ describe('expect', function () {
     expect(smFn).to.not.increase(obj, 'value');
     expect(decFn).to.not.increase(obj, 'value');
     expect(incFn).to.increase(obj, 'value');
+    expect(incFn).to.increase(obj, 'value').by(2);
+    expect(incFn).to.increase(obj, 'value').but.not.by(1);
 
     expect(smFn).to.not.decrease(obj, 'value');
     expect(incFn).to.not.decrease(obj, 'value');
     expect(decFn).to.decrease(obj, 'value');
+    expect(decFn).to.decrease(obj, 'value').by(3);
+    expect(decFn).to.decrease(obj, 'value').but.not.by(2);
 
     expect(popFn).to.not.increase(lenFn);
     expect(nFn).to.not.increase(lenFn);
     expect(pFn).to.increase(lenFn);
+    expect(pFn).to.increase(lenFn).by(1);
+    expect(pFn).to.increase(lenFn).but.not.by(2);
 
     expect(popFn).to.decrease(lenFn);
+    expect(popFn).to.decrease(lenFn).by(1);
+    expect(popFn).to.decrease(lenFn).but.not.by(2);
     expect(nFn).to.not.decrease(lenFn);
     expect(pFn).to.not.decrease(lenFn);
   });
