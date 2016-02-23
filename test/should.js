@@ -967,17 +967,29 @@ describe('should', function() {
         heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         sameFn = function() { obj.value += 0 },
-        decFn  = function() { obj.value -= 3 },
+        decFn  = function() { obj.value -= 20 },
         bangFn = function() { obj.str += '!' },
         batFn  = function() { heroes.push('batman') },
         lenFn  = function() { return heroes.length },
         noFn   = function() { return null };
 
     fn.should.change(obj, 'value');
+    fn.should.change(obj, 'value').by(5);
+    fn.should.change(obj, 'value').by(-5);
+    fn.should.change(obj, 'value').but.not.by(10);
+
+    decFn.should.change(obj, 'value');
+    decFn.should.change(obj, 'value').by(20);
+    decFn.should.change(obj, 'value').but.not.by(19);
+
     sameFn.should.not.change(obj, 'value');
+
     sameFn.should.not.change(obj, 'str');
     bangFn.should.change(obj, 'str');
+
     batFn.should.change(lenFn);
+    batFn.should.change(lenFn).by(1);
+    batFn.should.change(lenFn).but.not.by(2);
     noFn.should.not.change(lenFn);
   });
 
@@ -995,18 +1007,29 @@ describe('should', function() {
     smFn.should.not.increase(obj, 'value');
     decFn.should.not.increase(obj, 'value');
     incFn.should.increase(obj, 'value');
+    incFn.should.increase(obj, 'value').by(2);
+    incFn.should.increase(obj, 'value').but.not.by(1);
 
     smFn.should.not.decrease(obj, 'value');
     incFn.should.not.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value');
+    decFn.should.decrease(obj, 'value').by(3);
+    decFn.should.decrease(obj, 'value').but.not.by(2);
 
     nFn.should.not.increase(lenFn);
-    popFn.should.not.increase(lenFn);
-    pFn.should.increase(lenFn);
-
     nFn.should.not.decrease(lenFn);
-    pFn.should.not.decrease(lenFn);
+
     popFn.should.decrease(lenFn);
+    popFn.should.not.increase(lenFn);
+
+    pFn.should.increase(lenFn);
+    pFn.should.not.decrease(lenFn);
+
+    pFn.should.increase(lenFn).by(1);
+    pFn.should.increase(lenFn).but.not.by(2);
+
+    popFn.should.decrease(lenFn).by(1);
+    popFn.should.decrease(lenFn).but.not.by(2);
   });
 
   it('extensible', function() {

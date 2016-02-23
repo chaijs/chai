@@ -875,23 +875,31 @@ describe('assert', function () {
     var obj = { value: 10, str: 'foo' },
         heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
+        fnDec  = function() { obj.value -= 20 },
         bangFn = function() { obj.str += '!' },
         smFn   = function() { 'foo' + 'bar' },
         batFn  = function() { heroes.push('batman') },
         lenFn  = function() { return heroes.length };
 
     assert.changes(fn, obj, 'value');
+    assert.changesBy(fn, obj, 'value', 5);
+    assert.changesBy(fn, obj, 'value', -5);
+    assert.changesBy(fnDec, obj, 'value', 20);
+
     assert.doesNotChange(smFn, obj, 'value');
+    assert.changesButNotBy(fnDec, obj, 'value', 1);
+
     assert.changes(bangFn, obj, 'str');
-    assert.changes(batFn, lenFn);
-    assert.doesNotChange(smFn, lenFn);
+
+    assert.changesBy(batFn, lenFn, 1);
+    assert.changesButNotBy(batFn, lenFn, 2);
   });
 
   it('increase, decrease', function() {
     var obj = { value: 10 },
         arr = ['one', 'two'],
         pFn   = function() { arr.push('three') },
-        popFn  = function() { arr.pop() },
+        popFn = function() { arr.pop() },
         lenFn = function() { return arr.length },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
@@ -899,15 +907,23 @@ describe('assert', function () {
 
     assert.decreases(decFn, obj, 'value');
     assert.doesNotDecrease(smFn, obj, 'value');
+    assert.decreasesBy(decFn, obj, 'value', 3);
+    assert.decreasesButNotBy(decFn, obj, 'value', 10);
 
     assert.increases(incFn, obj, 'value');
     assert.doesNotIncrease(smFn, obj, 'value');
+    assert.increasesBy(incFn, obj, 'value', 2);
+    assert.increasesButNotBy(incFn, obj, 'value', 1);
 
     assert.decreases(popFn, lenFn);
     assert.doesNotDecrease(pFn, lenFn);
+    assert.decreasesBy(popFn, lenFn, 1);
+    assert.decreasesButNotBy(popFn, lenFn, 2);
 
     assert.increases(pFn, lenFn);
     assert.doesNotIncrease(popFn, lenFn);
+    assert.increasesBy(pFn, lenFn, 1);
+    assert.increasesButNotBy(pFn, lenFn, 2);
   });
 
   it('isExtensible / extensible', function() {
