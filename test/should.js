@@ -556,11 +556,91 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.not.have.all.keys(['baz', 'foo']);
     ({ foo: 1, bar: 2 }).should.not.contain.all.keys(['baz', 'foo']);
     ({ foo: 1, bar: 2 }).should.not.have.all.keys({ 'baz': 8, 'foo': 7 });
+
     ({ foo: 1, bar: 2 }).should.not.contain.all.keys({ 'baz': 8, 'foo': 7 });
 
     ({ 1: 1, 2: 2 }).should.have.keys(1, 2);
     ({ 1: 1, 2: 2 }).should.have.any.keys(1, 3);
     ({ 1: 1, 2: 2 }).should.contain.keys(1);
+
+    if (typeof Map !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys(aKey);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.all.keys(aKey, anotherKey);
+
+
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.contain.all.keys(aKey);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.contain.all.keys(aKey, 'thisDoesNotExist');
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys({iDoNot: 'exist'});
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys([aKey]);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys([20, 1, aKey]);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.all.keys([aKey, anotherKey]);
+
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys([20, 1, {13: 37}]);
+      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+      err(function(){
+        new Map().set({ foo: 1 }).should.have.keys();
+      }, "keys required");
+
+      err(function(){
+        new Map().set({ foo: 1 }).should.have.keys([]);
+      }, "keys required");
+
+      err(function(){
+        new Map().set({ foo: 1 }).should.contain.keys();
+      }, "keys required");
+
+      err(function(){
+        new Map().set({ foo: 1 }).should.contain.keys([]);
+      }, "keys required");
+    }
+
+    if (typeof Set !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      new Set([aKey, anotherKey]).should.have.any.keys(aKey);
+      new Set([aKey, anotherKey]).should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      new Set([aKey, anotherKey]).should.have.all.keys(aKey, anotherKey);
+
+      new Set([aKey, anotherKey]).should.contain.all.keys(aKey);
+      new Set([aKey, anotherKey]).should.not.contain.all.keys(aKey, 'thisDoesNotExist');
+
+      new Set([aKey, anotherKey]).should.not.have.any.keys({iDoNot: 'exist'});
+      new Set([aKey, anotherKey]).should.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      new Set([aKey, anotherKey]).should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+      new Set([aKey, anotherKey]).should.have.any.keys([aKey]);
+      new Set([aKey, anotherKey]).should.have.any.keys([20, 1, aKey]);
+      new Set([aKey, anotherKey]).should.have.all.keys([aKey, anotherKey]);
+
+      new Set([aKey, anotherKey]).should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      new Set([aKey, anotherKey]).should.not.have.any.keys([20, 1, {13: 37}]);
+      new Set([aKey, anotherKey]).should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+      err(function(){
+        new Set().add({ foo: 1 }).should.have.keys();
+      }, "keys required");
+
+      err(function(){
+        new Set().add({ foo: 1 }).should.have.keys([]);
+      }, "keys required");
+
+      err(function(){
+        new Set().add({ foo: 1 }).should.contain.keys();
+      }, "keys required");
+
+      err(function(){
+        new Set().add({ foo: 1 }).should.contain.keys([]);
+      }, "keys required");
+    }
 
     err(function(){
       ({ foo: 1 }).should.have.keys();
@@ -578,7 +658,7 @@ describe('should', function() {
       ({ foo: 1 }).should.contain.keys([]);
     }, "keys required");
 
-    var mixedArgsMsg = 'keys must be given single argument of Array|Object|String, or multiple String arguments'
+    var mixedArgsMsg = 'when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments'
 
     err(function(){
       ({}).should.contain.keys(['a'], "b");
