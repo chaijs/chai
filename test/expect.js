@@ -722,6 +722,7 @@ describe('expect', function () {
     expect({ foo: 1, bar: 2 }).not.contain.all.keys({ 'baz': 8, 'foo': 7 });
 
     if (typeof Map !== 'undefined') {
+<<<<<<< HEAD
       var aKey = {thisIs: 'anExampleObject'};
       var anotherKey = {doingThisBecauseOf: 'referential equality'};
 
