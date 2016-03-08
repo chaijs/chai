@@ -608,6 +608,7 @@ describe('assert', function () {
 
     assert.doesNotThrow(function() { });
     assert.doesNotThrow(function() { }, 'foo');
+    assert.doesNotThrow(function () { throw new Error('foo'); }, 'bar');
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
