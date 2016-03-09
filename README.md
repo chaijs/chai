@@ -1,10 +1,13 @@
-[![Chai Documentation](http://chaijs.com/public/img/chai-logo.png)](http://chaijs.com)
+[![Chai Documentation](http://chaijs.com/img/chai-logo.png)](http://chaijs.com)
 
-[![license:mit](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](#license)<br>
+<br>
 [![tag:?](https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square)](https://github.com/chaijs/chai/releases)
 [![build:?](https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square)](https://travis-ci.org/chaijs/chai)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/chaijs/chai.svg)](http://isitmaintained.com/project/chaijs/chai "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/chaijs/chai.svg)](http://isitmaintained.com/project/chaijs/chai "Percentage of issues still open")
 [![coverage:?](https://img.shields.io/coveralls/chaijs/chai/master.svg?style=flat-square)](https://coveralls.io/r/chaijs/chai)<br>
 [![npm:](https://img.shields.io/npm/v/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
+[![license:mit](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](#license)
 [![dependencies:?](https://img.shields.io/npm/dm/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
 [![devDependencies:?](https://img.shields.io/david/chaijs/chai.svg?style=flat-square)](https://david-dm.org/chaijs/chai)
 
