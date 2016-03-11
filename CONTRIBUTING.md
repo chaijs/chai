@@ -212,3 +212,7 @@ Feel free to reach out to any of the core-contributors with you questions or con
   - GH: [@keithamus](https://github.com/keithamus)
   - TW: [@keithamus](http://twitter.com/keithamus)
   - IRC: keithamus
+- Lucas Fernandes da Costa
+  - GH: [@lucasfcosta](https://github.com/lucasfcosta)
+  - TW: [@lfernandescosta](https://twitter.com/lfernandescosta)
+  - IRC: lucasfcosta
