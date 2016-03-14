@@ -583,16 +583,86 @@ describe('should', function() {
   it('ownProperty(name)', function(){
     'test'.should.have.ownProperty('length');
     'test'.should.haveOwnProperty('length');
+    'test'.should.not.have.ownProperty('iDontExist');
+    'test'.should.not.haveOwnProperty('iDontExist');
+
     ({ length: 12 }).should.have.ownProperty('length');
+    ({ length: 12 }).should.haveOwnProperty('length');
+    ({ length: 12 }).should.not.have.ownProperty('iDontExist');
+    ({ length: 12 }).should.not.haveOwnProperty('iDontExist');
     ({ 1: 1 }).should.have.ownProperty(1);
 
     var objNoHasOwnProperty = {hasOwnProperty: null};
     objNoHasOwnProperty.a = 'a';
     objNoHasOwnProperty.should.have.ownProperty('a');
 
+    // Chaining property's value
+    'test'.should.have.ownProperty('length').that.is.a('number');
+    'test'.should.haveOwnProperty('length').that.is.a('number');
+
     err(function(){
-      ({ length: 12 }).should.not.have.ownProperty('length', 'blah');
-    }, "blah: expected { length: 12 } to not have own property 'length'");
+      ({ length: 12 }).should.have.ownProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.have.ownProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.haveOwnProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownProperty(name, value)', function(){
+    'test'.should.have.ownProperty('length', 4);
+    'test'.should.haveOwnProperty('length', 4);
+    'test'.should.not.have.ownProperty('length', 1337);
+    'test'.should.not.haveOwnProperty('length', 1337);
+
+    ({ length: 12 }).should.have.ownProperty('length', 12);
+    ({ length: 12 }).should.haveOwnProperty('length', 12);
+    ({ length: 12 }).should.not.have.ownProperty('length', 15);
+    ({ length: 12 }).should.not.haveOwnProperty('length', 15);
+
+    // Chaining property's value
+    'test'.should.have.ownProperty('length', 4).that.is.a('number');
+    'test'.should.haveOwnProperty('length', 4).that.is.a('number');
+
+    err(function(){
+      ({ length: 12 }).should.have.ownProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.ownProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.have.ownProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.ownProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.haveOwnProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.haveOwnProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      ({ length: 12 }).should.not.haveOwnProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
   });
 
   it('ownPropertyDescriptor(name)', function(){

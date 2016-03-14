@@ -732,15 +732,85 @@ describe('expect', function () {
   it('ownProperty(name)', function(){
     expect('test').to.have.ownProperty('length');
     expect('test').to.haveOwnProperty('length');
+    expect('test').to.not.have.ownProperty('iDontExist');
+    expect('test').to.not.haveOwnProperty('iDontExist');
+
     expect({ length: 12 }).to.have.ownProperty('length');
+    expect({ length: 12 }).to.haveOwnProperty('length');
+    expect({ length: 12 }).to.not.have.ownProperty('iDontExist');
+    expect({ length: 12 }).to.not.haveOwnProperty('iDontExist');
+
+    // Chaining property's value
+    expect('test').to.have.ownProperty('length').that.is.a('number');
+    expect('test').to.haveOwnProperty('length').that.is.a('number');
+
+    err(function(){
+      expect({ length: 12 }).to.have.ownProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.not.have.ownProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      expect({ length: 12 }).to.haveOwnProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.not.haveOwnProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownProperty(name, value)', function(){
+    expect('test').to.have.ownProperty('length', 4);
+    expect('test').to.haveOwnProperty('length', 4);
+    expect('test').to.not.have.ownProperty('length', 1337);
+    expect('test').to.not.haveOwnProperty('length', 1337);
+
+    expect({ length: 12 }).to.have.ownProperty('length', 12);
+    expect({ length: 12 }).to.haveOwnProperty('length', 12);
+    expect({ length: 12 }).to.not.have.ownProperty('length', 15);
+    expect({ length: 12 }).to.not.haveOwnProperty('length', 15);
+
+    // Chaining property's value
+    expect('test').to.have.ownProperty('length', 4).that.is.a('number');
+    expect('test').to.haveOwnProperty('length', 4).that.is.a('number');
 
     var objNoProto = Object.create(null);
     objNoProto.a = 'a';
     expect(objNoProto).to.have.ownProperty('a');
 
     err(function(){
-      expect({ length: 12 }).to.not.have.ownProperty('length', 'blah');
-    }, "blah: expected { length: 12 } to not have own property 'length'");
+      expect({ length: 12 }).to.have.ownProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      expect({ length: 12 }).to.not.have.ownProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      expect({ length: 12 }).to.have.ownProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      expect({ length: 12 }).to.not.have.ownProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.haveOwnProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      expect({ length: 12 }).to.not.haveOwnProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      expect({ length: 12 }).to.haveOwnProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      expect({ length: 12 }).to.not.haveOwnProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
   });
 
   it('ownPropertyDescriptor(name)', function(){
