@@ -1159,6 +1159,53 @@ describe('assert', function () {
     }, "blah: expected { a: { b: { c: 1 } } } to not have a deep nested property 'a.b' of { c: 1 }");
   });
 
+  it('ownProperty', function() {
+    var coffeeObj = { coffee: 'is good' };
+
+    // This has length = 17
+    var teaObj = 'but tea is better';
+
+    assert.ownProperty(coffeeObj, 'coffee');
+    assert.ownProperty(teaObj, 'length');
+
+    assert.ownPropertyVal(coffeeObj, 'coffee', 'is good');
+    assert.ownPropertyVal(teaObj, 'length', 17);
+
+    assert.notOwnProperty(coffeeObj, 'length');
+    assert.notOwnProperty(teaObj, 'calories');
+
+    assert.notOwnPropertyVal(coffeeObj, 'coffee', 'is bad');
+    assert.notOwnPropertyVal(teaObj, 'length', 1);
+
+    err(function () {
+      assert.ownProperty(coffeeObj, 'calories');
+    }, "expected { coffee: 'is good' } to have own property 'calories'");
+
+    err(function () {
+      assert.notOwnProperty(coffeeObj, 'coffee');
+    }, "expected { coffee: 'is good' } to not have own property 'coffee'");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'length', 1);
+    }, "expected 'but tea is better' to have own property 'length' of 1, but got 17");
+
+    err(function () {
+      assert.notOwnPropertyVal(teaObj, 'length', 17);
+    }, "expected 'but tea is better' to not have own property 'length' of 17");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'calories', 17);
+    }, "expected 'but tea is better' to have own property 'calories'");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'calories', 17);
+    }, "expected 'but tea is better' to have own property 'calories'");
+
+    err(function () {
+      assert.notOwnPropertyVal(coffeeObj, 'sugar', 1337);
+    }, "{ coffee: 'is good' } does not have own property 'sugar'");
+  });
+
   it('throws / throw / Throw', function() {
     ['throws', 'throw', 'Throw'].forEach(function (throws) {
       assert[throws](function() { throw new Error('foo'); });
