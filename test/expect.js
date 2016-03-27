@@ -140,7 +140,7 @@ describe('expect', function () {
 
     err(function(){
       expect(5).to.not.be.within(4,6, 'blah');
-    }, "blah: expected 5 to not be within 4..6", 'blah');
+    }, "blah: expected 5 to not be within 4..6");
 
     err(function(){
       expect(10).to.be.within(50,100, 'blah');
@@ -165,7 +165,7 @@ describe('expect', function () {
 
     err(function(){
       expect(5).to.be.above(6, 'blah');
-    }, "blah: expected 5 to be above 6", 'blah');
+    }, "blah: expected 5 to be above 6");
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
@@ -189,7 +189,7 @@ describe('expect', function () {
 
     err(function(){
       expect(5).to.be.at.least(6, 'blah');
-    }, "blah: expected 5 to be at least 6", 'blah');
+    }, "blah: expected 5 to be at least 6");
 
     err(function(){
       expect(10).to.not.be.at.least(6, 'blah');
