@@ -480,6 +480,284 @@ describe('assert', function () {
     }, "expected \'foobar\' to not include \'bar\'");
   });
 
+  it('keys(array|Object|arguments)', function(){
+    assert.hasAllKeys({ foo: 1 }, [ 'foo' ]);
+    assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
+    assert.hasAllKeys({ foo: 1 }, { foo: 30 });
+    assert.hasAllKeys({ foo: 1, bar: 2 }, { 'foo': 6, 'bar': 7 });
+
+    assert.containsAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'foo', 'bar' ]);
+    assert.containsAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'bar', 'foo' ]);
+    assert.containsAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'baz' ]);
+    assert.containsAllKeys({ foo: 1, bar: 2 }, [ 'foo' ]);
+    assert.containsAllKeys({ foo: 1, bar: 2 }, ['bar']);
+    assert.containsAllKeys({ foo: 1, bar: 2 }, { 'foo': 6 });
+    assert.containsAllKeys({ foo: 1, bar: 2 }, { 'bar': 7 });
+    assert.containsAllKeys({ foo: 1, bar: 2 }, { 'foo': 6 });
+    assert.containsAllKeys({ foo: 1, bar: 2 }, { 'bar': 7, 'foo': 6 });
+
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'baz' ]);
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'baz' ]);
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'foo', 'bar', 'baz', 'fake' ]);
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'baz', 'foo' ]);
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'baz': 8 });
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'baz': 8, 'foo': 7 });
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'baz': 8, 'fake': 7 });
+
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'foo', 'baz' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'foo' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'bar', 'baz' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'bar', 'foo' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, [ 'baz', 'fake', 'foo' ]);
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, { 'foo': 6 });
+    assert.hasAnyKeys({ foo: 1, bar: 2 }, { 'baz': 6, 'foo': 12 });
+
+    assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, [ 'baz', 'abc', 'def' ]);
+    assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, [ 'baz' ]);
+    assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { baz: 1, biz: 2, fake: 3 });
+    assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { baz: 1 });
+
+    if (typeof Map !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      assert.hasAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey ]);
+      assert.hasAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', aKey ]);
+      assert.hasAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, anotherKey ]);
+
+      assert.containsAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey ]);
+      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, {iDoNot: 'exist'} ]);
+
+      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+
+      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, {iDoNot: 'exist'} ]);
+
+      err(function(){
+        assert.hasAllKeys(new Map([[{1: 20}, 'number']]));
+      }, "keys required");
+
+      err(function(){
+        assert.hasAllKeys(new Map([[{1: 20}, 'number']]), []);
+      }, "keys required");
+
+      err(function(){
+        assert.containsAllKeys(new Map([[{1: 20}, 'number']]));
+      }, "keys required");
+
+      err(function(){
+        assert.containsAllKeys(new Map([[{1: 20}, 'number']]), []);
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAllKeys(new Map([[{1: 20}, 'number']]));
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAllKeys(new Map([[{1: 20}, 'number']]), []);
+      }, "keys required");
+
+      err(function(){
+        assert.hasAnyKeys(new Map([[{1: 20}, 'number']]));
+      }, "keys required");
+
+      err(function(){
+        assert.hasAnyKeys(new Map([[{1: 20}, 'number']]), []);
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAnyKeys(new Map([[{1: 20}, 'number']]));
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAnyKeys(new Map([[{1: 20}, 'number']]), []);
+      }, "keys required");
+    }
+
+    if (typeof Set !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      assert.hasAnyKeys(new Set([aKey, anotherKey]), [ aKey ]);
+      assert.hasAnyKeys(new Set([aKey, anotherKey]), [ 20, 1, aKey ]);
+      assert.hasAllKeys(new Set([aKey, anotherKey]), [ aKey, anotherKey ]);
+
+      assert.containsAllKeys(new Set([aKey, anotherKey]), [ aKey ]);
+      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ aKey, {iDoNot: 'exist'} ]);
+
+      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+
+      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ 20, 1, {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+
+      err(function(){
+        assert.hasAllKeys(new Set([{1: 20}, 'number']));
+      }, "keys required");
+
+      err(function(){
+        assert.hasAllKeys(new Set([{1: 20}, 'number']), []);
+      }, "keys required");
+
+      err(function(){
+        assert.containsAllKeys(new Set([{1: 20}, 'number']));
+      }, "keys required");
+
+      err(function(){
+        assert.containsAllKeys(new Set([{1: 20}, 'number']), []);
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAllKeys(new Set([{1: 20}, 'number']));
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAllKeys(new Set([{1: 20}, 'number']), []);
+      }, "keys required");
+
+      err(function(){
+        assert.hasAnyKeys(new Set([{1: 20}, 'number']));
+      }, "keys required");
+
+      err(function(){
+        assert.hasAnyKeys(new Set([{1: 20}, 'number']), []);
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAnyKeys(new Set([{1: 20}, 'number']));
+      }, "keys required");
+
+      err(function(){
+        assert.doesNotHaveAnyKeys(new Set([{1: 20}, 'number']), []);
+      }, "keys required");
+    }
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 });
+    }, "keys required");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, []);
+    }, "keys required");
+
+    err(function(){
+      assert.containsAllKeys({ foo: 1 });
+    }, "keys required");
+
+    err(function(){
+      assert.containsAllKeys({ foo: 1 }, []);
+    }, "keys required");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1 });
+    }, "keys required");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1 }, []);
+    }, "keys required");
+
+    err(function(){
+      assert.hasAnyKeys({ foo: 1 });
+    }, "keys required");
+
+    err(function(){
+      assert.hasAnyKeys({ foo: 1 }, []);
+    }, "keys required");
+
+    err(function(){
+      assert.doesNotHaveAnyKeys({ foo: 1 });
+    }, "keys required");
+
+    err(function(){
+      assert.doesNotHaveAnyKeys({ foo: 1 }, []);
+    }, "keys required");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, ['bar']);
+    }, "expected { foo: 1 } to have key 'bar'");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, ['bar', 'baz']);
+    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, ['foo', 'bar', 'baz']);
+    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1 }, ['foo']);
+    }, "expected { foo: 1 } to not have key 'foo'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, ['foo', 'bar']);
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1, bar: 2 }, ['foo']);
+    }, "expected { foo: 1, bar: 2 } to have key 'foo'");
+
+    err(function(){
+      assert.containsAllKeys({ foo: 1 }, ['foo', 'bar']);
+    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+
+    err(function() {
+      assert.hasAnyKeys({ foo: 1 }, ['baz']);
+    }, "expected { foo: 1 } to have key 'baz'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, ['foo', 'bar']);
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, ['foo', 'baz']);
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+
+    // repeat previous tests with Object as arg.
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, { 'bar': 1 });
+    }, "expected { foo: 1 } to have key 'bar'");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, { 'bar': 1, 'baz': 1});
+    }, "expected { foo: 1 } to have keys 'bar', and 'baz'");
+
+    err(function(){
+      assert.hasAllKeys({ foo: 1 }, { 'foo': 1, 'bar': 1, 'baz': 1});
+    }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1 }, { 'foo': 1 });
+    }, "expected { foo: 1 } to not have key 'foo'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1 }, { 'foo': 1 });
+    }, "expected { foo: 1 } to not have key 'foo'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'bar': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+
+    err(function() {
+      assert.hasAnyKeys({ foo: 1 }, 'baz');
+    }, "expected { foo: 1 } to have key 'baz'");
+
+    err(function(){
+      assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'bar': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
+
+    err(function(){
+      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'baz': 1});
+    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+
+  });
+
   it('lengthOf', function() {
     assert.lengthOf([1,2,3], 3);
     assert.lengthOf('foobar', 6);

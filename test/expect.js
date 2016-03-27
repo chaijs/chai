@@ -721,6 +721,86 @@ describe('expect', function () {
     expect({ foo: 1, bar: 2 }).not.have.all.keys({ 'baz': 8, 'foo': 7 });
     expect({ foo: 1, bar: 2 }).not.contain.all.keys({ 'baz': 8, 'foo': 7 });
 
+    if (typeof Map !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys(aKey);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.all.keys(aKey, anotherKey);
+
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.contain.all.keys(aKey);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys({iDoNot: 'exist'});
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys([aKey]);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys([20, 1, aKey]);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.all.keys([aKey, anotherKey]);
+
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys([20, 1, {13: 37}]);
+      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+      err(function(){
+        expect(new Map().set({ foo: 1 })).to.have.keys();
+      }, "keys required");
+
+      err(function(){
+        expect(new Map().set({ foo: 1 })).to.have.keys([]);
+      }, "keys required");
+
+      err(function(){
+        expect(new Map().set({ foo: 1 })).to.contain.keys();
+      }, "keys required");
+
+      err(function(){
+        expect(new Map().set({ foo: 1 })).to.contain.keys([]);
+      }, "keys required");
+    }
+
+    if (typeof Set !== 'undefined') {
+      var aKey = {thisIs: 'anExampleObject'};
+      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+
+      expect(new Set([aKey, anotherKey])).to.have.any.keys(aKey);
+      expect(new Set([aKey, anotherKey])).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      expect(new Set([aKey, anotherKey])).to.have.all.keys(aKey, anotherKey);
+
+      expect(new Set([aKey, anotherKey])).to.contain.all.keys(aKey);
+      expect(new Set([aKey, anotherKey])).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+
+      expect(new Set([aKey, anotherKey])).to.not.have.any.keys({iDoNot: 'exist'});
+      expect(new Set([aKey, anotherKey])).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(new Set([aKey, anotherKey])).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+      expect(new Set([aKey, anotherKey])).to.have.any.keys([aKey]);
+      expect(new Set([aKey, anotherKey])).to.have.any.keys([20, 1, aKey]);
+      expect(new Set([aKey, anotherKey])).to.have.all.keys([aKey, anotherKey]);
+
+      expect(new Set([aKey, anotherKey])).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(new Set([aKey, anotherKey])).to.not.have.any.keys([20, 1, {13: 37}]);
+      expect(new Set([aKey, anotherKey])).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+      err(function(){
+        expect(new Set().add({ foo: 1 })).to.have.keys();
+      }, "keys required");
+
+      err(function(){
+        expect(new Set().add({ foo: 1 })).to.have.keys([]);
+      }, "keys required");
+
+      err(function(){
+        expect(new Set().add({ foo: 1 })).to.contain.keys();
+      }, "keys required");
+
+      err(function(){
+        expect(new Set().add({ foo: 1 })).to.contain.keys([]);
+      }, "keys required");
+    }
+
     err(function(){
       expect({ foo: 1 }).to.have.keys();
     }, "keys required");
@@ -737,7 +817,7 @@ describe('expect', function () {
       expect({ foo: 1 }).to.contain.keys([]);
     }, "keys required");
 
-    var mixedArgsMsg = 'keys must be given single argument of Array|Object|String, or multiple String arguments'
+    var mixedArgsMsg = 'when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments'
 
     err(function(){
       expect({}).contain.keys(['a'], "b");
