@@ -205,6 +205,7 @@ describe('assert', function () {
 
   it('deepEqual', function() {
     assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
+    assert.deepStrictEqual({tea: 'chai'}, {tea: 'chai'});  // Alias of deepEqual
 
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
