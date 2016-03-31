@@ -25,71 +25,73 @@ describe('configuration', function () {
     chai.expect('foo').to.not.exist;
   }
 
-  it('includeStack is true for method assertions', function () {
-    chai.config.includeStack = true;
+  describe('includeStack', function() {
+    it('is true for method assertions', function () {
+      chai.config.includeStack = true;
 
-    try {
-      fooThrows();
-      assert.ok(false, 'should not get here because error thrown');
-    } catch (err) {
-      // not all browsers support err.stack
-      if ('undefined' !== typeof err.stack) {
-        assert.include(err.stack, 'assertEqual', 'should have internal stack trace in error message');
-        assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
+      try {
+        fooThrows();
+        assert.ok(false, 'should not get here because error thrown');
+      } catch (err) {
+        // not all browsers support err.stack
+        if ('undefined' !== typeof err.stack) {
+          assert.include(err.stack, 'assertEqual', 'should have internal stack trace in error message');
+          assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
+        }
       }
-    }
 
-  });
+    });
 
-  it('includeStack is false for method assertions', function () {
-    chai.config.includeStack = false;
+    it('is false for method assertions', function () {
+      chai.config.includeStack = false;
 
-    try {
-      fooThrows();
-      assert.ok(false, 'should not get here because error thrown');
-    } catch (err) {
-      // IE 10 supports err.stack in Chrome format, but without
-      // `Error.captureStackTrace` support that allows tuning of the error
-      // message.
-      if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-        assert.notInclude(err.stack, 'assertEqual', 'should not have internal stack trace in error message');
-        assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
+      try {
+        fooThrows();
+        assert.ok(false, 'should not get here because error thrown');
+      } catch (err) {
+        // IE 10 supports err.stack in Chrome format, but without
+        // `Error.captureStackTrace` support that allows tuning of the error
+        // message.
+        if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+          assert.notInclude(err.stack, 'assertEqual', 'should not have internal stack trace in error message');
+          assert.include(err.stack, 'fooThrows', 'should have user stack trace in error message');
+        }
       }
-    }
-  });
+    });
 
-  it('includeStack is true for property assertions', function () {
-    chai.config.includeStack = true;
+    it('is true for property assertions', function () {
+      chai.config.includeStack = true;
 
-    try {
-      fooPropThrows();
-      assert.ok(false, 'should not get here because error thrown');
-    } catch (err) {
-      // not all browsers support err.stack
-      // Phantom does not include function names for getter exec
-      if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-        assert.include(err.stack, 'addProperty', 'should have internal stack trace in error message');
-        assert.include(err.stack, 'fooPropThrows', 'should have user stack trace in error message');
+      try {
+        fooPropThrows();
+        assert.ok(false, 'should not get here because error thrown');
+      } catch (err) {
+        // not all browsers support err.stack
+        // Phantom does not include function names for getter exec
+        if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+          assert.include(err.stack, 'addProperty', 'should have internal stack trace in error message');
+          assert.include(err.stack, 'fooPropThrows', 'should have user stack trace in error message');
+        }
       }
-    }
 
-  });
+    });
 
-  it('includeStack is false for property assertions', function () {
-    chai.config.includeStack = false;
+    it('is false for property assertions', function () {
+      chai.config.includeStack = false;
 
-    try {
-      fooPropThrows();
-      assert.ok(false, 'should not get here because error thrown');
-    } catch (err) {
-      // IE 10 supports err.stack in Chrome format, but without
-      // `Error.captureStackTrace` support that allows tuning of the error
-      // message.
-      if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-        assert.notInclude(err.stack, 'addProperty', 'should not have internal stack trace in error message');
-        assert.include(err.stack, 'fooPropThrows', 'should have user stack trace in error message');
+      try {
+        fooPropThrows();
+        assert.ok(false, 'should not get here because error thrown');
+      } catch (err) {
+        // IE 10 supports err.stack in Chrome format, but without
+        // `Error.captureStackTrace` support that allows tuning of the error
+        // message.
+        if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+          assert.notInclude(err.stack, 'addProperty', 'should not have internal stack trace in error message');
+          assert.include(err.stack, 'fooPropThrows', 'should have user stack trace in error message');
+        }
       }
-    }
+    });
   });
 
   describe('truncateThreshold', function() {
