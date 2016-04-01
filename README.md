@@ -26,8 +26,11 @@ For more information or to download plugins, view the [documentation](http://cha
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
 
 - Need a plugin? View the [official plugin list](http://chaijs.com/plugins).
-- Have a plugin and want it listed? Open a Pull Request at [chaijs/chai-docs:plugin.js](https://github.com/chaijs/chai-docs/blob/master/plugins.js#L1-L12).
 - Want to build a plugin? Read the [plugin api documentation](http://chaijs.com/guide/plugins/).
+- Have a plugin and want it listed? Simply add the following keywords to your package.json:
+  -  `chai-plugin`
+  -  `browser` if your plugin works in the browser as well as Node.js
+  -  `browser-only` if your plugin does not work with Node.js
 
 ### Related Projects
 
