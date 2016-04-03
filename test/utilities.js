@@ -320,6 +320,60 @@ describe('utilities', function () {
     expect(expect('foo').result()).to.equal('result');
   });
 
+  describe('overwriteMethod', function () {
+    before(function() {
+      chai.config.includeStack = false;
+
+      chai.use(function(_chai, _) {
+        _chai.Assertion.addMethod('four', function() {
+          this.assert(this._obj === 4, 'expected #{this} to be 4', 'expected #{this} to not be 4', 4);
+        });
+
+        _chai.Assertion.overwriteMethod('four', function(_super) {
+          return function() {
+            if (typeof this._obj === 'string') {
+              this.assert(this._obj === 'four', 'expected #{this} to be \'four\'', 'expected #{this} to not be \'four\'', 'four');
+            } else {
+              _super.call(this);
+            }
+          }
+        });
+      });
+    });
+
+    after(function() {
+      delete chai.Assertion.prototype.four;
+    });
+
+    it('calling _super has correct stack trace', function() {
+      try {
+        expect(5).to.be.four();
+        expect(false, 'should not get here because error thrown').to.be.ok;
+      } catch (err) {
+        // not all browsers support err.stack
+        // Phantom does not include function names for getter exec
+        if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.not.include('overwriteMethod');
+        }
+      }
+    });
+
+    it('overwritten behavior has correct stack trace', function() {
+      try {
+        expect('five').to.be.four();
+        expect(false, 'should not get here because error thrown').to.be.ok;
+      } catch (err) {
+        // not all browsers support err.stack
+        // Phantom does not include function names for getter exec
+        if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
+          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.not.include('overwriteMethod');
+        }
+      }
+    });
+  });
+
   it('addProperty', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addProperty('tea', function () {
