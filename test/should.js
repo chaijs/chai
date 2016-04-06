@@ -1149,6 +1149,44 @@ describe('should', function() {
       testMap.should.not.have.any.keys([20, 1, {13: 37}]);
       testMap.should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
+      // Ensure the assertions above use strict equality
+      err(function() {
+        testMap.should.have.any.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        testMap.should.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+      });
+
+      err(function() {
+        testMap.should.contain.all.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        testMap.should.have.any.keys([{thisIs: 'anExampleObject'}]);
+      });
+
+      err(function() {
+        testMap.should.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+      });
+
+      // Using the same assertions as above but with `.deep` flag instead of using referential equality
+      testMap.should.have.any.deep.keys({thisIs: 'anExampleObject'});
+      testMap.should.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+      testMap.should.contain.all.deep.keys({thisIs: 'anExampleObject'});
+      testMap.should.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+      testMap.should.not.have.any.deep.keys({iDoNot: 'exist'});
+      testMap.should.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
+
+      testMap.should.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+      testMap.should.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+      testMap.should.have.all.deep.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      testMap.should.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      testMap.should.not.have.any.deep.keys([20, 1, {13: 37}]);
+
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
@@ -1199,6 +1237,16 @@ describe('should', function() {
       err(function(){
         errMap.should.contain.keys([]);
       }, "keys required");
+
+      // Uncomment these after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   new Map([[{foo: 1}, 'bar']]).should.contain.keys({ foo: 1 });
+      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+      // err(function(){
+      //   new Map([[{foo: 1}, 'bar']]).should.contain.deep.keys({ iDoNotExist: 0 });
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     if (typeof Set !== 'undefined') {
@@ -1228,6 +1276,48 @@ describe('should', function() {
       testSet.should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
       testSet.should.not.have.any.keys([20, 1, {13: 37}]);
       testSet.should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+      // Ensure the assertions above use strict equality
+      err(function() {
+        testSet.should.have.any.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        testSet.should.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+      });
+
+      err(function() {
+        testSet.should.contain.all.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        testSet.should.have.any.keys([{thisIs: 'anExampleObject'}]);
+      });
+
+      err(function() {
+        testSet.should.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+      });
+
+
+      // Using the same assertions as above but with `.deep` flag instead of using referential equality
+      testSet.should.have.any.deep.keys({thisIs: 'anExampleObject'});
+      testSet.should.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+      testSet.should.contain.all.deep.keys({thisIs: 'anExampleObject'});
+      testSet.should.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+
+      testSet.should.not.have.any.deep.keys({iDoNot: 'exist'});
+      testSet.should.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      testSet.should.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {anotherObj: 'foo'});
+
+      testSet.should.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+      testSet.should.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+      testSet.should.have.all.deep.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+
+      testSet.should.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      testSet.should.not.have.any.deep.keys([20, 1, {13: 37}]);
+      testSet.should.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}])
 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
@@ -1279,6 +1369,16 @@ describe('should', function() {
       err(function(){
         errSet.should.contain.keys([]);
       }, "keys required");
+
+      // Uncomment these after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   new Set([{foo: 1}]).should.contain.keys({ foo: 1 });
+      // }, 'expected [ { foo: 1 } ] to contain key { foo: 1 }');
+
+      // err(function(){
+      //   new Set([{foo: 1}]).should.contain.deep.keys({ iDoNotExist: 0 });
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     err(function(){

@@ -747,6 +747,38 @@ describe('assert', function () {
       assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
       assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
 
+      // Ensure the assertions above use strict equality
+      assert.doesNotHaveAnyKeys(testMap, {thisIs: 'anExampleObject'});
+      assert.doesNotHaveAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+
+      err(function(){
+        assert.hasAnyKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
+      });
+
+      err(function(){
+        assert.hasAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+      });
+
+      err(function(){
+        assert.containsAllKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
+      });
+
+      // Tests for the deep variations of the keys assertion
+      assert.hasAnyDeepKeys(testMap, {thisIs: 'anExampleObject'});
+      assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
+      assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.hasAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.containsAllDeepKeys(testMap, {thisIs: 'anExampleObject'});
+      assert.containsAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.doesNotHaveAnyDeepKeys(testMap, {thisDoesNot: 'exist'});
+      assert.doesNotHaveAnyDeepKeys(testMap, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
+
+      assert.doesNotHaveAllDeepKeys(testMap, {thisDoesNot: 'exist'});
+      assert.doesNotHaveAllDeepKeys(testMap, [{twenty: 'twenty'}, {thisIs: 'anExampleObject'}]);
+
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
@@ -780,15 +812,7 @@ describe('assert', function () {
       errMap.set({1: 20}, 'number');
 
       err(function(){
-        assert.hasAllKeys(errMap);
-      }, "keys required");
-
-      err(function(){
         assert.hasAllKeys(errMap, []);
-      }, "keys required");
-
-      err(function(){
-        assert.containsAllKeys(errMap);
       }, "keys required");
 
       err(function(){
@@ -796,15 +820,7 @@ describe('assert', function () {
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(errMap);
-      }, "keys required");
-
-      err(function(){
         assert.doesNotHaveAllKeys(errMap, []);
-      }, "keys required");
-
-      err(function(){
-        assert.hasAnyKeys(errMap);
       }, "keys required");
 
       err(function(){
@@ -812,12 +828,18 @@ describe('assert', function () {
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(errMap);
-      }, "keys required");
-
-      err(function(){
         assert.doesNotHaveAnyKeys(errMap, []);
       }, "keys required");
+
+      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   assert.containsAllKeys(new Map([[{foo: 1}, 'bar']]), { foo: 1 });
+      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+      // err(function(){
+      //   assert.containsAllDeepKeys(new Map([[{foo: 1}, 'bar']]), { iDoNotExist: 0 })
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     if (typeof Set !== 'undefined') {
@@ -843,6 +865,38 @@ describe('assert', function () {
       assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
       assert.doesNotHaveAnyKeys(testSet, [ 20, 1, {iDoNot: 'exist'} ]);
       assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+
+      // Ensure the assertions above use strict equality
+      assert.doesNotHaveAnyKeys(testSet, {thisIs: 'anExampleObject'});
+      assert.doesNotHaveAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+
+      err(function(){
+        assert.hasAnyKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
+      });
+
+      err(function(){
+        assert.hasAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+      });
+
+      err(function(){
+        assert.containsAllKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
+      });
+
+      // Tests for the deep variations of the keys assertion
+      assert.hasAnyDeepKeys(testSet, {thisIs: 'anExampleObject'});
+      assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
+      assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.hasAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.containsAllDeepKeys(testSet, {thisIs: 'anExampleObject'});
+      assert.containsAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      assert.doesNotHaveAnyDeepKeys(testSet, {twenty: 'twenty'});
+      assert.doesNotHaveAnyDeepKeys(testSet, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
+
+      assert.doesNotHaveAllDeepKeys(testSet, {twenty: 'twenty'});
+      assert.doesNotHaveAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {fifty: 'fifty'}]);
 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
@@ -878,15 +932,7 @@ describe('assert', function () {
       errSet.add('number');
 
       err(function(){
-        assert.hasAllKeys(errSet);
-      }, "keys required");
-
-      err(function(){
         assert.hasAllKeys(errSet, []);
-      }, "keys required");
-
-      err(function(){
-        assert.containsAllKeys(errSet);
       }, "keys required");
 
       err(function(){
@@ -894,15 +940,7 @@ describe('assert', function () {
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(errSet);
-      }, "keys required");
-
-      err(function(){
         assert.doesNotHaveAllKeys(errSet, []);
-      }, "keys required");
-
-      err(function(){
-        assert.hasAnyKeys(errSet);
       }, "keys required");
 
       err(function(){
@@ -910,24 +948,22 @@ describe('assert', function () {
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(errSet);
-      }, "keys required");
-
-      err(function(){
         assert.doesNotHaveAnyKeys(errSet, []);
       }, "keys required");
+
+      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   assert.containsAllKeys(new Set([{foo: 1}]), { foo: 1 });
+      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+      // err(function(){
+      //   assert.containsAllDeepKeys(new Set([{foo: 1}]), { iDoNotExist: 0 })
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     err(function(){
-      assert.hasAllKeys({ foo: 1 });
-    }, "keys required");
-
-    err(function(){
       assert.hasAllKeys({ foo: 1 }, []);
-    }, "keys required");
-
-    err(function(){
-      assert.containsAllKeys({ foo: 1 });
     }, "keys required");
 
     err(function(){
@@ -935,23 +971,11 @@ describe('assert', function () {
     }, "keys required");
 
     err(function(){
-      assert.doesNotHaveAllKeys({ foo: 1 });
-    }, "keys required");
-
-    err(function(){
       assert.doesNotHaveAllKeys({ foo: 1 }, []);
     }, "keys required");
 
     err(function(){
-      assert.hasAnyKeys({ foo: 1 });
-    }, "keys required");
-
-    err(function(){
       assert.hasAnyKeys({ foo: 1 }, []);
-    }, "keys required");
-
-    err(function(){
-      assert.doesNotHaveAnyKeys({ foo: 1 });
     }, "keys required");
 
     err(function(){
@@ -1023,7 +1047,6 @@ describe('assert', function () {
       assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'bar': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
 
-
     err(function() {
       assert.hasAnyKeys({ foo: 1 }, 'baz');
     }, "expected { foo: 1 } to have key 'baz'");
@@ -1035,7 +1058,6 @@ describe('assert', function () {
     err(function(){
       assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'baz': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
-
   });
 
   it('lengthOf', function() {
