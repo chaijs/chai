@@ -107,12 +107,21 @@ describe('assert', function () {
   it('equal', function () {
     var foo;
     assert.equal(foo, undefined);
+
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      assert.equal(sym, sym);
+    }
   });
 
   it('typeof', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
+
+    if (typeof Symbol === 'function') {
+      assert.typeOf(Symbol(), 'symbol');
+    }
 
     err(function () {
       assert.typeOf(5, 'string');
@@ -182,6 +191,12 @@ describe('assert', function () {
   it('notEqual', function() {
     assert.notEqual(3, 4);
 
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol();
+      assert.notEqual(sym1, sym2);
+    }
+
     err(function () {
       assert.notEqual(5, 5);
     }, "expected 5 to not equal 5");
@@ -190,6 +205,11 @@ describe('assert', function () {
   it('strictEqual', function() {
     assert.strictEqual('foo', 'foo');
 
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      assert.strictEqual(sym, sym);
+    }
+
     err(function () {
       assert.strictEqual('5', 5);
     }, "expected \'5\' to equal 5");
@@ -197,6 +217,12 @@ describe('assert', function () {
 
   it('notStrictEqual', function() {
     assert.notStrictEqual(5, '5');
+
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol();
+      assert.notStrictEqual(sym1, sym2);
+    }
 
     err(function () {
       assert.notStrictEqual(5, 5);
@@ -435,6 +461,12 @@ describe('assert', function () {
     assert.include([ 1, 2, 3], 3);
     assert.include({a:1, b:2}, {b:2});
 
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol();
+      assert.include([sym1, sym2], sym1);
+    }
+
     err(function () {
       assert.include('foobar', 'baz');
     }, "expected \'foobar\' to include \'baz\'");
@@ -459,6 +491,13 @@ describe('assert', function () {
   it('notInclude', function () {
     assert.notInclude('foobar', 'baz');
     assert.notInclude([ 1, 2, 3 ], 4);
+
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol()
+        , sym3 = Symbol();
+      assert.notInclude([sym1, sym2], sym3);
+    }
 
     err(function(){
       assert.notInclude(true, true);
@@ -1256,6 +1295,10 @@ describe('assert', function () {
       assert[isNotExtensible]('foo');
       assert[isNotExtensible](false);
       assert[isNotExtensible](undefined);
+
+      if (typeof Symbol === 'function') {
+        assert[isNotExtensible](Symbol());
+      }
     });
   });
 
@@ -1276,6 +1319,10 @@ describe('assert', function () {
       assert[isSealed]('foo');
       assert[isSealed](false);
       assert[isSealed](undefined);
+
+      if (typeof Symbol === 'function') {
+        assert[isSealed](Symbol());
+      }
     });
   });
 
@@ -1330,6 +1377,10 @@ describe('assert', function () {
       assert[isFrozen]('foo');
       assert[isFrozen](false);
       assert[isFrozen](undefined);
+
+      if (typeof Symbol === 'function') {
+        assert[isFrozen](Symbol());
+      }
     });
   });
 

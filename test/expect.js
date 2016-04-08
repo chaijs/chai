@@ -116,6 +116,10 @@ describe('expect', function () {
     expect(function() {}).to.be.a('function');
     expect(null).to.be.a('null');
 
+    if (typeof Symbol === 'function') {
+      expect(Symbol()).to.be.a('symbol');
+    }
+
     err(function(){
       expect(5).to.not.be.a('number', 'blah');
     }, "blah: expected 5 not to be a number");
@@ -300,6 +304,11 @@ describe('expect', function () {
     expect(1).to.eql(1);
     expect('4').to.not.eql(4);
 
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      expect(sym).to.eql(sym);
+    }
+
     err(function(){
       expect(4).to.eql(3, 'blah');
     }, 'blah: expected 4 to deeply equal 3');
@@ -318,6 +327,11 @@ describe('expect', function () {
   it('equal(val)', function(){
     expect('test').to.equal('test');
     expect(1).to.equal(1);
+
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      expect(sym).to.equal(sym);
+    }
 
     err(function(){
       expect(4).to.equal(3, 'blah');
@@ -623,6 +637,14 @@ describe('expect', function () {
     expect([{a:1},{b:2}]).to.include({a:1});
     expect([{a:1}]).to.include({a:1});
     expect([{a:1}]).to.not.include({b:1});
+
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol()
+        , sym3 = Symbol();
+      expect([sym1, sym2]).to.include(sym1);
+      expect([sym1, sym2]).to.not.include(sym3);
+    }
 
     err(function(){
       expect(['foo']).to.include('bar', 'blah');
@@ -1283,6 +1305,10 @@ describe('expect', function () {
     expect(false).to.not.be.extensible;
     expect(undefined).to.not.be.extensible;
 
+    if (typeof Symbol === 'function') {
+      expect(Symbol()).to.not.be.extensible;
+    }
+
     err(function() {
       expect(42).to.be.extensible;
     }, 'expected 42 to be extensible');
@@ -1326,6 +1352,10 @@ describe('expect', function () {
     expect(false).to.be.sealed;
     expect(undefined).to.be.sealed;
 
+    if (typeof Symbol === 'function') {
+      expect(Symbol()).to.be.sealed;
+    }
+
     err(function() {
       expect(42).to.not.be.sealed;
     }, 'expected 42 to not be sealed');
@@ -1368,6 +1398,10 @@ describe('expect', function () {
     expect('foo').to.be.frozen;
     expect(false).to.be.frozen;
     expect(undefined).to.be.frozen;
+
+    if (typeof Symbol === 'function') {
+      expect(Symbol()).to.be.frozen;
+    }
 
     err(function() {
       expect(42).to.not.be.frozen;

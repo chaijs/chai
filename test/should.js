@@ -146,6 +146,10 @@ describe('should', function() {
     ([]).should.be.a('array');
     (function() {}).should.be.a('function');
 
+    if (typeof Symbol === 'function') {
+      Symbol().should.be.a('symbol');
+    }
+
     (5).should.be.a('number');
 
     err(function(){
@@ -301,6 +305,11 @@ describe('should', function() {
     (1).should.eql(1);
     '4'.should.not.eql(4);
 
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      sym.should.eql(sym);
+    }
+
     err(function(){
       (4).should.eql(3, 'blah');
     }, 'blah: expected 4 to deeply equal 3');
@@ -309,6 +318,11 @@ describe('should', function() {
   it('equal(val)', function(){
     'test'.should.equal('test');
     (1).should.equal(1);
+
+    if (typeof Symbol === 'function') {
+      var sym = Symbol();
+      sym.should.equal(sym);
+    }
 
     err(function(){
       (4).should.equal(3, 'blah');
@@ -483,6 +497,14 @@ describe('should', function() {
     ['foo', 'bar'].should.not.include(1);
     ({a:1,b:2}).should.include({b:2});
     ({a:1,b:2}).should.not.include({b:3});
+
+    if (typeof Symbol === 'function') {
+      var sym1 = Symbol()
+        , sym2 = Symbol()
+        , sym3 = Symbol();
+      [sym1, sym2].should.include(sym1);
+      [sym1, sym2].should.not.include(sym3);
+    }
 
     err(function(){
       ['foo'].should.include('bar', 'blah');
@@ -1132,6 +1154,10 @@ describe('should', function() {
      'foo'.should.not.be.extensible;
      false.should.not.be.extensible;
 
+     if (typeof Symbol === 'function') {
+       Symbol().should.not.be.extensible;
+     }
+
      err(function() {
        (42).should.be.extensible;
      }, 'expected 42 to be extensible');
@@ -1165,6 +1191,10 @@ describe('should', function() {
     'foo'.should.be.sealed;
     false.should.be.sealed;
 
+    if (typeof Symbol === 'function') {
+      Symbol().should.be.sealed;
+    }
+
     err(function() {
       (42).should.not.be.sealed;
     }, 'expected 42 to not be sealed');
@@ -1197,6 +1227,10 @@ describe('should', function() {
     (42).should.be.frozen;
     'foo'.should.be.frozen;
     false.should.be.frozen;
+
+    if (typeof Symbol === 'function') {
+      Symbol().should.be.frozen;
+    }
 
     err(function() {
       (42).should.not.be.frozen;
