@@ -630,6 +630,15 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect Symbol', function () {
+    if (typeof Symbol !== 'function') return;
+
+    chai.use(function (_chai, _) {
+      expect(_.inspect(Symbol())).to.equal('Symbol()');
+      expect(_.inspect(Symbol('cat'))).to.equal('Symbol(cat)');
+    });
+  });
+
   it('addChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.addChainableMethod('x',
@@ -704,4 +713,119 @@ describe('utilities', function () {
     });
   });
 
+  it('compareByInspect', function () {
+    chai.use(function (_chai, _) {
+      var cbi = _.compareByInspect;
+
+      // "'c" is less than "'d"
+      expect(cbi('cat', 'dog')).to.equal(-1);
+      expect(cbi('dog', 'cat')).to.equal(1);
+      expect(cbi('cat', 'cat')).to.equal(1);
+
+      // "{ cat: [ [ 'dog', 1" is less than "{ cat [ [ 'dog', 2"
+      expect(cbi({'cat': [['dog', 1]]}, {'cat': [['dog', 2]]})).to.equal(-1);
+      expect(cbi({'cat': [['dog', 2]]}, {'cat': [['dog', 1]]})).to.equal(1);
+
+      if (typeof Symbol === 'function') {
+        // "Symbol(c" is less than "Symbol(d"
+        expect(cbi(Symbol('cat'), Symbol('dog'))).to.equal(-1);
+        expect(cbi(Symbol('dog'), Symbol('cat'))).to.equal(1);
+      }
+    });
+  });
+
+  describe('getOwnEnumerablePropertySymbols', function () {
+    var gettem;
+
+    beforeEach(function () {
+      chai.use(function (_chai, _) {
+        gettem = _.getOwnEnumerablePropertySymbols;
+      });
+    });
+
+    it('returns an empty array if no symbols', function () {
+      var obj = {}
+        , cat = 'cat';
+
+      obj[cat] = 42;
+
+      expect(gettem(obj)).to.not.include(cat);
+    });
+
+    it('returns enumerable symbols only', function () {
+      if (typeof Symbol !== 'function') return;
+      
+      var cat = Symbol('cat')
+        , dog = Symbol('dog')
+        , frog = Symbol('frog')
+        , cow = 'cow'
+        , obj = {};
+      
+      obj[cat] = 'meow';
+      obj[dog] = 'woof';
+
+      Object.defineProperty(obj, frog, {
+        enumerable: false,
+        value: 'ribbit'
+      });
+
+      obj[cow] = 'moo';
+
+      expect(gettem(obj)).to.have.same.members([cat, dog]);
+    });
+  });
+
+  describe('getOwnEnumerableProperties', function () {
+    var gettem;
+
+    beforeEach(function () {
+      chai.use(function (_chai, _) {
+        gettem = _.getOwnEnumerableProperties;
+      });
+    });
+
+    it('returns enumerable property names if no symbols', function () {
+      var cat = 'cat'
+        , dog = 'dog'
+        , frog = 'frog'
+        , obj = {};
+
+      obj[cat] = 'meow'
+      obj[dog] = 'woof';
+
+      Object.defineProperty(obj, frog, {
+        enumerable: false,
+        value: 'ribbit'
+      });
+
+      expect(gettem(obj)).to.have.same.members([cat, dog]);
+    });
+
+    it('returns enumerable property names and symbols', function () {
+      if (typeof Symbol !== 'function') return;
+      
+      var cat = Symbol('cat')
+        , dog = Symbol('dog')
+        , frog = Symbol('frog')
+        , bird = 'bird'
+        , cow = 'cow'
+        , obj = {};
+      
+      obj[cat] = 'meow';
+      obj[dog] = 'woof';
+      obj[bird] = 'chirp';
+
+      Object.defineProperty(obj, frog, {
+        enumerable: false,
+        value: 'ribbit'
+      });
+
+      Object.defineProperty(obj, cow, {
+        enumerable: false,
+        value: 'moo'
+      });
+
+      expect(gettem(obj)).to.have.same.members([cat, dog, bird]);
+    });
+  });
 });
