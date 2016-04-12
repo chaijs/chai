@@ -3,7 +3,7 @@ module.exports = function(config) {
       frameworks: [ 'mocha' ]
     , files: [
           'chai.js'
-        , 'test/bootstrap/karma.js'
+        , 'test/bootstrap/index.js'
         , 'test/*.js'
       ]
     , reporters: [ 'progress' ]
