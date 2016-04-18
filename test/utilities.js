@@ -608,6 +608,19 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect with custom stylize-calling inspect()s', function () {
+    chai.use(function (_chai, _) {
+      var obj = {
+        outer: {
+          inspect: function (depth, options) {
+            return options.stylize('Object content', 'string');
+          }
+        }
+      };
+      expect(_.inspect(obj)).to.equal('{ outer: Object content }');
+    });
+  });
+
   it('inspect with custom object-returning inspect()s', function () {
     chai.use(function (_chai, _) {
       var obj = {
