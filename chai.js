@@ -1544,6 +1544,22 @@ module.exports = function (chai, _) {
    *     expect(fn).to.throw(ReferenceError)
    *        .and.not.throw(/good function/);
    *
+   * To check a function with arguments you can wrap the call in an anonymous function:
+   *
+   *     expect(function() { fn('arg1', 2) }).to.throw(ReferenceError);
+   *
+   * If you need some more complicated check you can chain `throws` with `satisfy`
+   *
+   *     expect(fn).to.throw().and.to.satisfy((error) => {
+   *       return error.code === 404;
+   *     });
+   *
+   * or even more appropriate method which gives better error message in case of fail
+   *
+   *     expect(fn).to.throw(Error).which.has.property('code', 404);
+   *
+   *     expect(fn).to.throw(Error).which.has.property('code').that.is.within(399, 500);
+   *
    * @name throw
    * @alias throws
    * @alias Throw
