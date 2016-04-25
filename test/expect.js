@@ -565,6 +565,10 @@ describe('expect', function () {
     expect('test').to.haveOwnProperty('length');
     expect({ length: 12 }).to.have.ownProperty('length');
 
+    var objNoProto = Object.create(null);
+    objNoProto.a = 'a';
+    expect(objNoProto).to.have.ownProperty('a');
+
     err(function(){
       expect({ length: 12 }).to.not.have.ownProperty('length', 'blah');
     }, "blah: expected { length: 12 } to not have own property 'length'");

@@ -417,6 +417,10 @@ describe('should', function() {
     ({ length: 12 }).should.have.ownProperty('length');
     ({ 1: 1 }).should.have.ownProperty(1);
 
+    var objNoHasOwnProperty = {hasOwnProperty: null};
+    objNoHasOwnProperty.a = 'a';
+    objNoHasOwnProperty.should.have.ownProperty('a');
+
     err(function(){
       ({ length: 12 }).should.not.have.ownProperty('length', 'blah');
     }, "blah: expected { length: 12 } to not have own property 'length'");
