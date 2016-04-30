@@ -217,6 +217,34 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.within(5,7, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
+
+    err(function () {
+      expect(null).to.be.within(0, 1, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(null).to.not.be.within(0, 1, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.not.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.have.length.within(5,7, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('above(n)', function(){
@@ -242,6 +270,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.above(4, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
+
+    err(function () {
+      expect(null).to.be.above(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      expect(null).to.not.be.above(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      expect(1).to.have.length.above(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('least(n)', function(){
@@ -270,6 +318,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3, 4 ]).to.not.have.length.of.at.least(4, 'blah');
     }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
+
+    err(function () {
+      expect(null).to.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      expect(null).to.not.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      expect(1).to.have.length.at.least(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('below(n)', function(){
@@ -295,6 +363,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.below(2, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
+
+    err(function () {
+      expect(null).to.be.below(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      expect(null).to.not.be.below(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      expect(1).to.have.length.below(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('most(n)', function(){
@@ -324,6 +412,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
     }, "blah: expected [ 1, 2 ] to have a length above 2");
+
+    err(function () {
+      expect(null).to.be.at.most(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      expect(null).to.not.be.at.most(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      expect(1).to.have.length.of.at.most(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('match(regexp)', function(){
