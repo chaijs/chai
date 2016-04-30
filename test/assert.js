@@ -789,6 +789,14 @@ describe('assert', function () {
     err(function() {
       assert.isAbove(1, 1);
     }, 'expected 1 to be above 1');
+
+    err(function() {
+      assert.isAbove(null, 1);
+    }, 'expected null to be a number');
+
+    err(function() {
+      assert.isAbove(1, null);
+    }, 'the argument to above must be a number');
   });
 
   it('below', function() {
@@ -802,6 +810,13 @@ describe('assert', function () {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
 
+    err(function() {
+      assert.isBelow(null, 1);
+    }, 'expected null to be a number');
+
+    err(function() {
+      assert.isBelow(1, null);
+    }, 'the argument to below must be a number');
   });
 
   it('memberDeepEquals', function() {

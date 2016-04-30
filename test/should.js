@@ -205,6 +205,34 @@ describe('should', function() {
     err(function(){
       ({ foo: 1 }).should.have.length.within(50,100, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.within(0, 1, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      ('string').should.not.be.within(0, 1, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.not.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.have.length.within(5,7, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('above(n)', function(){
@@ -224,6 +252,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.above(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.above(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      ('string').should.not.be.above(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      (1).should.have.length.above(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('least(n)', function(){
@@ -241,6 +289,22 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.of.at.least(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      ('string').should.not.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
   });
 
   it('below(n)', function(){
@@ -260,6 +324,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.below(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.below(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      ('string').should.not.be.below(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      (1).should.have.length.below(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('most(n)', function(){
@@ -277,6 +361,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.of.at.most(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.at.most(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      ('string').should.not.be.at.most(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      (1).should.have.length.of.at.most(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('match(regexp)', function(){
