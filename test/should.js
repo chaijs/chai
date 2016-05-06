@@ -28,7 +28,7 @@ describe('should', function() {
     [ 'to', 'be', 'been'
     , 'is', 'and', 'has', 'have'
     , 'with', 'that', 'which', 'at'
-    , 'of', 'same', 'but' ].forEach(test);
+    , 'of', 'same', 'but', 'does' ].forEach(test);
   });
 
   it('fail', function () {
