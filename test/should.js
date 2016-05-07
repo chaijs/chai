@@ -7,6 +7,30 @@ describe('should', function() {
     should.not.equal('foo', 'bar');
   });
 
+  it('no-op chains', function() {
+    function test(chain) {
+      // tests that chain exists
+      ((1).should[chain]).should.not.undefined;
+
+      // tests methods
+      (1).should[chain].equal(1);
+
+      // tests properties that assert
+      (false).should[chain].false;
+
+      // tests not
+      (false).should[chain].not.true;
+
+      // tests chainable methods
+      [1, 2, 3].should[chain].contains(1);
+    }
+
+    [ 'to', 'be', 'been'
+    , 'is', 'and', 'has', 'have'
+    , 'with', 'that', 'which', 'at'
+    , 'of', 'same', 'but' ].forEach(test);
+  });
+
   it('fail', function () {
     err(function() {
       should.fail(0, 1, 'this has failed');
