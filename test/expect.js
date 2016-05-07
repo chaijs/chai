@@ -10,6 +10,30 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
+  it('no-op chains', function() {
+    function test(chain) {
+      // tests that chain exists
+      expect(expect(1)[chain]).not.undefined;
+
+      // tests methods
+      expect(1)[chain].equal(1);
+
+      // tests properties that assert
+      expect(false)[chain].false;
+
+      // tests not
+      expect(false)[chain].not.true;
+
+      // tests chainable methods
+      expect([1, 2, 3])[chain].contains(1);
+    }
+
+    [ 'to', 'be', 'been'
+    , 'is', 'and', 'has', 'have'
+    , 'with', 'that', 'which', 'at'
+    , 'of', 'same', 'but', 'does' ].forEach(test);
+  });
+
   it('fail', function () {
     err(function() {
       expect.fail(0, 1, 'this has failed');
