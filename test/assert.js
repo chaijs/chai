@@ -595,160 +595,197 @@ describe('assert', function () {
     }
 
     if (typeof Map !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Map constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testMap = new Map();
+      
+      testMap.set(aKey, 'aValue');
+      testMap.set(anotherKey, 'anotherValue');
 
-      assert.hasAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey ]);
-      assert.hasAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', aKey ]);
-      assert.hasAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, anotherKey ]);
+      assert.hasAnyKeys(testMap, [ aKey ]);
+      assert.hasAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', aKey ]);
+      assert.hasAllKeys(testMap, [ aKey, anotherKey ]);
 
-      assert.containsAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey ]);
-      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, {iDoNot: 'exist'} ]);
+      assert.containsAllKeys(testMap, [ aKey ]);
+      assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
 
-      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+      assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(testMap, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
 
-      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
-      assert.doesNotHaveAnyKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]), [ aKey, {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+      assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
 
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
-        , weirdMapKey3 = [];
-      assert.hasAllKeys(new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']]), [weirdMapKey1, weirdMapKey2]);
-      assert.doesNotHaveAllKeys(new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']]), [weirdMapKey1, weirdMapKey3]);
+        , weirdMapKey3 = []
+        , weirdMap = new Map();
+      
+      weirdMap.set(weirdMapKey1, 'val1');
+      weirdMap.set(weirdMapKey2, 'val2');
+
+      assert.hasAllKeys(weirdMap, [weirdMapKey1, weirdMapKey2]);
+      assert.doesNotHaveAllKeys(weirdMap, [weirdMapKey1, weirdMapKey3]);
 
       if (typeof Symbol === 'function') {
         var symMapKey1 = Symbol()
           , symMapKey2 = Symbol()
-          , symMapKey3 = Symbol();
+          , symMapKey3 = Symbol()
+          , symMap = new Map();
+        
+        symMap.set(symMapKey1, 'val1');
+        symMap.set(symMapKey2, 'val2');
 
-        assert.hasAllKeys(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]), [symMapKey1, symMapKey2]);
-        assert.hasAnyKeys(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]), [symMapKey1, symMapKey3]);
-        assert.containsAllKeys(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]), [symMapKey2, symMapKey1]);
+        assert.hasAllKeys(symMap, [symMapKey1, symMapKey2]);
+        assert.hasAnyKeys(symMap, [symMapKey1, symMapKey3]);
+        assert.containsAllKeys(symMap, [symMapKey2, symMapKey1]);
 
-        assert.doesNotHaveAllKeys(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]), [symMapKey1, symMapKey3]);
-        assert.doesNotHaveAnyKeys(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]), [symMapKey3]);
+        assert.doesNotHaveAllKeys(symMap, [symMapKey1, symMapKey3]);
+        assert.doesNotHaveAnyKeys(symMap, [symMapKey3]);
       }
 
+      var errMap = new Map();
+
+      errMap.set({1: 20}, 'number');
+
       err(function(){
-        assert.hasAllKeys(new Map([[{1: 20}, 'number']]));
+        assert.hasAllKeys(errMap);
       }, "keys required");
 
       err(function(){
-        assert.hasAllKeys(new Map([[{1: 20}, 'number']]), []);
+        assert.hasAllKeys(errMap, []);
       }, "keys required");
 
       err(function(){
-        assert.containsAllKeys(new Map([[{1: 20}, 'number']]));
+        assert.containsAllKeys(errMap);
       }, "keys required");
 
       err(function(){
-        assert.containsAllKeys(new Map([[{1: 20}, 'number']]), []);
+        assert.containsAllKeys(errMap, []);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(new Map([[{1: 20}, 'number']]));
+        assert.doesNotHaveAllKeys(errMap);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(new Map([[{1: 20}, 'number']]), []);
+        assert.doesNotHaveAllKeys(errMap, []);
       }, "keys required");
 
       err(function(){
-        assert.hasAnyKeys(new Map([[{1: 20}, 'number']]));
+        assert.hasAnyKeys(errMap);
       }, "keys required");
 
       err(function(){
-        assert.hasAnyKeys(new Map([[{1: 20}, 'number']]), []);
+        assert.hasAnyKeys(errMap, []);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(new Map([[{1: 20}, 'number']]));
+        assert.doesNotHaveAnyKeys(errMap);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(new Map([[{1: 20}, 'number']]), []);
+        assert.doesNotHaveAnyKeys(errMap, []);
       }, "keys required");
     }
 
     if (typeof Set !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Set constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testSet = new Set();
+      
+      testSet.add(aKey);
+      testSet.add(anotherKey);
 
-      assert.hasAnyKeys(new Set([aKey, anotherKey]), [ aKey ]);
-      assert.hasAnyKeys(new Set([aKey, anotherKey]), [ 20, 1, aKey ]);
-      assert.hasAllKeys(new Set([aKey, anotherKey]), [ aKey, anotherKey ]);
+      assert.hasAnyKeys(testSet, [ aKey ]);
+      assert.hasAnyKeys(testSet, [ 20, 1, aKey ]);
+      assert.hasAllKeys(testSet, [ aKey, anotherKey ]);
 
-      assert.containsAllKeys(new Set([aKey, anotherKey]), [ aKey ]);
-      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ aKey, {iDoNot: 'exist'} ]);
+      assert.containsAllKeys(testSet, [ aKey ]);
+      assert.doesNotHaveAllKeys(testSet, [ aKey, {iDoNot: 'exist'} ]);
 
-      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+      assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
 
-      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
-      assert.doesNotHaveAnyKeys(new Set([aKey, anotherKey]), [ 20, 1, {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(new Set([aKey, anotherKey]), [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+      assert.doesNotHaveAnyKeys(testSet, [ 20, 1, {iDoNot: 'exist'} ]);
+      assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
-        , weirdSetKey3 = [];
-      assert.hasAllKeys(new Set([weirdSetKey1, weirdSetKey2]), [weirdSetKey1, weirdSetKey2]);
-      assert.doesNotHaveAllKeys(new Set([weirdSetKey1, weirdSetKey2]), [weirdSetKey1, weirdSetKey3]);
+        , weirdSetKey3 = []
+        , weirdSet = new Set();
+      
+      weirdSet.add(weirdSetKey1);
+      weirdSet.add(weirdSetKey2);
+
+      assert.hasAllKeys(weirdSet, [weirdSetKey1, weirdSetKey2]);
+      assert.doesNotHaveAllKeys(weirdSet, [weirdSetKey1, weirdSetKey3]);
 
       if (typeof Symbol === 'function') {
         var symSetKey1 = Symbol()
           , symSetKey2 = Symbol()
-          , symSetKey3 = Symbol();
+          , symSetKey3 = Symbol()
+          , symSet = new Set();
+        
+        symSet.add(symSetKey1);
+        symSet.add(symSetKey2);
 
-        assert.hasAllKeys(new Set([symSetKey1, symSetKey2]), [symSetKey1, symSetKey2]);
-        assert.hasAnyKeys(new Set([symSetKey1, symSetKey2]), [symSetKey1, symSetKey3]);
-        assert.containsAllKeys(new Set([symSetKey1, symSetKey2]), [symSetKey2, symSetKey1]);
+        assert.hasAllKeys(symSet, [symSetKey1, symSetKey2]);
+        assert.hasAnyKeys(symSet, [symSetKey1, symSetKey3]);
+        assert.containsAllKeys(symSet, [symSetKey2, symSetKey1]);
 
-        assert.doesNotHaveAllKeys(new Set([symSetKey1, symSetKey2]), [symSetKey1, symSetKey3]);
-        assert.doesNotHaveAnyKeys(new Set([symSetKey1, symSetKey2]), [symSetKey3]);
+        assert.doesNotHaveAllKeys(symSet, [symSetKey1, symSetKey3]);
+        assert.doesNotHaveAnyKeys(symSet, [symSetKey3]);
       }
 
+      var errSet = new Set();
+      
+      errSet.add({1: 20});
+      errSet.add('number');
+
       err(function(){
-        assert.hasAllKeys(new Set([{1: 20}, 'number']));
+        assert.hasAllKeys(errSet);
       }, "keys required");
 
       err(function(){
-        assert.hasAllKeys(new Set([{1: 20}, 'number']), []);
+        assert.hasAllKeys(errSet, []);
       }, "keys required");
 
       err(function(){
-        assert.containsAllKeys(new Set([{1: 20}, 'number']));
+        assert.containsAllKeys(errSet);
       }, "keys required");
 
       err(function(){
-        assert.containsAllKeys(new Set([{1: 20}, 'number']), []);
+        assert.containsAllKeys(errSet, []);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(new Set([{1: 20}, 'number']));
+        assert.doesNotHaveAllKeys(errSet);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(new Set([{1: 20}, 'number']), []);
+        assert.doesNotHaveAllKeys(errSet, []);
       }, "keys required");
 
       err(function(){
-        assert.hasAnyKeys(new Set([{1: 20}, 'number']));
+        assert.hasAnyKeys(errSet);
       }, "keys required");
 
       err(function(){
-        assert.hasAnyKeys(new Set([{1: 20}, 'number']), []);
+        assert.hasAnyKeys(errSet, []);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(new Set([{1: 20}, 'number']));
+        assert.doesNotHaveAnyKeys(errSet);
       }, "keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(new Set([{1: 20}, 'number']), []);
+        assert.doesNotHaveAnyKeys(errSet, []);
       }, "keys required");
     }
 

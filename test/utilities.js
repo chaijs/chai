@@ -264,12 +264,15 @@ describe('utilities', function () {
     // Checking if it's really an instance of an Assertion
     expect(assertion2).to.be.instanceOf(assertionConstructor);
 
-    // Test chaining `.length` after a method to guarantee it is not a function's `length`
+    // Test chaining `.length` after a method to guarantee it's not a function's
+    // `length`. Note: 'instanceof' cannot be used here because the test will
+    // fail in IE 10 due to how addChainableMethod works without __proto__
+    // support. Therefore, test the constructor property of length instead.
     var anAssertion = expect([1, 2, 3]).to.be.an.instanceof(Array);
-    expect(anAssertion.length).to.be.an.instanceof(assertionConstructor);
+    expect(anAssertion.length.constructor).to.equal(assertionConstructor);
 
     var anotherAssertion = expect([1, 2, 3]).to.have.a.lengthOf(3).and.to.be.ok;
-    expect(anotherAssertion.length).to.be.an.instanceof(assertionConstructor);
+    expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
   });
 
   it('overwriteMethod', function () {
