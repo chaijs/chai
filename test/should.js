@@ -650,125 +650,160 @@ describe('should', function() {
     }
 
     if (typeof Map !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Map constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testMap = new Map();
+      
+      testMap.set(aKey, 'aValue');
+      testMap.set(anotherKey, 'anotherValue');
 
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys(aKey);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.all.keys(aKey, anotherKey);
+      testMap.should.have.any.keys(aKey);
+      testMap.should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      testMap.should.have.all.keys(aKey, anotherKey);
 
+      testMap.should.contain.all.keys(aKey);
+      testMap.should.not.contain.all.keys(aKey, 'thisDoesNotExist');
+      testMap.should.not.have.any.keys({iDoNot: 'exist'});
+      testMap.should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
 
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.contain.all.keys(aKey);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.contain.all.keys(aKey, 'thisDoesNotExist');
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys({iDoNot: 'exist'});
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+      testMap.should.have.any.keys([aKey]);
+      testMap.should.have.any.keys([20, 1, aKey]);
+      testMap.should.have.all.keys([aKey, anotherKey]);
 
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys([aKey]);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.any.keys([20, 1, aKey]);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.have.all.keys([aKey, anotherKey]);
-
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.any.keys([20, 1, {13: 37}]);
-      new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']]).should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+      testMap.should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      testMap.should.not.have.any.keys([20, 1, {13: 37}]);
+      testMap.should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
-        , weirdMapKey3 = [];
-      new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']]).should.have.all.keys([weirdMapKey1, weirdMapKey2]);
-      new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']]).should.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
+        , weirdMapKey3 = []
+        , weirdMap = new Map();
+      
+      weirdMap.set(weirdMapKey1, 'val1');
+      weirdMap.set(weirdMapKey2, 'val2');
+
+      weirdMap.should.have.all.keys([weirdMapKey1, weirdMapKey2]);
+      weirdMap.should.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
 
       if (typeof Symbol === 'function') {
         var symMapKey1 = Symbol()
           , symMapKey2 = Symbol()
-          , symMapKey3 = Symbol();
+          , symMapKey3 = Symbol()
+          , symMap = new Map();
+        
+        symMap.set(symMapKey1, 'val1');
+        symMap.set(symMapKey2, 'val2');
 
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.have.all.keys(symMapKey1, symMapKey2);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.have.any.keys(symMapKey1, symMapKey3);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.contain.all.keys(symMapKey2, symMapKey1);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.contain.any.keys(symMapKey3, symMapKey1);
+        symMap.should.have.all.keys(symMapKey1, symMapKey2);
+        symMap.should.have.any.keys(symMapKey1, symMapKey3);
+        symMap.should.contain.all.keys(symMapKey2, symMapKey1);
+        symMap.should.contain.any.keys(symMapKey3, symMapKey1);
 
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.not.have.all.keys(symMapKey1, symMapKey3);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.not.have.any.keys(symMapKey3);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.not.contain.all.keys(symMapKey3, symMapKey1);
-        new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']]).should.not.contain.any.keys(symMapKey3);
+        symMap.should.not.have.all.keys(symMapKey1, symMapKey3);
+        symMap.should.not.have.any.keys(symMapKey3);
+        symMap.should.not.contain.all.keys(symMapKey3, symMapKey1);
+        symMap.should.not.contain.any.keys(symMapKey3);
       }
 
+      var errMap = new Map();
+
+      errMap.set({ foo: 1 });
+
       err(function(){
-        new Map().set({ foo: 1 }).should.have.keys();
+        errMap.should.have.keys();
       }, "keys required");
 
       err(function(){
-        new Map().set({ foo: 1 }).should.have.keys([]);
+        errMap.should.have.keys([]);
       }, "keys required");
 
       err(function(){
-        new Map().set({ foo: 1 }).should.contain.keys();
+        errMap.should.contain.keys();
       }, "keys required");
 
       err(function(){
-        new Map().set({ foo: 1 }).should.contain.keys([]);
+        errMap.should.contain.keys([]);
       }, "keys required");
     }
 
     if (typeof Set !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Set constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testSet = new Set();
+      
+      testSet.add(aKey);
+      testSet.add(anotherKey);
 
-      new Set([aKey, anotherKey]).should.have.any.keys(aKey);
-      new Set([aKey, anotherKey]).should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      new Set([aKey, anotherKey]).should.have.all.keys(aKey, anotherKey);
+      testSet.should.have.any.keys(aKey);
+      testSet.should.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      testSet.should.have.all.keys(aKey, anotherKey);
 
-      new Set([aKey, anotherKey]).should.contain.all.keys(aKey);
-      new Set([aKey, anotherKey]).should.not.contain.all.keys(aKey, 'thisDoesNotExist');
+      testSet.should.contain.all.keys(aKey);
+      testSet.should.not.contain.all.keys(aKey, 'thisDoesNotExist');
 
-      new Set([aKey, anotherKey]).should.not.have.any.keys({iDoNot: 'exist'});
-      new Set([aKey, anotherKey]).should.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      new Set([aKey, anotherKey]).should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+      testSet.should.not.have.any.keys({iDoNot: 'exist'});
+      testSet.should.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      testSet.should.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
 
-      new Set([aKey, anotherKey]).should.have.any.keys([aKey]);
-      new Set([aKey, anotherKey]).should.have.any.keys([20, 1, aKey]);
-      new Set([aKey, anotherKey]).should.have.all.keys([aKey, anotherKey]);
+      testSet.should.have.any.keys([aKey]);
+      testSet.should.have.any.keys([20, 1, aKey]);
+      testSet.should.have.all.keys([aKey, anotherKey]);
 
-      new Set([aKey, anotherKey]).should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      new Set([aKey, anotherKey]).should.not.have.any.keys([20, 1, {13: 37}]);
-      new Set([aKey, anotherKey]).should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+      testSet.should.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      testSet.should.not.have.any.keys([20, 1, {13: 37}]);
+      testSet.should.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
-        , weirdSetKey3 = [];
-      new Set([weirdSetKey1, weirdSetKey2]).should.have.all.keys([weirdSetKey1, weirdSetKey2]);
-      new Set([weirdSetKey1, weirdSetKey2]).should.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
+        , weirdSetKey3 = []
+        , weirdSet = new Set();
+      
+      weirdSet.add(weirdSetKey1);
+      weirdSet.add(weirdSetKey2);
+
+      weirdSet.should.have.all.keys([weirdSetKey1, weirdSetKey2]);
+      weirdSet.should.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
 
       if (typeof Symbol === 'function') {
         var symSetKey1 = Symbol()
           , symSetKey2 = Symbol()
-          , symSetKey3 = Symbol();
+          , symSetKey3 = Symbol()
+          , symSet = new Set();
+        
+        symSet.add(symSetKey1);
+        symSet.add(symSetKey2);
 
-        new Set([symSetKey1, symSetKey2]).should.have.all.keys(symSetKey1, symSetKey2);
-        new Set([symSetKey1, symSetKey2]).should.have.any.keys(symSetKey1, symSetKey3);
-        new Set([symSetKey1, symSetKey2]).should.contain.all.keys(symSetKey2, symSetKey1);
-        new Set([symSetKey1, symSetKey2]).should.contain.any.keys(symSetKey3, symSetKey1);
+        symSet.should.have.all.keys(symSetKey1, symSetKey2);
+        symSet.should.have.any.keys(symSetKey1, symSetKey3);
+        symSet.should.contain.all.keys(symSetKey2, symSetKey1);
+        symSet.should.contain.any.keys(symSetKey3, symSetKey1);
 
-        new Set([symSetKey1, symSetKey2]).should.not.have.all.keys(symSetKey1, symSetKey3);
-        new Set([symSetKey1, symSetKey2]).should.not.have.any.keys(symSetKey3);
-        new Set([symSetKey1, symSetKey2]).should.not.contain.all.keys(symSetKey3, symSetKey1);
-        new Set([symSetKey1, symSetKey2]).should.not.contain.any.keys(symSetKey3);
+        symSet.should.not.have.all.keys(symSetKey1, symSetKey3);
+        symSet.should.not.have.any.keys(symSetKey3);
+        symSet.should.not.contain.all.keys(symSetKey3, symSetKey1);
+        symSet.should.not.contain.any.keys(symSetKey3);
       }
 
+      var errSet = new Set();
+
+      errSet.add({ foo: 1 });
+
       err(function(){
-        new Set().add({ foo: 1 }).should.have.keys();
+        errSet.should.have.keys();
       }, "keys required");
 
       err(function(){
-        new Set().add({ foo: 1 }).should.have.keys([]);
+        errSet.should.have.keys([]);
       }, "keys required");
 
       err(function(){
-        new Set().add({ foo: 1 }).should.contain.keys();
+        errSet.should.contain.keys();
       }, "keys required");
 
       err(function(){
-        new Set().add({ foo: 1 }).should.contain.keys([]);
+        errSet.should.contain.keys([]);
       }, "keys required");
     }
 

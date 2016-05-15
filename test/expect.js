@@ -808,126 +808,161 @@ describe('expect', function () {
     }
 
     if (typeof Map !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Map constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testMap = new Map();
+      
+      testMap.set(aKey, 'aValue');
+      testMap.set(anotherKey, 'anotherValue');
 
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys(aKey);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.all.keys(aKey, anotherKey);
+      expect(testMap).to.have.any.keys(aKey);
+      expect(testMap).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      expect(testMap).to.have.all.keys(aKey, anotherKey);
 
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.contain.all.keys(aKey);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+      expect(testMap).to.contain.all.keys(aKey);
+      expect(testMap).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
 
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys({iDoNot: 'exist'});
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+      expect(testMap).to.not.have.any.keys({iDoNot: 'exist'});
+      expect(testMap).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(testMap).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
 
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys([aKey]);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.any.keys([20, 1, aKey]);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.have.all.keys([aKey, anotherKey]);
+      expect(testMap).to.have.any.keys([aKey]);
+      expect(testMap).to.have.any.keys([20, 1, aKey]);
+      expect(testMap).to.have.all.keys([aKey, anotherKey]);
 
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.any.keys([20, 1, {13: 37}]);
-      expect(new Map([[aKey, 'aValue'], [anotherKey, 'anotherValue']])).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+      expect(testMap).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(testMap).to.not.have.any.keys([20, 1, {13: 37}]);
+      expect(testMap).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
-        , weirdMapKey3 = [];
-      expect(new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']])).to.have.all.keys([weirdMapKey1, weirdMapKey2]);
-      expect(new Map([[weirdMapKey1, 'val1'], [weirdMapKey2, 'val2']])).to.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
+        , weirdMapKey3 = []
+        , weirdMap = new Map();
+      
+      weirdMap.set(weirdMapKey1, 'val1');
+      weirdMap.set(weirdMapKey2, 'val2');
+
+      expect(weirdMap).to.have.all.keys([weirdMapKey1, weirdMapKey2]);
+      expect(weirdMap).to.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
 
       if (typeof Symbol === 'function') {
         var symMapKey1 = Symbol()
           , symMapKey2 = Symbol()
-          , symMapKey3 = Symbol();
+          , symMapKey3 = Symbol()
+          , symMap = new Map();
+        
+        symMap.set(symMapKey1, 'val1');
+        symMap.set(symMapKey2, 'val2');
 
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.have.all.keys(symMapKey1, symMapKey2);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.have.any.keys(symMapKey1, symMapKey3);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.contain.all.keys(symMapKey2, symMapKey1);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.contain.any.keys(symMapKey3, symMapKey1);
+        expect(symMap).to.have.all.keys(symMapKey1, symMapKey2);
+        expect(symMap).to.have.any.keys(symMapKey1, symMapKey3);
+        expect(symMap).to.contain.all.keys(symMapKey2, symMapKey1);
+        expect(symMap).to.contain.any.keys(symMapKey3, symMapKey1);
 
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.not.have.all.keys(symMapKey1, symMapKey3);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.not.have.any.keys(symMapKey3);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.not.contain.all.keys(symMapKey3, symMapKey1);
-        expect(new Map([[symMapKey1, 'symValue1'], [symMapKey2, 'symValue2']])).to.not.contain.any.keys(symMapKey3);
+        expect(symMap).to.not.have.all.keys(symMapKey1, symMapKey3);
+        expect(symMap).to.not.have.any.keys(symMapKey3);
+        expect(symMap).to.not.contain.all.keys(symMapKey3, symMapKey1);
+        expect(symMap).to.not.contain.any.keys(symMapKey3);
       }
 
+      var errMap = new Map();
+
+      errMap.set({ foo: 1 });
+
       err(function(){
-        expect(new Map().set({ foo: 1 })).to.have.keys();
+        expect(errMap).to.have.keys();
       }, "keys required");
 
       err(function(){
-        expect(new Map().set({ foo: 1 })).to.have.keys([]);
+        expect(errMap).to.have.keys([]);
       }, "keys required");
 
       err(function(){
-        expect(new Map().set({ foo: 1 })).to.contain.keys();
+        expect(errMap).to.contain.keys();
       }, "keys required");
 
       err(function(){
-        expect(new Map().set({ foo: 1 })).to.contain.keys([]);
+        expect(errMap).to.contain.keys([]);
       }, "keys required");
     }
 
     if (typeof Set !== 'undefined') {
-      var aKey = {thisIs: 'anExampleObject'};
-      var anotherKey = {doingThisBecauseOf: 'referential equality'};
+      // Not using Set constructor args because not supported in IE 11.
+      var aKey = {thisIs: 'anExampleObject'}
+        , anotherKey = {doingThisBecauseOf: 'referential equality'}
+        , testSet = new Set();
+      
+      testSet.add(aKey);
+      testSet.add(anotherKey);
 
-      expect(new Set([aKey, anotherKey])).to.have.any.keys(aKey);
-      expect(new Set([aKey, anotherKey])).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      expect(new Set([aKey, anotherKey])).to.have.all.keys(aKey, anotherKey);
+      expect(testSet).to.have.any.keys(aKey);
+      expect(testSet).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+      expect(testSet).to.have.all.keys(aKey, anotherKey);
 
-      expect(new Set([aKey, anotherKey])).to.contain.all.keys(aKey);
-      expect(new Set([aKey, anotherKey])).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+      expect(testSet).to.contain.all.keys(aKey);
+      expect(testSet).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
 
-      expect(new Set([aKey, anotherKey])).to.not.have.any.keys({iDoNot: 'exist'});
-      expect(new Set([aKey, anotherKey])).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(new Set([aKey, anotherKey])).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+      expect(testSet).to.not.have.any.keys({iDoNot: 'exist'});
+      expect(testSet).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(testSet).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
 
-      expect(new Set([aKey, anotherKey])).to.have.any.keys([aKey]);
-      expect(new Set([aKey, anotherKey])).to.have.any.keys([20, 1, aKey]);
-      expect(new Set([aKey, anotherKey])).to.have.all.keys([aKey, anotherKey]);
+      expect(testSet).to.have.any.keys([aKey]);
+      expect(testSet).to.have.any.keys([20, 1, aKey]);
+      expect(testSet).to.have.all.keys([aKey, anotherKey]);
 
-      expect(new Set([aKey, anotherKey])).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(new Set([aKey, anotherKey])).to.not.have.any.keys([20, 1, {13: 37}]);
-      expect(new Set([aKey, anotherKey])).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+      expect(testSet).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(testSet).to.not.have.any.keys([20, 1, {13: 37}]);
+      expect(testSet).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
-        , weirdSetKey3 = [];
-      expect(new Set([weirdSetKey1, weirdSetKey2])).to.have.all.keys([weirdSetKey1, weirdSetKey2]);
-      expect(new Set([weirdSetKey1, weirdSetKey2])).to.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
+        , weirdSetKey3 = []
+        , weirdSet = new Set();
+      
+      weirdSet.add(weirdSetKey1);
+      weirdSet.add(weirdSetKey2);
+
+      expect(weirdSet).to.have.all.keys([weirdSetKey1, weirdSetKey2]);
+      expect(weirdSet).to.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
 
       if (typeof Symbol === 'function') {
         var symSetKey1 = Symbol()
           , symSetKey2 = Symbol()
-          , symSetKey3 = Symbol();
+          , symSetKey3 = Symbol()
+          , symSet = new Set();
+        
+        symSet.add(symSetKey1);
+        symSet.add(symSetKey2);
 
-        expect(new Set([symSetKey1, symSetKey2])).to.have.all.keys(symSetKey1, symSetKey2);
-        expect(new Set([symSetKey1, symSetKey2])).to.have.any.keys(symSetKey1, symSetKey3);
-        expect(new Set([symSetKey1, symSetKey2])).to.contain.all.keys(symSetKey2, symSetKey1);
-        expect(new Set([symSetKey1, symSetKey2])).to.contain.any.keys(symSetKey3, symSetKey1);
+        expect(symSet).to.have.all.keys(symSetKey1, symSetKey2);
+        expect(symSet).to.have.any.keys(symSetKey1, symSetKey3);
+        expect(symSet).to.contain.all.keys(symSetKey2, symSetKey1);
+        expect(symSet).to.contain.any.keys(symSetKey3, symSetKey1);
 
-        expect(new Set([symSetKey1, symSetKey2])).to.not.have.all.keys(symSetKey1, symSetKey3);
-        expect(new Set([symSetKey1, symSetKey2])).to.not.have.any.keys(symSetKey3);
-        expect(new Set([symSetKey1, symSetKey2])).to.not.contain.all.keys(symSetKey3, symSetKey1);
-        expect(new Set([symSetKey1, symSetKey2])).to.not.contain.any.keys(symSetKey3);
+        expect(symSet).to.not.have.all.keys(symSetKey1, symSetKey3);
+        expect(symSet).to.not.have.any.keys(symSetKey3);
+        expect(symSet).to.not.contain.all.keys(symSetKey3, symSetKey1);
+        expect(symSet).to.not.contain.any.keys(symSetKey3);
       }
 
+      var errSet = new Set();
+      errSet.add({ foo: 1});
+
       err(function(){
-        expect(new Set().add({ foo: 1 })).to.have.keys();
+        expect(errSet).to.have.keys();
       }, "keys required");
 
       err(function(){
-        expect(new Set().add({ foo: 1 })).to.have.keys([]);
+        expect(errSet).to.have.keys([]);
       }, "keys required");
 
       err(function(){
-        expect(new Set().add({ foo: 1 })).to.contain.keys();
+        expect(errSet).to.contain.keys();
       }, "keys required");
 
       err(function(){
-        expect(new Set().add({ foo: 1 })).to.contain.keys([]);
+        expect(errSet).to.contain.keys([]);
       }, "keys required");
     }
 
