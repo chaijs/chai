@@ -35,7 +35,7 @@
   "dependencies": {
     "assertion-error": "^1.0.1",
     "deep-eql": "^0.1.3",
-    "type-detect": "^1.0.0"
+    "type-detect": "^2.0.1"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
