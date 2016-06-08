@@ -844,4 +844,39 @@ describe('utilities', function () {
       expect(gettem(obj)).to.have.same.members([cat, dog, bird]);
     });
   });
+
+  describe('proxified object', function () {
+    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
+
+    var proxify;
+
+    beforeEach(function () {
+      chai.use(function (_chai, _) {
+        proxify = _.proxify;
+      });
+    });
+
+    it('returns property value if an existing property is read', function () {
+      var pizza = proxify({mushrooms: 42});
+
+      expect(pizza.mushrooms).to.equal(42);
+    });
+
+    it('throws error if a non-existent property is read', function () {
+      var pizza = proxify({});
+
+      expect(function () {
+        pizza.mushrooms;
+      }).to.throw('Invalid Chai property: mushrooms');
+    });
+
+    // .then is excluded from property validation for promise support
+    it('doesn\'t throw error if non-existent `then` is read', function () {
+      var pizza = proxify({});
+
+      expect(function () {
+        pizza.then;
+      }).to.not.throw();
+    });
+  });
 });

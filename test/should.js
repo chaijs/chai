@@ -7,6 +7,31 @@ describe('should', function() {
     should.not.equal('foo', 'bar');
   });
 
+  it('invalid property', function () {
+    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
+
+    err(function () {
+      (42).should.pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      (42).should.be.pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      (42).should.be.a.pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      (42).should.equal(42).pizza;
+    }, 'Invalid Chai property: pizza');
+
+    // .then is excluded from property validation for promise support
+    (function () {
+      (42).should.then;
+    }).should.not.throw();
+  });
+
   it('no-op chains', function() {
     function test(chain) {
       // tests that chain exists
