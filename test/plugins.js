@@ -21,4 +21,20 @@ describe('plugins', function () {
       chai.use(plugin);
     }).to.not.throw();
   });
+
+  it('.use detached from chai object', function () {
+    function anotherPlugin (chai) {
+      Object.defineProperty(chai.Assertion.prototype, 'moreTesting', {
+        get: function () {
+          return 'more success';
+        }
+      });
+    }
+
+    var use = chai.use;
+    use(anotherPlugin);
+
+    var expect = chai.expect;
+    expect(expect('').moreTesting).to.equal('more success');
+  });
 });
