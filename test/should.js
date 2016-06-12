@@ -1175,6 +1175,7 @@ describe('should', function() {
 
     [1, 2, 3].should.not.include.members([999]);
     [].should.not.include.members([23]);
+    [{a: 1}].should.not.include.members([{a: 1}]);
 
     err(function() {
       [].should.include.members([43]);
@@ -1198,6 +1199,8 @@ describe('should', function() {
     [5, 4].should.have.same.members([5, 4]);
     [].should.have.same.members([]);
 
+    [{a: 1}].should.not.have.same.members([{a: 1}]);
+
     err(function() {
       [1, 2, 3].should.have.same.members([]);
     }, 'expected [ 1, 2, 3 ] to have the same members as []');
@@ -1205,6 +1208,61 @@ describe('should', function() {
     err(function() {
       [1, 2, 3].should.have.same.members(4);
     }, 'expected 4 to be an array');
+  });
+
+  it('ordered.members', function() {
+    [1, 2, 3].should.ordered.members([1, 2, 3]);
+    [1, 2, 3].should.not.ordered.members([2, 1, 3]);
+    [1, 2, 3].should.not.ordered.members([1, 2]);
+
+    err(function() {
+      [1, 2, 3].should.ordered.members([2, 1, 3]);
+    }, 'expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+
+    err(function() {
+      [1, 2, 3].should.not.ordered.members([1, 2, 3]);
+    }, 'expected [ 1, 2, 3 ] to not have the same ordered members as [ 1, 2, 3 ]');
+  });
+
+  it('include.ordered.members', function() {
+    [1, 2, 3].should.include.ordered.members([1, 2]);
+    [1, 2, 3].should.not.include.ordered.members([2, 1]);
+    [1, 2, 3].should.not.include.ordered.members([2, 3]);
+
+    err(function() {
+      [1, 2, 3].should.include.ordered.members([2, 1]);
+    }, 'expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+
+    err(function() {
+      [1, 2, 3].should.not.include.ordered.members([1, 2]);
+    }, 'expected [ 1, 2, 3 ] to not be an ordered superset of [ 1, 2 ]');
+  });
+
+  it('deep.ordered.members', function() {
+    [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
+
+    err(function() {
+      [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+
+    err(function() {
+      [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same ordered members as [ { a: 1 }, { b: 2 }, { c: 3 } ]');
+  });
+
+  it('include.deep.ordered.members', function() {
+    [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{a: 1}, {b: 2}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {a: 1}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {c: 3}]);
+
+    err(function() {
+      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{b: 2}, {a: 1}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+
+    err(function() {
+      [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{a: 1}, {b: 2}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be an ordered superset of [ { a: 1 }, { b: 2 } ]');
   });
 
   it('change', function() {
