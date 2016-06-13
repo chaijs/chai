@@ -1169,8 +1169,86 @@ describe('assert', function () {
     }, "the arguments to closeTo or approximately must be numbers");
   });
 
-  it('members', function() {
-    assert.includeMembers([1, 2, 3], [2, 3]);
+  it('sameMembers', function() {
+    assert.sameMembers([], []);
+    assert.sameMembers([1, 2, 3], [3, 2, 1]);
+    assert.sameMembers([4, 2], [4, 2]);
+
+    err(function() {
+      assert.sameMembers([], [1, 2]);
+    }, 'expected [] to have the same members as [ 1, 2 ]');
+
+    err(function() {
+      assert.sameMembers([1, 54], [6, 1, 54]);
+    }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
+  });
+
+  it('notSameMembers', function() {
+    assert.notSameMembers([1, 2, 3], [2, 1, 5]);
+    assert.notSameMembers([{a: 1}], [{a: 1}]);
+
+    err(function() {
+      assert.notSameMembers([1, 2, 3], [2, 1, 3]);
+    }, 'expected [ 1, 2, 3 ] to not have the same members as [ 2, 1, 3 ]');
+  });
+
+  it('sameDeepMembers', function() {
+    assert.sameDeepMembers([ {b: 3}, {a: 2}, {c: 5} ], [ {c: 5}, {b: 3}, {a: 2} ], 'same deep members');
+    assert.sameDeepMembers([ {b: 3}, {a: 2}, 5, "hello" ], [ "hello", 5, {b: 3}, {a: 2} ], 'same deep members');
+
+    err(function() {
+      assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
+    }, 'expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');
+
+    err(function() {
+      assert.sameDeepMembers([ {b: 3} ], [ {b: 5} ])
+    }, 'expected [ { b: 3 } ] to have the same members as [ { b: 5 } ]');
+  });
+
+  it('notSameDeepMembers', function() {
+    assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {f: 5}]);
+
+    err(function() {
+      assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+  });
+
+  it('sameOrderedMembers', function() {
+    assert.sameOrderedMembers([1, 2, 3], [1, 2, 3]);
+
+    err(function() {
+      assert.sameOrderedMembers([1, 2, 3], [2, 1, 3]);
+    }, 'expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+  });
+
+  it('notSameOrderedMembers', function() {
+    assert.notSameOrderedMembers([1, 2, 3], [2, 1, 3]);
+    assert.notSameOrderedMembers([1, 2, 3], [1, 2]);
+
+    err(function() {
+      assert.notSameOrderedMembers([1, 2, 3], [1, 2, 3]);
+    }, 'expected [ 1, 2, 3 ] to not have the same ordered members as [ 1, 2, 3 ]');
+  });
+
+  it('sameDeepOrderedMembers', function() {
+    assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}]);
+
+    err(function() {
+      assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+  });
+
+  it('notSameDeepOrderedMembers', function() {
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {f: 5}]);
+
+    err(function() {
+      assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same ordered members as [ { a: 1 }, { b: 2 }, { c: 3 } ]');
+  });
+
+  it('includeMembers', function() {
+    assert.includeMembers([1, 2, 3], [2, 3, 2]);
     assert.includeMembers([1, 2, 3], []);
     assert.includeMembers([1, 2, 3], [3]);
 
@@ -1183,18 +1261,71 @@ describe('assert', function () {
     }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
   });
 
-  it('memberEquals', function() {
-    assert.sameMembers([], []);
-    assert.sameMembers([1, 2, 3], [3, 2, 1]);
-    assert.sameMembers([4, 2], [4, 2]);
+  it('notIncludeMembers', function() {
+    assert.notIncludeMembers([1, 2, 3], [5, 1]);
+    assert.notIncludeMembers([{a: 1}], [{a: 1}]);
 
     err(function() {
-      assert.sameMembers([], [1, 2]);
-    }, 'expected [] to have the same members as [ 1, 2 ]');
+      assert.notIncludeMembers([1, 2, 3], [2, 1]);
+    }, 'expected [ 1, 2, 3 ] to not be a superset of [ 2, 1 ]');
+  });
+
+  it('includeDeepMembers', function() {
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {b:2}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], []);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}, {c:3}], [{c:3}, {c:3}]);
+    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {c:3}]);
 
     err(function() {
-      assert.sameMembers([1, 54], [6, 1, 54]);
-    }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
+      assert.includeDeepMembers([{e:5}, {f:6}], [{g:7}, {h:8}]);
+    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { g: 7 }, { h: 8 } ]');
+
+    err(function() {
+      assert.includeDeepMembers([{e:5}, {f:6}], [{e:5}, {f:6}, {z:0}]);
+    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { e: 5 }, { f: 6 }, { z: 0 } ]');
+  });
+
+  it('notIncludeDeepMembers', function() {
+    assert.notIncludeDeepMembers([{a:1}, {b:2}, {c:3}], [{b:2}, {f:5}]);
+
+    err(function() {
+      assert.notIncludeDeepMembers([{a:1}, {b:2}, {c:3}], [{b:2}, {a:1}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be a superset of [ { b: 2 }, { a: 1 } ]');
+  });
+
+  it('includeOrderedMembers', function() {
+    assert.includeOrderedMembers([1, 2, 3], [1, 2]);
+
+    err(function() {
+      assert.includeOrderedMembers([1, 2, 3], [2, 1]);
+    }, 'expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+  });
+
+  it('notIncludeOrderedMembers', function() {
+    assert.notIncludeOrderedMembers([1, 2, 3], [2, 1]);
+    assert.notIncludeOrderedMembers([1, 2, 3], [2, 3]);
+
+    err(function() {
+      assert.notIncludeOrderedMembers([1, 2, 3], [1, 2]);
+    }, 'expected [ 1, 2, 3 ] to not be an ordered superset of [ 1, 2 ]');
+  });
+
+  it('includeDeepOrderedMembers', function() {
+    assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);
+
+    err(function() {
+      assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+  });
+
+  it('notIncludeDeepOrderedMembers', function() {
+    assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}]);
+    assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {f: 5}]);
+
+    err(function() {
+      assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be an ordered superset of [ { a: 1 }, { b: 2 } ]');
   });
 
   it('oneOf', function() {
@@ -1269,35 +1400,6 @@ describe('assert', function () {
     err(function() {
       assert.isAtMost(3, 1);
     }, 'expected 3 to be at most 1');
-  });
-
-  it('memberDeepEquals', function() {
-    assert.sameDeepMembers([ {b: 3}, {a: 2}, {c: 5} ], [ {c: 5}, {b: 3}, {a: 2} ], 'same deep members');
-    assert.sameDeepMembers([ {b: 3}, {a: 2}, 5, "hello" ], [ "hello", 5, {b: 3}, {a: 2} ], 'same deep members');
-
-    err(function() {
-      assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
-    }, 'expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');
-
-    err(function() {
-      assert.sameDeepMembers([ {b: 3} ], [ {b: 5} ])
-    }, 'expected [ { b: 3 } ] to have the same members as [ { b: 5 } ]');
-  });
-
-  it('includeDeepMembers', function() {
-    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {b:2}]);
-    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], []);
-    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}]);
-    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}, {c:3}], [{c:3}, {c:3}]);
-    assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {c:3}]);
-
-    err(function() {
-      assert.includeDeepMembers([{e:5}, {f:6}], [{g:7}, {h:8}]);
-    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { g: 7 }, { h: 8 } ]');
-
-    err(function() {
-      assert.includeDeepMembers([{e:5}, {f:6}], [{e:5}, {f:6}, {z:0}]);
-    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { e: 5 }, { f: 6 }, { z: 0 } ]');
   });
 
   it('change', function() {
