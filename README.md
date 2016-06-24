@@ -16,7 +16,6 @@
 [![Slack Status](https://chai-slack.herokuapp.com/badge.svg)]( https://chai-slack.herokuapp.com/)
 [![Join the chat at https://gitter.im/chaijs/chai](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chaijs/chai)
 [![OpenCollective](https://opencollective.com/chaijs/backers/badge.svg)](#backers) 
-[![OpenCollective](https://opencollective.com/chaijs/sponsors/badge.svg)](#sponsors)
 
 
 Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
