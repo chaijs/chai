@@ -34,9 +34,13 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 
 ### Related Projects
 
+- [chaijs / chai-docs](https://github.com/chaijs/chai-docs): The chaijs.com website source code.
 - [chaijs / assertion-error](https://github.com/chaijs/assertion-error): Custom `Error` constructor thrown upon an assertion failing.
 - [chaijs / deep-eql](https://github.com/chaijs/deep-eql): Improved deep equality testing for Node.js and the browser.
-- [chaijs / type-detect](https://github.com/chaijs/type-detect): Improved typeof detection for node.js and the browser.
+- [chaijs / type-detect](https://github.com/chaijs/type-detect): Improved typeof detection for Node.js and the browser.
+- [chaijs / check-error](https://github.com/chaijs/check-error): Error comparison and information related utility for Node.js and the browser.
+- [chaijs / loupe](https://github.com/chaijs/loupe): Inspect utility for Node.js and browsers.
+- [chaijs / pathval](https://github.com/chaijs/pathval): Object value retrieval given a string path.
 
 ### Contributing
 
