@@ -109,7 +109,7 @@ describe('utilities', function () {
       info.value.should.equal(obj.dimensions.units);
       info.name.should.equal('units');
       info.exists.should.be.true;
-    }); 
+    });
 
     it('should handle non-existent property', function() {
       var info = gpi('dimensions.size', obj);
@@ -118,7 +118,7 @@ describe('utilities', function () {
       expect(info.value).to.be.undefined;
       info.name.should.equal('size');
       info.exists.should.be.false;
-    }); 
+    });
 
     it('should handle array index', function() {
       var info = gpi('primes[2]', obj);
@@ -127,7 +127,7 @@ describe('utilities', function () {
       info.value.should.equal(obj.primes[2]);
       info.name.should.equal(2);
       info.exists.should.be.true;
-    }); 
+    });
 
     it('should handle dimensional array', function() {
       var info = gpi('dimensions.lengths[2][1]', obj);
@@ -136,7 +136,7 @@ describe('utilities', function () {
       info.value.should.equal(obj.dimensions.lengths[2][1]);
       info.name.should.equal(1);
       info.exists.should.be.true;
-    }); 
+    });
 
     it('should handle out of bounds array index', function() {
       var info = gpi('dimensions.lengths[3]', obj);
@@ -180,13 +180,13 @@ describe('utilities', function () {
       hp(1, arr).should.be.true;
       hp(3, arr).should.be.false;
     });
-    
+
     it('should handle literal types', function() {
       var s = 'string literal';
       hp('length', s).should.be.true;
       hp(3, s).should.be.true;
       hp(14, s).should.be.false;
-      
+
       hp('foo', 1).should.be.false;
     });
 
@@ -770,13 +770,13 @@ describe('utilities', function () {
 
     it('returns enumerable symbols only', function () {
       if (typeof Symbol !== 'function') return;
-      
+
       var cat = Symbol('cat')
         , dog = Symbol('dog')
         , frog = Symbol('frog')
         , cow = 'cow'
         , obj = {};
-      
+
       obj[cat] = 'meow';
       obj[dog] = 'woof';
 
@@ -819,14 +819,14 @@ describe('utilities', function () {
 
     it('returns enumerable property names and symbols', function () {
       if (typeof Symbol !== 'function') return;
-      
+
       var cat = Symbol('cat')
         , dog = Symbol('dog')
         , frog = Symbol('frog')
         , bird = 'bird'
         , cow = 'cow'
         , obj = {};
-      
+
       obj[cat] = 'meow';
       obj[dog] = 'woof';
       obj[bird] = 'chirp';

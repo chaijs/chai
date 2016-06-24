@@ -1003,6 +1003,9 @@ describe('should', function() {
     should.throw(badFn, Error, /testing/);
     should.throw(badFn, Error, 'testing');
 
+    (badFn).should.not.throw(Error, 'I am the wrong error message');
+    (badFn).should.not.throw(TypeError, 'testing');
+
     err(function(){
       (goodFn).should.throw();
     }, "expected [Function] to throw an error");
@@ -1090,6 +1093,10 @@ describe('should', function() {
     err(function () {
       (customErrFn).should.not.throw();
     }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
+
+    err(function(){
+      (badFn).should.not.throw(Error, 'testing');
+    }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
   });
 
   it('respondTo', function(){

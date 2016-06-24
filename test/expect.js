@@ -1163,6 +1163,9 @@ describe('expect', function () {
     expect(badFn).to.throw(Error, /testing/);
     expect(badFn).to.throw(Error, 'testing');
 
+    expect(badFn).to.not.throw(Error, 'I am the wrong error message');
+    expect(badFn).to.not.throw(TypeError, 'testing');
+
     err(function(){
       expect(goodFn).to.throw();
     }, "expected [Function] to throw an error");
@@ -1234,6 +1237,10 @@ describe('expect', function () {
     err(function () {
       (customErrFn).should.not.throw();
     }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
+
+    err(function(){
+      expect(badFn).to.not.throw(Error, 'testing');
+    }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
   });
 
   it('respondTo', function(){
