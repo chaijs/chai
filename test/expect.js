@@ -10,6 +10,31 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
+  it('invalid property', function () {
+    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
+
+    err(function () {
+      expect(42).pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      expect(42).to.pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      expect(42).to.be.a.pizza;
+    }, 'Invalid Chai property: pizza');
+
+    err(function () {
+      expect(42).to.equal(42).pizza;
+    }, 'Invalid Chai property: pizza');
+
+    // .then is excluded from property validation for promise support
+    expect(function () {
+      expect(42).then;
+    }).to.not.throw();
+  });
+
   it('no-op chains', function() {
     function test(chain) {
       // tests that chain exists
