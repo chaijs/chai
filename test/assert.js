@@ -1173,6 +1173,7 @@ describe('assert', function () {
     assert.sameMembers([], []);
     assert.sameMembers([1, 2, 3], [3, 2, 1]);
     assert.sameMembers([4, 2], [4, 2]);
+    assert.sameMembers([4, 2, 2], [4, 2, 2]);
 
     err(function() {
       assert.sameMembers([], [1, 2]);
@@ -1185,6 +1186,11 @@ describe('assert', function () {
 
   it('notSameMembers', function() {
     assert.notSameMembers([1, 2, 3], [2, 1, 5]);
+    assert.notSameMembers([1, 2, 3], [1, 2, 3, 3]);
+    assert.notSameMembers([1, 2], [1, 2, 2]);
+    assert.notSameMembers([1, 2, 2], [1, 2]);
+    assert.notSameMembers([1, 2, 2], [1, 2, 3]);
+    assert.notSameMembers([1, 2, 3], [1, 2, 2]);
     assert.notSameMembers([{a: 1}], [{a: 1}]);
 
     err(function() {
@@ -1195,6 +1201,7 @@ describe('assert', function () {
   it('sameDeepMembers', function() {
     assert.sameDeepMembers([ {b: 3}, {a: 2}, {c: 5} ], [ {c: 5}, {b: 3}, {a: 2} ], 'same deep members');
     assert.sameDeepMembers([ {b: 3}, {a: 2}, 5, "hello" ], [ "hello", 5, {b: 3}, {a: 2} ], 'same deep members');
+    assert.sameDeepMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
@@ -1207,6 +1214,10 @@ describe('assert', function () {
 
   it('notSameDeepMembers', function() {
     assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {f: 5}]);
+    assert.notSameDeepMembers([{a: 1}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
+    assert.notSameDeepMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}]);
+    assert.notSameDeepMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {c: 3}]);
+    assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
@@ -1215,6 +1226,7 @@ describe('assert', function () {
 
   it('sameOrderedMembers', function() {
     assert.sameOrderedMembers([1, 2, 3], [1, 2, 3]);
+    assert.sameOrderedMembers([1, 2, 2], [1, 2, 2]);
 
     err(function() {
       assert.sameOrderedMembers([1, 2, 3], [2, 1, 3]);
@@ -1224,6 +1236,10 @@ describe('assert', function () {
   it('notSameOrderedMembers', function() {
     assert.notSameOrderedMembers([1, 2, 3], [2, 1, 3]);
     assert.notSameOrderedMembers([1, 2, 3], [1, 2]);
+    assert.notSameOrderedMembers([1, 2], [1, 2, 2]);
+    assert.notSameOrderedMembers([1, 2, 2], [1, 2]);
+    assert.notSameOrderedMembers([1, 2, 2], [1, 2, 3]);
+    assert.notSameOrderedMembers([1, 2, 3], [1, 2, 2]);
 
     err(function() {
       assert.notSameOrderedMembers([1, 2, 3], [1, 2, 3]);
@@ -1232,6 +1248,7 @@ describe('assert', function () {
 
   it('sameDeepOrderedMembers', function() {
     assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}]);
+    assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
@@ -1241,6 +1258,10 @@ describe('assert', function () {
   it('notSameDeepOrderedMembers', function() {
     assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
     assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {f: 5}]);
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}]);
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {c: 3}]);
+    assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}]);
@@ -1305,6 +1326,7 @@ describe('assert', function () {
   it('notIncludeOrderedMembers', function() {
     assert.notIncludeOrderedMembers([1, 2, 3], [2, 1]);
     assert.notIncludeOrderedMembers([1, 2, 3], [2, 3]);
+    assert.notIncludeOrderedMembers([1, 2, 3], [1, 2, 2]);
 
     err(function() {
       assert.notIncludeOrderedMembers([1, 2, 3], [1, 2]);
@@ -1322,6 +1344,7 @@ describe('assert', function () {
   it('notIncludeDeepOrderedMembers', function() {
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}]);
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {f: 5}]);
+    assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);

@@ -1204,6 +1204,7 @@ describe('should', function() {
     [1, 2, 3].should.include.members([3]);
     [1, 2, 3].should.include.members([]);
     [1, 2, 3].should.include.members([2, 1]);
+    [1, 2, 3].should.include.members([2, 1, 1]);
 
     [1, 2, 3].should.not.include.members([999]);
     [].should.not.include.members([23]);
@@ -1229,8 +1230,13 @@ describe('should', function() {
   it('memberEquals', function() {
     [1, 2, 3].should.have.same.members([3, 2, 1]);
     [5, 4].should.have.same.members([5, 4]);
+    [5, 4, 4].should.have.same.members([5, 4, 4]);
     [].should.have.same.members([]);
 
+    [5, 4].should.not.have.same.members([5, 4, 4]);
+    [5, 4, 4].should.not.have.same.members([5, 4]);
+    [5, 4, 4].should.not.have.same.members([5, 4, 3]);
+    [5, 4, 3].should.not.have.same.members([5, 4, 4]);
     [{a: 1}].should.not.have.same.members([{a: 1}]);
 
     err(function() {
@@ -1242,10 +1248,41 @@ describe('should', function() {
     }, 'expected 4 to be an array');
   });
 
+  it('deep.members', function() {
+    [{ id: 1 }].should.have.deep.members([{ id: 1 }]);
+    [{a: 1}, {b: 2}, {b: 2}].should.have.deep.members([{a: 1}, {b: 2}, {b: 2}]);
+
+    [{ id: 2 }].should.not.have.deep.members([{ id: 1 }]);
+    [{a: 1}, {b: 2}].should.not.have.deep.members([{a: 1}, {b: 2}, {b: 2}]);
+    [{a: 1}, {b: 2}, {b: 2}].should.not.have.deep.members([{a: 1}, {b: 2}]);
+    [{a: 1}, {b: 2}, {b: 2}].should.not.have.deep.members([{a: 1}, {b: 2}, {c: 3}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.have.deep.members([{a: 1}, {b: 2}, {b: 2}]);
+
+    err(function(){
+      [{ id: 1 }].should.have.deep.members([{ id: 2 }])
+    }, 'expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
+  });
+
+  it('include.deep.members', function() {
+    [{a: 1}, {b: 2}, {c: 3}].should.include.deep.members([{b: 2}, {a: 1}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.include.deep.members([{b: 2}, {a: 1}, {a: 1}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
+
+    err(function() {
+      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
+  });
+
   it('ordered.members', function() {
     [1, 2, 3].should.ordered.members([1, 2, 3]);
+    [1, 2, 2].should.ordered.members([1, 2, 2]);
+
     [1, 2, 3].should.not.ordered.members([2, 1, 3]);
     [1, 2, 3].should.not.ordered.members([1, 2]);
+    [1, 2].should.not.ordered.members([1, 2, 2]);
+    [1, 2, 2].should.not.ordered.members([1, 2]);
+    [1, 2, 2].should.not.ordered.members([1, 2, 3]);
+    [1, 2, 3].should.not.ordered.members([1, 2, 2]);
 
     err(function() {
       [1, 2, 3].should.ordered.members([2, 1, 3]);
@@ -1260,6 +1297,7 @@ describe('should', function() {
     [1, 2, 3].should.include.ordered.members([1, 2]);
     [1, 2, 3].should.not.include.ordered.members([2, 1]);
     [1, 2, 3].should.not.include.ordered.members([2, 3]);
+    [1, 2, 3].should.not.include.ordered.members([1, 2, 2]);
 
     err(function() {
       [1, 2, 3].should.include.ordered.members([2, 1]);
@@ -1272,7 +1310,13 @@ describe('should', function() {
 
   it('deep.ordered.members', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    [{a: 1}, {b: 2}, {b: 2}].should.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
+
     [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
+    [{a: 1}, {b: 2}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
+    [{a: 1}, {b: 2}, {b: 2}].should.not.deep.ordered.members([{a: 1}, {b: 2}]);
+    [{a: 1}, {b: 2}, {b: 2}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
@@ -1287,6 +1331,7 @@ describe('should', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{a: 1}, {b: 2}]);
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {a: 1}]);
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {c: 3}]);
+    [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{b: 2}, {a: 1}]);
