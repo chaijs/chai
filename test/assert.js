@@ -1000,30 +1000,30 @@ describe('assert', function () {
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, TypeError);
-       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, 'bar');
-       }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, Error, 'bar');
-       }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, TypeError, 'bar');
-       }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
       err(function () {
         assert[throws](function() {});
-       }, "expected [Function] to throw an error");
+      }, "expected [Function] to throw an error");
 
       err(function () {
-          assert[throws](function() { throw new Error('') }, 'bar');
+        assert[throws](function() { throw new Error('') }, 'bar');
       }, "expected [Function] to throw error including 'bar' but got ''");
 
       err(function () {
-          assert[throws](function() { throw new Error('') }, /bar/);
+        assert[throws](function() { throw new Error('') }, /bar/);
       }, "expected [Function] to throw error matching /bar/ but got ''");
     });
   });
@@ -1033,18 +1033,70 @@ describe('assert', function () {
         this.name = 'CustomError';
         this.message = message;
     }
-    CustomError.prototype = Error.prototype;
+    CustomError.prototype = Object.create(Error.prototype);
 
     assert.doesNotThrow(function() { });
     assert.doesNotThrow(function() { }, 'foo');
 
-    err(function () {
-      assert.doesNotThrow(function() { throw new Error('foo'); });
-     }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, TypeError);
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, 'Another message');
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, /Another message/);
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, Error, 'Another message');
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, Error, /Another message/);
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, TypeError, 'Another message');
+
+    assert.doesNotThrow(function() {
+      throw new Error('This is a message');
+    }, TypeError, /Another message/);
 
     err(function () {
-        assert.doesNotThrow(function() { throw new CustomError('foo'); });
+      assert.doesNotThrow(function() { throw new Error('foo'); });
+    }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new CustomError('foo'); });
     }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error('foo'); }, Error);
+    }, "expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError);
+    }, "expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error('foo'); }, 'foo');
+    }, "expected [Function] to throw error not including 'foo'");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error('foo'); }, /foo/);
+    }, "expected [Function] to throw error not matching /foo/");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error('foo'); }, Error, 'foo');
+    }, "expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError, 'foo');
+    }, "expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
   });
 
   it('ifError', function() {
