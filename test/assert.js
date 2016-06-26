@@ -989,10 +989,13 @@ describe('assert', function () {
   it('throws / throw / Throw', function() {
     ['throws', 'throw', 'Throw'].forEach(function (throws) {
       assert[throws](function() { throw new Error('foo'); });
+      assert[throws](function() { throw new Error(''); }, '');
       assert[throws](function() { throw new Error('bar'); }, 'bar');
       assert[throws](function() { throw new Error('bar'); }, /bar/);
       assert[throws](function() { throw new Error('bar'); }, Error);
       assert[throws](function() { throw new Error('bar'); }, Error, 'bar');
+      assert[throws](function() { throw new Error(''); }, Error, '');
+      assert[throws](function() { throw new Error('foo') }, '');
 
       var thrownErr = assert[throws](function() { throw new Error('foo'); });
       assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
@@ -1037,6 +1040,7 @@ describe('assert', function () {
 
     assert.doesNotThrow(function() { });
     assert.doesNotThrow(function() { }, 'foo');
+    assert.doesNotThrow(function() { }, '');
 
     assert.doesNotThrow(function() {
       throw new Error('This is a message');
@@ -1097,6 +1101,14 @@ describe('assert', function () {
     err(function () {
       assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError, 'foo');
     }, "expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error(''); }, '');
+    }, "expected [Function] to throw error not including ''");
+
+    err(function () {
+      assert.doesNotThrow(function() { throw new Error(''); }, Error, '');
+    }, "expected [Function] to not throw 'Error' but 'Error' was thrown");
   });
 
   it('ifError', function() {

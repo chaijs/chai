@@ -981,7 +981,9 @@ describe('should', function() {
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
-      , customErrFn = function() { throw new CustomError('foo'); };
+      , customErrFn = function () { throw new CustomError('foo'); }
+      , emptyErrFn = function () { throw new Error(); }
+      , emptyStringErrFn = function () { throw new Error(''); };
 
     (goodFn).should.not.throw();
     (goodFn).should.not.throw(Error);
@@ -1004,12 +1006,19 @@ describe('should', function() {
     (ickyErrFn).should.not.throw(specificError);
     (specificErrFn).should.throw(specificError);
 
+    (goodFn).should.not.throw('testing');
+    (goodFn).should.not.throw(/testing/);
     (badFn).should.throw(/testing/);
     (badFn).should.throw('testing');
     (badFn).should.not.throw(/hello/);
     (badFn).should.not.throw('hello');
+    (emptyStringErrFn).should.throw('');
+    (emptyStringErrFn).should.not.throw('testing');
+    (badFn).should.throw('');
+
     (badFn).should.throw(Error, /testing/);
     (badFn).should.throw(Error, 'testing');
+    (emptyErrFn).should.not.throw(Error, 'testing');
 
     (stringErrFn).should.throw(/testing/);
     (stringErrFn).should.throw('testing');
@@ -1122,6 +1131,14 @@ describe('should', function() {
     err(function(){
       (badFn).should.not.throw(Error, 'testing');
     }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
+
+    err(function(){
+      (emptyStringErrFn).should.not.throw(Error, '');
+    }, "expected [Function] to not throw 'Error' but 'Error' was thrown");
+
+    err(function(){
+      (emptyStringErrFn).should.not.throw('');
+    }, "expected [Function] to throw error not including ''");
   });
 
   it('respondTo', function(){

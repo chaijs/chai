@@ -1160,7 +1160,9 @@ describe('expect', function () {
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
-      , customErrFn = function() { throw new CustomError('foo'); };
+      , customErrFn = function() { throw new CustomError('foo'); }
+      , emptyErrFn = function () { throw new Error(); }
+      , emptyStringErrFn = function () { throw new Error(''); };
 
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
@@ -1180,13 +1182,19 @@ describe('expect', function () {
     expect(ickyErrFn).to.not.throw(specificError);
     expect(specificErrFn).to.throw(specificError);
 
+    expect(goodFn).to.not.throw('testing');
+    expect(goodFn).to.not.throw(/testing/);
     expect(badFn).to.throw(/testing/);
     expect(badFn).to.not.throw(/hello/);
     expect(badFn).to.throw('testing');
     expect(badFn).to.not.throw('hello');
+    expect(emptyStringErrFn).to.throw('');
+    expect(emptyStringErrFn).to.not.throw('testing');
+    expect(badFn).to.throw('');
 
     expect(badFn).to.throw(Error, /testing/);
     expect(badFn).to.throw(Error, 'testing');
+    expect(emptyErrFn).to.not.throw(Error, 'testing');
 
     expect(badFn).to.not.throw(Error, 'I am the wrong error message');
     expect(badFn).to.not.throw(TypeError, 'testing');
@@ -1266,6 +1274,14 @@ describe('expect', function () {
     err(function(){
       expect(badFn).to.not.throw(Error, 'testing');
     }, "expected [Function] to not throw 'Error' but 'Error: testing' was thrown");
+
+    err(function(){
+      expect(emptyStringErrFn).to.not.throw(Error, '');
+    }, "expected [Function] to not throw 'Error' but 'Error' was thrown");
+
+    err(function(){
+      expect(emptyStringErrFn).to.not.throw('');
+    }, "expected [Function] to throw error not including ''");
   });
 
   it('respondTo', function(){
