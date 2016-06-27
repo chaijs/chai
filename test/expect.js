@@ -1383,6 +1383,7 @@ describe('expect', function () {
   it('include.members', function() {
     expect([1, 2, 3]).to.include.members([]);
     expect([1, 2, 3]).to.include.members([3, 2]);
+    expect([1, 2, 3]).to.include.members([3, 2, 2]);
     expect([1, 2, 3]).to.not.include.members([8, 4]);
     expect([1, 2, 3]).to.not.include.members([1, 2, 3, 4]);
     expect([{a: 1}]).to.not.include.members([{a: 1}]);
@@ -1399,17 +1400,27 @@ describe('expect', function () {
   it('same.members', function() {
     expect([5, 4]).to.have.same.members([4, 5]);
     expect([5, 4]).to.have.same.members([5, 4]);
+    expect([5, 4, 4]).to.have.same.members([5, 4, 4]);
     expect([5, 4]).to.not.have.same.members([]);
     expect([5, 4]).to.not.have.same.members([6, 3]);
     expect([5, 4]).to.not.have.same.members([5, 4, 2]);
+    expect([5, 4]).to.not.have.same.members([5, 4, 4]);
+    expect([5, 4, 4]).to.not.have.same.members([5, 4]);
+    expect([5, 4, 4]).to.not.have.same.members([5, 4, 3]);
+    expect([5, 4, 3]).to.not.have.same.members([5, 4, 4]);
   });
 
   it('members', function() {
     expect([5, 4]).members([4, 5]);
     expect([5, 4]).members([5, 4]);
+    expect([5, 4, 4]).members([5, 4, 4]);
     expect([5, 4]).not.members([]);
     expect([5, 4]).not.members([6, 3]);
     expect([5, 4]).not.members([5, 4, 2]);
+    expect([5, 4]).not.members([5, 4, 4]);
+    expect([5, 4, 4]).not.members([5, 4]);
+    expect([5, 4, 4]).not.members([5, 4, 3]);
+    expect([5, 4, 3]).not.members([5, 4, 4]);
     expect([{ id: 1 }]).not.members([{ id: 1 }]);
 
     err(function() {
@@ -1423,16 +1434,39 @@ describe('expect', function () {
 
   it('deep.members', function() {
     expect([{ id: 1 }]).deep.members([{ id: 1 }]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).deep.members([{a: 1}, {b: 2}, {b: 2}]);
+
     expect([{ id: 2 }]).not.deep.members([{ id: 1 }]);
+    expect([{a: 1}, {b: 2}]).not.deep.members([{a: 1}, {b: 2}, {b: 2}]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).not.deep.members([{a: 1}, {b: 2}]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).not.deep.members([{a: 1}, {b: 2}, {c: 3}]);
+    expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.members([{a: 1}, {b: 2}, {b: 2}]);
+
     err(function(){
       expect([{ id: 1 }]).deep.members([{ id: 2 }])
     }, 'expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
   });
 
+  it('include.deep.members', function() {
+    expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.members([{b: 2}, {a: 1}]);
+    expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.members([{b: 2}, {a: 1}, {a: 1}]);
+    expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
+
+    err(function() {
+      expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
+    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
+  });
+
   it('ordered.members', function() {
     expect([1, 2, 3]).ordered.members([1, 2, 3]);
+    expect([1, 2, 2]).ordered.members([1, 2, 2]);
+
     expect([1, 2, 3]).not.ordered.members([2, 1, 3]);
     expect([1, 2, 3]).not.ordered.members([1, 2]);
+    expect([1, 2]).not.ordered.members([1, 2, 2]);
+    expect([1, 2, 2]).not.ordered.members([1, 2]);
+    expect([1, 2, 2]).not.ordered.members([1, 2, 3]);
+    expect([1, 2, 3]).not.ordered.members([1, 2, 2]);
 
     err(function() {
       expect([1, 2, 3]).ordered.members([2, 1, 3]);
@@ -1447,6 +1481,7 @@ describe('expect', function () {
     expect([1, 2, 3]).include.ordered.members([1, 2]);
     expect([1, 2, 3]).not.include.ordered.members([2, 1]);
     expect([1, 2, 3]).not.include.ordered.members([2, 3]);
+    expect([1, 2, 3]).not.include.ordered.members([1, 2, 2]);
 
     err(function() {
       expect([1, 2, 3]).include.ordered.members([2, 1]);
@@ -1459,7 +1494,13 @@ describe('expect', function () {
 
   it('deep.ordered.members', function() {
     expect([{a: 1}, {b: 2}, {c: 3}]).deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
+
     expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
+    expect([{a: 1}, {b: 2}]).not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).not.deep.ordered.members([{a: 1}, {b: 2}]);
+    expect([{a: 1}, {b: 2}, {b: 2}]).not.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
+    expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       expect([{a: 1}, {b: 2}, {c: 3}]).deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
@@ -1474,6 +1515,7 @@ describe('expect', function () {
     expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.ordered.members([{a: 1}, {b: 2}]);
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{b: 2}, {a: 1}]);
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{b: 2}, {c: 3}]);
+    expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
       expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.ordered.members([{b: 2}, {a: 1}]);
