@@ -532,6 +532,8 @@ describe('expect', function () {
   it('property(name, val)', function(){
     expect('test').to.have.property('length', 4);
     expect('asd').to.have.property('constructor', String);
+    expect('test').to.not.have.property('length', 3);
+    expect('test').to.not.have.property('foo', 4);
 
     var deepObj = {
         green: { tea: 'matcha' }
@@ -583,10 +585,6 @@ describe('expect', function () {
     }, "blah: expected 'asd' to not have a property 'length' of 3");
 
     err(function(){
-      expect('asd').to.not.have.property('foo', 3, 'blah');
-    }, "blah: 'asd' has no property 'foo'");
-
-    err(function(){
       expect('asd').to.have.property('constructor', Number, 'blah');
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
@@ -594,6 +592,10 @@ describe('expect', function () {
   it('deep.property(name, val)', function(){
     expect({ foo: { bar: 'baz' } })
       .to.have.deep.property('foo.bar', 'baz');
+    expect({ foo: { bar: 'baz' } })
+      .to.not.have.deep.property('foo.bar', 'quux');
+    expect({ foo: { bar: 'baz' } })
+      .to.not.have.deep.property('foo.quux', 'baz');
 
     err(function(){
       expect({ foo: { bar: 'baz' } })
@@ -603,10 +605,6 @@ describe('expect', function () {
       expect({ foo: { bar: 'baz' } })
         .to.not.have.deep.property('foo.bar', 'baz', 'blah');
     }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
-    err(function(){
-      expect({ foo: 5 })
-        .to.not.have.deep.property('foo.bar', 'baz', 'blah');
-    }, "blah: { foo: 5 } has no deep property 'foo.bar'");
   });
 
   it('ownProperty(name)', function(){

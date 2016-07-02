@@ -945,9 +945,12 @@ describe('assert', function () {
     assert.deepProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
     assert.notProperty(obj, 'foo.bar');
+    assert.notPropertyVal(simpleObj, 'foo', 'flow');
+    assert.notPropertyVal(simpleObj, 'flow', 'bar');
     assert.notDeepProperty(obj, 'foo.baz');
     assert.deepPropertyVal(obj, 'foo.bar', 'baz');
-    assert.deepPropertyNotVal(obj, 'foo.bar', 'flow');
+    assert.notDeepPropertyVal(obj, 'foo.bar', 'flow');
+    assert.notDeepPropertyVal(obj, 'foo.flow', 'baz');
 
     err(function () {
       assert.property(obj, 'baz');
@@ -978,11 +981,11 @@ describe('assert', function () {
     }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'ball', but got 'baz'");
 
     err(function () {
-      assert.propertyNotVal(simpleObj, 'foo', 'bar');
+      assert.notPropertyVal(simpleObj, 'foo', 'bar');
     }, "expected { foo: 'bar' } to not have a property 'foo' of 'bar'");
 
     err(function () {
-      assert.deepPropertyNotVal(obj, 'foo.bar', 'baz');
+      assert.notDeepPropertyVal(obj, 'foo.bar', 'baz');
     }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
   });
 
