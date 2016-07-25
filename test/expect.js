@@ -511,22 +511,22 @@ describe('expect', function () {
     }, "expected { foo: { bar: 'baz' } } to have a property 'foo.bar'");
   });
 
-  it('deep.property(name)', function(){
+  it('nested.property(name)', function(){
     expect({ 'foo.bar': 'baz'})
-      .to.not.have.deep.property('foo.bar');
+      .to.not.have.nested.property('foo.bar');
     expect({ foo: { bar: 'baz' } })
-      .to.have.deep.property('foo.bar');
+      .to.have.nested.property('foo.bar');
 
     expect({ 'foo': [1, 2, 3] })
-      .to.have.deep.property('foo[1]');
+      .to.have.nested.property('foo[1]');
 
     expect({ 'foo.bar[]': 'baz'})
-      .to.have.deep.property('foo\\.bar\\[\\]');
+      .to.have.nested.property('foo\\.bar\\[\\]');
 
     err(function(){
       expect({ 'foo.bar': 'baz' })
-        .to.have.deep.property('foo.bar');
-    }, "expected { 'foo.bar': 'baz' } to have a deep property 'foo.bar'");
+        .to.have.nested.property('foo.bar');
+    }, "expected { 'foo.bar': 'baz' } to have a nested property 'foo.bar'");
   });
 
   it('property(name, val)', function(){
@@ -539,24 +539,24 @@ describe('expect', function () {
         green: { tea: 'matcha' }
       , teas: [ 'chai', 'matcha', { tea: 'konacha' } ]
     };
-    expect(deepObj).to.have.deep.property('green.tea', 'matcha');
-    expect(deepObj).to.have.deep.property('teas[1]', 'matcha');
-    expect(deepObj).to.have.deep.property('teas[2].tea', 'konacha');
+    expect(deepObj).to.have.nested.property('green.tea', 'matcha');
+    expect(deepObj).to.have.nested.property('teas[1]', 'matcha');
+    expect(deepObj).to.have.nested.property('teas[2].tea', 'konacha');
 
     expect(deepObj).to.have.property('teas')
       .that.is.an('array')
-      .with.deep.property('[2]')
+      .with.nested.property('[2]')
         .that.deep.equals({tea: 'konacha'});
 
     err(function(){
-      expect(deepObj).to.have.deep.property('teas[3]');
-    }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
+      expect(deepObj).to.have.nested.property('teas[3]');
+    }, "expected { Object (green, teas) } to have a nested property 'teas[3]'");
     err(function(){
-      expect(deepObj).to.have.deep.property('teas[3]', 'bar');
-    }, "expected { Object (green, teas) } to have a deep property 'teas[3]'");
+      expect(deepObj).to.have.nested.property('teas[3]', 'bar');
+    }, "expected { Object (green, teas) } to have a nested property 'teas[3]'");
     err(function(){
-      expect(deepObj).to.have.deep.property('teas[3].tea', 'bar');
-    }, "expected { Object (green, teas) } to have a deep property 'teas[3].tea'");
+      expect(deepObj).to.have.nested.property('teas[3].tea', 'bar');
+    }, "expected { Object (green, teas) } to have a nested property 'teas[3].tea'");
 
     var arr = [
         [ 'chai', 'matcha', 'konacha' ]
@@ -564,17 +564,17 @@ describe('expect', function () {
         , { tea: 'matcha' }
         , { tea: 'konacha' } ]
     ];
-    expect(arr).to.have.deep.property('[0][1]', 'matcha');
-    expect(arr).to.have.deep.property('[1][2].tea', 'konacha');
+    expect(arr).to.have.nested.property('[0][1]', 'matcha');
+    expect(arr).to.have.nested.property('[1][2].tea', 'konacha');
     err(function(){
-      expect(arr).to.have.deep.property('[2][1]');
-    }, "expected [ Array(2) ] to have a deep property '[2][1]'");
+      expect(arr).to.have.nested.property('[2][1]');
+    }, "expected [ Array(2) ] to have a nested property '[2][1]'");
     err(function(){
-      expect(arr).to.have.deep.property('[2][1]', 'none');
-    }, "expected [ Array(2) ] to have a deep property '[2][1]'");
+      expect(arr).to.have.nested.property('[2][1]', 'none');
+    }, "expected [ Array(2) ] to have a nested property '[2][1]'");
     err(function(){
-      expect(arr).to.have.deep.property('[0][3]', 'none');
-    }, "expected [ Array(2) ] to have a deep property '[0][3]'");
+      expect(arr).to.have.nested.property('[0][3]', 'none');
+    }, "expected [ Array(2) ] to have a nested property '[0][3]'");
 
     err(function(){
       expect('asd').to.have.property('length', 4, 'blah');
@@ -589,22 +589,22 @@ describe('expect', function () {
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
-  it('deep.property(name, val)', function(){
+  it('nested.property(name, val)', function(){
     expect({ foo: { bar: 'baz' } })
-      .to.have.deep.property('foo.bar', 'baz');
+      .to.have.nested.property('foo.bar', 'baz');
     expect({ foo: { bar: 'baz' } })
-      .to.not.have.deep.property('foo.bar', 'quux');
+      .to.not.have.nested.property('foo.bar', 'quux');
     expect({ foo: { bar: 'baz' } })
-      .to.not.have.deep.property('foo.quux', 'baz');
+      .to.not.have.nested.property('foo.quux', 'baz');
 
     err(function(){
       expect({ foo: { bar: 'baz' } })
-        .to.have.deep.property('foo.bar', 'quux', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
+        .to.have.nested.property('foo.bar', 'quux', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have a nested property 'foo.bar' of 'quux', but got 'baz'");
     err(function(){
       expect({ foo: { bar: 'baz' } })
-        .to.not.have.deep.property('foo.bar', 'baz', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+        .to.not.have.nested.property('foo.bar', 'baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
   });
 
   it('ownProperty(name)', function(){
