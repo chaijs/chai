@@ -947,6 +947,7 @@ describe('assert', function () {
     assert.notProperty(obj, 'foo.bar');
     assert.notPropertyVal(simpleObj, 'foo', 'flow');
     assert.notPropertyVal(simpleObj, 'flow', 'bar');
+    assert.notPropertyVal(obj, 'foo', {bar: 'baz'});
     assert.notNestedProperty(obj, 'foo.baz');
     assert.nestedPropertyVal(obj, 'foo.bar', 'baz');
     assert.notNestedPropertyVal(obj, 'foo.bar', 'flow');
@@ -987,6 +988,46 @@ describe('assert', function () {
     err(function () {
       assert.notNestedPropertyVal(obj, 'foo.bar', 'baz');
     }, "expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
+  });
+
+  it('deepPropertyVal', function () {
+    var obj = {a: {b: 1}};
+    assert.deepPropertyVal(obj, 'a', {b: 1});
+    assert.notDeepPropertyVal(obj, 'a', {b: 7});
+    assert.notDeepPropertyVal(obj, 'a', {z: 1});
+    assert.notDeepPropertyVal(obj, 'z', {b: 1});
+
+    err(function () {
+      assert.deepPropertyVal(obj, 'a', {b: 7}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have a deep property 'a' of { b: 7 }, but got { b: 1 }");
+
+    err(function () {
+      assert.deepPropertyVal(obj, 'z', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have a deep property 'z'");
+
+    err(function () {
+      assert.notDeepPropertyVal(obj, 'a', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to not have a deep property 'a' of { b: 1 }");
+  });
+
+  it('deepNestedPropertyVal', function () {
+    var obj = {a: {b: {c: 1}}};
+    assert.deepNestedPropertyVal(obj, 'a.b', {c: 1});
+    assert.notDeepNestedPropertyVal(obj, 'a.b', {c: 7});
+    assert.notDeepNestedPropertyVal(obj, 'a.b', {z: 1});
+    assert.notDeepNestedPropertyVal(obj, 'a.z', {c: 1});
+
+    err(function () {
+      assert.deepNestedPropertyVal(obj, 'a.b', {c: 7}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.b' of { c: 7 }, but got { c: 1 }");
+
+    err(function () {
+      assert.deepNestedPropertyVal(obj, 'a.z', {c: 1}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.z'");
+
+    err(function () {
+      assert.notDeepNestedPropertyVal(obj, 'a.b', {c: 1}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to not have a deep nested property 'a.b' of { c: 1 }");
   });
 
   it('throws / throw / Throw', function() {
