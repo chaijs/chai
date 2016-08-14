@@ -438,17 +438,17 @@ describe('should', function() {
     }, "expected 'asd' to have a property 'foo'");
   });
 
-  it('deep.property(name)', function(){
-    ({ 'foo.bar': 'baz'}).should.not.have.deep.property('foo.bar');
-    ({ foo: { bar: 'baz' } }).should.have.deep.property('foo.bar');
+  it('nested.property(name)', function(){
+    ({ 'foo.bar': 'baz'}).should.not.have.nested.property('foo.bar');
+    ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar');
 
-    ({ 'foo': [1, 2, 3] }).should.have.deep.property('foo[1]');
+    ({ 'foo': [1, 2, 3] }).should.have.nested.property('foo[1]');
 
-    ({ 'foo.bar[]': 'baz'}).should.have.deep.property('foo\\.bar\\[\\]');
+    ({ 'foo.bar[]': 'baz'}).should.have.nested.property('foo\\.bar\\[\\]');
 
     err(function(){
-      ({ 'foo.bar': 'baz' }).should.have.deep.property('foo.bar');
-    }, "expected { 'foo.bar': 'baz' } to have a deep property 'foo.bar'");
+      ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
+    }, "expected { 'foo.bar': 'baz' } to have a nested property 'foo.bar'");
   });
 
   it('property(name, val)', function(){
@@ -471,17 +471,17 @@ describe('should', function() {
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
-  it('deep.property(name, val)', function(){
-    ({ foo: { bar: 'baz' } }).should.have.deep.property('foo.bar', 'baz');
-    ({ foo: { bar: 'baz' } }).should.not.have.deep.property('foo.bar', 'quux');
-    ({ foo: { bar: 'baz' } }).should.not.have.deep.property('foo.quux', 'baz');
+  it('nested.property(name, val)', function(){
+    ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar', 'baz');
+    ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.bar', 'quux');
+    ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.quux', 'baz');
 
     err(function(){
-      ({ foo: { bar: 'baz' } }).should.have.deep.property('foo.bar', 'quux', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'quux', but got 'baz'");
+      ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar', 'quux', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have a nested property 'foo.bar' of 'quux', but got 'baz'");
     err(function(){
-      ({ foo: { bar: 'baz' } }).should.not.have.deep.property('foo.bar', 'baz', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+      ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.bar', 'baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
   });
 
   it('ownProperty(name)', function(){

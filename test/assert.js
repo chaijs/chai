@@ -942,31 +942,31 @@ describe('assert', function () {
     assert.property(obj, 'foo');
     assert.property(undefinedKeyObj, 'foo');
     assert.propertyVal(undefinedKeyObj, 'foo', undefined);
-    assert.deepProperty(obj, 'foo.bar');
+    assert.nestedProperty(obj, 'foo.bar');
     assert.notProperty(obj, 'baz');
     assert.notProperty(obj, 'foo.bar');
     assert.notPropertyVal(simpleObj, 'foo', 'flow');
     assert.notPropertyVal(simpleObj, 'flow', 'bar');
-    assert.notDeepProperty(obj, 'foo.baz');
-    assert.deepPropertyVal(obj, 'foo.bar', 'baz');
-    assert.notDeepPropertyVal(obj, 'foo.bar', 'flow');
-    assert.notDeepPropertyVal(obj, 'foo.flow', 'baz');
+    assert.notNestedProperty(obj, 'foo.baz');
+    assert.nestedPropertyVal(obj, 'foo.bar', 'baz');
+    assert.notNestedPropertyVal(obj, 'foo.bar', 'flow');
+    assert.notNestedPropertyVal(obj, 'foo.flow', 'baz');
 
     err(function () {
       assert.property(obj, 'baz');
     }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
 
     err(function () {
-      assert.deepProperty(obj, 'foo.baz');
-    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.baz'");
+      assert.nestedProperty(obj, 'foo.baz');
+    }, "expected { foo: { bar: 'baz' } } to have a nested property 'foo.baz'");
 
     err(function () {
       assert.notProperty(obj, 'foo');
     }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
 
     err(function () {
-      assert.notDeepProperty(obj, 'foo.bar');
-    }, "expected { foo: { bar: 'baz' } } to not have deep property 'foo.bar'");
+      assert.notNestedProperty(obj, 'foo.bar');
+    }, "expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar'");
 
     err(function () {
       assert.propertyVal(simpleObj, 'foo', 'ball');
@@ -977,16 +977,16 @@ describe('assert', function () {
     }, "expected { foo: 'bar' } to have a property 'foo' of undefined, but got 'bar'");
 
     err(function () {
-      assert.deepPropertyVal(obj, 'foo.bar', 'ball');
-    }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'ball', but got 'baz'");
+      assert.nestedPropertyVal(obj, 'foo.bar', 'ball');
+    }, "expected { foo: { bar: 'baz' } } to have a nested property 'foo.bar' of 'ball', but got 'baz'");
 
     err(function () {
       assert.notPropertyVal(simpleObj, 'foo', 'bar');
     }, "expected { foo: 'bar' } to not have a property 'foo' of 'bar'");
 
     err(function () {
-      assert.notDeepPropertyVal(obj, 'foo.bar', 'baz');
-    }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+      assert.notNestedPropertyVal(obj, 'foo.bar', 'baz');
+    }, "expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
   });
 
   it('throws / throw / Throw', function() {
