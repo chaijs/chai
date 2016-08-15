@@ -1,5 +1,6 @@
 describe('configuration', function () {
   var assert = chai.assert;
+  var expect = chai.expect;
 
   var origConfig;
 
@@ -73,7 +74,6 @@ describe('configuration', function () {
           assert.include(err.stack, 'fooPropThrows', 'should have user stack trace in error message');
         }
       }
-
     });
 
     it('is false for property assertions', function () {
@@ -167,6 +167,33 @@ describe('configuration', function () {
       chai.config.showDiff = !chai.config.showDiff;
       assert.equal(chai.Assertion.showDiff, chai.config.showDiff);
     });
-    
+  });
+
+  describe('useProxy', function() {
+    var readNoExistentProperty = function() {
+      expect(false).to.be.tue; // typo: tue should be true
+    };
+
+    it('should have default value equal to true', function() {
+      expect(chai.config.useProxy).to.be.true;
+    });
+
+    describe('when true', function() {
+      it('should use proxy unless user\'s environment doesn\'t support', function() {
+        if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+          expect(readNoExistentProperty).to.throw('Invalid Chai property: tue');
+        } else {
+          expect(readNoExistentProperty).to.not.throw('Invalid Chai property: tue');
+        }
+      });
+    });
+
+    describe('when false', function() {
+      it('should not use proxy', function() {
+        chai.config.useProxy = false;
+
+        expect(readNoExistentProperty).to.not.throw('Invalid Chai property: tue');
+      });
+    });
   });
 });
