@@ -614,8 +614,15 @@ describe('should', function() {
     [1,2].should.include(1);
     ['foo', 'bar'].should.not.include('baz');
     ['foo', 'bar'].should.not.include(1);
-    ({a:1,b:2}).should.include({b:2});
-    ({a:1,b:2}).should.not.include({b:3});
+
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    [obj1, obj2].should.include(obj1);
+    [obj1, obj2].should.not.include({a: 1});
+    ({foo: obj1, bar: obj2}).should.include({foo: obj1});
+    ({foo: obj1, bar: obj2}).should.include({foo: obj1, bar: obj2});
+    ({foo: obj1, bar: obj2}).should.not.include({foo: {a: 1}});
+    ({foo: obj1, bar: obj2}).should.not.include({foo: obj1, bar: {b: 2}});
 
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
@@ -636,6 +643,26 @@ describe('should', function() {
     err(function(){
       ({a:1}).should.include({b:2});
     }, "expected { a: 1 } to have a property 'b'");
+
+    err(function () {
+      [{a: 1}, {b: 2}].should.include({a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to include { a: 1 }");
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      [obj1, obj2].should.not.include(obj1);
+    }, "expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }");
+
+    err(function () {
+      ({foo: {a: 1}, bar: {b: 2}}).should.include({foo: {a: 1}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a property 'foo' of { a: 1 }, but got { a: 1 }");
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      ({foo: obj1, bar: obj2}).should.not.include({foo: obj1, bar: obj2});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a property 'foo' of { a: 1 }");
 
     err(function(){
       (true).should.include(true);

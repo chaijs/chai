@@ -459,7 +459,12 @@ describe('assert', function () {
     assert.include('foobar', 'bar');
     assert.include('', '');
     assert.include([ 1, 2, 3], 3);
-    assert.include({a:1, b:2}, {b:2});
+
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    assert.include([obj1, obj2], obj1);
+    assert.include({foo: obj1, bar: obj2}, {foo: obj1});
+    assert.include({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2});
 
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
@@ -470,6 +475,14 @@ describe('assert', function () {
     err(function () {
       assert.include('foobar', 'baz');
     }, "expected \'foobar\' to include \'baz\'");
+
+    err(function () {
+      assert.include([{a: 1}, {b: 2}], {a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to include { a: 1 }");
+
+    err(function () {
+      assert.include({foo: {a: 1}, bar: {b: 2}}, {foo: {a: 1}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a property 'foo' of { a: 1 }, but got { a: 1 }");
 
     err(function(){
       assert.include(true, true);
@@ -492,12 +505,30 @@ describe('assert', function () {
     assert.notInclude('foobar', 'baz');
     assert.notInclude([ 1, 2, 3 ], 4);
 
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    assert.notInclude([obj1, obj2], {a: 1});
+    assert.notInclude({foo: obj1, bar: obj2}, {foo: {a: 1}});
+    assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: {b: 2}});
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol()
         , sym3 = Symbol();
       assert.notInclude([sym1, sym2], sym3);
     }
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      assert.notInclude([obj1, obj2], obj1);
+    }, "expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }");
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a property 'foo' of { a: 1 }");
 
     err(function(){
       assert.notInclude(true, true);

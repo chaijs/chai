@@ -722,14 +722,15 @@ describe('expect', function () {
     expect([1,2]).to.include(1);
     expect(['foo', 'bar']).to.not.include('baz');
     expect(['foo', 'bar']).to.not.include(1);
-    expect({a:1,b:2}).to.include({b:2});
-    expect({a:1,b:2}).to.not.include({b:3});
-    expect({a:1,b:2}).to.include({a:1,b:2});
-    expect({a:1,b:2}).to.not.include({a:1,c:2});
 
-    expect([{a:1},{b:2}]).to.include({a:1});
-    expect([{a:1}]).to.include({a:1});
-    expect([{a:1}]).to.not.include({b:1});
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    expect([obj1, obj2]).to.include(obj1);
+    expect([obj1, obj2]).to.not.include({a: 1});
+    expect({foo: obj1, bar: obj2}).to.include({foo: obj1});
+    expect({foo: obj1, bar: obj2}).to.include({foo: obj1, bar: obj2});
+    expect({foo: obj1, bar: obj2}).to.not.include({foo: {a: 1}});
+    expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: {b: 2}});
 
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
@@ -753,11 +754,27 @@ describe('expect', function () {
 
     err(function(){
       expect({a:1,b:2}).to.not.include({b:2});
-    }, "expected { a: 1, b: 2 } to not include { b: 2 }");
+    }, "expected { a: 1, b: 2 } to not have a property 'b' of 2");
 
-    err(function(){
-      expect([{a:1},{b:2}]).to.not.include({b:2});
-    }, "expected [ { a: 1 }, { b: 2 } ] to not include { b: 2 }");
+    err(function () {
+      expect([{a: 1}, {b: 2}]).to.include({a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to include { a: 1 }");
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      expect([obj1, obj2]).to.not.include(obj1);
+    }, "expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }");
+
+    err(function () {
+      expect({foo: {a: 1}, bar: {b: 2}}).to.include({foo: {a: 1}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a property 'foo' of { a: 1 }, but got { a: 1 }");
+
+    err(function () {
+      var obj1 = {a: 1}
+        , obj2 = {b: 2};
+      expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: obj2});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a property 'foo' of { a: 1 }");
 
     err(function(){
       expect(true).to.include(true);
