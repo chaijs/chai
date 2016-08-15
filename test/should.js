@@ -457,6 +457,7 @@ describe('should', function() {
     ({ 1: 1 }).should.have.property(1, 1);
     'test'.should.not.have.property('length', 3);
     'test'.should.not.have.property('foo', 4);
+    ({a: {b: 1}}).should.not.have.property('a', {b: 1});
 
     err(function(){
       'asd'.should.have.property('length', 4, 'blah');
@@ -471,10 +472,31 @@ describe('should', function() {
     }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
+  it('deep.property(name, val)', function () {
+    var obj = {a: {b: 1}};
+    obj.should.have.deep.property('a', {b: 1});
+    obj.should.not.have.deep.property('a', {b: 7});
+    obj.should.not.have.deep.property('a', {z: 1});
+    obj.should.not.have.deep.property('z', {b: 1});
+
+    err(function () {
+      obj.should.have.deep.property('a', {b: 7}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have a deep property 'a' of { b: 7 }, but got { b: 1 }");
+
+    err(function () {
+      obj.should.have.deep.property('z', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have a deep property 'z'");
+
+    err(function () {
+      obj.should.not.have.deep.property('a', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to not have a deep property 'a' of { b: 1 }");
+  });
+
   it('nested.property(name, val)', function(){
     ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar', 'baz');
     ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.bar', 'quux');
     ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.quux', 'baz');
+    ({a: {b: {c: 1}}}).should.not.have.nested.property('a.b', {c: 1});
 
     err(function(){
       ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar', 'quux', 'blah');
@@ -482,6 +504,26 @@ describe('should', function() {
     err(function(){
       ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.bar', 'baz', 'blah');
     }, "blah: expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
+  });
+
+  it('deep.nested.property(name, val)', function () {
+    var obj = {a: {b: {c: 1}}};
+    obj.should.have.deep.nested.property('a.b', {c: 1});
+    obj.should.not.have.deep.nested.property('a.b', {c: 7});
+    obj.should.not.have.deep.nested.property('a.b', {z: 1});
+    obj.should.not.have.deep.nested.property('a.z', {c: 1});
+
+    err(function () {
+      obj.should.have.deep.nested.property('a.b', {c: 7}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.b' of { c: 7 }, but got { c: 1 }");
+
+    err(function () {
+      obj.should.have.deep.nested.property('a.z', {c: 1}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.z'");
+
+    err(function () {
+      obj.should.not.have.deep.nested.property('a.b', {c: 1}, 'blah');
+    }, "blah: expected { a: { b: { c: 1 } } } to not have a deep nested property 'a.b' of { c: 1 }");
   });
 
   it('ownProperty(name)', function(){
