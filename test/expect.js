@@ -809,6 +809,36 @@ describe('expect', function () {
     }, "object tested must be an array, an object, or a string, but undefined given");
   });
 
+  it('deep.include()', function () {
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    expect([obj1, obj2]).to.deep.include({a: 1});
+    expect([obj1, obj2]).to.not.deep.include({a: 9});
+    expect([obj1, obj2]).to.not.deep.include({z: 1});
+    expect({foo: obj1, bar: obj2}).to.deep.include({foo: {a: 1}});
+    expect({foo: obj1, bar: obj2}).to.deep.include({foo: {a: 1}, bar: {b: 2}});
+    expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 9}});
+    expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {z: 1}});
+    expect({foo: obj1, bar: obj2}).to.not.deep.include({baz: {a: 1}});
+    expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    err(function () {
+      expect([obj1, obj2]).to.deep.include({a: 9});
+    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+
+    err(function () {
+      expect([obj1, obj2]).to.not.deep.include({a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to not deep include { a: 1 }");
+
+    err(function () {
+      expect({foo: obj1, bar: obj2}).to.deep.include({foo: {a: 1}, bar: {b: 9}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a deep property 'bar' of { b: 9 }, but got { b: 2 }");
+
+    err(function () {
+      expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 2}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a deep property 'foo' of { a: 1 }");
+  });
+
   it('keys(array|Object|arguments)', function(){
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1 }).have.keys({ 'foo': 6 });

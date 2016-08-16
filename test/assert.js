@@ -551,6 +551,36 @@ describe('assert', function () {
     }, "expected \'foobar\' to not include \'bar\'");
   });
 
+  it('deepInclude and notDeepInclude', function () {
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    assert.deepInclude([obj1, obj2], {a: 1});
+    assert.notDeepInclude([obj1, obj2], {a: 9});
+    assert.notDeepInclude([obj1, obj2], {z: 1});
+    assert.deepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}});
+    assert.deepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 2}});
+    assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 9}});
+    assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {z: 1}});
+    assert.notDeepInclude({foo: obj1, bar: obj2}, {baz: {a: 1}});
+    assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
+
+    err(function () {
+      assert.deepInclude([obj1, obj2], {a: 9});
+    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+
+    err(function () {
+      assert.notDeepInclude([obj1, obj2], {a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to not deep include { a: 1 }");
+
+    err(function () {
+      assert.deepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a deep property 'bar' of { b: 9 }, but got { b: 2 }");
+
+    err(function () {
+      assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 2}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a deep property 'foo' of { a: 1 }");
+  });
+
   it('keys(array|Object|arguments)', function(){
     assert.hasAllKeys({ foo: 1 }, [ 'foo' ]);
     assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);

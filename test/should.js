@@ -681,6 +681,36 @@ describe('should', function() {
     }, "object tested must be an array, an object, or a string, but number given");
   });
 
+  it('deep.include()', function () {
+    var obj1 = {a: 1}
+      , obj2 = {b: 2};
+    [obj1, obj2].should.deep.include({a: 1});
+    [obj1, obj2].should.not.deep.include({a: 9});
+    [obj1, obj2].should.not.deep.include({z: 1});
+    ({foo: obj1, bar: obj2}).should.deep.include({foo: {a: 1}});
+    ({foo: obj1, bar: obj2}).should.deep.include({foo: {a: 1}, bar: {b: 2}});
+    ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 9}});
+    ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {z: 1}});
+    ({foo: obj1, bar: obj2}).should.not.deep.include({baz: {a: 1}});
+    ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    err(function () {
+      [obj1, obj2].should.deep.include({a: 9});
+    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+
+    err(function () {
+      [obj1, obj2].should.not.deep.include({a: 1});
+    }, "expected [ { a: 1 }, { b: 2 } ] to not deep include { a: 1 }");
+
+    err(function () {
+      ({foo: obj1, bar: obj2}).should.deep.include({foo: {a: 1}, bar: {b: 9}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a deep property 'bar' of { b: 9 }, but got { b: 2 }");
+
+    err(function () {
+      ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 2}});
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a deep property 'foo' of { a: 1 }");
+  });
+
   it('keys(array|Object|arguments)', function(){
     ({ foo: 1 }).should.have.keys(['foo']);
     ({ foo: 1 }).should.have.keys({ 'foo': 6 });
