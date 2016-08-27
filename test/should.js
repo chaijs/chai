@@ -67,6 +67,9 @@ describe('should', function() {
       , bar = undefined;
     should.exist(foo);
     should.not.exist(bar);
+    should.exist(0);
+    should.exist(false);
+    should.exist('');
 
     err(function () {
       should.exist(bar, 'blah');
@@ -74,7 +77,7 @@ describe('should', function() {
 
     err(function () {
       should.not.exist(foo, 'blah');
-    }, "blah: expected 'foo' to not exist")
+    }, "blah: expected 'foo' to not exist");
   });
 
   it('root equal', function () {
