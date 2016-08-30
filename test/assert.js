@@ -344,6 +344,31 @@ describe('assert', function () {
     }, "expected 'hello' not to be NaN");
   });
 
+  it('exists', function() {
+    var meeber = 'awesome';
+    var iDoNotExist;
+       
+    assert.exists(meeber);
+    assert.exists(0);
+    assert.exists(false);
+    assert.exists('');
+
+    err(function (){
+      assert.exists(iDoNotExist);
+    }, "expected undefined to exist");
+  });
+
+  it('notExists', function() {
+    var meeber = 'awesome';
+    var iDoNotExist;
+       
+    assert.notExists(iDoNotExist);
+
+    err(function (){
+      assert.notExists(meeber);
+    }, "expected 'awesome' to not exist");
+  });
+
   it('isUndefined', function() {
     assert.isUndefined(undefined);
 

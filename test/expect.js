@@ -124,6 +124,17 @@ describe('expect', function () {
       , bar;
     expect(foo).to.exist;
     expect(bar).to.not.exist;
+    expect(0).to.exist;
+    expect(false).to.exist;
+    expect('').to.exist;
+
+    err(function () {
+      expect(bar).to.exist;
+    }, "expected undefined to exist");
+
+    err(function () {
+      expect(foo).to.not.exist(foo);
+    }, "expected 'bar' to not exist");
   });
 
   it('arguments', function(){
