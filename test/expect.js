@@ -493,6 +493,31 @@ describe('expect', function () {
     }, "expected 'foo' not to be NaN");
   });
 
+  it('finite', function() {
+    expect(4).to.be.finite();
+    expect(-10).to.be.finite();
+
+    err(function(){
+      expect(NaN).to.be.finite();
+    }, "expected NaN to be a finite number");
+
+    err(function(){
+      expect(Infinity).to.be.finite();
+    }, "expected Infinity to be a finite number");
+
+    err(function(){
+      expect('foo').to.be.finite();
+    }, "expected \'foo\' to be a finite number");
+
+    err(function(){
+      expect([]).to.be.finite();
+    }, "expected [] to be a finite number");
+
+    err(function(){
+      expect({}).to.be.finite();
+    }, "expected {} to be a finite number");
+  });
+
   it('property(name)', function(){
     expect('test').to.have.property('length');
     expect(4).to.not.have.property('length');
