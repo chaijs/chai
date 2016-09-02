@@ -432,27 +432,27 @@ describe('should', function() {
   });
 
   it('finite(value)', function() {
-    (4).should.be.finite();
-    (-10).should.be.finite();
+    (4).should.be.finite;
+    (-10).should.be.finite;
 
     err(function(){
-      (NaN).should.be.finite();
+      (NaN).should.be.finite;
     }, "expected NaN to be a finite number");
 
     err(function(){
-      (Infinity).should.be.finite();
+      (Infinity).should.be.finite;
     }, "expected Infinity to be a finite number");
 
     err(function(){
-      ('foo').should.be.finite();
+      ('foo').should.be.finite;
     }, "expected \'foo\' to be a finite number");
 
     err(function(){
-      ([]).should.be.finite();
+      ([]).should.be.finite;
     }, "expected [] to be a finite number");
 
     err(function(){
-      ({}).should.be.finite();
+      ({}).should.be.finite;
     }, "expected {} to be a finite number");
   });
 

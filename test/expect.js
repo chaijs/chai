@@ -494,27 +494,27 @@ describe('expect', function () {
   });
 
   it('finite', function() {
-    expect(4).to.be.finite();
-    expect(-10).to.be.finite();
+    expect(4).to.be.finite;
+    expect(-10).to.be.finite;
 
     err(function(){
-      expect(NaN).to.be.finite();
+      expect(NaN).to.be.finite;
     }, "expected NaN to be a finite number");
 
     err(function(){
-      expect(Infinity).to.be.finite();
+      expect(Infinity).to.be.finite;
     }, "expected Infinity to be a finite number");
 
     err(function(){
-      expect('foo').to.be.finite();
+      expect('foo').to.be.finite;
     }, "expected \'foo\' to be a finite number");
 
     err(function(){
-      expect([]).to.be.finite();
+      expect([]).to.be.finite;
     }, "expected [] to be a finite number");
 
     err(function(){
-      expect({}).to.be.finite();
+      expect({}).to.be.finite;
     }, "expected {} to be a finite number");
   });
 

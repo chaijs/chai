@@ -460,16 +460,28 @@ describe('assert', function () {
   });
 
   it('isFinite', function() {
-    assert.isFinite(1);
-    assert.isFinite(Number('3'));
+    assert.isFinite(4);
+    assert.isFinite(-10);
 
-    err(function () {
-      assert.isFinite('1');
-    }, "expected \'1\' to be a finite number");
-
-    err(function () {
+    err(function(){
       assert.isFinite(NaN);
     }, "expected NaN to be a finite number");
+
+    err(function(){
+      assert.isFinite(Infinity);
+    }, "expected Infinity to be a finite number");
+
+    err(function(){
+      assert.isFinite('foo');
+    }, "expected \'foo\' to be a finite number");
+
+    err(function(){
+      assert.isFinite([]);
+    }, "expected [] to be a finite number");
+
+    err(function(){
+      assert.isFinite({});
+    }, "expected {} to be a finite number");
   })
 
   it('isBoolean', function() {
