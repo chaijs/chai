@@ -196,4 +196,37 @@ describe('configuration', function () {
       });
     });
   });
+
+  describe('proxyExcludedKeys', function() {
+    var readNoExistentProperty = function(prop) {
+      return function() {
+        var assertion = expect(false);
+        expect(assertion).to.not.have.key(prop);
+        assertion[prop];
+      }
+    };
+
+    it('should have default value equal to `[\'then\', \'inspect\']`', function() {
+      expect(chai.config.proxyExcludedKeys).to.be.deep.equal(['then', 'inspect']);
+    });
+
+    it('should not throw when accessing non-existing `then` and `inspect` in an environment with proxy support', function() {
+      // Since these will not throw if the environment does not support proxies we don't need any `if` clause here
+      expect(readNoExistentProperty('then')).to.not.throw();
+      expect(readNoExistentProperty('inspect')).to.not.throw();
+    });
+
+    it('should throw for properties which are not on the `proxyExcludedKeys` Array in an environment with proxy support', function() {
+      chai.config.proxyExcludedKeys = [];
+
+      if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+        expect(readNoExistentProperty('then')).to.throw('Invalid Chai property: then');
+        expect(readNoExistentProperty('inspect')).to.throw('Invalid Chai property: inspect');
+      } else {
+        expect(readNoExistentProperty('then')).to.not.throw();
+        expect(readNoExistentProperty('inspect')).to.not.throw();
+      }
+    });
+  });
+
 });
