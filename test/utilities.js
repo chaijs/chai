@@ -322,7 +322,7 @@ describe('utilities', function () {
 
     var dneFail = expect('something');
     var dneError;
-    try { dneFail.to.doesnotexistfail(); }
+    try { dneFail.doesnotexistfail(); }
     catch (e) { dneError = e; }
     expect(dneFail.__flags).to.have.property('doesnt');
     expect(dneError.message).to.eql('doesnotexistfail is not a function');
