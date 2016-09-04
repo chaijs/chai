@@ -358,7 +358,7 @@ describe('should', function() {
 
     err(function(){
       ({ foo: 1 }).should.have.length.within(50,100, 'blah');
-    }, "blah: expected { foo: 1 } to have a property 'length'");
+    }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
       ('string').should.be.within(0, 1, 'blah');
@@ -386,7 +386,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.have.length.within(5,7, 'blah');
-    }, "blah: expected 1 to have a property 'length'");
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('above(n)', function(){
@@ -405,7 +405,7 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.above(3, 'blah');
-    }, "blah: expected { foo: 1 } to have a property 'length'");
+    }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
       ('string').should.be.above(0, 'blah');
@@ -425,7 +425,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.have.length.above(0, 'blah');
-    }, "blah: expected 1 to have a property 'length'");
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('least(n)', function(){
@@ -442,7 +442,7 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.of.at.least(3, 'blah');
-    }, "blah: expected { foo: 1 } to have a property 'length'");
+    }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
       ('string').should.be.at.least(0, 'blah');
@@ -477,7 +477,7 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.below(3, 'blah');
-    }, "blah: expected { foo: 1 } to have a property 'length'");
+    }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
       ('string').should.be.below(0, 'blah');
@@ -497,7 +497,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.have.length.below(0, 'blah');
-    }, "blah: expected 1 to have a property 'length'");
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('most(n)', function(){
@@ -514,7 +514,7 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.of.at.most(3, 'blah');
-    }, "blah: expected { foo: 1 } to have a property 'length'");
+    }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
       ('string').should.be.at.most(0, 'blah');
@@ -534,7 +534,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.have.length.of.at.most(0, 'blah');
-    }, "blah: expected 1 to have a property 'length'");
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('match(regexp)', function(){
@@ -557,7 +557,7 @@ describe('should', function() {
 
     err(function(){
       (4).should.have.length(3, 'blah');
-    }, 'blah: expected 4 to have a property \'length\'');
+    }, 'blah: expected 4 to have property \'length\'');
 
     err(function(){
       'asd'.should.not.have.length(3, 'blah');
@@ -691,7 +691,7 @@ describe('should', function() {
 
     err(function(){
       'asd'.should.have.property('foo');
-    }, "expected 'asd' to have a property 'foo'");
+    }, "expected 'asd' to have property 'foo'");
   });
 
   it('nested.property(name)', function(){
@@ -704,7 +704,7 @@ describe('should', function() {
 
     err(function(){
       ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
-    }, "expected { 'foo.bar': 'baz' } to have a nested property 'foo.bar'");
+    }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
   });
 
   it('property(name, val)', function(){
@@ -717,15 +717,15 @@ describe('should', function() {
 
     err(function(){
       'asd'.should.have.property('length', 4, 'blah');
-    }, "blah: expected 'asd' to have a property 'length' of 4, but got 3");
+    }, "blah: expected 'asd' to have property 'length' of 4, but got 3");
 
     err(function(){
       'asd'.should.not.have.property('length', 3, 'blah');
-    }, "blah: expected 'asd' to not have a property 'length' of 3");
+    }, "blah: expected 'asd' to not have property 'length' of 3");
 
     err(function(){
       'asd'.should.have.property('constructor', Number, 'blah');
-    }, "blah: expected 'asd' to have a property 'constructor' of [Function: Number], but got [Function: String]");
+    }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
   });
 
   it('deep.property(name, val)', function () {
@@ -737,15 +737,15 @@ describe('should', function() {
 
     err(function () {
       obj.should.have.deep.property('a', {b: 7}, 'blah');
-    }, "blah: expected { a: { b: 1 } } to have a deep property 'a' of { b: 7 }, but got { b: 1 }");
+    }, "blah: expected { a: { b: 1 } } to have deep property 'a' of { b: 7 }, but got { b: 1 }");
 
     err(function () {
       obj.should.have.deep.property('z', {b: 1}, 'blah');
-    }, "blah: expected { a: { b: 1 } } to have a deep property 'z'");
+    }, "blah: expected { a: { b: 1 } } to have deep property 'z'");
 
     err(function () {
       obj.should.not.have.deep.property('a', {b: 1}, 'blah');
-    }, "blah: expected { a: { b: 1 } } to not have a deep property 'a' of { b: 1 }");
+    }, "blah: expected { a: { b: 1 } } to not have deep property 'a' of { b: 1 }");
   });
 
   it('nested.property(name, val)', function(){
@@ -756,10 +756,10 @@ describe('should', function() {
 
     err(function(){
       ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar', 'quux', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to have a nested property 'foo.bar' of 'quux', but got 'baz'");
+    }, "blah: expected { foo: { bar: 'baz' } } to have nested property 'foo.bar' of 'quux', but got 'baz'");
     err(function(){
       ({ foo: { bar: 'baz' } }).should.not.have.nested.property('foo.bar', 'baz', 'blah');
-    }, "blah: expected { foo: { bar: 'baz' } } to not have a nested property 'foo.bar' of 'baz'");
+    }, "blah: expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar' of 'baz'");
   });
 
   it('deep.nested.property(name, val)', function () {
@@ -771,15 +771,15 @@ describe('should', function() {
 
     err(function () {
       obj.should.have.deep.nested.property('a.b', {c: 7}, 'blah');
-    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.b' of { c: 7 }, but got { c: 1 }");
+    }, "blah: expected { a: { b: { c: 1 } } } to have deep nested property 'a.b' of { c: 7 }, but got { c: 1 }");
 
     err(function () {
       obj.should.have.deep.nested.property('a.z', {c: 1}, 'blah');
-    }, "blah: expected { a: { b: { c: 1 } } } to have a deep nested property 'a.z'");
+    }, "blah: expected { a: { b: { c: 1 } } } to have deep nested property 'a.z'");
 
     err(function () {
       obj.should.not.have.deep.nested.property('a.b', {c: 1}, 'blah');
-    }, "blah: expected { a: { b: { c: 1 } } } to not have a deep nested property 'a.b' of { c: 1 }");
+    }, "blah: expected { a: { b: { c: 1 } } } to not have deep nested property 'a.b' of { c: 1 }");
   });
 
   it('ownProperty(name)', function(){
@@ -968,7 +968,7 @@ describe('should', function() {
 
     err(function(){
       ({a:1}).should.include({b:2});
-    }, "expected { a: 1 } to have a property 'b'");
+    }, "expected { a: 1 } to have property 'b'");
 
     err(function () {
       [{a: 1}, {b: 2}].should.include({a: 1});
@@ -982,13 +982,13 @@ describe('should', function() {
 
     err(function () {
       ({foo: {a: 1}, bar: {b: 2}}).should.include({foo: {a: 1}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a property 'foo' of { a: 1 }, but got { a: 1 }");
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
 
     err(function () {
       var obj1 = {a: 1}
         , obj2 = {b: 2};
       ({foo: obj1, bar: obj2}).should.not.include({foo: obj1, bar: obj2});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a property 'foo' of { a: 1 }");
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
 
     err(function(){
       (true).should.include(true);
@@ -1030,11 +1030,11 @@ describe('should', function() {
 
     err(function () {
       ({foo: obj1, bar: obj2}).should.deep.include({foo: {a: 1}, bar: {b: 9}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have a deep property 'bar' of { b: 9 }, but got { b: 2 }");
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have deep property 'bar' of { b: 9 }, but got { b: 2 }");
 
     err(function () {
       ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 2}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have a deep property 'foo' of { a: 1 }");
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
   });
 
   it('keys(array|Object|arguments)', function(){
