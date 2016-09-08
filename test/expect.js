@@ -431,6 +431,7 @@ describe('expect', function () {
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
 
+    expect(null).to.be.empty;
     expect('').to.be.empty;
     expect('foo').not.to.be.empty;
     expect([]).to.be.empty;
@@ -439,6 +440,10 @@ describe('expect', function () {
     expect({arguments: 0}).not.to.be.empty;
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
+
+    err(function(){
+      expect(null).not.to.be.empty;
+    }, "expected null not to be empty");
 
     err(function(){
       expect('').not.to.be.empty;
