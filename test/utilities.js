@@ -870,6 +870,38 @@ describe('utilities', function () {
       }).to.throw('Invalid Chai property: mushrooms');
     });
 
+    it('suggests a fix if a non-existent prop looks like a typo', function () {
+      var pizza = proxify({foo: 1, bar: 2, baz: 3});
+
+      expect(function () {
+        pizza.phoo;
+      }).to.throw('Invalid Chai property: phoo. Did you mean "foo"?');
+    });
+
+    it('doesn\'t take exponential time to find string distances', function () {
+      var pizza = proxify({veryLongPropertyNameWithLotsOfLetters: 1});
+
+      expect(function () {
+        pizza.extremelyLongPropertyNameWithManyLetters;
+      }).to.throw(
+        'Invalid Chai property: extremelyLongPropertyNameWithManyLetters'
+      );
+    });
+
+    it('doesn\'t suggest properties from Object.prototype', function () {
+      var pizza = proxify({string: 5});
+      expect(function () {
+        pizza.tostring;
+      }).to.throw('Invalid Chai property: tostring. Did you mean "string"?');
+    });
+
+    it('doesn\'t suggest internally properties', function () {
+      var pizza = proxify({flags: 5, __flags: 6});
+      expect(function () {
+        pizza.___flags; // 3 underscores; closer to '__flags' than 'flags'
+      }).to.throw('Invalid Chai property: ___flags. Did you mean "flags"?');
+    });
+
     // .then is excluded from property validation for promise support
     it('doesn\'t throw error if non-existent `then` is read', function () {
       var pizza = proxify({});
