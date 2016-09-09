@@ -7,29 +7,127 @@ describe('should', function() {
     should.not.equal('foo', 'bar');
   });
 
-  it('invalid property', function () {
+  describe('invalid property', function () {
     if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
 
-    err(function () {
-      (42).should.pizza;
-    }, 'Invalid Chai property: pizza');
+    before(function () {
+      chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
+        new chai.Assertion(42).equal(42);
+      });
+      chai.util.overwriteProperty(chai.Assertion.prototype, 'tmpProperty', function (_super) {
+        return function () {
+          _super.call(this);
+        };
+      });
 
-    err(function () {
-      (42).should.be.pizza;
-    }, 'Invalid Chai property: pizza');
+      chai.util.addMethod(chai.Assertion.prototype, 'tmpMethod', function () {
+        new chai.Assertion(42).equal(42);
+      });
+      chai.util.overwriteMethod(chai.Assertion.prototype, 'tmpMethod', function (_super) {
+        return function () {
+          _super.call(this);
+        };
+      });
 
-    err(function () {
-      (42).should.be.a.pizza;
-    }, 'Invalid Chai property: pizza');
+      chai.util.addChainableMethod(chai.Assertion.prototype, 'tmpChainableMethod', function () {
+        new chai.Assertion(42).equal(42);
+      }, function () {
+        new chai.Assertion(42).equal(42);
+      });
+      chai.util.overwriteChainableMethod(chai.Assertion.prototype, 'tmpChainableMethod', function (_super) {
+        return function () {
+          _super.call(this);
+        };
+      }, function (_super) {
+        return function () {
+          _super.call(this);
+        };
+      });
+    });
 
-    err(function () {
-      (42).should.equal(42).pizza;
-    }, 'Invalid Chai property: pizza');
+    after(function () {
+      delete chai.Assertion.prototype.tmpProperty;
+      delete chai.Assertion.prototype.tmpMethod;
+      delete chai.Assertion.prototype.tmpChainableMethod;
+    });
 
-    // .then is excluded from property validation for promise support
-    (function () {
-      (42).should.then;
-    }).should.not.throw();
+    it('throws when invalid property follows should', function () {
+      err(function () {
+        (42).should.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows language chain', function () {
+      err(function () {
+        (42).should.to.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows property assertion', function () {
+      err(function () {
+        (42).should.ok.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows overwritten property assertion', function () {
+      err(function () {
+        (42).should.tmpProperty.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows uncalled method assertion', function () {
+      err(function () {
+        (42).should.equal.pizza;
+      }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
+    });
+
+    it('throws when invalid property follows called method assertion', function () {
+      err(function () {
+        (42).should.equal(42).pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows uncalled overwritten method assertion', function () {
+      err(function () {
+        (42).should.tmpMethod.pizza;
+      }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
+    });
+
+    it('throws when invalid property follows called overwritten method assertion', function () {
+      err(function () {
+        (42).should.tmpMethod().pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows uncalled chainable method assertion', function () {
+      err(function () {
+        (42).should.a.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows called chainable method assertion', function () {
+      err(function () {
+        (42).should.a('number').pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
+      err(function () {
+        (42).should.tmpChainableMethod.pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('throws when invalid property follows called overwritten chainable method assertion', function () {
+      err(function () {
+        (42).should.tmpChainableMethod().pizza;
+      }, 'Invalid Chai property: pizza');
+    });
+
+    it('doesn\'t throw if invalid property is excluded via config', function () {
+      (function () {
+        (42).should.then;
+      }).should.not.throw();
+    });
   });
 
   it('no-op chains', function() {

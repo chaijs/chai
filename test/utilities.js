@@ -1178,12 +1178,29 @@ describe('utilities', function () {
       expect(pizza.mushrooms).to.equal(42);
     });
 
-    it('throws error if a non-existent property is read', function () {
+    it('returns property value if an existing property is read when nonChainableMethodName is set', function () {
+      var bake = function () {};
+      bake.numPizzas = 2;
+
+      var bakeProxy = proxify(bake, 'bake');
+
+      expect(bakeProxy.numPizzas).to.equal(2);
+    });
+
+    it('throws invalid property error if a non-existent property is read', function () {
       var pizza = proxify({});
 
       expect(function () {
         pizza.mushrooms;
       }).to.throw('Invalid Chai property: mushrooms');
+    });
+
+    it('throws invalid use error if a non-existent property is read when nonChainableMethodName is set', function () {
+      var bake = proxify(function () {}, 'bake');
+      
+      expect(function () {
+        bake.numPizzas;
+      }).to.throw('Invalid Chai property: bake.numPizzas. See docs for proper usage of "bake".');
     });
 
     it('suggests a fix if a non-existent prop looks like a typo', function () {
