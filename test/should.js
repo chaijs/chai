@@ -1030,7 +1030,7 @@ describe('should', function() {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testMap = new Map();
-      
+
       testMap.set(aKey, 'aValue');
       testMap.set(anotherKey, 'anotherValue');
 
@@ -1055,7 +1055,7 @@ describe('should', function() {
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
         , weirdMap = new Map();
-      
+
       weirdMap.set(weirdMapKey1, 'val1');
       weirdMap.set(weirdMapKey2, 'val2');
 
@@ -1067,7 +1067,7 @@ describe('should', function() {
           , symMapKey2 = Symbol()
           , symMapKey3 = Symbol()
           , symMap = new Map();
-        
+
         symMap.set(symMapKey1, 'val1');
         symMap.set(symMapKey2, 'val2');
 
@@ -1108,7 +1108,7 @@ describe('should', function() {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testSet = new Set();
-      
+
       testSet.add(aKey);
       testSet.add(anotherKey);
 
@@ -1135,7 +1135,7 @@ describe('should', function() {
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []
         , weirdSet = new Set();
-      
+
       weirdSet.add(weirdSetKey1);
       weirdSet.add(weirdSetKey2);
 
@@ -1147,7 +1147,7 @@ describe('should', function() {
           , symSetKey2 = Symbol()
           , symSetKey3 = Symbol()
           , symSet = new Set();
-        
+
         symSet.add(symSetKey1);
         symSet.add(symSetKey2);
 
@@ -1742,7 +1742,7 @@ describe('should', function() {
   });
 
   it('increase, decrease', function() {
-    var obj = { value: 10 },
+    var obj = { value: 10, noop: null },
         arr = ['one', 'two'],
         pFn   = function() { arr.push('three') },
         popFn = function() { arr.pop() },
@@ -1778,6 +1778,13 @@ describe('should', function() {
 
     popFn.should.decrease(lenFn).by(1);
     popFn.should.decrease(lenFn).but.not.by(2);
+
+    err(function() {
+      incFn.should.increase(obj, 'noop');
+    }, 'expected null to be a number');
+    err(function() {
+      incFn.should.decrease(obj, 'noop');
+    }, 'expected null to be a number');
   });
 
   it('extensible', function() {

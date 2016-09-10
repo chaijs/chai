@@ -365,7 +365,7 @@ describe('assert', function () {
   it('exists', function() {
     var meeber = 'awesome';
     var iDoNotExist;
-       
+
     assert.exists(meeber);
     assert.exists(0);
     assert.exists(false);
@@ -379,7 +379,7 @@ describe('assert', function () {
   it('notExists', function() {
     var meeber = 'awesome';
     var iDoNotExist;
-       
+
     assert.notExists(iDoNotExist);
 
     err(function (){
@@ -728,7 +728,7 @@ describe('assert', function () {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testMap = new Map();
-      
+
       testMap.set(aKey, 'aValue');
       testMap.set(anotherKey, 'anotherValue');
 
@@ -751,7 +751,7 @@ describe('assert', function () {
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
         , weirdMap = new Map();
-      
+
       weirdMap.set(weirdMapKey1, 'val1');
       weirdMap.set(weirdMapKey2, 'val2');
 
@@ -763,7 +763,7 @@ describe('assert', function () {
           , symMapKey2 = Symbol()
           , symMapKey3 = Symbol()
           , symMap = new Map();
-        
+
         symMap.set(symMapKey1, 'val1');
         symMap.set(symMapKey2, 'val2');
 
@@ -825,7 +825,7 @@ describe('assert', function () {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testSet = new Set();
-      
+
       testSet.add(aKey);
       testSet.add(anotherKey);
 
@@ -848,7 +848,7 @@ describe('assert', function () {
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []
         , weirdSet = new Set();
-      
+
       weirdSet.add(weirdSetKey1);
       weirdSet.add(weirdSetKey2);
 
@@ -860,7 +860,7 @@ describe('assert', function () {
           , symSetKey2 = Symbol()
           , symSetKey3 = Symbol()
           , symSet = new Set();
-        
+
         symSet.add(symSetKey1);
         symSet.add(symSetKey2);
 
@@ -873,7 +873,7 @@ describe('assert', function () {
       }
 
       var errSet = new Set();
-      
+
       errSet.add({1: 20});
       errSet.add('number');
 
@@ -1749,7 +1749,7 @@ describe('assert', function () {
   });
 
   it('increase, decrease', function() {
-    var obj = { value: 10 },
+    var obj = { value: 10, noop: null },
         arr = ['one', 'two'],
         pFn   = function() { arr.push('three') },
         popFn = function() { arr.pop() },
@@ -1777,6 +1777,13 @@ describe('assert', function () {
     assert.doesNotIncrease(popFn, lenFn);
     assert.increasesBy(pFn, lenFn, 1);
     assert.increasesButNotBy(pFn, lenFn, 2);
+
+    err(function() {
+      assert.increases(incFn, obj, 'noop');
+    }, 'expected null to be a number');
+    err(function() {
+      assert.decreases(incFn, obj, 'noop');
+    }, 'expected null to be a number');
   });
 
   it('isExtensible / extensible', function() {
