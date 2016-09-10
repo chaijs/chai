@@ -1693,6 +1693,13 @@ describe('assert', function () {
     err(function() {
       assert.isAtLeast(1, 3);
     }, 'expected 1 to be at least 3');
+
+    err(function() {
+      assert.isAtLeast(null, 1);
+    }, 'expected null to be a number');
+    err(function() {
+      assert.isAtLeast(1, null);
+    }, 'the argument to least must be a number');
   });
 
   it('below', function() {
@@ -1722,6 +1729,13 @@ describe('assert', function () {
     err(function() {
       assert.isAtMost(3, 1);
     }, 'expected 3 to be at most 1');
+
+    err(function() {
+      assert.isAtMost(null, 1);
+    }, 'expected null to be a number');
+    err(function() {
+      assert.isAtMost(1, null);
+    }, 'the argument to most must be a number');
   });
 
   it('change', function() {
