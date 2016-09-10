@@ -154,12 +154,38 @@ describe('should', function() {
   });
 
   it('NaN', function(){
-    'foo'.should.be.NaN;
+    NaN.should.be.NaN;
+
+    Infinity.should.not.be.NaN;
+    'foo'.should.not.be.NaN;
+    ({}).should.not.be.NaN;
+    should.not.equal(undefined, NaN);
     (4).should.not.be.NaN;
 
     err(function(){
+      NaN.should.not.be.NaN;
+    }, "expected NaN not to be NaN");
+
+    err(function(){
+      Infinity.should.be.NaN;
+    }, "expected Infinity to be NaN");
+
+    err(function(){
+      'foo'.should.be.NaN;
+    }, "expected 'foo' to be NaN");
+
+    err(function(){
+      ({}).should.be.NaN;
+    }, "expected {} to be NaN");
+
+    err(function(){
+      should.equal(undefined, NaN);
+    }, "expected undefined to equal NaN");
+
+    err(function(){
       (4).should.be.NaN;
-    }, "expected 4 to be NaN")
+    }, "expected 4 to be NaN");
+
   });
 
   it('undefined', function(){
@@ -235,6 +261,34 @@ describe('should', function() {
     err(function(){
       ({ foo: 1 }).should.have.length.within(50,100, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.within(0, 1, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      ('string').should.not.be.within(0, 1, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.not.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      (1).should.have.length.within(5,7, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('above(n)', function(){
@@ -254,6 +308,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.above(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.above(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      ('string').should.not.be.above(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      (1).should.have.length.above(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('least(n)', function(){
@@ -271,6 +345,22 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.of.at.least(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      ('string').should.not.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
   });
 
   it('below(n)', function(){
@@ -290,6 +380,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.below(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.below(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      ('string').should.not.be.below(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      (1).should.have.length.below(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('most(n)', function(){
@@ -307,6 +417,26 @@ describe('should', function() {
     err(function(){
       ({foo: 1}).should.have.length.of.at.most(3, 'blah');
     }, "blah: expected { foo: 1 } to have a property 'length'");
+
+    err(function () {
+      ('string').should.be.at.most(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      ('string').should.not.be.at.most(0, 'blah');
+    }, "blah: expected 'string' to be a number");
+
+    err(function () {
+      (1).should.not.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      (1).should.have.length.of.at.most(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('match(regexp)', function(){
@@ -557,16 +687,86 @@ describe('should', function() {
   it('ownProperty(name)', function(){
     'test'.should.have.ownProperty('length');
     'test'.should.haveOwnProperty('length');
+    'test'.should.not.have.ownProperty('iDontExist');
+    'test'.should.not.haveOwnProperty('iDontExist');
+
     ({ length: 12 }).should.have.ownProperty('length');
+    ({ length: 12 }).should.haveOwnProperty('length');
+    ({ length: 12 }).should.not.have.ownProperty('iDontExist');
+    ({ length: 12 }).should.not.haveOwnProperty('iDontExist');
     ({ 1: 1 }).should.have.ownProperty(1);
 
     var objNoHasOwnProperty = {hasOwnProperty: null};
     objNoHasOwnProperty.a = 'a';
     objNoHasOwnProperty.should.have.ownProperty('a');
 
+    // Chaining property's value
+    'test'.should.have.ownProperty('length').that.is.a('number');
+    'test'.should.haveOwnProperty('length').that.is.a('number');
+
     err(function(){
-      ({ length: 12 }).should.not.have.ownProperty('length', 'blah');
-    }, "blah: expected { length: 12 } to not have own property 'length'");
+      ({ length: 12 }).should.have.ownProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.have.ownProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.haveOwnProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownProperty(name, value)', function(){
+    'test'.should.have.ownProperty('length', 4);
+    'test'.should.haveOwnProperty('length', 4);
+    'test'.should.not.have.ownProperty('length', 1337);
+    'test'.should.not.haveOwnProperty('length', 1337);
+
+    ({ length: 12 }).should.have.ownProperty('length', 12);
+    ({ length: 12 }).should.haveOwnProperty('length', 12);
+    ({ length: 12 }).should.not.have.ownProperty('length', 15);
+    ({ length: 12 }).should.not.haveOwnProperty('length', 15);
+
+    // Chaining property's value
+    'test'.should.have.ownProperty('length', 4).that.is.a('number');
+    'test'.should.haveOwnProperty('length', 4).that.is.a('number');
+
+    err(function(){
+      ({ length: 12 }).should.have.ownProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.ownProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.have.ownProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.ownProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.haveOwnProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.haveOwnProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      ({ length: 12 }).should.not.haveOwnProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
   });
 
   it('ownPropertyDescriptor(name)', function(){

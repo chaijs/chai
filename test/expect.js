@@ -217,6 +217,34 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.within(5,7, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
+
+    err(function () {
+      expect(null).to.be.within(0, 1, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(null).to.not.be.within(0, 1, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.within(null, 1, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.not.be.within(0, null, 'blah');
+    }, "the arguments to within must be numbers");
+
+    err(function () {
+      expect(1).to.have.length.within(5,7, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('above(n)', function(){
@@ -242,6 +270,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.above(4, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
+
+    err(function () {
+      expect(null).to.be.above(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      expect(null).to.not.be.above(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.above(null, 'blah');
+    }, "the argument to above must be a number");
+
+    err(function () {
+      expect(1).to.have.length.above(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('least(n)', function(){
@@ -270,6 +318,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3, 4 ]).to.not.have.length.of.at.least(4, 'blah');
     }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
+
+    err(function () {
+      expect(null).to.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      expect(null).to.not.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.at.least(null, 'blah');
+    }, "the argument to least must be a number");
+
+    err(function () {
+      expect(1).to.have.length.at.least(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('below(n)', function(){
@@ -295,6 +363,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.below(2, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
+
+    err(function () {
+      expect(null).to.be.below(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      expect(null).to.not.be.below(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.below(null, 'blah');
+    }, "the argument to below must be a number");
+
+    err(function () {
+      expect(1).to.have.length.below(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('most(n)', function(){
@@ -324,6 +412,26 @@ describe('expect', function () {
     err(function () {
       expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
     }, "blah: expected [ 1, 2 ] to have a length above 2");
+
+    err(function () {
+      expect(null).to.be.at.most(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      expect(null).to.not.be.at.most(0, 'blah');
+    }, "blah: expected null to be a number");
+
+    err(function () {
+      expect(1).to.not.be.at.most(null, 'blah');
+    }, "the argument to most must be a number");
+
+    err(function () {
+      expect(1).to.have.length.of.at.most(0, 'blah');
+    }, "blah: expected 1 to have a property 'length'");
   });
 
   it('match(regexp)', function(){
@@ -471,14 +579,62 @@ describe('expect', function () {
     err(function(){
       expect({foo: 'bar'}).to.be.empty;
     }, "expected { foo: \'bar\' } to be empty");
+
+    err(function(){
+      expect(null).to.be.empty;
+    }, "expected null to exist");
+
+    err(function(){
+      expect(undefined).to.be.empty;
+    }, "expected undefined to exist");
+
+    err(function(){
+      expect().to.be.empty;
+    }, "expected undefined to exist");
+
+    err(function(){
+      expect(null).to.not.be.empty;
+    }, "expected null to exist");
+
+    err(function(){
+      expect(undefined).to.not.be.empty;
+    }, "expected undefined to exist");
+
+    err(function(){
+      expect().to.not.be.empty;
+    }, "expected undefined to exist");
+    
   });
 
   it('NaN', function() {
     expect(NaN).to.be.NaN;
-    expect('foo').to.be.NaN;
-    expect({}).to.be.NaN;
+
+    expect(undefined).not.to.be.NaN;
+    expect(Infinity).not.to.be.NaN;
+    expect('foo').not.to.be.NaN;
+    expect({}).not.to.be.NaN;
     expect(4).not.to.be.NaN;
     expect([]).not.to.be.NaN;
+
+    err(function(){
+      expect(NaN).not.to.be.NaN;
+    }, "expected NaN not to be NaN");
+
+    err(function(){
+      expect(undefined).to.be.NaN;
+    }, "expected undefined to be NaN");
+
+    err(function(){
+      expect(Infinity).to.be.NaN;
+    }, "expected Infinity to be NaN");
+
+    err(function(){
+      expect('foo').to.be.NaN;
+    }, "expected 'foo' to be NaN");
+
+    err(function(){
+      expect({}).to.be.NaN;
+    }, "expected {} to be NaN");
 
     err(function(){
       expect(4).to.be.NaN;
@@ -487,10 +643,6 @@ describe('expect', function () {
     err(function(){
       expect([]).to.be.NaN;
     }, "expected [] to be NaN");
-
-    err(function(){
-      expect('foo').not.to.be.NaN;
-    }, "expected 'foo' not to be NaN");
   });
 
   it('finite', function() {
@@ -688,15 +840,85 @@ describe('expect', function () {
   it('ownProperty(name)', function(){
     expect('test').to.have.ownProperty('length');
     expect('test').to.haveOwnProperty('length');
+    expect('test').to.not.have.ownProperty('iDontExist');
+    expect('test').to.not.haveOwnProperty('iDontExist');
+
     expect({ length: 12 }).to.have.ownProperty('length');
+    expect({ length: 12 }).to.haveOwnProperty('length');
+    expect({ length: 12 }).to.not.have.ownProperty('iDontExist');
+    expect({ length: 12 }).to.not.haveOwnProperty('iDontExist');
+
+    // Chaining property's value
+    expect('test').to.have.ownProperty('length').that.is.a('number');
+    expect('test').to.haveOwnProperty('length').that.is.a('number');
+
+    err(function(){
+      expect({ length: 12 }).to.have.ownProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.not.have.ownProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      expect({ length: 12 }).to.haveOwnProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.not.haveOwnProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownProperty(name, value)', function(){
+    expect('test').to.have.ownProperty('length', 4);
+    expect('test').to.haveOwnProperty('length', 4);
+    expect('test').to.not.have.ownProperty('length', 1337);
+    expect('test').to.not.haveOwnProperty('length', 1337);
+
+    expect({ length: 12 }).to.have.ownProperty('length', 12);
+    expect({ length: 12 }).to.haveOwnProperty('length', 12);
+    expect({ length: 12 }).to.not.have.ownProperty('length', 15);
+    expect({ length: 12 }).to.not.haveOwnProperty('length', 15);
+
+    // Chaining property's value
+    expect('test').to.have.ownProperty('length', 4).that.is.a('number');
+    expect('test').to.haveOwnProperty('length', 4).that.is.a('number');
 
     var objNoProto = Object.create(null);
     objNoProto.a = 'a';
     expect(objNoProto).to.have.ownProperty('a');
 
     err(function(){
-      expect({ length: 12 }).to.not.have.ownProperty('length', 'blah');
-    }, "blah: expected { length: 12 } to not have own property 'length'");
+      expect({ length: 12 }).to.have.ownProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      expect({ length: 12 }).to.not.have.ownProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      expect({ length: 12 }).to.have.ownProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      expect({ length: 12 }).to.not.have.ownProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }).to.haveOwnProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      expect({ length: 12 }).to.not.haveOwnProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      expect({ length: 12 }).to.haveOwnProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function() {
+      expect({ length: 12 }).to.not.haveOwnProperty('iDontExist', 15);
+    }, "{ length: 12 } does not have own property 'iDontExist'");
   });
 
   it('ownPropertyDescriptor(name)', function(){

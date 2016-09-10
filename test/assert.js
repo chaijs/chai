@@ -233,6 +233,9 @@ describe('assert', function () {
     assert.deepEqual({tea: 'chai'}, {tea: 'chai'});
     assert.deepStrictEqual({tea: 'chai'}, {tea: 'chai'});  // Alias of deepEqual
 
+    assert.deepEqual([NaN], [NaN]);
+    assert.deepEqual({tea: NaN}, {tea: NaN});
+
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'});
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
@@ -329,7 +332,19 @@ describe('assert', function () {
   });
 
   it('isNaN', function() {
-    assert.isNaN('hello');
+    assert.isNaN(NaN);
+
+    err(function (){
+      assert.isNaN(Infinity);
+    }, "expected Infinity to be NaN");
+
+    err(function (){
+      assert.isNaN(undefined);
+    }, "expected undefined to be NaN");
+
+    err(function (){
+      assert.isNaN({});
+    }, "expected {} to be NaN");
 
     err(function (){
       assert.isNaN(4);
@@ -338,10 +353,13 @@ describe('assert', function () {
 
   it('isNotNaN', function() {
     assert.isNotNaN(4);
+    assert.isNotNaN(Infinity);
+    assert.isNotNaN(undefined);
+    assert.isNotNaN({});
 
     err(function (){
-      assert.isNotNaN('hello');
-    }, "expected 'hello' not to be NaN");
+      assert.isNotNaN(NaN);
+    }, "expected NaN not to be NaN");
   });
 
   it('exists', function() {
@@ -1141,6 +1159,53 @@ describe('assert', function () {
     }, "blah: expected { a: { b: { c: 1 } } } to not have a deep nested property 'a.b' of { c: 1 }");
   });
 
+  it('ownProperty', function() {
+    var coffeeObj = { coffee: 'is good' };
+
+    // This has length = 17
+    var teaObj = 'but tea is better';
+
+    assert.ownProperty(coffeeObj, 'coffee');
+    assert.ownProperty(teaObj, 'length');
+
+    assert.ownPropertyVal(coffeeObj, 'coffee', 'is good');
+    assert.ownPropertyVal(teaObj, 'length', 17);
+
+    assert.notOwnProperty(coffeeObj, 'length');
+    assert.notOwnProperty(teaObj, 'calories');
+
+    assert.notOwnPropertyVal(coffeeObj, 'coffee', 'is bad');
+    assert.notOwnPropertyVal(teaObj, 'length', 1);
+
+    err(function () {
+      assert.ownProperty(coffeeObj, 'calories');
+    }, "expected { coffee: 'is good' } to have own property 'calories'");
+
+    err(function () {
+      assert.notOwnProperty(coffeeObj, 'coffee');
+    }, "expected { coffee: 'is good' } to not have own property 'coffee'");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'length', 1);
+    }, "expected 'but tea is better' to have own property 'length' of 1, but got 17");
+
+    err(function () {
+      assert.notOwnPropertyVal(teaObj, 'length', 17);
+    }, "expected 'but tea is better' to not have own property 'length' of 17");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'calories', 17);
+    }, "expected 'but tea is better' to have own property 'calories'");
+
+    err(function () {
+      assert.ownPropertyVal(teaObj, 'calories', 17);
+    }, "expected 'but tea is better' to have own property 'calories'");
+
+    err(function () {
+      assert.notOwnPropertyVal(coffeeObj, 'sugar', 1337);
+    }, "{ coffee: 'is good' } does not have own property 'sugar'");
+  });
+
   it('throws / throw / Throw', function() {
     ['throws', 'throw', 'Throw'].forEach(function (throws) {
       assert[throws](function() { throw new Error('foo'); });
@@ -1611,6 +1676,14 @@ describe('assert', function () {
     err(function() {
       assert.isAbove(1, 1);
     }, 'expected 1 to be above 1');
+
+    err(function() {
+      assert.isAbove(null, 1);
+    }, 'expected null to be a number');
+
+    err(function() {
+      assert.isAbove(1, null);
+    }, 'the argument to above must be a number');
   });
 
   it('atLeast', function() {
@@ -1633,6 +1706,13 @@ describe('assert', function () {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
 
+    err(function() {
+      assert.isBelow(null, 1);
+    }, 'expected null to be a number');
+
+    err(function() {
+      assert.isBelow(1, null);
+    }, 'the argument to below must be a number');
   });
 
   it('atMost', function() {
@@ -1871,5 +1951,34 @@ describe('assert', function () {
         assert[isNotFrozen](undefined);
       }, 'expected undefined to not be frozen');
     });
+  });
+
+  it('showDiff true with actual and expected args', function() {
+    try {
+      new chai.Assertion().assert(
+          'one' === 'two'
+        , 'expected #{this} to equal #{exp}'
+        , 'expected #{this} to not equal #{act}'
+        , 'one'
+        , 'two'
+      );
+    } catch(e) {
+      assert.isTrue(e.showDiff);
+    }
+  });
+
+  it('showDiff false without expected and actual', function() {
+    try {
+      new chai.Assertion().assert(
+          'one' === 'two'
+        , 'expected #{this} to equal #{exp}'
+        , 'expected #{this} to not equal #{act}'
+        , 'one'
+        , 'two'
+        , false
+      );
+    } catch(e) {
+      assert.isFalse(e.showDiff);
+    }
   });
 });
