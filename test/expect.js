@@ -603,7 +603,7 @@ describe('expect', function () {
     err(function(){
       expect().to.not.be.empty;
     }, "expected undefined to exist");
-    
+
   });
 
   it('NaN', function() {
@@ -797,7 +797,7 @@ describe('expect', function () {
       expect(obj).to.not.have.deep.property('a', {b: 1}, 'blah');
     }, "blah: expected { a: { b: 1 } } to not have a deep property 'a' of { b: 1 }");
   });
-  
+
   it('nested.property(name, val)', function(){
     expect({ foo: { bar: 'baz' } })
       .to.have.nested.property('foo.bar', 'baz');
@@ -1182,7 +1182,7 @@ describe('expect', function () {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testMap = new Map();
-      
+
       testMap.set(aKey, 'aValue');
       testMap.set(anotherKey, 'anotherValue');
 
@@ -1209,7 +1209,7 @@ describe('expect', function () {
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
         , weirdMap = new Map();
-      
+
       weirdMap.set(weirdMapKey1, 'val1');
       weirdMap.set(weirdMapKey2, 'val2');
 
@@ -1221,7 +1221,7 @@ describe('expect', function () {
           , symMapKey2 = Symbol()
           , symMapKey3 = Symbol()
           , symMap = new Map();
-        
+
         symMap.set(symMapKey1, 'val1');
         symMap.set(symMapKey2, 'val2');
 
@@ -1262,7 +1262,7 @@ describe('expect', function () {
       var aKey = {thisIs: 'anExampleObject'}
         , anotherKey = {doingThisBecauseOf: 'referential equality'}
         , testSet = new Set();
-      
+
       testSet.add(aKey);
       testSet.add(anotherKey);
 
@@ -1289,7 +1289,7 @@ describe('expect', function () {
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []
         , weirdSet = new Set();
-      
+
       weirdSet.add(weirdSetKey1);
       weirdSet.add(weirdSetKey2);
 
@@ -1301,7 +1301,7 @@ describe('expect', function () {
           , symSetKey2 = Symbol()
           , symSetKey3 = Symbol()
           , symSet = new Set();
-        
+
         symSet.add(symSetKey1);
         symSet.add(symSetKey2);
 
@@ -1898,7 +1898,7 @@ describe('expect', function () {
   });
 
   it('increase, decrease', function() {
-    var obj = { value: 10 },
+    var obj = { value: 10, noop: null },
         arr = ['one', 'two'],
         pFn   = function() { arr.push('three') },
         popFn = function() { arr.pop() },
@@ -1931,6 +1931,13 @@ describe('expect', function () {
     expect(popFn).to.decrease(lenFn).but.not.by(2);
     expect(nFn).to.not.decrease(lenFn);
     expect(pFn).to.not.decrease(lenFn);
+
+    err(function() {
+      expect(incFn).to.increase(obj, 'noop');
+    }, 'expected null to be a number');
+    err(function() {
+      expect(incFn).to.decrease(obj, 'noop');
+    }, 'expected null to be a number');
   });
 
   it('extensible', function() {
