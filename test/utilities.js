@@ -543,6 +543,55 @@ describe('utilities', function () {
         }
       }
     });
+
+    it('should return new assertion with flags copied over', function() {
+      var assertionConstructor;
+
+      chai.use(function (_chai, utils) {
+        assertionConstructor = _chai.Assertion;
+
+        _chai.Assertion.addProperty('foo');
+
+        _chai.Assertion.overwriteProperty('foo', function (_super) {
+          return function blah () {
+            utils.flag(this, 'mySpecificFlag', 'value1');
+            utils.flag(this, 'ultraSpecificFlag', 'value2');
+            _super.call(this);
+          };
+        });
+
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
+      });
+
+      var assertion1 = expect('foo');
+      var assertion2 = assertion1.is.foo;
+
+      // Checking if a new assertion was returned
+      expect(assertion1).to.not.be.equal(assertion2);
+
+      // Check if flags were copied
+      assertion2.checkFlags();
+
+      // If it is, calling length on it should return an assertion, not a function
+      expect([1, 2, 3]).to.be.an.foo.length.below(1000);
+
+      // Checking if it's really an instance of an Assertion
+      expect(assertion2).to.be.instanceOf(assertionConstructor);
+
+      // Test chaining `.length` after a property to guarantee it is not a function's `length`
+      expect([1, 2, 3]).to.be.a.foo.with.length.above(2);
+      expect([1, 2, 3]).to.be.an.instanceOf(Array).and.have.length.below(4);
+
+      expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
+      expect(expect([1, 2, 3]).foo).to.be.an.instanceOf(assertionConstructor);
+    });
   });
 
   it('getMessage', function () {
