@@ -206,8 +206,8 @@ describe('configuration', function () {
       }
     };
 
-    it('should have default value equal to `[\'then\', \'inspect\']`', function() {
-      expect(chai.config.proxyExcludedKeys).to.be.deep.equal(['then', 'inspect']);
+    it('should have default value equal to `[\'then\', \'inspect\', \'toJSON\']`', function() {
+      expect(chai.config.proxyExcludedKeys).to.be.deep.equal(['then', 'inspect', 'toJSON']);
     });
 
     it('should not throw when accessing non-existing `then` and `inspect` in an environment with proxy support', function() {
