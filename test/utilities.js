@@ -849,6 +849,52 @@ describe('utilities', function () {
     })
   });
 
+  it('addChainableMethod should return a new assertion with flags copied over', function () {
+    var assertionConstructor = chai.Assertion;
+
+    chai.use(function(_chai, utils) {
+      assertionConstructor = _chai.Assertion;
+      _chai.Assertion.addChainableMethod('foo', function(str) {
+        utils.flag(this, 'mySpecificFlag', 'value1');
+        utils.flag(this, 'ultraSpecificFlag', 'value2');
+
+        var obj = utils.flag(this, 'object');
+        new _chai.Assertion(obj).to.be.equal(str);
+      });
+
+      _chai.Assertion.addMethod('checkFlags', function() {
+        this.assert(
+            utils.flag(this, 'mySpecificFlag') === 'value1' &&
+            utils.flag(this, 'ultraSpecificFlag') === 'value2'
+          , 'expected assertion to have specific flags'
+          , "this doesn't matter"
+        );
+      });
+    });
+
+    chai.config.proxyExcludedKeys.push('nodeType');
+
+    var assertion1 = expect('bar');
+    var assertion2 = assertion1.foo('bar');
+
+    // Checking if a new assertion was returned
+    expect(assertion1).to.not.be.equal(assertion2);
+
+    // Check if flags were copied
+    assertion2.checkFlags();
+
+    // Checking if it's really an instance of an Assertion
+    expect(assertion2).to.be.instanceOf(assertionConstructor);
+
+    // Test chaining `.length` after a method to guarantee it is not a function's `length`
+    expect('bar').to.be.a.foo('bar').length.above(2);
+
+    // Ensure that foo returns an Assertion (not a function)
+    expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
+
+    delete chai.Assertion.prototype.foo;
+  });
+
   it('overwriteChainableMethod', function () {
     chai.use(function (_chai, _) {
       _chai.Assertion.overwriteChainableMethod('x',
