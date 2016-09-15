@@ -917,57 +917,106 @@ describe('utilities', function () {
     delete chai.Assertion.prototype.checkFlags;
   });
 
-  it('overwriteChainableMethod', function () {
-    chai.use(function (_chai, _) {
-      _chai.Assertion.addChainableMethod('x',
-        function () {
-          new chai.Assertion(this._obj).to.be.equal('x');
-        }
-      , function () {
-          this._obj = this._obj || {};
-          this._obj.__x = 'X!'
-        }
-      );
+  describe('overwriteChainableMethod', function() {
+    var assertionConstructor;
+    var utils;
 
-      _chai.Assertion.overwriteChainableMethod('x',
-        function(_super) {
-          return function() {
-            if (_.flag(this, 'marked')) {
-              new chai.Assertion(this._obj).to.be.equal('spot');
-            } else {
+    before(function() {
+      chai.use(function (_chai, _utils) {
+        assertionConstructor = _chai.Assertion;
+        utils = _utils;
+
+        _chai.Assertion.addChainableMethod('x',
+          function () {
+            new chai.Assertion(this._obj).to.be.equal('x');
+          }
+        , function () {
+            this._obj = this._obj || {};
+            this._obj.__x = 'X!'
+          }
+        );
+
+        _chai.Assertion.overwriteChainableMethod('x',
+          function(_super) {
+            return function() {
+              utils.flag(this, 'mySpecificFlag', 'value1');
+              utils.flag(this, 'ultraSpecificFlag', 'value2');
+
+              if (utils.flag(this, 'marked')) {
+                new chai.Assertion(this._obj).to.be.equal('spot');
+              } else {
+                _super.apply(this, arguments);
+              }
+            };
+          }
+        , function(_super) {
+            return function() {
+              utils.flag(this, 'message', 'x marks the spot');
               _super.apply(this, arguments);
-            }
-          };
-        }
-      , function(_super) {
-          return function() {
-            _.flag(this, 'message', 'x marks the spot');
-            _super.apply(this, arguments);
-          };
-        }
-      );
+            };
+          }
+        );
 
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2' &&
+              utils.flag(this, 'message') === 'x marks the spot'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
+      });
+    });
+
+    after(function() {
+      delete chai.Assertion.prototype.x;
+      delete chai.Assertion.prototype.checkFlags;
+    });
+
+    it('overwriteChainableMethod', function () {
       // Make sure the original behavior of 'x' remains the same
       expect('foo').x.to.equal("foo");
       expect("x").x();
       expect(function () {
         expect("foo").x();
-      }).to.throw(_chai.AssertionError);
+      }).to.throw(chai.AssertionError);
       var obj = {};
       expect(obj).x.to.be.ok;
       expect(obj).to.have.property('__x', 'X!');
 
       // Test the new behavior of 'x'
       var assertion = expect('foo').x.to.be.ok;
-      expect(_.flag(assertion, 'message')).to.equal('x marks the spot');
+      expect(utils.flag(assertion, 'message')).to.equal('x marks the spot');
       expect(function () {
         var assertion = expect('x');
-        _.flag(assertion, 'marked', true);
+        utils.flag(assertion, 'marked', true);
         assertion.x()
-      }).to.throw(_chai.AssertionError);
+      }).to.throw(chai.AssertionError);
     });
 
-    delete chai.Assertion.prototype.x;
+    it('should return a new assertion with flags copied over', function () {
+      var assertion1 = expect('x');
+      var assertion2 = assertion1.x();
+
+      chai.config.proxyExcludedKeys.push('nodeType');
+
+      // Checking if a new assertion was returned
+      expect(assertion1).to.not.be.equal(assertion2);
+
+      // Check if flags were copied
+      assertion2.checkFlags();
+
+      // Checking if it's really an instance of an Assertion
+      expect(assertion2).to.be.instanceOf(assertionConstructor);
+
+      // Test chaining `.length` after a method to guarantee it is not a function's `length`
+      expect('x').to.be.x().length.above(0);
+
+      // Ensure that foo returns an Assertion (not a function)
+      expect(expect('x').x()).to.be.an.instanceOf(assertionConstructor);
+      expect(expect('x').x).to.be.an.instanceOf(assertionConstructor);
+    });
   });
 
   it('compareByInspect', function () {
