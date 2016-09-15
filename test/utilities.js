@@ -230,6 +230,8 @@ describe('utilities', function () {
     });
 
     expect(expect('foo').result()).to.equal('result');
+
+    delete chai.Assertion.prototype.result;
   });
 
   it('addMethod returns new assertion with flags copied over', function () {
@@ -273,6 +275,9 @@ describe('utilities', function () {
 
     var anotherAssertion = expect([1, 2, 3]).to.have.a.lengthOf(3).and.to.be.ok;
     expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
+
+    delete chai.Assertion.prototype.returnNewAssertion;
+    delete chai.Assertion.prototype.checkFlags;
   });
 
   it('overwriteMethod', function () {
@@ -288,7 +293,6 @@ describe('utilities', function () {
           }
         };
       });
-
     });
 
     var vege = expect('cucumber').to.eqqqual('cucumber');
@@ -379,6 +383,7 @@ describe('utilities', function () {
 
     after(function() {
       delete chai.Assertion.prototype.four;
+      delete chai.Assertion.prototype.checkFlags;
     });
 
     it('calling _super has correct stack trace', function() {
@@ -439,6 +444,8 @@ describe('utilities', function () {
 
     var assert = expect('chai').to.be.tea;
     expect(assert.__flags.tea).to.equal('chai');
+
+    delete chai.Assertion.prototype.tea;
   });
 
   it('addProperty returns a new assertion with flags copied over', function () {
@@ -482,6 +489,9 @@ describe('utilities', function () {
 
     expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
     expect(expect([1, 2, 3]).thing).to.be.an.instanceOf(assertionConstructor);
+
+    delete chai.Assertion.prototype.thing;
+    delete chai.Assertion.prototype.checkFlags;
   });
 
   it('addProperty returning result', function () {
@@ -492,11 +502,16 @@ describe('utilities', function () {
     });
 
     expect(expect('foo').result).to.equal('result');
+
+    delete chai.Assertion.prototype.result;
   });
 
   it('overwriteProperty', function () {
     chai.use(function (_chai, _) {
-      expect(new chai.Assertion()).to.have.property('tea');
+      _chai.Assertion.addProperty('tea', function () {
+        _.flag(this, 'tea', 'chai');
+      });
+
       _chai.Assertion.overwriteProperty('tea', function (_super) {
         return function () {
           var act = _.flag(this, 'object');
@@ -513,6 +528,8 @@ describe('utilities', function () {
     expect(matcha.__flags.tea).to.equal('matcha');
     var assert = expect('something').to.be.tea;
     expect(assert.__flags.tea).to.equal('chai');
+
+    delete chai.Assertion.prototype.tea;
   });
 
   it('overwriteProperty returning result', function () {
@@ -525,6 +542,8 @@ describe('utilities', function () {
     });
 
     expect(expect('foo').result).to.equal('result');
+
+    delete chai.Assertion.prototype.result;
   });
 
   describe('overwriteProperty', function () {
@@ -847,6 +866,8 @@ describe('utilities', function () {
       expect(obj).x.to.be.ok;
       expect(obj).to.have.property('__x', 'X!');
     })
+
+    delete chai.Assertion.prototype.x;
   });
 
   it('addChainableMethod should return a new assertion with flags copied over', function () {
@@ -893,10 +914,21 @@ describe('utilities', function () {
     expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
 
     delete chai.Assertion.prototype.foo;
+    delete chai.Assertion.prototype.checkFlags;
   });
 
   it('overwriteChainableMethod', function () {
     chai.use(function (_chai, _) {
+      _chai.Assertion.addChainableMethod('x',
+        function () {
+          new chai.Assertion(this._obj).to.be.equal('x');
+        }
+      , function () {
+          this._obj = this._obj || {};
+          this._obj.__x = 'X!'
+        }
+      );
+
       _chai.Assertion.overwriteChainableMethod('x',
         function(_super) {
           return function() {
@@ -934,6 +966,8 @@ describe('utilities', function () {
         assertion.x()
       }).to.throw(_chai.AssertionError);
     });
+
+    delete chai.Assertion.prototype.x;
   });
 
   it('compareByInspect', function () {
