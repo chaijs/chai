@@ -209,139 +209,80 @@ describe('utilities', function () {
     });
   });
 
-  it('addMethod', function () {
-    chai.use(function(_chai, utils) {
-      expect(_chai.Assertion).to.not.respondTo('eqqqual');
-      _chai.Assertion.addMethod('eqqqual', function (str) {
-        var object = utils.flag(this, 'object');
-        new _chai.Assertion(object).to.be.eql(str);
-      });
-      expect(_chai.Assertion).to.respondTo('eqqqual');
-    });
-
-    expect('spec').to.eqqqual('spec');
-  });
-
-  it('addMethod returning result', function () {
-    chai.use(function(_chai, utils) {
-      _chai.Assertion.addMethod('result', function () {
-        return 'result';
-      })
-    });
-
-    expect(expect('foo').result()).to.equal('result');
-
-    delete chai.Assertion.prototype.result;
-  });
-
-  it('addMethod returns new assertion with flags copied over', function () {
+  describe('addMethod', function() {
     var assertionConstructor;
 
-    chai.use(function(_chai, utils) {
-      assertionConstructor = _chai.Assertion;
-      _chai.Assertion.addMethod('returnNewAssertion', function () {
-        utils.flag(this, 'mySpecificFlag', 'value1');
-        utils.flag(this, 'ultraSpecificFlag', 'value2');
-      });
+    before(function() {
+      chai.use(function(_chai, utils) {
+        assertionConstructor = _chai.Assertion;
 
-      _chai.Assertion.addMethod('checkFlags', function() {
-        this.assert(
-            utils.flag(this, 'mySpecificFlag') === 'value1' &&
-            utils.flag(this, 'ultraSpecificFlag') === 'value2'
-          , 'expected assertion to have specific flags'
-          , "this doesn't matter"
-        );
-      });
-    });
+        expect(_chai.Assertion).to.not.respondTo('eqqqual');
+        _chai.Assertion.addMethod('eqqqual', function (str) {
+          var object = utils.flag(this, 'object');
+          new _chai.Assertion(object).to.be.eql(str);
+        });
 
-    assertion1 = expect('foo');
-    assertion2 = assertion1.to.returnNewAssertion();
-
-    // Checking if a new assertion was returned
-    expect(assertion1).to.not.be.equal(assertion2);
-
-    // Check if flags were copied
-    assertion2.checkFlags();
-
-    // Checking if it's really an instance of an Assertion
-    expect(assertion2).to.be.instanceOf(assertionConstructor);
-
-    // Test chaining `.length` after a method to guarantee it's not a function's
-    // `length`. Note: 'instanceof' cannot be used here because the test will
-    // fail in IE 10 due to how addChainableMethod works without __proto__
-    // support. Therefore, test the constructor property of length instead.
-    var anAssertion = expect([1, 2, 3]).to.be.an.instanceof(Array);
-    expect(anAssertion.length.constructor).to.equal(assertionConstructor);
-
-    var anotherAssertion = expect([1, 2, 3]).to.have.a.lengthOf(3).and.to.be.ok;
-    expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
-
-    delete chai.Assertion.prototype.returnNewAssertion;
-    delete chai.Assertion.prototype.checkFlags;
-  });
-
-  it('overwriteMethod', function () {
-    chai.use(function (_chai, _) {
-      expect(_chai.Assertion).to.respondTo('eqqqual');
-      _chai.Assertion.overwriteMethod('eqqqual', function (_super) {
-        return function (str) {
-          var object = _.flag(this, 'object');
-          if (object == 'cucumber' && str == 'cuke') {
-            _.flag(this, 'cucumber', true);
-          } else {
-            _super.apply(this, arguments);
-          }
-        };
-      });
-    });
-
-    var vege = expect('cucumber').to.eqqqual('cucumber');
-    expect(vege.__flags).to.not.have.property('cucumber');
-    var cuke = expect('cucumber').to.eqqqual('cuke');
-    expect(cuke.__flags).to.have.property('cucumber');
-
-    chai.use(function (_chai, _) {
-      expect(_chai.Assertion).to.not.respondTo('doesnotexist');
-      _chai.Assertion.overwriteMethod('doesnotexist', function (_super) {
-        expect(_super).to.be.a('function');
-        return function () {
-          _.flag(this, 'doesnt', true);
-        }
-      });
-    });
-
-    var dne = expect('something').to.doesnotexist();
-    expect(dne.__flags).to.have.property('doesnt');
-
-    chai.use(function (_chai, _) {
-      expect(_chai.Assertion).to.not.respondTo('doesnotexistfail');
-      _chai.Assertion.overwriteMethod('doesnotexistfail', function (_super) {
-        expect(_super).to.be.a('function');
-        return function () {
-          _.flag(this, 'doesnt', true);
-          _super.apply(this, arguments);
-        }
-      });
-    });
-
-    var dneFail = expect('something');
-    var dneError;
-    try { dneFail.doesnotexistfail(); }
-    catch (e) { dneError = e; }
-    expect(dneFail.__flags).to.have.property('doesnt');
-    expect(dneError.message).to.eql('doesnotexistfail is not a function');
-  });
-
-  it('overwriteMethod returning result', function () {
-    chai.use(function (_chai, _) {
-      _chai.Assertion.overwriteMethod('result', function (_super) {
-        return function () {
+        _chai.Assertion.addMethod('result', function () {
           return 'result';
-        }
+        })
+
+        _chai.Assertion.addMethod('returnNewAssertion', function () {
+          utils.flag(this, 'mySpecificFlag', 'value1');
+          utils.flag(this, 'ultraSpecificFlag', 'value2');
+        });
+
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
       });
     });
 
-    expect(expect('foo').result()).to.equal('result');
+    after(function() {
+      delete chai.Assertion.prototype.eqqqual;
+
+      delete chai.Assertion.prototype.result;
+
+      delete chai.Assertion.prototype.returnNewAssertion;
+      delete chai.Assertion.prototype.checkFlags;
+    });
+
+    it('addMethod', function () {
+      expect(chai.Assertion).to.respondTo('eqqqual');
+      expect('spec').to.eqqqual('spec');
+    });
+
+    it('addMethod returning result', function () {
+      expect(expect('foo').result()).to.equal('result');
+    });
+
+    it('addMethod returns new assertion with flags copied over', function () {
+      assertion1 = expect('foo');
+      assertion2 = assertion1.to.returnNewAssertion();
+
+      // Checking if a new assertion was returned
+      expect(assertion1).to.not.be.equal(assertion2);
+
+      // Check if flags were copied
+      assertion2.checkFlags();
+
+      // Checking if it's really an instance of an Assertion
+      expect(assertion2).to.be.instanceOf(assertionConstructor);
+
+      // Test chaining `.length` after a method to guarantee it's not a function's
+      // `length`. Note: 'instanceof' cannot be used here because the test will
+      // fail in IE 10 due to how addChainableMethod works without __proto__
+      // support. Therefore, test the constructor property of length instead.
+      var anAssertion = expect([1, 2, 3]).to.be.an.instanceof(Array);
+      expect(anAssertion.length.constructor).to.equal(assertionConstructor);
+
+      var anotherAssertion = expect([1, 2, 3]).to.have.a.lengthOf(3).and.to.be.ok;
+      expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
+    });
   });
 
   describe('overwriteMethod', function () {
@@ -384,6 +325,77 @@ describe('utilities', function () {
     after(function() {
       delete chai.Assertion.prototype.four;
       delete chai.Assertion.prototype.checkFlags;
+      delete chai.Assertion.prototype.eqqqual;
+      delete chai.Assertion.prototype.doesnotexist;
+      delete chai.Assertion.prototype.doesnotexistfail;
+    });
+
+    it('overwriteMethod', function () {
+      chai.use(function (_chai, utils) {
+        _chai.Assertion.addMethod('eqqqual', function (str) {
+          var object = utils.flag(this, 'object');
+          new _chai.Assertion(object).to.be.eql(str);
+        });
+
+        _chai.Assertion.overwriteMethod('eqqqual', function (_super) {
+          return function (str) {
+            var object = utils.flag(this, 'object');
+            if (object == 'cucumber' && str == 'cuke') {
+              utils.flag(this, 'cucumber', true);
+            } else {
+              _super.apply(this, arguments);
+            }
+          };
+        });
+      });
+
+      var vege = expect('cucumber').to.eqqqual('cucumber');
+      expect(vege.__flags).to.not.have.property('cucumber');
+      var cuke = expect('cucumber').to.eqqqual('cuke');
+      expect(cuke.__flags).to.have.property('cucumber');
+
+      chai.use(function (_chai, _) {
+        expect(_chai.Assertion).to.not.respondTo('doesnotexist');
+        _chai.Assertion.overwriteMethod('doesnotexist', function (_super) {
+          expect(_super).to.be.a('function');
+          return function () {
+            _.flag(this, 'doesnt', true);
+          }
+        });
+      });
+
+      var dne = expect('something').to.doesnotexist();
+      expect(dne.__flags).to.have.property('doesnt');
+
+      chai.use(function (_chai, _) {
+        expect(_chai.Assertion).to.not.respondTo('doesnotexistfail');
+        _chai.Assertion.overwriteMethod('doesnotexistfail', function (_super) {
+          expect(_super).to.be.a('function');
+          return function () {
+            _.flag(this, 'doesnt', true);
+            _super.apply(this, arguments);
+          }
+        });
+      });
+
+      var dneFail = expect('something');
+      var dneError;
+      try { dneFail.doesnotexistfail(); }
+      catch (e) { dneError = e; }
+      expect(dneFail.__flags).to.have.property('doesnt');
+      expect(dneError.message).to.eql('doesnotexistfail is not a function');
+    });
+
+    it('overwriteMethod returning result', function () {
+      chai.use(function (_chai, _) {
+        _chai.Assertion.overwriteMethod('result', function (_super) {
+          return function () {
+            return 'result';
+          }
+        });
+      });
+
+      expect(expect('foo').result()).to.equal('result');
     });
 
     it('calling _super has correct stack trace', function() {
@@ -435,122 +447,108 @@ describe('utilities', function () {
     });
   });
 
-  it('addProperty', function () {
-    chai.use(function (_chai, _) {
-      _chai.Assertion.addProperty('tea', function () {
-        _.flag(this, 'tea', 'chai');
-      });
-    });
-
-    var assert = expect('chai').to.be.tea;
-    expect(assert.__flags.tea).to.equal('chai');
-
-    delete chai.Assertion.prototype.tea;
-  });
-
-  it('addProperty returns a new assertion with flags copied over', function () {
+  describe('addProperty', function() {
     var assertionConstructor = chai.Assertion;
 
-    chai.use(function(_chai, utils) {
-      assertionConstructor = _chai.Assertion;
-      _chai.Assertion.addProperty('thing', function () {
-        utils.flag(this, 'mySpecificFlag', 'value1');
-        utils.flag(this, 'ultraSpecificFlag', 'value2');
-      });
+    before(function() {
+      chai.use(function (_chai, utils) {
+        assertionConstructor = _chai.Assertion;
 
-      _chai.Assertion.addMethod('checkFlags', function() {
-        this.assert(
-            utils.flag(this, 'mySpecificFlag') === 'value1' &&
-            utils.flag(this, 'ultraSpecificFlag') === 'value2'
-          , 'expected assertion to have specific flags'
-          , "this doesn't matter"
-        );
-      });
-    });
+        _chai.Assertion.addProperty('tea', function () {
+          utils.flag(this, 'tea', 'chai');
+        });
 
-    assertion1 = expect('foo');
-    assertion2 = assertion1.is.thing;
-
-    // Checking if a new assertion was returned
-    expect(assertion1).to.not.be.equal(assertion2);
-
-    // Check if flags were copied
-    assertion2.checkFlags();
-
-    // If it is, calling length on it should return an assertion, not a function
-    expect([1, 2, 3]).to.be.an.instanceof(Array);
-
-    // Checking if it's really an instance of an Assertion
-    expect(assertion2).to.be.instanceOf(assertionConstructor);
-
-    // Test chaining `.length` after a property to guarantee it is not a function's `length`
-    expect([1, 2, 3]).to.be.a.thing.with.length.above(2);
-    expect([1, 2, 3]).to.be.an.instanceOf(Array).and.have.length.below(4);
-
-    expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
-    expect(expect([1, 2, 3]).thing).to.be.an.instanceOf(assertionConstructor);
-
-    delete chai.Assertion.prototype.thing;
-    delete chai.Assertion.prototype.checkFlags;
-  });
-
-  it('addProperty returning result', function () {
-    chai.use(function(_chai, _) {
-      _chai.Assertion.addProperty('result', function () {
-        return 'result';
-      })
-    });
-
-    expect(expect('foo').result).to.equal('result');
-
-    delete chai.Assertion.prototype.result;
-  });
-
-  it('overwriteProperty', function () {
-    chai.use(function (_chai, _) {
-      _chai.Assertion.addProperty('tea', function () {
-        _.flag(this, 'tea', 'chai');
-      });
-
-      _chai.Assertion.overwriteProperty('tea', function (_super) {
-        return function () {
-          var act = _.flag(this, 'object');
-          if (act === 'matcha') {
-            _.flag(this, 'tea', 'matcha');
-          } else {
-            _super.call(this);
-          }
-        }
-      });
-    });
-
-    var matcha = expect('matcha').to.be.tea;
-    expect(matcha.__flags.tea).to.equal('matcha');
-    var assert = expect('something').to.be.tea;
-    expect(assert.__flags.tea).to.equal('chai');
-
-    delete chai.Assertion.prototype.tea;
-  });
-
-  it('overwriteProperty returning result', function () {
-    chai.use(function(_chai, _) {
-      _chai.Assertion.overwriteProperty('result', function (_super) {
-        return function () {
+        _chai.Assertion.addProperty('result', function () {
           return 'result';
-        }
+        })
+
+        _chai.Assertion.addProperty('thing', function () {
+          utils.flag(this, 'mySpecificFlag', 'value1');
+          utils.flag(this, 'ultraSpecificFlag', 'value2');
+        });
+
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
       });
     });
 
-    expect(expect('foo').result).to.equal('result');
+    after(function() {
+      delete chai.Assertion.prototype.tea;
+      delete chai.Assertion.prototype.thing;
+      delete chai.Assertion.prototype.checkFlags;
+      delete chai.Assertion.prototype.result;
+    });
 
-    delete chai.Assertion.prototype.result;
+    it('addProperty', function () {
+      var assert = expect('chai').to.be.tea;
+      expect(assert.__flags.tea).to.equal('chai');
+    });
+
+    it('addProperty returning result', function () {
+      expect(expect('foo').result).to.equal('result');
+    });
+
+    it('addProperty returns a new assertion with flags copied over', function () {
+      assertion1 = expect('foo');
+      assertion2 = assertion1.is.thing;
+
+      // Checking if a new assertion was returned
+      expect(assertion1).to.not.be.equal(assertion2);
+
+      // Check if flags were copied
+      assertion2.checkFlags();
+
+      // If it is, calling length on it should return an assertion, not a function
+      expect([1, 2, 3]).to.be.an.instanceof(Array);
+
+      // Checking if it's really an instance of an Assertion
+      expect(assertion2).to.be.instanceOf(assertionConstructor);
+
+      // Test chaining `.length` after a property to guarantee it is not a function's `length`
+      expect([1, 2, 3]).to.be.a.thing.with.length.above(2);
+      expect([1, 2, 3]).to.be.an.instanceOf(Array).and.have.length.below(4);
+
+      expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
+      expect(expect([1, 2, 3]).thing).to.be.an.instanceOf(assertionConstructor);
+    });
   });
 
   describe('overwriteProperty', function () {
+    var assertionConstructor;
+
     before(function() {
       chai.config.includeStack = false;
 
-      chai.use(function(_chai, _) {
+      chai.use(function(_chai, utils) {
+        assertionConstructor = _chai.Assertion;
+
+        _chai.Assertion.addProperty('tea', function () {
+          utils.flag(this, 'tea', 'chai');
+        });
+
+        _chai.Assertion.overwriteProperty('tea', function (_super) {
+          return function () {
+            var act = utils.flag(this, 'object');
+            if (act === 'matcha') {
+              utils.flag(this, 'tea', 'matcha');
+            } else {
+              _super.call(this);
+            }
+          }
+        });
+
+        _chai.Assertion.overwriteProperty('result', function (_super) {
+          return function () {
+            return 'result';
+          }
+        });
+
         _chai.Assertion.addProperty('four', function() {
           this.assert(this._obj === 4, 'expected #{this} to be 4', 'expected #{this} to not be 4', 4);
         });
@@ -564,11 +562,45 @@ describe('utilities', function () {
             }
           }
         });
+
+        _chai.Assertion.addProperty('foo');
+
+        _chai.Assertion.overwriteProperty('foo', function (_super) {
+          return function blah () {
+            utils.flag(this, 'mySpecificFlag', 'value1');
+            utils.flag(this, 'ultraSpecificFlag', 'value2');
+            _super.call(this);
+          };
+        });
+
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
       });
     });
 
     after(function() {
+      delete chai.Assertion.prototype.tea;
       delete chai.Assertion.prototype.four;
+      delete chai.Assertion.prototype.result;
+      delete chai.Assertion.prototype.foo;
+      delete chai.Assertion.prototype.checkFlags
+    });
+
+    it('overwriteProperty', function () {
+      var matcha = expect('matcha').to.be.tea;
+      expect(matcha.__flags.tea).to.equal('matcha');
+      var assert = expect('something').to.be.tea;
+      expect(assert.__flags.tea).to.equal('chai');
+    });
+
+    it('overwriteProperty returning result', function () {
+      expect(expect('foo').result).to.equal('result');
     });
 
     it('calling _super has correct stack trace', function() {
@@ -600,31 +632,6 @@ describe('utilities', function () {
     });
 
     it('should return new assertion with flags copied over', function() {
-      var assertionConstructor;
-
-      chai.use(function (_chai, utils) {
-        assertionConstructor = _chai.Assertion;
-
-        _chai.Assertion.addProperty('foo');
-
-        _chai.Assertion.overwriteProperty('foo', function (_super) {
-          return function blah () {
-            utils.flag(this, 'mySpecificFlag', 'value1');
-            utils.flag(this, 'ultraSpecificFlag', 'value2');
-            _super.call(this);
-          };
-        });
-
-        _chai.Assertion.addMethod('checkFlags', function() {
-          this.assert(
-              utils.flag(this, 'mySpecificFlag') === 'value1' &&
-              utils.flag(this, 'ultraSpecificFlag') === 'value2'
-            , 'expected assertion to have specific flags'
-            , "this doesn't matter"
-          );
-        });
-      });
-
       var assertion1 = expect('foo');
       var assertion2 = assertion1.is.foo;
 
@@ -835,24 +842,55 @@ describe('utilities', function () {
     });
   });
 
-  it('addChainableMethod', function () {
-    chai.use(function (_chai, _) {
-      _chai.Assertion.addChainableMethod('x',
-        function () {
-          new chai.Assertion(this._obj).to.be.equal('x');
-        }
-      , function () {
-          this._obj = this._obj || {};
-          this._obj.__x = 'X!'
-        }
-      );
+  describe('addChainableMethod', function() {
+    var assertionConstructor;
 
+    before(function() {
+      chai.use(function (_chai, utils) {
+        assertionConstructor = _chai.Assertion;
+
+        _chai.Assertion.addChainableMethod('x',
+          function () {
+            new chai.Assertion(this._obj).to.be.equal('x');
+          }
+        , function () {
+            this._obj = this._obj || {};
+            this._obj.__x = 'X!'
+          }
+        );
+
+        _chai.Assertion.addChainableMethod('foo', function(str) {
+          utils.flag(this, 'mySpecificFlag', 'value1');
+          utils.flag(this, 'ultraSpecificFlag', 'value2');
+
+          var obj = utils.flag(this, 'object');
+          new _chai.Assertion(obj).to.be.equal(str);
+        });
+
+        _chai.Assertion.addMethod('checkFlags', function() {
+          this.assert(
+              utils.flag(this, 'mySpecificFlag') === 'value1' &&
+              utils.flag(this, 'ultraSpecificFlag') === 'value2'
+            , 'expected assertion to have specific flags'
+            , "this doesn't matter"
+          );
+        });
+      });
+    });
+
+    after(function() {
+      delete chai.Assertion.prototype.x;
+      delete chai.Assertion.prototype.foo;
+      delete chai.Assertion.prototype.checkFlags;
+    });
+
+    it('addChainableMethod', function () {
       expect("foo").x.to.equal("foo");
       expect("x").x();
 
       expect(function () {
         expect("foo").x();
-      }).to.throw(_chai.AssertionError);
+      }).to.throw(chai.AssertionError);
 
       // Verify whether the original Function properties are present.
       // see https://github.com/chaijs/chai/commit/514dd6ce4#commitcomment-2593383
@@ -865,56 +903,29 @@ describe('utilities', function () {
       var obj = {};
       expect(obj).x.to.be.ok;
       expect(obj).to.have.property('__x', 'X!');
-    })
-
-    delete chai.Assertion.prototype.x;
-  });
-
-  it('addChainableMethod should return a new assertion with flags copied over', function () {
-    var assertionConstructor = chai.Assertion;
-
-    chai.use(function(_chai, utils) {
-      assertionConstructor = _chai.Assertion;
-      _chai.Assertion.addChainableMethod('foo', function(str) {
-        utils.flag(this, 'mySpecificFlag', 'value1');
-        utils.flag(this, 'ultraSpecificFlag', 'value2');
-
-        var obj = utils.flag(this, 'object');
-        new _chai.Assertion(obj).to.be.equal(str);
-      });
-
-      _chai.Assertion.addMethod('checkFlags', function() {
-        this.assert(
-            utils.flag(this, 'mySpecificFlag') === 'value1' &&
-            utils.flag(this, 'ultraSpecificFlag') === 'value2'
-          , 'expected assertion to have specific flags'
-          , "this doesn't matter"
-        );
-      });
     });
 
-    chai.config.proxyExcludedKeys.push('nodeType');
+    it('addChainableMethod should return a new assertion with flags copied over', function () {
+      chai.config.proxyExcludedKeys.push('nodeType');
 
-    var assertion1 = expect('bar');
-    var assertion2 = assertion1.foo('bar');
+      var assertion1 = expect('bar');
+      var assertion2 = assertion1.foo('bar');
 
-    // Checking if a new assertion was returned
-    expect(assertion1).to.not.be.equal(assertion2);
+      // Checking if a new assertion was returned
+      expect(assertion1).to.not.be.equal(assertion2);
 
-    // Check if flags were copied
-    assertion2.checkFlags();
+      // Check if flags were copied
+      assertion2.checkFlags();
 
-    // Checking if it's really an instance of an Assertion
-    expect(assertion2).to.be.instanceOf(assertionConstructor);
+      // Checking if it's really an instance of an Assertion
+      expect(assertion2).to.be.instanceOf(assertionConstructor);
 
-    // Test chaining `.length` after a method to guarantee it is not a function's `length`
-    expect('bar').to.be.a.foo('bar').length.above(2);
+      // Test chaining `.length` after a method to guarantee it is not a function's `length`
+      expect('bar').to.be.a.foo('bar').length.above(2);
 
-    // Ensure that foo returns an Assertion (not a function)
-    expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
-
-    delete chai.Assertion.prototype.foo;
-    delete chai.Assertion.prototype.checkFlags;
+      // Ensure that foo returns an Assertion (not a function)
+      expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
+    });
   });
 
   describe('overwriteChainableMethod', function() {
