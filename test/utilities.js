@@ -819,6 +819,17 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect an assertion', function () {
+    chai.use(function (_chai, _) {
+      var assertion = expect(1);
+      var anInspectFn = function() {
+        return _.inspect(assertion);
+      };
+
+      expect(anInspectFn).to.not.throw();
+    });
+  });
+
   it('truncate long TypedArray', function () {
     chai.use(function (_chai, _) {
 
