@@ -1303,6 +1303,47 @@ describe('expect', function () {
       expect(testMap).to.not.have.any.keys([20, 1, {13: 37}]);
       expect(testMap).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
+      // Ensure the assertions above use strict equality
+      err(function() {
+        expect(testMap).to.have.any.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        expect(testMap).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+      });
+
+      err(function() {
+        expect(testMap).to.contain.all.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        expect(testMap).to.have.any.keys([{thisIs: 'anExampleObject'}]);
+      });
+
+      err(function() {
+        expect(testMap).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+      });
+
+      // Using the same assertions as above but with `.deep` flag instead of using referential equality
+      expect(testMap).to.have.any.deep.keys({thisIs: 'anExampleObject'});
+      expect(testMap).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+      expect(testMap).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
+      expect(testMap).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+
+      expect(testMap).to.not.have.any.deep.keys({iDoNot: 'exist'});
+      expect(testMap).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(testMap).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
+
+      expect(testMap).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+      expect(testMap).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+      expect(testMap).to.have.all.deep.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+
+      expect(testMap).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(testMap).to.not.have.any.deep.keys([20, 1, {13: 37}]);
+      expect(testMap).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
+
       var weirdMapKey1 = Object.create(null)
         , weirdMapKey2 = {toString: NaN}
         , weirdMapKey3 = []
@@ -1353,6 +1394,16 @@ describe('expect', function () {
       err(function(){
         expect(errMap).to.contain.keys([]);
       }, "keys required");
+
+      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.keys({ foo: 1 });
+      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+      // err(function(){
+      //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.deep.keys({ iDoNotExist: 0 })
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     if (typeof Set !== 'undefined') {
@@ -1383,6 +1434,47 @@ describe('expect', function () {
       expect(testSet).to.not.have.any.keys([20, 1, {13: 37}]);
       expect(testSet).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
 
+      // Ensure the assertions above use strict equality
+      err(function() {
+        expect(testSet).to.have.any.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        expect(testSet).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+      });
+
+      err(function() {
+        expect(testSet).to.contain.all.keys({thisIs: 'anExampleObject'});
+      });
+
+      err(function() {
+        expect(testSet).to.have.any.keys([{thisIs: 'anExampleObject'}]);
+      });
+
+      err(function() {
+        expect(testSet).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+      });
+
+      // Using the same assertions as above but with `.deep` flag instead of using referential equality
+      expect(testSet).to.have.any.deep.keys({thisIs: 'anExampleObject'});
+      expect(testSet).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+      expect(testSet).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
+      expect(testSet).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+
+      expect(testSet).to.not.have.any.deep.keys({iDoNot: 'exist'});
+      expect(testSet).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+      expect(testSet).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
+
+      expect(testSet).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+      expect(testSet).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+      expect(testSet).to.have.all.deep.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+      expect(testSet).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+      expect(testSet).to.not.have.any.deep.keys([20, 1, {13: 37}]);
+      expect(testSet).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
+ 
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []
@@ -1432,6 +1524,16 @@ describe('expect', function () {
       err(function(){
         expect(errSet).to.contain.keys([]);
       }, "keys required");
+
+      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+      // This should fail because of referential equality (this is a strict comparison)
+      // err(function(){
+      //   expect(new Set([{foo: 1}])).to.contain.keys({ foo: 1 });
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { foo: 1 }');
+
+      // err(function(){
+      //   expect(new Set([{foo: 1}])).to.contain.deep.keys({ iDoNotExist: 0 });
+      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
     }
 
     err(function(){
