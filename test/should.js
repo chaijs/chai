@@ -688,29 +688,22 @@ describe('should', function() {
     'test'.should.have.property('length');
     (4).should.not.have.property('length');
     ({ 1: 1 }).should.have.property(1);
+    ({ a: 1 }).should.have.property('toString');
 
     err(function(){
       'asd'.should.have.property('foo');
     }, "expected 'asd' to have property 'foo'");
-  });
 
-  it('nested.property(name)', function(){
-    ({ 'foo.bar': 'baz'}).should.not.have.nested.property('foo.bar');
-    ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar');
-
-    ({ 'foo': [1, 2, 3] }).should.have.nested.property('foo[1]');
-
-    ({ 'foo.bar[]': 'baz'}).should.have.nested.property('foo\\.bar\\[\\]');
-
-    err(function(){
-      ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
-    }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
+    err(function() {
+      ({a: {b: 1}}).should.have.own.nested.property("a.b");
+    }, "The \"nested\" and \"own\" flags cannot be combined.");
   });
 
   it('property(name, val)', function(){
     'test'.should.have.property('length', 4);
     'asd'.should.have.property('constructor', String);
     ({ 1: 1 }).should.have.property(1, 1);
+    ({ a: 1 }).should.have.property('toString', Object.prototype.toString);
     'test'.should.not.have.property('length', 3);
     'test'.should.not.have.property('foo', 4);
     ({a: {b: 1}}).should.not.have.property('a', {b: 1});
@@ -726,6 +719,10 @@ describe('should', function() {
     err(function(){
       'asd'.should.have.property('constructor', Number, 'blah');
     }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
+
+    err(function() {
+      ({a: {b: 1}}).should.have.own.nested.property("a.b", 1);
+    }, "The \"nested\" and \"own\" flags cannot be combined.");
   });
 
   it('deep.property(name, val)', function () {
@@ -746,6 +743,188 @@ describe('should', function() {
     err(function () {
       obj.should.not.have.deep.property('a', {b: 1}, 'blah');
     }, "blah: expected { a: { b: 1 } } to not have deep property 'a' of { b: 1 }");
+  });
+
+  it('ownProperty(name)', function(){
+    'test'.should.have.own.property('length');
+    'test'.should.have.ownProperty('length');
+    'test'.should.haveOwnProperty('length');
+    'test'.should.not.have.own.property('iDontExist');
+    'test'.should.not.have.ownProperty('iDontExist');
+    'test'.should.not.haveOwnProperty('iDontExist');
+    ({ a: 1 }).should.not.have.own.property('toString');
+    ({ a: 1 }).should.not.have.ownProperty('toString');
+    ({ a: 1 }).should.not.haveOwnProperty('toString');
+
+    ({ length: 12 }).should.have.own.property('length');
+    ({ length: 12 }).should.have.ownProperty('length');
+    ({ length: 12 }).should.haveOwnProperty('length');
+    ({ length: 12 }).should.not.have.own.property('iDontExist');
+    ({ length: 12 }).should.not.have.ownProperty('iDontExist');
+    ({ length: 12 }).should.not.haveOwnProperty('iDontExist');
+    ({ 1: 1 }).should.have.ownProperty(1);
+
+    var objNoHasOwnProperty = {hasOwnProperty: null};
+    objNoHasOwnProperty.a = 'a';
+    objNoHasOwnProperty.should.have.own.property('a');
+    objNoHasOwnProperty.should.have.ownProperty('a');
+    objNoHasOwnProperty.should.haveOwnProperty('a');
+
+    // Chaining property's value
+    'test'.should.have.own.property('length').that.is.a('number');
+    'test'.should.have.ownProperty('length').that.is.a('number');
+    'test'.should.haveOwnProperty('length').that.is.a('number');
+
+    err(function(){
+      ({ length: 12 }).should.have.own.property('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.have.own.property('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      ({ length: 12 }).should.have.ownProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.have.ownProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist');
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      ({ length: 12 }).should.not.haveOwnProperty('length');
+    }, "expected { length: 12 } to not have own property 'length'");
+  });
+
+  it('ownProperty(name, value)', function(){
+    'test'.should.have.own.property('length', 4);
+    'test'.should.have.ownProperty('length', 4);
+    'test'.should.haveOwnProperty('length', 4);
+    'test'.should.not.have.own.property('length', 1337);
+    'test'.should.not.have.ownProperty('length', 1337);
+    'test'.should.not.haveOwnProperty('length', 1337);
+    'test'.should.not.have.own.property('toString', Object.prototype.toString);
+    'test'.should.not.have.ownProperty('toString', Object.prototype.toString);
+    'test'.should.not.haveOwnProperty('toString', Object.prototype.toString);
+    ({a: {b: 1}}).should.not.have.own.property('a', {b: 1});
+    ({a: {b: 1}}).should.not.have.ownProperty('a', {b: 1});
+    ({a: {b: 1}}).should.not.haveOwnProperty('a', {b: 1});
+
+    ({ length: 12 }).should.have.own.property('length', 12);
+    ({ length: 12 }).should.have.ownProperty('length', 12);
+    ({ length: 12 }).should.haveOwnProperty('length', 12);
+    ({ length: 12 }).should.not.have.own.property('length', 15);
+    ({ length: 12 }).should.not.have.ownProperty('length', 15);
+    ({ length: 12 }).should.not.haveOwnProperty('length', 15);
+
+    // Chaining property's value
+    'test'.should.have.own.property('length', 4).that.is.a('number');
+    'test'.should.have.ownProperty('length', 4).that.is.a('number');
+    'test'.should.haveOwnProperty('length', 4).that.is.a('number');
+
+    err(function(){
+      ({ length: 12 }).should.have.own.property('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.own.property('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.have.own.property('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function(){
+      ({ length: 12 }).should.have.ownProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.have.ownProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.have.ownProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+
+    err(function(){
+      ({ length: 12 }).should.haveOwnProperty('iDontExist', 12);
+    }, "expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function() {
+      ({ length: 12 }).should.not.haveOwnProperty('length', 12);
+    }, "expected { length: 12 } to not have own property 'length' of 12");
+
+    err(function() {
+      ({ length: 12 }).should.haveOwnProperty('length', 15);
+    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
+  });
+
+  it('deep.own.property(name, val)', function () {
+    var obj = {a: {b: 1}};
+    obj.should.have.deep.own.property('a', {b: 1});
+    obj.should.have.deep.ownProperty('a', {b: 1});
+    obj.should.deep.haveOwnProperty('a', {b: 1});
+    obj.should.not.have.deep.own.property('a', {z: 1});
+    obj.should.not.have.deep.ownProperty('a', {z: 1});
+    obj.should.not.deep.haveOwnProperty('a', {z: 1});
+    obj.should.not.have.deep.own.property('a', {b: 7});
+    obj.should.not.have.deep.ownProperty('a', {b: 7});
+    obj.should.not.deep.haveOwnProperty('a', {b: 7});
+    obj.should.not.have.deep.own.property('toString', Object.prototype.toString);
+    obj.should.not.have.deep.ownProperty('toString', Object.prototype.toString);
+    obj.should.not.deep.haveOwnProperty('toString', Object.prototype.toString);
+
+    err(function () {
+      obj.should.have.deep.own.property('a', {z: 7}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'a' of { z: 7 }, but got { b: 1 }");
+
+    err(function () {
+      obj.should.have.deep.own.property('z', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'z'");
+
+    err(function () {
+      obj.should.not.have.deep.own.property('a', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to not have deep own property 'a' of { b: 1 }");
+    err(function () {
+      obj.should.have.deep.ownProperty('a', {z: 7}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'a' of { z: 7 }, but got { b: 1 }");
+
+    err(function () {
+      obj.should.have.deep.ownProperty('z', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'z'");
+
+    err(function () {
+      obj.should.not.have.deep.ownProperty('a', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to not have deep own property 'a' of { b: 1 }");
+
+    err(function () {
+      obj.should.deep.haveOwnProperty('a', {z: 7}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'a' of { z: 7 }, but got { b: 1 }");
+
+    err(function () {
+      obj.should.deep.haveOwnProperty('z', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to have deep own property 'z'");
+
+    err(function () {
+      obj.should.not.deep.haveOwnProperty('a', {b: 1}, 'blah');
+    }, "blah: expected { a: { b: 1 } } to not have deep own property 'a' of { b: 1 }");
+  });
+
+  it('nested.property(name)', function(){
+    ({ 'foo.bar': 'baz'}).should.not.have.nested.property('foo.bar');
+    ({ foo: { bar: 'baz' } }).should.have.nested.property('foo.bar');
+
+    ({ 'foo': [1, 2, 3] }).should.have.nested.property('foo[1]');
+
+    ({ 'foo.bar[]': 'baz'}).should.have.nested.property('foo\\.bar\\[\\]');
+
+    err(function(){
+      ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
+    }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
   });
 
   it('nested.property(name, val)', function(){
@@ -780,91 +959,6 @@ describe('should', function() {
     err(function () {
       obj.should.not.have.deep.nested.property('a.b', {c: 1}, 'blah');
     }, "blah: expected { a: { b: { c: 1 } } } to not have deep nested property 'a.b' of { c: 1 }");
-  });
-
-  it('ownProperty(name)', function(){
-    'test'.should.have.ownProperty('length');
-    'test'.should.haveOwnProperty('length');
-    'test'.should.not.have.ownProperty('iDontExist');
-    'test'.should.not.haveOwnProperty('iDontExist');
-
-    ({ length: 12 }).should.have.ownProperty('length');
-    ({ length: 12 }).should.haveOwnProperty('length');
-    ({ length: 12 }).should.not.have.ownProperty('iDontExist');
-    ({ length: 12 }).should.not.haveOwnProperty('iDontExist');
-    ({ 1: 1 }).should.have.ownProperty(1);
-
-    var objNoHasOwnProperty = {hasOwnProperty: null};
-    objNoHasOwnProperty.a = 'a';
-    objNoHasOwnProperty.should.have.ownProperty('a');
-
-    // Chaining property's value
-    'test'.should.have.ownProperty('length').that.is.a('number');
-    'test'.should.haveOwnProperty('length').that.is.a('number');
-
-    err(function(){
-      ({ length: 12 }).should.have.ownProperty('iDontExist');
-    }, "expected { length: 12 } to have own property 'iDontExist'");
-
-    err(function(){
-      ({ length: 12 }).should.not.have.ownProperty('length');
-    }, "expected { length: 12 } to not have own property 'length'");
-
-    err(function(){
-      ({ length: 12 }).should.haveOwnProperty('iDontExist');
-    }, "expected { length: 12 } to have own property 'iDontExist'");
-
-    err(function(){
-      ({ length: 12 }).should.not.haveOwnProperty('length');
-    }, "expected { length: 12 } to not have own property 'length'");
-  });
-
-  it('ownProperty(name, value)', function(){
-    'test'.should.have.ownProperty('length', 4);
-    'test'.should.haveOwnProperty('length', 4);
-    'test'.should.not.have.ownProperty('length', 1337);
-    'test'.should.not.haveOwnProperty('length', 1337);
-
-    ({ length: 12 }).should.have.ownProperty('length', 12);
-    ({ length: 12 }).should.haveOwnProperty('length', 12);
-    ({ length: 12 }).should.not.have.ownProperty('length', 15);
-    ({ length: 12 }).should.not.haveOwnProperty('length', 15);
-
-    // Chaining property's value
-    'test'.should.have.ownProperty('length', 4).that.is.a('number');
-    'test'.should.haveOwnProperty('length', 4).that.is.a('number');
-
-    err(function(){
-      ({ length: 12 }).should.have.ownProperty('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
-
-    err(function() {
-      ({ length: 12 }).should.not.have.ownProperty('length', 12);
-    }, "expected { length: 12 } to not have own property 'length' of 12");
-
-    err(function() {
-      ({ length: 12 }).should.have.ownProperty('length', 15);
-    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
-
-    err(function() {
-      ({ length: 12 }).should.not.have.ownProperty('iDontExist', 15);
-    }, "{ length: 12 } does not have own property 'iDontExist'");
-
-    err(function(){
-      ({ length: 12 }).should.haveOwnProperty('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
-
-    err(function() {
-      ({ length: 12 }).should.not.haveOwnProperty('length', 12);
-    }, "expected { length: 12 } to not have own property 'length' of 12");
-
-    err(function() {
-      ({ length: 12 }).should.haveOwnProperty('length', 15);
-    }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
-
-    err(function() {
-      ({ length: 12 }).should.not.haveOwnProperty('iDontExist', 15);
-    }, "{ length: 12 } does not have own property 'iDontExist'");
   });
 
   it('ownPropertyDescriptor(name)', function(){
