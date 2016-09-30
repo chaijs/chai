@@ -657,6 +657,32 @@ describe('should', function() {
     err(function(){
       ({foo: 'bar'}).should.be.empty;
     }, "expected { foo: \'bar\' } to be empty");
+
+    err(function(){
+      (0).should.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      (1).should.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      true.should.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      false.should.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    if (typeof Symbol !== 'undefined') {
+      err(function(){
+        Symbol().should.be.empty;
+      }, ".empty() was passed non-string primitive");
+    }
+
+    err(function(){
+      (function() {}).should.be.empty;
+    }, ".empty() was passed a function");
   });
 
   it('finite(value)', function() {

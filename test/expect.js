@@ -680,28 +680,53 @@ describe('expect', function () {
 
     err(function(){
       expect(null).to.be.empty;
-    }, "expected null to exist");
+    }, ".empty() was passed non-string primitive");
 
     err(function(){
       expect(undefined).to.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty() was passed non-string primitive");
 
     err(function(){
       expect().to.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty() was passed non-string primitive");
 
     err(function(){
       expect(null).to.not.be.empty;
-    }, "expected null to exist");
+    }, ".empty() was passed non-string primitive");
 
     err(function(){
       expect(undefined).to.not.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty() was passed non-string primitive");
 
     err(function(){
       expect().to.not.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty() was passed non-string primitive");
 
+    err(function(){
+      expect(0).to.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      expect(1).to.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      expect(true).to.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    err(function(){
+      expect(false).to.be.empty;
+    }, ".empty() was passed non-string primitive");
+
+    if (typeof Symbol !== 'undefined') {
+      err(function(){
+        expect(Symbol()).to.be.empty;
+      }, ".empty() was passed non-string primitive");
+    }
+
+    err(function(){
+      expect(function() {}).to.be.empty;
+    }, ".empty() was passed a function");
   });
 
   it('NaN', function() {
