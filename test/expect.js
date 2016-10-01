@@ -680,28 +680,63 @@ describe('expect', function () {
 
     err(function(){
       expect(null).to.be.empty;
-    }, "expected null to exist");
+    }, ".empty was passed non-string primitive null");
 
     err(function(){
       expect(undefined).to.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty was passed non-string primitive undefined");
 
     err(function(){
       expect().to.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty was passed non-string primitive undefined");
 
     err(function(){
       expect(null).to.not.be.empty;
-    }, "expected null to exist");
+    }, ".empty was passed non-string primitive null");
 
     err(function(){
       expect(undefined).to.not.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty was passed non-string primitive undefined");
 
     err(function(){
       expect().to.not.be.empty;
-    }, "expected undefined to exist");
+    }, ".empty was passed non-string primitive undefined");
 
+    err(function(){
+      expect(0).to.be.empty;
+    }, ".empty was passed non-string primitive 0");
+
+    err(function(){
+      expect(1).to.be.empty;
+    }, ".empty was passed non-string primitive 1");
+
+    err(function(){
+      expect(true).to.be.empty;
+    }, ".empty was passed non-string primitive true");
+
+    err(function(){
+      expect(false).to.be.empty;
+    }, ".empty was passed non-string primitive false");
+
+    if (typeof Symbol !== 'undefined') {
+      err(function(){
+        expect(Symbol()).to.be.empty;
+      }, ".empty was passed non-string primitive Symbol()");
+
+      err(function(){
+        expect(Symbol.iterator).to.be.empty;
+      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
+    }
+
+    err(function(){
+      expect(function() {}).to.be.empty;
+    }, ".empty was passed a function");
+
+    if (FakeArgs.name === 'FakeArgs') {
+      err(function(){
+        expect(FakeArgs).to.be.empty;
+      }, ".empty was passed a function FakeArgs");
+    }
   });
 
   it('NaN', function() {
