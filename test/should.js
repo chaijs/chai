@@ -660,29 +660,39 @@ describe('should', function() {
 
     err(function(){
       (0).should.be.empty;
-    }, ".empty() was passed non-string primitive");
+    }, ".empty was passed non-string primitive 0");
 
     err(function(){
       (1).should.be.empty;
-    }, ".empty() was passed non-string primitive");
+    }, ".empty was passed non-string primitive 1");
 
     err(function(){
       true.should.be.empty;
-    }, ".empty() was passed non-string primitive");
+    }, ".empty was passed non-string primitive true");
 
     err(function(){
       false.should.be.empty;
-    }, ".empty() was passed non-string primitive");
+    }, ".empty was passed non-string primitive false");
 
     if (typeof Symbol !== 'undefined') {
       err(function(){
         Symbol().should.be.empty;
-      }, ".empty() was passed non-string primitive");
+      }, ".empty was passed non-string primitive Symbol()");
+
+      err(function(){
+        Symbol.iterator.should.to.be.empty;
+      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
     }
 
     err(function(){
       (function() {}).should.be.empty;
-    }, ".empty() was passed a function");
+    }, ".empty was passed a function");
+
+    if (FakeArgs.name === 'FakeArgs') {
+      err(function(){
+        FakeArgs.should.be.empty;
+      }, ".empty was passed a function FakeArgs");
+    }
   });
 
   it('finite(value)', function() {
