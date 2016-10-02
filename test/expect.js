@@ -646,6 +646,18 @@ describe('expect', function () {
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
 
+    if (typeof WeakMap === 'function') {
+      err(function(){
+        expect(new WeakMap).not.to.be.empty;
+      }, ".empty was called on a weak collection");
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function(){
+        expect(new WeakSet).not.to.be.empty;
+      }, ".empty was called on a weak collection");
+    }
+
     if (typeof Map === 'function') {
       expect(new Map).to.be.empty;
       expect(new Map([[1,2]])).not.to.be.empty;

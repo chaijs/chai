@@ -626,6 +626,18 @@ describe('should', function() {
     ({}).should.be.empty;
     ({foo: 'bar'}).should.not.be.empty;
 
+    if (typeof WeakMap === 'function') {
+      err(function(){
+        (new WeakMap).should.not.be.empty;
+      }, ".empty was called on a weak collection");
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function(){
+        (new WeakSet).should.not.be.empty;
+      }, ".empty was called on a weak collection");
+    }
+
     if (typeof Map === 'function') {
       (new Map).should.be.empty;
       (new Map([[1,2]])).should.not.be.empty;
