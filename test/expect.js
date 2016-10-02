@@ -649,13 +649,13 @@ describe('expect', function () {
     if (typeof WeakMap === 'function') {
       err(function(){
         expect(new WeakMap).not.to.be.empty;
-      }, ".empty was called on a weak collection");
+      }, ".empty was passed a weak collection");
     }
 
     if (typeof WeakSet === 'function') {
       err(function(){
         expect(new WeakSet).not.to.be.empty;
-      }, ".empty was called on a weak collection");
+      }, ".empty was passed a weak collection");
     }
 
     if (typeof Map === 'function') {

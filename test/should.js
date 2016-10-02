@@ -629,13 +629,13 @@ describe('should', function() {
     if (typeof WeakMap === 'function') {
       err(function(){
         (new WeakMap).should.not.be.empty;
-      }, ".empty was called on a weak collection");
+      }, ".empty was passed a weak collection");
     }
 
     if (typeof WeakSet === 'function') {
       err(function(){
         (new WeakSet).should.not.be.empty;
-      }, ".empty was called on a weak collection");
+      }, ".empty was passed a weak collection");
     }
 
     if (typeof Map === 'function') {
