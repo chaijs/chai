@@ -646,6 +646,60 @@ describe('expect', function () {
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
 
+    if (typeof WeakMap === 'function') {
+      err(function(){
+        expect(new WeakMap).not.to.be.empty;
+      }, ".empty was passed a weak collection");
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function(){
+        expect(new WeakSet).not.to.be.empty;
+      }, ".empty was passed a weak collection");
+    }
+
+    if (typeof Map === 'function') {
+      expect(new Map).to.be.empty;
+
+      // Not using Map constructor args because not supported in IE 11.
+      var map = new Map;
+      map.set('a', 1);
+      expect(map).not.to.be.empty;
+
+      err(function(){
+        expect(new Map).not.to.be.empty;
+      }, "expected {} not to be empty");
+
+      map = new Map;
+      map.key = 'val';
+      expect(map).to.be.empty;
+
+      err(function(){
+        expect(map).not.to.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
+    if (typeof Set === 'function') {
+      expect(new Set).to.be.empty;
+
+      // Not using Set constructor args because not supported in IE 11.
+      var set = new Set;
+      set.add(1);
+      expect(set).not.to.be.empty;
+
+      err(function(){
+        expect(new Set).not.to.be.empty;
+      }, "expected {} not to be empty");
+
+      set = new Set;
+      set.key = 'val';
+      expect(set).to.be.empty;
+
+      err(function(){
+        expect(set).not.to.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
     err(function(){
       expect('').not.to.be.empty;
     }, "expected \'\' not to be empty");
