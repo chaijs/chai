@@ -680,7 +680,7 @@ describe('should', function() {
       }, ".empty was passed non-string primitive Symbol()");
 
       err(function(){
-        Symbol.iterator.should.to.be.empty;
+        Symbol.iterator.should.be.empty;
       }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
     }
 
