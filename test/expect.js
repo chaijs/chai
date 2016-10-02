@@ -646,6 +646,40 @@ describe('expect', function () {
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
 
+    if (typeof Map === 'function') {
+      expect(new Map).to.be.empty;
+      expect(new Map([[1,2]])).not.to.be.empty;
+
+      err(function(){
+        expect(new Map).not.to.be.empty;
+      }, "expected {} not to be empty");
+
+      var map = new Map;
+      map.key = 'val';
+      expect(map).to.be.empty;
+
+      err(function(){
+        expect(map).not.to.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
+    if (typeof Set === 'function') {
+      expect(new Set).to.be.empty;
+      expect(new Set([3,4])).not.to.be.empty;
+
+      err(function(){
+        expect(new Set).not.to.be.empty;
+      }, "expected {} not to be empty");
+
+      var set = new Set;
+      set.key = 'val';
+      expect(set).to.be.empty;
+
+      err(function(){
+        expect(set).not.to.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
     err(function(){
       expect('').not.to.be.empty;
     }, "expected \'\' not to be empty");

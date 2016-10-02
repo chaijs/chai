@@ -626,6 +626,40 @@ describe('should', function() {
     ({}).should.be.empty;
     ({foo: 'bar'}).should.not.be.empty;
 
+    if (typeof Map === 'function') {
+      (new Map).should.be.empty;
+      (new Map([[1,2]])).should.not.be.empty;
+
+      err(function(){
+        (new Map).should.not.be.empty;
+      }, "expected {} not to be empty");
+
+      var map = new Map;
+      map.key = 'val';
+      map.should.be.empty;
+
+      err(function(){
+        map.should.not.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.be.empty;
+      (new Set([3,4])).should.not.be.empty;
+
+      err(function(){
+        (new Set).should.not.be.empty;
+      }, "expected {} not to be empty");
+
+      var set = new Set;
+      set.key = 'val';
+      set.should.be.empty;
+
+      err(function(){
+        set.should.not.be.empty;
+      }, "expected { key: 'val' } not to be empty");
+    }
+
     err(function(){
       ''.should.not.be.empty;
     }, "expected \'\' not to be empty");
