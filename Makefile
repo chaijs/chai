@@ -49,6 +49,9 @@ node_modules: package.json
 
 test: test-node test-phantom
 
+test-typescript: 
+	@tsc
+
 test-node: node_modules
 	@printf "==> [Test :: Node.js]\n"
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -78,6 +81,7 @@ test-sauce: clean-browser chai.js
 
 test-travisci:
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@make test-typescript
 	@make test-cov
 	@make test-sauce
 
