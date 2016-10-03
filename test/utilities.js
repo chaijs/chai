@@ -195,16 +195,23 @@ describe('utilities', function () {
       hp(3, arr).should.be.false;
     });
 
-    it('should handle literal types', function() {
+    it('should handle primitives', function() {
       var s = 'string literal';
       hp('length', s).should.be.true;
       hp(3, s).should.be.true;
       hp(14, s).should.be.false;
 
       hp('foo', 1).should.be.false;
+      hp('bar', false).should.be.false;
+      hp('valueOf', true).should.be.true;
+
+      if (typeof Symbol === 'function') {
+        hp(1, Symbol()).should.be.false;
+        hp('toString', Symbol.iterator).should.be.true;
+      }
     });
 
-    it('should handle undefined', function() {
+    it('should handle objects', function() {
       var o = {
         foo: 'bar'
       };
