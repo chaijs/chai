@@ -2369,6 +2369,18 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.be.extensible;
     }, 'expected undefined to be extensible');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        expect(proxy).to.be.extensible;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('sealed', function() {
@@ -2416,6 +2428,18 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.not.be.sealed;
     }, 'expected undefined to not be sealed');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        expect(proxy).to.be.sealed;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('frozen', function() {
@@ -2463,5 +2487,17 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.not.be.frozen;
     }, 'expected undefined to not be frozen');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        expect(proxy).to.be.frozen;
+      }, { name: 'TypeError' });
+    }
   });
 });

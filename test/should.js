@@ -2204,6 +2204,18 @@ describe('should', function() {
      err(function() {
        false.should.be.extensible;
      }, 'expected false to be extensible');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        proxy.should.be.extensible;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('sealed', function() {
@@ -2241,6 +2253,18 @@ describe('should', function() {
     err(function() {
       false.should.not.be.sealed;
     }, 'expected false to not be sealed');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        proxy.should.be.sealed;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('frozen', function() {
@@ -2278,5 +2302,17 @@ describe('should', function() {
     err(function() {
       false.should.not.be.frozen;
     }, 'expected false to not be frozen');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        proxy.should.be.frozen;
+      }, { name: 'TypeError' });
+    }
   });
 });

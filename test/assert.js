@@ -1874,6 +1874,18 @@ describe('assert', function () {
       err(function() {
         assert[isExtensible](undefined);
       }, 'expected undefined to be extensible');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isExtensible](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1898,6 +1910,18 @@ describe('assert', function () {
       if (typeof Symbol === 'function') {
         assert[isNotExtensible](Symbol());
       }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isNotExtensible](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1921,6 +1945,18 @@ describe('assert', function () {
 
       if (typeof Symbol === 'function') {
         assert[isSealed](Symbol());
+      }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isSealed](proxy);
+        }, { name: 'TypeError' });
       }
     });
   });
@@ -1956,6 +1992,18 @@ describe('assert', function () {
       err(function() {
         assert[isNotSealed](undefined);
       }, 'expected undefined to not be sealed');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isNotSealed](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1979,6 +2027,18 @@ describe('assert', function () {
 
       if (typeof Symbol === 'function') {
         assert[isFrozen](Symbol());
+      }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isFrozen](proxy);
+        }, { name: 'TypeError' });
       }
     });
   });
@@ -2014,6 +2074,18 @@ describe('assert', function () {
       err(function() {
         assert[isNotFrozen](undefined);
       }, 'expected undefined to not be frozen');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          assert[isNotFrozen](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
