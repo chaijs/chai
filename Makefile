@@ -50,7 +50,7 @@ node_modules: package.json
 test: test-node test-phantom
 
 test-typescript: 
-	@tsc
+	@./node_modules/.bin/tsc test/typings/*.ts lib/chai.d.ts --noEmit
 
 test-node: node_modules
 	@printf "==> [Test :: Node.js]\n"
