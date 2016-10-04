@@ -1949,10 +1949,12 @@ describe('assert', function () {
 
       if (typeof Proxy === 'function') {
         var proxy = new Proxy({}, {
-          isExtensible: function() {
+          ownKeys: function() {
             throw new TypeError();
           }
         });
+
+        Object.preventExtensions(proxy);
 
         err(function() {
           assert[isSealed](proxy);
@@ -1995,10 +1997,12 @@ describe('assert', function () {
 
       if (typeof Proxy === 'function') {
         var proxy = new Proxy({}, {
-          isExtensible: function() {
+          ownKeys: function() {
             throw new TypeError();
           }
         });
+
+        Object.preventExtensions(proxy);
 
         err(function() {
           assert[isNotSealed](proxy);
@@ -2031,10 +2035,12 @@ describe('assert', function () {
 
       if (typeof Proxy === 'function') {
         var proxy = new Proxy({}, {
-          isExtensible: function() {
+          ownKeys: function() {
             throw new TypeError();
           }
         });
+
+        Object.preventExtensions(proxy);
 
         err(function() {
           assert[isFrozen](proxy);
@@ -2077,10 +2083,12 @@ describe('assert', function () {
 
       if (typeof Proxy === 'function') {
         var proxy = new Proxy({}, {
-          isExtensible: function() {
+          ownKeys: function() {
             throw new TypeError();
           }
         });
+
+        Object.preventExtensions(proxy);
 
         err(function() {
           assert[isNotFrozen](proxy);

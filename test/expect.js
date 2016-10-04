@@ -2431,10 +2431,12 @@ describe('expect', function () {
 
     if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
-        isExtensible: function() {
+        ownKeys: function() {
           throw new TypeError();
         }
       });
+
+      Object.preventExtensions(proxy);
 
       err(function() {
         expect(proxy).to.be.sealed;
@@ -2490,10 +2492,12 @@ describe('expect', function () {
 
     if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
-        isExtensible: function() {
+        ownKeys: function() {
           throw new TypeError();
         }
       });
+
+      Object.preventExtensions(proxy);
 
       err(function() {
         expect(proxy).to.be.frozen;

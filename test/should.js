@@ -2256,10 +2256,12 @@ describe('should', function() {
 
     if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
-        isExtensible: function() {
+        ownKeys: function() {
           throw new TypeError();
         }
       });
+
+      Object.preventExtensions(proxy);
 
       err(function() {
         proxy.should.be.sealed;
@@ -2305,10 +2307,12 @@ describe('should', function() {
 
     if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
-        isExtensible: function() {
+        ownKeys: function() {
           throw new TypeError();
         }
       });
+
+      Object.preventExtensions(proxy);
 
       err(function() {
         proxy.should.be.frozen;
