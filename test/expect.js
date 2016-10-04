@@ -2378,6 +2378,7 @@ describe('expect', function () {
       });
 
       err(function() {
+        // .extensible should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.extensible;
       }, { name: 'TypeError' });
     }
@@ -2436,9 +2437,11 @@ describe('expect', function () {
         }
       });
 
+      // Object.isSealed will call ownKeys trap only if object is not extensible
       Object.preventExtensions(proxy);
 
       err(function() {
+        // .sealed should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.sealed;
       }, { name: 'TypeError' });
     }
@@ -2497,9 +2500,11 @@ describe('expect', function () {
         }
       });
 
+      // Object.isFrozen will call ownKeys trap only if object is not extensible
       Object.preventExtensions(proxy);
 
       err(function() {
+        // .frozen should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.frozen;
       }, { name: 'TypeError' });
     }

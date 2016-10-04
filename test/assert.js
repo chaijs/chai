@@ -1883,6 +1883,7 @@ describe('assert', function () {
         });
 
         err(function() {
+          // isExtensible should not suppress errors, thrown in proxy traps
           assert[isExtensible](proxy);
         }, { name: 'TypeError' });
       }
@@ -1919,6 +1920,7 @@ describe('assert', function () {
         });
 
         err(function() {
+          // isNotExtensible should not suppress errors, thrown in proxy traps
           assert[isNotExtensible](proxy);
         }, { name: 'TypeError' });
       }
@@ -1954,9 +1956,11 @@ describe('assert', function () {
           }
         });
 
+        // Object.isSealed will call ownKeys trap only if object is not extensible
         Object.preventExtensions(proxy);
 
         err(function() {
+          // isSealed should not suppress errors, thrown in proxy traps
           assert[isSealed](proxy);
         }, { name: 'TypeError' });
       }
@@ -2002,9 +2006,11 @@ describe('assert', function () {
           }
         });
 
+        // Object.isSealed will call ownKeys trap only if object is not extensible
         Object.preventExtensions(proxy);
 
         err(function() {
+          // isNotSealed should not suppress errors, thrown in proxy traps
           assert[isNotSealed](proxy);
         }, { name: 'TypeError' });
       }
@@ -2040,9 +2046,11 @@ describe('assert', function () {
           }
         });
 
+        // Object.isFrozen will call ownKeys trap only if object is not extensible
         Object.preventExtensions(proxy);
 
         err(function() {
+          // isFrozen should not suppress errors, thrown in proxy traps
           assert[isFrozen](proxy);
         }, { name: 'TypeError' });
       }
@@ -2088,9 +2096,11 @@ describe('assert', function () {
           }
         });
 
+        // Object.isFrozen will call ownKeys trap only if object is not extensible
         Object.preventExtensions(proxy);
 
         err(function() {
+          // isNotFrozen should not suppress errors, thrown in proxy traps
           assert[isNotFrozen](proxy);
         }, { name: 'TypeError' });
       }

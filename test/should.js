@@ -2213,6 +2213,7 @@ describe('should', function() {
       });
 
       err(function() {
+        // .extensible should not suppress errors, thrown in proxy traps
         proxy.should.be.extensible;
       }, { name: 'TypeError' });
     }
@@ -2261,9 +2262,11 @@ describe('should', function() {
         }
       });
 
+      // Object.isSealed will call ownKeys trap only if object is not extensible
       Object.preventExtensions(proxy);
 
       err(function() {
+        // .sealed should not suppress errors, thrown in proxy traps
         proxy.should.be.sealed;
       }, { name: 'TypeError' });
     }
@@ -2312,9 +2315,11 @@ describe('should', function() {
         }
       });
 
+      // Object.isFrozen will call ownKeys trap only if object is not extensible
       Object.preventExtensions(proxy);
 
       err(function() {
+        // .frozen should not suppress errors, thrown in proxy traps
         proxy.should.be.frozen;
       }, { name: 'TypeError' });
     }
