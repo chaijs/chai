@@ -2369,6 +2369,19 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.be.extensible;
     }, 'expected undefined to be extensible');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
+
+      err(function() {
+        // .extensible should not suppress errors, thrown in proxy traps
+        expect(proxy).to.be.extensible;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('sealed', function() {
@@ -2416,6 +2429,22 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.not.be.sealed;
     }, 'expected undefined to not be sealed');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
+
+      // Object.isSealed will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
+
+      err(function() {
+        // .sealed should not suppress errors, thrown in proxy traps
+        expect(proxy).to.be.sealed;
+      }, { name: 'TypeError' });
+    }
   });
 
   it('frozen', function() {
@@ -2463,5 +2492,21 @@ describe('expect', function () {
     err(function() {
       expect(undefined).to.not.be.frozen;
     }, 'expected undefined to not be frozen');
+
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
+
+      // Object.isFrozen will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
+
+      err(function() {
+        // .frozen should not suppress errors, thrown in proxy traps
+        expect(proxy).to.be.frozen;
+      }, { name: 'TypeError' });
+    }
   });
 });

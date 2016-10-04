@@ -1874,6 +1874,19 @@ describe('assert', function () {
       err(function() {
         assert[isExtensible](undefined);
       }, 'expected undefined to be extensible');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          // isExtensible should not suppress errors, thrown in proxy traps
+          assert[isExtensible](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1898,6 +1911,19 @@ describe('assert', function () {
       if (typeof Symbol === 'function') {
         assert[isNotExtensible](Symbol());
       }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          isExtensible: function() {
+            throw new TypeError();
+          }
+        });
+
+        err(function() {
+          // isNotExtensible should not suppress errors, thrown in proxy traps
+          assert[isNotExtensible](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1921,6 +1947,22 @@ describe('assert', function () {
 
       if (typeof Symbol === 'function') {
         assert[isSealed](Symbol());
+      }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          ownKeys: function() {
+            throw new TypeError();
+          }
+        });
+
+        // Object.isSealed will call ownKeys trap only if object is not extensible
+        Object.preventExtensions(proxy);
+
+        err(function() {
+          // isSealed should not suppress errors, thrown in proxy traps
+          assert[isSealed](proxy);
+        }, { name: 'TypeError' });
       }
     });
   });
@@ -1956,6 +1998,22 @@ describe('assert', function () {
       err(function() {
         assert[isNotSealed](undefined);
       }, 'expected undefined to not be sealed');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          ownKeys: function() {
+            throw new TypeError();
+          }
+        });
+
+        // Object.isSealed will call ownKeys trap only if object is not extensible
+        Object.preventExtensions(proxy);
+
+        err(function() {
+          // isNotSealed should not suppress errors, thrown in proxy traps
+          assert[isNotSealed](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
@@ -1979,6 +2037,22 @@ describe('assert', function () {
 
       if (typeof Symbol === 'function') {
         assert[isFrozen](Symbol());
+      }
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          ownKeys: function() {
+            throw new TypeError();
+          }
+        });
+
+        // Object.isFrozen will call ownKeys trap only if object is not extensible
+        Object.preventExtensions(proxy);
+
+        err(function() {
+          // isFrozen should not suppress errors, thrown in proxy traps
+          assert[isFrozen](proxy);
+        }, { name: 'TypeError' });
       }
     });
   });
@@ -2014,6 +2088,22 @@ describe('assert', function () {
       err(function() {
         assert[isNotFrozen](undefined);
       }, 'expected undefined to not be frozen');
+
+      if (typeof Proxy === 'function') {
+        var proxy = new Proxy({}, {
+          ownKeys: function() {
+            throw new TypeError();
+          }
+        });
+
+        // Object.isFrozen will call ownKeys trap only if object is not extensible
+        Object.preventExtensions(proxy);
+
+        err(function() {
+          // isNotFrozen should not suppress errors, thrown in proxy traps
+          assert[isNotFrozen](proxy);
+        }, { name: 'TypeError' });
+      }
     });
   });
 
