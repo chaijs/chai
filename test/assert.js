@@ -2107,6 +2107,220 @@ describe('assert', function () {
     });
   });
 
+  it('isEmpty / empty', function() {
+    ['isEmpty', 'empty'].forEach(function (isEmpty) {
+      function FakeArgs() {};
+      FakeArgs.prototype.length = 0;
+
+      assert[isEmpty]('');
+      assert[isEmpty]([]);
+      assert[isEmpty](new FakeArgs);
+      assert[isEmpty]({});
+
+      if (typeof WeakMap === 'function') {
+        err(function(){
+          assert[isEmpty](new WeakMap);
+        }, ".empty was passed a weak collection");
+      }
+
+      if (typeof WeakSet === 'function') {
+        err(function(){
+          assert[isEmpty](new WeakSet);
+        }, ".empty was passed a weak collection");
+      }
+
+      if (typeof Map === 'function') {
+        assert[isEmpty](new Map);
+
+        var map = new Map;
+        map.key = 'val';
+        assert[isEmpty](map);
+      }
+
+      if (typeof Set === 'function') {
+        assert[isEmpty](new Set);
+
+        var set = new Set;
+        set.key = 'val';
+        assert[isEmpty](set);
+      }
+
+      err(function(){
+        assert[isEmpty]('foo');
+      }, "expected \'foo\' to be empty");
+
+      err(function(){
+        assert[isEmpty](['foo']);
+      }, "expected [ \'foo\' ] to be empty");
+
+      err(function(){
+        assert[isEmpty]({arguments: 0});
+      }, "expected { arguments: 0 } to be empty");
+
+      err(function(){
+        assert[isEmpty]({foo: 'bar'});
+      }, "expected { foo: \'bar\' } to be empty");
+
+      err(function(){
+        assert[isEmpty](null);
+      }, ".empty was passed non-string primitive null");
+
+      err(function(){
+        assert[isEmpty](undefined);
+      }, ".empty was passed non-string primitive undefined");
+
+      err(function(){
+        assert[isEmpty]();
+      }, ".empty was passed non-string primitive undefined");
+
+      err(function(){
+        assert[isEmpty](0);
+      }, ".empty was passed non-string primitive 0");
+
+      err(function(){
+        assert[isEmpty](1);
+      }, ".empty was passed non-string primitive 1");
+
+      err(function(){
+        assert[isEmpty](true);
+      }, ".empty was passed non-string primitive true");
+
+      err(function(){
+        assert[isEmpty](false);
+      }, ".empty was passed non-string primitive false");
+
+      if (typeof Symbol !== 'undefined') {
+        err(function(){
+          assert[isEmpty](Symbol());
+        }, ".empty was passed non-string primitive Symbol()");
+
+        err(function(){
+          assert[isEmpty](Symbol.iterator);
+        }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
+      }
+
+      err(function(){
+        assert[isEmpty](function() {});
+      }, ".empty was passed a function");
+
+      if (FakeArgs.name === 'FakeArgs') {
+        err(function(){
+          assert[isEmpty](FakeArgs);
+        }, ".empty was passed a function FakeArgs");
+      }
+    });
+  });
+
+  it('isNotEmpty / notEmpty', function() {
+    ['isNotEmpty', 'notEmpty'].forEach(function (isNotEmpty) {
+      function FakeArgs() {};
+      FakeArgs.prototype.length = 0;
+
+      assert[isNotEmpty]('foo');
+      assert[isNotEmpty](['foo']);
+      assert[isNotEmpty]({arguments: 0});
+      assert[isNotEmpty]({foo: 'bar'});
+
+      if (typeof WeakMap === 'function') {
+        err(function(){
+          assert[isNotEmpty](new WeakMap);
+        }, ".empty was passed a weak collection");
+      }
+
+      if (typeof WeakSet === 'function') {
+        err(function(){
+          assert[isNotEmpty](new WeakSet);
+        }, ".empty was passed a weak collection");
+      }
+
+      if (typeof Map === 'function') {
+        // Not using Map constructor args because not supported in IE 11.
+        var map = new Map;
+        map.set('a', 1);
+        assert[isNotEmpty](map);
+
+        err(function(){
+          assert[isNotEmpty](new Map);
+        }, "expected {} not to be empty");
+      }
+
+      if (typeof Set === 'function') {
+        // Not using Set constructor args because not supported in IE 11.
+        var set = new Set;
+        set.add(1);
+        assert[isNotEmpty](set);
+
+        err(function(){
+          assert[isNotEmpty](new Set);
+        }, "expected {} not to be empty");
+      }
+
+      err(function(){
+        assert[isNotEmpty]('');
+      }, "expected \'\' not to be empty");
+
+      err(function(){
+        assert[isNotEmpty]([]);
+      }, "expected [] not to be empty");
+
+      err(function(){
+        assert[isNotEmpty](new FakeArgs);
+      }, "expected { length: 0 } not to be empty");
+
+      err(function(){
+        assert[isNotEmpty]({});
+      }, "expected {} not to be empty");
+
+      err(function(){
+        assert[isNotEmpty](null);
+      }, ".empty was passed non-string primitive null");
+
+      err(function(){
+        assert[isNotEmpty](undefined);
+      }, ".empty was passed non-string primitive undefined");
+
+      err(function(){
+        assert[isNotEmpty]();
+      }, ".empty was passed non-string primitive undefined");
+
+      err(function(){
+        assert[isNotEmpty](0);
+      }, ".empty was passed non-string primitive 0");
+
+      err(function(){
+        assert[isNotEmpty](1);
+      }, ".empty was passed non-string primitive 1");
+
+      err(function(){
+        assert[isNotEmpty](true);
+      }, ".empty was passed non-string primitive true");
+
+      err(function(){
+        assert[isNotEmpty](false);
+      }, ".empty was passed non-string primitive false");
+
+      if (typeof Symbol !== 'undefined') {
+        err(function(){
+          assert[isNotEmpty](Symbol());
+        }, ".empty was passed non-string primitive Symbol()");
+
+        err(function(){
+          assert[isNotEmpty](Symbol.iterator);
+        }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
+      }
+
+      err(function(){
+        assert[isNotEmpty](function() {});
+      }, ".empty was passed a function");
+
+      if (FakeArgs.name === 'FakeArgs') {
+        err(function(){
+          assert[isNotEmpty](FakeArgs);
+        }, ".empty was passed a function FakeArgs");
+      }
+    });
+  });
+
   it('showDiff true with actual and expected args', function() {
     try {
       new chai.Assertion().assert(
