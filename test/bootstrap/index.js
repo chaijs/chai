@@ -23,7 +23,7 @@ global.err = function (fn, val) {
   try {
     fn();
   } catch (err) {
-    switch (chai.util.type(val)) {
+    switch (chai.util.type(val).toLowerCase()) {
       case 'undefined': return;
       case 'string': return chai.expect(err.message).to.equal(val);
       case 'regexp': return chai.expect(err.message).to.match(val);
