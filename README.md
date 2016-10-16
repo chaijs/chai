@@ -1,29 +1,124 @@
-[![Chai Documentation](http://chaijs.com/img/chai-logo.png)](http://chaijs.com)
+<h1 align=center>
+  <a href="http://chaijs.com" title="Chai Documentation">
+    <img alt="ChaiJS" src="http://chaijs.com/img/chai-logo.png"/> chai
+  </a>
+</h1>
 
-<br>
-[![tag:?](https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square)](https://github.com/chaijs/chai/releases)
-[![build:?](https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square)](https://travis-ci.org/chaijs/chai)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/chaijs/chai.svg)](http://isitmaintained.com/project/chaijs/chai "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/chaijs/chai.svg)](http://isitmaintained.com/project/chaijs/chai "Percentage of issues still open")
-[![coverage:?](https://img.shields.io/coveralls/chaijs/chai/master.svg?style=flat-square)](https://coveralls.io/r/chaijs/chai)<br>
-[![npm:](https://img.shields.io/npm/v/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
-[![license:mit](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](#license)
-[![dependencies:?](https://img.shields.io/npm/dm/chai.svg?style=flat-square)](https://www.npmjs.com/packages/chai)
-[![devDependencies:?](https://img.shields.io/david/chaijs/chai.svg?style=flat-square)](https://david-dm.org/chaijs/chai)
+<p align=center>
+  Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
+</p>
 
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/chaijs.svg)](https://saucelabs.com/u/chaijs)
-
-[![Slack Status](https://chai-slack.herokuapp.com/badge.svg)]( https://chai-slack.herokuapp.com/)
-[![Join the chat at https://gitter.im/chaijs/chai](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chaijs/chai)
-[![OpenCollective](https://opencollective.com/chaijs/backers/badge.svg)](https://opencollective.com/chaijs) 
-
-
-Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that
-can be delightfully paired with any javascript testing framework.
+<p align=center>
+  <a href="./LICENSE">
+    <img
+      alt="license:mit"
+      src="https://img.shields.io/badge/license-mit-green.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://github.com/chaijs/chai/releases">
+    <img
+      alt="tag:?"
+      src="https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://www.npmjs.com/packages/chai">
+    <img
+      alt="node:?"
+      src="https://img.shields.io/badge/node-%3E=0.10-blue.svg?style=flat-square"
+    />
+  </a>
+  <br/>
+  <a href="https://saucelabs.com/u/chaijs">
+    <img
+      alt="Selenium Test Status"
+      src="https://saucelabs.com/browser-matrix/chaijs.svg"
+    />
+  </a>
+  <br/>
+  <a href="https://www.npmjs.com/packages/chai">
+    <img
+      alt="downloads:?"
+      src="https://img.shields.io/npm/dm/chai.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://travis-ci.org/chaijs/chai">
+    <img
+      alt="build:?"
+      src="https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://coveralls.io/r/chaijs/chai">
+    <img
+      alt="coverage:?"
+      src="https://img.shields.io/coveralls/chaijs/chai/master.svg?style=flat-square"
+    />
+  </a>
+  <a href="">
+    <img
+      alt="devDependencies:?"
+      src="https://img.shields.io/david/chaijs/chai.svg?style=flat-square"
+    />
+  </a>
+  <br/>
+  <a href="https://chai-slack.herokuapp.com/">
+    <img
+      alt="Join the Slack chat"
+      src="https://img.shields.io/badge/slack-join%20chat-E2206F.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://gitter.im/chaijs/chai">
+    <img
+      alt="Join the Gitter chat"
+      src="https://img.shields.io/badge/gitter-join%20chat-D0104D.svg?style=flat-square"
+    />
+  </a>
+  <a href="https://opencollective.com/chaijs">
+    <img
+      alt="OpenCollective Backers"
+      src="https://opencollective.com/chaijs/backers/badge.svg?style=flat-square"
+    />
+  </a>
+</p>
 
 For more information or to download plugins, view the [documentation](http://chaijs.com).
 
-### Plugins
+## What is Chai?
+
+Chai is an _assertion library_, similar to Node's build in `assert`. It makes testing much easier by giving you lots of assertions you can run against your code.
+
+## Installation
+
+### Node.js
+
+`chai` is available on [npm](http://npmjs.org). To install it, type:
+
+    $ npm install chai
+
+### Browsers
+
+You can also use it within the browser; install via npm and use the `chai.js` file found within the download. For example:
+
+```html
+<script src="./node_modules/chai/chai.js"></script>
+```
+
+## Usage
+
+Import the library in your code, and then pick one of the styles you'd like to use - either `assert`, `expect` or `should`:
+
+```js
+var chai = require('chai');
+// Using Assert style
+var assert = chai.assert;
+// Using Expect style
+var expect = chai.expect;
+// Using Should style
+var should = chai.should();
+```
+
+[Read more about these styles in our docs](http://chaijs.com/guide/styles/).
+
+## Plugins
 
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
 
@@ -48,12 +143,12 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 
 Thank you very much for considering to contribute!
 
+Please make sure you follow our [Code Of Conduct](https://github.com/chaijs/chai/blob/master/CODE_OF_CONDUCT.md) and we also strongly recommend reading our [Contributing Guide](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md).
+
 Here are a few issues other contributors frequently ran into when opening pull requests:
 
 - Please do not commit changes to the `chai.js` build. We do it once per release.
 - Before pushing your commits, please make sure you [rebase](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md#pull-requests) them.
-
-We also strongly encourage you to read our detailed [contribution guidelines](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md).
 
 ### Contributors
 
@@ -71,27 +166,3 @@ concerns. We will do our best to respond in a timely manner.
 [![Keith Cirkel](https://avatars3.githubusercontent.com/u/118266?v=3&s=50)](https://github.com/keithamus)
 [![Lucas Fernandes da Costa](https://avatars3.githubusercontent.com/u/6868147?v=3&s=50)](https://github.com/lucasfcosta)
 [![Grant Snodgrass](https://avatars3.githubusercontent.com/u/17260989?v=3&s=50)](https://github.com/meeber)
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2011-2015 Jake Luer <jake@alogicalparadox.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
