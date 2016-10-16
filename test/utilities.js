@@ -54,21 +54,6 @@ describe('utilities', function () {
     });
   });
 
-  it('getName', function () {
-    chai.use(function (_chai, utils) {
-      var name = utils.getName;
-      expect(name(function () {})).to.equal('');
-      expect(name(function foo() {})).to.equal('foo');
-
-      var bar = function bar() {};
-      bar.toString = function() {
-        return 'function foo() {}';
-      };
-
-      expect(name(bar)).to.equal('bar');
-    });
-  });
-
   describe('addMethod', function() {
     var assertionConstructor;
 
