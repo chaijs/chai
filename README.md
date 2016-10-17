@@ -44,6 +44,12 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - [chaijs / loupe](https://github.com/chaijs/loupe): Inspect utility for Node.js and browsers.
 - [chaijs / pathval](https://github.com/chaijs/pathval): Object value retrieval given a string path.
 
+### Supported Browsers
+
+IE/Edge                                  | Firefox            | Chrome | Safari | Opera
+---------------------------------------- | ------------------ | ------ | ------ | ------
+IE9 (until April 2017), IE10, IE11, Edge | 49.0.1, 45.4.0 ESR | Latest | Latest | Latest
+
 ### Contributing
 
 Thank you very much for considering to contribute!
