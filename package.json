@@ -35,7 +35,7 @@
   "dependencies": {
     "assertion-error": "^1.0.1",
     "check-error": "^1.0.1",
-    "deep-eql": "^0.1.3",
+    "deep-eql": "^1.0.2",
     "get-func-name": "^1.0.0",
     "pathval": "^1.0.0",
     "type-detect": "^4.0.0"
