@@ -116,7 +116,7 @@ var expect = chai.expect;
 var should = chai.should();
 ```
 
-## Usage for ES6+
+## Native Modules Usage
 
 ```js
 import assert from 'chai/assert'
