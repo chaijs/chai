@@ -1,1 +1,1 @@
-module.exports = require('./').should();
+global.should = module.exports = require('./').should();

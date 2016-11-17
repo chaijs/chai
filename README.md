@@ -116,6 +116,28 @@ var expect = chai.expect;
 var should = chai.should();
 ```
 
+## Native Modules Usage
+
+```js
+import assert from 'chai/assert'
+// Using Assert style
+import expect from 'chai/expect'
+// Using Expect style
+import should from 'chai/should'
+// Using Should style
+```
+
+## Usage with Mocha
+
+```bash
+mocha spec.js -r chai/assert # OR:
+# Using Assert style
+mocha spec.js -r chai/expect # OR:
+# Using Expect style
+mocha spec.js -r chai/should
+# Using Should style
+```
+
 [Read more about these styles in our docs](http://chaijs.com/guide/styles/).
 
 ## Plugins
