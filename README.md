@@ -119,23 +119,23 @@ var should = chai.should();
 ## Usage for ES6+
 
 ```js
-// Using Assert style
 import assert from 'chai/assert'
-// Using Expect style
+// Using Assert style
 import expect from 'chai/expect'
-// Using Should style
+// Using Expect style
 import should from 'chai/should'
+// Using Should style
 ```
 
 ## Usage with Mocha
 
 ```bash
-# Using Assert style
 mocha spec.js -r chai/assert # OR:
-# Using Expect style
+# Using Assert style
 mocha spec.js -r chai/expect # OR:
-# Using Should style
+# Using Expect style
 mocha spec.js -r chai/should
+# Using Should style
 ```
 
 [Read more about these styles in our docs](http://chaijs.com/guide/styles/).
