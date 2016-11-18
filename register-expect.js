@@ -1,1 +1,1 @@
-global.expect = module.exports = require('./').expect;
+global.expect = require('./').expect;

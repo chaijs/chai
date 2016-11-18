@@ -1,1 +1,1 @@
-global.assert = module.exports = require('./').assert;
+global.assert = require('./').assert;
