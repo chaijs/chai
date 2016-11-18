@@ -124,12 +124,12 @@ require('chai/register-should');  // Using Should style
 ### Pre-Native Modules Usage (_as local variables_)
 
 ```js
-const { assert } = require("chai");  // Using Assert style
-const { expect } = require("chai");  // Using Expect style
-const { should } = require("chai");  // Using Should style
-should()  // Modifies `Object.prototype`
+const { assert } = require('chai');  // Using Assert style
+const { expect } = require('chai');  // Using Expect style
+const { should } = require('chai');  // Using Should style
+should();  // Modifies `Object.prototype`
 
-const { expect, use } = require("chai");  // Creates local variables `expect` and `use`; useful for plugin use
+const { expect, use } = require('chai');  // Creates local variables `expect` and `use`; useful for plugin use
 ```
 
 ### Native Modules Usage (_registers the chai testing style globally_)
@@ -146,7 +146,7 @@ import 'chai/register-should';  // Using Should style
 import { assert } from 'chai';  // Using Assert style
 import { expect } from 'chai';  // Using Expect style
 import { should } from 'chai';  // Using Should style
-should()  // Modifies `Object.prototype`
+should();  // Modifies `Object.prototype`
 ```
 
 ### Usage with Mocha
