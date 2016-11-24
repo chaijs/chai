@@ -26,6 +26,7 @@
     "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
+  "browser": "./chai.js",
   "scripts": {
     "test": "make test"
   },
