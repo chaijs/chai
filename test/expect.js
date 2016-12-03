@@ -1381,8 +1381,15 @@ describe('expect', function () {
 
   it('strings(array|arguments)', function() {
     expect('hello world').to.include.all.strings('hello world');
+    expect('hello world').to.include.all.strings('hello world');
     expect('hello world').to.include.all.strings('hello');
     expect('hello world').to.include.all.strings('hello', 'world');
+
+    expect('hello world').to.include.strings('hello world');
+    expect('hello world').to.include.strings('hello world');
+    expect('hello world').to.include.strings('hello');
+    expect('hello world').to.include.strings('hello', 'world');
+
     expect('hello world').to.include.any.strings('hello');
     expect('hello world').to.include.any.strings('hello world');
     expect('hello world').to.include.any.strings('hello', 'world');
@@ -1391,6 +1398,11 @@ describe('expect', function () {
     expect('hello world').to.include.all.strings(['hello world']);
     expect('hello world').to.include.all.strings(['hello']);
     expect('hello world').to.include.all.strings(['hello', 'world']);
+
+    expect('hello world').to.include.strings(['hello world']);
+    expect('hello world').to.include.strings(['hello']);
+    expect('hello world').to.include.strings(['hello', 'world']);
+
     expect('hello world').to.include.any.strings(['hello']);
     expect('hello world').to.include.any.strings(['hello world']);
     expect('hello world').to.include.any.strings(['hello', 'world']);
@@ -1399,6 +1411,11 @@ describe('expect', function () {
     expect('hello planet').to.not.include.all.strings('hello world');
     expect('hello planet').to.not.include.all.strings('hello');
     expect('hello planet').to.not.include.all.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.include.strings('hello world');
+    expect('hello planet').to.not.include.strings('hello');
+    expect('hello planet').to.not.include.strings('goodbye', 'world');
+
     expect('hello planet').to.not.include.any.strings('hello world');
     expect('hello planet').to.not.include.any.strings('hello', 'world');
     expect('hello planet').to.not.include.any.strings('cat', 'hello');
@@ -1406,6 +1423,11 @@ describe('expect', function () {
     expect('hello planet').to.not.include.all.strings(['hello world']);
     expect('hello planet').to.not.include.all.strings(['hello']);
     expect('hello planet').to.not.include.all.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.include.strings(['hello world']);
+    expect('hello planet').to.not.include.strings(['hello']);
+    expect('hello planet').to.not.include.strings(['goodbye', 'world']);
+
     expect('hello planet').to.not.include.any.strings(['hello world']);
     expect('hello planet').to.not.include.any.strings(['hello', 'world']);
     expect('hello planet').to.not.include.any.strings(['cat', 'hello']);
@@ -1413,6 +1435,11 @@ describe('expect', function () {
     expect('hello world').to.contain.all.strings('hello world');
     expect('hello world').to.contain.all.strings('hello');
     expect('hello world').to.contain.all.strings('hello', 'world');
+
+    expect('hello world').to.contain.strings('hello world');
+    expect('hello world').to.contain.strings('hello');
+    expect('hello world').to.contain.strings('hello', 'world');
+
     expect('hello world').to.contain.any.strings('hello');
     expect('hello world').to.contain.any.strings('hello world');
     expect('hello world').to.contain.any.strings('hello', 'world');
@@ -1421,6 +1448,11 @@ describe('expect', function () {
     expect('hello world').to.contain.all.strings(['hello world']);
     expect('hello world').to.contain.all.strings(['hello']);
     expect('hello world').to.contain.all.strings(['hello', 'world']);
+
+    expect('hello world').to.contain.strings(['hello world']);
+    expect('hello world').to.contain.strings(['hello']);
+    expect('hello world').to.contain.strings(['hello', 'world']);
+
     expect('hello world').to.contain.any.strings(['hello']);
     expect('hello world').to.contain.any.strings(['hello world']);
     expect('hello world').to.contain.any.strings(['hello', 'world']);
@@ -1429,6 +1461,11 @@ describe('expect', function () {
     expect('hello planet').to.not.contain.all.strings('hello world');
     expect('hello planet').to.not.contain.all.strings('hello');
     expect('hello planet').to.not.contain.all.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.contain.strings('hello world');
+    expect('hello planet').to.not.contain.strings('hello');
+    expect('hello planet').to.not.contain.strings('goodbye', 'world');
+
     expect('hello planet').to.not.contain.any.strings('hello world');
     expect('hello planet').to.not.contain.any.strings('hello', 'world');
     expect('hello planet').to.not.contain.any.strings('cat', 'hello');
@@ -1436,12 +1473,21 @@ describe('expect', function () {
     expect('hello planet').to.not.contain.all.strings(['hello world']);
     expect('hello planet').to.not.contain.all.strings(['hello']);
     expect('hello planet').to.not.contain.all.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.contain.strings(['hello world']);
+    expect('hello planet').to.not.contain.strings(['hello']);
+    expect('hello planet').to.not.contain.strings(['goodbye', 'world']);
+
     expect('hello planet').to.not.contain.any.strings(['hello world']);
     expect('hello planet').to.not.contain.any.strings(['hello', 'world']);
     expect('hello planet').to.not.contain.any.strings(['cat', 'hello']);
 
     err(function() {
       expect('hello world').to.include.all.strings('hello', 'cat');
+    }, "expected 'hello world' to include 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.strings('hello', 'cat');
     }, "expected 'hello world' to include 'hello', and 'cat'");
 
     err(function() {
@@ -1453,11 +1499,19 @@ describe('expect', function () {
     }, "expected 'hello world' to not include 'hello', and 'world'");
 
     err(function() {
+      expect('hello world').to.not.include.strings('hello', 'world');
+    }, "expected 'hello world' to not include 'hello', and 'world'");
+
+    err(function() {
       expect('hello world').to.not.include.any.strings('hello', 'world');
     }, "expected 'hello world' to not include 'hello', or 'world'");
 
     err(function() {
       expect('hello world').to.include.all.strings(['hello', 'cat']);
+    }, "expected 'hello world' to include 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.strings(['hello', 'cat']);
     }, "expected 'hello world' to include 'hello', and 'cat'");
 
     err(function() {
@@ -1469,11 +1523,19 @@ describe('expect', function () {
     }, "expected 'hello world' to not include 'hello', and 'world'");
 
     err(function() {
+      expect('hello world').to.not.include.strings(['hello', 'world']);
+    }, "expected 'hello world' to not include 'hello', and 'world'");
+
+    err(function() {
       expect('hello world').to.not.include.any.strings(['hello', 'world']);
     }, "expected 'hello world' to not include 'hello', or 'world'");
 
     err(function() {
       expect('hello world').to.contain.all.strings('hello', 'cat');
+    }, "expected 'hello world' to contain 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.contain.strings('hello', 'cat');
     }, "expected 'hello world' to contain 'hello', and 'cat'");
 
     err(function() {
@@ -1485,6 +1547,10 @@ describe('expect', function () {
     }, "expected 'hello world' to not contain 'hello', and 'world'");
 
     err(function() {
+      expect('hello world').to.not.contain.strings('hello', 'world');
+    }, "expected 'hello world' to not contain 'hello', and 'world'");
+
+    err(function() {
       expect('hello world').to.not.contain.any.strings('hello', 'world');
     }, "expected 'hello world' to not contain 'hello', or 'world'");
 
@@ -1493,11 +1559,19 @@ describe('expect', function () {
     }, "expected 'hello world' to contain 'hello', and 'cat'");
 
     err(function() {
+      expect('hello world').to.contain.strings(['hello', 'cat']);
+    }, "expected 'hello world' to contain 'hello', and 'cat'");
+
+    err(function() {
       expect('hello world').to.contain.any.strings(['goodbye', 'cat']);
     }, "expected 'hello world' to contain 'goodbye', or 'cat'");
 
     err(function() {
       expect('hello world').to.not.contain.all.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.contain.strings(['hello', 'world']);
     }, "expected 'hello world' to not contain 'hello', and 'world'");
 
     err(function() {
@@ -1510,6 +1584,14 @@ describe('expect', function () {
 
     err(function(){
      expect('hello').to.contain.all.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.contain.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.contain.strings([]);
     }, "strings required");
 
     err(function(){
@@ -1529,6 +1611,14 @@ describe('expect', function () {
     }, "strings required");
 
     err(function(){
+      expect('hello').to.include.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.include.strings([]);
+    }, "strings required");
+
+    err(function(){
       expect('hello').to.include.any.strings();
     }, "strings required");
 
@@ -1543,11 +1633,19 @@ describe('expect', function () {
     }, mixedArgsMsg);
 
     err(function(){
+      expect('hello').to.contain.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
       expect('hello').to.contain.any.strings(['e'], "o");
     }, mixedArgsMsg);
 
     err(function(){
       expect('hello').to.include.all.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.include.strings(['e'], "o");
     }, mixedArgsMsg);
 
     err(function(){
