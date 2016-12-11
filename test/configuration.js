@@ -63,306 +63,614 @@ describe('configuration', function () {
       delete chai.Assertion.prototype.tmpChainableMethod;
     });
 
-    // Functions that always throw an error
-    function badPropertyAssertion() {
-      expect(42).to.be.false;
-    }
-    function badOverwrittenPropertyAssertion() {
-      expect(42).tmpProperty;
-    }
-    function badMethodAssertion() {
-      expect(42).to.equal(false);
-    }
-    function badOverwrittenMethodAssertion() {
-      expect(42).tmpMethod();
-    }
-    function badChainableMethodAssertion() {
-      expect(42).to.be.a('string');
-    }
-    function badOverwrittenChainableMethodAssertion() {
-      expect(42).tmpChainableMethod();
-    }
+    describe('expect interface', function () {
+      // Functions that always throw an error
+      function badPropertyAssertion() {
+        expect(42).to.be.false;
+      }
+      function badOverwrittenPropertyAssertion() {
+        expect(42).tmpProperty;
+      }
+      function badMethodAssertion() {
+        expect(42).to.equal(false);
+      }
+      function badOverwrittenMethodAssertion() {
+        expect(42).tmpMethod();
+      }
+      function badChainableMethodAssertion() {
+        expect(42).to.be.a('string');
+      }
+      function badOverwrittenChainableMethodAssertion() {
+        expect(42).tmpChainableMethod();
+      }
 
-    describe('when true', function () {
-      describe('failed property assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badPropertyAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+      describe('when true', function () {
+        describe('failed property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('propertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badPropertyAssertion');
+          });
         });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('propertyGetter');
-
-          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-            expect(caughtErr.stack).to.contain('proxyGetter');
-          }
+  
+        describe('failed overwritten property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badPropertyAssertion');
+  
+        describe('failed method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('methodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badMethodAssertion');
+          });
+        });
+  
+        describe('failed overwritten method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
+          });
+        });
+  
+        describe('failed chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('chainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
+          });
+        });
+  
+        describe('failed overwritten chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingChainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+          });
         });
       });
-
-      describe('failed overwritten property assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badOverwrittenPropertyAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+  
+      describe('when false', function () {
+        describe('failed property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('propertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.not.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badPropertyAssertion');
+          });
         });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
-
-          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-            expect(caughtErr.stack).to.contain('proxyGetter');
-          }
+  
+        describe('failed overwritten property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.not.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+  
+        describe('failed method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('methodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badMethodAssertion');
+          });
         });
-      });
-
-      describe('failed method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+  
+        describe('failed overwritten method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
+          });
         });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('methodWrapper');
+  
+        describe('failed chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('chainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badMethodAssertion');
-        });
-      });
-
-      describe('failed overwritten method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badOverwrittenMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('overwritingMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
-        });
-      });
-
-      describe('failed chainable method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badChainableMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('chainableMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
-        });
-      });
-
-      describe('failed overwritten chainable method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = true;
-
-          try {
-            badOverwrittenChainableMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('overwritingChainableMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+  
+        describe('failed overwritten chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingChainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+          });
         });
       });
     });
 
-    describe('when false', function () {
-      describe('failed property assertions', function () {
-        var caughtErr = '__PRETEST__';
+    describe('should interface', function () {
+      // Functions that always throw an error
+      function badPropertyAssertion() {
+        (42).should.be.false;
+      }
+      function badOverwrittenPropertyAssertion() {
+        (42).should.tmpProperty;
+      }
+      function badMethodAssertion() {
+        (42).should.equal(false);
+      }
+      function badOverwrittenMethodAssertion() {
+        (42).should.tmpMethod();
+      }
+      function badChainableMethodAssertion() {
+        (42).should.be.a('string');
+      }
+      function badOverwrittenChainableMethodAssertion() {
+        (42).should.tmpChainableMethod();
+      }
 
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badPropertyAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+      describe('when true', function () {
+        describe('failed property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('propertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badPropertyAssertion');
+          });
         });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('propertyGetter');
-
-          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-            expect(caughtErr.stack).to.not.contain('proxyGetter');
-          }
+  
+        describe('failed overwritten property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badPropertyAssertion');
+  
+        describe('failed method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('methodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badMethodAssertion');
+          });
+        });
+  
+        describe('failed overwritten method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
+          });
+        });
+  
+        describe('failed chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('chainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
+          });
+        });
+  
+        describe('failed overwritten chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = true;
+  
+            try {
+              badOverwrittenChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('overwritingChainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+          });
         });
       });
-
-      describe('failed overwritten property assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badOverwrittenPropertyAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+  
+      describe('when false', function () {
+        describe('failed property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('propertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.not.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badPropertyAssertion');
+          });
         });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
-
-          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-            expect(caughtErr.stack).to.not.contain('proxyGetter');
-          }
+  
+        describe('failed overwritten property assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenPropertyAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
+  
+            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+              expect(caughtErr.stack).to.not.contain('proxyGetter');
+            }
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenPropertyAssertion');
+  
+        describe('failed method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('methodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badMethodAssertion');
+          });
         });
-      });
-
-      describe('failed method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
+  
+        describe('failed overwritten method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
+          });
         });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('methodWrapper');
+  
+        describe('failed chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('chainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
+          });
         });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badMethodAssertion');
-        });
-      });
-
-      describe('failed overwritten method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badOverwrittenMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('overwritingMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenMethodAssertion');
-        });
-      });
-
-      describe('failed chainable method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badChainableMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('chainableMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badChainableMethodAssertion');
-        });
-      });
-
-      describe('failed overwritten chainable method assertions', function () {
-        var caughtErr = '__PRETEST__';
-
-        before(function () {
-          chai.config.includeStack = false;
-
-          try {
-            badOverwrittenChainableMethodAssertion();
-          } catch (err) {
-            caughtErr = err;
-          }
-        });
-
-        it('should not include Chai frames in stack trace', function () {
-          expect(caughtErr.stack).to.not.contain('overwritingChainableMethodWrapper');
-        });
-
-        it('should include user frames in stack trace', function () {
-          expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+  
+        describe('failed overwritten chainable method assertions', function () {
+          var caughtErr = '__PRETEST__';
+  
+          before(function () {
+            chai.config.includeStack = false;
+  
+            try {
+              badOverwrittenChainableMethodAssertion();
+            } catch (err) {
+              caughtErr = err;
+            }
+          });
+  
+          it('should not include Chai frames in stack trace', function () {
+            expect(caughtErr.stack).to.not.contain('overwritingChainableMethodWrapper');
+          });
+  
+          it('should include user frames in stack trace', function () {
+            expect(caughtErr.stack).to.contain('badOverwrittenChainableMethodAssertion');
+          });
         });
       });
     });
