@@ -99,6 +99,10 @@ describe('configuration', function () {
 
         it('should include Chai frames in stack trace', function () {
           expect(caughtErr.stack).to.contain('propertyGetter');
+
+          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+            expect(caughtErr.stack).to.contain('proxyGetter');
+          }
         });
 
         it('should include user frames in stack trace', function () {
@@ -121,6 +125,10 @@ describe('configuration', function () {
 
         it('should include Chai frames in stack trace', function () {
           expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
+
+          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+            expect(caughtErr.stack).to.contain('proxyGetter');
+          }
         });
 
         it('should include user frames in stack trace', function () {
@@ -233,6 +241,10 @@ describe('configuration', function () {
 
         it('should not include Chai frames in stack trace', function () {
           expect(caughtErr.stack).to.not.contain('propertyGetter');
+
+          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
+          }
         });
 
         it('should include user frames in stack trace', function () {
@@ -255,6 +267,10 @@ describe('configuration', function () {
 
         it('should not include Chai frames in stack trace', function () {
           expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
+
+          if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
+          }
         });
 
         it('should include user frames in stack trace', function () {
