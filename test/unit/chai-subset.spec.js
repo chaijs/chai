@@ -80,6 +80,12 @@ describe('complex object', function() {
 			}
 		});
 	});
+
+	it('should fail if comparing when comparing objects to dates', function () {
+		expect(testedObject).to.not.containSubset({
+			e: new Date()
+		});
+	});
 });
 
 describe('circular objects', function() {
