@@ -360,6 +360,10 @@ describe('should', function() {
       ({ foo: 1 }).should.have.length.within(50,100, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
+    err(function(){
+      ({ foo: 1 }).should.have.lengthOf.within(50,100, 'blah');
+    }, "blah: expected { foo: 1 } to have property 'length'");
+
     err(function () {
       ('string').should.be.within(0, 1, 'blah');
     }, "blah: expected 'string' to be a number");
@@ -387,6 +391,10 @@ describe('should', function() {
     err(function () {
       (1).should.have.length.within(5,7, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      (1).should.have.lengthOf.within(5,7, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('above(n)', function(){
@@ -405,6 +413,10 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.above(3, 'blah');
+    }, "blah: expected { foo: 1 } to have property 'length'");
+
+    err(function(){
+      ({foo: 1}).should.have.lengthOf.above(3, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
@@ -426,6 +438,10 @@ describe('should', function() {
     err(function () {
       (1).should.have.length.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      (1).should.have.lengthOf.above(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('least(n)', function(){
@@ -442,6 +458,10 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.of.at.least(3, 'blah');
+    }, "blah: expected { foo: 1 } to have property 'length'");
+
+    err(function(){
+      ({foo: 1}).should.have.lengthOf.at.least(3, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
@@ -479,6 +499,10 @@ describe('should', function() {
       ({foo: 1}).should.have.length.below(3, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
+    err(function(){
+      ({foo: 1}).should.have.lengthOf.below(3, 'blah');
+    }, "blah: expected { foo: 1 } to have property 'length'");
+
     err(function () {
       ('string').should.be.below(0, 'blah');
     }, "blah: expected 'string' to be a number");
@@ -498,6 +522,10 @@ describe('should', function() {
     err(function () {
       (1).should.have.length.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      (1).should.have.lengthOf.below(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('most(n)', function(){
@@ -514,6 +542,10 @@ describe('should', function() {
 
     err(function(){
       ({foo: 1}).should.have.length.of.at.most(3, 'blah');
+    }, "blah: expected { foo: 1 } to have property 'length'");
+
+    err(function(){
+      ({foo: 1}).should.have.lengthOf.at.most(3, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
     err(function () {
@@ -535,6 +567,10 @@ describe('should', function() {
     err(function () {
       (1).should.have.length.of.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      (1).should.have.lengthOf.at.most(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('match(regexp)', function(){
@@ -550,17 +586,28 @@ describe('should', function() {
     }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
-  it('length(n)', function(){
+  it('lengthOf(n)', function(){
     'test'.should.have.length(4);
+    'test'.should.have.lengthOf(4);
     'test'.should.not.have.length(3);
+    'test'.should.not.have.lengthOf(3);
     [1,2,3].should.have.length(3);
+    [1,2,3].should.have.lengthOf(3);
 
     err(function(){
       (4).should.have.length(3, 'blah');
     }, 'blah: expected 4 to have property \'length\'');
 
     err(function(){
+      (4).should.have.lengthOf(3, 'blah');
+    }, 'blah: expected 4 to have property \'length\'');
+
+    err(function(){
       'asd'.should.not.have.length(3, 'blah');
+    }, "blah: expected 'asd' to not have a length of 3");
+
+    err(function(){
+      'asd'.should.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
   });
 

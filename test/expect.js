@@ -298,7 +298,9 @@ describe('expect', function () {
     expect(5).to.be.within(3,5);
     expect(5).to.not.be.within(1,3);
     expect('foo').to.have.length.within(2,4);
+    expect('foo').to.have.lengthOf.within(2,4);
     expect([ 1, 2, 3 ]).to.have.length.within(2,4);
+    expect([ 1, 2, 3 ]).to.have.lengthOf.within(2,4);
 
     err(function(){
       expect(5).to.not.be.within(4,6, 'blah');
@@ -313,7 +315,15 @@ describe('expect', function () {
     }, "blah: expected \'foo\' to have a length within 5..7");
 
     err(function () {
+      expect('foo').to.have.lengthOf.within(5,7, 'blah');
+    }, "blah: expected \'foo\' to have a length within 5..7");
+
+    err(function () {
       expect([ 1, 2, 3 ]).to.have.length.within(5,7, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.lengthOf.within(5,7, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
 
     err(function () {
@@ -343,6 +353,10 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.length.within(5,7, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1).to.have.lengthOf.within(5,7, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('above(n)', function(){
@@ -351,7 +365,9 @@ describe('expect', function () {
     expect(5).to.not.be.above(5);
     expect(5).to.not.be.above(6);
     expect('foo').to.have.length.above(2);
+    expect('foo').to.have.lengthOf.above(2);
     expect([ 1, 2, 3 ]).to.have.length.above(2);
+    expect([ 1, 2, 3 ]).to.have.lengthOf.above(2);
 
     err(function(){
       expect(5).to.be.above(6, 'blah');
@@ -366,7 +382,15 @@ describe('expect', function () {
     }, "blah: expected \'foo\' to have a length above 4 but got 3");
 
     err(function () {
+      expect('foo').to.have.lengthOf.above(4, 'blah');
+    }, "blah: expected \'foo\' to have a length above 4 but got 3");
+
+    err(function () {
       expect([ 1, 2, 3 ]).to.have.length.above(4, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.lengthOf.above(4, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length above 4 but got 3");
 
     err(function () {
@@ -388,6 +412,10 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.length.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1).to.have.lengthOf.above(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('least(n)', function(){
@@ -395,7 +423,9 @@ describe('expect', function () {
     expect(5).to.be.at.least(5);
     expect(5).to.not.be.at.least(6);
     expect('foo').to.have.length.of.at.least(2);
+    expect('foo').to.have.lengthOf.at.least(2);
     expect([ 1, 2, 3 ]).to.have.length.of.at.least(2);
+    expect([ 1, 2, 3 ]).to.have.lengthOf.at.least(2);
 
     err(function(){
       expect(5).to.be.at.least(6, 'blah');
@@ -410,11 +440,23 @@ describe('expect', function () {
     }, "blah: expected \'foo\' to have a length at least 4 but got 3");
 
     err(function () {
+      expect('foo').to.have.lengthOf.at.least(4, 'blah');
+    }, "blah: expected \'foo\' to have a length at least 4 but got 3");
+
+    err(function () {
       expect([ 1, 2, 3 ]).to.have.length.of.at.least(4, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length at least 4 but got 3");
 
     err(function () {
+      expect([ 1, 2, 3 ]).to.have.lengthOf.at.least(4, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length at least 4 but got 3");
+
+    err(function () {
       expect([ 1, 2, 3, 4 ]).to.not.have.length.of.at.least(4, 'blah');
+    }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
+
+    err(function () {
+      expect([ 1, 2, 3, 4 ]).to.not.have.lengthOf.at.least(4, 'blah');
     }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
 
     err(function () {
@@ -436,6 +478,10 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.length.at.least(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1).to.have.lengthOf.at.least(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('below(n)', function(){
@@ -444,7 +490,9 @@ describe('expect', function () {
     expect(2).to.not.be.below(2);
     expect(2).to.not.be.below(1);
     expect('foo').to.have.length.below(4);
+    expect('foo').to.have.lengthOf.below(4);
     expect([ 1, 2, 3 ]).to.have.length.below(4);
+    expect([ 1, 2, 3 ]).to.have.lengthOf.below(4);
 
     err(function(){
       expect(6).to.be.below(5, 'blah');
@@ -459,7 +507,15 @@ describe('expect', function () {
     }, "blah: expected \'foo\' to have a length below 2 but got 3");
 
     err(function () {
+      expect('foo').to.have.lengthOf.below(2, 'blah');
+    }, "blah: expected \'foo\' to have a length below 2 but got 3");
+
+    err(function () {
       expect([ 1, 2, 3 ]).to.have.length.below(2, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.lengthOf.below(2, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length below 2 but got 3");
 
     err(function () {
@@ -481,6 +537,10 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.length.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1).to.have.lengthOf.below(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('most(n)', function(){
@@ -489,7 +549,9 @@ describe('expect', function () {
     expect(2).to.not.be.at.most(1);
     expect(2).to.not.be.at.most(1);
     expect('foo').to.have.length.of.at.most(4);
+    expect('foo').to.have.lengthOf.at.most(4);
     expect([ 1, 2, 3 ]).to.have.length.of.at.most(4);
+    expect([ 1, 2, 3 ]).to.have.lengthOf.at.most(4);
 
     err(function(){
       expect(6).to.be.at.most(5, 'blah');
@@ -504,11 +566,23 @@ describe('expect', function () {
     }, "blah: expected \'foo\' to have a length at most 2 but got 3");
 
     err(function () {
+      expect('foo').to.have.lengthOf.at.most(2, 'blah');
+    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
+
+    err(function () {
       expect([ 1, 2, 3 ]).to.have.length.of.at.most(2, 'blah');
     }, "blah: expected [ 1, 2, 3 ] to have a length at most 2 but got 3");
 
     err(function () {
+      expect([ 1, 2, 3 ]).to.have.lengthOf.at.most(2, 'blah');
+    }, "blah: expected [ 1, 2, 3 ] to have a length at most 2 but got 3");
+
+    err(function () {
       expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
+    }, "blah: expected [ 1, 2 ] to have a length above 2");
+
+    err(function () {
+      expect([ 1, 2 ]).to.not.have.lengthOf.at.most(2, 'blah');
     }, "blah: expected [ 1, 2 ] to have a length above 2");
 
     err(function () {
@@ -530,6 +604,10 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.length.of.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1).to.have.lengthOf.at.most(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
   });
 
   it('match(regexp)', function(){
@@ -550,17 +628,28 @@ describe('expect', function () {
     }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
-  it('length(n)', function(){
+  it('lengthOf(n)', function(){
     expect('test').to.have.length(4);
+    expect('test').to.have.lengthOf(4);
     expect('test').to.not.have.length(3);
+    expect('test').to.not.have.lengthOf(3);
     expect([1,2,3]).to.have.length(3);
+    expect([1,2,3]).to.have.lengthOf(3);
 
     err(function(){
       expect(4).to.have.length(3, 'blah');
     }, 'blah: expected 4 to have property \'length\'');
 
     err(function(){
+      expect(4).to.have.lengthOf(3, 'blah');
+    }, 'blah: expected 4 to have property \'length\'');
+
+    err(function(){
       expect('asd').to.not.have.length(3, 'blah');
+    }, "blah: expected 'asd' to not have a length of 3");
+
+    err(function(){
+      expect('asd').to.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
   });
 
