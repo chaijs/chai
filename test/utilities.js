@@ -1089,4 +1089,33 @@ describe('utilities', function () {
       }).to.not.throw();
     });
   });
+
+  describe('addLengthGuard', function () {
+    var fnLengthDesc = Object.getOwnPropertyDescriptor(function () {}, 'length');
+    if (!fnLengthDesc.configurable) return;
+
+    var addLengthGuard;
+
+    beforeEach(function () {
+      chai.use(function (_chai, _) {
+        addLengthGuard = _.addLengthGuard;
+      });
+    });
+
+    it('throws invalid use error if `.length` is read when `methodName` is defined and `isChainable` is false', function () {
+      var hoagie = addLengthGuard({}, 'hoagie', false);
+  
+      expect(function () {
+        hoagie.length;
+      }).to.throw('Invalid Chai property: hoagie.length. See docs for proper usage of "hoagie".');
+    });
+ 
+    it('throws incompatible `.length` error if `.length` is read when `methodName` is defined and `isChainable` is true', function () {
+      var hoagie = addLengthGuard({}, 'hoagie', true);
+  
+      expect(function () {
+        hoagie.length;
+      }).to.throw('Invalid Chai property: hoagie.length. Due to a compatibility issue, "length" cannot directly follow "hoagie". Use "hoagie.lengthOf" instead.');
+    });
+  });
 });

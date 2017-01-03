@@ -10,9 +10,7 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
-  describe('invalid property', function () {
-    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
-
+  describe('safeguards', function () {
     before(function () {
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
         new chai.Assertion(42).equal(42);
@@ -54,82 +52,163 @@ describe('expect', function () {
       delete chai.Assertion.prototype.tmpChainableMethod;
     });
 
-    it('throws when invalid property follows expect', function () {
-      err(function () {
-        expect(42).pizza;
-      }, 'Invalid Chai property: pizza');
+    describe('proxify', function () {
+      if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
+
+      it('throws when invalid property follows expect', function () {
+        err(function () {
+          expect(42).pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+
+      it('throws when invalid property follows language chain', function () {
+        err(function () {
+          expect(42).to.pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+
+      it('throws when invalid property follows property assertion', function () {
+        err(function () {
+          expect(42).ok.pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows overwritten property assertion', function () {
+        err(function () {
+          expect(42).tmpProperty.pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows uncalled method assertion', function () {
+        err(function () {
+          expect(42).equal.pizza;
+        }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
+      });
+  
+      it('throws when invalid property follows called method assertion', function () {
+        err(function () {
+          expect(42).equal(42).pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows uncalled overwritten method assertion', function () {
+        err(function () {
+          expect(42).tmpMethod.pizza;
+        }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
+      });
+  
+      it('throws when invalid property follows called overwritten method assertion', function () {
+        err(function () {
+          expect(42).tmpMethod().pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows uncalled chainable method assertion', function () {
+        err(function () {
+          expect(42).a.pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows called chainable method assertion', function () {
+        err(function () {
+          expect(42).a('number').pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
+       err(function () {
+          expect(42).tmpChainableMethod.pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('throws when invalid property follows called overwritten chainable method assertion', function () {
+        err(function () {
+          expect(42).tmpChainableMethod().pizza;
+        }, 'Invalid Chai property: pizza');
+      });
+  
+      it('doesn\'t throw if invalid property is excluded via config', function () {
+        expect(function () {
+          expect(42).then;
+        }).to.not.throw();
+      });
     });
 
-    it('throws when invalid property follows language chain', function () {
-      err(function () {
-        expect(42).to.pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+    describe('length guard', function () {
+      var fnLengthDesc = Object.getOwnPropertyDescriptor(function () {}, 'length');
+      if (!fnLengthDesc.configurable) return;
 
-    it('throws when invalid property follows property assertion', function () {
-      err(function () {
-        expect(42).ok.pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows `.expect`', function () {
+        expect(function () {
+          expect('foo').length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows overwritten property assertion', function () {
-      err(function () {
-        expect(42).tmpProperty.pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows language chain', function () {
+        expect(function () {
+          expect('foo').to.length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows uncalled method assertion', function () {
-      err(function () {
-        expect(42).equal.pizza;
-      }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
-    });
+      it('doesn\'t throw when `.length` follows property assertion', function () {
+        expect(function () {
+          expect('foo').ok.length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows called method assertion', function () {
-      err(function () {
-        expect(42).equal(42).pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows overwritten property assertion', function () {
+        expect(function () {
+          expect('foo').tmpProperty.length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows uncalled overwritten method assertion', function () {
-      err(function () {
-        expect(42).tmpMethod.pizza;
-      }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
-    });
+      it('throws when `.length` follows uncalled method assertion', function () {
+        err(function () {
+          expect('foo').equal.length;
+        }, 'Invalid Chai property: equal.length. See docs for proper usage of "equal".');
+      });
 
-    it('throws when invalid property follows called overwritten method assertion', function () {
-      err(function () {
-        expect(42).tmpMethod().pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows called method assertion', function () {
+        expect(function () {
+          expect('foo').equal('foo').length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows uncalled chainable method assertion', function () {
-      err(function () {
-        expect(42).a.pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('throws when `.length` follows uncalled overwritten method assertion', function () {
+        err(function () {
+          expect('foo').tmpMethod.length;
+        }, 'Invalid Chai property: tmpMethod.length. See docs for proper usage of "tmpMethod".');
+      });
 
-    it('throws when invalid property follows called chainable method assertion', function () {
-      err(function () {
-        expect(42).a('number').pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows called overwritten method assertion', function () {
+        expect(function () {
+          expect('foo').tmpMethod().length;
+        }).to.not.throw();
+      });
 
-    it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
-      err(function () {
-        expect(42).tmpChainableMethod.pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('throws when `.length` follows uncalled chainable method assertion', function () {
+        err(function () {
+          expect('foo').a.length;
+        }, 'Invalid Chai property: a.length. Due to a compatibility issue, "length" cannot directly follow "a". Use "a.lengthOf" instead.');
+      });
 
-    it('throws when invalid property follows called overwritten chainable method assertion', function () {
-      err(function () {
-        expect(42).tmpChainableMethod().pizza;
-      }, 'Invalid Chai property: pizza');
-    });
+      it('doesn\'t throw when `.length` follows called chainable method assertion', function () {
+        expect(function () {
+          expect('foo').a('string').length;
+        }).to.not.throw();
+      });
 
-    it('doesn\'t throw if invalid property is excluded via config', function () {
-      expect(function () {
-        expect(42).then;
-      }).to.not.throw();
+      it('throws when `.length` follows uncalled overwritten chainable method assertion', function () {
+        err(function () {
+          expect('foo').tmpChainableMethod.length;
+        }, 'Invalid Chai property: tmpChainableMethod.length. Due to a compatibility issue, "length" cannot directly follow "tmpChainableMethod". Use "tmpChainableMethod.lengthOf" instead.');
+      });
+
+      it('doesn\'t throw when `.length` follows called overwritten chainable method assertion', function () {
+        expect(function () {
+          expect('foo').tmpChainableMethod().length;
+        }).to.not.throw();
+      });
     });
   });
 
