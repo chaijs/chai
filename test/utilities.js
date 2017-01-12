@@ -883,8 +883,7 @@ describe('utilities', function () {
       // Ensure that foo returns an Assertion (not a function)
       expect(expect('x').x()).to.be.an.instanceOf(assertionConstructor);
 
-      var hasProtoSupport = '__proto__' in Object;
-      if (hasProtoSupport) {
+      if (typeof Object.setPrototypeOf === 'function') {
         expect(expect('x').x).to.be.an.instanceOf(assertionConstructor);
       }
     });
