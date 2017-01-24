@@ -37,7 +37,7 @@
     "assertion-error": "^1.0.1",
     "check-error": "^1.0.1",
     "deep-eql": "^2.0.1",
-    "get-func-name": "^1.0.0",
+    "get-func-name": "^2.0.0",
     "pathval": "^1.0.0",
     "type-detect": "^4.0.0"
   },
