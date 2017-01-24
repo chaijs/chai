@@ -1547,6 +1547,286 @@ describe('expect', function () {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
   });
 
+  it('strings(array|arguments)', function() {
+    expect('hello world').to.include.all.strings('hello world');
+    expect('hello world').to.include.all.strings('hello');
+    expect('hello world').to.include.all.strings('hello', 'world');
+
+    expect('hello world').to.include.strings('hello world');
+    expect('hello world').to.include.strings('hello');
+    expect('hello world').to.include.strings('hello', 'world');
+
+    expect('hello world').to.include.any.strings('hello');
+    expect('hello world').to.include.any.strings('hello world');
+    expect('hello world').to.include.any.strings('hello', 'world');
+    expect('hello world').to.include.any.strings('cat', 'hello');
+
+    expect('hello world').to.include.all.strings(['hello world']);
+    expect('hello world').to.include.all.strings(['hello']);
+    expect('hello world').to.include.all.strings(['hello', 'world']);
+
+    expect('hello world').to.include.strings(['hello world']);
+    expect('hello world').to.include.strings(['hello']);
+    expect('hello world').to.include.strings(['hello', 'world']);
+
+    expect('hello world').to.include.any.strings(['hello']);
+    expect('hello world').to.include.any.strings(['hello world']);
+    expect('hello world').to.include.any.strings(['hello', 'world']);
+    expect('hello world').to.include.any.strings(['cat', 'hello']);
+
+    expect('hello planet').to.not.include.all.strings('hello world');
+    expect('hello planet').to.not.include.all.strings('goodbye');
+    expect('hello planet').to.not.include.all.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.include.strings('hello world');
+    expect('hello planet').to.not.include.strings('goodbye');
+    expect('hello planet').to.not.include.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.include.any.strings('hello world');
+    expect('hello planet').to.not.include.any.strings('hello', 'world');
+    expect('hello planet').to.not.include.any.strings('cat', 'hello');
+
+    expect('hello planet').to.not.include.all.strings(['hello world']);
+    expect('hello planet').to.not.include.all.strings(['goodbye']);
+    expect('hello planet').to.not.include.all.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.include.strings(['hello world']);
+    expect('hello planet').to.not.include.strings(['goodbye']);
+    expect('hello planet').to.not.include.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.include.any.strings(['hello world']);
+    expect('hello planet').to.not.include.any.strings(['hello', 'world']);
+    expect('hello planet').to.not.include.any.strings(['cat', 'hello']);
+
+    expect('hello world').to.contain.all.strings('hello world');
+    expect('hello world').to.contain.all.strings('hello');
+    expect('hello world').to.contain.all.strings('hello', 'world');
+
+    expect('hello world').to.contain.strings('hello world');
+    expect('hello world').to.contain.strings('hello');
+    expect('hello world').to.contain.strings('hello', 'world');
+
+    expect('hello world').to.contain.any.strings('hello');
+    expect('hello world').to.contain.any.strings('hello world');
+    expect('hello world').to.contain.any.strings('hello', 'world');
+    expect('hello world').to.contain.any.strings('cat', 'hello');
+
+    expect('hello world').to.contain.all.strings(['hello world']);
+    expect('hello world').to.contain.all.strings(['hello']);
+    expect('hello world').to.contain.all.strings(['hello', 'world']);
+
+    expect('hello world').to.contain.strings(['hello world']);
+    expect('hello world').to.contain.strings(['hello']);
+    expect('hello world').to.contain.strings(['hello', 'world']);
+
+    expect('hello world').to.contain.any.strings(['hello']);
+    expect('hello world').to.contain.any.strings(['hello world']);
+    expect('hello world').to.contain.any.strings(['hello', 'world']);
+    expect('hello world').to.contain.any.strings(['cat', 'hello']);
+
+    expect('hello planet').to.not.contain.all.strings('hello world');
+    expect('hello planet').to.not.contain.all.strings('goodbye');
+    expect('hello planet').to.not.contain.all.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.contain.strings('hello world');
+    expect('hello planet').to.not.contain.strings('goodbye');
+    expect('hello planet').to.not.contain.strings('goodbye', 'world');
+
+    expect('hello planet').to.not.contain.any.strings('hello world');
+    expect('hello planet').to.not.contain.any.strings('hello', 'world');
+    expect('hello planet').to.not.contain.any.strings('cat', 'hello');
+
+    expect('hello planet').to.not.contain.all.strings(['hello world']);
+    expect('hello planet').to.not.contain.all.strings(['goodbye']);
+    expect('hello planet').to.not.contain.all.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.contain.strings(['hello world']);
+    expect('hello planet').to.not.contain.strings(['goodbye']);
+    expect('hello planet').to.not.contain.strings(['goodbye', 'world']);
+
+    expect('hello planet').to.not.contain.any.strings(['hello world']);
+    expect('hello planet').to.not.contain.any.strings(['hello', 'world']);
+    expect('hello planet').to.not.contain.any.strings(['cat', 'hello']);
+
+    err(function() {
+      expect('hello world').to.include.all.strings('cat');
+    }, "expected 'hello world' to contain 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.all.strings(['cat']);
+    }, "expected 'hello world' to contain 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.all.strings('hello', 'cat');
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.strings('hello', 'cat');
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.any.strings('goodbye', 'cat');
+    }, "expected 'hello world' to contain strings 'goodbye', or 'cat'");
+
+    err(function() {
+      expect('hello world').to.not.include.all.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.include.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.include.any.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', or 'world'");
+
+    err(function() {
+      expect('hello world').to.include.all.strings(['hello', 'cat']);
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.strings(['hello', 'cat']);
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.include.any.strings(['goodbye', 'cat']);
+    }, "expected 'hello world' to contain strings 'goodbye', or 'cat'");
+
+    err(function() {
+      expect('hello world').to.not.include.all.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.include.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.include.any.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', or 'world'");
+
+    err(function() {
+      expect('hello world').to.contain.all.strings('hello', 'cat');
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.contain.strings('hello', 'cat');
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.contain.any.strings('goodbye', 'cat');
+    }, "expected 'hello world' to contain strings 'goodbye', or 'cat'");
+
+    err(function() {
+      expect('hello world').to.not.contain.all.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.contain.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.contain.any.strings('hello', 'world');
+    }, "expected 'hello world' to not contain strings 'hello', or 'world'");
+
+    err(function() {
+      expect('hello world').to.contain.all.strings(['hello', 'cat']);
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.contain.strings(['hello', 'cat']);
+    }, "expected 'hello world' to contain strings 'hello', and 'cat'");
+
+    err(function() {
+      expect('hello world').to.contain.any.strings(['goodbye', 'cat']);
+    }, "expected 'hello world' to contain strings 'goodbye', or 'cat'");
+
+    err(function() {
+      expect('hello world').to.not.contain.all.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.contain.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', and 'world'");
+
+    err(function() {
+      expect('hello world').to.not.contain.any.strings(['hello', 'world']);
+    }, "expected 'hello world' to not contain strings 'hello', or 'world'");
+
+    err(function(){
+      expect('hello').to.contain.all.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.contain.all.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.contain.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.contain.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.contain.any.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.contain.any.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.include.all.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.include.all.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.include.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.include.strings([]);
+    }, "strings required");
+
+    err(function(){
+      expect('hello').to.include.any.strings();
+    }, "strings required");
+
+    err(function(){
+     expect('hello').to.include.any.strings([]);
+    }, "strings required");
+
+    var mixedArgsMsg = 'when testing strings against strings you must give a single Array|String argument or multiple String arguments'
+
+    err(function(){
+      expect('hello').to.contain.all.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.contain.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.contain.any.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.include.all.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.include.strings(['e'], "o");
+    }, mixedArgsMsg);
+
+    err(function(){
+      expect('hello').to.include.any.strings(['e'], "o");
+    }, mixedArgsMsg);
+  });
+
   it('keys(array|Object|arguments)', function(){
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1 }).have.keys({ 'foo': 6 });
@@ -1826,7 +2106,7 @@ describe('expect', function () {
       expect(testSet).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
       expect(testSet).to.not.have.any.deep.keys([20, 1, {13: 37}]);
       expect(testSet).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
- 
+
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []
