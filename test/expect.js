@@ -1381,11 +1381,9 @@ describe('expect', function () {
 
   it('strings(array|arguments)', function() {
     expect('hello world').to.include.all.strings('hello world');
-    expect('hello world').to.include.all.strings('hello world');
     expect('hello world').to.include.all.strings('hello');
     expect('hello world').to.include.all.strings('hello', 'world');
 
-    expect('hello world').to.include.strings('hello world');
     expect('hello world').to.include.strings('hello world');
     expect('hello world').to.include.strings('hello');
     expect('hello world').to.include.strings('hello', 'world');
