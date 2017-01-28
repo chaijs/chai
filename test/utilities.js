@@ -37,28 +37,54 @@ describe('utilities', function () {
     var foo = 'bar';
 
     chai.use(function (_chai, utils) {
-      var obj = {};
+      var target = {};
       var test = function() {};
 
-      var assertion = new chai.Assertion({}, "message", test);
+      var assertion = new chai.Assertion(target, "message", test, true);
       var flag = {};
-      utils.flag(obj, 'flagMe', flag);
-      utils.flag(obj, 'negate', true);
-      utils.transferFlags(test, obj, false);
+      utils.flag(assertion, 'flagMe', flag);
+      utils.flag(assertion, 'negate', true);
+      var obj = {};
+      utils.transferFlags(assertion, obj, false);
 
       expect(utils.flag(obj, 'object')).to.equal(undefined);
       expect(utils.flag(obj, 'message')).to.equal(undefined);
       expect(utils.flag(obj, 'ssfi')).to.equal(undefined);
+      expect(utils.flag(obj, 'keep_ssfi')).to.equal(undefined);
+      expect(utils.flag(obj, 'negate')).to.equal(true);
+      expect(utils.flag(obj, 'flagMe')).to.equal(flag);
+    });
+  });
+
+  it('transferFlags, includeAll = true', function () {
+    var foo = 'bar';
+
+    chai.use(function (_chai, utils) {
+      var target = {};
+      var test = function() {};
+
+      var assertion = new chai.Assertion(target, "message", test, true);
+      var flag = {};
+      utils.flag(assertion, 'flagMe', flag);
+      utils.flag(assertion, 'negate', true);
+      var obj = {};
+      utils.transferFlags(assertion, obj, true);
+
+      expect(utils.flag(obj, 'object')).to.equal(target);
+      expect(utils.flag(obj, 'message')).to.equal("message");
+      expect(utils.flag(obj, 'ssfi')).to.equal(test);
+      expect(utils.flag(obj, 'keep_ssfi')).to.equal(true);
       expect(utils.flag(obj, 'negate')).to.equal(true);
       expect(utils.flag(obj, 'flagMe')).to.equal(flag);
     });
   });
 
   describe('addMethod', function() {
-    var assertionConstructor;
+    var assertionConstructor, utils;
 
     before(function() {
-      chai.use(function(_chai, utils) {
+      chai.use(function(_chai, _utils) {
+        utils = _utils;
         assertionConstructor = _chai.Assertion;
 
         expect(_chai.Assertion).to.not.respondTo('eqqqual');
@@ -128,16 +154,39 @@ describe('utilities', function () {
       var anotherAssertion = expect([1, 2, 3]).to.have.a.lengthOf(3).and.to.be.ok;
       expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
     });
+
+    it('addMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect(1);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.eqqqual(1);
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('addMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect(1);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.eqqqual(1);
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
+    });
   });
 
   describe('overwriteMethod', function () {
-    var assertionConstructor;
+    var assertionConstructor, utils;
 
     before(function() {
       chai.config.includeStack = false;
 
-      chai.use(function(_chai, utils) {
+      chai.use(function(_chai, _utils) {
         assertionConstructor = _chai.Assertion;
+        utils = _utils;
 
         _chai.Assertion.addMethod('four', function() {
           this.assert(this._obj === 4, 'expected #{this} to be 4', 'expected #{this} to not be 4', 4);
@@ -290,13 +339,37 @@ describe('utilities', function () {
       // Ensure that foo returns an Assertion (not a function)
       expect(expect('four').four()).to.be.an.instanceOf(assertionConstructor);
     });
+
+    it('overwriteMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect(4);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.four();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('overwriteMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect(4);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.four();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
+    });
   });
 
   describe('addProperty', function() {
     var assertionConstructor = chai.Assertion;
+    var utils;
 
     before(function() {
-      chai.use(function (_chai, utils) {
+      chai.use(function (_chai, _utils) {
+        utils = _utils;
         assertionConstructor = _chai.Assertion;
 
         _chai.Assertion.addProperty('tea', function () {
@@ -362,16 +435,39 @@ describe('utilities', function () {
       expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
       expect(expect([1, 2, 3]).thing).to.be.an.instanceOf(assertionConstructor);
     });
+
+    it('addProperty sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect(1);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.to.be.tea;
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('addProperty doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect(1);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.to.be.tea;
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
+    });
   });
 
   describe('overwriteProperty', function () {
-    var assertionConstructor;
+    var assertionConstructor, utils;
 
     before(function() {
       chai.config.includeStack = false;
 
-      chai.use(function(_chai, utils) {
+      chai.use(function(_chai, _utils) {
         assertionConstructor = _chai.Assertion;
+        utils = _utils;
 
         _chai.Assertion.addProperty('tea', function () {
           utils.flag(this, 'tea', 'chai');
@@ -498,6 +594,28 @@ describe('utilities', function () {
 
       expect(expect([1, 2, 3]).be).to.be.an.instanceOf(assertionConstructor);
       expect(expect([1, 2, 3]).foo).to.be.an.instanceOf(assertionConstructor);
+    });
+
+    it('overwriteProperty sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect(4);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.to.be.four;
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('overwriteProperty doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect(4);
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.to.be.four;
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
     });
   });
 
@@ -699,11 +817,12 @@ describe('utilities', function () {
   });
 
   describe('addChainableMethod', function() {
-    var assertionConstructor;
+    var assertionConstructor, utils;
 
     before(function() {
-      chai.use(function (_chai, utils) {
+      chai.use(function (_chai, _utils) {
         assertionConstructor = _chai.Assertion;
+        utils = _utils;
 
         _chai.Assertion.addChainableMethod('x',
           function () {
@@ -781,6 +900,28 @@ describe('utilities', function () {
 
       // Ensure that foo returns an Assertion (not a function)
       expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
+    });
+
+    it('addChainableMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect('x');
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.to.be.x();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('addChainableMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect('x');
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.to.be.x();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
     });
   });
 
@@ -886,6 +1027,28 @@ describe('utilities', function () {
       if (typeof Object.setPrototypeOf === 'function') {
         expect(expect('x').x).to.be.an.instanceOf(assertionConstructor);
       }
+    });
+
+    it('overwriteChainableMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+      var origAssertion = expect('x');
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      var newAssertion = origAssertion.to.be.x();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.not.equal(newSsfi);
+    }); 
+
+    it('overwriteChainableMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+      var origAssertion = expect('x');
+      var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+      utils.flag(origAssertion, 'keep_ssfi', true);
+
+      var newAssertion = origAssertion.to.be.x();
+      var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+      expect(origSsfi).to.equal(newSsfi);
     });
   });
 
