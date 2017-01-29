@@ -151,10 +151,23 @@ describe('globalErr', function () {
         }, /implementation frames not properly filtered from stack trace/, true);
       });
 
+      // The inner `err` executes `assert` and catches the thrown error. But
+      // then it sees the word "assert" in the stack trace of the thrown error,
+      // so it thinks that implementation frames weren't properly filtered out,
+      // so it throws a new error. The outer `err` catches that new error and
+      // validates that it has the expected error message.
+      it('should throw if "assert" is in the stack trace', function () {
+        err(function () {
+          err(function assert () {
+            throw Error('my stack trace contains a fake implementation frame');
+          });
+        }, /implementation frames not properly filtered from stack trace/, true);
+      });
+
       // `err` executes `safeFnName` and catches the thrown error. Since there
       // aren't any implementation frames in the stack trace of the thrown error,
       // it shouldn't throw a new error (which would cause this test to fail).
-      it('shouldn\'t throw if neither "Getter" nor "Wrapper" are in the stack trace', function () {
+      it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
         err(function safeFnName () {
           throw Error('my stack trace doesn\'t contain implementation frames');
         });
@@ -182,11 +195,21 @@ describe('globalErr', function () {
         }, undefined, true);
       });
 
+      // `err` executes `assert` and catches the thrown error. Since
+      // `skipStackTest` is truthy, it shouldn't see the word "assert" in the
+      // stack trace of the thrown error, and thus shouldn't throw a new error
+      // (which would cause this test to fail).
+      it('shouldn\'t throw if "assert" is in the stack trace', function () {
+        err(function assert () {
+          throw Error('my stack trace contains a fake implementation frame');
+        }, undefined, true);
+      });
+
       // `err` executes `safeFnName` and catches the thrown error. Since
       // `skipStackTest` is truthy, and since there aren't any implementation
       // frames in the stack trace of the thrown error anyway, it shouldn't
       // throw a new error (which would cause this test to fail).
-      it('shouldn\'t throw if neither "Getter" nor "Wrapper" are in the stack trace', function () {
+      it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
         err(function safeFnName () {
           throw Error('my stack trace doesn\'t contain implementation frames');
         }, undefined, true);
