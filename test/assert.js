@@ -666,6 +666,7 @@ describe('assert', function () {
     assert.containsAllKeys({ foo: 1, bar: 2 }, { 'bar': 7, 'foo': 6 });
 
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'baz' ]);
+    assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'foo' ]);
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'baz' ]);
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'foo', 'bar', 'baz', 'fake' ]);
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'baz', 'foo' ]);

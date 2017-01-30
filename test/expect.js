@@ -1568,6 +1568,7 @@ describe('expect', function () {
     expect({ foo: 1, bar: 2, baz: 3 }).to.contain.all.keys(['bar', 'foo']);
 
     expect({ foo: 1, bar: 2 }).to.not.have.keys('baz');
+    expect({ foo: 1, bar: 2 }).to.not.have.keys('foo');
     expect({ foo: 1, bar: 2 }).to.not.have.keys('foo', 'baz');
     expect({ foo: 1, bar: 2 }).to.not.contain.keys('baz');
     expect({ foo: 1, bar: 2 }).to.not.contain.keys('foo', 'baz');
