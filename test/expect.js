@@ -1431,6 +1431,8 @@ describe('expect', function () {
     expect(['foo', 'bar']).to.not.include('baz');
     expect(['foo', 'bar']).to.not.include(1);
 
+    expect({a: 1}).to.include({'toString': Object.prototype.toString});
+
     var obj1 = {a: 1}
       , obj2 = {b: 2};
     expect([obj1, obj2]).to.include(obj1);
@@ -1545,6 +1547,91 @@ describe('expect', function () {
     err(function () {
       expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 2}});
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
+  });
+
+  it('nested.include()', function () {
+    expect({a: {b: ['x', 'y']}}).to.nested.include({'a.b[1]': 'y'});
+    expect({a: {b: ['x', 'y']}}).to.not.nested.include({'a.b[1]': 'x'});
+    expect({a: {b: ['x', 'y']}}).to.not.nested.include({'a.c': 'y'});
+
+    expect({a: {b: [{x: 1}]}}).to.not.nested.include({'a.b[0]': {x: 1}});
+
+    expect({'.a': {'[b]': 'x'}}).to.nested.include({'\\.a.\\[b\\]': 'x'});
+    expect({'.a': {'[b]': 'x'}}).to.not.nested.include({'\\.a.\\[b\\]': 'y'});
+
+    err(function () {
+      expect({a: {b: ['x', 'y']}}).to.nested.include({'a.b[1]': 'x'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      expect({a: {b: ['x', 'y']}}).to.nested.include({'a.c': 'y'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.c'");
+
+    err(function () {
+      expect({a: {b: ['x', 'y']}}).to.not.nested.include({'a.b[1]': 'y'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
+  });
+
+  it('deep.nested.include()', function () {
+    expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.b[0]': {x: 1}});
+    expect({a: {b: [{x: 1}]}}).to.not.deep.nested.include({'a.b[0]': {y: 2}});
+    expect({a: {b: [{x: 1}]}}).to.not.deep.nested.include({'a.c': {x: 1}});
+
+    expect({'.a': {'[b]': {x: 1}}})
+      .to.deep.nested.include({'\\.a.\\[b\\]': {x: 1}});
+    expect({'.a': {'[b]': {x: 1}}})
+      .to.not.deep.nested.include({'\\.a.\\[b\\]': {y: 2}});
+
+    err(function () {
+      expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.b[0]': {y: 2}});
+    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.c': {x: 1}});
+    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+
+    err(function () {
+      expect({a: {b: [{x: 1}]}}).to.not.deep.nested.include({'a.b[0]': {x: 1}});
+    }, "expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+  });
+
+  it('own.include()', function () {
+    expect({a: 1}).to.own.include({a: 1});
+    expect({a: 1}).to.not.own.include({a: 3});
+    expect({a: 1}).to.not.own.include({'toString': Object.prototype.toString});
+
+    expect({a: {b: 2}}).to.not.own.include({a: {b: 2}});
+
+    err(function () {
+      expect({a: 1}).to.own.include({a: 3});
+    }, "expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      expect({a: 1}).to.own.include({'toString': Object.prototype.toString});
+    }, "expected { a: 1 } to have own property 'toString'");
+
+    err(function () {
+      expect({a: 1}).to.not.own.include({a: 1});
+    }, "expected { a: 1 } to not have own property 'a' of 1");
+  });
+
+  it('deep.own.include()', function () {
+    expect({a: {b: 2}}).to.deep.own.include({a: {b: 2}});
+    expect({a: {b: 2}}).to.not.deep.own.include({a: {c: 3}});
+    expect({a: {b: 2}})
+      .to.not.deep.own.include({'toString': Object.prototype.toString});
+
+    err(function () {
+      expect({a: {b: 2}}).to.deep.own.include({a: {c: 3}});
+    }, "expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      expect({a: {b: 2}}).to.deep.own.include({'toString': Object.prototype.toString});
+    }, "expected { a: { b: 2 } } to have deep own property 'toString'");
+
+    err(function () {
+      expect({a: {b: 2}}).to.not.deep.own.include({a: {b: 2}});
+    }, "expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
 
   it('keys(array|Object|arguments)', function(){
