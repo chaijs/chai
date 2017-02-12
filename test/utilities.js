@@ -50,7 +50,7 @@ describe('utilities', function () {
       expect(utils.flag(obj, 'object')).to.equal(undefined);
       expect(utils.flag(obj, 'message')).to.equal(undefined);
       expect(utils.flag(obj, 'ssfi')).to.equal(undefined);
-      expect(utils.flag(obj, 'keep_ssfi')).to.equal(undefined);
+      expect(utils.flag(obj, 'lockSsfi')).to.equal(undefined);
       expect(utils.flag(obj, 'negate')).to.equal(true);
       expect(utils.flag(obj, 'flagMe')).to.equal(flag);
     });
@@ -73,7 +73,7 @@ describe('utilities', function () {
       expect(utils.flag(obj, 'object')).to.equal(target);
       expect(utils.flag(obj, 'message')).to.equal("message");
       expect(utils.flag(obj, 'ssfi')).to.equal(test);
-      expect(utils.flag(obj, 'keep_ssfi')).to.equal(true);
+      expect(utils.flag(obj, 'lockSsfi')).to.equal(true);
       expect(utils.flag(obj, 'negate')).to.equal(true);
       expect(utils.flag(obj, 'flagMe')).to.equal(flag);
     });
@@ -155,7 +155,7 @@ describe('utilities', function () {
       expect(anotherAssertion.length.constructor).to.equal(assertionConstructor);
     });
 
-    it('addMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('addMethod sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect(1);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -165,11 +165,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('addMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('addMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(1);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.eqqqual(1);
       var newSsfi = utils.flag(newAssertion, 'ssfi');
@@ -340,7 +340,7 @@ describe('utilities', function () {
       expect(expect('four').four()).to.be.an.instanceOf(assertionConstructor);
     });
 
-    it('overwriteMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('overwriteMethod sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect(4);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -350,11 +350,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('overwriteMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('overwriteMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(4);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.four();
       var newSsfi = utils.flag(newAssertion, 'ssfi');
@@ -436,7 +436,7 @@ describe('utilities', function () {
       expect(expect([1, 2, 3]).thing).to.be.an.instanceOf(assertionConstructor);
     });
 
-    it('addProperty sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('addProperty sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect(1);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -446,11 +446,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('addProperty doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('addProperty doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(1);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.to.be.tea;
       var newSsfi = utils.flag(newAssertion, 'ssfi');
@@ -596,7 +596,7 @@ describe('utilities', function () {
       expect(expect([1, 2, 3]).foo).to.be.an.instanceOf(assertionConstructor);
     });
 
-    it('overwriteProperty sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('overwriteProperty sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect(4);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -606,11 +606,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('overwriteProperty doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('overwriteProperty doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(4);
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.to.be.four;
       var newSsfi = utils.flag(newAssertion, 'ssfi');
@@ -902,7 +902,7 @@ describe('utilities', function () {
       expect(expect('bar').foo('bar')).to.be.an.instanceOf(assertionConstructor);
     });
 
-    it('addChainableMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('addChainableMethod sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect('x');
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -912,11 +912,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('addChainableMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('addChainableMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect('x');
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.to.be.x();
       var newSsfi = utils.flag(newAssertion, 'ssfi');
@@ -1029,7 +1029,7 @@ describe('utilities', function () {
       }
     });
 
-    it('overwriteChainableMethod sets `ssfi` when `keep_ssfi` isn\'t set', function () {
+    it('overwriteChainableMethod sets `ssfi` when `lockSsfi` isn\'t set', function () {
       var origAssertion = expect('x');
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
@@ -1039,11 +1039,11 @@ describe('utilities', function () {
       expect(origSsfi).to.not.equal(newSsfi);
     }); 
 
-    it('overwriteChainableMethod doesn\'t set `ssfi` when `keep_ssfi` is set', function () {
+    it('overwriteChainableMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect('x');
       var origSsfi = utils.flag(origAssertion, 'ssfi');
 
-      utils.flag(origAssertion, 'keep_ssfi', true);
+      utils.flag(origAssertion, 'lockSsfi', true);
 
       var newAssertion = origAssertion.to.be.x();
       var newSsfi = utils.flag(newAssertion, 'ssfi');
