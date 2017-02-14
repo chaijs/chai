@@ -120,53 +120,35 @@ describe('globalErr', function () {
       if (typeof err.stack === 'undefined') return;
     }
 
-    // Note: `.to.not.throw` isn't used for the assertions that are expected to
-    // not throw an error because it'll pollute the very same stack trace which
-    // is being asserted on. Instead, if a test is failing, then Mocha will pick
-    // up the error that's thrown by `err`.
+    // Note: `.to.not.throw` isn't used for the assertions that aren't expected
+    // to throw an error because it'll pollute the very same stack trace which
+    // is being asserted on. Instead, if `err` throws an error, then Mocha will
+    // use that error as the reason the test failed.
     describe('falsey', function () {
-      // The inner `err` executes `myGetter` and catches the thrown error. But
-      // then it sees the word "Getter" in the stack trace of the thrown error,
-      // so it thinks that implementation frames weren't properly filtered out,
-      // so it throws a new error. The outer `err` catches that new error and
-      // validates that it has the expected error message.
       it('should throw if "Getter" is in the stack trace', function () {
         err(function () {
-          err(function myGetter () {
+          err(function fakeGetter () {
             throw Error('my stack trace contains a fake implementation frame');
           });
         }, /implementation frames not properly filtered from stack trace/, true);
       });
 
-      // The inner `err` executes `myWrapper` and catches the thrown error. But
-      // then it sees the word "Wrapper" in the stack trace of the thrown error,
-      // so it thinks that implementation frames weren't properly filtered out,
-      // so it throws a new error. The outer `err` catches that new error and
-      // validates that it has the expected error message.
       it('should throw if "Wrapper" is in the stack trace', function () {
         err(function () {
-          err(function myWrapper () {
+          err(function fakeWrapper () {
             throw Error('my stack trace contains a fake implementation frame');
           });
         }, /implementation frames not properly filtered from stack trace/, true);
       });
 
-      // The inner `err` executes `assert` and catches the thrown error. But
-      // then it sees the word "assert" in the stack trace of the thrown error,
-      // so it thinks that implementation frames weren't properly filtered out,
-      // so it throws a new error. The outer `err` catches that new error and
-      // validates that it has the expected error message.
       it('should throw if "assert" is in the stack trace', function () {
         err(function () {
-          err(function assert () {
+          err(function assertFake () {
             throw Error('my stack trace contains a fake implementation frame');
           });
         }, /implementation frames not properly filtered from stack trace/, true);
       });
 
-      // `err` executes `safeFnName` and catches the thrown error. Since there
-      // aren't any implementation frames in the stack trace of the thrown error,
-      // it shouldn't throw a new error (which would cause this test to fail).
       it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
         err(function safeFnName () {
           throw Error('my stack trace doesn\'t contain implementation frames');
@@ -175,40 +157,24 @@ describe('globalErr', function () {
     });
 
     describe('truthy', function () {
-      // `err` executes `myGetter` and catches the thrown error. Since
-      // `skipStackTest` is truthy, it shouldn't see the word "Getter" in the
-      // stack trace of the thrown error, and thus shouldn't throw a new error
-      // (which would cause this test to fail).
       it('shouldn\'t throw if "Getter" is in the stack trace', function () {
-        err(function myGetter () {
+        err(function fakeGetter () {
           throw Error('my stack trace contains a fake implementation frame');
         }, undefined, true);
       });
 
-      // `err` executes `myWrapper` and catches the thrown error. Since
-      // `skipStackTest` is truthy, it shouldn't see the word "Wrapper" in the
-      // stack trace of the thrown error, and thus shouldn't throw a new error
-      // (which would cause this test to fail).
       it('shouldn\'t throw if "Wrapper" is in the stack trace', function () {
-        err(function myWrapper () {
+        err(function fakeWrapper () {
           throw Error('my stack trace contains a fake implementation frame');
         }, undefined, true);
       });
 
-      // `err` executes `assert` and catches the thrown error. Since
-      // `skipStackTest` is truthy, it shouldn't see the word "assert" in the
-      // stack trace of the thrown error, and thus shouldn't throw a new error
-      // (which would cause this test to fail).
       it('shouldn\'t throw if "assert" is in the stack trace', function () {
-        err(function assert () {
+        err(function assertFake () {
           throw Error('my stack trace contains a fake implementation frame');
         }, undefined, true);
       });
 
-      // `err` executes `safeFnName` and catches the thrown error. Since
-      // `skipStackTest` is truthy, and since there aren't any implementation
-      // frames in the stack trace of the thrown error anyway, it shouldn't
-      // throw a new error (which would cause this test to fail).
       it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
         err(function safeFnName () {
           throw Error('my stack trace doesn\'t contain implementation frames');
