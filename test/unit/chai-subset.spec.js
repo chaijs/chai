@@ -172,3 +172,23 @@ describe('comparison of dates', function() {
 		expect(new Date('not valid actual date')).to.not.containSubset(new Date('not valid expected date'));
 	});
 });
+
+describe('cyclic objects', () => {
+	it('should pass', () => {
+		const child = {};
+		const parent = {
+			children: [child],
+		};
+		child.parent = parent;
+	
+		const myObject = {
+			a: 1,
+			b: 'two',
+			c: parent,
+		};
+		expect(myObject).to.containSubset({
+			a: 1,
+			c: parent,
+		});
+	});
+});
