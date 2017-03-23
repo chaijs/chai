@@ -72,61 +72,61 @@ describe('expect', function () {
           expect(42).ok.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows overwritten property assertion', function () {
         err(function () {
           expect(42).tmpProperty.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled method assertion', function () {
         err(function () {
           expect(42).equal.pizza;
         }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
       });
-  
+
       it('throws when invalid property follows called method assertion', function () {
         err(function () {
           expect(42).equal(42).pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled overwritten method assertion', function () {
         err(function () {
           expect(42).tmpMethod.pizza;
         }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
       });
-  
+
       it('throws when invalid property follows called overwritten method assertion', function () {
         err(function () {
           expect(42).tmpMethod().pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled chainable method assertion', function () {
         err(function () {
           expect(42).a.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows called chainable method assertion', function () {
         err(function () {
           expect(42).a('number').pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
        err(function () {
           expect(42).tmpChainableMethod.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows called overwritten chainable method assertion', function () {
         err(function () {
           expect(42).tmpChainableMethod().pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('doesn\'t throw if invalid property is excluded via config', function () {
         expect(function () {
           expect(42).then;
@@ -365,6 +365,71 @@ describe('expect', function () {
   it('instanceof', function(){
     function Foo(){}
     expect(new Foo()).to.be.an.instanceof(Foo);
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof(1);
+    }, "The instanceof assertion needs a constructor but number was given.");
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof('batman');
+    }, "The instanceof assertion needs a constructor but string was given.");
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof({});
+    }, "The instanceof assertion needs a constructor but object was given.");
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof(true);
+    }, "The instanceof assertion needs a constructor but boolean was given.");
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof(null);
+    }, "The instanceof assertion needs a constructor but null was given.");
+
+    err(function(){
+      expect(new Foo()).to.an.instanceof(undefined);
+    }, "The instanceof assertion needs a constructor but undefined was given.");
+
+    // Different browsers may have different error messages
+    var expectedError;
+    try {
+      t instanceof Thing;
+    } catch (err) {
+      errMsg = '[object Object] instanceof function Thing(){} failed: ' + err.message + '.';
+    }
+
+    err(function(){
+      function Thing(){};
+      var t = new Thing();
+      Thing.prototype = 1337;
+      expect(t).to.an.instanceof(Thing);
+    }, expectedError)
+
+    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
+        err(function(){
+          expect(new Foo()).to.an.instanceof(Symbol());
+        }, "The instanceof assertion needs a constructor but symbol was given.");
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 3;
+            };
+
+            expect(fakeInstanceB).to.be.an.instanceof(FakeConstructor);
+        }, 'expected 4 to be an instance of an unnamed constructor')
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 4;
+            };
+
+            expect(fakeInstanceB).to.not.be.an.instanceof(FakeConstructor);
+        }, 'expected 4 to not be an instance of an unnamed constructor')
+    }
 
     err(function(){
       expect(3).to.an.instanceof(Foo, 'blah');
@@ -1914,7 +1979,7 @@ describe('expect', function () {
       expect(testSet).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
       expect(testSet).to.not.have.any.deep.keys([20, 1, {13: 37}]);
       expect(testSet).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
- 
+
       var weirdSetKey1 = Object.create(null)
         , weirdSetKey2 = {toString: NaN}
         , weirdSetKey3 = []

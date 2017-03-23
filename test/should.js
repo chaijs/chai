@@ -51,79 +51,79 @@ describe('should', function() {
 
     describe('proxify', function () {
       if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
-  
+
       it('throws when invalid property follows should', function () {
         err(function () {
           (42).should.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows language chain', function () {
         err(function () {
           (42).should.to.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows property assertion', function () {
         err(function () {
           (42).should.ok.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows overwritten property assertion', function () {
         err(function () {
           (42).should.tmpProperty.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled method assertion', function () {
         err(function () {
           (42).should.equal.pizza;
         }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
       });
-  
+
       it('throws when invalid property follows called method assertion', function () {
         err(function () {
           (42).should.equal(42).pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled overwritten method assertion', function () {
         err(function () {
           (42).should.tmpMethod.pizza;
         }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
       });
-  
+
       it('throws when invalid property follows called overwritten method assertion', function () {
         err(function () {
           (42).should.tmpMethod().pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled chainable method assertion', function () {
         err(function () {
           (42).should.a.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows called chainable method assertion', function () {
         err(function () {
           (42).should.a('number').pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
         err(function () {
           (42).should.tmpChainableMethod.pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('throws when invalid property follows called overwritten chainable method assertion', function () {
         err(function () {
           (42).should.tmpChainableMethod().pizza;
         }, 'Invalid Chai property: pizza');
       });
-  
+
       it('doesn\'t throw if invalid property is excluded via config', function () {
         (function () {
           (42).should.then;
@@ -415,6 +415,71 @@ describe('should', function() {
   it('instanceof', function(){
     function Foo(){}
     new Foo().should.be.an.instanceof(Foo);
+
+    err(function(){
+      new Foo().should.be.an.instanceof(1);
+    }, "The instanceof assertion needs a constructor but number was given.");
+
+    err(function(){
+      new Foo().should.be.an.instanceof('batman');
+    }, "The instanceof assertion needs a constructor but string was given.");
+
+    err(function(){
+      new Foo().should.be.an.instanceof({});
+    }, "The instanceof assertion needs a constructor but object was given.");
+
+    err(function(){
+      new Foo().should.be.an.instanceof(true);
+    }, "The instanceof assertion needs a constructor but boolean was given.");
+
+    err(function(){
+      new Foo().should.be.an.instanceof(null);
+    }, "The instanceof assertion needs a constructor but null was given.");
+
+    err(function(){
+      new Foo().should.be.an.instanceof(undefined);
+    }, "The instanceof assertion needs a constructor but undefined was given.");
+
+    // Different browsers may have different error messages
+    var expectedError;
+    try {
+      t instanceof Thing;
+    } catch (err) {
+      errMsg = '[object Object] instanceof function Thing(){} failed: ' + err.message + '.';
+    }
+
+    err(function(){
+      function Thing(){};
+      var t = new Thing();
+      Thing.prototype = 1337;
+      t.should.be.an.instanceof(Thing);
+    }, expectedError);
+
+    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
+        err(function(){
+          new Foo().should.be.an.instanceof(Symbol());
+        }, "The instanceof assertion needs a constructor but symbol was given.");
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 3;
+            };
+
+            fakeInstanceB.should.be.an.instanceof(FakeConstructor);
+        }, 'expected 4 to be an instance of an unnamed constructor');
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 4;
+            };
+
+            fakeInstanceB.should.not.be.an.instanceof(FakeConstructor);
+        }, 'expected 4 to not be an instance of an unnamed constructor');
+    }
 
     err(function(){
       (3).should.an.instanceof(Foo, 'blah');

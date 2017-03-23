@@ -141,6 +141,60 @@ describe('assert', function () {
     function Foo(){}
     assert.instanceOf(new Foo(), Foo);
 
+    err(function(){
+      assert.instanceOf(new Foo(), 1);
+    }, "The instanceof assertion needs a constructor but number was given.");
+
+    err(function(){
+      assert.instanceOf(new Foo(), 'batman');
+    }, "The instanceof assertion needs a constructor but string was given.");
+
+    err(function(){
+      assert.instanceOf(new Foo(), {});
+    }, "The instanceof assertion needs a constructor but object was given.");
+
+    err(function(){
+      assert.instanceOf(new Foo(), true);
+    }, "The instanceof assertion needs a constructor but boolean was given.");
+
+    err(function(){
+      assert.instanceOf(new Foo(), null);
+    }, "The instanceof assertion needs a constructor but null was given.");
+
+    err(function(){
+      assert.instanceOf(new Foo(), undefined);
+    }, "The instanceof assertion needs a constructor but undefined was given.");
+
+    var expectedError;
+    try {
+      t instanceof Thing;
+    } catch (err) {
+      errMsg = '[object Object] instanceof function Thing(){} failed: ' + err.message + '.';
+    }
+
+    err(function(){
+      function Thing(){};
+      var t = new Thing();
+      Thing.prototype = 1337;
+      assert.instanceOf(t, Thing);
+    }, expectedError);
+
+    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
+        err(function(){
+          assert.instanceOf(new Foo(), Symbol());
+        }, "The instanceof assertion needs a constructor but symbol was given.");
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 3;
+            };
+
+            assert.instanceOf(fakeInstanceB, FakeConstructor);
+        }, 'expected 4 to be an instance of an unnamed constructor')
+    }
+
     err(function () {
       assert.instanceOf(5, Foo);
     }, "expected 5 to be an instance of Foo");
@@ -155,6 +209,47 @@ describe('assert', function () {
   it('notInstanceOf', function () {
     function Foo(){}
     assert.notInstanceOf(new Foo(), String);
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), 1);
+    }, "The instanceof assertion needs a constructor but number was given.");
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), 'batman');
+    }, "The instanceof assertion needs a constructor but string was given.");
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), {});
+    }, "The instanceof assertion needs a constructor but object was given.");
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), true);
+    }, "The instanceof assertion needs a constructor but boolean was given.");
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), null);
+    }, "The instanceof assertion needs a constructor but null was given.");
+
+    err(function(){
+      assert.notInstanceOf(new Foo(), undefined);
+    }, "The instanceof assertion needs a constructor but undefined was given.");
+
+
+    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
+        err(function(){
+          assert.notInstanceOf(new Foo(), Symbol());
+        }, "The instanceof assertion needs a constructor but symbol was given.");
+
+        err(function() {
+            var FakeConstructor = {};
+            var fakeInstanceB = 4;
+            FakeConstructor[Symbol.hasInstance] = function (val) {
+                return val === 4;
+            };
+
+            assert.notInstanceOf(fakeInstanceB, FakeConstructor);
+        }, 'expected 4 to not be an instance of an unnamed constructor');
+    }
 
     err(function () {
       assert.notInstanceOf(new Foo(), Foo);
