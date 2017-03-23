@@ -2394,6 +2394,19 @@ describe('expect', function () {
     err(function() {
       expect(1.5).to.be.closeTo(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
+    
+    err(function() {
+      expect('blah', 'custom message').to.be.closeTo(2, 1);
+    },"custom message: expected 'blah' to be a number")
+    
+    err(function() {
+      expect(10, 'custom message').to.be.closeTo(2, 1);
+    },"custom message: expected 10 to be close to 2 +/- 1")
+    
+    err(function() {
+      expect(10, 'custom message').to.be.closeTo(2, 1, 'another message');
+    },"another message: expected 10 to be close to 2 +/- 1")
+    
   });
 
   it('approximately', function(){
