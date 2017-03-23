@@ -1456,6 +1456,7 @@ describe('should', function() {
     ({ foo: 1, bar: 2 }).should.contain.keys({ 'foo': 6 });
 
     ({ foo: 1, bar: 2 }).should.not.have.keys('baz');
+    ({ foo: 1, bar: 2 }).should.not.have.keys('foo');
     ({ foo: 1, bar: 2 }).should.not.have.keys('foo', 'baz');
     ({ foo: 1, bar: 2 }).should.not.contain.keys('baz');
     ({ foo: 1, bar: 2 }).should.not.contain.keys('foo', 'baz');
