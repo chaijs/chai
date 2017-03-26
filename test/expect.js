@@ -248,8 +248,8 @@ describe('expect', function () {
     expect(1).to.not.be.true;
 
     err(function(){
-      expect('test').to.be.true;
-    }, "expected 'test' to be true")
+      expect('test', 'blah').to.be.true;
+    }, "blah: expected 'test' to be true")
   });
 
   it('ok', function(){
@@ -259,8 +259,8 @@ describe('expect', function () {
     expect(0).to.not.be.ok;
 
     err(function(){
-      expect('').to.be.ok;
-    }, "expected '' to be truthy");
+      expect('', 'blah').to.be.ok;
+    }, "blah: expected '' to be truthy");
 
     err(function(){
       expect('test').to.not.be.ok;
@@ -273,8 +273,8 @@ describe('expect', function () {
     expect(0).to.not.be.false;
 
     err(function(){
-      expect('').to.be.false;
-    }, "expected '' to be false")
+      expect('', 'blah').to.be.false;
+    }, "blah: expected '' to be false")
   });
 
   it('null', function(){
@@ -282,8 +282,8 @@ describe('expect', function () {
     expect(false).to.not.be.null;
 
     err(function(){
-      expect('').to.be.null;
-    }, "expected '' to be null")
+      expect('', 'blah').to.be.null;
+    }, "blah: expected '' to be null")
 
   });
 
@@ -292,8 +292,8 @@ describe('expect', function () {
     expect(null).to.not.be.undefined;
 
     err(function(){
-      expect('').to.be.undefined;
-    }, "expected '' to be undefined")
+      expect('', 'blah').to.be.undefined;
+    }, "blah: expected '' to be undefined")
   });
 
   it('exist', function(){
@@ -306,8 +306,8 @@ describe('expect', function () {
     expect('').to.exist;
 
     err(function () {
-      expect(bar).to.exist;
-    }, "expected undefined to exist");
+      expect(bar, 'blah').to.exist;
+    }, "blah: expected undefined to exist");
 
     err(function () {
       expect(foo).to.not.exist(foo);
@@ -320,6 +320,10 @@ describe('expect', function () {
     expect([]).to.not.be.arguments;
     expect(args).to.be.an('arguments').and.be.arguments;
     expect([]).to.be.an('array').and.not.be.Arguments;
+
+    err(function () {
+      expect([], 'blah').to.be.arguments;
+    }, "blah: expected [] to be arguments but got Array");
   });
 
   it('.equal()', function(){
@@ -360,6 +364,10 @@ describe('expect', function () {
     err(function(){
       expect(5).to.not.be.a('number', 'blah');
     }, "blah: expected 5 not to be a number");
+
+    err(function(){
+      expect(5, 'blah').to.not.be.a('number');
+    }, "blah: expected 5 not to be a number");
   });
 
   it('instanceof', function(){
@@ -367,8 +375,12 @@ describe('expect', function () {
     expect(new Foo()).to.be.an.instanceof(Foo);
 
     err(function(){
-      expect(new Foo()).to.an.instanceof(1);
-    }, "The instanceof assertion needs a constructor but number was given.");
+      expect(new Foo()).to.an.instanceof(1, 'blah');
+    }, "blah: The instanceof assertion needs a constructor but number was given.");
+
+    err(function(){
+      expect(new Foo(), 'blah').to.an.instanceof(1);
+    }, "blah: The instanceof assertion needs a constructor but number was given.");
 
     err(function(){
       expect(new Foo()).to.an.instanceof('batman');
@@ -434,6 +446,10 @@ describe('expect', function () {
     err(function(){
       expect(3).to.an.instanceof(Foo, 'blah');
     }, "blah: expected 3 to be an instance of Foo");
+
+    err(function(){
+      expect(3, 'blah').to.an.instanceof(Foo);
+    }, "blah: expected 3 to be an instance of Foo");
   });
 
   it('within(start, finish)', function(){
@@ -451,11 +467,19 @@ describe('expect', function () {
     }, "blah: expected 5 to not be within 4..6");
 
     err(function(){
+      expect(5, 'blah').to.not.be.within(4,6);
+    }, "blah: expected 5 to not be within 4..6");
+
+    err(function(){
       expect(10).to.be.within(50,100, 'blah');
     }, "blah: expected 10 to be within 50..100");
 
     err(function () {
       expect('foo').to.have.length.within(5,7, 'blah');
+    }, "blah: expected \'foo\' to have a length within 5..7");
+
+    err(function () {
+      expect('foo', 'blah').to.have.length.within(5,7);
     }, "blah: expected \'foo\' to have a length within 5..7");
 
     err(function () {
@@ -475,12 +499,24 @@ describe('expect', function () {
     }, "blah: expected null to be a number");
 
     err(function () {
+      expect(null, 'blah').to.be.within(0, 1);
+    }, "blah: expected null to be a number");
+
+    err(function () {
       expect(1).to.be.within(null, 1, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
+
+    err(function () {
+      expect(1, 'blah').to.be.within(null, 1);
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       expect(1).to.be.within(0, null, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
+
+    err(function () {
+      expect(1, 'blah').to.be.within(0, null);
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       expect(null).to.not.be.within(0, 1, 'blah');
@@ -488,14 +524,18 @@ describe('expect', function () {
 
     err(function () {
       expect(1).to.not.be.within(null, 1, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       expect(1).to.not.be.within(0, null, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       expect(1).to.have.length.within(5,7, 'blah');
+    }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1, 'blah').to.have.length.within(5,7);
     }, "blah: expected 1 to have property 'length'");
 
     err(function () {
@@ -518,11 +558,19 @@ describe('expect', function () {
     }, "blah: expected 5 to be above 6");
 
     err(function(){
+      expect(5, 'blah').to.be.above(6);
+    }, "blah: expected 5 to be above 6");
+
+    err(function(){
       expect(10).to.not.be.above(6, 'blah');
     }, "blah: expected 10 to be at most 6");
 
     err(function () {
       expect('foo').to.have.length.above(4, 'blah');
+    }, "blah: expected \'foo\' to have a length above 4 but got 3");
+
+    err(function () {
+      expect('foo', 'blah').to.have.length.above(4);
     }, "blah: expected \'foo\' to have a length above 4 but got 3");
 
     err(function () {
@@ -542,8 +590,16 @@ describe('expect', function () {
     }, "blah: expected null to be a number");
 
     err(function () {
+      expect(null, 'blah').to.be.above(0);
+    }, "blah: expected null to be a number");
+
+    err(function () {
       expect(1).to.be.above(null, 'blah');
-    }, "the argument to above must be a number");
+    }, "blah: the argument to above must be a number");
+
+    err(function () {
+      expect(1, 'blah').to.be.above(null);
+    }, "blah: the argument to above must be a number");
 
     err(function () {
       expect(null).to.not.be.above(0, 'blah');
@@ -551,10 +607,14 @@ describe('expect', function () {
 
     err(function () {
       expect(1).to.not.be.above(null, 'blah');
-    }, "the argument to above must be a number");
+    }, "blah: the argument to above must be a number");
 
     err(function () {
       expect(1).to.have.length.above(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1, 'blah').to.have.length.above(0);
     }, "blah: expected 1 to have property 'length'");
 
     err(function () {
@@ -576,11 +636,19 @@ describe('expect', function () {
     }, "blah: expected 5 to be at least 6");
 
     err(function(){
+      expect(5, 'blah').to.be.at.least(6);
+    }, "blah: expected 5 to be at least 6");
+
+    err(function(){
       expect(10).to.not.be.at.least(6, 'blah');
     }, "blah: expected 10 to be below 6");
 
     err(function () {
       expect('foo').to.have.length.of.at.least(4, 'blah');
+    }, "blah: expected \'foo\' to have a length at least 4 but got 3");
+
+    err(function () {
+      expect('foo', 'blah').to.have.length.of.at.least(4);
     }, "blah: expected \'foo\' to have a length at least 4 but got 3");
 
     err(function () {
@@ -608,8 +676,16 @@ describe('expect', function () {
     }, "blah: expected null to be a number");
 
     err(function () {
+      expect(null, 'blah').to.be.at.least(0);
+    }, "blah: expected null to be a number");
+
+    err(function () {
       expect(1).to.be.at.least(null, 'blah');
-    }, "the argument to least must be a number");
+    }, "blah: the argument to least must be a number");
+
+    err(function () {
+      expect(1, 'blah').to.be.at.least(null);
+    }, "blah: the argument to least must be a number");
 
     err(function () {
       expect(null).to.not.be.at.least(0, 'blah');
@@ -617,10 +693,14 @@ describe('expect', function () {
 
     err(function () {
       expect(1).to.not.be.at.least(null, 'blah');
-    }, "the argument to least must be a number");
+    }, "blah: the argument to least must be a number");
 
     err(function () {
       expect(1).to.have.length.at.least(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1, 'blah').to.have.length.at.least(0);
     }, "blah: expected 1 to have property 'length'");
 
     err(function () {
@@ -643,11 +723,19 @@ describe('expect', function () {
     }, "blah: expected 6 to be below 5");
 
     err(function(){
+      expect(6, 'blah').to.be.below(5);
+    }, "blah: expected 6 to be below 5");
+
+    err(function(){
       expect(6).to.not.be.below(10, 'blah');
     }, "blah: expected 6 to be at least 10");
 
     err(function () {
       expect('foo').to.have.length.below(2, 'blah');
+    }, "blah: expected \'foo\' to have a length below 2 but got 3");
+
+    err(function () {
+      expect('foo', 'blah').to.have.length.below(2);
     }, "blah: expected \'foo\' to have a length below 2 but got 3");
 
     err(function () {
@@ -667,8 +755,16 @@ describe('expect', function () {
     }, "blah: expected null to be a number");
 
     err(function () {
+      expect(null, 'blah').to.be.below(0);
+    }, "blah: expected null to be a number");
+
+    err(function () {
       expect(1).to.be.below(null, 'blah');
-    }, "the argument to below must be a number");
+    }, "blah: the argument to below must be a number");
+
+    err(function () {
+      expect(1, 'blah').to.be.below(null);
+    }, "blah: the argument to below must be a number");
 
     err(function () {
       expect(null).to.not.be.below(0, 'blah');
@@ -676,10 +772,14 @@ describe('expect', function () {
 
     err(function () {
       expect(1).to.not.be.below(null, 'blah');
-    }, "the argument to below must be a number");
+    }, "blah: the argument to below must be a number");
 
     err(function () {
       expect(1).to.have.length.below(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1, 'blah').to.have.length.below(0);
     }, "blah: expected 1 to have property 'length'");
 
     err(function () {
@@ -702,11 +802,19 @@ describe('expect', function () {
     }, "blah: expected 6 to be at most 5");
 
     err(function(){
+      expect(6, 'blah').to.be.at.most(5);
+    }, "blah: expected 6 to be at most 5");
+
+    err(function(){
       expect(6).to.not.be.at.most(10, 'blah');
     }, "blah: expected 6 to be above 10");
 
     err(function () {
       expect('foo').to.have.length.of.at.most(2, 'blah');
+    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
+
+    err(function () {
+      expect('foo', 'blah').to.have.length.of.at.most(2);
     }, "blah: expected \'foo\' to have a length at most 2 but got 3");
 
     err(function () {
@@ -734,8 +842,16 @@ describe('expect', function () {
     }, "blah: expected null to be a number");
 
     err(function () {
+      expect(null, 'blah').to.be.at.most(0);
+    }, "blah: expected null to be a number");
+
+    err(function () {
       expect(1).to.be.at.most(null, 'blah');
-    }, "the argument to most must be a number");
+    }, "blah: the argument to most must be a number");
+
+    err(function () {
+      expect(1, 'blah').to.be.at.most(null);
+    }, "blah: the argument to most must be a number");
 
     err(function () {
       expect(null).to.not.be.at.most(0, 'blah');
@@ -743,10 +859,14 @@ describe('expect', function () {
 
     err(function () {
       expect(1).to.not.be.at.most(null, 'blah');
-    }, "the argument to most must be a number");
+    }, "blah: the argument to most must be a number");
 
     err(function () {
       expect(1).to.have.length.of.at.most(0, 'blah');
+    }, "blah: expected 1 to have property 'length'");
+
+    err(function () {
+      expect(1, 'blah').to.have.length.of.at.most(0);
     }, "blah: expected 1 to have property 'length'");
 
     err(function () {
@@ -761,6 +881,10 @@ describe('expect', function () {
 
     err(function(){
       expect('foobar').to.match(/^bar/i, 'blah')
+    }, "blah: expected 'foobar' to match /^bar/i");
+
+    err(function(){
+      expect('foobar', 'blah').to.match(/^bar/i)
     }, "blah: expected 'foobar' to match /^bar/i");
 
     err(function(){
@@ -782,6 +906,10 @@ describe('expect', function () {
 
     err(function(){
       expect(4).to.have.length(3, 'blah');
+    }, 'blah: expected 4 to have property \'length\'');
+
+    err(function(){
+      expect(4, 'blah').to.have.length(3);
     }, 'blah: expected 4 to have property \'length\'');
 
     err(function(){
@@ -837,6 +965,10 @@ describe('expect', function () {
     }, 'blah: expected 4 to equal 3');
 
     err(function(){
+      expect(4, 'blah').to.equal(3);
+    }, 'blah: expected 4 to equal 3');
+
+    err(function(){
       expect('4').to.equal(4, 'blah');
     }, "blah: expected '4' to equal 4");
   });
@@ -881,14 +1013,14 @@ describe('expect', function () {
 
     if (typeof WeakMap === 'function') {
       err(function(){
-        expect(new WeakMap).not.to.be.empty;
-      }, ".empty was passed a weak collection");
+        expect(new WeakMap, 'blah').not.to.be.empty;
+      }, "blah: .empty was passed a weak collection");
     }
 
     if (typeof WeakSet === 'function') {
       err(function(){
-        expect(new WeakSet).not.to.be.empty;
-      }, ".empty was passed a weak collection");
+        expect(new WeakSet, 'blah').not.to.be.empty;
+      }, "blah: .empty was passed a weak collection");
     }
 
     if (typeof Map === 'function') {
@@ -934,8 +1066,8 @@ describe('expect', function () {
     }
 
     err(function(){
-      expect('').not.to.be.empty;
-    }, "expected \'\' not to be empty");
+      expect('', 'blah').not.to.be.empty;
+    }, "blah: expected \'\' not to be empty");
 
     err(function(){
       expect('foo').to.be.empty;
@@ -966,8 +1098,8 @@ describe('expect', function () {
     }, "expected { foo: \'bar\' } to be empty");
 
     err(function(){
-      expect(null).to.be.empty;
-    }, ".empty was passed non-string primitive null");
+      expect(null, 'blah').to.be.empty;
+    }, "blah: .empty was passed non-string primitive null");
 
     err(function(){
       expect(undefined).to.be.empty;
@@ -1016,8 +1148,8 @@ describe('expect', function () {
     }
 
     err(function(){
-      expect(function() {}).to.be.empty;
-    }, ".empty was passed a function");
+      expect(function() {}, 'blah').to.be.empty;
+    }, "blah: .empty was passed a function");
 
     if (FakeArgs.name === 'FakeArgs') {
       err(function(){
@@ -1037,8 +1169,8 @@ describe('expect', function () {
     expect([]).not.to.be.NaN;
 
     err(function(){
-      expect(NaN).not.to.be.NaN;
-    }, "expected NaN not to be NaN");
+      expect(NaN, 'blah').not.to.be.NaN;
+    }, "blah: expected NaN not to be NaN");
 
     err(function(){
       expect(undefined).to.be.NaN;
@@ -1070,8 +1202,8 @@ describe('expect', function () {
     expect(-10).to.be.finite;
 
     err(function(){
-      expect(NaN).to.be.finite;
-    }, "expected NaN to be a finite number");
+      expect(NaN, 'blah').to.be.finite;
+    }, "blah: expected NaN to be a finite number");
 
     err(function(){
       expect(Infinity).to.be.finite;
@@ -1114,6 +1246,11 @@ describe('expect', function () {
     err(function(){
       expect('asd').to.have.property('foo');
     }, "expected 'asd' to have property 'foo'");
+
+    err(function(){
+      expect('asd', 'blah').to.have.property('foo');
+    }, "blah: expected 'asd' to have property 'foo'");
+
     err(function(){
       expect({ foo: { bar: 'baz' } })
         .to.have.property('foo.bar');
@@ -1122,6 +1259,10 @@ describe('expect', function () {
     err(function() {
       expect({a: {b: 1}}).to.have.own.nested.property("a.b");
     }, "The \"nested\" and \"own\" flags cannot be combined.");
+
+    err(function() {
+      expect({a: {b: 1}}, 'blah').to.have.own.nested.property("a.b");
+    }, "blah: The \"nested\" and \"own\" flags cannot be combined.");
   });
 
   it('property(name, val)', function(){
@@ -1178,6 +1319,10 @@ describe('expect', function () {
     }, "blah: expected 'asd' to have property 'length' of 4, but got 3");
 
     err(function(){
+      expect('asd', 'blah').to.have.property('length', 4);
+    }, "blah: expected 'asd' to have property 'length' of 4, but got 3");
+
+    err(function(){
       expect('asd').to.not.have.property('length', 3, 'blah');
     }, "blah: expected 'asd' to not have property 'length' of 3");
 
@@ -1186,8 +1331,12 @@ describe('expect', function () {
     }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
 
     err(function() {
-      expect({a: {b: 1}}).to.have.own.nested.property("a.b", 1);
-    }, "The \"nested\" and \"own\" flags cannot be combined.");
+      expect({a: {b: 1}}).to.have.own.nested.property("a.b", 1, 'blah');
+    }, "blah: The \"nested\" and \"own\" flags cannot be combined.");
+
+    err(function() {
+      expect({a: {b: 1}}, 'blah').to.have.own.nested.property("a.b", 1);
+    }, "blah: The \"nested\" and \"own\" flags cannot be combined.");
   });
 
   it('deep.property(name, val)', function () {
@@ -1234,24 +1383,24 @@ describe('expect', function () {
     expect('test').to.haveOwnProperty('length').that.is.a('number');
 
     err(function(){
-      expect({ length: 12 }).to.have.own.property('iDontExist');
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }, 'blah').to.have.own.property('iDontExist');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function(){
       expect({ length: 12 }).to.not.have.own.property('length');
     }, "expected { length: 12 } to not have own property 'length'");
 
     err(function(){
-      expect({ length: 12 }).to.have.ownProperty('iDontExist');
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }, 'blah').to.have.ownProperty('iDontExist');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function(){
       expect({ length: 12 }).to.not.have.ownProperty('length');
     }, "expected { length: 12 } to not have own property 'length'");
 
     err(function(){
-      expect({ length: 12 }).to.haveOwnProperty('iDontExist');
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }, 'blah').to.haveOwnProperty('iDontExist');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function(){
       expect({ length: 12 }).to.not.haveOwnProperty('length');
@@ -1291,8 +1440,12 @@ describe('expect', function () {
     expect(objNoProto).to.haveOwnProperty('a');
 
     err(function(){
-      expect({ length: 12 }).to.have.own.property('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }).to.have.own.property('iDontExist', 12, 'blah');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }, 'blah').to.have.own.property('iDontExist', 12);
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function() {
       expect({ length: 12 }).to.not.have.own.property('length', 12);
@@ -1303,8 +1456,12 @@ describe('expect', function () {
     }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
 
     err(function(){
-      expect({ length: 12 }).to.have.ownProperty('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }).to.have.ownProperty('iDontExist', 12, 'blah');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }, 'blah').to.have.ownProperty('iDontExist', 12);
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function() {
       expect({ length: 12 }).to.not.have.ownProperty('length', 12);
@@ -1315,8 +1472,12 @@ describe('expect', function () {
     }, "expected { length: 12 } to have own property 'length' of 15, but got 12");
 
     err(function(){
-      expect({ length: 12 }).to.haveOwnProperty('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      expect({ length: 12 }).to.haveOwnProperty('iDontExist', 12, 'blah');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
+
+    err(function(){
+      expect({ length: 12 }, 'blah').to.haveOwnProperty('iDontExist', 12);
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function() {
       expect({ length: 12 }).to.not.haveOwnProperty('length', 12);
@@ -1450,9 +1611,15 @@ describe('expect', function () {
     };
     Object.defineProperty(obj, 'test', descriptor);
     expect(obj).to.have.ownPropertyDescriptor('test', descriptor);
+
     err(function(){
       expect(obj).not.to.have.ownPropertyDescriptor('test', descriptor, 'blah');
     }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to not match \{ [^\}]+ \}$/);
+
+    err(function(){
+      expect(obj, 'blah').not.to.have.ownPropertyDescriptor('test', descriptor);
+    }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to not match \{ [^\}]+ \}$/);
+
     err(function(){
       var wrongDescriptor = {
         configurable: false,
@@ -1467,6 +1634,10 @@ describe('expect', function () {
       expect(obj).to.have.ownPropertyDescriptor('test2', 'blah');
     }, "blah: expected { test: NaN } to have an own property descriptor for 'test2'");
 
+    err(function(){
+      expect(obj, 'blah').to.have.ownPropertyDescriptor('test2');
+    }, "blah: expected { test: NaN } to have an own property descriptor for 'test2'");
+
     expect(obj).to.have.ownPropertyDescriptor('test').and.have.property('enumerable', true);
   });
 
@@ -1476,11 +1647,19 @@ describe('expect', function () {
     expect('foobar').to.not.have.string('baz');
 
     err(function(){
-      expect(3).to.have.string('baz');
-    }, "expected 3 to be a string");
+      expect(3).to.have.string('baz', 'blah');
+    }, "blah: expected 3 to be a string");
+
+    err(function(){
+      expect(3, 'blah').to.have.string('baz');
+    }, "blah: expected 3 to be a string");
 
     err(function(){
       expect('foobar').to.have.string('baz', 'blah');
+    }, "blah: expected 'foobar' to contain 'baz'");
+
+    err(function(){
+      expect('foobar', 'blah').to.have.string('baz');
     }, "blah: expected 'foobar' to contain 'baz'");
 
     err(function(){
@@ -1520,12 +1699,20 @@ describe('expect', function () {
     }, "blah: expected [ 'foo' ] to include 'bar'");
 
     err(function(){
+      expect(['foo'], 'blah').to.include('bar');
+    }, "blah: expected [ 'foo' ] to include 'bar'");
+
+    err(function(){
       expect(['bar', 'foo']).to.not.include('foo', 'blah');
     }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
 
     err(function(){
-      expect({a:1}).to.include({b:2});
-    }, "expected { a: 1 } to have property 'b'");
+      expect({a: 1}).to.include({b: 2}, 'blah');
+    }, "blah: expected { a: 1 } to have property 'b'");
+
+    err(function(){
+      expect({a: 1}, 'blah').to.include({b: 2});
+    }, "blah: expected { a: 1 } to have property 'b'");
 
     err(function(){
       expect({a:1,b:2}).to.not.include({b:2});
@@ -1552,8 +1739,12 @@ describe('expect', function () {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
 
     err(function(){
-      expect(true).to.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+      expect(true).to.include(true, 'blah');
+    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+
+    err(function(){
+      expect(true, 'blah').to.include(true);
+    }, "blah: object tested must be an array, an object, or a string, but boolean given");
 
     err(function(){
       expect(42.0).to.include(42);
@@ -1598,8 +1789,12 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 9}});
 
     err(function () {
-      expect([obj1, obj2]).to.deep.include({a: 9});
-    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+      expect([obj1, obj2]).to.deep.include({a: 9}, 'blah');
+    }, "blah: expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+
+    err(function () {
+      expect([obj1, obj2], 'blah').to.deep.include({a: 9});
+    }, "blah: expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
 
     err(function () {
       expect([obj1, obj2]).to.not.deep.include({a: 1});
@@ -1625,8 +1820,12 @@ describe('expect', function () {
     expect({'.a': {'[b]': 'x'}}).to.not.nested.include({'\\.a.\\[b\\]': 'y'});
 
     err(function () {
-      expect({a: {b: ['x', 'y']}}).to.nested.include({'a.b[1]': 'x'});
-    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+      expect({a: {b: ['x', 'y']}}).to.nested.include({'a.b[1]': 'x'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      expect({a: {b: ['x', 'y']}}, 'blah').to.nested.include({'a.b[1]': 'x'});
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
 
     err(function () {
       expect({a: {b: ['x', 'y']}}).to.nested.include({'a.c': 'y'});
@@ -1648,8 +1847,12 @@ describe('expect', function () {
       .to.not.deep.nested.include({'\\.a.\\[b\\]': {y: 2}});
 
     err(function () {
-      expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.b[0]': {y: 2}});
-    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+      expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.b[0]': {y: 2}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      expect({a: {b: [{x: 1}]}}, 'blah').to.deep.nested.include({'a.b[0]': {y: 2}});
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.c': {x: 1}});
@@ -1668,8 +1871,12 @@ describe('expect', function () {
     expect({a: {b: 2}}).to.not.own.include({a: {b: 2}});
 
     err(function () {
-      expect({a: 1}).to.own.include({a: 3});
-    }, "expected { a: 1 } to have own property 'a' of 3, but got 1");
+      expect({a: 1}).to.own.include({a: 3}, 'blah');
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      expect({a: 1}, 'blah').to.own.include({a: 3});
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
 
     err(function () {
       expect({a: 1}).to.own.include({'toString': Object.prototype.toString});
@@ -1687,8 +1894,12 @@ describe('expect', function () {
       .to.not.deep.own.include({'toString': Object.prototype.toString});
 
     err(function () {
-      expect({a: {b: 2}}).to.deep.own.include({a: {c: 3}});
-    }, "expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+      expect({a: {b: 2}}).to.deep.own.include({a: {c: 3}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      expect({a: {b: 2}}, 'blah').to.deep.own.include({a: {c: 3}});
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
 
     err(function () {
       expect({a: {b: 2}}).to.deep.own.include({'toString': Object.prototype.toString});
@@ -1885,8 +2096,8 @@ describe('expect', function () {
       errMap.set({ foo: 1 });
 
       err(function(){
-        expect(errMap).to.have.keys();
-      }, "keys required");
+        expect(errMap, 'blah').to.have.keys();
+      }, "blah: keys required");
 
       err(function(){
         expect(errMap).to.have.keys([]);
@@ -2015,8 +2226,8 @@ describe('expect', function () {
       errSet.add({ foo: 1});
 
       err(function(){
-        expect(errSet).to.have.keys();
-      }, "keys required");
+        expect(errSet, 'blah').to.have.keys();
+      }, "blah: keys required");
 
       err(function(){
         expect(errSet).to.have.keys([]);
@@ -2042,8 +2253,8 @@ describe('expect', function () {
     }
 
     err(function(){
-      expect({ foo: 1 }).to.have.keys();
-    }, "keys required");
+      expect({ foo: 1 }, 'blah').to.have.keys();
+    }, "blah: keys required");
 
     err(function(){
       expect({ foo: 1 }).to.have.keys([]);
@@ -2057,19 +2268,19 @@ describe('expect', function () {
       expect({ foo: 1 }).to.contain.keys([]);
     }, "keys required");
 
-    var mixedArgsMsg = 'when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments'
+    var mixedArgsMsg = 'blah: when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments'
 
     err(function(){
-      expect({}).contain.keys(['a'], "b");
+      expect({}, 'blah').contain.keys(['a'], "b");
     }, mixedArgsMsg);
 
     err(function(){
-      expect({}).contain.keys({ 'a': 1 }, "b");
+      expect({}, 'blah').contain.keys({ 'a': 1 }, "b");
     }, mixedArgsMsg);
 
     err(function(){
-      expect({ foo: 1 }).to.have.keys(['bar']);
-    }, "expected { foo: 1 } to have key 'bar'");
+      expect({ foo: 1 }, 'blah').to.have.keys(['bar']);
+    }, "blah: expected { foo: 1 } to have key 'bar'");
 
     err(function(){
       expect({ foo: 1 }).to.have.keys(['bar', 'baz']);
@@ -2117,8 +2328,8 @@ describe('expect', function () {
 
     // repeat previous tests with Object as arg.
     err(function(){
-      expect({ foo: 1 }).have.keys({ 'bar': 1 });
-    }, "expected { foo: 1 } to have key 'bar'");
+      expect({ foo: 1 }, 'blah').have.keys({ 'bar': 1 });
+    }, "blah: expected { foo: 1 } to have key 'bar'");
 
     err(function(){
       expect({ foo: 1 }).have.keys({ 'bar': 1, 'baz': 1});
@@ -2250,67 +2461,71 @@ describe('expect', function () {
     expect(badFn).to.not.throw(TypeError, 'testing');
 
     err(function(){
-      expect(goodFn).to.throw();
-    }, /^expected \[Function(: goodFn)*\] to throw an error$/);
+      expect(goodFn, 'blah').to.throw();
+    }, /^blah: expected \[Function(: goodFn)*\] to throw an error$/);
 
     err(function(){
-      expect(goodFn).to.throw(ReferenceError);
-    }, /^expected \[Function(: goodFn)*\] to throw ReferenceError$/);
+      expect(goodFn, 'blah').to.throw(ReferenceError);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw ReferenceError$/);
 
     err(function(){
-      expect(goodFn).to.throw(specificError);
-    }, /^expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
+      expect(goodFn, 'blah').to.throw(specificError);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
 
     err(function(){
-      expect(badFn).to.not.throw();
-    }, /^expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
+      expect(badFn, 'blah').to.not.throw();
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(badFn).to.throw(ReferenceError);
-    }, /^expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
+      expect(badFn, 'blah').to.throw(ReferenceError);
+    }, /^blah: expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(badFn).to.throw(specificError);
-    }, /^expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
+      expect(badFn, 'blah').to.throw(specificError);
+    }, /^blah: expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(badFn).to.not.throw(Error);
-    }, /^expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+      expect(badFn, 'blah').to.not.throw(Error);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(refErrFn).to.not.throw(ReferenceError);
-    }, /^expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
+      expect(refErrFn, 'blah').to.not.throw(ReferenceError);
+    }, /^blah: expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
 
     err(function(){
-      expect(badFn).to.throw(PoorlyConstructedError);
-    }, /^expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
+      expect(badFn, 'blah').to.throw(PoorlyConstructedError);
+    }, /^blah: expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(ickyErrFn).to.not.throw(PoorlyConstructedError);
-    }, /^(expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+      expect(ickyErrFn, 'blah').to.not.throw(PoorlyConstructedError);
+    }, /^blah: (expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
-      expect(ickyErrFn).to.throw(ReferenceError);
-    }, /^(expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+      expect(ickyErrFn, 'blah').to.throw(ReferenceError);
+    }, /^blah: (expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
-      expect(specificErrFn).to.throw(new ReferenceError('eek'));
-    }, /^expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
+      expect(specificErrFn, 'blah').to.throw(new ReferenceError('eek'));
+    }, /^blah: expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
 
     err(function(){
-      expect(specificErrFn).to.not.throw(specificError);
-    }, /^expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
+      expect(specificErrFn, 'blah').to.not.throw(specificError);
+    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
 
     err(function (){
-      expect(badFn).to.not.throw(/testing/);
-    }, /^expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
+      expect(badFn, 'blah').to.not.throw(/testing/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
 
     err(function () {
-      expect(badFn).to.throw(/hello/);
-    }, /^expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+      expect(badFn, 'blah').to.throw(/hello/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
       expect(badFn).to.throw(Error, /hello/, 'blah');
+    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+
+    err(function () {
+      expect(badFn, 'blah').to.throw(Error, /hello/);
     }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
@@ -2318,20 +2533,40 @@ describe('expect', function () {
     }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
 
     err(function () {
-      (customErrFn).should.not.throw();
-    }, /^expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
+      expect(badFn, 'blah').to.throw(Error, 'hello');
+    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+
+    err(function () {
+      expect(customErrFn, 'blah').to.not.throw();
+    }, /^blah: expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
 
     err(function(){
-      expect(badFn).to.not.throw(Error, 'testing');
-    }, /^expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+      expect(badFn).to.not.throw(Error, 'testing', 'blah');
+    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(emptyStringErrFn).to.not.throw(Error, '');
-    }, /^expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+      expect(badFn, 'blah').to.not.throw(Error, 'testing');
+    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
-      expect(emptyStringErrFn).to.not.throw('');
-    }, /^expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+      expect(emptyStringErrFn).to.not.throw(Error, '', 'blah');
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+
+    err(function(){
+      expect(emptyStringErrFn, 'blah').to.not.throw(Error, '');
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+
+    err(function(){
+      expect(emptyStringErrFn, 'blah').to.not.throw('');
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+
+    err(function () {
+      expect({}, 'blah').to.throw();
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect({}).to.throw(Error, 'testing', 'blah');
+    }, "blah: expected {} to be a function");
   });
 
   it('respondTo', function(){
@@ -2354,7 +2589,15 @@ describe('expect', function () {
     }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
 
     err(function(){
+      expect(Foo, 'constructor').to.respondTo('baz');
+    }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
+
+    err(function(){
       expect(bar).to.respondTo('baz', 'object');
+    }, /^(object: expected)(.*)(\{ foo: \[Function\] \}|\{ Object \()(.*)(to respond to \'baz\')$/);
+
+    err(function(){
+      expect(bar, 'object').to.respondTo('baz');
     }, /^(object: expected)(.*)(\{ foo: \[Function\] \}|\{ Object \()(.*)(to respond to \'baz\')$/);
   });
 
@@ -2368,6 +2611,10 @@ describe('expect', function () {
     err(function(){
       expect(2).to.satisfy(matcher, 'blah');
     }, /^blah: expected 2 to satisfy \[Function(: matcher)*\]$/);
+
+    err(function(){
+      expect(2, 'blah').to.satisfy(matcher);
+    }, /^blah: expected 2 to satisfy \[Function(: matcher)*\]$/);
   });
 
   it('closeTo', function(){
@@ -2380,20 +2627,36 @@ describe('expect', function () {
     }, "blah: expected 2 to be close to 1 +/- 0.5");
 
     err(function(){
+      expect(2, 'blah').to.be.closeTo(1.0, 0.5);
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
+
+    err(function(){
       expect(-10).to.be.closeTo(20, 29, 'blah');
     }, "blah: expected -10 to be close to 20 +/- 29");
 
     err(function() {
-      expect([1.5]).to.be.closeTo(1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+      expect([1.5]).to.be.closeTo(1.0, 0.5, 'blah');
+    }, "blah: expected [ 1.5 ] to be a number");
 
     err(function() {
-      expect(1.5).to.be.closeTo("1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+      expect([1.5], 'blah').to.be.closeTo(1.0, 0.5);
+    }, "blah: expected [ 1.5 ] to be a number");
 
     err(function() {
-      expect(1.5).to.be.closeTo(1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+      expect(1.5).to.be.closeTo("1.0", 0.5, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5, 'blah').to.be.closeTo("1.0", 0.5);
+    }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5).to.be.closeTo(1.0, true, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5, 'blah').to.be.closeTo(1.0, true);
+    }, "blah: the arguments to closeTo or approximately must be numbers");
   });
 
   it('approximately', function(){
@@ -2428,6 +2691,30 @@ describe('expect', function () {
     expect([3, [4]]).to.not.be.oneOf([1, 2, [3, 4]]);
     var threeFour = [3, [4]];
     expect(threeFour).to.be.oneOf([1, 2, threeFour]);
+
+    err(function () {
+      expect(1).to.be.oneOf([2, 3], 'blah');
+    }, "blah: expected 1 to be one of [ 2, 3 ]");
+
+    err(function () {
+      expect(1, 'blah').to.be.oneOf([2, 3]);
+    }, "blah: expected 1 to be one of [ 2, 3 ]");
+
+    err(function () {
+      expect(1).to.not.be.oneOf([1, 2, 3], 'blah');
+    }, "blah: expected 1 to not be one of [ 1, 2, 3 ]");
+
+    err(function () {
+      expect(1, 'blah').to.not.be.oneOf([1, 2, 3]);
+    }, "blah: expected 1 to not be one of [ 1, 2, 3 ]");
+
+    err(function () {
+      expect(1).to.be.oneOf({}, 'blah');
+    }, "blah: expected {} to be an array");
+
+    err(function () {
+      expect(1, 'blah').to.be.oneOf({});
+    }, "blah: expected {} to be an array");
   });
 
   it('include.members', function() {
@@ -2439,8 +2726,12 @@ describe('expect', function () {
     expect([{a: 1}]).to.not.include.members([{a: 1}]);
 
     err(function() {
-      expect([1, 2, 3]).to.include.members([2, 5]);
-    }, 'expected [ 1, 2, 3 ] to be a superset of [ 2, 5 ]');
+      expect([1, 2, 3]).to.include.members([2, 5], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to be a superset of [ 2, 5 ]');
+
+    err(function() {
+      expect([1, 2, 3], 'blah').to.include.members([2, 5]);
+    }, 'blah: expected [ 1, 2, 3 ] to be a superset of [ 2, 5 ]');
 
     err(function() {
       expect([1, 2, 3]).to.not.include.members([2, 1]);
@@ -2474,12 +2765,32 @@ describe('expect', function () {
     expect([{ id: 1 }]).not.members([{ id: 1 }]);
 
     err(function() {
-      expect([1, 2, 3]).members([2, 1, 5]);
-    }, 'expected [ 1, 2, 3 ] to have the same members as [ 2, 1, 5 ]');
+      expect([1, 2, 3]).members([2, 1, 5], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to have the same members as [ 2, 1, 5 ]');
+
+    err(function() {
+      expect([1, 2, 3], 'blah').members([2, 1, 5]);
+    }, 'blah: expected [ 1, 2, 3 ] to have the same members as [ 2, 1, 5 ]');
 
     err(function() {
       expect([1, 2, 3]).not.members([2, 1, 3]);
     }, 'expected [ 1, 2, 3 ] to not have the same members as [ 2, 1, 3 ]');
+
+    err(function () {
+      expect({}).members([], 'blah');
+    }, 'blah: expected {} to be an array');
+
+    err(function () {
+      expect({}, 'blah').members([]);
+    }, 'blah: expected {} to be an array');
+
+    err(function () {
+      expect([]).members({}, 'blah');
+    }, 'blah: expected {} to be an array');
+
+    err(function () {
+      expect([], 'blah').members({});
+    }, 'blah: expected {} to be an array');
   });
 
   it('deep.members', function() {
@@ -2493,8 +2804,12 @@ describe('expect', function () {
     expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function(){
-      expect([{ id: 1 }]).deep.members([{ id: 2 }])
-    }, 'expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
+      expect([{ id: 1 }]).deep.members([{ id: 2 }], 'blah')
+    }, 'blah: expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
+
+    err(function(){
+      expect([{ id: 1 }], 'blah').deep.members([{ id: 2 }])
+    }, 'blah: expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
   });
 
   it('include.deep.members', function() {
@@ -2503,8 +2818,12 @@ describe('expect', function () {
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
 
     err(function() {
-      expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
+      expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.members([{b: 2}, {a: 1}, {f: 5}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
+
+    err(function() {
+      expect([{a: 1}, {b: 2}, {c: 3}], 'blah').include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
   });
 
   it('ordered.members', function() {
@@ -2519,8 +2838,12 @@ describe('expect', function () {
     expect([1, 2, 3]).not.ordered.members([1, 2, 2]);
 
     err(function() {
-      expect([1, 2, 3]).ordered.members([2, 1, 3]);
-    }, 'expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+      expect([1, 2, 3]).ordered.members([2, 1, 3], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+
+    err(function() {
+      expect([1, 2, 3], 'blah').ordered.members([2, 1, 3]);
+    }, 'blah: expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
 
     err(function() {
       expect([1, 2, 3]).not.ordered.members([1, 2, 3]);
@@ -2534,8 +2857,12 @@ describe('expect', function () {
     expect([1, 2, 3]).not.include.ordered.members([1, 2, 2]);
 
     err(function() {
-      expect([1, 2, 3]).include.ordered.members([2, 1]);
-    }, 'expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+      expect([1, 2, 3]).include.ordered.members([2, 1], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+
+    err(function() {
+      expect([1, 2, 3], 'blah').include.ordered.members([2, 1]);
+    }, 'blah: expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
 
     err(function() {
       expect([1, 2, 3]).not.include.ordered.members([1, 2]);
@@ -2553,8 +2880,12 @@ describe('expect', function () {
     expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      expect([{a: 1}, {b: 2}, {c: 3}]).deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+      expect([{a: 1}, {b: 2}, {c: 3}]).deep.ordered.members([{b: 2}, {a: 1}, {c: 3}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+
+    err(function() {
+      expect([{a: 1}, {b: 2}, {c: 3}], 'blah').deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
 
     err(function() {
       expect([{a: 1}, {b: 2}, {c: 3}]).not.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
@@ -2568,8 +2899,12 @@ describe('expect', function () {
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.ordered.members([{b: 2}, {a: 1}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+      expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.ordered.members([{b: 2}, {a: 1}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+
+    err(function() {
+      expect([{a: 1}, {b: 2}, {c: 3}], 'blah').include.deep.ordered.members([{b: 2}, {a: 1}]);
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
 
     err(function() {
       expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{a: 1}, {b: 2}]);
@@ -2600,6 +2935,50 @@ describe('expect', function () {
 
     expect(batFn).to.change(lenFn).by(1);
     expect(batFn).to.change(lenFn).but.not.by(2);
+
+    err(function () {
+      expect(sameFn).to.change(obj, 'value', 'blah');
+    }, "blah: expected .value to change");
+
+    err(function () {
+      expect(sameFn, 'blah').to.change(obj, 'value');
+    }, "blah: expected .value to change");
+
+    err(function () {
+      expect(fn).to.not.change(obj, 'value', 'blah');
+    }, "blah: expected .value to not change");
+
+    err(function () {
+      expect({}).to.change(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect({}, 'blah').to.change(obj, 'value');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(fn).to.change({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(fn, 'blah').to.change({}, 'badprop');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(fn, 'blah').to.change({});
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(fn).to.change(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to change by 10");
+
+    err(function () {
+      expect(fn, 'blah').to.change(obj, 'value').by(10);
+    }, "blah: expected .value to change by 10");
+
+    err(function () {
+      expect(fn).to.change(obj, 'value').but.not.by(5, 'blah');
+    }, "blah: expected .value to not change by 5");
   });
 
   it('increase, decrease', function() {
@@ -2637,12 +3016,109 @@ describe('expect', function () {
     expect(nFn).to.not.decrease(lenFn);
     expect(pFn).to.not.decrease(lenFn);
 
+    err(function () {
+      expect(smFn).to.increase(obj, 'value', 'blah');
+    }, "blah: expected .value to increase");
+
+    err(function () {
+      expect(smFn, 'blah').to.increase(obj, 'value');
+    }, "blah: expected .value to increase");
+
+    err(function () {
+      expect(incFn).to.not.increase(obj, 'value', 'blah');
+    }, "blah: expected .value to not increase");
+
+    err(function () {
+      expect({}).to.increase(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect({}, 'blah').to.increase(obj, 'value');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(incFn).to.increase({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(incFn, 'blah').to.increase({}, 'badprop');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(incFn, 'blah').to.increase({});
+    }, "blah: expected {} to be a function");
+
     err(function() {
-      expect(incFn).to.increase(obj, 'noop');
-    }, 'expected null to be a number');
+      expect(incFn).to.increase(obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
     err(function() {
-      expect(incFn).to.decrease(obj, 'noop');
-    }, 'expected null to be a number');
+      expect(incFn, 'blah').to.increase(obj, 'noop');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      expect(incFn).to.increase(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to increase by 10");
+
+    err(function () {
+      expect(incFn, 'blah').to.increase(obj, 'value').by(10);
+    }, "blah: expected .value to increase by 10");
+
+    err(function () {
+      expect(incFn).to.increase(obj, 'value').but.not.by(2, 'blah');
+    }, "blah: expected .value to not increase by 2");
+
+    err(function () {
+      expect(smFn).to.decrease(obj, 'value', 'blah');
+    }, "blah: expected .value to decrease");
+
+    err(function () {
+      expect(smFn, 'blah').to.decrease(obj, 'value');
+    }, "blah: expected .value to decrease");
+
+    err(function () {
+      expect(decFn).to.not.decrease(obj, 'value', 'blah');
+    }, "blah: expected .value to not decrease");
+
+    err(function () {
+      expect({}).to.decrease(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect({}, 'blah').to.decrease(obj, 'value');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(decFn).to.decrease({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(decFn, 'blah').to.decrease({}, 'badprop');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      expect(decFn, 'blah').to.decrease({});
+    }, "blah: expected {} to be a function");
+
+    err(function() {
+      expect(decFn).to.decrease(obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
+    err(function() {
+      expect(decFn, 'blah').to.decrease(obj, 'noop');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      expect(decFn).to.decrease(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to decrease by 10");
+
+    err(function () {
+      expect(decFn, 'blah').to.decrease(obj, 'value').by(10);
+    }, "blah: expected .value to decrease by 10");
+
+    err(function () {
+      expect(decFn).to.decrease(obj, 'value').but.not.by(3, 'blah');
+    }, "blah: expected .value to not decrease by 3");
   });
 
   it('extensible', function() {
@@ -2652,8 +3128,8 @@ describe('expect', function () {
     expect(nonExtensibleObject).to.not.be.extensible;
 
     err(function() {
-        expect(nonExtensibleObject).to.be.extensible;
-    }, 'expected {} to be extensible');
+        expect(nonExtensibleObject, 'blah').to.be.extensible;
+    }, 'blah: expected {} to be extensible');
 
     err(function() {
         expect({}).to.not.be.extensible;
@@ -2712,8 +3188,8 @@ describe('expect', function () {
     expect({}).to.not.be.sealed;
 
     err(function() {
-        expect({}).to.be.sealed;
-    }, 'expected {} to be sealed');
+        expect({}, 'blah').to.be.sealed;
+    }, 'blah: expected {} to be sealed');
 
     err(function() {
         expect(sealedObject).to.not.be.sealed;
@@ -2775,8 +3251,8 @@ describe('expect', function () {
     expect({}).to.not.be.frozen;
 
     err(function() {
-        expect({}).to.be.frozen;
-    }, 'expected {} to be frozen');
+        expect({}, 'blah').to.be.frozen;
+    }, 'blah: expected {} to be frozen');
 
     err(function() {
         expect(frozenObject).to.not.be.frozen;

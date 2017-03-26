@@ -377,6 +377,10 @@ describe('should', function() {
     var args = (function(){ return arguments; })(1,2,3);
     args.should.be.arguments;
     [].should.not.be.arguments;
+
+    err(function () {
+      [].should.be.arguments;
+    }, "expected [] to be arguments but got Array");
   });
 
   it('.equal()', function(){
@@ -408,8 +412,8 @@ describe('should', function() {
     (5).should.be.a('number');
 
     err(function(){
-      (5).should.not.be.a('number');
-    }, "expected 5 not to be a number");
+      (5).should.not.be.a('number', 'blah');
+    }, "blah: expected 5 not to be a number");
   });
 
   it('instanceof', function(){
@@ -417,8 +421,8 @@ describe('should', function() {
     new Foo().should.be.an.instanceof(Foo);
 
     err(function(){
-      new Foo().should.be.an.instanceof(1);
-    }, "The instanceof assertion needs a constructor but number was given.");
+      new Foo().should.be.an.instanceof(1, 'blah');
+    }, "blah: The instanceof assertion needs a constructor but number was given.");
 
     err(function(){
       new Foo().should.be.an.instanceof('batman');
@@ -514,11 +518,11 @@ describe('should', function() {
 
     err(function () {
       (1).should.be.within(null, 1, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       (1).should.be.within(0, null, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       ('string').should.not.be.within(0, 1, 'blah');
@@ -526,11 +530,11 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.within(null, 1, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       (1).should.not.be.within(0, null, 'blah');
-    }, "the arguments to within must be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       (1).should.have.length.within(5,7, 'blah');
@@ -569,7 +573,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.be.above(null, 'blah');
-    }, "the argument to above must be a number");
+    }, "blah: the argument to above must be a number");
 
     err(function () {
       ('string').should.not.be.above(0, 'blah');
@@ -577,7 +581,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.above(null, 'blah');
-    }, "the argument to above must be a number");
+    }, "blah: the argument to above must be a number");
 
     err(function () {
       (1).should.have.length.above(0, 'blah');
@@ -614,7 +618,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.be.at.least(null, 'blah');
-    }, "the argument to least must be a number");
+    }, "blah: the argument to least must be a number");
 
     err(function () {
       ('string').should.not.be.at.least(0, 'blah');
@@ -622,7 +626,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.at.least(null, 'blah');
-    }, "the argument to least must be a number");
+    }, "blah: the argument to least must be a number");
   });
 
   it('below(n)', function(){
@@ -653,7 +657,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.be.below(null, 'blah');
-    }, "the argument to below must be a number");
+    }, "blah: the argument to below must be a number");
 
     err(function () {
       ('string').should.not.be.below(0, 'blah');
@@ -661,7 +665,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.below(null, 'blah');
-    }, "the argument to below must be a number");
+    }, "blah: the argument to below must be a number");
 
     err(function () {
       (1).should.have.length.below(0, 'blah');
@@ -698,7 +702,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.be.at.most(null, 'blah');
-    }, "the argument to most must be a number");
+    }, "blah: the argument to most must be a number");
 
     err(function () {
       ('string').should.not.be.at.most(0, 'blah');
@@ -706,7 +710,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.at.most(null, 'blah');
-    }, "the argument to most must be a number");
+    }, "blah: the argument to most must be a number");
 
     err(function () {
       (1).should.have.length.of.at.most(0, 'blah');
@@ -1002,8 +1006,8 @@ describe('should', function() {
     }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
 
     err(function() {
-      ({a: {b: 1}}).should.have.own.nested.property("a.b", 1);
-    }, "The \"nested\" and \"own\" flags cannot be combined.");
+      ({a: {b: 1}}).should.have.own.nested.property("a.b", 1, 'blah');
+    }, "blah: The \"nested\" and \"own\" flags cannot be combined.");
   });
 
   it('deep.property(name, val)', function () {
@@ -1108,8 +1112,8 @@ describe('should', function() {
     'test'.should.haveOwnProperty('length', 4).that.is.a('number');
 
     err(function(){
-      ({ length: 12 }).should.have.own.property('iDontExist', 12);
-    }, "expected { length: 12 } to have own property 'iDontExist'");
+      ({ length: 12 }).should.have.own.property('iDontExist', 12, 'blah');
+    }, "blah: expected { length: 12 } to have own property 'iDontExist'");
 
     err(function() {
       ({ length: 12 }).should.not.have.own.property('length', 12);
@@ -1306,6 +1310,18 @@ describe('should', function() {
     'bar'.should.be.oneOf(['foo', 'bar']);
     'baz'.should.not.be.oneOf(['foo', 'bar']);
     'baz'.should.not.be.oneOf([]);
+
+    err(function () {
+      (1).should.be.oneOf([2, 3], 'blah');
+    }, "blah: expected 1 to be one of [ 2, 3 ]");
+
+    err(function () {
+      (1).should.not.be.oneOf([1, 2, 3], 'blah');
+    }, "blah: expected 1 to not be one of [ 1, 2, 3 ]");
+
+    err(function () {
+      (1).should.be.oneOf({}, 'blah');
+    }, "blah: expected {} to be an array");
   });
 
   it('include()', function(){
@@ -1344,8 +1360,8 @@ describe('should', function() {
     }, "blah: expected [ 'bar', 'foo' ] to not include 'foo'");
 
     err(function(){
-      ({a:1}).should.include({b:2});
-    }, "expected { a: 1 } to have property 'b'");
+      ({a:1}).should.include({b:2}, 'blah');
+    }, "blah: expected { a: 1 } to have property 'b'");
 
     err(function () {
       [{a: 1}, {b: 2}].should.include({a: 1});
@@ -1368,8 +1384,8 @@ describe('should', function() {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
 
     err(function(){
-      (true).should.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+      (true).should.include(true, 'blah');
+    }, "blah: object tested must be an array, an object, or a string, but boolean given");
 
     err(function(){
       (42).should.include(4);
@@ -1398,8 +1414,8 @@ describe('should', function() {
     ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 9}});
 
     err(function () {
-      [obj1, obj2].should.deep.include({a: 9});
-    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+      [obj1, obj2].should.deep.include({a: 9}, 'blah');
+    }, "blah: expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
 
     err(function () {
       [obj1, obj2].should.not.deep.include({a: 1});
@@ -1425,8 +1441,8 @@ describe('should', function() {
     ({'.a': {'[b]': 'x'}}).should.not.nested.include({'\\.a.\\[b\\]': 'y'});
 
     err(function () {
-      ({a: {b: ['x', 'y']}}).should.nested.include({'a.b[1]': 'x'});
-    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+      ({a: {b: ['x', 'y']}}).should.nested.include({'a.b[1]': 'x'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
 
     err(function () {
       ({a: {b: ['x', 'y']}}).should.nested.include({'a.c': 'y'});
@@ -1448,8 +1464,8 @@ describe('should', function() {
       .should.not.deep.nested.include({'\\.a.\\[b\\]': {y: 2}});
 
     err(function () {
-      ({a: {b: [{x: 1}]}}).should.deep.nested.include({'a.b[0]': {y: 2}});
-    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+      ({a: {b: [{x: 1}]}}).should.deep.nested.include({'a.b[0]': {y: 2}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       ({a: {b: [{x: 1}]}}).should.deep.nested.include({'a.c': {x: 1}});
@@ -1468,8 +1484,8 @@ describe('should', function() {
     ({a: {b: 2}}).should.not.own.include({a: {b: 2}});
 
     err(function () {
-      ({a: 1}).should.own.include({a: 3});
-    }, "expected { a: 1 } to have own property 'a' of 3, but got 1");
+      ({a: 1}).should.own.include({a: 3}, 'blah');
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
 
     err(function () {
       ({a: 1}).should.own.include({'toString': Object.prototype.toString});
@@ -1487,8 +1503,8 @@ describe('should', function() {
       .should.not.deep.own.include({'toString': Object.prototype.toString});
 
     err(function () {
-      ({a: {b: 2}}).should.deep.own.include({a: {c: 3}});
-    }, "expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+      ({a: {b: 2}}).should.deep.own.include({a: {c: 3}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
 
     err(function () {
       ({a: {b: 2}}).should.deep.own.include({'toString': Object.prototype.toString});
@@ -2151,6 +2167,14 @@ describe('should', function() {
     err(function(){
       (emptyStringErrFn).should.not.throw('');
     }, /^expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+
+    err(function () {
+      ({}).should.throw();
+    }, "expected {} to be a function");
+
+    err(function () {
+      ({}).should.throw(Error, 'testing', 'blah');
+    }, "blah: expected {} to be a function");
   });
 
   it('respondTo', function(){
@@ -2197,16 +2221,16 @@ describe('should', function() {
     }, "blah: expected 2 to be close to 1 +/- 0.5");
 
     err(function() {
-      [1.5].should.be.closeTo(1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+      [1.5].should.be.closeTo(1.0, 0.5, 'blah');
+    }, "blah: expected [ 1.5 ] to be a number");
 
     err(function() {
-      (1.5).should.be.closeTo("1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+      (1.5).should.be.closeTo("1.0", 0.5, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
 
     err(function() {
-      (1.5).should.be.closeTo(1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+      (1.5).should.be.closeTo(1.0, true, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
   });
 
   it('approximately', function(){
@@ -2240,20 +2264,20 @@ describe('should', function() {
     [{a: 1}].should.not.include.members([{a: 1}]);
 
     err(function() {
-      [].should.include.members([43]);
-    }, 'expected [] to be a superset of [ 43 ]');
+      [].should.include.members([43], 'blah');
+    }, 'blah: expected [] to be a superset of [ 43 ]');
 
     err(function() {
       [5, 2, 1].should.not.include.members([2]);
     }, 'expected [ 5, 2, 1 ] to not be a superset of [ 2 ]');
 
     err(function() {
-      'foo'.should.include.members([12]);
-    }, "expected 'foo' to be an array");
+      'foo'.should.include.members([12], 'blah');
+    }, "blah: expected 'foo' to be an array");
 
     err(function() {
-      [1, 2, 3].should.include.members('o');
-    }, "expected 'o' to be an array");
+      [1, 2, 3].should.include.members('o', 'blah');
+    }, "blah: expected 'o' to be an array");
   });
 
   it('memberEquals', function() {
@@ -2269,12 +2293,12 @@ describe('should', function() {
     [{a: 1}].should.not.have.same.members([{a: 1}]);
 
     err(function() {
-      [1, 2, 3].should.have.same.members([]);
-    }, 'expected [ 1, 2, 3 ] to have the same members as []');
+      [1, 2, 3].should.have.same.members([], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to have the same members as []');
 
     err(function() {
-      [1, 2, 3].should.have.same.members(4);
-    }, 'expected 4 to be an array');
+      [1, 2, 3].should.have.same.members(4, 'blah');
+    }, 'blah: expected 4 to be an array');
   });
 
   it('deep.members', function() {
@@ -2288,8 +2312,8 @@ describe('should', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.not.have.deep.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function(){
-      [{ id: 1 }].should.have.deep.members([{ id: 2 }])
-    }, 'expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
+      [{ id: 1 }].should.have.deep.members([{ id: 2 }], 'blah')
+    }, 'blah: expected [ { id: 1 } ] to have the same members as [ { id: 2 } ]');
   });
 
   it('include.deep.members', function() {
@@ -2298,8 +2322,8 @@ describe('should', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
 
     err(function() {
-      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.members([{b: 2}, {a: 1}, {f: 5}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
+      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.members([{b: 2}, {a: 1}, {f: 5}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be a superset of [ { b: 2 }, { a: 1 }, { f: 5 } ]');
   });
 
   it('ordered.members', function() {
@@ -2314,8 +2338,8 @@ describe('should', function() {
     [1, 2, 3].should.not.ordered.members([1, 2, 2]);
 
     err(function() {
-      [1, 2, 3].should.ordered.members([2, 1, 3]);
-    }, 'expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+      [1, 2, 3].should.ordered.members([2, 1, 3], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
 
     err(function() {
       [1, 2, 3].should.not.ordered.members([1, 2, 3]);
@@ -2329,8 +2353,8 @@ describe('should', function() {
     [1, 2, 3].should.not.include.ordered.members([1, 2, 2]);
 
     err(function() {
-      [1, 2, 3].should.include.ordered.members([2, 1]);
-    }, 'expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+      [1, 2, 3].should.include.ordered.members([2, 1], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
 
     err(function() {
       [1, 2, 3].should.not.include.ordered.members([1, 2]);
@@ -2348,8 +2372,8 @@ describe('should', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+      [{a: 1}, {b: 2}, {c: 3}].should.deep.ordered.members([{b: 2}, {a: 1}, {c: 3}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
 
     err(function() {
       [{a: 1}, {b: 2}, {c: 3}].should.not.deep.ordered.members([{a: 1}, {b: 2}, {c: 3}]);
@@ -2363,8 +2387,8 @@ describe('should', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{b: 2}, {a: 1}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+      [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{b: 2}, {a: 1}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
 
     err(function() {
       [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{a: 1}, {b: 2}]);
@@ -2400,6 +2424,30 @@ describe('should', function() {
     batFn.should.change(lenFn).by(1);
     batFn.should.change(lenFn).but.not.by(2);
     noFn.should.not.change(lenFn);
+
+    err(function () {
+      (sameFn).should.change(obj, 'value', 'blah');
+    }, "blah: expected .value to change");
+
+    err(function () {
+      (fn).should.not.change(obj, 'value', 'blah');
+    }, "blah: expected .value to not change");
+
+    err(function () {
+      ({}).should.change(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      (fn).should.change({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      (fn).should.change(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to change by 10");
+
+    err(function () {
+      (fn).should.change(obj, 'value').but.not.by(5, 'blah');
+    }, "blah: expected .value to not change by 5");
   });
 
   it('increase, decrease', function() {
@@ -2440,12 +2488,61 @@ describe('should', function() {
     popFn.should.decrease(lenFn).by(1);
     popFn.should.decrease(lenFn).but.not.by(2);
 
+    err(function () {
+      (smFn).should.increase(obj, 'value', 'blah');
+    }, "blah: expected .value to increase");
+
+    err(function () {
+      (incFn).should.not.increase(obj, 'value', 'blah');
+    }, "blah: expected .value to not increase");
+
+    err(function () {
+      ({}).should.increase(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      (incFn).should.increase({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
     err(function() {
-      incFn.should.increase(obj, 'noop');
-    }, 'expected null to be a number');
+      (incFn).should.increase(obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      (incFn).should.increase(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to increase by 10");
+
+    err(function () {
+      (incFn).should.increase(obj, 'value').but.not.by(2, 'blah');
+    }, "blah: expected .value to not increase by 2");
+
+    err(function () {
+      (smFn).should.decrease(obj, 'value', 'blah');
+    }, "blah: expected .value to decrease");
+
+    err(function () {
+      (decFn).should.not.decrease(obj, 'value', 'blah');
+    }, "blah: expected .value to not decrease");
+
+    err(function () {
+      ({}).should.decrease(obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      (decFn).should.decrease({}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
     err(function() {
-      incFn.should.decrease(obj, 'noop');
-    }, 'expected null to be a number');
+      (decFn).should.decrease(obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      (decFn).should.decrease(obj, 'value').by(10, 'blah');
+    }, "blah: expected .value to decrease by 10");
+
+    err(function () {
+      (decFn).should.decrease(obj, 'value').but.not.by(3, 'blah');
+    }, "blah: expected .value to not decrease by 3");
   });
 
   it('extensible', function() {
