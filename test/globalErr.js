@@ -56,7 +56,7 @@ describe('globalErr', function () {
 
     err(function () {
       err(function () { throw new Err('cat') }, {message: 'dog'});
-    }, 'expected \'cat\' to deeply equal \'dog\'');
+    }, 'expected \'cat\' to deeply equal \'dog\'', true);
   });
 
   it('should throw if fn does not throw', function () {
@@ -106,6 +106,80 @@ describe('globalErr', function () {
       err(function () {
         err(function () { throw new Err('Test error') }, val)
       }, 'Invalid val')
+    });
+  });
+
+  describe('skipStackTest', function () {
+    // Skip tests if `Error.captureStackTrace` is unsupported
+    if (typeof Error.captureStackTrace === 'undefined') return;
+
+    try {
+      throw Error();
+    } catch (err) {
+      // Skip tests if `err.stack` is unsupported
+      if (typeof err.stack === 'undefined') return;
+    }
+
+    // Note: `.to.not.throw` isn't used for the assertions that aren't expected
+    // to throw an error because it'll pollute the very same stack trace which
+    // is being asserted on. Instead, if `err` throws an error, then Mocha will
+    // use that error as the reason the test failed.
+    describe('falsey', function () {
+      it('should throw if "Getter" is in the stack trace', function () {
+        err(function () {
+          err(function fakeGetter () {
+            throw Error('my stack trace contains a fake implementation frame');
+          });
+        }, /implementation frames not properly filtered from stack trace/, true);
+      });
+
+      it('should throw if "Wrapper" is in the stack trace', function () {
+        err(function () {
+          err(function fakeWrapper () {
+            throw Error('my stack trace contains a fake implementation frame');
+          });
+        }, /implementation frames not properly filtered from stack trace/, true);
+      });
+
+      it('should throw if "assert" is in the stack trace', function () {
+        err(function () {
+          err(function assertFake () {
+            throw Error('my stack trace contains a fake implementation frame');
+          });
+        }, /implementation frames not properly filtered from stack trace/, true);
+      });
+
+      it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
+        err(function safeFnName () {
+          throw Error('my stack trace doesn\'t contain implementation frames');
+        });
+      });
+    });
+
+    describe('truthy', function () {
+      it('shouldn\'t throw if "Getter" is in the stack trace', function () {
+        err(function fakeGetter () {
+          throw Error('my stack trace contains a fake implementation frame');
+        }, undefined, true);
+      });
+
+      it('shouldn\'t throw if "Wrapper" is in the stack trace', function () {
+        err(function fakeWrapper () {
+          throw Error('my stack trace contains a fake implementation frame');
+        }, undefined, true);
+      });
+
+      it('shouldn\'t throw if "assert" is in the stack trace', function () {
+        err(function assertFake () {
+          throw Error('my stack trace contains a fake implementation frame');
+        }, undefined, true);
+      });
+
+      it('shouldn\'t throw if "Getter", "Wrapper", "assert" aren\'t in the stack trace', function () {
+        err(function safeFnName () {
+          throw Error('my stack trace doesn\'t contain implementation frames');
+        }, undefined, true);
+      });
     });
   });
 });

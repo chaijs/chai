@@ -177,7 +177,7 @@ describe('assert', function () {
       var t = new Thing();
       Thing.prototype = 1337;
       assert.instanceOf(t, Thing);
-    }, expectedError);
+    }, expectedError, true);
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
@@ -1981,7 +1981,7 @@ describe('assert', function () {
         err(function() {
           // isExtensible should not suppress errors, thrown in proxy traps
           assert[isExtensible](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });
@@ -2018,7 +2018,7 @@ describe('assert', function () {
         err(function() {
           // isNotExtensible should not suppress errors, thrown in proxy traps
           assert[isNotExtensible](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });
@@ -2058,7 +2058,7 @@ describe('assert', function () {
         err(function() {
           // isSealed should not suppress errors, thrown in proxy traps
           assert[isSealed](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });
@@ -2108,7 +2108,7 @@ describe('assert', function () {
         err(function() {
           // isNotSealed should not suppress errors, thrown in proxy traps
           assert[isNotSealed](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });
@@ -2148,7 +2148,7 @@ describe('assert', function () {
         err(function() {
           // isFrozen should not suppress errors, thrown in proxy traps
           assert[isFrozen](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });
@@ -2161,7 +2161,7 @@ describe('assert', function () {
 
       err(function() {
         assert[isNotFrozen](frozenObject);
-      }, 'expected {} to not be frozen');
+      }, 'expected {} to not be frozen', true);
 
       // Making sure ES6-like Object.isFrozen response is respected for all primitive types
 
@@ -2198,7 +2198,7 @@ describe('assert', function () {
         err(function() {
           // isNotFrozen should not suppress errors, thrown in proxy traps
           assert[isNotFrozen](proxy);
-        }, { name: 'TypeError' });
+        }, { name: 'TypeError' }, true);
       }
     });
   });

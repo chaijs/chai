@@ -58,73 +58,73 @@ describe('expect', function () {
       it('throws when invalid property follows expect', function () {
         err(function () {
           expect(42).pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows language chain', function () {
         err(function () {
           expect(42).to.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows property assertion', function () {
         err(function () {
           expect(42).ok.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows overwritten property assertion', function () {
         err(function () {
           expect(42).tmpProperty.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled method assertion', function () {
         err(function () {
           expect(42).equal.pizza;
-        }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
+        }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".', true);
       });
 
       it('throws when invalid property follows called method assertion', function () {
         err(function () {
           expect(42).equal(42).pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled overwritten method assertion', function () {
         err(function () {
           expect(42).tmpMethod.pizza;
-        }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
+        }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".', true);
       });
 
       it('throws when invalid property follows called overwritten method assertion', function () {
         err(function () {
           expect(42).tmpMethod().pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled chainable method assertion', function () {
         err(function () {
           expect(42).a.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows called chainable method assertion', function () {
         err(function () {
           expect(42).a('number').pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
        err(function () {
           expect(42).tmpChainableMethod.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows called overwritten chainable method assertion', function () {
         err(function () {
           expect(42).tmpChainableMethod().pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('doesn\'t throw if invalid property is excluded via config', function () {
@@ -165,7 +165,7 @@ describe('expect', function () {
       it('throws when `.length` follows uncalled method assertion', function () {
         err(function () {
           expect('foo').equal.length;
-        }, 'Invalid Chai property: equal.length. See docs for proper usage of "equal".');
+        }, 'Invalid Chai property: equal.length. See docs for proper usage of "equal".', true);
       });
 
       it('doesn\'t throw when `.length` follows called method assertion', function () {
@@ -177,7 +177,7 @@ describe('expect', function () {
       it('throws when `.length` follows uncalled overwritten method assertion', function () {
         err(function () {
           expect('foo').tmpMethod.length;
-        }, 'Invalid Chai property: tmpMethod.length. See docs for proper usage of "tmpMethod".');
+        }, 'Invalid Chai property: tmpMethod.length. See docs for proper usage of "tmpMethod".', true);
       });
 
       it('doesn\'t throw when `.length` follows called overwritten method assertion', function () {
@@ -189,7 +189,7 @@ describe('expect', function () {
       it('throws when `.length` follows uncalled chainable method assertion', function () {
         err(function () {
           expect('foo').a.length;
-        }, 'Invalid Chai property: a.length. Due to a compatibility issue, "length" cannot directly follow "a". Use "a.lengthOf" instead.');
+        }, 'Invalid Chai property: a.length. Due to a compatibility issue, "length" cannot directly follow "a". Use "a.lengthOf" instead.', true);
       });
 
       it('doesn\'t throw when `.length` follows called chainable method assertion', function () {
@@ -201,7 +201,7 @@ describe('expect', function () {
       it('throws when `.length` follows uncalled overwritten chainable method assertion', function () {
         err(function () {
           expect('foo').tmpChainableMethod.length;
-        }, 'Invalid Chai property: tmpChainableMethod.length. Due to a compatibility issue, "length" cannot directly follow "tmpChainableMethod". Use "tmpChainableMethod.lengthOf" instead.');
+        }, 'Invalid Chai property: tmpChainableMethod.length. Due to a compatibility issue, "length" cannot directly follow "tmpChainableMethod". Use "tmpChainableMethod.lengthOf" instead.', true);
       });
 
       it('doesn\'t throw when `.length` follows called overwritten chainable method assertion', function () {
@@ -403,7 +403,7 @@ describe('expect', function () {
       var t = new Thing();
       Thing.prototype = 1337;
       expect(t).to.an.instanceof(Thing);
-    }, expectedError)
+    }, expectedError, true)
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
@@ -2701,7 +2701,7 @@ describe('expect', function () {
       err(function() {
         // .extensible should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.extensible;
-      }, { name: 'TypeError' });
+      }, { name: 'TypeError' }, true);
     }
   });
 
@@ -2764,7 +2764,7 @@ describe('expect', function () {
       err(function() {
         // .sealed should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.sealed;
-      }, { name: 'TypeError' });
+      }, { name: 'TypeError' }, true);
     }
   });
 
@@ -2827,7 +2827,7 @@ describe('expect', function () {
       err(function() {
         // .frozen should not suppress errors, thrown in proxy traps
         expect(proxy).to.be.frozen;
-      }, { name: 'TypeError' });
+      }, { name: 'TypeError' }, true);
     }
   });
 });

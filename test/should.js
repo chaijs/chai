@@ -55,73 +55,73 @@ describe('should', function() {
       it('throws when invalid property follows should', function () {
         err(function () {
           (42).should.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows language chain', function () {
         err(function () {
           (42).should.to.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows property assertion', function () {
         err(function () {
           (42).should.ok.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows overwritten property assertion', function () {
         err(function () {
           (42).should.tmpProperty.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled method assertion', function () {
         err(function () {
           (42).should.equal.pizza;
-        }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".');
+        }, 'Invalid Chai property: equal.pizza. See docs for proper usage of "equal".', true);
       });
 
       it('throws when invalid property follows called method assertion', function () {
         err(function () {
           (42).should.equal(42).pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled overwritten method assertion', function () {
         err(function () {
           (42).should.tmpMethod.pizza;
-        }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".');
+        }, 'Invalid Chai property: tmpMethod.pizza. See docs for proper usage of "tmpMethod".', true);
       });
 
       it('throws when invalid property follows called overwritten method assertion', function () {
         err(function () {
           (42).should.tmpMethod().pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled chainable method assertion', function () {
         err(function () {
           (42).should.a.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows called chainable method assertion', function () {
         err(function () {
           (42).should.a('number').pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows uncalled overwritten chainable method assertion', function () {
         err(function () {
           (42).should.tmpChainableMethod.pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('throws when invalid property follows called overwritten chainable method assertion', function () {
         err(function () {
           (42).should.tmpChainableMethod().pizza;
-        }, 'Invalid Chai property: pizza');
+        }, 'Invalid Chai property: pizza', true);
       });
 
       it('doesn\'t throw if invalid property is excluded via config', function () {
@@ -162,7 +162,7 @@ describe('should', function() {
       it('throws when `.length` follows uncalled method assertion', function () {
         err(function () {
           ('foo').should.equal.length;
-        }, 'Invalid Chai property: equal.length. See docs for proper usage of "equal".');
+        }, 'Invalid Chai property: equal.length. See docs for proper usage of "equal".', true);
       });
 
       it('doesn\'t throw when `.length` follows called method assertion', function () {
@@ -174,7 +174,7 @@ describe('should', function() {
       it('throws when `.length` follows uncalled overwritten method assertion', function () {
         err(function () {
           ('foo').should.tmpMethod.length;
-        }, 'Invalid Chai property: tmpMethod.length. See docs for proper usage of "tmpMethod".');
+        }, 'Invalid Chai property: tmpMethod.length. See docs for proper usage of "tmpMethod".', true);
       });
 
       it('doesn\'t throw when `.length` follows called overwritten method assertion', function () {
@@ -186,7 +186,7 @@ describe('should', function() {
       it('throws when `.length` follows uncalled chainable method assertion', function () {
         err(function () {
           ('foo').should.a.length;
-        }, 'Invalid Chai property: a.length. Due to a compatibility issue, "length" cannot directly follow "a". Use "a.lengthOf" instead.');
+        }, 'Invalid Chai property: a.length. Due to a compatibility issue, "length" cannot directly follow "a". Use "a.lengthOf" instead.', true);
       });
 
       it('doesn\'t throw when `.length` follows called chainable method assertion', function () {
@@ -198,7 +198,7 @@ describe('should', function() {
       it('throws when `.length` follows uncalled overwritten chainable method assertion', function () {
         err(function () {
           ('foo').should.tmpChainableMethod.length;
-        }, 'Invalid Chai property: tmpChainableMethod.length. Due to a compatibility issue, "length" cannot directly follow "tmpChainableMethod". Use "tmpChainableMethod.lengthOf" instead.');
+        }, 'Invalid Chai property: tmpChainableMethod.length. Due to a compatibility issue, "length" cannot directly follow "tmpChainableMethod". Use "tmpChainableMethod.lengthOf" instead.', true);
       });
 
       it('doesn\'t throw when `.length` follows called overwritten chainable method assertion', function () {
@@ -453,7 +453,7 @@ describe('should', function() {
       var t = new Thing();
       Thing.prototype = 1337;
       t.should.be.an.instanceof(Thing);
-    }, expectedError);
+    }, expectedError, true);
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
