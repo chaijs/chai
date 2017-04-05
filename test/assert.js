@@ -24,8 +24,8 @@ describe('assert', function () {
     assert.isTrue(true);
 
     err(function() {
-      assert.isTrue(false);
-    }, "expected false to be true");
+      assert.isTrue(false, 'blah');
+    }, "blah: expected false to be true");
 
     err(function() {
       assert.isTrue(1);
@@ -40,8 +40,8 @@ describe('assert', function () {
     assert.isNotTrue(false);
 
     err(function() {
-      assert.isNotTrue(true);
-    }, "expected true to not equal true");
+      assert.isNotTrue(true, 'blah');
+    }, "blah: expected true to not equal true");
   });
 
   it('isOk / ok', function () {
@@ -51,8 +51,8 @@ describe('assert', function () {
       assert[isOk]('test');
 
       err(function () {
-        assert[isOk](false);
-      }, "expected false to be truthy");
+        assert[isOk](false, 'blah');
+      }, "blah: expected false to be truthy");
 
       err(function () {
         assert[isOk](0);
@@ -71,8 +71,8 @@ describe('assert', function () {
       assert[isNotOk]('');
 
       err(function () {
-        assert[isNotOk](true);
-      }, "expected true to be falsy");
+        assert[isNotOk](true, 'blah');
+      }, "blah: expected true to be falsy");
 
       err(function () {
         assert[isNotOk](1);
@@ -88,8 +88,8 @@ describe('assert', function () {
     assert.isFalse(false);
 
     err(function() {
-      assert.isFalse(true);
-    }, "expected true to be false");
+      assert.isFalse(true, 'blah');
+    }, "blah: expected true to be false");
 
     err(function() {
       assert.isFalse(0);
@@ -100,8 +100,8 @@ describe('assert', function () {
     assert.isNotFalse(true);
 
     err(function() {
-      assert.isNotFalse(false);
-    }, "expected false to not equal false");
+      assert.isNotFalse(false, 'blah');
+    }, "blah: expected false to not equal false");
   });
 
   it('equal', function () {
@@ -112,6 +112,10 @@ describe('assert', function () {
       var sym = Symbol();
       assert.equal(sym, sym);
     }
+
+    err(function () {
+      assert.equal(1, 2, 'blah');
+    }, "blah: expected 1 to equal 2");
   });
 
   it('typeof', function () {
@@ -124,8 +128,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.typeOf(5, 'string');
-    }, "expected 5 to be a string");
+      assert.typeOf(5, 'string', 'blah');
+    }, "blah: expected 5 to be a string");
 
   });
 
@@ -133,8 +137,8 @@ describe('assert', function () {
     assert.notTypeOf('test', 'number');
 
     err(function () {
-      assert.notTypeOf(5, 'number');
-    }, "expected 5 not to be a number");
+      assert.notTypeOf(5, 'number', 'blah');
+    }, "blah: expected 5 not to be a number");
   });
 
   it('instanceOf', function() {
@@ -142,8 +146,8 @@ describe('assert', function () {
     assert.instanceOf(new Foo(), Foo);
 
     err(function(){
-      assert.instanceOf(new Foo(), 1);
-    }, "The instanceof assertion needs a constructor but number was given.");
+      assert.instanceOf(new Foo(), 1, 'blah');
+    }, "blah: The instanceof assertion needs a constructor but number was given.");
 
     err(function(){
       assert.instanceOf(new Foo(), 'batman');
@@ -196,8 +200,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.instanceOf(5, Foo);
-    }, "expected 5 to be an instance of Foo");
+      assert.instanceOf(5, Foo, 'blah');
+    }, "blah: expected 5 to be an instance of Foo");
 
     function CrashyObject() {};
     CrashyObject.prototype.inspect = function () {
@@ -211,8 +215,8 @@ describe('assert', function () {
     assert.notInstanceOf(new Foo(), String);
 
     err(function(){
-      assert.notInstanceOf(new Foo(), 1);
-    }, "The instanceof assertion needs a constructor but number was given.");
+      assert.notInstanceOf(new Foo(), 1, 'blah');
+    }, "blah: The instanceof assertion needs a constructor but number was given.");
 
     err(function(){
       assert.notInstanceOf(new Foo(), 'batman');
@@ -252,8 +256,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.notInstanceOf(new Foo(), Foo);
-    }, "expected {} to not be an instance of Foo");
+      assert.notInstanceOf(new Foo(), Foo, 'blah');
+    }, "blah: expected {} to not be an instance of Foo");
   });
 
   it('isObject', function () {
@@ -262,8 +266,8 @@ describe('assert', function () {
     assert.isObject(new Foo());
 
     err(function() {
-      assert.isObject(true);
-    }, "expected true to be an object");
+      assert.isObject(true, 'blah');
+    }, "blah: expected true to be an object");
 
     err(function() {
       assert.isObject(Foo);
@@ -279,8 +283,8 @@ describe('assert', function () {
     assert.isNotObject(5);
 
     err(function() {
-      assert.isNotObject({});
-    }, "expected {} not to be an object");
+      assert.isNotObject({}, 'blah');
+    }, "blah: expected {} not to be an object");
   });
 
   it('notEqual', function() {
@@ -293,8 +297,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.notEqual(5, 5);
-    }, "expected 5 to not equal 5");
+      assert.notEqual(5, 5, 'blah');
+    }, "blah: expected 5 to not equal 5");
   });
 
   it('strictEqual', function() {
@@ -306,8 +310,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.strictEqual('5', 5);
-    }, "expected \'5\' to equal 5");
+      assert.strictEqual('5', 5, 'blah');
+    }, "blah: expected \'5\' to equal 5");
   });
 
   it('notStrictEqual', function() {
@@ -320,8 +324,8 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.notStrictEqual(5, 5);
-    }, "expected 5 to not equal 5");
+      assert.notStrictEqual(5, 5, 'blah');
+    }, "blah: expected 5 to not equal 5");
   });
 
   it('deepEqual', function() {
@@ -332,8 +336,8 @@ describe('assert', function () {
     assert.deepEqual({tea: NaN}, {tea: NaN});
 
     err(function () {
-      assert.deepEqual({tea: 'chai'}, {tea: 'black'});
-    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+      assert.deepEqual({tea: 'chai'}, {tea: 'black'}, 'blah');
+    }, "blah: expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
 
     var obja = Object.create({ tea: 'chai' })
       , objb = Object.create({ tea: 'chai' });
@@ -392,8 +396,8 @@ describe('assert', function () {
     assert.notDeepEqual({tea: 'jasmine'}, {tea: 'chai'});
 
     err(function () {
-      assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
-    }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
+      assert.notDeepEqual({tea: 'chai'}, {tea: 'chai'}, 'blah');
+    }, "blah: expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
   });
 
   it('notDeepEqual (circular)', function() {
@@ -414,24 +418,24 @@ describe('assert', function () {
     assert.isNull(null);
 
     err(function () {
-      assert.isNull(undefined);
-    }, "expected undefined to equal null");
+      assert.isNull(undefined, 'blah');
+    }, "blah: expected undefined to equal null");
   });
 
   it('isNotNull', function() {
     assert.isNotNull(undefined);
 
     err(function () {
-      assert.isNotNull(null);
-    }, "expected null to not equal null");
+      assert.isNotNull(null, 'blah');
+    }, "blah: expected null to not equal null");
   });
 
   it('isNaN', function() {
     assert.isNaN(NaN);
 
     err(function (){
-      assert.isNaN(Infinity);
-    }, "expected Infinity to be NaN");
+      assert.isNaN(Infinity, 'blah');
+    }, "blah: expected Infinity to be NaN");
 
     err(function (){
       assert.isNaN(undefined);
@@ -453,8 +457,8 @@ describe('assert', function () {
     assert.isNotNaN({});
 
     err(function (){
-      assert.isNotNaN(NaN);
-    }, "expected NaN not to be NaN");
+      assert.isNotNaN(NaN, 'blah');
+    }, "blah: expected NaN not to be NaN");
   });
 
   it('exists', function() {
@@ -467,8 +471,8 @@ describe('assert', function () {
     assert.exists('');
 
     err(function (){
-      assert.exists(iDoNotExist);
-    }, "expected undefined to exist");
+      assert.exists(iDoNotExist, 'blah');
+    }, "blah: expected undefined to exist");
   });
 
   it('notExists', function() {
@@ -478,24 +482,24 @@ describe('assert', function () {
     assert.notExists(iDoNotExist);
 
     err(function (){
-      assert.notExists(meeber);
-    }, "expected 'awesome' to not exist");
+      assert.notExists(meeber, 'blah');
+    }, "blah: expected 'awesome' to not exist");
   });
 
   it('isUndefined', function() {
     assert.isUndefined(undefined);
 
     err(function () {
-      assert.isUndefined(null);
-    }, "expected null to equal undefined");
+      assert.isUndefined(null, 'blah');
+    }, "blah: expected null to equal undefined");
   });
 
   it('isDefined', function() {
     assert.isDefined(null);
 
     err(function () {
-      assert.isDefined(undefined);
-    }, "expected undefined to not equal undefined");
+      assert.isDefined(undefined, 'blah');
+    }, "blah: expected undefined to not equal undefined");
   });
 
   it('isFunction', function() {
@@ -503,16 +507,16 @@ describe('assert', function () {
     assert.isFunction(func);
 
     err(function () {
-      assert.isFunction({});
-    }, "expected {} to be a function");
+      assert.isFunction({}, 'blah');
+    }, "blah: expected {} to be a function");
   });
 
   it('isNotFunction', function () {
     assert.isNotFunction(5);
 
     err(function () {
-      assert.isNotFunction(function () {});
-    }, "expected [Function] not to be a function");
+      assert.isNotFunction(function () {}, 'blah');
+    }, "blah: expected [Function] not to be a function");
   });
 
   it('isArray', function() {
@@ -520,16 +524,16 @@ describe('assert', function () {
     assert.isArray(new Array);
 
     err(function () {
-      assert.isArray({});
-    }, "expected {} to be an array");
+      assert.isArray({}, 'blah');
+    }, "blah: expected {} to be an array");
   });
 
   it('isNotArray', function () {
     assert.isNotArray(3);
 
     err(function () {
-      assert.isNotArray([]);
-    }, "expected [] not to be an array");
+      assert.isNotArray([], 'blah');
+    }, "blah: expected [] not to be an array");
 
     err(function () {
       assert.isNotArray(new Array);
@@ -541,8 +545,8 @@ describe('assert', function () {
     assert.isString(new String('foo'));
 
     err(function () {
-      assert.isString(1);
-    }, "expected 1 to be a string");
+      assert.isString(1, 'blah');
+    }, "blah: expected 1 to be a string");
   });
 
   it('isNotString', function () {
@@ -550,8 +554,8 @@ describe('assert', function () {
     assert.isNotString([ 'hello' ]);
 
     err(function () {
-      assert.isNotString('hello');
-    }, "expected 'hello' not to be a string");
+      assert.isNotString('hello', 'blah');
+    }, "blah: expected 'hello' not to be a string");
   });
 
   it('isNumber', function() {
@@ -559,8 +563,8 @@ describe('assert', function () {
     assert.isNumber(Number('3'));
 
     err(function () {
-      assert.isNumber('1');
-    }, "expected \'1\' to be a number");
+      assert.isNumber('1', 'blah');
+    }, "blah: expected \'1\' to be a number");
   });
 
   it('isNotNumber', function () {
@@ -568,8 +572,8 @@ describe('assert', function () {
     assert.isNotNumber([ 5 ]);
 
     err(function () {
-      assert.isNotNumber(4);
-    }, "expected 4 not to be a number");
+      assert.isNotNumber(4, 'blah');
+    }, "blah: expected 4 not to be a number");
   });
 
   it('isFinite', function() {
@@ -577,8 +581,8 @@ describe('assert', function () {
     assert.isFinite(-10);
 
     err(function(){
-      assert.isFinite(NaN);
-    }, "expected NaN to be a finite number");
+      assert.isFinite(NaN, 'blah');
+    }, "blah: expected NaN to be a finite number");
 
     err(function(){
       assert.isFinite(Infinity);
@@ -602,16 +606,16 @@ describe('assert', function () {
     assert.isBoolean(false);
 
     err(function () {
-      assert.isBoolean('1');
-    }, "expected \'1\' to be a boolean");
+      assert.isBoolean('1', 'blah');
+    }, "blah: expected \'1\' to be a boolean");
   });
 
   it('isNotBoolean', function () {
     assert.isNotBoolean('true');
 
     err(function () {
-      assert.isNotBoolean(true);
-    }, "expected true not to be a boolean");
+      assert.isNotBoolean(true, 'blah');
+    }, "blah: expected true not to be a boolean");
 
     err(function () {
       assert.isNotBoolean(false);
@@ -636,20 +640,20 @@ describe('assert', function () {
     }
 
     err(function () {
-      assert.include('foobar', 'baz');
-    }, "expected \'foobar\' to include \'baz\'");
+      assert.include('foobar', 'baz', 'blah');
+    }, "blah: expected \'foobar\' to include \'baz\'");
 
     err(function () {
       assert.include([{a: 1}, {b: 2}], {a: 1});
     }, "expected [ { a: 1 }, { b: 2 } ] to include { a: 1 }");
 
     err(function () {
-      assert.include({foo: {a: 1}, bar: {b: 2}}, {foo: {a: 1}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
+      assert.include({foo: {a: 1}, bar: {b: 2}}, {foo: {a: 1}}, 'blah');
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
 
     err(function(){
-      assert.include(true, true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+      assert.include(true, true, 'blah');
+    }, "blah: object tested must be an array, an object, or a string, but boolean given");
 
     err(function () {
       assert.include(42, 'bar');
@@ -684,18 +688,18 @@ describe('assert', function () {
     err(function () {
       var obj1 = {a: 1}
         , obj2 = {b: 2};
-      assert.notInclude([obj1, obj2], obj1);
-    }, "expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }");
+      assert.notInclude([obj1, obj2], obj1, 'blah');
+    }, "blah: expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }");
 
     err(function () {
       var obj1 = {a: 1}
         , obj2 = {b: 2};
-      assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
+      assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2}, 'blah');
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
 
     err(function(){
-      assert.notInclude(true, true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+      assert.notInclude(true, true, 'blah');
+    }, "blah: object tested must be an array, an object, or a string, but boolean given");
 
     err(function () {
       assert.notInclude(42, 'bar');
@@ -728,16 +732,16 @@ describe('assert', function () {
     assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
 
     err(function () {
-      assert.deepInclude([obj1, obj2], {a: 9});
-    }, "expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
+      assert.deepInclude([obj1, obj2], {a: 9}, 'blah');
+    }, "blah: expected [ { a: 1 }, { b: 2 } ] to deep include { a: 9 }");
 
     err(function () {
       assert.notDeepInclude([obj1, obj2], {a: 1});
     }, "expected [ { a: 1 }, { b: 2 } ] to not deep include { a: 1 }");
 
     err(function () {
-      assert.deepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have deep property 'bar' of { b: 9 }, but got { b: 2 }");
+      assert.deepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}}, 'blah');
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to have deep property 'bar' of { b: 9 }, but got { b: 2 }");
 
     err(function () {
       assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 2}});
@@ -908,24 +912,24 @@ describe('assert', function () {
       errMap.set({1: 20}, 'number');
 
       err(function(){
-        assert.hasAllKeys(errMap, []);
-      }, "keys required");
+        assert.hasAllKeys(errMap, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.containsAllKeys(errMap, []);
-      }, "keys required");
+        assert.containsAllKeys(errMap, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(errMap, []);
-      }, "keys required");
+        assert.doesNotHaveAllKeys(errMap, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.hasAnyKeys(errMap, []);
-      }, "keys required");
+        assert.hasAnyKeys(errMap, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(errMap, []);
-      }, "keys required");
+        assert.doesNotHaveAnyKeys(errMap, [], 'blah');
+      }, "blah: keys required");
 
       // Uncomment this after solving https://github.com/chaijs/chai/issues/662
       // This should fail because of referential equality (this is a strict comparison)
@@ -1028,24 +1032,24 @@ describe('assert', function () {
       errSet.add('number');
 
       err(function(){
-        assert.hasAllKeys(errSet, []);
-      }, "keys required");
+        assert.hasAllKeys(errSet, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.containsAllKeys(errSet, []);
-      }, "keys required");
+        assert.containsAllKeys(errSet, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.doesNotHaveAllKeys(errSet, []);
-      }, "keys required");
+        assert.doesNotHaveAllKeys(errSet, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.hasAnyKeys(errSet, []);
-      }, "keys required");
+        assert.hasAnyKeys(errSet, [], 'blah');
+      }, "blah: keys required");
 
       err(function(){
-        assert.doesNotHaveAnyKeys(errSet, []);
-      }, "keys required");
+        assert.doesNotHaveAnyKeys(errSet, [], 'blah');
+      }, "blah: keys required");
 
       // Uncomment this after solving https://github.com/chaijs/chai/issues/662
       // This should fail because of referential equality (this is a strict comparison)
@@ -1059,28 +1063,28 @@ describe('assert', function () {
     }
 
     err(function(){
-      assert.hasAllKeys({ foo: 1 }, []);
-    }, "keys required");
+      assert.hasAllKeys({ foo: 1 }, [], 'blah');
+    }, "blah: keys required");
 
     err(function(){
-      assert.containsAllKeys({ foo: 1 }, []);
-    }, "keys required");
+      assert.containsAllKeys({ foo: 1 }, [], 'blah');
+    }, "blah: keys required");
 
     err(function(){
-      assert.doesNotHaveAllKeys({ foo: 1 }, []);
-    }, "keys required");
+      assert.doesNotHaveAllKeys({ foo: 1 }, [], 'blah');
+    }, "blah: keys required");
 
     err(function(){
-      assert.hasAnyKeys({ foo: 1 }, []);
-    }, "keys required");
+      assert.hasAnyKeys({ foo: 1 }, [], 'blah');
+    }, "blah: keys required");
 
     err(function(){
-      assert.doesNotHaveAnyKeys({ foo: 1 }, []);
-    }, "keys required");
+      assert.doesNotHaveAnyKeys({ foo: 1 }, [], 'blah');
+    }, "blah: keys required");
 
     err(function(){
-      assert.hasAllKeys({ foo: 1 }, ['bar']);
-    }, "expected { foo: 1 } to have key 'bar'");
+      assert.hasAllKeys({ foo: 1 }, ['bar'], 'blah');
+    }, "blah: expected { foo: 1 } to have key 'bar'");
 
     err(function(){
       assert.hasAllKeys({ foo: 1 }, ['bar', 'baz']);
@@ -1091,8 +1095,8 @@ describe('assert', function () {
     }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
 
     err(function(){
-      assert.doesNotHaveAllKeys({ foo: 1 }, ['foo']);
-    }, "expected { foo: 1 } to not have key 'foo'");
+      assert.doesNotHaveAllKeys({ foo: 1 }, ['foo'], 'blah');
+    }, "blah: expected { foo: 1 } to not have key 'foo'");
 
     err(function(){
       assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, ['foo', 'bar']);
@@ -1103,25 +1107,25 @@ describe('assert', function () {
     }, "expected { foo: 1, bar: 2 } to have key 'foo'");
 
     err(function(){
-      assert.containsAllKeys({ foo: 1 }, ['foo', 'bar']);
-    }, "expected { foo: 1 } to contain keys 'foo', and 'bar'");
+      assert.containsAllKeys({ foo: 1 }, ['foo', 'bar'], 'blah');
+    }, "blah: expected { foo: 1 } to contain keys 'foo', and 'bar'");
 
     err(function() {
-      assert.hasAnyKeys({ foo: 1 }, ['baz']);
-    }, "expected { foo: 1 } to have key 'baz'");
+      assert.hasAnyKeys({ foo: 1 }, ['baz'], 'blah');
+    }, "blah: expected { foo: 1 } to have key 'baz'");
 
     err(function(){
       assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, ['foo', 'bar']);
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
 
     err(function(){
-      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, ['foo', 'baz']);
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, ['foo', 'baz'], 'blah');
+    }, "blah: expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
 
     // repeat previous tests with Object as arg.
     err(function(){
-      assert.hasAllKeys({ foo: 1 }, { 'bar': 1 });
-    }, "expected { foo: 1 } to have key 'bar'");
+      assert.hasAllKeys({ foo: 1 }, { 'bar': 1 }, 'blah');
+    }, "blah: expected { foo: 1 } to have key 'bar'");
 
     err(function(){
       assert.hasAllKeys({ foo: 1 }, { 'bar': 1, 'baz': 1});
@@ -1132,8 +1136,8 @@ describe('assert', function () {
     }, "expected { foo: 1 } to have keys 'foo', 'bar', and 'baz'");
 
     err(function(){
-      assert.doesNotHaveAllKeys({ foo: 1 }, { 'foo': 1 });
-    }, "expected { foo: 1 } to not have key 'foo'");
+      assert.doesNotHaveAllKeys({ foo: 1 }, { 'foo': 1 }, 'blah');
+    }, "blah: expected { foo: 1 } to not have key 'foo'");
 
     err(function(){
       assert.doesNotHaveAllKeys({ foo: 1 }, { 'foo': 1 });
@@ -1144,16 +1148,16 @@ describe('assert', function () {
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
 
     err(function() {
-      assert.hasAnyKeys({ foo: 1 }, 'baz');
-    }, "expected { foo: 1 } to have key 'baz'");
+      assert.hasAnyKeys({ foo: 1 }, 'baz', 'blah');
+    }, "blah: expected { foo: 1 } to have key 'baz'");
 
     err(function(){
       assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'bar': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', and 'bar'");
 
     err(function(){
-      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'baz': 1});
-    }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+      assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'baz': 1}, 'blah');
+    }, "blah: expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
   });
 
   it('lengthOf', function() {
@@ -1161,8 +1165,8 @@ describe('assert', function () {
     assert.lengthOf('foobar', 6);
 
     err(function () {
-      assert.lengthOf('foobar', 5);
-     }, "expected 'foobar' to have a length of 5 but got 6");
+      assert.lengthOf('foobar', 5, 'blah');
+     }, "blah: expected 'foobar' to have a length of 5 but got 6");
 
     err(function () {
       assert.lengthOf(1, 5);
@@ -1174,12 +1178,12 @@ describe('assert', function () {
     assert.notMatch('foobar', /^bar/);
 
     err(function () {
-      assert.match('foobar', /^bar/i);
-    }, "expected 'foobar' to match /^bar/i");
+      assert.match('foobar', /^bar/i, 'blah');
+    }, "blah: expected 'foobar' to match /^bar/i");
 
     err(function () {
-      assert.notMatch('foobar', /^foo/i);
-    }, "expected 'foobar' not to match /^foo/i");
+      assert.notMatch('foobar', /^foo/i, 'blah');
+    }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
   it('property', function () {
@@ -1203,40 +1207,40 @@ describe('assert', function () {
     assert.notNestedPropertyVal(obj, 'foo.flow', 'baz');
 
     err(function () {
-      assert.property(obj, 'baz');
-    }, "expected { foo: { bar: 'baz' } } to have property 'baz'");
+      assert.property(obj, 'baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have property 'baz'");
 
     err(function () {
-      assert.nestedProperty(obj, 'foo.baz');
-    }, "expected { foo: { bar: 'baz' } } to have nested property 'foo.baz'");
+      assert.nestedProperty(obj, 'foo.baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have nested property 'foo.baz'");
 
     err(function () {
-      assert.notProperty(obj, 'foo');
-    }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
+      assert.notProperty(obj, 'foo', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have property 'foo'");
 
     err(function () {
-      assert.notNestedProperty(obj, 'foo.bar');
-    }, "expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar'");
+      assert.notNestedProperty(obj, 'foo.bar', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar'");
 
     err(function () {
-      assert.propertyVal(simpleObj, 'foo', 'ball');
-    }, "expected { foo: 'bar' } to have property 'foo' of 'ball', but got 'bar'");
+      assert.propertyVal(simpleObj, 'foo', 'ball', 'blah');
+    }, "blah: expected { foo: 'bar' } to have property 'foo' of 'ball', but got 'bar'");
 
     err(function () {
       assert.propertyVal(simpleObj, 'foo', undefined);
     }, "expected { foo: 'bar' } to have property 'foo' of undefined, but got 'bar'");
 
     err(function () {
-      assert.nestedPropertyVal(obj, 'foo.bar', 'ball');
-    }, "expected { foo: { bar: 'baz' } } to have nested property 'foo.bar' of 'ball', but got 'baz'");
+      assert.nestedPropertyVal(obj, 'foo.bar', 'ball', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to have nested property 'foo.bar' of 'ball', but got 'baz'");
 
     err(function () {
-      assert.notPropertyVal(simpleObj, 'foo', 'bar');
-    }, "expected { foo: 'bar' } to not have property 'foo' of 'bar'");
+      assert.notPropertyVal(simpleObj, 'foo', 'bar', 'blah');
+    }, "blah: expected { foo: 'bar' } to not have property 'foo' of 'bar'");
 
     err(function () {
-      assert.notNestedPropertyVal(obj, 'foo.bar', 'baz');
-    }, "expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar' of 'baz'");
+      assert.notNestedPropertyVal(obj, 'foo.bar', 'baz', 'blah');
+    }, "blah: expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar' of 'baz'");
   });
 
   it('deepPropertyVal', function () {
@@ -1281,20 +1285,20 @@ describe('assert', function () {
     assert.notOwnPropertyVal({a: {b: 1}}, 'a', {b: 1});
 
     err(function () {
-      assert.ownProperty(coffeeObj, 'calories');
-    }, "expected { coffee: 'is good' } to have own property 'calories'");
+      assert.ownProperty(coffeeObj, 'calories', 'blah');
+    }, "blah: expected { coffee: 'is good' } to have own property 'calories'");
 
     err(function () {
-      assert.notOwnProperty(coffeeObj, 'coffee');
-    }, "expected { coffee: 'is good' } to not have own property 'coffee'");
+      assert.notOwnProperty(coffeeObj, 'coffee', 'blah');
+    }, "blah: expected { coffee: 'is good' } to not have own property 'coffee'");
 
     err(function () {
-      assert.ownPropertyVal(teaObj, 'length', 1);
-    }, "expected 'but tea is better' to have own property 'length' of 1, but got 17");
+      assert.ownPropertyVal(teaObj, 'length', 1, 'blah');
+    }, "blah: expected 'but tea is better' to have own property 'length' of 1, but got 17");
 
     err(function () {
-      assert.notOwnPropertyVal(teaObj, 'length', 17);
-    }, "expected 'but tea is better' to not have own property 'length' of 17");
+      assert.notOwnPropertyVal(teaObj, 'length', 17, 'blah');
+    }, "blah: expected 'but tea is better' to not have own property 'length' of 17");
 
     err(function () {
       assert.ownPropertyVal(teaObj, 'calories', 17);
@@ -1369,12 +1373,12 @@ describe('assert', function () {
       }, "expected [Function] to throw error including 'bar' but got 'foo'")
 
       err(function () {
-        assert[throws](function() { throw new Error('foo') }, Error, 'bar');
-      }, "expected [Function] to throw error including 'bar' but got 'foo'")
+        assert[throws](function() { throw new Error('foo') }, Error, 'bar', 'blah');
+      }, "blah: expected [Function] to throw error including 'bar' but got 'foo'")
 
       err(function () {
-        assert[throws](function() { throw new Error('foo') }, TypeError, 'bar');
-      }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+        assert[throws](function() { throw new Error('foo') }, TypeError, 'bar', 'blah');
+      }, "blah: expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
 
       err(function () {
         assert[throws](function() {});
@@ -1387,6 +1391,14 @@ describe('assert', function () {
       err(function () {
         assert[throws](function() { throw new Error('') }, /bar/);
       }, "expected [Function] to throw error matching /bar/ but got ''");
+
+      err(function () {
+        assert[throws]({});
+      }, "expected {} to be a function");
+
+      err(function () {
+        assert[throws]({}, Error, 'testing', 'blah');
+      }, "blah: expected {} to be a function");
     });
   });
 
@@ -1454,12 +1466,12 @@ describe('assert', function () {
     }, "expected [Function] to throw error not matching /foo/");
 
     err(function () {
-      assert.doesNotThrow(function() { throw new Error('foo'); }, Error, 'foo');
-    }, "expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
+      assert.doesNotThrow(function() { throw new Error('foo'); }, Error, 'foo', 'blah');
+    }, "blah: expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
 
     err(function () {
-      assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError, 'foo');
-    }, "expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
+      assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError, 'foo', 'blah');
+    }, "blah: expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error(''); }, '');
@@ -1468,6 +1480,14 @@ describe('assert', function () {
     err(function () {
       assert.doesNotThrow(function() { throw new Error(''); }, Error, '');
     }, "expected [Function] to not throw 'Error' but 'Error' was thrown");
+
+    err(function () {
+      assert.doesNotThrow({});
+    }, "expected {} to be a function");
+
+    err(function () {
+      assert.doesNotThrow({}, Error, 'testing', 'blah');
+    }, "blah: expected {} to be a function");
   });
 
   it('ifError', function() {
@@ -1498,12 +1518,12 @@ describe('assert', function () {
     assert.operator(w, '==', null);
 
     err(function () {
-      assert.operator(1, '=', 2);
-     }, 'Invalid operator "="');
+      assert.operator(1, '=', 2, 'blah');
+     }, 'blah: Invalid operator "="');
 
     err(function () {
-      assert.operator(2, '<', 1);
-     }, "expected 2 to be < 1");
+      assert.operator(2, '<', 1, 'blah');
+     }, "blah: expected 2 to be < 1");
 
     err(function () {
       assert.operator(1, '>', 2);
@@ -1546,24 +1566,24 @@ describe('assert', function () {
     assert.closeTo(-10, 20, 30);
 
     err(function(){
-      assert.closeTo(2, 1.0, 0.5);
-    }, "expected 2 to be close to 1 +/- 0.5");
+      assert.closeTo(2, 1.0, 0.5, 'blah');
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
 
     err(function(){
       assert.closeTo(-10, 20, 29);
     }, "expected -10 to be close to 20 +/- 29");
 
     err(function() {
-      assert.closeTo([1.5], 1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+      assert.closeTo([1.5], 1.0, 0.5, 'blah');
+    }, "blah: expected [ 1.5 ] to be a number");
 
     err(function() {
-      assert.closeTo(1.5, "1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+      assert.closeTo(1.5, "1.0", 0.5, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
 
     err(function() {
-      assert.closeTo(1.5, 1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+      assert.closeTo(1.5, 1.0, true, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
   });
 
   it('approximately', function(){
@@ -1572,8 +1592,8 @@ describe('assert', function () {
     assert.approximately(-10, 20, 30);
 
     err(function(){
-      assert.approximately(2, 1.0, 0.5);
-    }, "expected 2 to be close to 1 +/- 0.5");
+      assert.approximately(2, 1.0, 0.5, 'blah');
+    }, "blah: expected 2 to be close to 1 +/- 0.5");
 
     err(function(){
       assert.approximately(-10, 20, 29);
@@ -1584,12 +1604,12 @@ describe('assert', function () {
     }, "expected [ 1.5 ] to be a number");
 
     err(function() {
-      assert.approximately(1.5, "1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+      assert.approximately(1.5, "1.0", 0.5, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
 
     err(function() {
-      assert.approximately(1.5, 1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+      assert.approximately(1.5, 1.0, true, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers");
   });
 
   it('sameMembers', function() {
@@ -1599,12 +1619,20 @@ describe('assert', function () {
     assert.sameMembers([4, 2, 2], [4, 2, 2]);
 
     err(function() {
-      assert.sameMembers([], [1, 2]);
-    }, 'expected [] to have the same members as [ 1, 2 ]');
+      assert.sameMembers([], [1, 2], 'blah');
+    }, 'blah: expected [] to have the same members as [ 1, 2 ]');
 
     err(function() {
       assert.sameMembers([1, 54], [6, 1, 54]);
     }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
+
+    err(function () {
+      assert.sameMembers({}, [], 'blah');
+    }, 'blah: expected {} to be an array');
+
+    err(function () {
+      assert.sameMembers([], {}, 'blah');
+    }, 'blah: expected {} to be an array');
   });
 
   it('notSameMembers', function() {
@@ -1617,8 +1645,8 @@ describe('assert', function () {
     assert.notSameMembers([{a: 1}], [{a: 1}]);
 
     err(function() {
-      assert.notSameMembers([1, 2, 3], [2, 1, 3]);
-    }, 'expected [ 1, 2, 3 ] to not have the same members as [ 2, 1, 3 ]');
+      assert.notSameMembers([1, 2, 3], [2, 1, 3], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to not have the same members as [ 2, 1, 3 ]');
   });
 
   it('sameDeepMembers', function() {
@@ -1627,8 +1655,8 @@ describe('assert', function () {
     assert.sameDeepMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ])
-    }, 'expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');
+      assert.sameDeepMembers([ {b: 3} ], [ {c: 3} ], 'blah')
+    }, 'blah: expected [ { b: 3 } ] to have the same members as [ { c: 3 } ]');
 
     err(function() {
       assert.sameDeepMembers([ {b: 3} ], [ {b: 5} ])
@@ -1643,8 +1671,8 @@ describe('assert', function () {
     assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+      assert.notSameDeepMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
   });
 
   it('sameOrderedMembers', function() {
@@ -1652,8 +1680,8 @@ describe('assert', function () {
     assert.sameOrderedMembers([1, 2, 2], [1, 2, 2]);
 
     err(function() {
-      assert.sameOrderedMembers([1, 2, 3], [2, 1, 3]);
-    }, 'expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
+      assert.sameOrderedMembers([1, 2, 3], [2, 1, 3], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to have the same ordered members as [ 2, 1, 3 ]');
   });
 
   it('notSameOrderedMembers', function() {
@@ -1665,8 +1693,8 @@ describe('assert', function () {
     assert.notSameOrderedMembers([1, 2, 3], [1, 2, 2]);
 
     err(function() {
-      assert.notSameOrderedMembers([1, 2, 3], [1, 2, 3]);
-    }, 'expected [ 1, 2, 3 ] to not have the same ordered members as [ 1, 2, 3 ]');
+      assert.notSameOrderedMembers([1, 2, 3], [1, 2, 3], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to not have the same ordered members as [ 1, 2, 3 ]');
   });
 
   it('sameDeepOrderedMembers', function() {
@@ -1674,8 +1702,8 @@ describe('assert', function () {
     assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {b: 2}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
+      assert.sameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}, {c: 3}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to have the same ordered members as [ { b: 2 }, { a: 1 }, { c: 3 } ]');
   });
 
   it('notSameDeepOrderedMembers', function() {
@@ -1687,8 +1715,8 @@ describe('assert', function () {
     assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same ordered members as [ { a: 1 }, { b: 2 }, { c: 3 } ]');
+      assert.notSameDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {c: 3}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not have the same ordered members as [ { a: 1 }, { b: 2 }, { c: 3 } ]');
   });
 
   it('includeMembers', function() {
@@ -1697,8 +1725,8 @@ describe('assert', function () {
     assert.includeMembers([1, 2, 3], [3]);
 
     err(function() {
-      assert.includeMembers([5, 6], [7, 8]);
-    }, 'expected [ 5, 6 ] to be a superset of [ 7, 8 ]');
+      assert.includeMembers([5, 6], [7, 8], 'blah');
+    }, 'blah: expected [ 5, 6 ] to be a superset of [ 7, 8 ]');
 
     err(function() {
       assert.includeMembers([5, 6], [5, 6, 0]);
@@ -1710,8 +1738,8 @@ describe('assert', function () {
     assert.notIncludeMembers([{a: 1}], [{a: 1}]);
 
     err(function() {
-      assert.notIncludeMembers([1, 2, 3], [2, 1]);
-    }, 'expected [ 1, 2, 3 ] to not be a superset of [ 2, 1 ]');
+      assert.notIncludeMembers([1, 2, 3], [2, 1], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to not be a superset of [ 2, 1 ]');
   });
 
   it('includeDeepMembers', function() {
@@ -1722,8 +1750,8 @@ describe('assert', function () {
     assert.includeDeepMembers([{a:1}, {b:2}, {c:3}], [{c:3}, {c:3}]);
 
     err(function() {
-      assert.includeDeepMembers([{e:5}, {f:6}], [{g:7}, {h:8}]);
-    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { g: 7 }, { h: 8 } ]');
+      assert.includeDeepMembers([{e:5}, {f:6}], [{g:7}, {h:8}], 'blah');
+    }, 'blah: expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { g: 7 }, { h: 8 } ]');
 
     err(function() {
       assert.includeDeepMembers([{e:5}, {f:6}], [{e:5}, {f:6}, {z:0}]);
@@ -1734,16 +1762,16 @@ describe('assert', function () {
     assert.notIncludeDeepMembers([{a:1}, {b:2}, {c:3}], [{b:2}, {f:5}]);
 
     err(function() {
-      assert.notIncludeDeepMembers([{a:1}, {b:2}, {c:3}], [{b:2}, {a:1}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be a superset of [ { b: 2 }, { a: 1 } ]');
+      assert.notIncludeDeepMembers([{a:1}, {b:2}, {c:3}], [{b:2}, {a:1}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be a superset of [ { b: 2 }, { a: 1 } ]');
   });
 
   it('includeOrderedMembers', function() {
     assert.includeOrderedMembers([1, 2, 3], [1, 2]);
 
     err(function() {
-      assert.includeOrderedMembers([1, 2, 3], [2, 1]);
-    }, 'expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
+      assert.includeOrderedMembers([1, 2, 3], [2, 1], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to be an ordered superset of [ 2, 1 ]');
   });
 
   it('notIncludeOrderedMembers', function() {
@@ -1752,16 +1780,16 @@ describe('assert', function () {
     assert.notIncludeOrderedMembers([1, 2, 3], [1, 2, 2]);
 
     err(function() {
-      assert.notIncludeOrderedMembers([1, 2, 3], [1, 2]);
-    }, 'expected [ 1, 2, 3 ] to not be an ordered superset of [ 1, 2 ]');
+      assert.notIncludeOrderedMembers([1, 2, 3], [1, 2], 'blah');
+    }, 'blah: expected [ 1, 2, 3 ] to not be an ordered superset of [ 1, 2 ]');
   });
 
   it('includeDeepOrderedMembers', function() {
     assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);
 
     err(function() {
-      assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
+      assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to be an ordered superset of [ { b: 2 }, { a: 1 } ]');
   });
 
   it('notIncludeDeepOrderedMembers', function() {
@@ -1770,8 +1798,8 @@ describe('assert', function () {
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
 
     err(function() {
-      assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);
-    }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be an ordered superset of [ { a: 1 }, { b: 2 } ]');
+      assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}], 'blah');
+    }, 'blah: expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be an ordered superset of [ { a: 1 }, { b: 2 } ]');
   });
 
   it('oneOf', function() {
@@ -1784,8 +1812,8 @@ describe('assert', function () {
     assert.oneOf(four, [1, 2, four]);
 
     err(function() {
-      assert.oneOf(1, 1);
-    }, 'expected 1 to be an array');
+      assert.oneOf(1, 1, 'blah');
+    }, 'blah: expected 1 to be an array');
 
     err(function() {
       assert.oneOf(1, { a: 1 });
@@ -1809,20 +1837,20 @@ describe('assert', function () {
     assert.isAbove(5, 2, '5 should be above 2');
 
     err(function() {
-      assert.isAbove(1, 3);
-    }, 'expected 1 to be above 3');
+      assert.isAbove(1, 3, 'blah');
+    }, 'blah: expected 1 to be above 3');
 
     err(function() {
       assert.isAbove(1, 1);
     }, 'expected 1 to be above 1');
 
     err(function() {
-      assert.isAbove(null, 1);
-    }, 'expected null to be a number');
+      assert.isAbove(null, 1, 'blah');
+    }, 'blah: expected null to be a number');
 
     err(function() {
-      assert.isAbove(1, null);
-    }, 'the argument to above must be a number');
+      assert.isAbove(1, null, 'blah');
+    }, 'blah: the argument to above must be a number');
   });
 
   it('atLeast', function() {
@@ -1830,35 +1858,36 @@ describe('assert', function () {
     assert.isAtLeast(1, 1, '1 should be equal to 1');
 
     err(function() {
-      assert.isAtLeast(1, 3);
-    }, 'expected 1 to be at least 3');
+      assert.isAtLeast(1, 3, 'blah');
+    }, 'blah: expected 1 to be at least 3');
 
     err(function() {
-      assert.isAtLeast(null, 1);
-    }, 'expected null to be a number');
+      assert.isAtLeast(null, 1, 'blah');
+    }, 'blah: expected null to be a number');
+
     err(function() {
-      assert.isAtLeast(1, null);
-    }, 'the argument to least must be a number');
+      assert.isAtLeast(1, null, 'blah');
+    }, 'blah: the argument to least must be a number');
   });
 
   it('below', function() {
     assert.isBelow(2, 5, '2 should be below 5');
 
     err(function() {
-      assert.isBelow(3, 1);
-    }, 'expected 3 to be below 1');
+      assert.isBelow(3, 1, 'blah');
+    }, 'blah: expected 3 to be below 1');
 
     err(function() {
       assert.isBelow(1, 1);
     }, 'expected 1 to be below 1');
 
     err(function() {
-      assert.isBelow(null, 1);
-    }, 'expected null to be a number');
+      assert.isBelow(null, 1, 'blah');
+    }, 'blah: expected null to be a number');
 
     err(function() {
-      assert.isBelow(1, null);
-    }, 'the argument to below must be a number');
+      assert.isBelow(1, null, 'blah');
+    }, 'blah: the argument to below must be a number');
   });
 
   it('atMost', function() {
@@ -1866,15 +1895,16 @@ describe('assert', function () {
     assert.isAtMost(1, 1, '1 should be equal to 1');
 
     err(function() {
-      assert.isAtMost(3, 1);
-    }, 'expected 3 to be at most 1');
+      assert.isAtMost(3, 1, 'blah');
+    }, 'blah: expected 3 to be at most 1');
 
     err(function() {
-      assert.isAtMost(null, 1);
-    }, 'expected null to be a number');
+      assert.isAtMost(null, 1, 'blah');
+    }, 'blah: expected null to be a number');
+
     err(function() {
-      assert.isAtMost(1, null);
-    }, 'the argument to most must be a number');
+      assert.isAtMost(1, null, 'blah');
+    }, 'blah: the argument to most must be a number');
   });
 
   it('change', function() {
@@ -1899,6 +1929,30 @@ describe('assert', function () {
 
     assert.changesBy(batFn, lenFn, 1);
     assert.changesButNotBy(batFn, lenFn, 2);
+
+    err(function () {
+      assert.changes(smFn,obj, 'value', 'blah');
+    }, "blah: expected .value to change");
+
+    err(function () {
+      assert.doesNotChange(fn, obj, 'value', 'blah');
+    }, "blah: expected .value to not change");
+
+    err(function () {
+      assert.changes({}, obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      assert.changes(fn, {}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
+    err(function () {
+      assert.changesBy(fn, obj, 'value', 10, 'blah');
+    }, "blah: expected .value to change by 10");
+
+    err(function () {
+      assert.changesButNotBy(fn, obj, 'value', 5, 'blah');
+    }, "blah: expected .value to not change by 5");
   });
 
   it('increase, decrease', function() {
@@ -1931,12 +1985,61 @@ describe('assert', function () {
     assert.increasesBy(pFn, lenFn, 1);
     assert.increasesButNotBy(pFn, lenFn, 2);
 
+    err(function () {
+      assert.increases(smFn, obj, 'value', 'blah');
+    }, "blah: expected .value to increase");
+
+    err(function () {
+      assert.doesNotIncrease(incFn, obj, 'value', 'blah');
+    }, "blah: expected .value to not increase");
+
+    err(function () {
+      assert.increases({}, obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      assert.increases(incFn, {}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
     err(function() {
-      assert.increases(incFn, obj, 'noop');
-    }, 'expected null to be a number');
+      assert.increases(incFn, obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      assert.increasesBy(incFn, obj, 'value', 10, 'blah');
+    }, "blah: expected .value to increase by 10");
+
+    err(function () {
+      assert.increasesButNotBy(incFn, obj, 'value', 2, 'blah');
+    }, "blah: expected .value to not increase by 2");
+
+    err(function () {
+      assert.decreases(smFn, obj, 'value', 'blah');
+    }, "blah: expected .value to decrease");
+
+    err(function () {
+      assert.doesNotDecrease(decFn, obj, 'value', 'blah');
+    }, "blah: expected .value to not decrease");
+
+    err(function () {
+      assert.decreases({}, obj, 'value', 'blah');
+    }, "blah: expected {} to be a function");
+
+    err(function () {
+      assert.decreases(decFn, {}, 'badprop', 'blah');
+    }, "blah: expected {} to have property 'badprop'");
+
     err(function() {
-      assert.decreases(incFn, obj, 'noop');
-    }, 'expected null to be a number');
+      assert.decreases(decFn, obj, 'noop', 'blah');
+    }, 'blah: expected null to be a number');
+
+    err(function () {
+      assert.decreasesBy(decFn, obj, 'value', 10, 'blah');
+    }, "blah: expected .value to decrease by 10");
+
+    err(function () {
+      assert.decreasesButNotBy(decFn, obj, 'value', 3, 'blah');
+    }, "blah: expected .value to not decrease by 3");
   });
 
   it('isExtensible / extensible', function() {
@@ -1946,8 +2049,8 @@ describe('assert', function () {
       assert[isExtensible]({});
 
       err(function() {
-        assert[isExtensible](nonExtensibleObject);
-      }, 'expected {} to be extensible');
+        assert[isExtensible](nonExtensibleObject, 'blah');
+      }, 'blah: expected {} to be extensible');
 
       // Making sure ES6-like Object.isExtensible response is respected for all primitive types
 
@@ -1993,8 +2096,8 @@ describe('assert', function () {
       assert[isNotExtensible](nonExtensibleObject);
 
       err(function() {
-        assert[isNotExtensible]({});
-      }, 'expected {} to not be extensible');
+        assert[isNotExtensible]({}, 'blah');
+      }, 'blah: expected {} to not be extensible');
 
       // Making sure ES6-like Object.isExtensible response is respected for all primitive types
 
@@ -2030,8 +2133,8 @@ describe('assert', function () {
       assert[isSealed](sealedObject);
 
       err(function() {
-        assert[isSealed]({});
-      }, 'expected {} to be sealed');
+        assert[isSealed]({}, 'blah');
+      }, 'blah: expected {} to be sealed');
 
       // Making sure ES6-like Object.isSealed response is respected for all primitive types
 
@@ -2070,8 +2173,8 @@ describe('assert', function () {
       assert[isNotSealed]({});
 
       err(function() {
-        assert[isNotSealed](sealedObject);
-      }, 'expected {} to not be sealed');
+        assert[isNotSealed](sealedObject, 'blah');
+      }, 'blah: expected {} to not be sealed');
 
       // Making sure ES6-like Object.isSealed response is respected for all primitive types
 
@@ -2120,8 +2223,8 @@ describe('assert', function () {
       assert[isFrozen](frozenObject);
 
       err(function() {
-        assert[isFrozen]({});
-      }, 'expected {} to be frozen');
+        assert[isFrozen]({}, 'blah');
+      }, 'blah: expected {} to be frozen');
 
       // Making sure ES6-like Object.isFrozen response is respected for all primitive types
 
@@ -2160,8 +2263,8 @@ describe('assert', function () {
       assert[isNotFrozen]({});
 
       err(function() {
-        assert[isNotFrozen](frozenObject);
-      }, 'expected {} to not be frozen', true);
+        assert[isNotFrozen](frozenObject, 'blah');
+      }, 'blah: expected {} to not be frozen', true);
 
       // Making sure ES6-like Object.isFrozen response is respected for all primitive types
 
@@ -2215,14 +2318,14 @@ describe('assert', function () {
 
       if (typeof WeakMap === 'function') {
         err(function(){
-          assert[isEmpty](new WeakMap);
-        }, ".empty was passed a weak collection");
+          assert[isEmpty](new WeakMap, 'blah');
+        }, "blah: .empty was passed a weak collection");
       }
 
       if (typeof WeakSet === 'function') {
         err(function(){
-          assert[isEmpty](new WeakSet);
-        }, ".empty was passed a weak collection");
+          assert[isEmpty](new WeakSet, 'blah');
+        }, "blah: .empty was passed a weak collection");
       }
 
       if (typeof Map === 'function') {
@@ -2242,8 +2345,8 @@ describe('assert', function () {
       }
 
       err(function(){
-        assert[isEmpty]('foo');
-      }, "expected \'foo\' to be empty");
+        assert[isEmpty]('foo', 'blah');
+      }, "blah: expected \'foo\' to be empty");
 
       err(function(){
         assert[isEmpty](['foo']);
@@ -2258,8 +2361,8 @@ describe('assert', function () {
       }, "expected { foo: \'bar\' } to be empty");
 
       err(function(){
-        assert[isEmpty](null);
-      }, ".empty was passed non-string primitive null");
+        assert[isEmpty](null, 'blah');
+      }, "blah: .empty was passed non-string primitive null");
 
       err(function(){
         assert[isEmpty](undefined);
@@ -2296,8 +2399,8 @@ describe('assert', function () {
       }
 
       err(function(){
-        assert[isEmpty](function() {});
-      }, ".empty was passed a function");
+        assert[isEmpty](function() {}, 'blah');
+      }, "blah: .empty was passed a function");
 
       if (FakeArgs.name === 'FakeArgs') {
         err(function(){
@@ -2319,14 +2422,14 @@ describe('assert', function () {
 
       if (typeof WeakMap === 'function') {
         err(function(){
-          assert[isNotEmpty](new WeakMap);
-        }, ".empty was passed a weak collection");
+          assert[isNotEmpty](new WeakMap, 'blah');
+        }, "blah: .empty was passed a weak collection");
       }
 
       if (typeof WeakSet === 'function') {
         err(function(){
-          assert[isNotEmpty](new WeakSet);
-        }, ".empty was passed a weak collection");
+          assert[isNotEmpty](new WeakSet, 'blah');
+        }, "blah: .empty was passed a weak collection");
       }
 
       if (typeof Map === 'function') {
@@ -2352,8 +2455,8 @@ describe('assert', function () {
       }
 
       err(function(){
-        assert[isNotEmpty]('');
-      }, "expected \'\' not to be empty");
+        assert[isNotEmpty]('', 'blah');
+      }, "blah: expected \'\' not to be empty");
 
       err(function(){
         assert[isNotEmpty]([]);
@@ -2368,8 +2471,8 @@ describe('assert', function () {
       }, "expected {} not to be empty");
 
       err(function(){
-        assert[isNotEmpty](null);
-      }, ".empty was passed non-string primitive null");
+        assert[isNotEmpty](null, 'blah');
+      }, "blah: .empty was passed non-string primitive null");
 
       err(function(){
         assert[isNotEmpty](undefined);
@@ -2406,8 +2509,8 @@ describe('assert', function () {
       }
 
       err(function(){
-        assert[isNotEmpty](function() {});
-      }, ".empty was passed a function");
+        assert[isNotEmpty](function() {}, 'blah');
+      }, "blah: .empty was passed a function");
 
       if (FakeArgs.name === 'FakeArgs') {
         err(function(){
