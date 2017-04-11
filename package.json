@@ -17,7 +17,7 @@
     "Veselin Todorov <hi@vesln.com>",
     "John Firebaugh <john.firebaugh@gmail.com>"
   ],
-  "version": "4.0.0-canary.1",
+  "version": "4.0.0-canary.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/chaijs/chai"
