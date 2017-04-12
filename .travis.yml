@@ -19,13 +19,13 @@ env:
   - SAUCE_CONNECT_READY_FILE=/tmp/sauce-connect-ready
   - LOGS_DIR=/tmp/chai-build/logs
 
-deploy:
-  provider: npm
-  email:
-    secure: "M9J56tqJwOxn6D3PSh8BNGac/8XjTCRGCFexN5QFl7Ha9AKnyQTy1ZAaJonMGoClBhh37Dy/89wVWmqg4NPckrD5Ej7NvwhTjVfEHusllaCROqVu5m7ijS3WKlIxM/xtBzU7SqRY41JxloP+CLKxRiKRWQJDvgwUZW7OHdmAkAY="
-  api_key:
-    secure: ihzLWemQDFmsF4iQ3sS5/Wt0GQy6v15WgsxYfocpLuYWjxaAWgB4vQ3gUar8UpnE7lEFtNUOTIkPob0MSgNrFjoH2PB1sh5cW/acDE7kF7Z7hVxr8zGWkgiWXeNd08lz1mruizK1L/I0o2k/7o7zEDzShpsYSwgWfekzbJxLtC8=
-  on:
-    tags: true
-    repo: chaijs/chai
-    all_branches: true
+# deploy:
+#   provider: npm
+#   email:
+#     secure: "M9J56tqJwOxn6D3PSh8BNGac/8XjTCRGCFexN5QFl7Ha9AKnyQTy1ZAaJonMGoClBhh37Dy/89wVWmqg4NPckrD5Ej7NvwhTjVfEHusllaCROqVu5m7ijS3WKlIxM/xtBzU7SqRY41JxloP+CLKxRiKRWQJDvgwUZW7OHdmAkAY="
+#   api_key:
+#     secure: ihzLWemQDFmsF4iQ3sS5/Wt0GQy6v15WgsxYfocpLuYWjxaAWgB4vQ3gUar8UpnE7lEFtNUOTIkPob0MSgNrFjoH2PB1sh5cW/acDE7kF7Z7hVxr8zGWkgiWXeNd08lz1mruizK1L/I0o2k/7o7zEDzShpsYSwgWfekzbJxLtC8=
+#   on:
+#     tags: true
+#     repo: chaijs/chai
+#     all_branches: true
