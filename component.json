@@ -1,0 +1,14 @@
+{
+  "name": "chai",
+  "repo": "karlbohlmark/chai",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "chai.js"
+  ],
+  "main": "chai.js"
+}
