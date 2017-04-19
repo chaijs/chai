@@ -47,7 +47,7 @@
     "istanbul": "^0.4.3",
     "karma": "^1.0.0",
     "karma-firefox-launcher": "^1.0.0",
-    "karma-mocha": "^1.0.1",
+    "karma-mocha": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sauce-launcher": "^1.0.0",
     "mocha": "^3.0.0"
