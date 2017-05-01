@@ -775,6 +775,30 @@ describe('assert', function () {
     }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
   });
 
+  it('ownInclude and notOwnInclude', function() {
+    assert.ownInclude({a: 1}, {a: 1});
+    assert.notOwnInclude({a: 1}, {a: 3});
+    assert.notOwnInclude({a: 1}, {'toString': Object.prototype.toString});
+
+    assert.notOwnInclude({a: {b: 2}}, {a: {b: 2}});
+
+    err(function () {
+      assert.ownInclude({a: 1}, {a: 3}, 'blah');
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      assert.ownInclude({a: 1}, 'blah', {a: 3});
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      assert.ownInclude({a: 1}, {'toString': Object.prototype.toString});
+    }, "expected { a: 1 } to have own property 'toString'");
+
+    err(function () {
+      assert.notOwnInclude({a: 1}, {a: 1});
+    }, "expected { a: 1 } to not have own property 'a' of 1");
+  });
+
   it('keys(array|Object|arguments)', function(){
     assert.hasAllKeys({ foo: 1 }, [ 'foo' ]);
     assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
