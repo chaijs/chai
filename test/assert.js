@@ -748,6 +748,33 @@ describe('assert', function () {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
   });
 
+  it('nestedInclude and notNestedInclude', function() {
+    assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'});
+    assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'x'});
+    assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.c': 'y'});
+
+    assert.notNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+
+    assert.nestedInclude({'.a': {'[b]': 'x'}}, {'\\.a.\\[b\\]': 'x'});
+    assert.notNestedInclude({'.a': {'[b]': 'x'}}, {'\\.a.\\[b\\]': 'y'});
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'x'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, 'blah', {'a.b[1]': 'x'});
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.c': 'y'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.c'");
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
+  });
+
   it('keys(array|Object|arguments)', function(){
     assert.hasAllKeys({ foo: 1 }, [ 'foo' ]);
     assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
