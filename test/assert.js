@@ -775,6 +775,31 @@ describe('assert', function () {
     }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
   });
 
+  it('deepNestedInclude and notDeepNestedInclude', function() {
+    assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+    assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}});
+    assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.c': {x: 1}});
+
+    assert.deepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {x: 1}});
+    assert.notDeepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {y: 2}});
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, 'blah', {'a.b[0]': {y: 2}});
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.c': {x: 1}});
+    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+
+    err(function () {
+      assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+    }, "expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+  });
+
   it('ownInclude and notOwnInclude', function() {
     assert.ownInclude({a: 1}, {a: 1});
     assert.notOwnInclude({a: 1}, {a: 3});
