@@ -824,6 +824,28 @@ describe('assert', function () {
     }, "expected { a: 1 } to not have own property 'a' of 1");
   });
 
+  it('deepOwnInclude and notDeepOwnInclude', function() {
+    assert.deepOwnInclude({a: {b: 2}}, {a: {b: 2}});
+    assert.notDeepOwnInclude({a: {b: 2}}, {a: {c: 3}});
+    assert.notDeepOwnInclude({a: {b: 2}}, {'toString': Object.prototype.toString});
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, {a: {c: 3}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, 'blah', {a: {c: 3}});
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, {'toString': Object.prototype.toString});
+    }, "expected { a: { b: 2 } } to have deep own property 'toString'");
+
+    err(function () {
+      assert.notDeepOwnInclude({a: {b: 2}}, {a: {b: 2}});
+    }, "expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
+  });
+
   it('keys(array|Object|arguments)', function(){
     assert.hasAllKeys({ foo: 1 }, [ 'foo' ]);
     assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
