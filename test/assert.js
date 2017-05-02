@@ -812,7 +812,7 @@ describe('assert', function () {
     }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
 
     err(function () {
-      assert.ownInclude({a: 1}, 'blah', {a: 3});
+      assert.ownInclude({a: 1}, {a: 3}, 'blah');
     }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
 
     err(function () {
@@ -834,7 +834,7 @@ describe('assert', function () {
     }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
 
     err(function () {
-      assert.deepOwnInclude({a: {b: 2}}, 'blah', {a: {c: 3}});
+      assert.deepOwnInclude({a: {b: 2}}, {a: {c: 3}}, 'blah');
     }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
 
     err(function () {
