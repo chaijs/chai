@@ -771,8 +771,8 @@ describe('assert', function () {
     }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.c'");
 
     err(function () {
-      assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'});
-    }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
+      assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
   });
 
   it('deepNestedInclude and notDeepNestedInclude', function() {
@@ -796,8 +796,8 @@ describe('assert', function () {
     }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
 
     err(function () {
-      assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
-    }, "expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+      assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
   });
 
   it('ownInclude and notOwnInclude', function() {
@@ -820,8 +820,8 @@ describe('assert', function () {
     }, "expected { a: 1 } to have own property 'toString'");
 
     err(function () {
-      assert.notOwnInclude({a: 1}, {a: 1});
-    }, "expected { a: 1 } to not have own property 'a' of 1");
+      assert.notOwnInclude({a: 1}, {a: 1}, 'blah');
+    }, "blah: expected { a: 1 } to not have own property 'a' of 1");
   });
 
   it('deepOwnInclude and notDeepOwnInclude', function() {
@@ -842,8 +842,8 @@ describe('assert', function () {
     }, "expected { a: { b: 2 } } to have deep own property 'toString'");
 
     err(function () {
-      assert.notDeepOwnInclude({a: {b: 2}}, {a: {b: 2}});
-    }, "expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
+      assert.notDeepOwnInclude({a: {b: 2}}, {a: {b: 2}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
 
   it('keys(array|Object|arguments)', function(){
