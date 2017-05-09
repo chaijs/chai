@@ -744,8 +744,106 @@ describe('assert', function () {
     }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to have deep property 'bar' of { b: 9 }, but got { b: 2 }");
 
     err(function () {
-      assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 2}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
+      assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 2}}, 'blah');
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
+  });
+
+  it('nestedInclude and notNestedInclude', function() {
+    assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'});
+    assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'x'});
+    assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.c': 'y'});
+
+    assert.notNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+
+    assert.nestedInclude({'.a': {'[b]': 'x'}}, {'\\.a.\\[b\\]': 'x'});
+    assert.notNestedInclude({'.a': {'[b]': 'x'}}, {'\\.a.\\[b\\]': 'y'});
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'x'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'x'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.b[1]' of 'x', but got 'y'");
+
+    err(function () {
+      assert.nestedInclude({a: {b: ['x', 'y']}}, {'a.c': 'y'});
+    }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.c'");
+
+    err(function () {
+      assert.notNestedInclude({a: {b: ['x', 'y']}}, {'a.b[1]': 'y'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
+  });
+
+  it('deepNestedInclude and notDeepNestedInclude', function() {
+    assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+    assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}});
+    assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.c': {x: 1}});
+
+    assert.deepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {x: 1}});
+    assert.notDeepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {y: 2}});
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+
+    err(function () {
+      assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.c': {x: 1}});
+    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+
+    err(function () {
+      assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+  });
+
+  it('ownInclude and notOwnInclude', function() {
+    assert.ownInclude({a: 1}, {a: 1});
+    assert.notOwnInclude({a: 1}, {a: 3});
+    assert.notOwnInclude({a: 1}, {'toString': Object.prototype.toString});
+
+    assert.notOwnInclude({a: {b: 2}}, {a: {b: 2}});
+
+    err(function () {
+      assert.ownInclude({a: 1}, {a: 3}, 'blah');
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      assert.ownInclude({a: 1}, {a: 3}, 'blah');
+    }, "blah: expected { a: 1 } to have own property 'a' of 3, but got 1");
+
+    err(function () {
+      assert.ownInclude({a: 1}, {'toString': Object.prototype.toString});
+    }, "expected { a: 1 } to have own property 'toString'");
+
+    err(function () {
+      assert.notOwnInclude({a: 1}, {a: 1}, 'blah');
+    }, "blah: expected { a: 1 } to not have own property 'a' of 1");
+  });
+
+  it('deepOwnInclude and notDeepOwnInclude', function() {
+    assert.deepOwnInclude({a: {b: 2}}, {a: {b: 2}});
+    assert.notDeepOwnInclude({a: {b: 2}}, {a: {c: 3}});
+    assert.notDeepOwnInclude({a: {b: 2}}, {'toString': Object.prototype.toString});
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, {a: {c: 3}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, {a: {c: 3}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to have deep own property 'a' of { c: 3 }, but got { b: 2 }");
+
+    err(function () {
+      assert.deepOwnInclude({a: {b: 2}}, {'toString': Object.prototype.toString});
+    }, "expected { a: { b: 2 } } to have deep own property 'toString'");
+
+    err(function () {
+      assert.notDeepOwnInclude({a: {b: 2}}, {a: {b: 2}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
 
   it('keys(array|Object|arguments)', function(){

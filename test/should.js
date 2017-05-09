@@ -1426,8 +1426,8 @@ describe('should', function() {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have deep property 'bar' of { b: 9 }, but got { b: 2 }");
 
     err(function () {
-      ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 2}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
+      ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 2}}, 'blah');
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to not have deep property 'foo' of { a: 1 }");
   });
 
   it('nested.include()', function () {
@@ -1449,8 +1449,8 @@ describe('should', function() {
     }, "expected { a: { b: [ 'x', 'y' ] } } to have nested property 'a.c'");
 
     err(function () {
-      ({a: {b: ['x', 'y']}}).should.not.nested.include({'a.b[1]': 'y'});
-    }, "expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
+      ({a: {b: ['x', 'y']}}).should.not.nested.include({'a.b[1]': 'y'}, 'blah');
+    }, "blah: expected { a: { b: [ 'x', 'y' ] } } to not have nested property 'a.b[1]' of 'y'");
   });
 
   it('deep.nested.include()', function () {
@@ -1472,8 +1472,8 @@ describe('should', function() {
     }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
 
     err(function () {
-      ({a: {b: [{x: 1}]}}).should.not.deep.nested.include({'a.b[0]': {x: 1}});
-    }, "expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+      ({a: {b: [{x: 1}]}}).should.not.deep.nested.include({'a.b[0]': {x: 1}}, 'blah');
+    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
   });
 
   it('own.include()', function () {
@@ -1492,8 +1492,8 @@ describe('should', function() {
     }, "expected { a: 1 } to have own property 'toString'");
 
     err(function () {
-      ({a: 1}).should.not.own.include({a: 1});
-    }, "expected { a: 1 } to not have own property 'a' of 1");
+      ({a: 1}).should.not.own.include({a: 1}, 'blah');
+    }, "blah: expected { a: 1 } to not have own property 'a' of 1");
   });
 
   it('deep.own.include()', function () {
@@ -1511,8 +1511,8 @@ describe('should', function() {
     }, "expected { a: { b: 2 } } to have deep own property 'toString'");
 
     err(function () {
-      ({a: {b: 2}}).should.not.deep.own.include({a: {b: 2}});
-    }, "expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
+      ({a: {b: 2}}).should.not.deep.own.include({a: {b: 2}}, 'blah');
+    }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
 
   it('keys(array|Object|arguments)', function(){
