@@ -4983,6 +4983,197 @@ module.exports = function (chai, util) {
   };
 
   /**
+   * ### .nestedInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'. 
+   * Can be used to assert the inclusion of a subset of properties in an 
+   * object.
+   * Enables the use of dot- and bracket-notation for referencing nested 
+   * properties.
+   * '[]' and '.' in property names can be escaped using double backslashes.
+   * 
+   *     assert.nestedInclude({'.a': {'b': 'x'}}, {'\\.a.[b]': 'x'});
+   *     assert.nestedInclude({'a': {'[b]': 'x'}}, {'a.\\[b\\]': 'x'});
+   * 
+   * @name nestedInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public 
+   */ 
+
+  assert.nestedInclude = function (exp, inc, msg) {
+    new Assertion(exp, msg, assert.nestedInclude, true).nested.include(inc);
+  };
+
+  /**
+   * ### .notNestedInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' does not include 'needle'. 
+   * Can be used to assert the absence of a subset of properties in an 
+   * object.
+   * Enables the use of dot- and bracket-notation for referencing nested 
+   * properties. 
+   * '[]' and '.' in property names can be escaped using double backslashes.
+   * 
+   *     assert.notNestedInclude({'.a': {'b': 'x'}}, {'\\.a.b': 'y'});
+   *     assert.notNestedInclude({'a': {'[b]': 'x'}}, {'a.\\[b\\]': 'y'});
+   * 
+   * @name notNestedInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public 
+   */ 
+
+  assert.notNestedInclude = function (exp, inc, msg) {
+    new Assertion(exp, msg, assert.notNestedInclude, true)
+      .not.nested.include(inc);
+  };
+
+  /**
+   * ### .deepNestedInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the inclusion of a subset of properties in an 
+   * object while checking for deep equality.
+   * Enables the use of dot- and bracket-notation for referencing nested 
+   * properties.
+   * '[]' and '.' in property names can be escaped using double backslashes.
+   * 
+   *     assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
+   *     assert.deepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {x: 1}});
+   *    
+   * @name deepNestedInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public 
+   */
+
+  assert.deepNestedInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.deepNestedInclude, true)
+      .deep.nested.include(inc);
+  };
+
+  /**
+   * ### .notDeepNestedInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' does not include 'needle'.
+   * Can be used to assert the absence of a subset of properties in an 
+   * object while checking for deep equality.
+   * Enables the use of dot- and bracket-notation for referencing nested 
+   * properties.
+   * '[]' and '.' in property names can be escaped using double backslashes.
+   * 
+   *     assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 1}})
+   *     assert.notDeepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {y: 2}});
+   *    
+   * @name notDeepNestedInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public 
+   */
+
+  assert.notDeepNestedInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.notDeepNestedInclude, true)
+      .not.deep.nested.include(inc);
+  };
+
+  /**
+   * ### .ownInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the inclusion of a subset of properties in an 
+   * object while ignoring inherited properties.
+   * 
+   *     assert.ownInclude({ a: 1 }, { a: 1 });
+   * 
+   * @name ownInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.ownInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.ownInclude, true).own.include(inc);
+  };
+
+  /**
+   * ### .notOwnInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the absence of a subset of properties in an 
+   * object while ignoring inherited properties.
+   * 
+   *     Object.prototype.b = 2;
+   * 
+   *     assert.notOwnInclude({ a: 1 }, { b: 2 });
+   * 
+   * @name notOwnInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.notOwnInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.notOwnInclude, true).not.own.include(inc);
+  };
+
+  /**
+   * ### .deepOwnInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the inclusion of a subset of properties in an 
+   * object while ignoring inherited properties and checking for deep equality.
+   * 
+   *      assert.deepOwnInclude({a: {b: 2}}, {a: {b: 2}});
+   *      
+   * @name deepOwnInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.deepOwnInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.deepOwnInclude, true)
+      .deep.own.include(inc);
+  };
+
+   /**
+   * ### .notDeepOwnInclude(haystack, needle, [message])
+   * 
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the absence of a subset of properties in an 
+   * object while ignoring inherited properties and checking for deep equality.
+   * 
+   *      assert.notDeepOwnInclude({a: {b: 2}}, {a: {c: 3}});
+   *      
+   * @name notDeepOwnInclude
+   * @param {Object} haystack
+   * @param {Object} needle
+   * @param {String} message
+   * @namespace Assert
+   * @api public
+   */
+
+  assert.notDeepOwnInclude = function(exp, inc, msg) {
+    new Assertion(exp, msg, assert.notDeepOwnInclude, true)
+      .not.deep.own.include(inc);
+  };
+
+  /**
    * ### .match(value, regexp, [message])
    *
    * Asserts that `value` matches the regular expression `regexp`.
@@ -7146,7 +7337,16 @@ var canSetPrototype = typeof Object.setPrototypeOf === 'function';
 // However, some of functions' own props are not configurable and should be skipped.
 var testFn = function() {};
 var excludeNames = Object.getOwnPropertyNames(testFn).filter(function(name) {
-  return !Object.getOwnPropertyDescriptor(testFn, name).configurable;
+  var propDesc = Object.getOwnPropertyDescriptor(testFn, name);
+
+  // Note: PhantomJS 1.x includes `callee` as one of `testFn`'s own properties,
+  // but then returns `undefined` as the property descriptor for `callee`. As a
+  // workaround, we perform an otherwise unnecessary type-check for `propDesc`,
+  // and then filter it out if it's not an object as it should be.
+  if (typeof propDesc !== 'object')
+    return true;
+
+  return !propDesc.configurable;
 });
 
 // Cache `Function` properties
@@ -10409,6 +10609,7 @@ module.exports = {
 
 },{}],39:[function(require,module,exports){
 'use strict';
+
 /* !
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -10431,7 +10632,7 @@ var setIteratorPrototype = setEntriesExists && Object.getPrototypeOf(new Set().e
 var mapIteratorPrototype = mapEntriesExists && Object.getPrototypeOf(new Map().entries());
 var arrayIteratorExists = symbolIteratorExists && typeof Array.prototype[Symbol.iterator] === 'function';
 var arrayIteratorPrototype = arrayIteratorExists && Object.getPrototypeOf([][Symbol.iterator]());
-var stringIteratorExists = symbolIteratorExists && typeof Array.prototype[Symbol.iterator] === 'function';
+var stringIteratorExists = symbolIteratorExists && typeof String.prototype[Symbol.iterator] === 'function';
 var stringIteratorPrototype = stringIteratorExists && Object.getPrototypeOf(''[Symbol.iterator]());
 var toStringLeftSliceLength = 8;
 var toStringRightSliceLength = -1;
@@ -10501,7 +10702,10 @@ module.exports = function typeDetect(obj) {
    * Post:
    *   array literal      x 22,479,650 ops/sec ±0.96% (81 runs sampled)
    */
-  if (Array.isArray(obj)) {
+  if (
+    Array.isArray(obj) &&
+    (symbolToStringTagExists === false || !(Symbol.toStringTag in obj))
+  ) {
     return 'Array';
   }
 
@@ -10795,7 +10999,7 @@ module.exports={
     "Veselin Todorov <hi@vesln.com>",
     "John Firebaugh <john.firebaugh@gmail.com>"
   ],
-  "version": "4.0.0-canary.2",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/chaijs/chai"
