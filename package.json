@@ -17,7 +17,7 @@
     "Veselin Todorov <hi@vesln.com>",
     "John Firebaugh <john.firebaugh@gmail.com>"
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/chaijs/chai"
@@ -26,7 +26,6 @@
     "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
-  "browser": "./chai.js",
   "scripts": {
     "test": "make test"
   },
