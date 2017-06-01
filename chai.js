@@ -14,7 +14,7 @@ var used = [];
  * Chai version
  */
 
-exports.version = require('../package').version;
+exports.version = '4.0.2';
 
 /*!
  * Assertion Error
@@ -95,7 +95,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"../package":40,"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":33}],3:[function(require,module,exports){
+},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":33}],3:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -10978,63 +10978,6 @@ module.exports = function typeDetect(obj) {
 };
 
 module.exports.typeDetect = module.exports;
-
-},{}],40:[function(require,module,exports){
-module.exports={
-  "author": "Jake Luer <jake@alogicalparadox.com>",
-  "name": "chai",
-  "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
-  "keywords": [
-    "test",
-    "assertion",
-    "assert",
-    "testing",
-    "chai"
-  ],
-  "homepage": "http://chaijs.com",
-  "license": "MIT",
-  "contributors": [
-    "Jake Luer <jake@alogicalparadox.com>",
-    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
-    "Veselin Todorov <hi@vesln.com>",
-    "John Firebaugh <john.firebaugh@gmail.com>"
-  ],
-  "version": "4.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chaijs/chai"
-  },
-  "bugs": {
-    "url": "https://github.com/chaijs/chai/issues"
-  },
-  "main": "./index",
-  "browser": "./chai.js",
-  "scripts": {
-    "test": "make test"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "dependencies": {
-    "assertion-error": "^1.0.1",
-    "check-error": "^1.0.1",
-    "deep-eql": "^2.0.1",
-    "get-func-name": "^2.0.0",
-    "pathval": "^1.0.0",
-    "type-detect": "^4.0.0"
-  },
-  "devDependencies": {
-    "browserify": "^13.0.1",
-    "bump-cli": "^1.1.3",
-    "istanbul": "^0.4.3",
-    "karma": "^1.0.0",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-mocha": "^1.0.1",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-sauce-launcher": "^1.0.0",
-    "mocha": "^3.0.0"
-  }
-}
 
 },{}]},{},[1])(1)
 });
