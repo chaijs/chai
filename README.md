@@ -183,6 +183,12 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - [chaijs / pathval](https://github.com/chaijs/pathval): Object value retrieval given a string path.
 - [chaijs / get-func-name](https://github.com/chaijs/get-func-name): Utility for getting a function's name for node and the browser.
 
+### Supported Browsers
+
+IE/Edge                                  | Firefox            | Chrome | Safari | Opera
+---------------------------------------- | ------------------ | ------ | ------ | ------
+IE9 (until April 2017), IE10, IE11, Edge | 49.0.1, 45.4.0 ESR | Latest | Latest | Latest
+
 ### Contributing
 
 Thank you very much for considering to contribute!
