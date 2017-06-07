@@ -656,7 +656,7 @@ describe('expect', function () {
       expect(now).to.be.above(null, 'blah');
     }, "blah: the argument to above must be a date");
 
-    // Is this right?
+    // Is this right? Fails with the 'implementation frames error' (same as the 4 original ones in master)
     err(function () {
       expect(null).to.have.length.above(0, 'blah');
     }, "Cannot read property 'length' of null");
