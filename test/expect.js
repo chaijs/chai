@@ -634,7 +634,7 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.above(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be above " + oneSecondAfter.toString());
+    }, "blah: expected " + now.toUTCString() + " to be above " + oneSecondAfter.toUTCString());
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
@@ -839,11 +839,11 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.below(oneSecondAgo, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be below " + oneSecondAgo.toString());
+    }, "blah: expected " + now.toUTCString() + " to be below " + oneSecondAgo.toUTCString());
 
     err(function(){
       expect(now).to.not.be.below(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toString());
+    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toUTCString());
 
     err(function () {
       expect('foo').to.have.length.below(2, 'blah');

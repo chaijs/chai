@@ -1966,11 +1966,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(oneSecondAgo, now);
-    }, 'expected ' + now.toUTCString() + ' to be above ' + oneSecondAgo.toString()); // TODO: Fix different date formatting
+    }, 'expected ' + now.toUTCString() + ' to be above ' + oneSecondAgo.toUTCString()); // TODO: Fix different date formatting
 
     err(function() {
       assert.isAbove(now, now);
-    }, 'expected ' + now.toUTCString() + ' to be above ' + now.toString());
+    }, 'expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
     
     err(function() {
       assert.isAbove(null, now);
@@ -2033,11 +2033,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(now, oneSecondAgo);
-    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be below ' + now.toString());
+    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be below ' + now.toUTCString());
 
     err(function() {
       assert.isBelow(now, now);
-    }, 'expected ' + now.toUTCString() + ' to be below ' + now.toString());
+    }, 'expected ' + now.toUTCString() + ' to be below ' + now.toUTCString());
 
     err(function() {
       assert.isBelow(null, now);

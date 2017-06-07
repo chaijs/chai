@@ -1385,7 +1385,7 @@ module.exports = function (chai, _) {
   /**
    * ### .above(n[, msg])
    *
-   * Asserts that the target number or a date is greater than the given number `n`.
+   * Asserts that the target is number or a date greater than the given number or a date `n` respectively.
    * However, it's often best to assert that the target is equal to its expected
    * value.
    *
@@ -1440,6 +1440,9 @@ module.exports = function (chai, _) {
     } else {
        // Can't use utils/expectTypes because of the error while handling date objects
       if (!(objType === 'number' || objType === 'date')) {
+        obj = (objType === 'string') 
+          ? '\'' + obj + '\''
+          : obj;
         throw new AssertionError(
           msgPrefix + 'expected ' + obj + ' to be a number or a date',
           undefined,
@@ -1487,8 +1490,9 @@ module.exports = function (chai, _) {
     } else {
       this.assert(
           obj > n
-        , 'expected #{this} to be above ' + n
-        , 'expected #{this} to be at most ' + n
+        , 'expected #{this} to be above #{exp}'
+        , 'expected #{this} to be at most #{exp}'
+        , n
       );
     }
   }
@@ -1540,6 +1544,7 @@ module.exports = function (chai, _) {
    * @api public
    */
 
+  // Should this also be updated? + assertMost and within
   function assertLeast (n, msg) {
     if (msg) flag(this, 'message', msg);
     var obj = flag(this, 'object')
@@ -1586,7 +1591,7 @@ module.exports = function (chai, _) {
   /**
    * ### .below(n[, msg])
    *
-   * Asserts that the target is a number less than the given number `n`.
+   * Asserts that the target is a number or a date less than the given number or a date `n` respectively.
    * However, it's often best to assert that the target is equal to its expected
    * value.
    *
@@ -1640,6 +1645,9 @@ module.exports = function (chai, _) {
       new Assertion(obj, flagMsg, ssfi, true).to.have.property('length');
     } else {
       if (!(objType === 'number' || objType === 'date')) {
+        obj = (objType === 'string') 
+          ? '\'' + obj + '\''
+          : obj;
         throw new AssertionError(
           msgPrefix + 'expected ' + obj + ' to be a number or a date',
           undefined,
@@ -1687,8 +1695,9 @@ module.exports = function (chai, _) {
     } else {
       this.assert(
           obj < n
-        , 'expected #{this} to be below ' + n
-        , 'expected #{this} to be at least ' + n
+        , 'expected #{this} to be below #{exp}'
+        , 'expected #{this} to be at least #{exp}'
+        , n
       );
     }
   }

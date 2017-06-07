@@ -604,11 +604,11 @@ describe('should', function() {
 
     err(function(){
       (now).should.be.above(oneSecondAfter, 'blah');
-    }, "blah: expected " +  now.toUTCString() + " to be above " + oneSecondAfter.toString());
+    }, "blah: expected " +  now.toUTCString() + " to be above " + oneSecondAfter.toUTCString());
 
     err(function(){
       (now).should.not.be.above(oneSecondAgo, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at most " + oneSecondAgo.toString());
+    }, "blah: expected " + now.toUTCString() + " to be at most " + oneSecondAgo.toUTCString());
 
     err(function(){
       (now).should.have.length.above(3, 'blah');
@@ -731,11 +731,11 @@ describe('should', function() {
 
     err(function(){
       (now).should.be.below(now, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be below " + now.toString());
+    }, "blah: expected " + now.toUTCString() + " to be below " + now.toUTCString());
 
     err(function(){
       (now).should.not.be.below(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toString());
+    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toUTCString());
 
     err(function(){
       (now).should.have.length.below(3, 'blah');
