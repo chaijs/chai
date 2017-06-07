@@ -1385,7 +1385,7 @@ module.exports = function (chai, _) {
   /**
    * ### .above(n[, msg])
    *
-   * Asserts that the target is a number greater than the given number `n`.
+   * Asserts that the target number or a date is greater than the given number `n`.
    * However, it's often best to assert that the target is equal to its expected
    * value.
    *
@@ -1430,18 +1430,46 @@ module.exports = function (chai, _) {
     var obj = flag(this, 'object')
       , doLength = flag(this, 'doLength')
       , flagMsg = flag(this, 'message')
-      , ssfi = flag(this, 'ssfi');
+      , msgPrefix = (flagMsg) ? flagMsg + ': ' : ''
+      , ssfi = flag(this, 'ssfi')
+      , objType = _.type(obj).toLowerCase()
+      , nType = _.type(n).toLowerCase();
 
     if (doLength) {
       new Assertion(obj, flagMsg, ssfi, true).to.have.property('length');
     } else {
-      new Assertion(obj, flagMsg, ssfi, true).is.a('number');
+       // Can't use utils/expectTypes because of the error while handling date objects
+      if (!(objType === 'number' || objType === 'date')) {
+        throw new AssertionError(
+          msgPrefix + 'expected ' + obj + ' to be a number or a date',
+          undefined,
+          ssfi
+        );
+      }
     }
 
-    if (typeof n !== 'number') {
-      flagMsg = flagMsg ? flagMsg + ': ' : '';
+    if (!(nType === 'number' || nType === 'date')) {
+      var shoudBeType = (objType === 'number' || objType === 'date' )
+        ? objType
+        : 'number or date';
       throw new AssertionError(
-        flagMsg + 'the argument to above must be a number',
+        msgPrefix + 'the argument to above must be a ' + shoudBeType,
+        undefined,
+        ssfi
+      );
+    }
+    
+    if (doLength && nType === 'date') {
+      throw new AssertionError(
+        msgPrefix + 'the argument to above must be a number',
+        undefined,
+        ssfi
+      );
+    }
+
+    if (!doLength && objType !== nType) {
+      throw new AssertionError(
+        msgPrefix + 'type mismatch, expected to above value to be a ' + objType,
         undefined,
         ssfi
       );
@@ -1603,18 +1631,45 @@ module.exports = function (chai, _) {
     var obj = flag(this, 'object')
       , doLength = flag(this, 'doLength')
       , flagMsg = flag(this, 'message')
-      , ssfi = flag(this, 'ssfi');
+      , msgPrefix = (flagMsg) ? flagMsg + ': ' : ''
+      , ssfi = flag(this, 'ssfi')
+      , objType = _.type(obj).toLowerCase()
+      , nType = _.type(n).toLowerCase();
 
     if (doLength) {
       new Assertion(obj, flagMsg, ssfi, true).to.have.property('length');
     } else {
-      new Assertion(obj, flagMsg, ssfi, true).is.a('number');
+      if (!(objType === 'number' || objType === 'date')) {
+        throw new AssertionError(
+          msgPrefix + 'expected ' + obj + ' to be a number or a date',
+          undefined,
+          ssfi
+        );
+      }
     }
 
-    if (typeof n !== 'number') {
-      flagMsg = flagMsg ? flagMsg + ': ' : '';
+    if (!(nType === 'number' || nType === 'date')) {
+      var shoudBeType = (objType === 'number' || objType === 'date' )
+        ? objType
+        : 'number or date';
       throw new AssertionError(
-        flagMsg + 'the argument to below must be a number',
+        msgPrefix + 'the argument to below must be a ' + shoudBeType,
+        undefined,
+        ssfi
+      );
+    }
+
+    if (doLength && nType === 'date') {
+      throw new AssertionError(
+        msgPrefix + 'the argument to below must be a number',
+        undefined,
+        ssfi
+      );
+    }
+
+    if (!doLength && objType !== nType) {
+      throw new AssertionError(
+        msgPrefix + 'type mismatch, expected to below value to be a ' + objType,
         undefined,
         ssfi
       );
@@ -7737,10 +7792,11 @@ module.exports = function expectTypes(obj, types, ssfi) {
   flagMsg = flagMsg ? flagMsg + ': ' : '';
 
   obj = flag(obj, 'object');
+  // TODO: Fix - results in undefined when passed date
   types = types.map(function (t) { return t.toLowerCase(); });
   types.sort();
 
-  // Transforms ['lorem', 'ipsum'] into 'a lirum, or an ipsum'
+  // Transforms ['lorem', 'ipsum'] into 'a lorem, or an ipsum'
   var str = types.map(function (t, index) {
     var art = ~[ 'a', 'e', 'i', 'o', 'u' ].indexOf(t.charAt(0)) ? 'an' : 'a';
     var or = types.length > 1 && index === types.length - 1 ? 'or ' : '';

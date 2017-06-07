@@ -569,7 +569,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.above(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.above(null, 'blah');
@@ -577,7 +577,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.above(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.above(null, 'blah');
@@ -590,6 +590,49 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+  });
+
+  it('above(n) (dates)', function(){
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    (now).should.be.above(oneSecondAgo);
+    (oneSecondAfter).should.be.greaterThan(now);
+    (now).should.not.be.above(oneSecondAfter);
+    (oneSecondAgo).should.not.be.above(oneSecondAfter);
+
+    err(function(){
+      (now).should.be.above(oneSecondAfter, 'blah');
+    }, "blah: expected " +  now.toUTCString() + " to be above " + oneSecondAfter.toString());
+
+    err(function(){
+      (now).should.not.be.above(oneSecondAgo, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be at most " + oneSecondAgo.toString());
+
+    err(function(){
+      (now).should.have.length.above(3, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+
+    err(function(){
+      ('string').should.have.length.above(now, 'blah');
+    }, "blah: the argument to above must be a number");
+
+    err(function () {
+      (now).should.be.above(1, 'blah');
+    }, "blah: type mismatch, expected to above value to be a date");
+
+    err(function () {
+      (now).should.be.above(null, 'blah');
+    }, "blah: the argument to above must be a date");
+
+    err(function () {
+      (1).should.not.be.above(now, 'blah');
+    }, "blah: type mismatch, expected to above value to be a number");
+
+    err(function () {
+      ([]).should.have.length.above(now, 'blah');
+    }, "blah: the argument to above must be a number");
   });
 
   it('least(n)', function(){
@@ -653,7 +696,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.below(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.below(null, 'blah');
@@ -661,7 +704,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.below(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.below(null, 'blah');
@@ -674,6 +717,49 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+  });
+
+  it('below(n) (dates)', function(){
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    (now).should.be.below(oneSecondAfter);
+    (oneSecondAgo).should.be.lessThan(now);
+    (now).should.not.be.below(oneSecondAgo);
+    (oneSecondAfter).should.not.be.below(oneSecondAgo);
+
+    err(function(){
+      (now).should.be.below(now, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be below " + now.toString());
+
+    err(function(){
+      (now).should.not.be.below(oneSecondAfter, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toString());
+
+    err(function(){
+      (now).should.have.length.below(3, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+
+    err(function () {
+      (now).should.be.below(null, 'blah');
+    }, "blah: the argument to below must be a date");
+
+    err(function () {
+      (1).should.not.be.below(now, 'blah');
+    }, "blah: type mismatch, expected to below value to be a number");
+
+    err(function () {
+      (now).should.not.be.below(1, 'blah');
+    }, "blah: type mismatch, expected to below value to be a date");
+
+    err(function () {
+      (now).should.not.be.below(null, 'blah');
+    }, "blah: the argument to below must be a date");
+
+    err(function () {
+      ('string').should.have.length.below(now, 'blah');
+    }, "blah: the argument to below must be a number");
   });
 
   it('most(n)', function(){

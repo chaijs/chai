@@ -1952,11 +1952,41 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAbove(1, null, 'blah');
     }, 'blah: the argument to above must be a number');
+  });
+
+  it('above (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    assert.isAbove(now, oneSecondAgo, 'Now should be above 1 second ago');
+
+    err(function() {
+      assert.isAbove(oneSecondAgo, now);
+    }, 'expected ' + now.toUTCString() + ' to be above ' + oneSecondAgo.toString()); // TODO: Fix different date formatting
+
+    err(function() {
+      assert.isAbove(now, now);
+    }, 'expected ' + now.toUTCString() + ' to be above ' + now.toString());
+    
+    err(function() {
+      assert.isAbove(null, now);
+    }, 'expected null to be a number or a date');
+
+    err(function() {
+      assert.isAbove(now, null);
+    }, 'the argument to above must be a date');
+
+    err(function() {
+      assert.isAbove(now, 1);
+    }, 'type mismatch, expected to above value to be a date');
+
+    err(function() {
+      assert.isAbove(1, now, 'blah');
+    }, 'blah: type mismatch, expected to above value to be a number');
   });
 
   it('atLeast', function() {
@@ -1989,11 +2019,41 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isBelow(1, null, 'blah');
     }, 'blah: the argument to below must be a number');
+  });
+
+  it('below (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    assert.isBelow(oneSecondAgo, now, 'One second ago should be below now');
+
+    err(function() {
+      assert.isBelow(now, oneSecondAgo);
+    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be below ' + now.toString());
+
+    err(function() {
+      assert.isBelow(now, now);
+    }, 'expected ' + now.toUTCString() + ' to be below ' + now.toString());
+
+    err(function() {
+      assert.isBelow(null, now);
+    }, 'expected null to be a number or a date');
+
+    err(function() {
+      assert.isBelow(now, null);
+    }, 'the argument to below must be a date');
+
+    err(function() {
+      assert.isBelow(now, 1);
+    }, 'type mismatch, expected to below value to be a date');
+
+    err(function() {
+      assert.isBelow(1, now, 'blah');
+    }, 'blah: type mismatch, expected to below value to be a number');
   });
 
   it('atMost', function() {

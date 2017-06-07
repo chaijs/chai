@@ -587,11 +587,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.above(0, 'blah');
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.above(0);
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.above(null, 'blah');
@@ -603,7 +603,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.above(0, 'blah');
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.above(null, 'blah');
@@ -620,6 +620,46 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+  });
+
+  it('above(n) (dates)', function(){
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    expect(now).to.be.above(oneSecondAgo);
+    expect(now).to.be.greaterThan(oneSecondAgo);
+    expect(now).to.not.be.above(now);
+    expect(now).to.not.be.above(oneSecondAfter);
+
+    err(function(){
+      expect(now).to.be.above(oneSecondAfter, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be above " + oneSecondAfter.toString());
+
+    err(function(){
+      expect(10).to.not.be.above(6, 'blah');
+    }, "blah: expected 10 to be at most 6");
+
+    err(function () {
+      expect(now).to.have.length.above(4, 'blah');
+    }, "blah: expected " +  now.toUTCString() + " to have property 'length'");
+
+    err(function () {
+      expect([ 1, 2, 3 ]).to.have.length.above(now, 'blah');
+    }, "blah: the argument to above must be a number");
+
+    err(function () {
+      expect(null).to.be.above(now, 'blah');
+    }, "blah: expected null to be a number or a date");
+
+    err(function () {
+      expect(now).to.be.above(null, 'blah');
+    }, "blah: the argument to above must be a date");
+
+    // Is this right?
+    err(function () {
+      expect(null).to.have.length.above(0, 'blah');
+    }, "Cannot read property 'length' of null");
   });
 
   it('least(n)', function(){
@@ -752,11 +792,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.below(0, 'blah');
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.below(0);
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.below(null, 'blah');
@@ -768,7 +808,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.below(0, 'blah');
-    }, "blah: expected null to be a number");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.below(null, 'blah');
@@ -785,6 +825,49 @@ describe('expect', function () {
     err(function () {
       expect(1).to.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+  });
+
+  it('below(n) (dates)', function(){
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    expect(now).to.be.below(oneSecondAfter);
+    expect(oneSecondAgo).to.be.lessThan(now);
+    expect(now).to.not.be.below(oneSecondAgo);
+    expect(oneSecondAfter).to.not.be.below(oneSecondAgo);
+
+    err(function(){
+      expect(now).to.be.below(oneSecondAgo, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be below " + oneSecondAgo.toString());
+
+    err(function(){
+      expect(now).to.not.be.below(oneSecondAfter, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toString());
+
+    err(function () {
+      expect('foo').to.have.length.below(2, 'blah');
+    }, "blah: expected \'foo\' to have a length below 2 but got 3");
+
+    err(function () {
+      expect(null).to.be.below(now, 'blah');
+    }, "blah: expected null to be a number or a date");
+
+    err(function () {
+      expect(1).to.be.below(null, 'blah');
+    }, "blah: the argument to below must be a number");
+
+    err(function () {
+      expect(now).to.not.be.below(null, 'blah');
+    }, "blah: the argument to below must be a date");
+
+    err(function () {
+      expect(now).to.have.length.below(0, 'blah');
+    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+
+    err(function () {
+      expect('asdasd').to.have.length.below(now, 'blah');
+    }, "blah: the argument to below must be a number");
   });
 
   it('most(n)', function(){
