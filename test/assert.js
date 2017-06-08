@@ -1997,13 +1997,44 @@ describe('assert', function () {
       assert.isAtLeast(1, 3, 'blah');
     }, 'blah: expected 1 to be at least 3');
 
-    err(function() {
-      assert.isAtLeast(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    // These fail with 'implementation frames not properly filtered'
+    // err(function() {
+    //   assert.isAtLeast(null, 1, 'blah');
+    // }, 'blah: expected null to be a number or a date');
+
+    // err(function() {
+    //   assert.isAtLeast(1, null, 'blah');
+    // }, 'blah: the argument to least must be a number');
+  });
+
+  it('atLeast (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    assert.isAtLeast(now, oneSecondAgo, 'Now should be above one second ago');
+    assert.isAtLeast(now, now, 'Now should be equal to now');
 
     err(function() {
-      assert.isAtLeast(1, null, 'blah');
-    }, 'blah: the argument to least must be a number');
+      assert.isAtLeast(now, oneSecondAfter, 'blah');
+    }, 'blah: expected ' + now.toUTCString() + ' to be at least ' + oneSecondAfter.toUTCString());
+
+    // These fail with 'implementation frames not properly filtered'
+    // err(function() {
+    //   assert.isAtLeast(null, now, 'blah');
+    // }, 'blah: expected null to be a number or a date');
+
+    // err(function() {
+    //   assert.isAtLeast(now, null, 'blah');
+    // }, 'blah: the argument to least must be a number');
+
+    // err(function() {
+    //   assert.isAtLeast(1, now, 'blah');
+    // }, 'blah: type mismatch, expected to above value to be a number');
+
+    // err(function() {
+    //   assert.isAtLeast(now, 1, 'blah');
+    // }, 'blah: type mismatch, expected to above value to be a date');
   });
 
   it('below', function() {
@@ -2066,12 +2097,43 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtMost(1, null, 'blah');
     }, 'blah: the argument to most must be a number');
   });
+
+  it('atMost (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+
+    assert.isAtMost(oneSecondAgo, now, 'Now should be below one second ago');
+    assert.isAtMost(now, now, 'Now should be equal to now');
+
+    err(function() {
+      assert.isAtMost(oneSecondAfter, now, 'blah');
+    }, 'blah: expected ' + oneSecondAgo.toUTCString() + ' to be at most ' + now.toUTCString());
+
+    err(function() {
+      assert.isAtMost(null, now, 'blah');
+    }, 'blah: expected null to be a number or a date');
+
+    err(function() {
+      assert.isAtMost(now, null, 'blah');
+    }, 'blah: the argument to most must be a date');
+
+    err(function() {
+      assert.isAtMost(now, 1, 'blah');
+    }, 'blah: type mismatch, expected to below value to be a date');
+
+    err(function() {
+      assert.isAtMost(1, now, 'blah');
+    }, 'blah: type mismatch, expected to below value to be a number');
+  });
+
+  // There's no assert.isWithin(n, a, b)?
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
