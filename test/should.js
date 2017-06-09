@@ -714,21 +714,21 @@ describe('should', function() {
     }, "blah: expected { foo: 1 } to have property 'length'");
 
     // Fails with 'implementation frames not properly filtered'
-    // err(function () {
-    //   ('string').should.be.at.least(0, 'blah');
-    // }, "blah: expected 'string' to be a number");
+    err(function () {
+      ('string').should.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
 
-    // err(function () {
-    //   (1).should.be.at.least(null, 'blah');
-    // }, "blah: the argument to least must be a number");
+    err(function () {
+      (1).should.be.at.least(null, 'blah');
+    }, "blah: the argument to least must be a number");
 
-    // err(function () {
-    //   ('string').should.not.be.at.least(0, 'blah');
-    // }, "blah: expected 'string' to be a number");
+    err(function () {
+      ('string').should.not.be.at.least(0, 'blah');
+    }, "blah: expected 'string' to be a number");
 
-    // err(function () {
-    //   (1).should.not.be.at.least(null, 'blah');
-    // }, "blah: the argument to least must be a number");
+    err(function () {
+      (1).should.not.be.at.least(null, 'blah');
+    }, "blah: the argument to least must be a number");
   });
 
   it('below(n)', function(){

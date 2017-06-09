@@ -1997,14 +1997,13 @@ describe('assert', function () {
       assert.isAtLeast(1, 3, 'blah');
     }, 'blah: expected 1 to be at least 3');
 
-    // These fail with 'implementation frames not properly filtered'
-    // err(function() {
-    //   assert.isAtLeast(null, 1, 'blah');
-    // }, 'blah: expected null to be a number or a date');
+    err(function() {
+      assert.isAtLeast(null, 1, 'blah');
+    }, 'blah: expected null to be a number or a date');
 
-    // err(function() {
-    //   assert.isAtLeast(1, null, 'blah');
-    // }, 'blah: the argument to least must be a number');
+    err(function() {
+      assert.isAtLeast(1, null, 'blah');
+    }, 'blah: the argument to least must be a number');
   });
 
   it('atLeast (dates)', function() {
@@ -2020,21 +2019,21 @@ describe('assert', function () {
     }, 'blah: expected ' + now.toUTCString() + ' to be at least ' + oneSecondAfter.toUTCString());
 
     // These fail with 'implementation frames not properly filtered'
-    // err(function() {
-    //   assert.isAtLeast(null, now, 'blah');
-    // }, 'blah: expected null to be a number or a date');
+    err(function() {
+      assert.isAtLeast(null, now, 'blah');
+    }, 'blah: expected null to be a number or a date');
 
-    // err(function() {
-    //   assert.isAtLeast(now, null, 'blah');
-    // }, 'blah: the argument to least must be a number');
+    err(function() {
+      assert.isAtLeast(now, null, 'blah');
+    }, 'blah: the argument to least must be a number');
 
-    // err(function() {
-    //   assert.isAtLeast(1, now, 'blah');
-    // }, 'blah: type mismatch, expected to above value to be a number');
+    err(function() {
+      assert.isAtLeast(1, now, 'blah');
+    }, 'blah: type mismatch, expected to above value to be a number');
 
-    // err(function() {
-    //   assert.isAtLeast(now, 1, 'blah');
-    // }, 'blah: type mismatch, expected to above value to be a date');
+    err(function() {
+      assert.isAtLeast(now, 1, 'blah');
+    }, 'blah: type mismatch, expected to above value to be a date');
   });
 
   it('below', function() {

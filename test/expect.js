@@ -711,9 +711,9 @@ describe('expect', function () {
     }, "blah: the argument to above must be a date");
 
     // Fails with the 'implementation frames error' (same as the 4 original ones in master)
-    // err(function () {
-    //   expect(null).to.have.length.above(0, 'blah');
-    // }, "Cannot read property 'length' of null");
+    err(function () {
+      expect(null).to.have.length.above(0, 'blah');
+    }, "Cannot read property 'length' of null");
   });
 
   it('least(n)', function(){
@@ -766,30 +766,31 @@ describe('expect', function () {
     }, "blah: expected [ 1, 2, 3, 4 ] to have a length below 4");
 
     // Fails with 'implementation frames not properly filtered'
-    // err(function () {
-    //   expect(null).to.be.at.least(0, 'blah');
-    // }, "blah: expected null to be a number");
+    err(function () {
+      expect(null).to.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
 
-    // err(function () {
-    //   expect(null, 'blah').to.be.at.least(0);
-    // }, "blah: expected null to be a number");
+    err(function () {
+      expect(null, 'blah').to.be.at.least(0);
+    }, "blah: expected null to be a number");
 
-    // err(function () {
-    //   expect(1).to.be.at.least(null, 'blah');
-    // }, "blah: the argument to least must be a number");
+    err(function () {
+      expect(1).to.be.at.least(null, 'blah');
+    }, "blah: the argument to least must be a number");
 
-    // err(function () {
-    //   expect(1, 'blah').to.be.at.least(null);
-    // }, "blah: the argument to least must be a number");
+    err(function () {
+      expect(1, 'blah').to.be.at.least(null);
+    }, "blah: the argument to least must be a number");
 
-    // err(function () {
-    //   expect(null).to.not.be.at.least(0, 'blah');
-    // }, "blah: expected null to be a number");
+    err(function () {
+      expect(null).to.not.be.at.least(0, 'blah');
+    }, "blah: expected null to be a number");
 
-    // err(function () {
-    //   expect(1).to.not.be.at.least(null, 'blah');
-    // }, "blah: the argument to least must be a number");
+    err(function () {
+      expect(1).to.not.be.at.least(null, 'blah');
+    }, "blah: the argument to least must be a number");
 
+    // These are fine
     err(function () {
       expect(1).to.have.length.at.least(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
