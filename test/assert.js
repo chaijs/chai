@@ -2126,11 +2126,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(now, 1, 'blah');
-    }, 'blah: type mismatch, expected to below value to be a date');
+    }, 'blah: type mismatch, expected to most value to be a date');
 
     err(function() {
       assert.isAtMost(1, now, 'blah');
-    }, 'blah: type mismatch, expected to below value to be a number');
+    }, 'blah: type mismatch, expected to most value to be a number');
   });
 
   // There's no assert.isWithin(n, a, b)?

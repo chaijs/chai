@@ -546,59 +546,61 @@ describe('should', function() {
   });
 
   it('within(start, finish) (dates)', function(){
-    throw new Error('Not implemented');
-    (5).should.be.within(5, 10);
-    (5).should.be.within(3,6);
-    (5).should.be.within(3,5);
-    (5).should.not.be.within(1,3);
+    var now = new Date();
+    var before = new Date(now.getTime() - 1);
+    var after = new Date(now.getTime() + 1);
+    var nowUTC = now.toUTCString();
+    var beforeUTC = before.toUTCString();
+    var afterUTC = after.toUTCString();
+
+    (now).should.be.within(before, after);
+    (now).should.be.within(now, after);
+    (now).should.be.within(now, now);
+    (after).should.not.be.within(after, before);
 
     err(function(){
-      (5).should.not.be.within(4,6, 'blah');
-    }, "blah: expected 5 to not be within 4..6");
+      (now).should.not.be.within(now, after, 'blah');
+    }, "blah: expected " + nowUTC + " to not be within " + nowUTC + ".." + afterUTC);
 
     err(function(){
-      (10).should.be.within(50,100, 'blah');
-    }, "blah: expected 10 to be within 50..100");
+      (before).should.be.within(now, after, 'blah');
+    }, "blah: expected " + beforeUTC + " to be within " + nowUTC + ".." + afterUTC);
 
     err(function(){
-      ({ foo: 1 }).should.have.length.within(50,100, 'blah');
-    }, "blah: expected { foo: 1 } to have property 'length'");
+      ([]).should.have.length.within(now, 100, 'blah');
+    }, "blah: the arguments to within must be numbers");
 
     err(function(){
-      ({ foo: 1 }).should.have.lengthOf.within(50,100, 'blah');
-    }, "blah: expected { foo: 1 } to have property 'length'");
+      (now).should.have.lengthOf.within(50, now, 'blah');
+    }, "blah: expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      ('string').should.be.within(0, 1, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+      (now).should.have.length.within(5, 7);
+    }, "expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      (1).should.be.within(null, 1, 'blah');
-    }, "blah: the arguments to within must be numbers");
+      (0).should.be.within(0, now, 'blah');
+    }, "blah: type mismatch, expected to within values to be numbers");
 
     err(function () {
-      (1).should.be.within(0, null, 'blah');
-    }, "blah: the arguments to within must be numbers");
+      (1).should.be.within(now, 1, 'blah');
+    }, "blah: type mismatch, expected to within values to be numbers");
 
     err(function () {
-      ('string').should.not.be.within(0, 1, 'blah');
-    }, "blah: expected 'string' to be a number");
+      (now).should.be.within(1, now, 'blah');
+    }, "blah: type mismatch, expected to within values to be dates");
 
     err(function () {
-      (1).should.not.be.within(null, 1, 'blah');
-    }, "blah: the arguments to within must be numbers");
+      (now).should.not.be.within(now, 1, 'blah');
+    }, "blah: type mismatch, expected to within values to be dates");
 
     err(function () {
-      (1).should.not.be.within(0, null, 'blah');
-    }, "blah: the arguments to within must be numbers");
+      (now).should.not.be.within(null, now, 'blah');
+    }, "blah: the arguments to within must be dates");
 
     err(function () {
-      (1).should.have.length.within(5,7, 'blah');
-    }, "blah: expected 1 to have property 'length'");
-
-    err(function () {
-      (1).should.have.lengthOf.within(5,7, 'blah');
-    }, "blah: expected 1 to have property 'length'");
+      (now).should.not.be.within(now, null, 'blah');
+    }, "blah: the arguments to within must be dates");
   });
 
   it('above(n)', function(){
@@ -865,49 +867,56 @@ describe('should', function() {
   });
 
   it('most(n) (dates)', function(){
-    throw new Error('Not implemented');
-    (2).should.be.at.most(2);
-    (2).should.not.be.at.most(1);
+    var now = new Date();
+    var before = new Date(now.getTime() - 1);
+    var after = new Date(now.getTime() + 1);
+    var nowUTC = now.toUTCString();
+    var beforeUTC = before.toUTCString();
+    var afterUTC = after.toUTCString();
+
+    (now).should.be.at.most(now);
+    (now).should.be.at.most(after);
+    (now).should.not.be.at.most(before);
 
     err(function(){
-      (6).should.be.at.most(5, 'blah');
-    }, "blah: expected 6 to be at most 5");
+      (now).should.be.at.most(before, 'blah');
+    }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
 
     err(function(){
-      (6).should.not.be.at.most(10, 'blah');
-    }, "blah: expected 6 to be above 10");
+      (now).should.not.be.at.most(after, 'blah');
+    }, "blah: expected " + nowUTC + " to be above " + afterUTC);
 
     err(function(){
-      ({foo: 1}).should.have.length.of.at.most(3, 'blah');
-    }, "blah: expected { foo: 1 } to have property 'length'");
+      ([]).should.have.length.of.at.most(now, 'blah');
+    }, "blah: the argument to most must be a number");
 
     err(function(){
-      ({foo: 1}).should.have.lengthOf.at.most(3, 'blah');
-    }, "blah: expected { foo: 1 } to have property 'length'");
-
-    err(function () {
-      ('string').should.be.at.most(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
-
-    err(function () {
-      (1).should.be.at.most(null, 'blah');
+      ('').should.not.have.lengthOf.at.most(now, 'blah');
     }, "blah: the argument to most must be a number");
 
     err(function () {
-      ('string').should.not.be.at.most(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+      (now).should.have.length.of.at.most(0, 'blah');
+    }, "blah: expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      (1).should.not.be.at.most(null, 'blah');
-    }, "blah: the argument to most must be a number");
+      (now).should.not.have.lengthOf.at.most(0, 'blah');
+    }, "blah: expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      (1).should.have.length.of.at.most(0, 'blah');
-    }, "blah: expected 1 to have property 'length'");
+      (now).should.be.at.most(0, 'blah');
+    }, "blah: type mismatch, expected to most value to be a date");
 
     err(function () {
-      (1).should.have.lengthOf.at.most(0, 'blah');
-    }, "blah: expected 1 to have property 'length'");
+      (now).should.be.at.most(null, 'blah');
+    }, "blah: the argument to most must be a date");
+
+    err(function () {
+      (1).should.not.be.at.most(now, 'blah');
+    }, "blah: type mismatch, expected to most value to be a number");
+
+    err(function () {
+      (now).should.not.be.at.most(undefined);
+    }, "the argument to most must be a date");
   });
 
   it('match(regexp)', function(){

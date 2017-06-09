@@ -544,96 +544,57 @@ describe('expect', function () {
   });
 
   it('within(start, finish) (dates)', function(){
-    throw new Error('Not implemented');
-
-    expect(5).to.be.within(5, 10);
-    expect(5).to.be.within(3, 6);
-    expect(5).to.be.within(3, 5);
-    expect(5).to.not.be.within(1, 3);
-    expect('foo').to.have.length.within(2, 4);
-    expect('foo').to.have.lengthOf.within(2, 4);
-    expect([ 1, 2, 3 ]).to.have.length.within(2, 4);
-    expect([ 1, 2, 3 ]).to.have.lengthOf.within(2, 4);
-
-    err(function(){
-      expect(5).to.not.be.within(4, 6, 'blah');
-    }, "blah: expected 5 to not be within 4..6");
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAfter = new Date(now.getTime() + 1);
+    var nowUTC = now.toUTCString();
+    var beforeUTC = oneSecondAgo.toUTCString();
+    var afterUTC = oneSecondAfter.toUTCString();
+    
+    expect(now).to.be.within(oneSecondAgo, oneSecondAfter);
+    expect(now).to.be.within(now, oneSecondAfter);
+    expect(now).to.be.within(now, now);
+    expect(oneSecondAgo).to.not.be.within(now, oneSecondAfter);
 
     err(function(){
-      expect(5, 'blah').to.not.be.within(4, 6);
-    }, "blah: expected 5 to not be within 4..6");
+      expect(now).to.not.be.within(now, oneSecondAfter, 'blah');
+    }, "blah: expected " + nowUTC + " to not be within " + nowUTC + ".." + afterUTC);
 
     err(function(){
-      expect(10).to.be.within(50, 100, 'blah');
-    }, "blah: expected 10 to be within 50..100");
+      expect(now, 'blah').to.not.be.within(oneSecondAgo, oneSecondAfter);
+    }, "blah: expected " + nowUTC + " to not be within " + beforeUTC + ".." + afterUTC);
 
     err(function () {
-      expect('foo').to.have.length.within(5, 7, 'blah');
-    }, "blah: expected \'foo\' to have a length within 5..7");
+      expect(now).to.have.length.within(5, 7, 'blah');
+    }, "blah: expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      expect('foo', 'blah').to.have.length.within(5, 7);
-    }, "blah: expected \'foo\' to have a length within 5..7");
+      expect('foo').to.have.lengthOf.within(now, 7, 'blah');
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
-      expect('foo').to.have.lengthOf.within(5, 7, 'blah');
-    }, "blah: expected \'foo\' to have a length within 5..7");
+      expect(now).to.be.within(now, 1, 'blah');
+    }, "blah: type mismatch, expected to within values to be dates");
 
     err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.within(5, 7, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
+      expect(now).to.be.within(null, now, 'blah');
+    }, "blah: the arguments to within must be dates");
 
     err(function () {
-      expect([ 1, 2, 3 ]).to.have.lengthOf.within(5, 7, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length within 5..7");
+      expect(now).to.be.within(now, undefined, 'blah');
+    }, "blah: the arguments to within must be dates");
+    
+    err(function () {
+      expect(now, 'blah').to.be.within(1, now);
+    }, "blah: type mismatch, expected to within values to be dates");
 
     err(function () {
-      expect(null).to.be.within(0, 1, 'blah');
+      expect(now, 'blah').to.be.within(now, 1);
+    }, "blah: type mismatch, expected to within values to be dates");
+
+    err(function () {
+      expect(null).to.not.be.within(now, oneSecondAfter, 'blah');
     }, "blah: expected null to be a number or a date");
-
-    err(function () {
-      expect(null, 'blah').to.be.within(0, 1);
-    }, "blah: expected null to be a number or a date");
-
-    err(function () {
-      expect(1).to.be.within(null, 1, 'blah');
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(1, 'blah').to.be.within(null, 1);
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(1).to.be.within(0, null, 'blah');
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(1, 'blah').to.be.within(0, null);
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(null).to.not.be.within(0, 1, 'blah');
-    }, "blah: expected null to be a number or a date");
-
-    err(function () {
-      expect(1).to.not.be.within(null, 1, 'blah');
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(1).to.not.be.within(0, null, 'blah');
-    }, "blah: the arguments to within must be numbers");
-
-    err(function () {
-      expect(1).to.have.length.within(5, 7, 'blah');
-    }, "blah: expected 1 to have property 'length'");
-
-    err(function () {
-      expect(1, 'blah').to.have.length.within(5, 7);
-    }, "blah: expected 1 to have property 'length'");
-
-    err(function () {
-      expect(1).to.have.lengthOf.within(5, 7, 'blah');
-    }, "blah: expected 1 to have property 'length'");
   });
 
   it('above(n)', function(){
@@ -968,7 +929,6 @@ describe('expect', function () {
     expect(2).to.be.at.most(5);
     expect(2).to.be.at.most(2);
     expect(2).to.not.be.at.most(1);
-    expect(2).to.not.be.at.most(1);
     expect('foo').to.have.length.of.at.most(4);
     expect('foo').to.have.lengthOf.at.most(4);
     expect([ 1, 2, 3 ]).to.have.length.of.at.most(4);
@@ -1052,91 +1012,56 @@ describe('expect', function () {
   });
 
   it('most(n) (dates)', function(){
-    throw new Error('Not implemented')
-    expect(2).to.be.at.most(5);
-    expect(2).to.be.at.most(2);
-    expect(2).to.not.be.at.most(1);
-    expect(2).to.not.be.at.most(1);
-    expect('foo').to.have.length.of.at.most(4);
-    expect('foo').to.have.lengthOf.at.most(4);
-    expect([ 1, 2, 3 ]).to.have.length.of.at.most(4);
-    expect([ 1, 2, 3 ]).to.have.lengthOf.at.most(4);
+    var now = new Date();
+    var before = new Date(now.getTime() - 1);
+    var after = new Date(now.getTime() + 1);
+    var nowUTC = now.toUTCString();
+    var beforeUTC = before.toUTCString();
+    var afterUTC = after.toUTCString();
+
+    expect(now).to.be.at.most(after);
+    expect(now).to.be.at.most(now);
+    expect(now).to.not.be.at.most(before);
 
     err(function(){
-      expect(6).to.be.at.most(5, 'blah');
-    }, "blah: expected 6 to be at most 5");
+      expect(now).to.be.at.most(before, 'blah');
+    }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
 
     err(function(){
-      expect(6, 'blah').to.be.at.most(5);
-    }, "blah: expected 6 to be at most 5");
-
-    err(function(){
-      expect(6).to.not.be.at.most(10, 'blah');
-    }, "blah: expected 6 to be above 10");
+      expect(now).to.not.be.at.most(now, 'blah');
+    }, "blah: expected " + nowUTC + " to be above " + nowUTC);
 
     err(function () {
-      expect('foo').to.have.length.of.at.most(2, 'blah');
-    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
+      expect(now).to.have.length.of.at.most(2, 'blah');
+    }, "blah: expected " + nowUTC + " to have property 'length'");
 
     err(function () {
-      expect('foo', 'blah').to.have.length.of.at.most(2);
-    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
-
-    err(function () {
-      expect('foo').to.have.lengthOf.at.most(2, 'blah');
-    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
-
-    err(function () {
-      expect([ 1, 2, 3 ]).to.have.length.of.at.most(2, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length at most 2 but got 3");
-
-    err(function () {
-      expect([ 1, 2, 3 ]).to.have.lengthOf.at.most(2, 'blah');
-    }, "blah: expected [ 1, 2, 3 ] to have a length at most 2 but got 3");
-
-    err(function () {
-      expect([ 1, 2 ]).to.not.have.length.of.at.most(2, 'blah');
-    }, "blah: expected [ 1, 2 ] to have a length above 2");
-
-    err(function () {
-      expect([ 1, 2 ]).to.not.have.lengthOf.at.most(2, 'blah');
-    }, "blah: expected [ 1, 2 ] to have a length above 2");
-
-    err(function () {
-      expect(null).to.be.at.most(0, 'blah');
-    }, "blah: expected null to be a number or a date");
-
-    err(function () {
-      expect(null, 'blah').to.be.at.most(0);
-    }, "blah: expected null to be a number or a date");
-
-    err(function () {
-      expect(1).to.be.at.most(null, 'blah');
+      expect('foo', 'blah').to.have.length.of.at.most(now);
     }, "blah: the argument to most must be a number");
 
     err(function () {
-      expect(1, 'blah').to.be.at.most(null);
+      expect([ 1, 2, 3 ]).to.not.have.length.of.at.most(now, 'blah');
     }, "blah: the argument to most must be a number");
 
     err(function () {
-      expect(null).to.not.be.at.most(0, 'blah');
+      expect(null).to.be.at.most(now, 'blah');
     }, "blah: expected null to be a number or a date");
 
     err(function () {
-      expect(1).to.not.be.at.most(null, 'blah');
-    }, "blah: the argument to most must be a number");
+      expect(now, 'blah').to.be.at.most(null);
+    }, "blah: the argument to most must be a date");
 
     err(function () {
-      expect(1).to.have.length.of.at.most(0, 'blah');
-    }, "blah: expected 1 to have property 'length'");
+      expect(1).to.be.at.most(now, 'blah');
+    }, "blah: type mismatch, expected to most value to be a number");
 
     err(function () {
-      expect(1, 'blah').to.have.length.of.at.most(0);
-    }, "blah: expected 1 to have property 'length'");
+      expect(now, 'blah').to.be.at.most(1);
+    }, "blah: type mismatch, expected to most value to be a date");
 
     err(function () {
-      expect(1).to.have.lengthOf.at.most(0, 'blah');
-    }, "blah: expected 1 to have property 'length'");
+      expect(now).to.not.be.at.most(undefined, 'blah');
+    }, "blah: the argument to most must be a date");
   });
 
   it('match(regexp)', function(){
