@@ -1263,6 +1263,14 @@ describe('expect', function () {
     err(function() {
       expect({a: {b: 1}}, 'blah').to.have.own.nested.property("a.b");
     }, "blah: The \"nested\" and \"own\" flags cannot be combined.");
+
+    err(function () {
+      expect(null, 'blah').to.have.property("a");
+    }, "blah: Target cannot be null or undefined.");
+
+    err(function () {
+      expect(undefined, 'blah').to.have.property("a");
+    }, "blah: Target cannot be null or undefined.");
   });
 
   it('property(name, val)', function(){
