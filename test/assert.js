@@ -1339,6 +1339,14 @@ describe('assert', function () {
     err(function () {
       assert.notNestedPropertyVal(obj, 'foo.bar', 'baz', 'blah');
     }, "blah: expected { foo: { bar: 'baz' } } to not have nested property 'foo.bar' of 'baz'");
+
+    err(function () {
+      assert.property(null, 'a', 'blah');
+    }, "blah: Target cannot be null or undefined.");
+
+    err(function () {
+      assert.property(undefined, 'a', 'blah');
+    }, "blah: Target cannot be null or undefined.");
   });
 
   it('deepPropertyVal', function () {
