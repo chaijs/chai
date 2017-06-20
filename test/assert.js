@@ -1961,12 +1961,12 @@ describe('assert', function () {
 
   it('above (dates)', function() {
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
     assert.isAbove(now, oneSecondAgo, 'Now should be above 1 second ago');
 
     err(function() {
       assert.isAbove(oneSecondAgo, now);
-    }, 'expected ' + now.toUTCString() + ' to be above ' + oneSecondAgo.toUTCString()); // TODO: Fix different date formatting
+    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be above ' + now.toUTCString());
 
     err(function() {
       assert.isAbove(now, now);
@@ -2008,8 +2008,8 @@ describe('assert', function () {
 
   it('atLeast (dates)', function() {
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     assert.isAtLeast(now, oneSecondAgo, 'Now should be above one second ago');
     assert.isAtLeast(now, now, 'Now should be equal to now');
@@ -2057,12 +2057,12 @@ describe('assert', function () {
 
   it('below (dates)', function() {
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
     assert.isBelow(oneSecondAgo, now, 'One second ago should be below now');
 
     err(function() {
       assert.isBelow(now, oneSecondAgo);
-    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be below ' + now.toUTCString());
+    }, 'expected ' + now.toUTCString() + ' to be below ' + oneSecondAgo.toUTCString());
 
     err(function() {
       assert.isBelow(now, now);
@@ -2104,15 +2104,15 @@ describe('assert', function () {
 
   it('atMost (dates)', function() {
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     assert.isAtMost(oneSecondAgo, now, 'Now should be below one second ago');
     assert.isAtMost(now, now, 'Now should be equal to now');
 
     err(function() {
       assert.isAtMost(oneSecondAfter, now, 'blah');
-    }, 'blah: expected ' + oneSecondAgo.toUTCString() + ' to be at most ' + now.toUTCString());
+    }, 'blah: expected ' + oneSecondAfter.toUTCString() + ' to be at most ' + now.toUTCString());
 
     err(function() {
       assert.isAtMost(null, now, 'blah');

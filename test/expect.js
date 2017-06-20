@@ -545,8 +545,8 @@ describe('expect', function () {
 
   it('within(start, finish) (dates)', function(){
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
     var nowUTC = now.toUTCString();
     var beforeUTC = oneSecondAgo.toUTCString();
     var afterUTC = oneSecondAfter.toUTCString();
@@ -678,8 +678,8 @@ describe('expect', function () {
 
   it('above(n) (dates)', function(){
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     expect(now).to.be.above(oneSecondAgo);
     expect(now).to.be.greaterThan(oneSecondAgo);
@@ -882,8 +882,8 @@ describe('expect', function () {
 
   it('below(n) (dates)', function(){
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     expect(now).to.be.below(oneSecondAfter);
     expect(oneSecondAgo).to.be.lessThan(now);
@@ -1011,18 +1011,18 @@ describe('expect', function () {
 
   it('most(n) (dates)', function(){
     var now = new Date();
-    var before = new Date(now.getTime() - 1);
-    var after = new Date(now.getTime() + 1);
+    var oneSecondBefore = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
     var nowUTC = now.toUTCString();
-    var beforeUTC = before.toUTCString();
-    var afterUTC = after.toUTCString();
+    var beforeUTC = oneSecondBefore.toUTCString();
+    var afterUTC = oneSecondAfter.toUTCString();
 
-    expect(now).to.be.at.most(after);
+    expect(now).to.be.at.most(oneSecondAfter);
     expect(now).to.be.at.most(now);
-    expect(now).to.not.be.at.most(before);
+    expect(now).to.not.be.at.most(oneSecondBefore);
 
     err(function(){
-      expect(now).to.be.at.most(before, 'blah');
+      expect(now).to.be.at.most(oneSecondBefore, 'blah');
     }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
 
     err(function(){

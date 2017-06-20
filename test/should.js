@@ -547,23 +547,23 @@ describe('should', function() {
 
   it('within(start, finish) (dates)', function(){
     var now = new Date();
-    var before = new Date(now.getTime() - 1);
-    var after = new Date(now.getTime() + 1);
+    var oneSecondBefore = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
     var nowUTC = now.toUTCString();
-    var beforeUTC = before.toUTCString();
-    var afterUTC = after.toUTCString();
+    var beforeUTC = oneSecondBefore.toUTCString();
+    var afterUTC = oneSecondAfter.toUTCString();
 
-    (now).should.be.within(before, after);
-    (now).should.be.within(now, after);
+    (now).should.be.within(oneSecondBefore, oneSecondAfter);
+    (now).should.be.within(now, oneSecondAfter);
     (now).should.be.within(now, now);
-    (after).should.not.be.within(after, before);
+    (oneSecondAfter).should.not.be.within(oneSecondAfter, oneSecondBefore);
 
     err(function(){
-      (now).should.not.be.within(now, after, 'blah');
+      (now).should.not.be.within(now, oneSecondAfter, 'blah');
     }, "blah: expected " + nowUTC + " to not be within " + nowUTC + ".." + afterUTC);
 
     err(function(){
-      (before).should.be.within(now, after, 'blah');
+      (oneSecondBefore).should.be.within(now, oneSecondAfter, 'blah');
     }, "blah: expected " + beforeUTC + " to be within " + nowUTC + ".." + afterUTC);
 
     err(function(){
@@ -652,8 +652,8 @@ describe('should', function() {
 
   it('above(n) (dates)', function(){
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     (now).should.be.above(oneSecondAgo);
     (oneSecondAfter).should.be.greaterThan(now);
@@ -779,8 +779,8 @@ describe('should', function() {
 
   it('below(n) (dates)', function(){
     var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1);
-    var oneSecondAfter = new Date(now.getTime() + 1);
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
 
     (now).should.be.below(oneSecondAfter);
     (oneSecondAgo).should.be.lessThan(now);
@@ -867,22 +867,22 @@ describe('should', function() {
 
   it('most(n) (dates)', function(){
     var now = new Date();
-    var before = new Date(now.getTime() - 1);
-    var after = new Date(now.getTime() + 1);
+    var oneSecondBefore = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
     var nowUTC = now.toUTCString();
-    var beforeUTC = before.toUTCString();
-    var afterUTC = after.toUTCString();
+    var beforeUTC = oneSecondBefore.toUTCString();
+    var afterUTC = oneSecondAfter.toUTCString();
 
     (now).should.be.at.most(now);
-    (now).should.be.at.most(after);
-    (now).should.not.be.at.most(before);
+    (now).should.be.at.most(oneSecondAfter);
+    (now).should.not.be.at.most(oneSecondBefore);
 
     err(function(){
-      (now).should.be.at.most(before, 'blah');
+      (now).should.be.at.most(oneSecondBefore, 'blah');
     }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
 
     err(function(){
-      (now).should.not.be.at.most(after, 'blah');
+      (now).should.not.be.at.most(oneSecondAfter, 'blah');
     }, "blah: expected " + nowUTC + " to be above " + afterUTC);
 
     err(function(){
