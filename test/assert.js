@@ -2018,22 +2018,21 @@ describe('assert', function () {
       assert.isAtLeast(now, oneSecondAfter, 'blah');
     }, 'blah: expected ' + now.toUTCString() + ' to be at least ' + oneSecondAfter.toUTCString());
 
-    // These fail with 'implementation frames not properly filtered'
     err(function() {
       assert.isAtLeast(null, now, 'blah');
     }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtLeast(now, null, 'blah');
-    }, 'blah: the argument to least must be a number');
+    }, 'blah: the argument to least must be a date');
 
     err(function() {
       assert.isAtLeast(1, now, 'blah');
-    }, 'blah: type mismatch, expected to above value to be a number');
+    }, 'blah: type mismatch, expected to least value to be a number');
 
     err(function() {
       assert.isAtLeast(now, 1, 'blah');
-    }, 'blah: type mismatch, expected to above value to be a date');
+    }, 'blah: type mismatch, expected to least value to be a date');
   });
 
   it('below', function() {
@@ -2131,8 +2130,6 @@ describe('assert', function () {
       assert.isAtMost(1, now, 'blah');
     }, 'blah: type mismatch, expected to most value to be a number');
   });
-
-  // There's no assert.isWithin(n, a, b)?
 
   it('change', function() {
     var obj = { value: 10, str: 'foo' },

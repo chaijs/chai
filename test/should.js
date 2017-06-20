@@ -713,10 +713,9 @@ describe('should', function() {
       ({foo: 1}).should.have.lengthOf.at.least(3, 'blah');
     }, "blah: expected { foo: 1 } to have property 'length'");
 
-    // Fails with 'implementation frames not properly filtered'
     err(function () {
       ('string').should.be.at.least(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.at.least(null, 'blah');
@@ -724,7 +723,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.at.least(0, 'blah');
-    }, "blah: expected 'string' to be a number");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.at.least(null, 'blah');
