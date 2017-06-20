@@ -641,11 +641,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.above(0, 'blah');
-    }, "blah: expected null to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.above(0);
-    }, "blah: expected null to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       expect(1).to.be.above(null, 'blah');
@@ -657,7 +657,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.above(0, 'blah');
-    }, "blah: expected null to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       expect(1).to.not.be.above(null, 'blah');
@@ -704,7 +704,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.above(now, 'blah');
-    }, "blah: expected null to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       expect(now).to.be.above(null, 'blah');

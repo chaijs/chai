@@ -627,7 +627,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.above(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       (1).should.be.above(null, 'blah');
@@ -635,7 +635,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.above(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to above must be a number or a date");
 
     err(function () {
       (1).should.not.be.above(null, 'blah');
@@ -678,7 +678,7 @@ describe('should', function() {
 
     err(function () {
       (now).should.be.above(1, 'blah');
-    }, "blah: type mismatch, expected to above value to be a date");
+    }, "blah: the argument to above must be a date");
 
     err(function () {
       (now).should.be.above(null, 'blah');
@@ -686,7 +686,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.above(now, 'blah');
-    }, "blah: type mismatch, expected to above value to be a number");
+    }, "blah: the argument to above must be a number");
 
     err(function () {
       ([]).should.have.length.above(now, 'blah');

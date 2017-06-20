@@ -1952,7 +1952,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(null, 1, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to above must be a number or a date');
 
     err(function() {
       assert.isAbove(1, null, 'blah');
@@ -1974,7 +1974,7 @@ describe('assert', function () {
     
     err(function() {
       assert.isAbove(null, now);
-    }, 'expected null to be a number or a date');
+    }, 'the argument to above must be a number or a date');
 
     err(function() {
       assert.isAbove(now, null);
@@ -1982,11 +1982,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(now, 1);
-    }, 'type mismatch, expected to above value to be a date');
+    }, 'the argument to above must be a date');
 
     err(function() {
       assert.isAbove(1, now, 'blah');
-    }, 'blah: type mismatch, expected to above value to be a number');
+    }, 'blah: the argument to above must be a number');
   });
 
   it('atLeast', function() {
