@@ -653,19 +653,19 @@ describe('assert', function () {
 
     err(function(){
       assert.include(true, true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function () {
       assert.include(42, 'bar');
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
 
     err(function(){
       assert.include(null, 42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
 
     err(function () {
       assert.include(undefined, 'bar');
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
   });
 
   it('notInclude', function () {
@@ -699,19 +699,19 @@ describe('assert', function () {
 
     err(function(){
       assert.notInclude(true, true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function () {
       assert.notInclude(42, 'bar');
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
 
     err(function(){
       assert.notInclude(null, 42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
 
     err(function () {
       assert.notInclude(undefined, 'bar');
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
 
     err(function () {
       assert.notInclude('foobar', 'bar');

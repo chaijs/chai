@@ -1385,19 +1385,19 @@ describe('should', function() {
 
     err(function(){
       (true).should.include(true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function(){
       (42).should.include(4);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
 
     err(function(){
       (true).should.not.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function(){
       (42).should.not.include(4);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
   });
 
   it('deep.include()', function () {

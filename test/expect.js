@@ -1748,39 +1748,39 @@ describe('expect', function () {
 
     err(function(){
       expect(true).to.include(true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function(){
       expect(true, 'blah').to.include(true);
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.include(42);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
 
     err(function(){
       expect(null).to.include(42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.include(42);
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
 
     err(function(){
       expect(true).to.not.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
 
     err(function(){
       expect(null).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
   });
 
   it('deep.include()', function () {
