@@ -496,11 +496,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.within(0, 1, 'blah');
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.within(0, 1);
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.within(null, 1, 'blah');
@@ -520,7 +520,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.within(0, 1, 'blah');
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.within(null, 1, 'blah');
@@ -594,7 +594,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.within(now, oneSecondAfter, 'blah');
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected null to be a number or a date");
   });
 
   it('above(n)', function(){
@@ -641,11 +641,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.above(0, 'blah');
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.above(0);
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.above(null, 'blah');
@@ -657,7 +657,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.above(0, 'blah');
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.above(null, 'blah');
@@ -704,7 +704,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.above(now, 'blah');
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(now).to.be.above(null, 'blah');
@@ -766,11 +766,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.at.least(0, 'blah');
-    }, "blah: the argument to least must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.at.least(0);
-    }, "blah: the argument to least must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.at.least(null, 'blah');
@@ -782,7 +782,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.at.least(0, 'blah');
-    }, "blah: the argument to least must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.at.least(null, 'blah');
@@ -845,11 +845,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.below(0, 'blah');
-    }, "blah: the argument to below must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.below(0);
-    }, "blah: the argument to below must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.below(null, 'blah');
@@ -861,7 +861,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.below(0, 'blah');
-    }, "blah: the argument to below must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.below(null, 'blah');
@@ -904,7 +904,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.below(now, 'blah');
-    }, "blah: the argument to below must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.below(null, 'blah');
@@ -974,11 +974,11 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.at.most(0, 'blah');
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(null, 'blah').to.be.at.most(0);
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.be.at.most(null, 'blah');
@@ -990,7 +990,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.not.be.at.most(0, 'blah');
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(1).to.not.be.at.most(null, 'blah');
@@ -1043,7 +1043,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.at.most(now, 'blah');
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected null to be a number or a date");
 
     err(function () {
       expect(now, 'blah').to.be.at.most(null);

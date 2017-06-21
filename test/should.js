@@ -514,7 +514,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.within(0, 1, 'blah');
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.within(null, 1, 'blah');
@@ -526,7 +526,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.within(0, 1, 'blah');
-    }, "blah: the arguments to within must be numbers or dates");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.within(null, 1, 'blah');
@@ -627,7 +627,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.above(0, 'blah');
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.above(null, 'blah');
@@ -635,7 +635,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.above(0, 'blah');
-    }, "blah: the argument to above must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.above(null, 'blah');
@@ -715,7 +715,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.at.least(0, 'blah');
-    }, "blah: the argument to least must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.at.least(null, 'blah');
@@ -723,7 +723,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.at.least(0, 'blah');
-    }, "blah: the argument to least must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.at.least(null, 'blah');
@@ -754,7 +754,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.below(0, 'blah');
-    }, "blah: the argument to below must be a number or a date");
+    },  "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.below(null, 'blah');
@@ -762,7 +762,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.below(0, 'blah');
-    }, "blah: the argument to below must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.below(null, 'blah');
@@ -842,7 +842,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.at.most(0, 'blah');
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.be.at.most(null, 'blah');
@@ -850,7 +850,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.at.most(0, 'blah');
-    }, "blah: the argument to most must be a number or a date");
+    }, "blah: expected 'string' to be a number or a date");
 
     err(function () {
       (1).should.not.be.at.most(null, 'blah');

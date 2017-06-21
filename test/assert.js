@@ -1952,7 +1952,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(null, 1, 'blah');
-    }, 'blah: the argument to above must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAbove(1, null, 'blah');
@@ -1974,7 +1974,7 @@ describe('assert', function () {
     
     err(function() {
       assert.isAbove(null, now);
-    }, 'the argument to above must be a number or a date');
+    }, 'expected null to be a number or a date');
 
     err(function() {
       assert.isAbove(now, null);
@@ -1999,7 +1999,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(null, 1, 'blah');
-    }, 'blah: the argument to least must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtLeast(1, null, 'blah');
@@ -2020,7 +2020,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(null, now, 'blah');
-    }, 'blah: the argument to least must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtLeast(now, null, 'blah');
@@ -2048,7 +2048,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, 1, 'blah');
-    }, 'blah: the argument to below must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isBelow(1, null, 'blah');
@@ -2070,7 +2070,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, now);
-    }, 'the argument to below must be a number or a date');
+    }, 'expected null to be a number or a date');
 
     err(function() {
       assert.isBelow(now, null);
@@ -2095,7 +2095,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, 1, 'blah');
-    }, 'blah: the argument to most must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtMost(1, null, 'blah');
@@ -2116,7 +2116,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, now, 'blah');
-    }, 'blah: the argument to most must be a number or a date');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtMost(now, null, 'blah');
