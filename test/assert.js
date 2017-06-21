@@ -1999,7 +1999,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(null, 1, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to least must be a number or a date');
 
     err(function() {
       assert.isAtLeast(1, null, 'blah');
@@ -2020,7 +2020,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(null, now, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to least must be a number or a date');
 
     err(function() {
       assert.isAtLeast(now, null, 'blah');
@@ -2028,11 +2028,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(1, now, 'blah');
-    }, 'blah: type mismatch, expected to least value to be a number');
+    }, 'blah: the argument to least must be a number');
 
     err(function() {
       assert.isAtLeast(now, 1, 'blah');
-    }, 'blah: type mismatch, expected to least value to be a date');
+    }, 'blah: the argument to least must be a date');
   });
 
   it('below', function() {
@@ -2048,7 +2048,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, 1, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to below must be a number or a date');
 
     err(function() {
       assert.isBelow(1, null, 'blah');
@@ -2070,7 +2070,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, now);
-    }, 'expected null to be a number or a date');
+    }, 'the argument to below must be a number or a date');
 
     err(function() {
       assert.isBelow(now, null);
@@ -2078,11 +2078,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(now, 1);
-    }, 'type mismatch, expected to below value to be a date');
+    }, 'the argument to below must be a date');
 
     err(function() {
       assert.isBelow(1, now, 'blah');
-    }, 'blah: type mismatch, expected to below value to be a number');
+    }, 'blah: the argument to below must be a number');
   });
 
   it('atMost', function() {
@@ -2095,7 +2095,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, 1, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to most must be a number or a date');
 
     err(function() {
       assert.isAtMost(1, null, 'blah');
@@ -2116,7 +2116,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, now, 'blah');
-    }, 'blah: expected null to be a number or a date');
+    }, 'blah: the argument to most must be a number or a date');
 
     err(function() {
       assert.isAtMost(now, null, 'blah');
@@ -2124,11 +2124,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(now, 1, 'blah');
-    }, 'blah: type mismatch, expected to most value to be a date');
+    }, 'blah: the argument to most must be a date');
 
     err(function() {
       assert.isAtMost(1, now, 'blah');
-    }, 'blah: type mismatch, expected to most value to be a number');
+    }, 'blah: the argument to most must be a number');
   });
 
   it('change', function() {

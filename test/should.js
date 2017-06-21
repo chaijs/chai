@@ -514,7 +514,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.within(0, 1, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the arguments to within must be numbers or dates");
 
     err(function () {
       (1).should.be.within(null, 1, 'blah');
@@ -526,7 +526,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.within(0, 1, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the arguments to within must be numbers or dates");
 
     err(function () {
       (1).should.not.be.within(null, 1, 'blah');
@@ -580,19 +580,19 @@ describe('should', function() {
 
     err(function () {
       (0).should.be.within(0, now, 'blah');
-    }, "blah: type mismatch, expected to within values to be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       (1).should.be.within(now, 1, 'blah');
-    }, "blah: type mismatch, expected to within values to be numbers");
+    }, "blah: the arguments to within must be numbers");
 
     err(function () {
       (now).should.be.within(1, now, 'blah');
-    }, "blah: type mismatch, expected to within values to be dates");
+    }, "blah: the arguments to within must be dates");
 
     err(function () {
       (now).should.not.be.within(now, 1, 'blah');
-    }, "blah: type mismatch, expected to within values to be dates");
+    }, "blah: the arguments to within must be dates");
 
     err(function () {
       (now).should.not.be.within(null, now, 'blah');
@@ -715,7 +715,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.at.least(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to least must be a number or a date");
 
     err(function () {
       (1).should.be.at.least(null, 'blah');
@@ -723,7 +723,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.at.least(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to least must be a number or a date");
 
     err(function () {
       (1).should.not.be.at.least(null, 'blah');
@@ -754,7 +754,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.below(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to below must be a number or a date");
 
     err(function () {
       (1).should.be.below(null, 'blah');
@@ -762,7 +762,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.below(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to below must be a number or a date");
 
     err(function () {
       (1).should.not.be.below(null, 'blah');
@@ -805,11 +805,11 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.below(now, 'blah');
-    }, "blah: type mismatch, expected to below value to be a number");
+    }, "blah: the argument to below must be a number");
 
     err(function () {
       (now).should.not.be.below(1, 'blah');
-    }, "blah: type mismatch, expected to below value to be a date");
+    }, "blah: the argument to below must be a date");
 
     err(function () {
       (now).should.not.be.below(null, 'blah');
@@ -842,7 +842,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.be.at.most(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to most must be a number or a date");
 
     err(function () {
       (1).should.be.at.most(null, 'blah');
@@ -850,7 +850,7 @@ describe('should', function() {
 
     err(function () {
       ('string').should.not.be.at.most(0, 'blah');
-    }, "blah: expected 'string' to be a number or a date");
+    }, "blah: the argument to most must be a number or a date");
 
     err(function () {
       (1).should.not.be.at.most(null, 'blah');
@@ -903,7 +903,7 @@ describe('should', function() {
 
     err(function () {
       (now).should.be.at.most(0, 'blah');
-    }, "blah: type mismatch, expected to most value to be a date");
+    }, "blah: the argument to most must be a date");
 
     err(function () {
       (now).should.be.at.most(null, 'blah');
@@ -911,7 +911,7 @@ describe('should', function() {
 
     err(function () {
       (1).should.not.be.at.most(now, 'blah');
-    }, "blah: type mismatch, expected to most value to be a number");
+    }, "blah: the argument to most must be a number");
 
     err(function () {
       (now).should.not.be.at.most(undefined);
