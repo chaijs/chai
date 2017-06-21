@@ -633,6 +633,42 @@ describe('assert', function () {
     assert.include({foo: obj1, bar: obj2}, {foo: obj1});
     assert.include({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2});
 
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+
+      assert.include(map, val);
+      assert.include(map, 2);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+
+      assert.include(set, val);
+      assert.include(set, 2);
+    }
+
+    if (typeof WeakMap === 'function') {
+      var wm = new WeakMap();
+      var val = [{a: 1}];
+      wm.set(val, 1);
+
+      assert.include(wm, val);
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      assert.include(ws, val);
+    }
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol();
@@ -677,6 +713,47 @@ describe('assert', function () {
     assert.notInclude([obj1, obj2], {a: 1});
     assert.notInclude({foo: obj1, bar: obj2}, {foo: {a: 1}});
     assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: {b: 2}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+
+      assert.notInclude(map, [{a: 1}]);
+      assert.notInclude(map, 3);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+
+      assert.include(set, val);
+      assert.include(set, 2);
+
+      assert.notInclude(set, [{a: 1}]);
+      assert.notInclude(set, 3);
+    }
+
+    if (typeof WeakMap === 'function') {
+      var wm = new WeakMap();
+      var val = [{a: 1}];
+      wm.set(val, 1);
+
+      assert.notInclude(wm, [{a: 1}]);
+      assert.notInclude(wm, {});
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      assert.notInclude(ws, [{a: 1}]);
+      assert.notInclude(ws, {});
+    }
 
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
@@ -730,6 +807,32 @@ describe('assert', function () {
     assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {z: 1}});
     assert.notDeepInclude({foo: obj1, bar: obj2}, {baz: {a: 1}});
     assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+      map.set(1, [{a: 1}]);
+
+      assert.deepInclude(map, [{a: 1}]);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      set.add([{a: 1}]);
+
+      assert.deepInclude(set, [{a: 1}]);
+    }
+
+    if (typeof WeakMap === 'function') {
+      err(function() {
+        assert.deepInclude(new WeakMap(), {}, 'foo');
+      }, 'foo: unable to use .deep.include with weak collection');
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function() {
+        assert.deepInclude(new WeakSet(), {});
+      }, 'unable to use .deep.include with weak collection');
+    }
 
     err(function () {
       assert.deepInclude([obj1, obj2], {a: 9}, 'blah');

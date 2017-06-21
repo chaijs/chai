@@ -1694,6 +1694,50 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.include({foo: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: {b: 2}});
 
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+
+      expect(map).to.include(val);
+      expect(map).to.not.include([{a: 1}]);
+      expect(map).to.include(2);
+      expect(map).to.not.include(3);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+
+      expect(set).to.include(val);
+      expect(set).to.not.include([{a: 1}]);
+      expect(set).to.include(2);
+      expect(set).to.not.include(3);
+    }
+
+    if (typeof WeakMap === 'function') {
+      var wm = new WeakMap();
+      var val = [{a: 1}];
+      wm.set(val, 1);
+
+      expect(wm).to.include(val);
+      expect(wm).to.not.include([{a: 1}]);
+      expect(wm).to.not.include({});
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      expect(ws).to.include(val);
+      expect(ws).to.not.include([{a: 1}]);
+      expect(ws).to.not.include({});
+    }
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol()
@@ -1795,6 +1839,32 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {z: 1}});
     expect({foo: obj1, bar: obj2}).to.not.deep.include({baz: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+      map.set(1, [{a: 1}]);
+
+      expect(map).to.deep.include([{a: 1}]);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      set.add([{a: 1}]);
+
+      expect(set).to.deep.include([{a: 1}]);
+    }
+
+    if (typeof WeakMap === 'function') {
+      err(function() {
+        expect(new WeakMap()).to.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with weak collection');
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function() {
+        expect(new WeakSet()).to.deep.include({});
+      }, 'unable to use .deep.include with weak collection');
+    }
 
     err(function () {
       expect([obj1, obj2]).to.deep.include({a: 9}, 'blah');

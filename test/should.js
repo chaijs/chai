@@ -1343,6 +1343,50 @@ describe('should', function() {
     ({foo: obj1, bar: obj2}).should.not.include({foo: {a: 1}});
     ({foo: obj1, bar: obj2}).should.not.include({foo: obj1, bar: {b: 2}});
 
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+
+      map.should.include(val);
+      map.should.not.include([{a: 1}]);
+      map.should.include(2);
+      map.should.not.include(3);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+
+      set.should.include(val);
+      set.should.not.include([{a: 1}]);
+      set.should.include(2);
+      set.should.not.include(3);
+    }
+
+    if (typeof WeakMap === 'function') {
+      var wm = new WeakMap();
+      var val = [{a: 1}];
+      wm.set(val, 1);
+
+      wm.should.include(val);
+      wm.should.not.include([{a: 1}]);
+      wm.should.not.include({});
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      ws.should.include(val);
+      ws.should.not.include([{a: 1}]);
+      ws.should.not.include({});
+    }
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol()
@@ -1412,6 +1456,32 @@ describe('should', function() {
     ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {z: 1}});
     ({foo: obj1, bar: obj2}).should.not.deep.include({baz: {a: 1}});
     ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+
+      map.set(1, [{a: 1}]);
+      map.should.deep.include([{a: 1}]);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+
+      set.add([{a: 1}]);
+      set.should.deep.include([{a: 1}]);
+    }
+
+    if (typeof WeakMap === 'function') {
+      err(function() {
+        new WeakMap().should.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with weak collection');
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function() {
+        new WeakSet().should.deep.include({});
+      }, 'unable to use .deep.include with weak collection');
+    }
 
     err(function () {
       [obj1, obj2].should.deep.include({a: 9}, 'blah');
