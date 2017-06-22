@@ -1699,11 +1699,15 @@ describe('expect', function () {
       var val = [{a: 1}];
       map.set('a', val);
       map.set('b', 2);
+      map.set('c', -0);
+      map.set('d', NaN);
 
       expect(map).to.include(val);
       expect(map).to.not.include([{a: 1}]);
       expect(map).to.include(2);
       expect(map).to.not.include(3);
+      expect(map).to.include(0);
+      expect(map).to.include(NaN);
     }
 
     if (typeof Set === 'function') {
@@ -1711,11 +1715,15 @@ describe('expect', function () {
       var val = [{a: 1}];
       set.add(val);
       set.add(2);
+      set.add(-0);
+      set.add(NaN);
 
       expect(set).to.include(val);
       expect(set).to.not.include([{a: 1}]);
       expect(set).to.include(2);
       expect(set).to.not.include(3);
+      expect(set).to.include(0);
+      expect(set).to.include(NaN);
     }
 
     if (typeof WeakMap === 'function') {

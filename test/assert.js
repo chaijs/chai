@@ -638,9 +638,13 @@ describe('assert', function () {
       var val = [{a: 1}];
       map.set('a', val);
       map.set('b', 2);
+      map.set('c', -0);
+      map.set('d', NaN);
 
       assert.include(map, val);
       assert.include(map, 2);
+      assert.include(map, 0);
+      assert.include(map, NaN);
     }
 
     if (typeof Set === 'function') {
@@ -648,9 +652,13 @@ describe('assert', function () {
       var val = [{a: 1}];
       set.add(val);
       set.add(2);
+      set.add(-0);
+      set.add(NaN);
 
       assert.include(set, val);
       assert.include(set, 2);
+      assert.include(set, 0);
+      assert.include(set, NaN);
     }
 
     if (typeof WeakMap === 'function') {

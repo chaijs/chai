@@ -1348,11 +1348,15 @@ describe('should', function() {
       var val = [{a: 1}];
       map.set('a', val);
       map.set('b', 2);
+      map.set('c', -0);
+      map.set('d', NaN);
 
       map.should.include(val);
       map.should.not.include([{a: 1}]);
       map.should.include(2);
       map.should.not.include(3);
+      map.should.include(0);
+      map.should.include(NaN);
     }
 
     if (typeof Set === 'function') {
@@ -1360,11 +1364,15 @@ describe('should', function() {
       var val = [{a: 1}];
       set.add(val);
       set.add(2);
+      set.add(-0);
+      set.add(NaN);
 
       set.should.include(val);
       set.should.not.include([{a: 1}]);
       set.should.include(2);
       set.should.not.include(3);
+      set.should.include(0);
+      set.should.include(NaN);
     }
 
     if (typeof WeakMap === 'function') {
