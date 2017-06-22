@@ -1965,24 +1965,24 @@ describe('assert', function () {
     assert.isAbove(now, oneSecondAgo, 'Now should be above 1 second ago');
 
     err(function() {
-      assert.isAbove(oneSecondAgo, now);
-    }, 'expected ' + oneSecondAgo.toUTCString() + ' to be above ' + now.toUTCString());
+      assert.isAbove(oneSecondAgo, now, 'blah');
+    }, 'blah: expected ' + oneSecondAgo.toUTCString() + ' to be above ' + now.toUTCString());
 
     err(function() {
-      assert.isAbove(now, now);
-    }, 'expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
+      assert.isAbove(now, now, 'blah');
+    }, 'blah: expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
     
     err(function() {
       assert.isAbove(null, now);
     }, 'expected null to be a number or a date');
 
     err(function() {
-      assert.isAbove(now, null);
-    }, 'the argument to above must be a date');
+      assert.isAbove(now, null, 'blah');
+    }, 'blah: the argument to above must be a date');
 
     err(function() {
-      assert.isAbove(now, 1);
-    }, 'the argument to above must be a date');
+      assert.isAbove(now, 1, 'blah');
+    }, 'blah: the argument to above must be a date');
 
     err(function() {
       assert.isAbove(1, now, 'blah');
