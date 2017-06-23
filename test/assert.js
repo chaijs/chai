@@ -661,14 +661,6 @@ describe('assert', function () {
       assert.include(set, NaN);
     }
 
-    if (typeof WeakMap === 'function') {
-      var wm = new WeakMap();
-      var val = [{a: 1}];
-      wm.set(val, 1);
-
-      assert.include(wm, val);
-    }
-
     if (typeof WeakSet === 'function') {
       var ws = new WeakSet();
       var val = [{a: 1}];
@@ -697,19 +689,19 @@ describe('assert', function () {
 
     err(function(){
       assert.include(true, true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function () {
       assert.include(42, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       assert.include(null, 42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function () {
       assert.include(undefined, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
   });
 
   it('notInclude', function () {
@@ -745,15 +737,6 @@ describe('assert', function () {
       assert.notInclude(set, 3);
     }
 
-    if (typeof WeakMap === 'function') {
-      var wm = new WeakMap();
-      var val = [{a: 1}];
-      wm.set(val, 1);
-
-      assert.notInclude(wm, [{a: 1}]);
-      assert.notInclude(wm, {});
-    }
-
     if (typeof WeakSet === 'function') {
       var ws = new WeakSet();
       var val = [{a: 1}];
@@ -784,19 +767,19 @@ describe('assert', function () {
 
     err(function(){
       assert.notInclude(true, true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function () {
       assert.notInclude(42, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       assert.notInclude(null, 42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function () {
       assert.notInclude(undefined, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
 
     err(function () {
       assert.notInclude('foobar', 'bar');
@@ -830,16 +813,10 @@ describe('assert', function () {
       assert.deepInclude(set, [{a: 1}]);
     }
 
-    if (typeof WeakMap === 'function') {
-      err(function() {
-        assert.deepInclude(new WeakMap(), {}, 'foo');
-      }, 'foo: unable to use .deep.include with weak collection');
-    }
-
     if (typeof WeakSet === 'function') {
       err(function() {
-        assert.deepInclude(new WeakSet(), {});
-      }, 'unable to use .deep.include with weak collection');
+        assert.deepInclude(new WeakSet(), {}, 'foo');
+      }, 'foo: unable to use .deep.include with WeakSet');
     }
 
     err(function () {

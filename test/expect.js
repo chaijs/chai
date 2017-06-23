@@ -1726,16 +1726,6 @@ describe('expect', function () {
       expect(set).to.include(NaN);
     }
 
-    if (typeof WeakMap === 'function') {
-      var wm = new WeakMap();
-      var val = [{a: 1}];
-      wm.set(val, 1);
-
-      expect(wm).to.include(val);
-      expect(wm).to.not.include([{a: 1}]);
-      expect(wm).to.not.include({});
-    }
-
     if (typeof WeakSet === 'function') {
       var ws = new WeakSet();
       var val = [{a: 1}];
@@ -1800,39 +1790,39 @@ describe('expect', function () {
 
     err(function(){
       expect(true).to.include(true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(true, 'blah').to.include(true);
-    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       expect(null).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
 
     err(function(){
       expect(true).to.not.include(true);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       expect(null).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
   });
 
   it('deep.include()', function () {
@@ -1862,16 +1852,10 @@ describe('expect', function () {
       expect(set).to.deep.include([{a: 1}]);
     }
 
-    if (typeof WeakMap === 'function') {
-      err(function() {
-        expect(new WeakMap()).to.deep.include({}, 'foo');
-      }, 'foo: unable to use .deep.include with weak collection');
-    }
-
     if (typeof WeakSet === 'function') {
       err(function() {
-        expect(new WeakSet()).to.deep.include({});
-      }, 'unable to use .deep.include with weak collection');
+        expect(new WeakSet()).to.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with WeakSet');
     }
 
     err(function () {

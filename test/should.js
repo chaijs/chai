@@ -1375,16 +1375,6 @@ describe('should', function() {
       set.should.include(NaN);
     }
 
-    if (typeof WeakMap === 'function') {
-      var wm = new WeakMap();
-      var val = [{a: 1}];
-      wm.set(val, 1);
-
-      wm.should.include(val);
-      wm.should.not.include([{a: 1}]);
-      wm.should.not.include({});
-    }
-
     if (typeof WeakSet === 'function') {
       var ws = new WeakSet();
       var val = [{a: 1}];
@@ -1437,19 +1427,19 @@ describe('should', function() {
 
     err(function(){
       (true).should.include(true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       (42).should.include(4);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       (true).should.not.include(true);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       (42).should.not.include(4);
-    }, "object tested must be an array, a map, an object, a set, a string, a weakmap, or a weakset, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
   });
 
   it('deep.include()', function () {
@@ -1479,16 +1469,10 @@ describe('should', function() {
       set.should.deep.include([{a: 1}]);
     }
 
-    if (typeof WeakMap === 'function') {
-      err(function() {
-        new WeakMap().should.deep.include({}, 'foo');
-      }, 'foo: unable to use .deep.include with weak collection');
-    }
-
     if (typeof WeakSet === 'function') {
       err(function() {
-        new WeakSet().should.deep.include({});
-      }, 'unable to use .deep.include with weak collection');
+        new WeakSet().should.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with WeakSet');
     }
 
     err(function () {
