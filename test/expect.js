@@ -1882,6 +1882,48 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.include({foo: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: {b: 2}});
 
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+      map.set('c', -0);
+      map.set('d', NaN);
+
+      expect(map).to.include(val);
+      expect(map).to.not.include([{a: 1}]);
+      expect(map).to.include(2);
+      expect(map).to.not.include(3);
+      expect(map).to.include(0);
+      expect(map).to.include(NaN);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+      set.add(-0);
+      set.add(NaN);
+
+      expect(set).to.include(val);
+      expect(set).to.not.include([{a: 1}]);
+      expect(set).to.include(2);
+      expect(set).to.not.include(3);
+      expect(set).to.include(0);
+      expect(set).to.include(NaN);
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      expect(ws).to.include(val);
+      expect(ws).to.not.include([{a: 1}]);
+      expect(ws).to.not.include({});
+    }
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol()
@@ -1936,39 +1978,39 @@ describe('expect', function () {
 
     err(function(){
       expect(true).to.include(true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(true, 'blah').to.include(true);
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.include(42);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       expect(null).to.include(42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.include(42);
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
 
     err(function(){
       expect(true).to.not.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       expect(42.0).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       expect(null).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but null given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
 
     err(function(){
       expect(undefined).to.not.include(42);
-    }, "object tested must be an array, an object, or a string, but undefined given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
   });
 
   it('deep.include()', function () {
@@ -1983,6 +2025,26 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {z: 1}});
     expect({foo: obj1, bar: obj2}).to.not.deep.include({baz: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+      map.set(1, [{a: 1}]);
+
+      expect(map).to.deep.include([{a: 1}]);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      set.add([{a: 1}]);
+
+      expect(set).to.deep.include([{a: 1}]);
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function() {
+        expect(new WeakSet()).to.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with WeakSet');
+    }
 
     err(function () {
       expect([obj1, obj2]).to.deep.include({a: 9}, 'blah');

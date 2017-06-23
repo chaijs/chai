@@ -1540,6 +1540,48 @@ describe('should', function() {
     ({foo: obj1, bar: obj2}).should.not.include({foo: {a: 1}});
     ({foo: obj1, bar: obj2}).should.not.include({foo: obj1, bar: {b: 2}});
 
+    if (typeof Map === 'function') {
+      var map = new Map();
+      var val = [{a: 1}];
+      map.set('a', val);
+      map.set('b', 2);
+      map.set('c', -0);
+      map.set('d', NaN);
+
+      map.should.include(val);
+      map.should.not.include([{a: 1}]);
+      map.should.include(2);
+      map.should.not.include(3);
+      map.should.include(0);
+      map.should.include(NaN);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+      var val = [{a: 1}];
+      set.add(val);
+      set.add(2);
+      set.add(-0);
+      set.add(NaN);
+
+      set.should.include(val);
+      set.should.not.include([{a: 1}]);
+      set.should.include(2);
+      set.should.not.include(3);
+      set.should.include(0);
+      set.should.include(NaN);
+    }
+
+    if (typeof WeakSet === 'function') {
+      var ws = new WeakSet();
+      var val = [{a: 1}];
+      ws.add(val);
+
+      ws.should.include(val);
+      ws.should.not.include([{a: 1}]);
+      ws.should.not.include({});
+    }
+
     if (typeof Symbol === 'function') {
       var sym1 = Symbol()
         , sym2 = Symbol()
@@ -1582,19 +1624,19 @@ describe('should', function() {
 
     err(function(){
       (true).should.include(true, 'blah');
-    }, "blah: object tested must be an array, an object, or a string, but boolean given");
+    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       (42).should.include(4);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
 
     err(function(){
       (true).should.not.include(true);
-    }, "object tested must be an array, an object, or a string, but boolean given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
 
     err(function(){
       (42).should.not.include(4);
-    }, "object tested must be an array, an object, or a string, but number given");
+    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
   });
 
   it('deep.include()', function () {
@@ -1609,6 +1651,26 @@ describe('should', function() {
     ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {z: 1}});
     ({foo: obj1, bar: obj2}).should.not.deep.include({baz: {a: 1}});
     ({foo: obj1, bar: obj2}).should.not.deep.include({foo: {a: 1}, bar: {b: 9}});
+
+    if (typeof Map === 'function') {
+      var map = new Map();
+
+      map.set(1, [{a: 1}]);
+      map.should.deep.include([{a: 1}]);
+    }
+
+    if (typeof Set === 'function') {
+      var set = new Set();
+
+      set.add([{a: 1}]);
+      set.should.deep.include([{a: 1}]);
+    }
+
+    if (typeof WeakSet === 'function') {
+      err(function() {
+        new WeakSet().should.deep.include({}, 'foo');
+      }, 'foo: unable to use .deep.include with WeakSet');
+    }
 
     err(function () {
       [obj1, obj2].should.deep.include({a: 9}, 'blah');
