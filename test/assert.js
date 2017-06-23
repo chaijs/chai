@@ -1952,10 +1952,40 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAbove(1, null, 'blah');
+    }, 'blah: the argument to above must be a number');
+  });
+
+  it('above (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    assert.isAbove(now, oneSecondAgo, 'Now should be above 1 second ago');
+
+    err(function() {
+      assert.isAbove(oneSecondAgo, now, 'blah');
+    }, 'blah: expected ' + oneSecondAgo.toUTCString() + ' to be above ' + now.toUTCString());
+
+    err(function() {
+      assert.isAbove(now, now, 'blah');
+    }, 'blah: expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
+    
+    err(function() {
+      assert.isAbove(null, now);
+    }, 'expected null to be a number or a date');
+
+    err(function() {
+      assert.isAbove(now, null, 'blah');
+    }, 'blah: the argument to above must be a date');
+
+    err(function() {
+      assert.isAbove(now, 1, 'blah');
+    }, 'blah: the argument to above must be a date');
+
+    err(function() {
+      assert.isAbove(1, now, 'blah');
     }, 'blah: the argument to above must be a number');
   });
 
@@ -1969,11 +1999,40 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtLeast(1, null, 'blah');
     }, 'blah: the argument to least must be a number');
+  });
+
+  it('atLeast (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
+
+    assert.isAtLeast(now, oneSecondAgo, 'Now should be above one second ago');
+    assert.isAtLeast(now, now, 'Now should be equal to now');
+
+    err(function() {
+      assert.isAtLeast(now, oneSecondAfter, 'blah');
+    }, 'blah: expected ' + now.toUTCString() + ' to be at least ' + oneSecondAfter.toUTCString());
+
+    err(function() {
+      assert.isAtLeast(null, now, 'blah');
+    }, 'blah: expected null to be a number or a date');
+
+    err(function() {
+      assert.isAtLeast(now, null, 'blah');
+    }, 'blah: the argument to least must be a date');
+
+    err(function() {
+      assert.isAtLeast(1, now, 'blah');
+    }, 'blah: the argument to least must be a number');
+
+    err(function() {
+      assert.isAtLeast(now, 1, 'blah');
+    }, 'blah: the argument to least must be a date');
   });
 
   it('below', function() {
@@ -1989,10 +2048,40 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isBelow(1, null, 'blah');
+    }, 'blah: the argument to below must be a number');
+  });
+
+  it('below (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    assert.isBelow(oneSecondAgo, now, 'One second ago should be below now');
+
+    err(function() {
+      assert.isBelow(now, oneSecondAgo, 'blah');
+    }, 'blah: expected ' + now.toUTCString() + ' to be below ' + oneSecondAgo.toUTCString());
+
+    err(function() {
+      assert.isBelow(now, now);
+    }, 'expected ' + now.toUTCString() + ' to be below ' + now.toUTCString());
+
+    err(function() {
+      assert.isBelow(null, now, 'blah');
+    }, 'blah: expected null to be a number or a date');
+
+    err(function() {
+      assert.isBelow(now, null, 'blah');
+    }, 'blah: the argument to below must be a date');
+
+    err(function() {
+      assert.isBelow(now, 1, 'blah');
+    }, 'blah: the argument to below must be a date');
+
+    err(function() {
+      assert.isBelow(1, now, 'blah');
     }, 'blah: the argument to below must be a number');
   });
 
@@ -2006,10 +2095,39 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(null, 1, 'blah');
-    }, 'blah: expected null to be a number');
+    }, 'blah: expected null to be a number or a date');
 
     err(function() {
       assert.isAtMost(1, null, 'blah');
+    }, 'blah: the argument to most must be a number');
+  });
+
+  it('atMost (dates)', function() {
+    var now = new Date();
+    var oneSecondAgo = new Date(now.getTime() - 1000);
+    var oneSecondAfter = new Date(now.getTime() + 1000);
+
+    assert.isAtMost(oneSecondAgo, now, 'Now should be below one second ago');
+    assert.isAtMost(now, now, 'Now should be equal to now');
+
+    err(function() {
+      assert.isAtMost(oneSecondAfter, now, 'blah');
+    }, 'blah: expected ' + oneSecondAfter.toUTCString() + ' to be at most ' + now.toUTCString());
+
+    err(function() {
+      assert.isAtMost(null, now, 'blah');
+    }, 'blah: expected null to be a number or a date');
+
+    err(function() {
+      assert.isAtMost(now, null, 'blah');
+    }, 'blah: the argument to most must be a date');
+
+    err(function() {
+      assert.isAtMost(now, 1, 'blah');
+    }, 'blah: the argument to most must be a date');
+
+    err(function() {
+      assert.isAtMost(1, now, 'blah');
     }, 'blah: the argument to most must be a number');
   });
 
