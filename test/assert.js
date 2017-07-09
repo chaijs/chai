@@ -657,7 +657,11 @@ describe('assert', function () {
 
       assert.include(set, val);
       assert.include(set, 2);
-      assert.include(set, 0);
+      if (set.has(0)) {
+        // This test is skipped in IE11 because (contrary to spec) IE11 uses
+        // SameValue instead of SameValueZero equality for sets.
+        assert.include(set, 0);
+      }
       assert.include(set, NaN);
     }
 

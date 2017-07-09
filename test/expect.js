@@ -1910,7 +1910,11 @@ describe('expect', function () {
       expect(set).to.not.include([{a: 1}]);
       expect(set).to.include(2);
       expect(set).to.not.include(3);
-      expect(set).to.include(0);
+      if (set.has(0)) {
+        // This test is skipped in IE11 because (contrary to spec) IE11 uses
+        // SameValue instead of SameValueZero equality for sets.
+        expect(set).to.include(0);
+      }
       expect(set).to.include(NaN);
     }
 
