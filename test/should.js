@@ -1568,7 +1568,11 @@ describe('should', function() {
       set.should.not.include([{a: 1}]);
       set.should.include(2);
       set.should.not.include(3);
-      set.should.include(0);
+      if (set.has(0)) {
+        // This test is skipped in IE11 because (contrary to spec) IE11 uses
+        // SameValue instead of SameValueZero equality for sets.
+        set.should.include(0);
+      }
       set.should.include(NaN);
     }
 
