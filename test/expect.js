@@ -374,6 +374,17 @@ describe('expect', function () {
     function Foo(){}
     expect(new Foo()).to.be.an.instanceof(Foo);
 
+    // Normally, `instanceof` requires that the constructor be a function or an
+    // object with a callable `@@hasInstance`. But in some older browsers such
+    // as IE11, `instanceof` also accepts DOM-related interfaces such as
+    // `HTMLElement`, despite being non-callable objects in those browsers.
+    // See: https://github.com/chaijs/chai/issues/1000.
+    if (typeof document !== 'undefined' &&
+        typeof document.createElement !== 'undefined' &&
+        typeof HTMLElement !== 'undefined') {
+      expect(document.createElement('div')).to.be.an.instanceof(HTMLElement);
+    }
+
     err(function(){
       expect(new Foo()).to.an.instanceof(1, 'blah');
     }, "blah: The instanceof assertion needs a constructor but number was given.");
@@ -388,7 +399,7 @@ describe('expect', function () {
 
     err(function(){
       expect(new Foo()).to.an.instanceof({});
-    }, "The instanceof assertion needs a constructor but object was given.");
+    }, "The instanceof assertion needs a constructor but Object was given.");
 
     err(function(){
       expect(new Foo()).to.an.instanceof(true);
