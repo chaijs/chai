@@ -145,6 +145,17 @@ describe('assert', function () {
     function Foo(){}
     assert.instanceOf(new Foo(), Foo);
 
+    // Normally, `instanceof` requires that the constructor be a function or an
+    // object with a callable `@@hasInstance`. But in some older browsers such
+    // as IE11, `instanceof` also accepts DOM-related interfaces such as
+    // `HTMLElement`, despite being non-callable objects in those browsers.
+    // See: https://github.com/chaijs/chai/issues/1000.
+    if (typeof document !== 'undefined' &&
+        typeof document.createElement !== 'undefined' &&
+        typeof HTMLElement !== 'undefined') {
+      assert.instanceOf(document.createElement('div'), HTMLElement);
+    }
+
     err(function(){
       assert.instanceOf(new Foo(), 1, 'blah');
     }, "blah: The instanceof assertion needs a constructor but number was given.");
@@ -155,7 +166,7 @@ describe('assert', function () {
 
     err(function(){
       assert.instanceOf(new Foo(), {});
-    }, "The instanceof assertion needs a constructor but object was given.");
+    }, "The instanceof assertion needs a constructor but Object was given.");
 
     err(function(){
       assert.instanceOf(new Foo(), true);
@@ -224,7 +235,7 @@ describe('assert', function () {
 
     err(function(){
       assert.notInstanceOf(new Foo(), {});
-    }, "The instanceof assertion needs a constructor but object was given.");
+    }, "The instanceof assertion needs a constructor but Object was given.");
 
     err(function(){
       assert.notInstanceOf(new Foo(), true);
