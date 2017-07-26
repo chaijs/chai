@@ -2752,9 +2752,9 @@ describe('expect', function () {
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
       , customErrFn = function() { throw new CustomError('foo'); }
+      , notErrFn = function () { throw { message: 'testing' }; }
       , emptyErrFn = function () { throw new Error(); }
       , emptyStringErrFn = function () { throw new Error(''); };
-
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
     expect(goodFn).to.not.throw(specificError);
@@ -2790,113 +2790,133 @@ describe('expect', function () {
     expect(badFn).to.not.throw(Error, 'I am the wrong error message');
     expect(badFn).to.not.throw(TypeError, 'testing');
 
+    expect(notErrFn).to.throw();
+    expect(notErrFn).to.not.throw(Error);
+    expect(notErrFn).to.not.throw('testing');
+
     err(function(){
       expect(goodFn, 'blah').to.throw();
-    }, /^blah: expected \[Function(: goodFn)*\] to throw an error$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw ReferenceError$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw a ReferenceError but no error was thrown$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw \[RangeError: boo\] but no error was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw a ReferenceError but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw \[RangeError: boo\] but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error);
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(refErrFn, 'blah').to.not.throw(ReferenceError);
-    }, /^blah: expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
+    }, /^blah: expected \[Function(: refErrFn)*\] to not throw a ReferenceError but \[ReferenceError: hello\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(PoorlyConstructedError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw a PoorlyConstructedError but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.not.throw(PoorlyConstructedError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: expected \[Function(: ickyErrFn)*\] to not throw a PoorlyConstructedError but {.*name.*} was thrown$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: expected \[Function(: ickyErrFn)*\] to throw a ReferenceError but {.*name.*} was thrown$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.throw(new ReferenceError('eek'));
-    }, /^blah: expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
+    }, /^blah: expected \[Function(: specificErrFn)*\] to throw \[ReferenceError: eek\] but \[RangeError: boo\] was thrown$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.not.throw(specificError);
-    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw \[RangeError: boo\]$/);
 
     err(function (){
       expect(badFn, 'blah').to.not.throw(/testing/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error matching \/testing\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(/hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn).to.throw(Error, /hello/, 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, /hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn).to.throw(Error, 'hello', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error including 'hello' but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, 'hello');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error including 'hello' but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(customErrFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
+    }, /^blah: expected \[Function(: customErrFn)*\] to not throw but {.*name.*message.*} was thrown$/);
 
     err(function(){
       expect(badFn).to.not.throw(Error, 'testing', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error including 'testing' but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error, 'testing');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error including 'testing' but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn).to.not.throw(Error, '', 'blah');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw(Error, '');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw('');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function () {
       expect({}, 'blah').to.throw();
-    }, "blah: expected {} to be a function");
+    }, "blah: object tested must be a function, but object given");
 
     err(function () {
       expect({}).to.throw(Error, 'testing', 'blah');
-    }, "blah: expected {} to be a function");
+    }, "blah: object tested must be a function, but object given");
+
+    err(function () {
+      expect(goodFn).to.throw('testing', 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+
+    err(function () {
+      expect(goodFn).to.throw({});
+    }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+
+    err(function () {
+      expect(goodFn).to.throw(Error, {});
+    }, "errMsgMatcher must be a string or regular expression", true);
+
+    err(function () {
+      expect(goodFn).to.throw(specificError, 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
   });
 
   it('respondTo', function(){

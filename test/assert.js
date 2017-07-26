@@ -1602,41 +1602,60 @@ describe('assert', function () {
       assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
       assert(thrownErr.message === 'foo', 'assert.' + throws + ' returns error message');
 
+      var notErrFn = function () { throw { message: 'testing' }; }
+      assert[throws](notErrFn);
+
       err(function () {
         assert[throws](function() { throw new Error('foo') }, TypeError);
-      }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      }, "expected [Function] to throw a TypeError but [Error: foo] was thrown")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, 'bar');
-      }, "expected [Function] to throw error including 'bar' but got 'foo'")
+      }, "expected [Function] to throw an Error including 'bar' but [Error: foo] was thrown")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, Error, 'bar', 'blah');
-      }, "blah: expected [Function] to throw error including 'bar' but got 'foo'")
+      }, "blah: expected [Function] to throw an Error including 'bar' but [Error: foo] was thrown")
 
       err(function () {
         assert[throws](function() { throw new Error('foo') }, TypeError, 'bar', 'blah');
-      }, "blah: expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+      }, "blah: expected [Function] to throw a TypeError including 'bar' but [Error: foo] was thrown")
 
       err(function () {
         assert[throws](function() {});
-      }, "expected [Function] to throw an error");
+      }, "expected [Function] to throw");
 
       err(function () {
         assert[throws](function() { throw new Error('') }, 'bar');
-      }, "expected [Function] to throw error including 'bar' but got ''");
+      }, "expected [Function] to throw an Error including 'bar' but [Error] was thrown");
 
       err(function () {
         assert[throws](function() { throw new Error('') }, /bar/);
-      }, "expected [Function] to throw error matching /bar/ but got ''");
+      }, "expected [Function] to throw an Error matching /bar/ but [Error] was thrown");
 
       err(function () {
         assert[throws]({});
-      }, "expected {} to be a function");
+      }, "object tested must be a function, but object given");
 
       err(function () {
         assert[throws]({}, Error, 'testing', 'blah');
-      }, "blah: expected {} to be a function");
+      }, "blah: object tested must be a function, but object given");
+
+      err(function () {
+        assert[throws](function() {}, 'testing', 'testing');
+      }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+
+      err(function () {
+        assert[throws](function() {}, {});
+      }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+
+      err(function () {
+        assert[throws](function() {}, Error, {}, 'blah');
+      }, "errMsgMatcher must be a string or regular expression", true);
+
+      err(function () {
+        assert[throws](function() {}, new Error(), 'testing', 'blah');
+      }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
     });
   });
 
@@ -1679,53 +1698,73 @@ describe('assert', function () {
       throw new Error('This is a message');
     }, TypeError, /Another message/);
 
+    var notErrFn = function () { throw { message: 'testing' }; }
+    assert.doesNotThrow(notErrFn, Error);
+    assert.doesNotThrow(notErrFn, 'testing');
+
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); });
-    }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
+    }, "expected [Function] to not throw but [Error: foo] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new CustomError('foo'); });
-    }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
+    }, /expected \[Function\] to not throw but {.*name.*message.*} was thrown/);
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); }, Error);
-    }, "expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
+    }, "expected [Function] to not throw an Error but [Error: foo] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError);
-    }, "expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
+    }, /expected \[Function\] to not throw a CustomError but {.*name.*message.*} was thrown/);
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); }, 'foo');
-    }, "expected [Function] to throw error not including 'foo'");
+    }, "expected [Function] to not throw an Error including 'foo' but [Error: foo] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); }, /foo/);
-    }, "expected [Function] to throw error not matching /foo/");
+    }, "expected [Function] to not throw an Error matching /foo/ but [Error: foo] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error('foo'); }, Error, 'foo', 'blah');
-    }, "blah: expected [Function] to not throw 'Error' but 'Error: foo' was thrown");
+    }, "blah: expected [Function] to not throw an Error including 'foo' but [Error: foo] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new CustomError('foo'); }, CustomError, 'foo', 'blah');
-    }, "blah: expected [Function] to not throw 'CustomError' but 'CustomError: foo' was thrown");
+    }, /blah: expected \[Function\] to not throw a CustomError including 'foo' but {.*name.*message.*} was thrown/);
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error(''); }, '');
-    }, "expected [Function] to throw error not including ''");
+    }, "expected [Function] to not throw an Error including '' but [Error] was thrown");
 
     err(function () {
       assert.doesNotThrow(function() { throw new Error(''); }, Error, '');
-    }, "expected [Function] to not throw 'Error' but 'Error' was thrown");
+    }, "expected [Function] to not throw an Error including '' but [Error] was thrown");
 
     err(function () {
       assert.doesNotThrow({});
-    }, "expected {} to be a function");
+    }, "object tested must be a function, but object given");
 
     err(function () {
       assert.doesNotThrow({}, Error, 'testing', 'blah');
-    }, "blah: expected {} to be a function");
+    }, "blah: object tested must be a function, but object given");
+
+    err(function () {
+      assert.doesNotThrow(function() {}, 'testing', 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+
+    err(function () {
+      assert.doesNotThrow(function() {}, {});
+    }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+
+    err(function () {
+      assert.doesNotThrow(function() {}, Error, {});
+    }, "errMsgMatcher must be a string or regular expression", true);
+
+    err(function () {
+      assert.doesNotThrow(function() {}, new Error(), 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
   });
 
   it('ifError', function() {
