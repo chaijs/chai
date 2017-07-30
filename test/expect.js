@@ -2858,6 +2858,250 @@ describe('expect', function () {
     }, "blah: object tested must be a function, but object given");
   });
 
+  describe("error", function () {
+    var specificError = new TypeError("oh noo");
+
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function (message) {
+      this.name = "PoorlyConstructedError";
+      this.message = message;
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
+    function CustomError(message) {
+      this.name = "CustomError";
+      this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
+    describe("no errLike; no errMsgMatcher", function () {
+      it("passes when target is an error", function () {
+        expect(new Error()).to.be.an.error();
+        expect(new Error("oh noo")).to.be.an.error();
+        expect(new TypeError()).to.be.an.error();
+        expect(new PoorlyConstructedError()).to.be.an.error();
+        expect(new CustomError()).to.be.an.error();
+      });
+      it("fails when target isn't an error", function () {
+        err(function () {
+          expect({name: "NotAnError"}, "blah").to.be.an.error();
+        }, "blah: expected { name: 'NotAnError' } to be an Error");
+        err(function () {
+          expect("not an error", "blah").to.be.an.error();
+        }, "blah: expected 'not an error' to be an Error");
+        err(function () {
+          expect(undefined, "blah").to.be.an.error();
+        }, "blah: expected undefined to be an Error");
+      });
+    });
+    describe("errLike is TypeError; no errMsgMatcher", function () {
+      it("passes when target is a TypeError", function () {
+        expect(new TypeError()).to.be.an.error(TypeError);
+        expect(new TypeError("oh noo")).to.be.an.error(TypeError);
+      });
+      it("fails when target isn't a TypeError", function () {
+        err(function () {
+          expect(new Error(), "blah").to.be.an.error(TypeError);
+        }, "blah: expected [Error] to be a TypeError");
+        err(function () {
+          expect(new ReferenceError(), "blah").to.be.an.error(TypeError);
+        }, "blah: expected [ReferenceError] to be a TypeError");
+      });
+    });
+    describe("errLike is an error instance; no errMsgMatcher", function () {
+      it("passes when target is the same error instance", function () {
+        expect(specificError).to.be.an.error(specificError);
+      });
+      it("fails when target isn't the same error instance", function () {
+        err(function () {
+          expect(new TypeError("oh noo"), "blah").to.be.an.error(specificError);
+        }, "blah: expected [TypeError: oh noo] to be [TypeError: oh noo]");
+      });
+    });
+    describe("errLike is 'foo'; no errMsgMatcher", function () {
+      it("passes when target is an error including 'foo'", function () {
+        expect(new Error("foobar")).to.be.an.error("foo");
+        expect(new CustomError("foobar")).to.be.an.error("foo");
+      });
+      it("fails when target isn't an error including 'foo'", function () {
+        err(function () {
+          expect(new Error("oh noo"), "blah").to.be.an.error("foo");
+        }, "blah: expected [Error: oh noo] to be an Error including 'foo'");
+        err(function () {
+          expect("foobar", "blah").to.be.an.error("foo");
+        }, "blah: expected 'foobar' to be an Error including 'foo'");
+      });
+    });
+    describe("errLike is /foo/; no errMsgMatcher", function () {
+      it("passes when target is an error matching /foo/", function () {
+        expect(new Error("foobar")).to.be.an.error(/foo/);
+        expect(new CustomError("foobar")).to.be.an.error(/foo/);
+      });
+      it("fails when target isn't an error matching /foo/", function () {
+        err(function () {
+          expect(new Error("oh noo"), "blah").to.be.an.error(/foo/);
+        }, "blah: expected [Error: oh noo] to be an Error matching /foo/");
+        err(function () {
+          expect("foobar", "blah").to.be.an.error(/foo/);
+        }, "blah: expected 'foobar' to be an Error matching /foo/");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is 'foo'", function () {
+      it("passes when target is a TypeError including 'foo'", function () {
+        expect(new TypeError("foobar")).to.be.an.error(TypeError, "foo");
+      });
+      it("fails when target isn't a TypeError including 'foo'", function () {
+        err(function () {
+          expect(new Error("foobar")).to.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [Error: foobar] to be a TypeError including 'foo'");
+        err(function () {
+          expect(new ReferenceError("foobar")).to.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [ReferenceError: foobar] to be a TypeError including 'foo'");
+        err(function () {
+          expect(new TypeError("oh noo")).to.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [TypeError: oh noo] to be a TypeError including 'foo'");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is /foo/", function () {
+      it("passes when target is a TypeError matching /foo/", function () {
+        expect(new TypeError("foobar")).to.be.an.error(TypeError, /foo/);
+      });
+      it("fails when target isn't a TypeError matching /foo/", function () {
+        err(function () {
+          expect(new Error("foobar")).to.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [Error: foobar] to be a TypeError matching /foo/");
+        err(function () {
+          expect(new ReferenceError("foobar")).to.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [ReferenceError: foobar] to be a TypeError matching /foo/");
+        err(function () {
+          expect(new TypeError("oh noo")).to.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [TypeError: oh noo] to be a TypeError matching /foo/");
+      });
+    });
+  });
+
+  describe("not.error", function () {
+    var specificError = new TypeError("oh noo");
+
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function (message) {
+      this.name = "PoorlyConstructedError";
+      this.message = message;
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
+    function CustomError(message) {
+      this.name = "CustomError";
+      this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
+    describe("no errLike; no errMsgMatcher", function () {
+      it("passes when target isn't an error", function () {
+        expect({name: "NotAnError"}).to.not.be.an.error();
+        expect("not an error").to.not.be.an.error();
+        expect(undefined).to.not.be.an.error();
+      });
+      it("fails when target is an error", function () {
+        err(function () {
+          expect(new Error(), "blah").to.not.be.an.error();
+        }, "blah: expected [Error] to not be an Error");
+        err(function () {
+          expect(new Error("oh noo"), "blah").to.not.be.an.error();
+        }, "blah: expected [Error: oh noo] to not be an Error");
+        err(function () {
+          expect(new TypeError(), "blah").to.not.be.an.error();
+        }, "blah: expected [TypeError] to not be an Error");
+        err(function () {
+          expect(new PoorlyConstructedError(), "blah").to.not.be.an.error();
+        }, /blah: expected {.*name.*} to not be an Error/);
+        err(function () {
+          expect(new CustomError(), "blah").to.not.be.an.error();
+        }, /blah: expected {.*name.*} to not be an Error/);
+      });
+    });
+    describe("errLike is TypeError; no errMsgMatcher", function () {
+      it("passes when target isn't a TypeError", function () {
+        expect(new Error()).to.not.be.an.error(TypeError);
+        expect(new ReferenceError()).to.not.be.an.error(TypeError);
+      });
+      it("fails when target is a TypeError", function () {
+        err(function () {
+          expect(new TypeError(), "blah").to.not.be.an.error(TypeError);
+        }, "blah: expected [TypeError] to not be a TypeError");
+        err(function () {
+          expect(new TypeError("oh noo"), "blah").to.not.be.an.error(TypeError);
+        }, "blah: expected [TypeError: oh noo] to not be a TypeError");
+      });
+    });
+    describe("errLike is an error instance; no errMsgMatcher", function () {
+      it("passes when target isn't the same error instance", function () {
+        expect(new TypeError("oh noo")).to.not.be.an.error(specificError);
+      });
+      it("fails when target is the same error instance", function () {
+        err(function () {
+          expect(specificError, "blah").to.not.be.an.error(specificError);
+        }, "blah: expected [TypeError: oh noo] to not be [TypeError: oh noo]");
+      });
+    });
+    describe("errLike is 'foo'; no errMsgMatcher", function () {
+      it("passes when target isn't an error including 'foo'", function () {
+        expect(new Error("oh noo")).to.not.be.an.error("foo");
+        expect("foobar").to.not.be.an.error("foo");
+      });
+      it("fails when target is an error including 'foo'", function () {
+        err(function () {
+          expect(new Error("foobar"), "blah").to.not.be.an.error("foo");
+        }, "blah: expected [Error: foobar] to not be an Error including 'foo'");
+        err(function () {
+          expect(new CustomError("foobar"), "blah").to.not.be.an.error("foo");
+        }, /blah: expected {.*name.*message.*} to not be an Error including 'foo'/);
+      });
+    });
+    describe("errLike is /foo/; no errMsgMatcher", function () {
+      it("passes when target isn't an error matching /foo/", function () {
+        expect(new Error("oh noo")).to.not.be.an.error(/foo/);
+        expect("foobar").to.not.be.an.error(/foo/);
+      });
+      it("fails when target is an error matching /foo/", function () {
+        err(function () {
+          expect(new Error("foobar"), "blah").to.not.be.an.error(/foo/);
+        }, "blah: expected [Error: foobar] to not be an Error matching /foo/");
+        err(function () {
+          expect(new CustomError("foobar"), "blah").to.not.be.an.error(/foo/);
+        }, /blah: expected {.*name.*message.*} to not be an Error matching \/foo\//);
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is 'foo'", function () {
+      it("passes when target isn't a TypeError including 'foo'", function () {
+        expect(new Error("foobar")).to.not.be.an.error(TypeError, "foo");
+        expect(new ReferenceError("foobar")).to.not.be.an.error(TypeError, "foo");
+        expect(new TypeError("oh noo")).to.not.be.an.error(TypeError, "foo");
+      });
+      it("fails when target is a TypeError including 'foo'", function () {
+        err(function () {
+          expect(new TypeError("foobar")).to.not.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [TypeError: foobar] to not be a TypeError including 'foo'");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is /foo/", function () {
+      it("passes when target isn't a TypeError matching /foo/", function () {
+        expect(new Error("foobar")).to.not.be.an.error(TypeError, /foo/);
+        expect(new ReferenceError("foobar")).to.not.be.an.error(TypeError, /foo/);
+        expect(new TypeError("oh noo")).to.not.be.an.error(TypeError, /foo/);
+      });
+      it("fails when target is a TypeError matching /foo/", function () {
+        err(function () {
+          expect(new TypeError("foobar")).to.not.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [TypeError: foobar] to not be a TypeError matching /foo/");
+      });
+    });
+  });
+
   it('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};

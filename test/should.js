@@ -2451,6 +2451,246 @@ describe('should', function() {
     }, "blah: object tested must be a function, but object given");
   });
 
+  describe("error", function () {
+    var specificError = new TypeError("oh noo");
+
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function (message) {
+      this.name = "PoorlyConstructedError";
+      this.message = message;
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
+    function CustomError(message) {
+      this.name = "CustomError";
+      this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
+    describe("no errLike; no errMsgMatcher", function () {
+      it("passes when target is an error", function () {
+        (new Error()).should.be.an.error();
+        (new Error("oh noo")).should.be.an.error();
+        (new TypeError()).should.be.an.error();
+        (new PoorlyConstructedError()).should.be.an.error();
+        (new CustomError()).should.be.an.error();
+      });
+      it("fails when target isn't an error", function () {
+        err(function () {
+          ({name: "NotAnError"}).should.be.an.error();
+        }, "expected { name: 'NotAnError' } to be an Error");
+        err(function () {
+          "not an error".should.be.an.error();
+        }, "expected 'not an error' to be an Error");
+      });
+    });
+    describe("errLike is TypeError; no errMsgMatcher", function () {
+      it("passes when target is a TypeError", function () {
+        (new TypeError()).should.be.an.error(TypeError);
+        (new TypeError("oh noo")).should.be.an.error(TypeError);
+      });
+      it("fails when target isn't a TypeError", function () {
+        err(function () {
+          (new Error()).should.be.an.error(TypeError);
+        }, "expected [Error] to be a TypeError");
+        err(function () {
+          (new ReferenceError()).should.be.an.error(TypeError);
+        }, "expected [ReferenceError] to be a TypeError");
+      });
+    });
+    describe("errLike is an error instance; no errMsgMatcher", function () {
+      it("passes when target is the same error instance", function () {
+        specificError.should.be.an.error(specificError);
+      });
+      it("fails when target isn't the same error instance", function () {
+        err(function () {
+          (new TypeError("oh noo")).should.be.an.error(specificError);
+        }, "expected [TypeError: oh noo] to be [TypeError: oh noo]");
+      });
+    });
+    describe("errLike is 'foo'; no errMsgMatcher", function () {
+      it("passes when target is an error including 'foo'", function () {
+        (new Error("foobar")).should.be.an.error("foo");
+        (new CustomError("foobar")).should.be.an.error("foo");
+      });
+      it("fails when target isn't an error including 'foo'", function () {
+        err(function () {
+          (new Error("oh noo")).should.be.an.error("foo");
+        }, "expected [Error: oh noo] to be an Error including 'foo'");
+        err(function () {
+          "foobar".should.be.an.error("foo");
+        }, "expected 'foobar' to be an Error including 'foo'");
+      });
+    });
+    describe("errLike is /foo/; no errMsgMatcher", function () {
+      it("passes when target is an error matching /foo/", function () {
+        (new Error("foobar")).should.be.an.error(/foo/);
+        (new CustomError("foobar")).should.be.an.error(/foo/);
+      });
+      it("fails when target isn't an error matching /foo/", function () {
+        err(function () {
+          (new Error("oh noo")).should.be.an.error(/foo/);
+        }, "expected [Error: oh noo] to be an Error matching /foo/");
+        err(function () {
+          "foobar".should.be.an.error(/foo/);
+        }, "expected 'foobar' to be an Error matching /foo/");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is 'foo'", function () {
+      it("passes when target is a TypeError including 'foo'", function () {
+        (new TypeError("foobar")).should.be.an.error(TypeError, "foo");
+      });
+      it("fails when target isn't a TypeError including 'foo'", function () {
+        err(function () {
+          (new Error("foobar")).should.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [Error: foobar] to be a TypeError including 'foo'");
+        err(function () {
+          (new ReferenceError("foobar")).should.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [ReferenceError: foobar] to be a TypeError including 'foo'");
+        err(function () {
+          (new TypeError("oh noo")).should.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [TypeError: oh noo] to be a TypeError including 'foo'");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is /foo/", function () {
+      it("passes when target is a TypeError matching /foo/", function () {
+        (new TypeError("foobar")).should.be.an.error(TypeError, /foo/);
+      });
+      it("fails when target isn't a TypeError matching /foo/", function () {
+        err(function () {
+          (new Error("foobar")).should.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [Error: foobar] to be a TypeError matching /foo/");
+        err(function () {
+          (new ReferenceError("foobar")).should.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [ReferenceError: foobar] to be a TypeError matching /foo/");
+        err(function () {
+          (new TypeError("oh noo")).should.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [TypeError: oh noo] to be a TypeError matching /foo/");
+      });
+    });
+  });
+
+  describe("not.error", function () {
+    var specificError = new TypeError("oh noo");
+
+    // See GH-45: some poorly-constructed custom errors don't have useful names
+    // on either their constructor or their constructor prototype, but instead
+    // only set the name inside the constructor itself.
+    var PoorlyConstructedError = function (message) {
+      this.name = "PoorlyConstructedError";
+      this.message = message;
+    };
+    PoorlyConstructedError.prototype = Object.create(Error.prototype);
+
+    function CustomError(message) {
+      this.name = "CustomError";
+      this.message = message;
+    }
+    CustomError.prototype = Error.prototype;
+
+    describe("no errLike; no errMsgMatcher", function () {
+      it("passes when target isn't an error", function () {
+        ({name: "NotAnError"}).should.not.be.an.error();
+        "not an error".should.not.be.an.error();
+      });
+      it("fails when target is an error", function () {
+        err(function () {
+          (new Error()).should.not.be.an.error();
+        }, "expected [Error] to not be an Error");
+        err(function () {
+          (new Error("oh noo")).should.not.be.an.error();
+        }, "expected [Error: oh noo] to not be an Error");
+        err(function () {
+          (new TypeError()).should.not.be.an.error();
+        }, "expected [TypeError] to not be an Error");
+        err(function () {
+          (new PoorlyConstructedError()).should.not.be.an.error();
+        }, /expected {.*name.*} to not be an Error/);
+        err(function () {
+          (new CustomError()).should.not.be.an.error();
+        }, /expected {.*name.*} to not be an Error/);
+      });
+    });
+    describe("errLike is TypeError; no errMsgMatcher", function () {
+      it("passes when target isn't a TypeError", function () {
+        (new Error()).should.not.be.an.error(TypeError);
+        (new ReferenceError()).should.not.be.an.error(TypeError);
+      });
+      it("fails when target is a TypeError", function () {
+        err(function () {
+          (new TypeError()).should.not.be.an.error(TypeError);
+        }, "expected [TypeError] to not be a TypeError");
+        err(function () {
+          (new TypeError("oh noo")).should.not.be.an.error(TypeError);
+        }, "expected [TypeError: oh noo] to not be a TypeError");
+      });
+    });
+    describe("errLike is an error instance; no errMsgMatcher", function () {
+      it("passes when target isn't the same error instance", function () {
+        (new TypeError("oh noo")).should.not.be.an.error(specificError);
+      });
+      it("fails when target is the same error instance", function () {
+        err(function () {
+          specificError.should.not.be.an.error(specificError);
+        }, "expected [TypeError: oh noo] to not be [TypeError: oh noo]");
+      });
+    });
+    describe("errLike is 'foo'; no errMsgMatcher", function () {
+      it("passes when target isn't an error including 'foo'", function () {
+        (new Error("oh noo")).should.not.be.an.error("foo");
+        "foobar".should.not.be.an.error("foo");
+      });
+      it("fails when target is an error including 'foo'", function () {
+        err(function () {
+          (new Error("foobar")).should.not.be.an.error("foo");
+        }, "expected [Error: foobar] to not be an Error including 'foo'");
+        err(function () {
+          (new CustomError("foobar")).should.not.be.an.error("foo");
+        }, /expected {.*name.*message.*} to not be an Error including 'foo'/);
+      });
+    });
+    describe("errLike is /foo/; no errMsgMatcher", function () {
+      it("passes when target isn't an error matching /foo/", function () {
+        (new Error("oh noo")).should.not.be.an.error(/foo/);
+        ("foobar").should.not.be.an.error(/foo/);
+      });
+      it("fails when target is an error matching /foo/", function () {
+        err(function () {
+          (new Error("foobar")).should.not.be.an.error(/foo/);
+        }, "expected [Error: foobar] to not be an Error matching /foo/");
+        err(function () {
+          (new CustomError("foobar")).should.not.be.an.error(/foo/);
+        }, /expected {.*name.*message.*} to not be an Error matching \/foo\//);
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is 'foo'", function () {
+      it("passes when target isn't a TypeError including 'foo'", function () {
+        (new Error("foobar")).should.not.be.an.error(TypeError, "foo");
+        (new ReferenceError("foobar")).should.not.be.an.error(TypeError, "foo");
+        (new TypeError("oh noo")).should.not.be.an.error(TypeError, "foo");
+      });
+      it("fails when target is a TypeError including 'foo'", function () {
+        err(function () {
+          (new TypeError("foobar")).should.not.be.an.error(TypeError, "foo", "blah");
+        }, "blah: expected [TypeError: foobar] to not be a TypeError including 'foo'");
+      });
+    });
+    describe("errLike is TypeError; errMsgMatcher is /foo/", function () {
+      it("passes when target isn't a TypeError matching /foo/", function () {
+        (new Error("foobar")).should.not.be.an.error(TypeError, /foo/);
+        (new ReferenceError("foobar")).should.not.be.an.error(TypeError, /foo/);
+        (new TypeError("oh noo")).should.not.be.an.error(TypeError, /foo/);
+      });
+      it("fails when target is a TypeError matching /foo/", function () {
+        err(function () {
+          (new TypeError("foobar")).should.not.be.an.error(TypeError, /foo/, "blah");
+        }, "blah: expected [TypeError: foobar] to not be a TypeError matching /foo/");
+      });
+    });
+  });
+
   it('respondTo', function(){
     function Foo(){};
     Foo.prototype.bar = function(){};
