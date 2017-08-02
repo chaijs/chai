@@ -1884,6 +1884,17 @@ describe('expect', function () {
 
     expect({a: 1}).to.include({'toString': Object.prototype.toString});
 
+    // .include should work with Error objects and objects with a custom
+    // `@@toStringTag`. 
+    expect(new Error('foo')).to.include({message: 'foo'});
+    if (typeof Symbol !== 'undefined'
+        && typeof Symbol.toStringTag !== 'undefined') {
+      var customObj = {a: 1};
+      customObj[Symbol.toStringTag] = 'foo';
+
+      expect(customObj).to.include({a: 1});
+    }
+
     var obj1 = {a: 1}
       , obj2 = {b: 2};
     expect([obj1, obj2]).to.include(obj1);

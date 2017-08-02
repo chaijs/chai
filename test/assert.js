@@ -638,6 +638,17 @@ describe('assert', function () {
     assert.include('', '');
     assert.include([ 1, 2, 3], 3);
 
+    // .include should work with Error objects and objects with a custom
+    // `@@toStringTag`.
+    assert.include(new Error('foo'), {message: 'foo'});
+    if (typeof Symbol !== 'undefined'
+        && typeof Symbol.toStringTag !== 'undefined') {
+      var customObj = {a: 1};
+      customObj[Symbol.toStringTag] = 'foo';
+
+      assert.include(customObj, {a: 1});
+    }
+
     var obj1 = {a: 1}
       , obj2 = {b: 2};
     assert.include([obj1, obj2], obj1);

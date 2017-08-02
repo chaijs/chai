@@ -1540,6 +1540,17 @@ describe('should', function() {
     ['foo', 'bar'].should.not.include('baz');
     ['foo', 'bar'].should.not.include(1);
 
+    // .include should work with Error objects and objects with a custom
+    // `@@toStringTag`.
+    (new Error('foo')).should.include({message: 'foo'});
+    if (typeof Symbol !== 'undefined'
+        && typeof Symbol.toStringTag !== 'undefined') {
+      var customObj = {a: 1};
+      customObj[Symbol.toStringTag] = 'foo';
+
+      customObj.should.include({a: 1});
+    }
+
     ({a: 1}).should.include({'toString': Object.prototype.toString});
 
     var obj1 = {a: 1}
