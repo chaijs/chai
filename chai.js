@@ -6967,7 +6967,7 @@ module.exports = function (chai, util) {
   }
 
   /*!
-   * ### .ifError(object)
+   * ### .ifError(object, [message])
    *
    * Asserts if value is not a false value, and throws if it is a true value.
    * This is added to allow for chai to be a drop-in replacement for Node's
@@ -6978,6 +6978,7 @@ module.exports = function (chai, util) {
    *
    * @name ifError
    * @param {Object} object
+   * @param {String} message _optional_
    * @namespace Assert
    * @api public
    */
@@ -6989,7 +6990,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isExtensible(object)
+   * ### .isExtensible(object, [message])
    *
    * Asserts that `object` is extensible (can have new properties added to it).
    *
@@ -7008,7 +7009,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isNotExtensible(object)
+   * ### .isNotExtensible(object, [message])
    *
    * Asserts that `object` is _not_ extensible.
    *
@@ -7033,7 +7034,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isSealed(object)
+   * ### .isSealed(object, [message])
    *
    * Asserts that `object` is sealed (cannot have new properties added to it
    * and its existing properties cannot be removed).
@@ -7057,7 +7058,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isNotSealed(object)
+   * ### .isNotSealed(object, [message])
    *
    * Asserts that `object` is _not_ sealed.
    *
@@ -7076,7 +7077,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isFrozen(object)
+   * ### .isFrozen(object, [message])
    *
    * Asserts that `object` is frozen (cannot have new properties added to it
    * and its existing properties cannot be modified).
@@ -7097,7 +7098,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isNotFrozen(object)
+   * ### .isNotFrozen(object, [message])
    *
    * Asserts that `object` is _not_ frozen.
    *
@@ -7116,7 +7117,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isEmpty(target)
+   * ### .isEmpty(target, [message])
    *
    * Asserts that the target does not contain any values.
    * For arrays and strings, it checks the `length` property.
@@ -7142,7 +7143,7 @@ module.exports = function (chai, util) {
   };
 
   /**
-   * ### .isNotEmpty(target)
+   * ### .isNotEmpty(target, [message])
    *
    * Asserts that the target contains values.
    * For arrays and strings, it checks the `length` property.
