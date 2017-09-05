@@ -126,6 +126,20 @@ describe('circular objects', function() {
 	});
 });
 
+describe('object with compare function', function() {
+	it('should pass when function returns true', function () {
+		expect({a: 5}).to.containSubset({a: a => a});
+	});
+
+	it('should fail when function returns false', function () {
+		expect({a: 5}).to.not.containSubset({a: a => !a});
+	});
+
+	it('should pass for function with no arguments', function () {
+		expect({a: 5}).to.containSubset({a: () => true});
+	});
+});
+
 describe('comparison of non objects', function () {
 	it('should fail if actual subset is null', function () {
 		expect(null).to.not.containSubset({a: 1});
