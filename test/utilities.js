@@ -829,8 +829,9 @@ describe('utilities', function () {
             new chai.Assertion(this._obj).to.be.equal('x');
           }
         , function () {
-            this._obj = this._obj || {};
-            this._obj.__x = 'X!'
+            if (this._obj === Object(this._obj)) {
+              this._obj.__x = 'X!'
+            }
           }
         );
 
@@ -939,8 +940,9 @@ describe('utilities', function () {
             new chai.Assertion(this._obj).to.be.equal('x');
           }
         , function () {
-            this._obj = this._obj || {};
-            this._obj.__x = 'X!'
+            if (this._obj === Object(this._obj)) {
+              this._obj.__x = 'X!'
+            }
           }
         );
 
