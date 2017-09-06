@@ -455,20 +455,12 @@ describe('should', function() {
       new Foo().should.be.an.instanceof(undefined);
     }, "The instanceof assertion needs a constructor but undefined was given.");
 
-    // Different browsers may have different error messages
-    var expectedError;
-    try {
-      t instanceof Thing;
-    } catch (err) {
-      errMsg = '[object Object] instanceof function Thing(){} failed: ' + err.message + '.';
-    }
-
     err(function(){
       function Thing(){};
       var t = new Thing();
       Thing.prototype = 1337;
       t.should.be.an.instanceof(Thing);
-    }, expectedError, true);
+    }, 'The instanceof assertion needs a constructor but function was given.', true);
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){

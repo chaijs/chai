@@ -180,19 +180,12 @@ describe('assert', function () {
       assert.instanceOf(new Foo(), undefined);
     }, "The instanceof assertion needs a constructor but undefined was given.");
 
-    var expectedError;
-    try {
-      t instanceof Thing;
-    } catch (err) {
-      errMsg = '[object Object] instanceof function Thing(){} failed: ' + err.message + '.';
-    }
-
     err(function(){
       function Thing(){};
       var t = new Thing();
       Thing.prototype = 1337;
       assert.instanceOf(t, Thing);
-    }, expectedError, true);
+    }, 'The instanceof assertion needs a constructor but function was given.', true);
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){

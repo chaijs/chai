@@ -132,8 +132,8 @@ describe('utilities', function () {
     });
 
     it('addMethod returns new assertion with flags copied over', function () {
-      assertion1 = expect('foo');
-      assertion2 = assertion1.to.returnNewAssertion();
+      var assertion1 = expect('foo');
+      var assertion2 = assertion1.to.returnNewAssertion();
 
       // Checking if a new assertion was returned
       expect(assertion1).to.not.be.equal(assertion2);
@@ -413,8 +413,8 @@ describe('utilities', function () {
     });
 
     it('addProperty returns a new assertion with flags copied over', function () {
-      assertion1 = expect('foo');
-      assertion2 = assertion1.is.thing;
+      var assertion1 = expect('foo');
+      var assertion2 = assertion1.is.thing;
 
       // Checking if a new assertion was returned
       expect(assertion1).to.not.be.equal(assertion2);
@@ -829,8 +829,9 @@ describe('utilities', function () {
             new chai.Assertion(this._obj).to.be.equal('x');
           }
         , function () {
-            this._obj = this._obj || {};
-            this._obj.__x = 'X!'
+            if (this._obj === Object(this._obj)) {
+              this._obj.__x = 'X!'
+            }
           }
         );
 
@@ -939,8 +940,9 @@ describe('utilities', function () {
             new chai.Assertion(this._obj).to.be.equal('x');
           }
         , function () {
-            this._obj = this._obj || {};
-            this._obj.__x = 'X!'
+            if (this._obj === Object(this._obj)) {
+              this._obj.__x = 'X!'
+            }
           }
         );
 
