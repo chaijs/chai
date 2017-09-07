@@ -553,7 +553,7 @@ describe('expect', function () {
     var nowUTC = now.toUTCString();
     var beforeUTC = oneSecondAgo.toUTCString();
     var afterUTC = oneSecondAfter.toUTCString();
-    
+
     expect(now).to.be.within(oneSecondAgo, oneSecondAfter);
     expect(now).to.be.within(now, oneSecondAfter);
     expect(now).to.be.within(now, now);
@@ -586,7 +586,7 @@ describe('expect', function () {
     err(function () {
       expect(now).to.be.within(now, undefined, 'blah');
     }, "blah: the arguments to within must be dates");
-    
+
     err(function () {
       expect(now, 'blah').to.be.within(1, now);
     }, "blah: the arguments to within must be dates");
@@ -1877,7 +1877,7 @@ describe('expect', function () {
     expect({a: 1}).to.include({'toString': Object.prototype.toString});
 
     // .include should work with Error objects and objects with a custom
-    // `@@toStringTag`. 
+    // `@@toStringTag`.
     expect(new Error('foo')).to.include({message: 'foo'});
     if (typeof Symbol !== 'undefined'
         && typeof Symbol.toStringTag !== 'undefined') {

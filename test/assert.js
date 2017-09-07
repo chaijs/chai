@@ -2078,7 +2078,7 @@ describe('assert', function () {
     err(function() {
       assert.isAbove(now, now, 'blah');
     }, 'blah: expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
-    
+
     err(function() {
       assert.isAbove(null, now);
     }, 'expected null to be a number or a date');

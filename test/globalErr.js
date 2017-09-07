@@ -4,7 +4,7 @@ describe('globalErr', function () {
     , expect = chai.expect;
 
   it('should pass if string val equals error message', function () {
-    err(function () { 
+    err(function () {
       expect('cat').to.equal('dog')
     }, 'expected \'cat\' to equal \'dog\'');
   });

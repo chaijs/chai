@@ -510,7 +510,7 @@ module.exports = function (chai, _) {
    *     Object.prototype.b = 2;
    *
    *     expect({a: 1}).to.have.own.property('a');
-   *     expect({a: 1}).to.have.property('b').but.not.own.property('b'); 
+   *     expect({a: 1}).to.have.property('b').but.not.own.property('b');
    *
    *     expect({a: 1}).to.own.include({a: 1});
    *     expect({a: 1}).to.include({b: 2}).but.not.own.include({b: 2});
@@ -643,7 +643,7 @@ module.exports = function (chai, _) {
    *     expect(1, 'nooo why fail??').to.be.a('string');
    *
    * `.a` can also be used as a language chain to improve the readability of
-   * your assertions. 
+   * your assertions.
    *
    *     expect({b: 2}).to.have.a.property('b');
    *
@@ -757,7 +757,7 @@ module.exports = function (chai, _) {
    *
    *     expect('foobar').to.not.include('taco');
    *     expect([1, 2, 3]).to.not.include(4);
-   * 
+   *
    * However, it's dangerous to negate `.include` when the target is an object.
    * The problem is that it creates uncertain expectations by asserting that the
    * target object doesn't have all of `val`'s key/value pairs but may or may
@@ -830,7 +830,7 @@ module.exports = function (chai, _) {
 
   function include (val, msg) {
     if (msg) flag(this, 'message', msg);
-    
+
     var obj = flag(this, 'object')
       , objType = _.type(obj).toLowerCase()
       , flagMsg = flag(this, 'message')
@@ -903,17 +903,17 @@ module.exports = function (chai, _) {
         var props = Object.keys(val)
           , firstErr = null
           , numErrs = 0;
-  
+
         props.forEach(function (prop) {
           var propAssertion = new Assertion(obj);
           _.transferFlags(this, propAssertion, true);
           flag(propAssertion, 'lockSsfi', true);
-  
+
           if (!negate || props.length === 1) {
             propAssertion.property(prop, val[prop]);
             return;
           }
-  
+
           try {
             propAssertion.property(prop, val[prop]);
           } catch (err) {
@@ -924,7 +924,7 @@ module.exports = function (chai, _) {
             numErrs++;
           }
         }, this);
-  
+
         // When validating .not.include with multiple properties, we only want
         // to throw an assertion error if all of the properties are included,
         // in which case we throw the first property assertion error that we
@@ -1336,7 +1336,7 @@ module.exports = function (chai, _) {
    *
    *     expect(1).to.equal(1);
    *     expect('foo').to.equal('foo');
-   * 
+   *
    * Add `.deep` earlier in the chain to use deep equality instead. See the
    * `deep-eql` project page for info on the deep equality algorithm:
    * https://github.com/chaijs/deep-eql.
@@ -1508,7 +1508,7 @@ module.exports = function (chai, _) {
     if (doLength) {
       new Assertion(obj, flagMsg, ssfi, true).to.have.property('length');
     }
-    
+
     if (!doLength && (objType === 'date' && nType !== 'date')) {
       errorMessage = msgPrefix + 'the argument to above must be a date';
     } else if (nType !== 'number' && (doLength || objType === 'number')) {
@@ -1794,7 +1794,7 @@ module.exports = function (chai, _) {
     if (doLength) {
       new Assertion(obj, flagMsg, ssfi, true).to.have.property('length');
     }
-    
+
     if (!doLength && (objType === 'date' && nType !== 'date')) {
       errorMessage = msgPrefix + 'the argument to most must be a date';
     } else if (nType !== 'number' && (doLength || objType === 'number')) {
@@ -2030,7 +2030,7 @@ module.exports = function (chai, _) {
    *
    *     expect({a: 1}).to.have.own.property('a');
    *     expect({a: 1}).to.have.own.property('a', 1);
-   *     expect({a: 1}).to.have.property('b').but.not.own.property('b'); 
+   *     expect({a: 1}).to.have.property('b').but.not.own.property('b');
    *
    * `.deep` and `.own` can be combined.
    *
@@ -2057,7 +2057,7 @@ module.exports = function (chai, _) {
    * Add `.not` earlier in the chain to negate `.property`.
    *
    *     expect({a: 1}).to.not.have.property('b');
-   * 
+   *
    * However, it's dangerous to negate `.property` when providing `val`. The
    * problem is that it creates uncertain expectations by asserting that the
    * target either doesn't have a property with the given key `name`, or that it
@@ -2095,7 +2095,7 @@ module.exports = function (chai, _) {
    *
    *     // Not recommended
    *     expect({a: 1}).to.have.property('b', undefined, 'nooo why fail??');
-   * 
+   *
    * The above assertion isn't the same thing as not providing `val`. Instead,
    * it's asserting that the target object has a `b` property that's equal to
    * `undefined`.
@@ -2214,7 +2214,7 @@ module.exports = function (chai, _) {
    * Add `.not` earlier in the chain to negate `.ownPropertyDescriptor`.
    *
    *     expect({a: 1}).to.not.have.ownPropertyDescriptor('b');
-   * 
+   *
    * However, it's dangerous to negate `.ownPropertyDescriptor` when providing
    * a `descriptor`. The problem is that it creates uncertain expectations by
    * asserting that the target either doesn't have a property descriptor with
@@ -2285,7 +2285,7 @@ module.exports = function (chai, _) {
    *       writable: true,
    *       value: 2,
    *     });
-   * 
+   *
    *     // Recommended
    *     expect({a: 1}, 'nooo why fail??').to.have.ownPropertyDescriptor('b');
    *
@@ -2502,7 +2502,7 @@ module.exports = function (chai, _) {
    * ### .keys(key1[, key2[, ...]])
    *
    * Asserts that the target object, array, map, or set has the given keys. Only
-   * the target's own inherited properties are included in the search. 
+   * the target's own inherited properties are included in the search.
    *
    * When the target is an object or array, keys can be provided as one or more
    * string arguments, a single array argument, or a single object argument. In
@@ -2737,7 +2737,7 @@ module.exports = function (chai, _) {
    *
    * When no arguments are provided, `.throw` invokes the target function and
    * asserts that an error is thrown.
-   * 
+   *
    *     var badFn = function () { throw new TypeError('Illegal salmon!'); };
    *
    *     expect(badFn).to.throw();
@@ -2789,11 +2789,11 @@ module.exports = function (chai, _) {
    *     expect(badFn).to.throw(err, /salmon/);
    *
    * Add `.not` earlier in the chain to negate `.throw`.
-   *     
+   *
    *     var goodFn = function () {};
    *
    *     expect(goodFn).to.not.throw();
-   * 
+   *
    * However, it's dangerous to negate `.throw` when providing any arguments.
    * The problem is that it creates uncertain expectations by asserting that the
    * target either doesn't throw an error, or that it throws an error but of a
@@ -3141,7 +3141,7 @@ module.exports = function (chai, _) {
    * first argument, and asserts that the value returned is truthy.
    *
    *     expect(1).to.satisfy(function(num) {
-   *       return num > 0; 
+   *       return num > 0;
    *     });
    *
    * Add `.not` earlier in the chain to negate `.satisfy`.
@@ -3610,7 +3610,7 @@ module.exports = function (chai, _) {
    *
    *     expect(subtractTwo).to.decrease(myObj, 'val').by(2); // Recommended
    *     expect(subtractTwo).to.not.increase(myObj, 'val'); // Not recommended
-   * 
+   *
    * When the subject is expected to stay the same, it's often best to assert
    * exactly that.
    *
@@ -3707,7 +3707,7 @@ module.exports = function (chai, _) {
    *
    * When two arguments are provided, `.decrease` asserts that the value of the
    * given object `subject`'s `prop` property is lesser after invoking the
-   * target function compared to beforehand. 
+   * target function compared to beforehand.
    *
    *     var myObj = {val: 1}
    *       , subtractTwo = function () { myObj.val -= 2; };
@@ -3729,7 +3729,7 @@ module.exports = function (chai, _) {
    *
    *     expect(addTwo).to.increase(myObj, 'val').by(2); // Recommended
    *     expect(addTwo).to.not.decrease(myObj, 'val'); // Not recommended
-   * 
+   *
    * When the subject is expected to stay the same, it's often best to assert
    * exactly that.
    *
@@ -5106,24 +5106,24 @@ module.exports = function (chai, util) {
 
   /**
    * ### .nestedInclude(haystack, needle, [message])
-   * 
-   * Asserts that 'haystack' includes 'needle'. 
-   * Can be used to assert the inclusion of a subset of properties in an 
+   *
+   * Asserts that 'haystack' includes 'needle'.
+   * Can be used to assert the inclusion of a subset of properties in an
    * object.
-   * Enables the use of dot- and bracket-notation for referencing nested 
+   * Enables the use of dot- and bracket-notation for referencing nested
    * properties.
    * '[]' and '.' in property names can be escaped using double backslashes.
-   * 
+   *
    *     assert.nestedInclude({'.a': {'b': 'x'}}, {'\\.a.[b]': 'x'});
    *     assert.nestedInclude({'a': {'[b]': 'x'}}, {'a.\\[b\\]': 'x'});
-   * 
+   *
    * @name nestedInclude
    * @param {Object} haystack
    * @param {Object} needle
    * @param {String} message
    * @namespace Assert
-   * @api public 
-   */ 
+   * @api public
+   */
 
   assert.nestedInclude = function (exp, inc, msg) {
     new Assertion(exp, msg, assert.nestedInclude, true).nested.include(inc);
@@ -5131,24 +5131,24 @@ module.exports = function (chai, util) {
 
   /**
    * ### .notNestedInclude(haystack, needle, [message])
-   * 
-   * Asserts that 'haystack' does not include 'needle'. 
-   * Can be used to assert the absence of a subset of properties in an 
+   *
+   * Asserts that 'haystack' does not include 'needle'.
+   * Can be used to assert the absence of a subset of properties in an
    * object.
-   * Enables the use of dot- and bracket-notation for referencing nested 
-   * properties. 
+   * Enables the use of dot- and bracket-notation for referencing nested
+   * properties.
    * '[]' and '.' in property names can be escaped using double backslashes.
-   * 
+   *
    *     assert.notNestedInclude({'.a': {'b': 'x'}}, {'\\.a.b': 'y'});
    *     assert.notNestedInclude({'a': {'[b]': 'x'}}, {'a.\\[b\\]': 'y'});
-   * 
+   *
    * @name notNestedInclude
    * @param {Object} haystack
    * @param {Object} needle
    * @param {String} message
    * @namespace Assert
-   * @api public 
-   */ 
+   * @api public
+   */
 
   assert.notNestedInclude = function (exp, inc, msg) {
     new Assertion(exp, msg, assert.notNestedInclude, true)
@@ -5157,23 +5157,23 @@ module.exports = function (chai, util) {
 
   /**
    * ### .deepNestedInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' includes 'needle'.
-   * Can be used to assert the inclusion of a subset of properties in an 
+   * Can be used to assert the inclusion of a subset of properties in an
    * object while checking for deep equality.
-   * Enables the use of dot- and bracket-notation for referencing nested 
+   * Enables the use of dot- and bracket-notation for referencing nested
    * properties.
    * '[]' and '.' in property names can be escaped using double backslashes.
-   * 
+   *
    *     assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}});
    *     assert.deepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {x: 1}});
-   *    
+   *
    * @name deepNestedInclude
    * @param {Object} haystack
    * @param {Object} needle
    * @param {String} message
    * @namespace Assert
-   * @api public 
+   * @api public
    */
 
   assert.deepNestedInclude = function(exp, inc, msg) {
@@ -5183,23 +5183,23 @@ module.exports = function (chai, util) {
 
   /**
    * ### .notDeepNestedInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' does not include 'needle'.
-   * Can be used to assert the absence of a subset of properties in an 
+   * Can be used to assert the absence of a subset of properties in an
    * object while checking for deep equality.
-   * Enables the use of dot- and bracket-notation for referencing nested 
+   * Enables the use of dot- and bracket-notation for referencing nested
    * properties.
    * '[]' and '.' in property names can be escaped using double backslashes.
-   * 
+   *
    *     assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 1}})
    *     assert.notDeepNestedInclude({'.a': {'[b]': {x: 1}}}, {'\\.a.\\[b\\]': {y: 2}});
-   *    
+   *
    * @name notDeepNestedInclude
    * @param {Object} haystack
    * @param {Object} needle
    * @param {String} message
    * @namespace Assert
-   * @api public 
+   * @api public
    */
 
   assert.notDeepNestedInclude = function(exp, inc, msg) {
@@ -5209,13 +5209,13 @@ module.exports = function (chai, util) {
 
   /**
    * ### .ownInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' includes 'needle'.
-   * Can be used to assert the inclusion of a subset of properties in an 
+   * Can be used to assert the inclusion of a subset of properties in an
    * object while ignoring inherited properties.
-   * 
+   *
    *     assert.ownInclude({ a: 1 }, { a: 1 });
-   * 
+   *
    * @name ownInclude
    * @param {Object} haystack
    * @param {Object} needle
@@ -5230,15 +5230,15 @@ module.exports = function (chai, util) {
 
   /**
    * ### .notOwnInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' includes 'needle'.
-   * Can be used to assert the absence of a subset of properties in an 
+   * Can be used to assert the absence of a subset of properties in an
    * object while ignoring inherited properties.
-   * 
+   *
    *     Object.prototype.b = 2;
-   * 
+   *
    *     assert.notOwnInclude({ a: 1 }, { b: 2 });
-   * 
+   *
    * @name notOwnInclude
    * @param {Object} haystack
    * @param {Object} needle
@@ -5253,13 +5253,13 @@ module.exports = function (chai, util) {
 
   /**
    * ### .deepOwnInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' includes 'needle'.
-   * Can be used to assert the inclusion of a subset of properties in an 
+   * Can be used to assert the inclusion of a subset of properties in an
    * object while ignoring inherited properties and checking for deep equality.
-   * 
+   *
    *      assert.deepOwnInclude({a: {b: 2}}, {a: {b: 2}});
-   *      
+   *
    * @name deepOwnInclude
    * @param {Object} haystack
    * @param {Object} needle
@@ -5275,13 +5275,13 @@ module.exports = function (chai, util) {
 
    /**
    * ### .notDeepOwnInclude(haystack, needle, [message])
-   * 
+   *
    * Asserts that 'haystack' includes 'needle'.
-   * Can be used to assert the absence of a subset of properties in an 
+   * Can be used to assert the absence of a subset of properties in an
    * object while ignoring inherited properties and checking for deep equality.
-   * 
+   *
    *      assert.notDeepOwnInclude({a: {b: 2}}, {a: {c: 3}});
-   *      
+   *
    * @name notDeepOwnInclude
    * @param {Object} haystack
    * @param {Object} needle
@@ -7801,7 +7801,7 @@ module.exports = function addProperty(ctx, name, getter) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var inspect = require('./inspect');
@@ -7816,7 +7816,7 @@ var inspect = require('./inspect');
  *
  * @param {Mixed} first element to compare
  * @param {Mixed} second element to compare
- * @returns {Number} -1 if 'a' should come before 'b'; otherwise 1 
+ * @returns {Number} -1 if 'a' should come before 'b'; otherwise 1
  * @name compareByInspect
  * @namespace Utils
  * @api public
@@ -7972,7 +7972,7 @@ module.exports = function getEnumerableProperties(object) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var flag = require('./flag')
@@ -8025,7 +8025,7 @@ module.exports = function getMessage(obj, args) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var getOwnEnumerablePropertySymbols = require('./getOwnEnumerablePropertySymbols');
@@ -8723,7 +8723,7 @@ var config = require('../config');
  */
 
 module.exports = function isProxyEnabled() {
-  return config.useProxy && 
+  return config.useProxy &&
     typeof Proxy !== 'undefined' &&
     typeof Reflect !== 'undefined';
 };
@@ -8736,7 +8736,7 @@ module.exports = function isProxyEnabled() {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var inspect = require('./inspect');
@@ -9060,7 +9060,7 @@ var isProxyEnabled = require('./isProxyEnabled');
  * the list of existing properties. However, if a nonChainableMethodName is
  * provided, then the root cause is instead a failure to invoke a non-chainable
  * method prior to reading the non-existent property.
- * 
+ *
  * If proxies are unsupported or disabled via the user's Chai config, then
  * return object without modification.
  *
@@ -9174,7 +9174,7 @@ function stringDistance(strA, strB, memo) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var flag = require('./flag');
