@@ -1462,6 +1462,14 @@ describe('expect', function () {
     err(function () {
       expect(undefined, 'blah').to.have.property("a");
     }, "blah: Target cannot be null or undefined.");
+
+    expect(function () {
+      expect({a:1}).to.have.nested.property('{a:1}');
+    }).to.not.throw('the argument to `property` must be a string');
+
+    expect(function () {
+      expect({a:1}).to.have.nested.property({'a':'1'});
+    }).to.throw('the argument to `property` must be a string');
   });
 
   it('property(name, val)', function(){

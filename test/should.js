@@ -1407,6 +1407,8 @@ describe('should', function() {
 
     ({ 'foo.bar[]': 'baz'}).should.have.nested.property('foo\\.bar\\[\\]');
 
+    ({a:1}).should.have.nested.property('a');
+
     err(function(){
       ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
     }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
