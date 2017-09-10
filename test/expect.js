@@ -1470,6 +1470,10 @@ describe('expect', function () {
     expect(function () {
       expect({a:1}).to.have.nested.property({'a':'1'});
     }).to.throw('the argument to `property` must be a string');
+
+    expect(function () {
+      expect({a:1}).to.have.property(null);
+    }).to.throw('the argument to `property` must be either of type string, number or symbol');
   });
 
   it('property(name, val)', function(){
