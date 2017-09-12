@@ -2054,7 +2054,6 @@ describe('should', function() {
         testSet.should.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
       });
 
-
       // Using the same assertions as above but with `.deep` flag instead of using referential equality
       testSet.should.have.any.deep.keys({thisIs: 'anExampleObject'});
       testSet.should.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
