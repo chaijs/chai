@@ -130,7 +130,6 @@ describe('assert', function () {
     err(function () {
       assert.typeOf(5, 'string', 'blah');
     }, "blah: expected 5 to be a string");
-
   });
 
   it('notTypeOf', function () {
@@ -241,7 +240,6 @@ describe('assert', function () {
     err(function(){
       assert.notInstanceOf(new Foo(), undefined);
     }, "The instanceof assertion needs a constructor but undefined was given.");
-
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
@@ -1769,8 +1767,6 @@ describe('assert', function () {
     err(function () {
       assert.operator(w, '===', null);
      }, "expected undefined to be === null");
-
-
   });
 
   it('closeTo', function(){
@@ -2043,7 +2039,6 @@ describe('assert', function () {
     err(function() {
       assert.oneOf({ four: 4 }, [1, 2, { four: 4 }]);
     }, 'expected { four: 4 } to be one of [ 1, 2, { four: 4 } ]');
-
   });
 
   it('above', function() {

@@ -810,5 +810,4 @@ describe('configuration', function () {
       }
     });
   });
-
 });
