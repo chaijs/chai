@@ -1,5 +1,6 @@
 describe('should', function() {
   var should = chai.Should();
+  var expect = chai.expect;
 
   it('assertion', function(){
     'test'.should.be.a('string');
@@ -1408,6 +1409,14 @@ describe('should', function() {
     ({ 'foo.bar[]': 'baz'}).should.have.nested.property('foo\\.bar\\[\\]');
 
     ({a:1}).should.have.nested.property('a');
+
+    expect(function () {
+      ({a:1}).should.have.nested.property('{a:1}');
+    }).to.not.throw('the argument to `property` must be a string');
+
+    expect(function () {
+      ({a:1}).should.have.nested.property({'a':'1'});
+    }).to.throw('the argument to `property` must be a string');
 
     err(function(){
       ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');

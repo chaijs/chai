@@ -1464,14 +1464,6 @@ describe('expect', function () {
     }, "blah: Target cannot be null or undefined.");
 
     expect(function () {
-      expect({a:1}).to.have.nested.property('{a:1}');
-    }).to.not.throw('the argument to `property` must be a string');
-
-    expect(function () {
-      expect({a:1}).to.have.nested.property({'a':'1'});
-    }).to.throw('the argument to `property` must be a string');
-
-    expect(function () {
       expect({a:1}).to.have.property(null);
     }).to.throw('the argument to `property` must be either of type string, number or symbol');
   });
@@ -1767,6 +1759,10 @@ describe('expect', function () {
       expect({ 'foo.bar': 'baz' })
         .to.have.nested.property('foo.bar');
     }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
+
+    expect(function () {
+      expect({a:1}).to.have.nested.property({'a':'1'});
+    }).to.throw('the argument to `property` must be a string');
   });
 
   it('nested.property(name, val)', function(){
