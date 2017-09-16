@@ -1,6 +1,5 @@
 describe('assert', function () {
   var assert = chai.assert;
-  var expect = chai.expect;
 
   it('assert', function () {
     var foo = 'bar';
@@ -1461,13 +1460,13 @@ describe('assert', function () {
       assert.propertyVal(dummyObj, 'a', '2', 'blah');
     }, "blah: expected { a: '1' } to have property 'a' of '2', but got '1'");
 
-    expect(function () {
+    chai.expect(function () {
       assert.nestedProperty({a:1}, '{a:1}');
-    }).to.not.throw('the argument to `property` must be a string');
+    }).to.not.throw('the argument to property must be a string when using nested syntax');
 
-    expect(function () {
+    chai.expect(function () {
       assert.nestedProperty({a:1}, {'a':'1'});
-    }).to.throw('the argument to `property` must be a string');
+    }).to.throw('the argument to property must be a string when using nested syntax');
   });
 
   it('deepPropertyVal', function () {

@@ -1,6 +1,5 @@
 describe('should', function() {
   var should = chai.Should();
-  var expect = chai.expect;
 
   it('assertion', function(){
     'test'.should.be.a('string');
@@ -1410,13 +1409,13 @@ describe('should', function() {
 
     ({a:1}).should.have.nested.property('a');
 
-    expect(function () {
+    (function () {
       ({a:1}).should.have.nested.property('{a:1}');
-    }).to.not.throw('the argument to `property` must be a string');
+    }).should.not.throw('the argument to property must be a string when using nested syntax');
 
-    expect(function () {
+    (function () {
       ({a:1}).should.have.nested.property({'a':'1'});
-    }).to.throw('the argument to `property` must be a string');
+    }).should.throw('the argument to property must be a string when using nested syntax');
 
     err(function(){
       ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
