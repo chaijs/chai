@@ -1460,13 +1460,9 @@ describe('assert', function () {
       assert.propertyVal(dummyObj, 'a', '2', 'blah');
     }, "blah: expected { a: '1' } to have property 'a' of '2', but got '1'");
 
-    assert.doesNotThrow(function () {
-      assert.nestedProperty({a:1}, '{a:1}');
-    }, Error, 'the argument to property must be a string when using nested syntax');
-
-    assert.throws(function () {
-      assert.nestedProperty({a:1}, {'a':'1'});
-    }, Error, 'the argument to property must be a string when using nested syntax');
+    err(function () {
+      assert.nestedProperty({a:1}, {'a':'1'}, 'blah');
+    }, 'blah: the argument to property must be a string when using nested syntax');
   });
 
   it('deepPropertyVal', function () {
