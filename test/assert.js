@@ -1457,6 +1457,10 @@ describe('assert', function () {
     }, "blah: Target cannot be null or undefined.");
 
     err(function () {
+      assert.property({a:1}, {'a':'1'}, 'blah');
+    }, 'blah: the argument to property must be a string, number, or symbol');
+
+    err(function () {
       assert.propertyVal(dummyObj, 'a', '2', 'blah');
     }, "blah: expected { a: '1' } to have property 'a' of '2', but got '1'");
 

@@ -1182,6 +1182,10 @@ describe('should', function() {
     err(function() {
       ({a: {b: 1}}).should.have.own.nested.property("a.b");
     }, "The \"nested\" and \"own\" flags cannot be combined.");
+
+    err(function () {
+      ({a:1}).should.have.property(undefined);
+    }, "the argument to property must be a string, number, or symbol");
   });
 
   it('property(name, val)', function(){
@@ -1409,13 +1413,9 @@ describe('should', function() {
 
     ({a:1}).should.have.nested.property('a');
 
-    (function () {
-      ({a:1}).should.have.nested.property('{a:1}');
-    }).should.not.throw('the argument to property must be a string when using nested syntax');
-
-    (function () {
+    err(function(){
       ({a:1}).should.have.nested.property({'a':'1'});
-    }).should.throw('the argument to property must be a string when using nested syntax');
+    }, "the argument to property must be a string when using nested syntax");
 
     err(function(){
       ({ 'foo.bar': 'baz' }).should.have.nested.property('foo.bar');
