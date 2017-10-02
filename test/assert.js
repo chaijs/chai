@@ -1393,6 +1393,7 @@ describe('assert', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
     var undefinedKeyObj = { foo: undefined };
+    var dummyObj = { a: '1' };
     assert.property(obj, 'foo');
     assert.property(obj, 'toString');
     assert.propertyVal(obj, 'toString', Object.prototype.toString);
@@ -1452,6 +1453,18 @@ describe('assert', function () {
     err(function () {
       assert.property(undefined, 'a', 'blah');
     }, "blah: Target cannot be null or undefined.");
+
+    err(function () {
+      assert.property({a:1}, {'a':'1'}, 'blah');
+    }, 'blah: the argument to property must be a string, number, or symbol');
+
+    err(function () {
+      assert.propertyVal(dummyObj, 'a', '2', 'blah');
+    }, "blah: expected { a: '1' } to have property 'a' of '2', but got '1'");
+
+    err(function () {
+      assert.nestedProperty({a:1}, {'a':'1'}, 'blah');
+    }, 'blah: the argument to property must be a string when using nested syntax');
   });
 
   it('deepPropertyVal', function () {

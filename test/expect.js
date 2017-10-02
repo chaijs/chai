@@ -1462,6 +1462,10 @@ describe('expect', function () {
     err(function () {
       expect(undefined, 'blah').to.have.property("a");
     }, "blah: Target cannot be null or undefined.");
+
+    err(function () {
+      expect({a:1}, 'blah').to.have.property(null)
+    }, "blah: the argument to property must be a string, number, or symbol");
   });
 
   it('property(name, val)', function(){
@@ -1755,6 +1759,10 @@ describe('expect', function () {
       expect({ 'foo.bar': 'baz' })
         .to.have.nested.property('foo.bar');
     }, "expected { 'foo.bar': 'baz' } to have nested property 'foo.bar'");
+
+    err(function () {
+      expect({a:1}, 'blah').to.have.nested.property({'a':'1'});
+    }, "blah: the argument to property must be a string when using nested syntax");
   });
 
   it('nested.property(name, val)', function(){
