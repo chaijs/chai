@@ -1623,6 +1623,10 @@ describe('assert', function () {
       err(function () {
         assert[throws]({}, Error, 'testing', 'blah');
       }, "blah: expected {} to be a function");
+
+      err(function () {
+        assert[throws](function() { throw new Error(1); }, 1);
+      }, "the argument to `.throw()` cannot be an number");
     });
   });
 
