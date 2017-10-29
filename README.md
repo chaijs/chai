@@ -49,10 +49,10 @@
       src="https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square"
     />
   </a>
-  <a href="https://coveralls.io/r/chaijs/chai">
+  <a href="https://codecov.io/gh/chaijs/chai">
     <img
       alt="coverage:?"
-      src="https://img.shields.io/coveralls/chaijs/chai/master.svg?style=flat-square"
+      src="https://img.shields.io/codecov/c/github/chaijs/chai.svg?style=flat-square"
     />
   </a>
   <a href="">
