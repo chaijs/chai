@@ -11,8 +11,8 @@ node_js:
 
 script:
   - make test-travisci
-  - codecov
-
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 env:
   global:
   - secure: h4eLQ2jkR1p2O5BEyscLtbNT/84LDGFnj977SeKmg3flVTpRR+ZiYb5YvIUIYfnwsw1jlr11xv0cya23nJjJA5DQjrVS1/kg4sWrLD9Gs6TTqpSNSk0HrFpxhrHZ/uSSPfV9fbyxfDLxgq72fc55WCuY5Osy1kXmsPdJX79/cOU=
