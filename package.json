@@ -11,6 +11,7 @@
   ],
   "homepage": "http://chaijs.com",
   "license": "MIT",
+  "types": "./lib/chai.d.ts",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
     "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
@@ -50,6 +51,7 @@
     "karma-mocha": "^1.0.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sauce-launcher": "^1.0.0",
-    "mocha": "^3.0.0"
+    "mocha": "^3.0.0",
+    "typescript": "^2.0.3"
   }
 }
