@@ -2086,7 +2086,7 @@ describe('assert', function () {
     err(function() {
       assert.isAbove(now, now, 'blah');
     }, 'blah: expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
-    
+
     err(function() {
       assert.isAbove(null, now);
     }, 'expected null to be a number or a date');
@@ -2251,18 +2251,23 @@ describe('assert', function () {
         heroes = ['spiderman', 'superman'],
         fn     = function() { obj.value += 5 },
         fnDec  = function() { obj.value -= 20 },
+        getterFn = function() { return obj.value },
         bangFn = function() { obj.str += '!' },
         smFn   = function() { 'foo' + 'bar' },
         batFn  = function() { heroes.push('batman') },
         lenFn  = function() { return heroes.length };
 
     assert.changes(fn, obj, 'value');
+    assert.changes(fn, getterFn, 'changes via getter function');
     assert.changesBy(fn, obj, 'value', 5);
     assert.changesBy(fn, obj, 'value', -5);
+    assert.changesBy(fn, getterFn, 5);
     assert.changesBy(fnDec, obj, 'value', 20);
 
     assert.doesNotChange(smFn, obj, 'value');
+    assert.doesNotChange(smFn, getterFn, 'value');
     assert.changesButNotBy(fnDec, obj, 'value', 1);
+    assert.changesButNotBy(fnDec, getterFn, 1);
 
     assert.changes(bangFn, obj, 'str');
 
@@ -2270,7 +2275,7 @@ describe('assert', function () {
     assert.changesButNotBy(batFn, lenFn, 2);
 
     err(function () {
-      assert.changes(smFn,obj, 'value', 'blah');
+      assert.changes(smFn, obj, 'value', 'blah');
     }, "blah: expected .value to change");
 
     err(function () {
@@ -2302,17 +2307,26 @@ describe('assert', function () {
         lenFn = function() { return arr.length },
         incFn = function() { obj.value += 2 },
         decFn = function() { obj.value -= 3 },
+        getterFn = function() { return obj.value },
         smFn  = function() { obj.value += 0 };
 
     assert.decreases(decFn, obj, 'value');
+    assert.decreases(decFn, getterFn, 'decreases via getter function');
     assert.doesNotDecrease(smFn, obj, 'value');
+    assert.doesNotDecrease(smFn, getterFn, 'value');
     assert.decreasesBy(decFn, obj, 'value', 3);
+    assert.decreasesBy(decFn, getterFn, 3);
     assert.decreasesButNotBy(decFn, obj, 'value', 10);
+    assert.decreasesButNotBy(decFn, getterFn, 10);
 
     assert.increases(incFn, obj, 'value');
+    assert.increases(incFn, getterFn, 'increases via getter function');
     assert.doesNotIncrease(smFn, obj, 'value');
+    assert.doesNotIncrease(smFn, getterFn, 'value');
     assert.increasesBy(incFn, obj, 'value', 2);
+    assert.increasesBy(incFn, getterFn, 2);
     assert.increasesButNotBy(incFn, obj, 'value', 1);
+    assert.increasesButNotBy(incFn, getterFn, 1);
 
     assert.decreases(popFn, lenFn);
     assert.doesNotDecrease(pFn, lenFn);
