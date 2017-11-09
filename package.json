@@ -38,7 +38,7 @@
     "deep-eql": "^3.0.1",
     "get-func-name": "^2.0.0",
     "pathval": "^1.0.0",
-    "type-detect": "^4.0.0"
+    "type-detect": "^4.0.5"
   },
   "devDependencies": {
     "browserify": "^14.5.0",
