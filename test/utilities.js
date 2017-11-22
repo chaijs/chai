@@ -163,7 +163,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('addMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(1);
@@ -348,7 +348,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('overwriteMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(4);
@@ -444,7 +444,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('addProperty doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(1);
@@ -604,7 +604,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('overwriteProperty doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect(4);
@@ -911,7 +911,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('addChainableMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect('x');
@@ -1039,7 +1039,7 @@ describe('utilities', function () {
       var newSsfi = utils.flag(newAssertion, 'ssfi');
 
       expect(origSsfi).to.not.equal(newSsfi);
-    }); 
+    });
 
     it('overwriteChainableMethod doesn\'t set `ssfi` when `lockSsfi` is set', function () {
       var origAssertion = expect('x');
@@ -1206,7 +1206,7 @@ describe('utilities', function () {
 
     it('throws invalid use error if a non-existent property is read when nonChainableMethodName is set', function () {
       var bake = proxify(function () {}, 'bake');
-      
+
       expect(function () {
         bake.numPizzas;
       }).to.throw('Invalid Chai property: bake.numPizzas. See docs for proper usage of "bake".');
@@ -1268,15 +1268,15 @@ describe('utilities', function () {
 
     it('throws invalid use error if `.length` is read when `methodName` is defined and `isChainable` is false', function () {
       var hoagie = addLengthGuard({}, 'hoagie', false);
-  
+
       expect(function () {
         hoagie.length;
       }).to.throw('Invalid Chai property: hoagie.length. See docs for proper usage of "hoagie".');
     });
- 
+
     it('throws incompatible `.length` error if `.length` is read when `methodName` is defined and `isChainable` is true', function () {
       var hoagie = addLengthGuard({}, 'hoagie', true);
-  
+
       expect(function () {
         hoagie.length;
       }).to.throw('Invalid Chai property: hoagie.length. Due to a compatibility issue, "length" cannot directly follow "hoagie". Use "hoagie.lengthOf" instead.');
