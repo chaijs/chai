@@ -2299,6 +2299,306 @@ describe('should', function() {
       expected.should.deep.equal(original_order);
   });
 
+  describe("error", function () {
+    var errObj = new Error("i like waffles");
+    var subErrObj = new TypeError("i like waffles");
+    var nonErrObj = { message: "i like waffles" };
+
+    describe("given no arguments", function () {
+      it("passes when target is an `Error` instance", function () {
+        errObj.should.be.an.error();
+      });
+      it("passes when target is a subclassed `Error` instance", function () {
+        subErrObj.should.be.an.error();
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error();
+        }, "expected { message: 'i like waffles' } to be an Error");
+      });
+      it("fails when target is a number", function () {
+        err(function () {
+          (42).should.be.an.error();
+        }, "expected 42 to be an Error");
+      });
+    });
+
+    describe("given a string only", function () {
+      it("passes when target is an `Error` instance with a message including the string", function () {
+        errObj.should.be.an.error("waffles");
+      });
+      it("passes when target is a subclassed `Error` instance with a message including the string", function () {
+        subErrObj.should.be.an.error("waffles");
+      });
+      it("fails when target's message doesn't include the string", function () {
+        err(function () {
+          errObj.should.be.an.error("pancakes");
+        }, "expected [Error: i like waffles] to be an Error including 'pancakes'");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error("waffles");
+        }, "expected { message: 'i like waffles' } to be an Error including 'waffles'");
+      });
+    });
+
+    describe("given a regexp only", function () {
+      it("passes when target is an `Error` instance with a message matching the regexp", function () {
+        errObj.should.be.an.error(/waffles/);
+      });
+      it("passes when target is a subclassed `Error` instance with a message matching the regexp", function () {
+        subErrObj.should.be.an.error(/waffles/);
+      });
+      it("fails when target's message doesn't match the regexp", function () {
+        err(function () {
+          errObj.should.be.an.error(/pancakes/);
+        }, "expected [Error: i like waffles] to be an Error matching /pancakes/");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error(/waffles/);
+        }, "expected { message: 'i like waffles' } to be an Error matching /waffles/");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor only", function () {
+      it("passes when target is an instance of the constructor", function () {
+        subErrObj.should.be.an.error(TypeError);
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          subErrObj.should.be.an.error(ReferenceError);
+        }, "expected [TypeError: i like waffles] to be a ReferenceError");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error(TypeError);
+        }, "expected { message: 'i like waffles' } to be a TypeError");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and string", function () {
+      it("passes when target is an instance of the constructor with a message including the string", function () {
+        subErrObj.should.be.an.error(TypeError, "waffles");
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          subErrObj.should.be.an.error(ReferenceError, "waffles", "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a ReferenceError including 'waffles'");
+      });
+      it("fails when target's message doesn't include the string", function () {
+        err(function () {
+          subErrObj.should.be.an.error(TypeError, "pancakes", "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a TypeError including 'pancakes'");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error(TypeError, "waffles", "blah");
+        }, "blah: expected { message: 'i like waffles' } to be a TypeError including 'waffles'");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and regexp", function () {
+      it("passes when target is an instance of the constructor with a message matching the regexp", function () {
+        subErrObj.should.be.an.error(TypeError, /waffles/);
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          subErrObj.should.be.an.error(ReferenceError, /waffles/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a ReferenceError matching /waffles/");
+      });
+      it("fails when target's message doesn't match the regexp", function () {
+        err(function () {
+          subErrObj.should.be.an.error(TypeError, /pancakes/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a TypeError matching /pancakes/");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          nonErrObj.should.be.an.error(TypeError, /waffles/, "blah");
+        }, "blah: expected { message: 'i like waffles' } to be a TypeError matching /waffles/");
+      });
+    });
+
+    describe("given an `Error` instance only", function () {
+      it("passes when target is strictly equal to the instance", function () {
+        errObj.should.be.an.error(errObj);
+      });
+      it("fails when target is a different instance with the same constructor and message", function () {
+        err(function () {
+          errObj.should.be.an.error(new Error("i like waffles"));
+        }, "expected [Error: i like waffles] to be [Error: i like waffles]");
+      });
+    });
+
+    describe("given invalid arguments", function () {
+      it("throws when 1st arg is a string and 2rd arg is defined", function () {
+        err(function () {
+          errObj.should.be.an.error("testing", "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+      });
+      it("throws when 1st arg isn't an `Error` constructor, `Error` instance, string, or regexp", function () {
+        err(function () {
+          errObj.should.be.an.error({});
+        }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+      });
+      it("throws when 2nd arg is defined but not a string or regexp", function () {
+        err(function () {
+          errObj.should.be.an.error(TypeError, {});
+        }, "errMsgMatcher must be a string or regular expression", true);
+      });
+      it("throws when 1st arg is an `Error` instance and 2rd arg is defined", function () {
+        err(function () {
+          errObj.should.be.an.error(errObj, "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
+      });
+    });
+  });
+
+  describe("not.error", function () {
+    var errObj = new Error("i like waffles");
+    var subErrObj = new TypeError("i like waffles");
+    var nonErrObj = { message: "i like waffles" };
+
+    describe("given no arguments", function () {
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error();
+      });
+      it("passes when target is a number", function () {
+        (42).should.not.be.an.error();
+      });
+      it("fails when target is an `Error` instance", function () {
+        err(function () {
+          errObj.should.not.be.an.error();
+        }, "expected [Error: i like waffles] to not be an Error");
+      });
+      it("fails when target is a subclassed `Error` instance", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error();
+        }, "expected [TypeError: i like waffles] to not be an Error");
+      });
+    });
+
+    describe("given a string only", function () {
+      it("passes when target's message doesn't include the string", function () {
+        errObj.should.not.be.an.error("pancakes");
+      });
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error("waffles");
+      });
+      it("fails when target is an `Error` instance with a message including the string", function () {
+        err(function () {
+          errObj.should.not.be.an.error("waffles");
+        }, "expected [Error: i like waffles] to not be an Error including 'waffles'");
+      });
+      it("fails when target is a subclassed `Error` instance with a message including the string", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error("waffles");
+        }, "expected [TypeError: i like waffles] to not be an Error including 'waffles'");
+      });
+    });
+
+    describe("given a regexp only", function () {
+      it("passes when target's message doesn't match the regexp", function () {
+        errObj.should.not.be.an.error(/pancakes/);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error(/waffles/);
+      });
+      it("fails when target is an `Error` instance with a message matching the regexp", function () {
+        err(function () {
+          errObj.should.not.be.an.error(/waffles/);
+        }, "expected [Error: i like waffles] to not be an Error matching /waffles/");
+      });
+      it("fails when target is a subclassed `Error` instance with a message matching the regexp", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error(/waffles/);
+        }, "expected [TypeError: i like waffles] to not be an Error matching /waffles/");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor only", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        subErrObj.should.not.be.an.error(ReferenceError);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error(TypeError);
+      });
+      it("fails when target is an instance of the constructor", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error(TypeError);
+        }, "expected [TypeError: i like waffles] to not be a TypeError");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and string", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        subErrObj.should.not.be.an.error(ReferenceError, "waffles");
+      });
+      it("passes when target's message doesn't include the string", function () {
+        subErrObj.should.not.be.an.error(TypeError, "pancakes");
+      });
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error(TypeError, "waffles");
+      });
+      it("fails when target is an instance of the constructor with a message including the string", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error(TypeError, "waffles", "blah");
+        }, "blah: expected [TypeError: i like waffles] to not be a TypeError including 'waffles'");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and regexp", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        subErrObj.should.not.be.an.error(ReferenceError, /waffles/);
+      });
+      it("passes when target's message doesn't match the regexp", function () {
+        subErrObj.should.not.be.an.error(TypeError, /pancakes/);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        nonErrObj.should.not.be.an.error(TypeError, /waffles/);
+      });
+      it("fails when target is an instance of the constructor with a message matching the regexp", function () {
+        err(function () {
+          subErrObj.should.not.be.an.error(TypeError, /waffles/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to not be a TypeError matching /waffles/");
+      });
+    });
+
+    describe("given an `Error` instance only", function () {
+      it("passes when target is a different instance with the same constructor and message", function () {
+        errObj.should.not.be.an.error(new Error("i like waffles"));
+      });
+      it("fails when target is strictly equal to the instance", function () {
+        err(function () {
+          errObj.should.not.be.an.error(errObj);
+        }, "expected [Error: i like waffles] to not be [Error: i like waffles]");
+      });
+    });
+
+    describe("given invalid arguments", function () {
+      it("throws when 1st arg is a string and 2rd arg is defined", function () {
+        err(function () {
+          errObj.should.not.be.an.error("testing", "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+      });
+      it("throws when 1st arg isn't an `Error` constructor, `Error` instance, string, or regexp", function () {
+        err(function () {
+          errObj.should.not.be.an.error({});
+        }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+      });
+      it("throws when 2nd arg is defined but not a string or regexp", function () {
+        err(function () {
+          errObj.should.not.be.an.error(TypeError, {});
+        }, "errMsgMatcher must be a string or regular expression", true);
+      });
+      it("throws when 1st arg is an `Error` instance and 2rd arg is defined", function () {
+        err(function () {
+          errObj.should.not.be.an.error(errObj, "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
+      });
+    });
+  });
+
   it('throw', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead
