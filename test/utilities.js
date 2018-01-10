@@ -619,6 +619,31 @@ describe('utilities', function () {
     });
   });
 
+  describe('addInspector', function () {
+    before(function() {
+      chai.use(function (_chai, _) {
+          _.addInspector(function customInspector1(obj) {
+          return obj === 1 ? "it is a 1!" : null;
+        })
+          _.addInspector(function customInspector2(obj) {
+          return obj === 2 ? "it is a 2!" : null;
+        });
+      });
+    });
+
+    it('uses the first inspector that returns a non-null value', function () {
+      chai.use(function (_chai, _) {
+          expect(_.inspect(1)).to.equal("it is a 1!");
+          expect(_.inspect(2)).to.equal("it is a 2!");
+      });
+    });
+    it('falls back to the default inspector if no custom inspectors return a value', function () {
+      chai.use(function (_chai, _) {
+        expect(_.inspect(3)).to.equal("3");
+      });
+    })
+  });
+
   it('getMessage', function () {
     chai.use(function (_chai, _) {
       expect(_.getMessage({}, [])).to.equal('');
