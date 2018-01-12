@@ -14,10 +14,24 @@ describe('assert', function () {
     }, "expected foo to equal `bar`");
   });
 
-  it('fail', function () {
-    chai.expect(function () {
-      assert.fail(0, 1, 'this has failed');
-    }).to.throw(chai.AssertionError, /this has failed/);
+  describe("fail", function() {
+    it('should accept a message as the 3rd argument', function () {
+      err(function() {
+        assert.fail(0, 1, 'this has failed');
+      }, /this has failed/);
+    });
+
+    it('should accept a message as the only argument', function () {
+      err(function() {
+        assert.fail('this has failed');
+      }, /this has failed/);
+    });
+
+    it('should produce a default message when called without any arguments', function () {
+      err(function() {
+        assert.fail();
+      }, /assert\.fail()/);
+    });
   });
 
   it('isTrue', function () {

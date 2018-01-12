@@ -236,10 +236,24 @@ describe('expect', function () {
     , 'of', 'same', 'but', 'does' ].forEach(test);
   });
 
-  it('fail', function () {
-    err(function() {
-      expect.fail(0, 1, 'this has failed');
-    }, /this has failed/);
+  describe("fail", function() {
+    it('should accept a message as the 3rd argument', function () {
+      err(function() {
+        expect.fail(0, 1, 'this has failed');
+      }, /this has failed/);
+    });
+
+    it('should accept a message as the only argument', function () {
+      err(function() {
+        expect.fail('this has failed');
+      }, /this has failed/);
+    });
+
+    it('should produce a default message when called without any arguments', function () {
+      err(function() {
+        expect.fail();
+      }, /expect\.fail()/);
+    });
   });
 
   it('true', function(){
