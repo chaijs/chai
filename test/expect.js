@@ -1181,6 +1181,22 @@ describe('expect', function () {
   it('deep.equal(val)', function(){
     expect({ foo: 'bar' }).to.deep.equal({ foo: 'bar' });
     expect({ foo: 'bar' }).not.to.deep.equal({ foo: 'baz' });
+
+    err(function(){
+      expect({foo: 'bar'}).to.deep.equal({foo: 'baz'}, 'blah');
+    }, "blah: expected { foo: 'bar' } to deeply equal { foo: 'baz' }");
+
+    err(function(){
+      expect({foo: 'bar'}, 'blah').to.deep.equal({foo: 'baz'});
+    }, "blah: expected { foo: 'bar' } to deeply equal { foo: 'baz' }");
+
+    err(function(){
+      expect({foo: 'bar'}).to.not.deep.equal({foo: 'bar'}, 'blah');
+    }, "blah: expected { foo: 'bar' } to not deeply equal { foo: 'bar' }");
+
+    err(function(){
+      expect({foo: 'bar'}, 'blah').to.not.deep.equal({foo: 'bar'});
+    }, "blah: expected { foo: 'bar' } to not deeply equal { foo: 'bar' }");
   });
 
   it('deep.equal(/regexp/)', function(){

@@ -1022,6 +1022,19 @@ describe('should', function() {
     }, "blah: expected '4' to equal 4");
   });
 
+  it('deep.equal(val)', function(){
+    ({ foo: 'bar' }).should.deep.equal({ foo: 'bar' });
+    ({ foo: 'bar' }).should.not.deep.equal({ foo: 'baz' });
+
+    err(function(){
+      ({foo: 'bar'}).should.deep.equal({foo: 'baz'}, 'blah');
+    }, "blah: expected { foo: 'bar' } to deeply equal { foo: 'baz' }");
+
+    err(function(){
+      ({foo: 'bar'}).should.not.deep.equal({foo: 'bar'}, 'blah');
+    }, "blah: expected { foo: 'bar' } to not deeply equal { foo: 'bar' }");
+  });
+
   it('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
