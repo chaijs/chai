@@ -560,6 +560,48 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.within(5,7, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length.within(0, 0);
+      (new Map).should.have.lengthOf.within(0, 0);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length.within(2, 4);
+      map.should.have.lengthOf.within(2, 4);
+
+      err(function () {
+        map.should.have.length.within(5, 7, 'blah');
+      }, "blah: expected {} to have a size within 5..7");
+
+      err(function () {
+        map.should.have.lengthOf.within(5, 7, 'blah');
+      }, "blah: expected {} to have a size within 5..7");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length.within(0, 0);
+      (new Set).should.have.lengthOf.within(0, 0);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length.within(2, 4);
+      set.should.have.lengthOf.within(2, 4);
+
+      err(function () {
+        set.should.have.length.within(5, 7, 'blah');
+      }, "blah: expected {} to have a size within 5..7");
+
+      err(function () {
+        set.should.have.lengthOf.within(5, 7, 'blah');
+      }, "blah: expected {} to have a size within 5..7");
+    }
   });
 
   it('within(start, finish) (dates)', function(){
@@ -665,6 +707,48 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length.above(-1);
+      (new Map).should.have.lengthOf.above(-1);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length.above(2);
+      map.should.have.lengthOf.above(2);
+
+      err(function () {
+        map.should.have.length.above(5, 'blah');
+      }, "blah: expected {} to have a size above 5 but got 3");
+
+      err(function () {
+        map.should.have.lengthOf.above(5, 'blah');
+      }, "blah: expected {} to have a size above 5 but got 3");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length.above(-1);
+      (new Set).should.have.lengthOf.above(-1);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length.above(2);
+      set.should.have.lengthOf.above(2);
+
+      err(function () {
+        set.should.have.length.above(5, 'blah');
+      }, "blah: expected {} to have a size above 5 but got 3");
+
+      err(function () {
+        set.should.have.lengthOf.above(5, 'blah');
+      }, "blah: expected {} to have a size above 5 but got 3");
+    }
   });
 
   it('above(n) (dates)', function(){
@@ -745,6 +829,48 @@ describe('should', function() {
     err(function () {
       (1).should.not.be.at.least(null, 'blah');
     }, "blah: the argument to least must be a number");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length.of.at.least(0);
+      (new Map).should.have.lengthOf.at.least(0);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length.of.at.least(3);
+      map.should.have.lengthOf.at.least(3);
+
+      err(function () {
+        map.should.have.length.of.at.least(4, 'blah');
+      }, "blah: expected {} to have a size at least 4 but got 3");
+
+      err(function () {
+        map.should.have.lengthOf.at.least(4, 'blah');
+      }, "blah: expected {} to have a size at least 4 but got 3");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length.of.at.least(0);
+      (new Set).should.have.lengthOf.at.least(0);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length.of.at.least(3);
+      set.should.have.lengthOf.at.least(3);
+
+      err(function () {
+        set.should.have.length.of.at.least(4, 'blah');
+      }, "blah: expected {} to have a size at least 4 but got 3");
+
+      err(function () {
+        set.should.have.lengthOf.at.least(4, 'blah');
+      }, "blah: expected {} to have a size at least 4 but got 3");
+    }
   });
 
   it('below(n)', function(){
@@ -792,6 +918,48 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length.below(1);
+      (new Map).should.have.lengthOf.below(1);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length.below(4);
+      map.should.have.lengthOf.below(4);
+
+      err(function () {
+        map.should.have.length.below(2, 'blah');
+      }, "blah: expected {} to have a size below 2 but got 3");
+
+      err(function () {
+        map.should.have.lengthOf.below(2, 'blah');
+      }, "blah: expected {} to have a size below 2 but got 3");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length.below(1);
+      (new Set).should.have.lengthOf.below(1);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length.below(4);
+      set.should.have.lengthOf.below(4);
+
+      err(function () {
+        set.should.have.length.below(2, 'blah');
+      }, "blah: expected {} to have a size below 2 but got 3");
+
+      err(function () {
+        set.should.have.lengthOf.below(2, 'blah');
+      }, "blah: expected {} to have a size below 2 but got 3");
+    }
   });
 
   it('below(n) (dates)', function(){
@@ -880,6 +1048,48 @@ describe('should', function() {
     err(function () {
       (1).should.have.lengthOf.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length.of.at.most(0);
+      (new Map).should.have.lengthOf.at.most(0);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length.of.at.most(3);
+      map.should.have.lengthOf.at.most(3);
+
+      err(function () {
+        map.should.have.length.of.at.most(2, 'blah');
+      }, "blah: expected {} to have a size at most 2 but got 3");
+
+      err(function () {
+        map.should.have.lengthOf.at.most(2, 'blah');
+      }, "blah: expected {} to have a size at most 2 but got 3");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length.of.at.most(0);
+      (new Set).should.have.lengthOf.at.most(0);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length.of.at.most(3);
+      set.should.have.lengthOf.at.most(3);
+
+      err(function () {
+        set.should.have.length.of.at.most(2, 'blah');
+      }, "blah: expected {} to have a size at most 2 but got 3");
+
+      err(function () {
+        set.should.have.lengthOf.at.most(2, 'blah');
+      }, "blah: expected {} to have a size at most 2 but got 3");
+    }
   });
 
   it('most(n) (dates)', function(){
@@ -971,6 +1181,48 @@ describe('should', function() {
     err(function(){
       'asd'.should.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
+
+    if (typeof Map === 'function') {
+      (new Map).should.have.length(0);
+      (new Map).should.have.lengthOf(0);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+
+      map.should.have.length(3);
+      map.should.have.lengthOf(3);
+
+      err(function(){
+        map.should.not.have.length(3, 'blah');
+      }, "blah: expected {} to not have a size of 3");
+
+      err(function(){
+        map.should.not.have.lengthOf(3, 'blah');
+      }, "blah: expected {} to not have a size of 3");
+    }
+
+    if (typeof Set === 'function') {
+      (new Set).should.have.length(0);
+      (new Set).should.have.lengthOf(0);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      set.should.have.length(3);
+      set.should.have.lengthOf(3);
+
+      err(function(){
+        set.should.not.have.length(3, 'blah');
+      }, "blah: expected {} to not have a size of 3");
+
+      err(function(){
+        set.should.not.have.lengthOf(3, 'blah');;
+      }, "blah: expected {} to not have a size of 3");
+    }
   });
 
   it('eql(val)', function(){
