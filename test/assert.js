@@ -1388,6 +1388,34 @@ describe('assert', function () {
     err(function () {
       assert.lengthOf(1, 5);
      }, "expected 1 to have property \'length\'");
+
+    if (typeof Map === 'function') {
+      assert.lengthOf(new Map, 0);
+
+      var map = new Map;
+      map.set('a', 1);
+      map.set('b', 2);
+
+      assert.lengthOf(map, 2);
+
+      err(function(){
+        assert.lengthOf(map, 3, 'blah');
+      }, "blah: expected {} to have a size of 3 but got 2");
+    }
+
+    if (typeof Set === 'function') {
+      assert.lengthOf(new Set, 0);
+
+      var set = new Set;
+      set.add(1);
+      set.add(2);
+
+      assert.lengthOf(set, 2);
+
+      err(function(){
+        assert.lengthOf(set, 3, 'blah');
+      }, "blah: expected {} to have a size of 3 but got 2");
+    }
   });
 
   it('match', function () {
