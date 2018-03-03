@@ -1284,81 +1284,44 @@ describe('utilities', function () {
   });
 
   describe("isProxyEnabled", function () {
-    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
-
-    var origProxy, origReflect, origUseProxy, isProxyEnabled;
+    var origUseProxy, isProxyEnabled;
 
     before(function () {
       chai.use(function (_chai, _) {
         isProxyEnabled = _.isProxyEnabled;
       });
 
-      origProxy = Proxy;
-      origReflect = Reflect;
       origUseProxy = chai.config.useProxy;
     });
 
     beforeEach(function () {
-      Proxy = origProxy;
-      Reflect = origReflect;
       chai.config.useProxy = true;
     });
 
     after(function () {
-      Proxy = origProxy;
-      Reflect = origReflect;
       chai.config.useProxy = origUseProxy;
     });
 
-    it("returns true if Proxy is defined, Reflect is defined, and useProxy is true", function () {
-      expect(isProxyEnabled()).to.be.true;
-    });
+    if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
+      it("returns true if Proxy and Reflect are defined, and useProxy is true", function () {
+        expect(isProxyEnabled()).to.be.true;
+      });
 
-    it("returns false if Proxy is defined, Reflect is defined, and useProxy is false", function () {
-      chai.config.useProxy = false;
+      it("returns false if Proxy and Reflect are defined, and useProxy is false", function () {
+        chai.config.useProxy = false;
 
-      expect(isProxyEnabled()).to.be.false;
-    });
+        expect(isProxyEnabled()).to.be.false;
+      });
+    } else {
+      it("returns false if Proxy and/or Reflect are undefined, and useProxy is true", function () {
+        expect(isProxyEnabled()).to.be.false;
+      });
 
-    it("returns false if Proxy is defined, Reflect is undefined, and useProxy is true", function () {
-      Reflect = undefined;
+      it("returns false if Proxy and/or Reflect are undefined, and useProxy is false", function () {
+        chai.config.useProxy = false;
 
-      expect(isProxyEnabled()).to.be.false;
-    });
-
-    it("returns false if Proxy is defined, Reflect is undefined, and useProxy is false", function () {
-      Reflect = undefined;
-      chai.config.useProxy = false;
-
-      expect(isProxyEnabled()).to.be.false;
-    });
-
-    it("returns false if Proxy is undefined, Reflect is defined, and useProxy is true", function () {
-      Proxy = undefined;
-
-      expect(isProxyEnabled()).to.be.false;
-    });
-
-    it("returns false if Proxy is undefined, Reflect is defined, and useProxy is false", function () {
-      Proxy = undefined;
-      chai.config.useProxy = false;
-
-      expect(isProxyEnabled()).to.be.false;
-    });
-
-    it("returns false if Proxy is undefined, Reflect is undefined, and useProxy is true", function () {
-      Proxy = undefined;
-      Reflect = undefined;
-
-      expect(isProxyEnabled()).to.be.false;
-    });
-
-    it("returns false if Proxy is undefined, Reflect is undefined, and useProxy is false", function () {
-      Proxy = undefined;
-      Reflect = undefined;
-      chai.config.useProxy = false;
-
-      expect(isProxyEnabled()).to.be.false;
-    });
+        expect(isProxyEnabled()).to.be.false;
+      });
+    }
   });
 });
