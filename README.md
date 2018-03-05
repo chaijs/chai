@@ -86,7 +86,7 @@ For more information or to download plugins, view the [documentation](http://cha
 
 ## What is Chai?
 
-Chai is an _assertion library_, similar to Node's build in `assert`. It makes testing much easier by giving you lots of assertions you can run against your code.
+Chai is an _assertion library_, similar to Node's built-in `assert`. It makes testing much easier by giving you lots of assertions you can run against your code.
 
 ## Installation
 
