@@ -9215,7 +9215,7 @@ module.exports = function test(obj, args) {
  *     var newAssertion = new Assertion();
  *     utils.transferFlags(assertion, newAssertion);
  *
- *     var anotherAsseriton = new Assertion(myObj);
+ *     var anotherAssertion = new Assertion(myObj);
  *     utils.transferFlags(assertion, anotherAssertion, false);
  *
  * @param {Assertion} assertion the assertion to transfer the flags from
