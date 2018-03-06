@@ -10448,7 +10448,7 @@ module.exports = function typeDetect(obj) {
     /* ! Spec Conformance
      * (https://html.spec.whatwg.org/#document)
      * WhatWG HTML$3.1.1 - The `Document` object
-     * Note: Most browsers currently adher to the W3C DOM Level 2 spec
+     * Note: Most browsers currently adhere to the W3C DOM Level 2 spec
      *       (https://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-26809268)
      *       which suggests that browsers should use HTMLTableCellElement for
      *       both TD and TH elements. WhatWG separates these.
@@ -10501,7 +10501,7 @@ module.exports = function typeDetect(obj) {
     /* ! Spec Conformance
      * (https://html.spec.whatwg.org/#htmltabledatacellelement)
      * WhatWG HTML$4.9.9 - The `td` element - Interface `HTMLTableDataCellElement`
-     * Note: Most browsers currently adher to the W3C DOM Level 2 spec
+     * Note: Most browsers currently adhere to the W3C DOM Level 2 spec
      *       (https://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-82915075)
      *       which suggests that browsers should use HTMLTableCellElement for
      *       both TD and TH elements. WhatWG separates these.
@@ -10517,7 +10517,7 @@ module.exports = function typeDetect(obj) {
     /* ! Spec Conformance
      * (https://html.spec.whatwg.org/#htmltableheadercellelement)
      * WhatWG HTML$4.9.9 - The `td` element - Interface `HTMLTableHeaderCellElement`
-     * Note: Most browsers currently adher to the W3C DOM Level 2 spec
+     * Note: Most browsers currently adhere to the W3C DOM Level 2 spec
      *       (https://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-82915075)
      *       which suggests that browsers should use HTMLTableCellElement for
      *       both TD and TH elements. WhatWG separates these.
