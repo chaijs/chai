@@ -8793,7 +8793,7 @@ var transferFlags = require('./transferFlags');
 /**
  * ### .overwriteChainableMethod(ctx, name, method, chainingBehavior)
  *
- * Overwites an already existing chainable method
+ * Overwrites an already existing chainable method
  * and provides access to the previous function or
  * property.  Must return functions to be used for
  * name.
@@ -8867,7 +8867,7 @@ var transferFlags = require('./transferFlags');
 /**
  * ### .overwriteMethod(ctx, name, fn)
  *
- * Overwites an already existing method and provides
+ * Overwrites an already existing method and provides
  * access to previous function. Must return function
  * to be used for name.
  *
@@ -8960,7 +8960,7 @@ var transferFlags = require('./transferFlags');
 /**
  * ### .overwriteProperty(ctx, name, fn)
  *
- * Overwites an already existing property getter and provides
+ * Overwrites an already existing property getter and provides
  * access to previous value. Must return function to use as getter.
  *
  *     utils.overwriteProperty(chai.Assertion.prototype, 'ok', function (_super) {
