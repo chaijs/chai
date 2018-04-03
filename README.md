@@ -23,7 +23,7 @@
       src="https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square"
     />
   </a>
-  <a href="https://www.npmjs.com/packages/chai">
+  <a href="https://www.npmjs.com/package/chai">
     <img
       alt="node:?"
       src="https://img.shields.io/badge/node-%3E=4.0-blue.svg?style=flat-square"
