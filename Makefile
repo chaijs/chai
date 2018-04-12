@@ -76,8 +76,12 @@ test-sauce: clean-browser chai.js
 	@CHAI_TEST_ENV=sauce ./node_modules/karma/bin/karma start \
 		--single-run
 
+test-typescript:
+	@./node_modules/.bin/tsc -p test/typings
+
 test-travisci:
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@make test-typescript
 	@make test-cov
 	@make test-sauce
 
