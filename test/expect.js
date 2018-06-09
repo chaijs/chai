@@ -2981,6 +2981,314 @@ describe('expect', function () {
     expect(badFn).to.throw(Error).with.property('message', 'testing');
   });
 
+  describe("error", function () {
+    var errObj = new Error("i like waffles");
+    var subErrObj = new TypeError("i like waffles");
+    var nonErrObj = { message: "i like waffles" };
+
+    describe("given no arguments", function () {
+      it("passes when target is an `Error` instance", function () {
+        expect(errObj).to.be.an.error();
+      });
+      it("passes when target is a subclassed `Error` instance", function () {
+        expect(subErrObj).to.be.an.error();
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj, "blah").to.be.an.error();
+        }, "blah: expected { message: 'i like waffles' } to be an Error");
+      });
+      it("fails when target is a number", function () {
+        err(function () {
+          expect(42, "blah").to.be.an.error();
+        }, "blah: expected 42 to be an Error");
+      });
+      it("fails when target is undefined", function () {
+        err(function () {
+          expect(undefined, "blah").to.be.an.error();
+        }, "blah: expected undefined to be an Error");
+      });
+    });
+
+    describe("given a string only", function () {
+      it("passes when target is an `Error` instance with a message including the string", function () {
+        expect(errObj).to.be.an.error("waffles");
+      });
+      it("passes when target is a subclassed `Error` instance with a message including the string", function () {
+        expect(subErrObj).to.be.an.error("waffles");
+      });
+      it("fails when target's message doesn't include the string", function () {
+        err(function () {
+          expect(errObj, "blah").to.be.an.error("pancakes");
+        }, "blah: expected [Error: i like waffles] to be an Error including 'pancakes'");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj, "blah").to.be.an.error("waffles");
+        }, "blah: expected { message: 'i like waffles' } to be an Error including 'waffles'");
+      });
+    });
+
+    describe("given a regexp only", function () {
+      it("passes when target is an `Error` instance with a message matching the regexp", function () {
+        expect(errObj).to.be.an.error(/waffles/);
+      });
+      it("passes when target is a subclassed `Error` instance with a message matching the regexp", function () {
+        expect(subErrObj).to.be.an.error(/waffles/);
+      });
+      it("fails when target's message doesn't match the regexp", function () {
+        err(function () {
+          expect(errObj, "blah").to.be.an.error(/pancakes/);
+        }, "blah: expected [Error: i like waffles] to be an Error matching /pancakes/");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj, "blah").to.be.an.error(/waffles/);
+        }, "blah: expected { message: 'i like waffles' } to be an Error matching /waffles/");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor only", function () {
+      it("passes when target is an instance of the constructor", function () {
+        expect(subErrObj).to.be.an.error(TypeError);
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          expect(subErrObj, "blah").to.be.an.error(ReferenceError);
+        }, "blah: expected [TypeError: i like waffles] to be a ReferenceError");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj, "blah").to.be.an.error(TypeError);
+        }, "blah: expected { message: 'i like waffles' } to be a TypeError");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and string", function () {
+      it("passes when target is an instance of the constructor with a message including the string", function () {
+        expect(subErrObj).to.be.an.error(TypeError, "waffles");
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          expect(subErrObj).to.be.an.error(ReferenceError, "waffles", "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a ReferenceError including 'waffles'");
+      });
+      it("fails when target's message doesn't include the string", function () {
+        err(function () {
+          expect(subErrObj).to.be.an.error(TypeError, "pancakes", "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a TypeError including 'pancakes'");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj).to.be.an.error(TypeError, "waffles", "blah");
+        }, "blah: expected { message: 'i like waffles' } to be a TypeError including 'waffles'");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and regexp", function () {
+      it("passes when target is an instance of the constructor with a message matching the regexp", function () {
+        expect(subErrObj).to.be.an.error(TypeError, /waffles/);
+      });
+      it("fails when target is an instance of a different subclassed `Error` constructor", function () {
+        err(function () {
+          expect(subErrObj).to.be.an.error(ReferenceError, /waffles/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a ReferenceError matching /waffles/");
+      });
+      it("fails when target's message doesn't match the regexp", function () {
+        err(function () {
+          expect(subErrObj).to.be.an.error(TypeError, /pancakes/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to be a TypeError matching /pancakes/");
+      });
+      it("fails when target is a non-`Error` object", function () {
+        err(function () {
+          expect(nonErrObj).to.be.an.error(TypeError, /waffles/, "blah");
+        }, "blah: expected { message: 'i like waffles' } to be a TypeError matching /waffles/");
+      });
+    });
+
+    describe("given an `Error` instance only", function () {
+      it("passes when target is strictly equal to the instance", function () {
+        expect(errObj).to.be.an.error(errObj);
+      });
+      it("fails when target is a different instance with the same constructor and message", function () {
+        err(function () {
+          expect(errObj, "blah").to.be.an.error(new Error("i like waffles"));
+        }, "blah: expected [Error: i like waffles] to be [Error: i like waffles]");
+      });
+    });
+
+    describe("given invalid arguments", function () {
+      it("throws when 1st arg is a string and 2rd arg is defined", function () {
+        err(function () {
+          expect(errObj).to.be.an.error("testing", "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+      });
+      it("throws when 1st arg isn't an `Error` constructor, `Error` instance, string, or regexp", function () {
+        err(function () {
+          expect(errObj).to.be.an.error({});
+        }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+      });
+      it("throws when 2nd arg is defined but not a string or regexp", function () {
+        err(function () {
+          expect(errObj).to.be.an.error(TypeError, {});
+        }, "errMsgMatcher must be a string or regular expression", true);
+      });
+      it("throws when 1st arg is an `Error` instance and 2rd arg is defined", function () {
+        err(function () {
+          expect(errObj).to.be.an.error(errObj, "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
+      });
+    });
+  });
+
+  describe("not.error", function () {
+    var errObj = new Error("i like waffles");
+    var subErrObj = new TypeError("i like waffles");
+    var nonErrObj = { message: "i like waffles" };
+
+    describe("given no arguments", function () {
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error();
+      });
+      it("passes when target is a number", function () {
+        expect(42).to.not.be.an.error();
+      });
+      it("passes when target is undefined", function () {
+        expect(undefined).to.not.be.an.error();
+      });
+      it("fails when target is an `Error` instance", function () {
+        err(function () {
+          expect(errObj, "blah").to.not.be.an.error();
+        }, "blah: expected [Error: i like waffles] to not be an Error");
+      });
+      it("fails when target is a subclassed `Error` instance", function () {
+        err(function () {
+          expect(subErrObj, "blah").to.not.be.an.error();
+        }, "blah: expected [TypeError: i like waffles] to not be an Error");
+      });
+    });
+
+    describe("given a string only", function () {
+      it("passes when target's message doesn't include the string", function () {
+        expect(errObj).to.not.be.an.error("pancakes");
+      });
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error("waffles");
+      });
+      it("fails when target is an `Error` instance with a message including the string", function () {
+        err(function () {
+          expect(errObj, "blah").to.not.be.an.error("waffles");
+        }, "blah: expected [Error: i like waffles] to not be an Error including 'waffles'");
+      });
+      it("fails when target is a subclassed `Error` instance with a message including the string", function () {
+        err(function () {
+          expect(subErrObj, "blah").to.not.be.an.error("waffles");
+        }, "blah: expected [TypeError: i like waffles] to not be an Error including 'waffles'");
+      });
+    });
+
+    describe("given a regexp only", function () {
+      it("passes when target's message doesn't match the regexp", function () {
+        expect(errObj).to.not.be.an.error(/pancakes/);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error(/waffles/);
+      });
+      it("fails when target is an `Error` instance with a message matching the regexp", function () {
+        err(function () {
+          expect(errObj, "blah").to.not.be.an.error(/waffles/);
+        }, "blah: expected [Error: i like waffles] to not be an Error matching /waffles/");
+      });
+      it("fails when target is a subclassed `Error` instance with a message matching the regexp", function () {
+        err(function () {
+          expect(subErrObj, "blah").to.not.be.an.error(/waffles/);
+        }, "blah: expected [TypeError: i like waffles] to not be an Error matching /waffles/");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor only", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        expect(subErrObj).to.not.be.an.error(ReferenceError);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error(TypeError);
+      });
+      it("fails when target is an instance of the constructor", function () {
+        err(function () {
+          expect(subErrObj, "blah").to.not.be.an.error(TypeError);
+        }, "blah: expected [TypeError: i like waffles] to not be a TypeError");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and string", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        expect(subErrObj).to.not.be.an.error(ReferenceError, "waffles");
+      });
+      it("passes when target's message doesn't include the string", function () {
+        expect(subErrObj).to.not.be.an.error(TypeError, "pancakes");
+      });
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error(TypeError, "waffles");
+      });
+      it("fails when target is an instance of the constructor with a message including the string", function () {
+        err(function () {
+          expect(subErrObj).to.not.be.an.error(TypeError, "waffles", "blah");
+        }, "blah: expected [TypeError: i like waffles] to not be a TypeError including 'waffles'");
+      });
+    });
+
+    describe("given a subclassed `Error` constructor and regexp", function () {
+      it("passes when target is an instance of a different subclassed `Error` constructor", function () {
+        expect(subErrObj).to.not.be.an.error(ReferenceError, /waffles/);
+      });
+      it("passes when target's message doesn't match the regexp", function () {
+        expect(subErrObj).to.not.be.an.error(TypeError, /pancakes/);
+      });
+      it("passes when target is a non-`Error` object", function () {
+        expect(nonErrObj).to.not.be.an.error(TypeError, /waffles/);
+      });
+      it("fails when target is an instance of the constructor with a message matching the regexp", function () {
+        err(function () {
+          expect(subErrObj).to.not.be.an.error(TypeError, /waffles/, "blah");
+        }, "blah: expected [TypeError: i like waffles] to not be a TypeError matching /waffles/");
+      });
+    });
+
+    describe("given an `Error` instance only", function () {
+      it("passes when target is a different instance with the same constructor and message", function () {
+        expect(errObj).to.not.be.an.error(new Error("i like waffles"));
+      });
+      it("fails when target is strictly equal to the instance", function () {
+        err(function () {
+          expect(errObj, "blah").to.not.be.an.error(errObj);
+        }, "blah: expected [Error: i like waffles] to not be [Error: i like waffles]");
+      });
+    });
+
+    describe("given invalid arguments", function () {
+      it("throws when 1st arg is a string and 2rd arg is defined", function () {
+        err(function () {
+          expect(errObj).to.not.be.an.error("testing", "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+      });
+      it("throws when 1st arg isn't an `Error` constructor, `Error` instance, string, or regexp", function () {
+        err(function () {
+          expect(errObj, "blah").to.not.be.an.error({});
+        }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+      });
+      it("throws when 2nd arg is defined but not a string or regexp", function () {
+        err(function () {
+          expect(errObj).to.not.be.an.error(TypeError, {});
+        }, "errMsgMatcher must be a string or regular expression", true);
+      });
+      it("throws when 1st arg is an `Error` instance and 2rd arg is defined", function () {
+        err(function () {
+          expect(errObj).to.not.be.an.error(errObj, "testing");
+        }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
+      });
+    });
+  });
+
   it('throw', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead
@@ -3004,9 +3312,9 @@ describe('expect', function () {
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
       , customErrFn = function() { throw new CustomError('foo'); }
+      , notErrFn = function () { throw { message: 'testing' }; }
       , emptyErrFn = function () { throw new Error(); }
       , emptyStringErrFn = function () { throw new Error(''); };
-
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
     expect(goodFn).to.not.throw(specificError);
@@ -3042,113 +3350,133 @@ describe('expect', function () {
     expect(badFn).to.not.throw(Error, 'I am the wrong error message');
     expect(badFn).to.not.throw(TypeError, 'testing');
 
+    expect(notErrFn).to.throw();
+    expect(notErrFn).to.not.throw(Error);
+    expect(notErrFn).to.not.throw('testing');
+
     err(function(){
       expect(goodFn, 'blah').to.throw();
-    }, /^blah: expected \[Function(: goodFn)*\] to throw an error$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw ReferenceError$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw a ReferenceError but no error was thrown$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function(: goodFn)*\] to throw \[RangeError: boo\] but no error was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw a ReferenceError but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw \[RangeError: boo\] but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error);
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(refErrFn, 'blah').to.not.throw(ReferenceError);
-    }, /^blah: expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
+    }, /^blah: expected \[Function(: refErrFn)*\] to not throw a ReferenceError but \[ReferenceError: hello\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(PoorlyConstructedError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw a PoorlyConstructedError but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.not.throw(PoorlyConstructedError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: expected \[Function(: ickyErrFn)*\] to not throw a PoorlyConstructedError but {.*name.*} was thrown$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: expected \[Function(: ickyErrFn)*\] to throw a ReferenceError but {.*name.*} was thrown$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.throw(new ReferenceError('eek'));
-    }, /^blah: expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
+    }, /^blah: expected \[Function(: specificErrFn)*\] to throw \[ReferenceError: eek\] but \[RangeError: boo\] was thrown$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.not.throw(specificError);
-    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw \[RangeError: boo\]$/);
 
     err(function (){
       expect(badFn, 'blah').to.not.throw(/testing/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error matching \/testing\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(/hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn).to.throw(Error, /hello/, 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, /hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error matching \/hello\/ but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn).to.throw(Error, 'hello', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error including 'hello' but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, 'hello');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function(: badFn)*\] to throw an Error including 'hello' but \[Error: testing\] was thrown$/);
 
     err(function () {
       expect(customErrFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
+    }, /^blah: expected \[Function(: customErrFn)*\] to not throw but {.*name.*message.*} was thrown$/);
 
     err(function(){
       expect(badFn).to.not.throw(Error, 'testing', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error including 'testing' but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error, 'testing');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function(: badFn)*\] to not throw an Error including 'testing' but \[Error: testing\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn).to.not.throw(Error, '', 'blah');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw(Error, '');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw('');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw an Error including '' but \[Error\] was thrown$/);
 
     err(function () {
       expect({}, 'blah').to.throw();
-    }, "blah: expected {} to be a function");
+    }, "blah: object tested must be a function, but object given");
 
     err(function () {
       expect({}).to.throw(Error, 'testing', 'blah');
-    }, "blah: expected {} to be a function");
+    }, "blah: object tested must be a function, but object given");
+
+    err(function () {
+      expect(goodFn).to.throw('testing', 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is a string or regular expression", true);
+
+    err(function () {
+      expect(goodFn).to.throw({});
+    }, "errLike must be an Error constructor or instance, string, regular expression, or criteria object", true);
+
+    err(function () {
+      expect(goodFn).to.throw(Error, {});
+    }, "errMsgMatcher must be a string or regular expression", true);
+
+    err(function () {
+      expect(goodFn).to.throw(specificError, 'testing');
+    }, "errMsgMatcher must be null or undefined when errLike is an Error instance", true);
   });
 
   it('respondTo', function(){
