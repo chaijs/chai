@@ -1,6 +1,6 @@
 {
   "author": "Jake Luer <jake@alogicalparadox.com>",
-  "name": "chai",
+  "name": "@smc/chai",
   "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
   "keywords": [
     "test",
@@ -17,13 +17,13 @@
     "Veselin Todorov <hi@vesln.com>",
     "John Firebaugh <john.firebaugh@gmail.com>"
   ],
-  "version": "4.1.2",
+  "version": "4.2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chaijs/chai"
+    "url": "https://github.com/FieldServer/chai"
   },
   "bugs": {
-    "url": "https://github.com/chaijs/chai/issues"
+    "url": "https://github.com/FieldServer/chai/issues"
   },
   "main": "./index",
   "scripts": {
