@@ -21,3 +21,5 @@ coverage
 
 test/auth/*
 !test/auth/.gitkeep
+
+.idea/
