@@ -230,10 +230,10 @@ describe('expect', function () {
       expect([1, 2, 3])[chain].contains(1);
     }
 
-    [ 'to', 'be', 'been'
-    , 'is', 'and', 'has', 'have'
-    , 'with', 'that', 'which', 'at'
-    , 'of', 'same', 'but', 'does' ].forEach(test);
+    [ 'to', 'be', 'been', 'is'
+    , 'and', 'has', 'have', 'with'
+    , 'that', 'which', 'at', 'of'
+    , 'same', 'but', 'does', 'still' ].forEach(test);
   });
 
   describe("fail", function() {
