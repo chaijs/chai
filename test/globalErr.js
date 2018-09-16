@@ -52,7 +52,7 @@ describe('globalErr', function () {
   it('should throw if object val\'s props are not included in error object', function () {
     err(function () {
       err(function () { throw new Err('cat') }, {text: 'cat'});
-    }, /expected { Object \(message, showDiff(, \.\.\.)*\) } to have property \'text\'/);
+    }, /expected { AssertionError \(message, showDiff(, \.\.\.)*\) } to have property \'text\'/);
 
     err(function () {
       err(function () { throw new Err('cat') }, {message: 'dog'});
