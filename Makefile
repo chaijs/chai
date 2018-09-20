@@ -47,7 +47,7 @@ node_modules: package.json
 # Tests
 #
 
-test: test-node test-phantom
+test: test-node test-chrome
 
 test-node: node_modules
 	@printf "==> [Test :: Node.js]\n"
@@ -61,15 +61,10 @@ test-cov: node_modules
 		--require ./test/bootstrap \
 		$(TESTS) \
 
-test-phantom: clean-browser chai.js
-	@printf "==> [Test :: Karma (PhantomJS)]\n"
+test-chrome: clean-browser chai.js
+	@printf "==> [Test :: Karma (chrome)]\n"
 	@./node_modules/karma/bin/karma start \
-		--single-run --browsers PhantomJS
-
-test-firefox: clean-browser chai.js
-	@printf "==> [Test :: Karma (Firefox)]\n"
-	@./node_modules/karma/bin/karma start \
-		--browsers Firefox
+		--browsers HeadlessChrome
 
 test-sauce: clean-browser chai.js
 	@printf "==> [Test :: Karma (Sauce)]\n"
@@ -101,6 +96,6 @@ clean-cov:
 #
 
 .PHONY: all
-.PHONY: test test-all test-node test-phantom test-sauce test-cov
+.PHONY: test test-all test-node test-chrome test-sauce test-cov
 .PHONY: clean clean-node clean-browser clean-cov
 .PHONY: release-patch release-minor release-major

@@ -1,7 +1,9 @@
 sudo: false
 language: node_js
 addons:
+  chrome: stable
   sauce_connect: true
+  chrome: stable 
 node_js:
  - 4 # to be removed 2018-04-30
  - 6 # to be removed 2019-04-01
@@ -9,6 +11,9 @@ node_js:
  - 9 # to be removed 2018-06-30
  - lts/* # safety net; don't remove
  - node # safety net; don't remove
+
+before script:
+  - export CHROME_BIN=/usr/bin/chromium-browser
 
 script:
   - make test-travisci
