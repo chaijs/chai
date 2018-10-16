@@ -64,7 +64,7 @@ test-cov: node_modules
 test-chrome: clean-browser chai.js
 	@printf "==> [Test :: Karma (chrome)]\n"
 	@./node_modules/karma/bin/karma start \
-		--single-run --browsers ChromeHeadless
+		--single-run --browsers HeadlessChrome
 
 test-firefox: clean-browser chai.js
 	@printf "==> [Test :: Karma (Firefox)]\n"
