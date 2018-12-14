@@ -41,14 +41,14 @@
     "type-detect": "^4.0.5"
   },
   "devDependencies": {
-    "browserify": "^16.0.0",
+    "browserify": "^16.2.3",
     "bump-cli": "^1.1.3",
     "codecov": "^3.0.0",
     "istanbul": "^0.4.3",
     "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.0.1",
-    "karma-chrome-launcher": "^2.2.0",
     "karma-sauce-launcher": "^1.2.0",
     "mocha": "^5.0.0"
   }
