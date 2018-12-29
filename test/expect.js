@@ -2981,174 +2981,239 @@ describe('expect', function () {
     expect(badFn).to.throw(Error).with.property('message', 'testing');
   });
 
-  it('throw', function () {
-    // See GH-45: some poorly-constructed custom errors don't have useful names
-    // on either their constructor or their constructor prototype, but instead
-    // only set the name inside the constructor itself.
-    var PoorlyConstructedError = function () {
-      this.name = 'PoorlyConstructedError';
-    };
-    PoorlyConstructedError.prototype = Object.create(Error.prototype);
-
-    function CustomError(message) {
-        this.name = 'CustomError';
-        this.message = message;
+  describe("throw", function () {
+    function FakeError(message) {
+      this.message = message;
     }
-    CustomError.prototype = Error.prototype;
+    var goodFn = function () {};
+    var badFnErr = function () { throw Error("Illegal salmon!"); };
+    var badFnTypeErr = function () { throw TypeError("Illegal salmon!"); };
+    var badFnFakeErr = function () { throw new FakeError("Illegal salmon!"); };
+    var badFnObj = function () { throw {a: 1}; };
+    var badFnStr = function () { throw "Illegal salmon!"; };
 
-    var specificError = new RangeError('boo');
-
-    var goodFn = function () { 1==1; }
-      , badFn = function () { throw new Error('testing'); }
-      , refErrFn = function () { throw new ReferenceError('hello'); }
-      , ickyErrFn = function () { throw new PoorlyConstructedError(); }
-      , specificErrFn = function () { throw specificError; }
-      , customErrFn = function() { throw new CustomError('foo'); }
-      , emptyErrFn = function () { throw new Error(); }
-      , emptyStringErrFn = function () { throw new Error(''); };
-
-    expect(goodFn).to.not.throw();
-    expect(goodFn).to.not.throw(Error);
-    expect(goodFn).to.not.throw(specificError);
-    expect(badFn).to.throw();
-    expect(badFn).to.throw(Error);
-    expect(badFn).to.not.throw(ReferenceError);
-    expect(badFn).to.not.throw(specificError);
-    expect(refErrFn).to.throw();
-    expect(refErrFn).to.throw(ReferenceError);
-    expect(refErrFn).to.throw(Error);
-    expect(refErrFn).to.not.throw(TypeError);
-    expect(refErrFn).to.not.throw(specificError);
-    expect(ickyErrFn).to.throw();
-    expect(ickyErrFn).to.throw(PoorlyConstructedError);
-    expect(ickyErrFn).to.throw(Error);
-    expect(ickyErrFn).to.not.throw(specificError);
-    expect(specificErrFn).to.throw(specificError);
-
-    expect(goodFn).to.not.throw('testing');
-    expect(goodFn).to.not.throw(/testing/);
-    expect(badFn).to.throw(/testing/);
-    expect(badFn).to.not.throw(/hello/);
-    expect(badFn).to.throw('testing');
-    expect(badFn).to.not.throw('hello');
-    expect(emptyStringErrFn).to.throw('');
-    expect(emptyStringErrFn).to.not.throw('testing');
-    expect(badFn).to.throw('');
-
-    expect(badFn).to.throw(Error, /testing/);
-    expect(badFn).to.throw(Error, 'testing');
-    expect(emptyErrFn).to.not.throw(Error, 'testing');
-
-    expect(badFn).to.not.throw(Error, 'I am the wrong error message');
-    expect(badFn).to.not.throw(TypeError, 'testing');
-
-    err(function(){
-      expect(goodFn, 'blah').to.throw();
-    }, /^blah: expected \[Function(: goodFn)*\] to throw an error$/);
-
-    err(function(){
-      expect(goodFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw ReferenceError$/);
-
-    err(function(){
-      expect(goodFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.not.throw(Error);
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(refErrFn, 'blah').to.not.throw(ReferenceError);
-    }, /^blah: expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.throw(PoorlyConstructedError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(ickyErrFn, 'blah').to.not.throw(PoorlyConstructedError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
-
-    err(function(){
-      expect(ickyErrFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
-
-    err(function(){
-      expect(specificErrFn, 'blah').to.throw(new ReferenceError('eek'));
-    }, /^blah: expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
-
-    err(function(){
-      expect(specificErrFn, 'blah').to.not.throw(specificError);
-    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
-
-    err(function (){
-      expect(badFn, 'blah').to.not.throw(/testing/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
-
-    err(function () {
-      expect(badFn, 'blah').to.throw(/hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
-
-    err(function () {
-      expect(badFn).to.throw(Error, /hello/, 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
-
-    err(function () {
-      expect(badFn, 'blah').to.throw(Error, /hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
-
-    err(function () {
-      expect(badFn).to.throw(Error, 'hello', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
-
-    err(function () {
-      expect(badFn, 'blah').to.throw(Error, 'hello');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
-
-    err(function () {
-      expect(customErrFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
-
-    err(function(){
-      expect(badFn).to.not.throw(Error, 'testing', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(badFn, 'blah').to.not.throw(Error, 'testing');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
-
-    err(function(){
-      expect(emptyStringErrFn).to.not.throw(Error, '', 'blah');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
-
-    err(function(){
-      expect(emptyStringErrFn, 'blah').to.not.throw(Error, '');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
-
-    err(function(){
-      expect(emptyStringErrFn, 'blah').to.not.throw('');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
-
-    err(function () {
-      expect({}, 'blah').to.throw();
-    }, "blah: expected {} to be a function");
-
-    err(function () {
-      expect({}).to.throw(Error, 'testing', 'blah');
-    }, "blah: expected {} to be a function");
+    describe("invoked with no args", function () {
+      describe("normal", function () {
+        it("passes when target throws", function () {
+          expect(badFnErr).to.throw();
+        });
+        it("fails when target doesn't throw", function () {
+          err(function () {
+            expect(goodFn, 'blah').to.throw();
+          }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+        });
+      });
+      describe("negated", function () {
+        it("passes when target doesn't throw", function () {
+          expect(goodFn).to.not.throw();
+        });
+        it("fails when target throws", function () {
+          err(function () {
+            expect(badFnErr, 'blah').to.not.throw();
+          }, /^blah: expected \[Function(: badFnErr)*\] to not throw but \[Error: Illegal salmon!\] was thrown$/);
+        });
+      });
+    });
+    describe("invoked with one arg, a function", function () {
+      it("passes when target throws an instance of function (Error)", function () {
+        expect(badFnErr).to.throw(Error);
+      });
+      it("passes when target throws an instance of function (TypeError)", function () {
+        expect(badFnTypeErr).to.throw(TypeError);
+      });
+      it("passes when target throws an instance of function (FakeError)", function () {
+        expect(badFnFakeErr).to.throw(FakeError);
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(Error);
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not an instance of function", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah').to.throw(ReferenceError);
+        }, /^blah: expected \[TypeError: Illegal salmon!\] to be an instance of ReferenceError$/);
+      });
+    });
+    describe("invoked with one arg, a string", function () {
+      it("passes when target throws an object with `.message` property that contains string", function () {
+        expect(badFnErr).to.throw('salmon');
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw('salmon');
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not an object with `.message` property", function () {
+        err(function () {
+          expect(badFnObj, 'blah').to.throw('salmon');
+        }, /^blah: expected { a: 1 } to have property 'message'$/);
+      });
+      it("fails when target throws but not an object with `.message` property that contains string", function () {
+        err(function () {
+          expect(badFnErr, 'blah').to.throw('trout');
+        }, /^blah: expected 'Illegal salmon!' to contain 'trout'$/);
+      });
+    });
+    describe("invoked with one arg, a regexp", function () {
+      it("passes when target throws an object with `.message` property that matches regexp", function () {
+        expect(badFnErr).to.throw(/salmon/);
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(/salmon/);
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not an object with `.message` property", function () {
+        err(function () {
+          expect(badFnObj, 'blah').to.throw(/salmon/);
+        }, /^blah: expected { a: 1 } to have property 'message'$/);
+      });
+      it("fails when target throws but not an object with `.message` property that matches regexp", function () {
+        err(function () {
+          expect(badFnErr, 'blah').to.throw(/trout/);
+        }, /^blah: expected 'Illegal salmon!' to match \/trout\/$/);
+      });
+    });
+    describe("invoked with one arg, a non-(function|string|regexp)", function () {
+      it("passes when target throws a value that's deeply equal to the arg (TypeError)", function () {
+        expect(badFnTypeErr).to.throw(TypeError('Illegal salmon!'));
+      });
+      it("passes when target throws a value that's deeply equal to the arg (FakeError)", function () {
+        expect(badFnFakeErr).to.throw(new FakeError('Illegal salmon!'));
+      });
+      it("passes when target throws a value that's deeply equal to the arg ({a: 1})", function () {
+        expect(badFnObj).to.throw({a: 1});
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(TypeError('Illegal salmon!'));
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not a value that's deeply equal to the arg (TypeError)", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah')
+            .to.throw(ReferenceError('Illegal salmon!'));
+        }, /^blah: expected \[TypeError: Illegal salmon!\] to deeply equal \[ReferenceError: Illegal salmon!\]$/);
+      });
+      it("fails when target throws but not a value that's deeply equal to the arg (FakeError)", function () {
+        err(function () {
+          expect(badFnFakeErr, 'blah')
+            .to.throw(new FakeError('Illegal trout!'));
+        }, /^blah: expected { message: 'Illegal salmon!' } to deeply equal { message: 'Illegal trout!' }$/);
+      });
+      it("fails when target throws but not a value that's deeply equal to the arg ({a: 1})", function () {
+        err(function () {
+          expect(badFnObj, 'blah').to.throw({b: 2});
+        }, /^blah: expected { a: 1 } to deeply equal { b: 2 }$/);
+      });
+    });
+    describe("invoked with two args, a function (other than `String`) and a string", function () {
+      it("passes when target throws an instance of function with `.message` property that contains string", function () {
+        expect(badFnTypeErr).to.throw(TypeError, 'salmon');
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(TypeError, 'salmon');
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not an instance of function", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah').to.throw(ReferenceError, 'salmon');
+        }, /^blah: expected \[TypeError: Illegal salmon!\] to be an instance of ReferenceError$/);
+      });
+      it("fails when target throws an instance of function but not with `.message` property that contains string", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah').to.throw(TypeError, 'trout');
+        }, /^blah: expected 'Illegal salmon!' to contain 'trout'$/);
+      });
+    });
+    describe("invoked with two args, a function (other than `String`) and a regexp", function () {
+      it("passes when target throws an instance of function with `.message` property that matches regexp", function () {
+        expect(badFnTypeErr).to.throw(TypeError, /salmon/);
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(TypeError, /salmon/);
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not an instance of function", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah').to.throw(ReferenceError, /salmon/);
+        }, /^blah: expected \[TypeError: Illegal salmon!\] to be an instance of ReferenceError$/);
+      });
+      it("fails when target throws an instance of function but not with `.message` property that matches regexp", function () {
+        err(function () {
+          expect(badFnTypeErr, 'blah').to.throw(TypeError, /trout/);
+        }, /^blah: expected 'Illegal salmon!' to match \/trout\/$/);
+      });
+    });
+    describe("invoked with two args, the `String` constructor and a string", function () {
+      it("passes when target throws a string that contains string", function () {
+        expect(badFnStr).to.throw(String, 'salmon');
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(String, 'salmon');
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not a string", function () {
+        err(function () {
+          expect(badFnErr, 'blah').to.throw(String, 'salmon');
+        }, /^blah: expected \[Error: Illegal salmon!\] to be a string$/);
+      });
+      it("fails when target throws a string that doesn't contain string", function () {
+        err(function () {
+          expect(badFnStr, 'blah').to.throw(String, 'trout');
+        }, /^blah: expected 'Illegal salmon!' to contain 'trout'$/);
+      });
+    });
+    describe("invoked with two args, the `String` constructor and a regexp", function () {
+      it("passes when target throws a string that matches regexp", function () {
+        expect(badFnStr).to.throw(String, /salmon/);
+      });
+      it("fails when target doesn't throw", function () {
+        err(function () {
+          expect(goodFn, 'blah').to.throw(String, /salmon/);
+        }, /^blah: expected \[Function(: goodFn)*\] to throw$/);
+      });
+      it("fails when target throws but not a string", function () {
+        err(function () {
+          expect(badFnErr, 'blah').to.throw(String, /salmon/);
+        }, /^blah: expected \[Error: Illegal salmon!\] to be a string$/);
+      });
+      it("fails when target throws a string that doesn't match regexp", function () {
+        err(function () {
+          expect(badFnStr, 'blah').to.throw(String, /trout/);
+        }, /^blah: expected 'Illegal salmon!' to match \/trout\/$/);
+      });
+    });
+    describe("invoked with invalid args", function () {
+      describe("normal", function () {
+        it("fails when errMsgMatcher is defined but errLike isn't a function", function () {
+          err(function () {
+            expect(badFnErr).to.throw(TypeError(), 'salmon');
+          }, /^errLike must be a function when errMsgMatcher is defined$/, true);
+        });
+        it("fails when errMsgMatcher is defined but not a string or regexp", function () {
+          err(function () {
+            expect(badFnErr).to.throw(TypeError, {a: 1});
+          }, /^errMsgMatcher must be a string or regexp when defined$/, true);
+        });
+      });
+      describe("negated", function () {
+        it("fails when errLike is defined", function () {
+          err(function () {
+            expect(badFnErr).to.not.throw(TypeError);
+          }, /^errLike and errMsgMatcher must both be undefined when negate is true$/, true);
+        });
+        it("fails when errMsgMatcher is defined", function () {
+          err(function () {
+            expect(badFnErr).to.not.throw(undefined, 'salmon');
+          }, /^errLike and errMsgMatcher must both be undefined when negate is true$/, true);
+        });
+      });
+    });
   });
 
   it('respondTo', function(){

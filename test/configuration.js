@@ -774,7 +774,7 @@ describe('configuration', function () {
       it('should not use proxy', function() {
         chai.config.useProxy = false;
 
-        expect(readNoExistentProperty).to.not.throw('Invalid Chai property: tue');
+        expect(readNoExistentProperty).to.not.throw();
       });
     });
   });

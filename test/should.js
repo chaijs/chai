@@ -293,11 +293,7 @@ describe('should', function() {
 
     err(function () {
       should.Throw(function () { throw new Error('error!') }, Error, 'needed user!', 'blah');
-    }, "blah: expected [Function] to throw error including 'needed user!' but got 'error!'");
-
-    err(function () {
-      should.not.Throw(function () { throw new Error('error!') }, Error, 'error!', 'blah');
-    }, "blah: expected [Function] to not throw 'Error' but 'Error: error!' was thrown");
+    }, "blah: expected 'error!' to contain 'needed user!'");
   });
 
   it('true', function(){
