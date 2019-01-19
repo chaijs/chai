@@ -257,7 +257,9 @@ describe('should', function() {
     var foo = 'foo'
       , bar = undefined;
     should.exist(foo);
+    should.exists(foo);
     should.not.exist(bar);
+    should.not.exists(bar);
     should.exist(0);
     should.exist(false);
     should.exist('');
