@@ -366,6 +366,13 @@ describe('assert', function () {
     err(function () {
       assert.deepEqual(obj1, obj2);
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+
+    var map1 = new Map([['a', 'a']])
+      , map2 = new Map([['a', 'b']]);
+
+    err(function () {
+      assert.deepEqual(map1, map2);
+    }, "expected { 'a' => 'a' } to deeply equal { 'a' => 'b' }")
   });
 
   it('deepEqual (ordering)', function() {
