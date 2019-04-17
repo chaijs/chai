@@ -2796,6 +2796,10 @@ describe('should', function() {
     err(function() {
       (1.5).should.be.closeTo(1.0, true, 'blah');
     }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      (1.5).should.be.closeTo(1.0, undefined, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('approximately', function(){
@@ -2816,6 +2820,10 @@ describe('should', function() {
     err(function() {
       (1.5).should.be.approximately(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      (1.5).should.be.approximately(1.0);
+    }, "the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('include.members', function() {
