@@ -1848,6 +1848,10 @@ describe('assert', function () {
     err(function() {
       assert.closeTo(1.5, 1.0, true, 'blah');
     }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      assert.closeTo(1.5, 1.0, undefined, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('approximately', function(){
@@ -1874,6 +1878,10 @@ describe('assert', function () {
     err(function() {
       assert.approximately(1.5, 1.0, true, 'blah');
     }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      assert.approximately(1.5, 1.0, undefined, 'blah');
+    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('sameMembers', function() {

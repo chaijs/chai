@@ -3239,6 +3239,10 @@ describe('expect', function () {
     err(function() {
       expect(1.5, 'blah').to.be.closeTo(1.0, true);
     }, "blah: the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5, 'blah').to.be.closeTo(1.0);
+    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('approximately', function(){
@@ -3265,6 +3269,10 @@ describe('expect', function () {
     err(function() {
       expect(1.5).to.be.approximately(1.0, true);
     }, "the arguments to closeTo or approximately must be numbers");
+
+    err(function() {
+      expect(1.5).to.be.approximately(1.0);
+    }, "the arguments to closeTo or approximately must be numbers, and a delta is required");
   });
 
   it('oneOf', function() {
