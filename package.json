@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build": "cross-env NODE_ENV=production lerna run build --parallel",
+    "prepare": "npm run build",
+    "test": "lerna run test"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "lerna": "^3.13.3"
+  }
+}
