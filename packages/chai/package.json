@@ -27,6 +27,7 @@
   },
   "main": "./index",
   "scripts": {
+    "build": "make chai.js",
     "test": "make test"
   },
   "engines": {
