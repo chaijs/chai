@@ -1324,4 +1324,105 @@ describe('utilities', function () {
       });
     }
   });
+
+  describe('getOperator', function() {
+    it('Must return operator if the "operator" flag is set', function() {
+      chai.use(function(_chai, _) {
+        expect(_.getOperator({}, [])).to.equal(undefined);
+        expect(_.getOperator({}, [null, null, null])).to.equal(undefined);
+
+        var obj = {};
+        _.flag(obj, 'operator', 'my-operator');
+        expect(_.getOperator(obj, [])).to.equal('my-operator');
+      });
+    });
+
+    it('Must return undefined if message is partial assertions', function() {
+      chai.use(function(_chai, _) {
+        expect(
+          _.getOperator({}, [null, 'to have the same ordered', null, 'test'])
+        ).to.equal(undefined);
+      });
+    });
+
+    it('Must return deepStrictEqual if "expected" is a object and assertion is for equal', function() {
+      chai.use(function(_chai, _) {
+        var expected = Object.create({
+          dummyProperty1: 'dummyProperty1',
+          dummyProperty2: 'dummyProperty2',
+          dummyProperty3: 'dummyProperty3'
+        });
+
+        var obj = {};
+        _.flag(obj, 'negate', false);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('deepStrictEqual');
+      });
+    });
+
+    it('Must return notDeepStrictEqual if "expected" is a string and assertion is for equal', function() {
+      chai.use(function(_chai, _) {
+        var expected = 'someString';
+
+        var obj = {};
+        _.flag(obj, 'negate', false);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} equal to #{exp}',
+            'expect #{this} not equal to #{exp}',
+            expected
+          ])
+        ).to.equal('strictEqual');
+      });
+    });
+
+    it('Must return notDeepStrictEqual if "expected" is a object and assertion is for inequality', function() {
+      chai.use(function(_chai, _) {
+        var expected = Object.create({
+          dummyProperty1: 'dummyProperty1',
+          dummyProperty2: 'dummyProperty2',
+          dummyProperty3: 'dummyProperty3'
+        });
+
+        var obj = {};
+        _.flag(obj, 'negate', true);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('notDeepStrictEqual');
+      });
+    });
+
+    it('Must return notDeepStrictEqual if "expected" is a string and assertion is for inequality', function() {
+      chai.use(function(_chai, _) {
+        var expected = 'someString';
+
+        var obj = {};
+        _.flag(obj, 'negate', true);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} equal to #{exp}',
+            'expect #{this} not equal to #{exp}',
+            expected
+          ])
+        ).to.equal('notStrictEqual');
+      });
+    });
+  });
 });
