@@ -4,6 +4,8 @@ addons:
   sauce_connect: true
 node_js:
  - 8 # to be removed 2019-12-31
+ - 10 # to be removed 2021-04-31
+ - 12 # to be removed 2022-04-31
  - lts/* # safety net; don't remove
  - node # safety net; don't remove
 
