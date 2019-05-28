@@ -596,14 +596,24 @@ describe('utilities', function () {
       expect(expect([1, 2, 3]).foo).to.be.an.instanceOf(assertionConstructor);
     });
 
-    it('overwriteProperty sets `ssfi` when `lockSsfi` isn\'t set', function () {
-      var origAssertion = expect(4);
-      var origSsfi = utils.flag(origAssertion, 'ssfi');
+    describe('when useProxy is false', function () {
+      before(function () {
+        chai.config.useProxy = false;
+      });
 
-      var newAssertion = origAssertion.to.be.four;
-      var newSsfi = utils.flag(newAssertion, 'ssfi');
+      after(function () {
+        chai.config.useProxy = true;
+      });
 
-      expect(origSsfi).to.not.equal(newSsfi);
+      it('overwriteProperty sets `ssfi` when `lockSsfi` isn\'t set', function () {
+        var origAssertion = expect(4);
+        var origSsfi = utils.flag(origAssertion, 'ssfi');
+
+        var newAssertion = origAssertion.to.be.four;
+        var newSsfi = utils.flag(newAssertion, 'ssfi');
+
+        expect(origSsfi).to.not.equal(newSsfi);
+      });
     });
 
     it('overwriteProperty doesn\'t set `ssfi` when `lockSsfi` is set', function () {
