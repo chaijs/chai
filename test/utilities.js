@@ -1367,7 +1367,47 @@ describe('utilities', function () {
       });
     });
 
-    it('Must return notDeepStrictEqual if "expected" is a string and assertion is for equal', function() {
+    it('Must return deepStrictEqual if "expected" is a function and assertion is for equal', function() {
+      chai.use(function(_chai, _) {
+        function expected () {
+          this.prop = 'prop';
+        }
+
+        var obj = {};
+        _.flag(obj, 'negate', false);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('deepStrictEqual');
+      });
+    });
+
+    it('Must return deepStrictEqual if "expected" is an array and assertion is for equal', function() {
+      chai.use(function(_chai, _) {
+        var expected = [
+          'item 1'
+        ];
+
+        var obj = {};
+        _.flag(obj, 'negate', false);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('deepStrictEqual');
+      });
+    });
+
+    it('Must return strictEqual if "expected" is a string and assertion is for equal', function() {
       chai.use(function(_chai, _) {
         var expected = 'someString';
 
@@ -1407,7 +1447,47 @@ describe('utilities', function () {
       });
     });
 
-    it('Must return notDeepStrictEqual if "expected" is a string and assertion is for inequality', function() {
+    it('Must return notDeepStrictEqual if "expected" is a function and assertion is for inequality', function() {
+      chai.use(function(_chai, _) {
+        function expected () {
+          this.prop = 'prop';
+        }
+
+        var obj = {};
+        _.flag(obj, 'negate', true);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('notDeepStrictEqual');
+      });
+    });
+
+    it('Must return notDeepStrictEqual if "expected" is an array and assertion is for inequality', function() {
+      chai.use(function(_chai, _) {
+        var expected = [
+          'item 1'
+        ];
+
+        var obj = {};
+        _.flag(obj, 'negate', true);
+
+        expect(
+          _.getOperator(obj, [
+            null,
+            'expect #{this} deep equal to #{exp}',
+            'expect #{this} not deep equal to #{exp}',
+            expected
+          ])
+        ).to.equal('notDeepStrictEqual');
+      });
+    });
+
+    it('Must return notStrictEqual if "expected" is a string and assertion is for inequality', function() {
       chai.use(function(_chai, _) {
         var expected = 'someString';
 

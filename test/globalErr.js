@@ -63,6 +63,62 @@ describe('globalErr', function () {
     });
   });
 
+  it('should pass operator if possible during plain object comparison', function () {
+    var val1 = {
+      propVal1: 'val1'
+    };
+
+    var val2 = {
+      propVal2: 'val2'
+    };
+
+    err(function () {
+      expect(val1).to.equal(val2);
+    }, {
+        message: "expected { propVal1: 'val1' } to equal { propVal2: 'val2' }"
+      , expected: val2
+      , actual: val1
+      , operator: 'deepStrictEqual'
+    });
+
+    err(function () {
+      expect(val1).to.not.equal(val1);
+    }, {
+      message: "expected { propVal1: 'val1' } to not equal { propVal1: 'val1' }"
+      , expected: val1
+      , actual: val1
+      , operator: 'notDeepStrictEqual'
+    });
+  });
+
+  it('should pass operator if possible during function comparison', function () {
+    function f1 () {
+      this.propF1 = 'propF1';
+    }
+
+    function f2 () {
+      this.propF2 = 'propF2';
+    }
+
+    err(function () {
+      expect(f1).to.equal(f2);
+    }, {
+        message: "expected [Function: f1] to equal [Function: f2]"
+      , expected: f2
+      , actual: f1
+      , operator: 'deepStrictEqual'
+    });
+
+    err(function () {
+      expect(f1).to.not.equal(f1);
+    }, {
+      message: "expected [Function: f1] to not equal [Function: f1]"
+      , expected: f1
+      , actual: f1
+      , operator: 'notDeepStrictEqual'
+    });
+  });
+
   it('should pass operator if possible during object comparison', function () {
     var val1 = [
         'string1'
