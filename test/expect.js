@@ -3282,6 +3282,12 @@ describe('expect', function () {
     var threeFour = [3, [4]];
     expect(threeFour).to.be.oneOf([1, 2, threeFour]);
 
+    expect([1, 2]).to.contain.oneOf([4,2,5]);
+    expect([3, 4]).to.not.contain.oneOf([2,1,5]);
+
+    expect('The quick brown fox jumps over the lazy dog').to.contain.oneOf(['cat', 'dog', 'bird']);
+    expect('The quick brown fox jumps over the lazy dog').to.not.contain.oneOf(['elephant', 'pigeon', 'lynx']);
+
     err(function () {
       expect(1).to.be.oneOf([2, 3], 'blah');
     }, "blah: expected 1 to be one of [ 2, 3 ]");
