@@ -14,7 +14,7 @@ var used = [];
  * Chai version
  */
 
-exports.version = '4.2.0';
+exports.version = '4.3.0';
 
 /*!
  * Assertion Error
@@ -95,7 +95,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":33}],3:[function(require,module,exports){
+},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":23,"assertion-error":34}],3:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -236,11 +236,21 @@ module.exports = function (_chai, util) {
     if (!ok) {
       msg = util.getMessage(this, arguments);
       var actual = util.getActual(this, arguments);
-      throw new AssertionError(msg, {
+      var assertionErrorObjectProperties = {
           actual: actual
         , expected: expected
         , showDiff: showDiff
-      }, (config.includeStack) ? this.assert : flag(this, 'ssfi'));
+      };
+
+      var operator = util.getOperator(this, arguments);
+      if (operator) {
+        assertionErrorObjectProperties.operator = operator;
+      }
+
+      throw new AssertionError(
+        msg,
+        assertionErrorObjectProperties,
+        (config.includeStack) ? this.assert : flag(this, 'ssfi'));
     }
   };
 
@@ -3479,6 +3489,14 @@ module.exports = function (chai, _) {
    *     expect(1).to.equal(1); // Recommended
    *     expect(1).to.not.be.oneOf([2, 3, 4]); // Not recommended
    *
+   * It can also be chained with `.contain` or `.include`, which will work with
+   * both arrays and strings:
+   * 
+   *     expect('Today is sunny').to.contain.oneOf(['sunny', 'cloudy'])
+   *     expect('Today is rainy').to.not.contain.oneOf(['sunny', 'cloudy'])
+   *     expect([1,2,3]).to.contain.oneOf([3,4,5])
+   *     expect([1,2,3]).to.not.contain.oneOf([4,5,6])
+   * 
    * `.oneOf` accepts an optional `msg` argument which is a custom error message
    * to show when the assertion fails. The message can also be given as the
    * second argument to `expect`.
@@ -3497,16 +3515,27 @@ module.exports = function (chai, _) {
     if (msg) flag(this, 'message', msg);
     var expected = flag(this, 'object')
       , flagMsg = flag(this, 'message')
-      , ssfi = flag(this, 'ssfi');
+      , ssfi = flag(this, 'ssfi')
+      , contains = flag(this, 'contains');
     new Assertion(list, flagMsg, ssfi, true).to.be.an('array');
 
-    this.assert(
+    if (contains) {
+      this.assert(
+        list.some(possibility => expected.indexOf(possibility) > -1)
+        , 'expected #{this} to contain one of #{exp}'
+        , 'expected #{this} to not contain one of #{exp}'
+        , list
+        , expected
+      );
+    } else {
+      this.assert(
         list.indexOf(expected) > -1
-      , 'expected #{this} to be one of #{exp}'
-      , 'expected #{this} to not be one of #{exp}'
-      , list
-      , expected
-    );
+        , 'expected #{this} to be one of #{exp}'
+        , 'expected #{this} to not be one of #{exp}'
+        , list
+        , expected
+      );
+    }
   }
 
   Assertion.addMethod('oneOf', oneOf);
@@ -7703,7 +7732,7 @@ module.exports = function addChainableMethod(ctx, name, method, chainingBehavior
   });
 };
 
-},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],10:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":31,"./transferFlags":33}],10:[function(require,module,exports){
 var fnLengthDesc = Object.getOwnPropertyDescriptor(function () {}, 'length');
 
 /*!
@@ -7835,7 +7864,7 @@ module.exports = function addMethod(ctx, name, method) {
   ctx[name] = proxify(methodWrapper, name);
 };
 
-},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],12:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":31,"./transferFlags":33}],12:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7909,7 +7938,7 @@ module.exports = function addProperty(ctx, name, getter) {
   });
 };
 
-},{"../../chai":2,"./flag":15,"./isProxyEnabled":25,"./transferFlags":32}],13:[function(require,module,exports){
+},{"../../chai":2,"./flag":15,"./isProxyEnabled":26,"./transferFlags":33}],13:[function(require,module,exports){
 /*!
  * Chai - compareByInspect utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -7942,7 +7971,7 @@ module.exports = function compareByInspect(a, b) {
   return inspect(a) < inspect(b) ? -1 : 1;
 };
 
-},{"./inspect":23}],14:[function(require,module,exports){
+},{"./inspect":24}],14:[function(require,module,exports){
 /*!
  * Chai - expectTypes utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7995,7 +8024,7 @@ module.exports = function expectTypes(obj, types) {
   }
 };
 
-},{"./flag":15,"assertion-error":33,"type-detect":38}],15:[function(require,module,exports){
+},{"./flag":15,"assertion-error":34,"type-detect":39}],15:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8132,7 +8161,64 @@ module.exports = function getMessage(obj, args) {
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
-},{"./flag":15,"./getActual":16,"./objDisplay":26}],19:[function(require,module,exports){
+},{"./flag":15,"./getActual":16,"./objDisplay":27}],19:[function(require,module,exports){
+var type = require('type-detect');
+
+var flag = require('./flag');
+
+function isObjectType(obj) {
+  var objectType = type(obj);
+  var objectTypes = ['Array', 'Object', 'function'];
+
+  return objectTypes.indexOf(objectType) !== -1;
+}
+
+/**
+ * ### .getOperator(message)
+ *
+ * Extract the operator from error message.
+ * Operator defined is based on below link
+ * https://nodejs.org/api/assert.html#assert_assert.
+ *
+ * Returns the `operator` or `undefined` value for an Assertion.
+ *
+ * @param {Object} object (constructed Assertion)
+ * @param {Arguments} chai.Assertion.prototype.assert arguments
+ * @namespace Utils
+ * @name getOperator
+ * @api public
+ */
+
+module.exports = function getOperator(obj, args) {
+  var operator = flag(obj, 'operator');
+  var negate = flag(obj, 'negate');
+  var expected = args[3];
+  var msg = negate ? args[2] : args[1];
+
+  if (operator) {
+    return operator;
+  }
+
+  if (typeof msg === 'function') msg = msg();
+
+  msg = msg || '';
+  if (!msg) {
+    return undefined;
+  }
+
+  if (/\shave\s/.test(msg)) {
+    return undefined;
+  }
+
+  var isObject = isObjectType(expected);
+  if (/\snot\s/.test(msg)) {
+    return isObject ? 'notDeepStrictEqual' : 'notStrictEqual';
+  }
+
+  return isObject ? 'deepStrictEqual' : 'strictEqual';
+};
+
+},{"./flag":15,"type-detect":39}],20:[function(require,module,exports){
 /*!
  * Chai - getOwnEnumerableProperties utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -8163,7 +8249,7 @@ module.exports = function getOwnEnumerableProperties(obj) {
   return Object.keys(obj).concat(getOwnEnumerablePropertySymbols(obj));
 };
 
-},{"./getOwnEnumerablePropertySymbols":20}],20:[function(require,module,exports){
+},{"./getOwnEnumerablePropertySymbols":21}],21:[function(require,module,exports){
 /*!
  * Chai - getOwnEnumerablePropertySymbols utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -8192,7 +8278,7 @@ module.exports = function getOwnEnumerablePropertySymbols(obj) {
   });
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8230,7 +8316,7 @@ module.exports = function getProperties(object) {
   return result;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -8404,7 +8490,12 @@ exports.isProxyEnabled = require('./isProxyEnabled');
 
 exports.isNaN = require('./isNaN');
 
-},{"./addChainableMethod":9,"./addLengthGuard":10,"./addMethod":11,"./addProperty":12,"./compareByInspect":13,"./expectTypes":14,"./flag":15,"./getActual":16,"./getMessage":18,"./getOwnEnumerableProperties":19,"./getOwnEnumerablePropertySymbols":20,"./inspect":23,"./isNaN":24,"./isProxyEnabled":25,"./objDisplay":26,"./overwriteChainableMethod":27,"./overwriteMethod":28,"./overwriteProperty":29,"./proxify":30,"./test":31,"./transferFlags":32,"check-error":34,"deep-eql":35,"get-func-name":36,"pathval":37,"type-detect":38}],23:[function(require,module,exports){
+/*!
+ * getOperator method
+ */
+
+exports.getOperator = require('./getOperator');
+},{"./addChainableMethod":9,"./addLengthGuard":10,"./addMethod":11,"./addProperty":12,"./compareByInspect":13,"./expectTypes":14,"./flag":15,"./getActual":16,"./getMessage":18,"./getOperator":19,"./getOwnEnumerableProperties":20,"./getOwnEnumerablePropertySymbols":21,"./inspect":24,"./isNaN":25,"./isProxyEnabled":26,"./objDisplay":27,"./overwriteChainableMethod":28,"./overwriteMethod":29,"./overwriteProperty":30,"./proxify":31,"./test":32,"./transferFlags":33,"check-error":35,"deep-eql":36,"get-func-name":37,"pathval":38,"type-detect":39}],24:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -8782,7 +8873,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-},{"../config":4,"./getEnumerableProperties":17,"./getProperties":21,"get-func-name":36}],24:[function(require,module,exports){
+},{"../config":4,"./getEnumerableProperties":17,"./getProperties":22,"get-func-name":37}],25:[function(require,module,exports){
 /*!
  * Chai - isNaN utility
  * Copyright(c) 2012-2015 Sakthipriyan Vairamani <thechargingvolcano@gmail.com>
@@ -8810,7 +8901,7 @@ function isNaN(value) {
 // If ECMAScript 6's Number.isNaN is present, prefer that.
 module.exports = Number.isNaN || isNaN;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var config = require('../config');
 
 /*!
@@ -8836,7 +8927,7 @@ module.exports = function isProxyEnabled() {
     typeof Reflect !== 'undefined';
 };
 
-},{"../config":4}],26:[function(require,module,exports){
+},{"../config":4}],27:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8888,7 +8979,7 @@ module.exports = function objDisplay(obj) {
   }
 };
 
-},{"../config":4,"./inspect":23}],27:[function(require,module,exports){
+},{"../config":4,"./inspect":24}],28:[function(require,module,exports){
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8959,7 +9050,7 @@ module.exports = function overwriteChainableMethod(ctx, name, method, chainingBe
   };
 };
 
-},{"../../chai":2,"./transferFlags":32}],28:[function(require,module,exports){
+},{"../../chai":2,"./transferFlags":33}],29:[function(require,module,exports){
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -9053,7 +9144,7 @@ module.exports = function overwriteMethod(ctx, name, method) {
   ctx[name] = proxify(overwritingMethodWrapper, name);
 };
 
-},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],29:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":31,"./transferFlags":33}],30:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -9147,7 +9238,7 @@ module.exports = function overwriteProperty(ctx, name, getter) {
   });
 };
 
-},{"../../chai":2,"./flag":15,"./isProxyEnabled":25,"./transferFlags":32}],30:[function(require,module,exports){
+},{"../../chai":2,"./flag":15,"./isProxyEnabled":26,"./transferFlags":33}],31:[function(require,module,exports){
 var config = require('../config');
 var flag = require('./flag');
 var getProperties = require('./getProperties');
@@ -9296,7 +9387,7 @@ function stringDistanceCapped(strA, strB, cap) {
   return memo[strA.length][strB.length];
 }
 
-},{"../config":4,"./flag":15,"./getProperties":21,"./isProxyEnabled":25}],31:[function(require,module,exports){
+},{"../config":4,"./flag":15,"./getProperties":22,"./isProxyEnabled":26}],32:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -9326,7 +9417,7 @@ module.exports = function test(obj, args) {
   return negate ? !expr : expr;
 };
 
-},{"./flag":15}],32:[function(require,module,exports){
+},{"./flag":15}],33:[function(require,module,exports){
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -9373,7 +9464,7 @@ module.exports = function transferFlags(assertion, object, includeAll) {
   }
 };
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -9491,7 +9582,7 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /* !
@@ -9665,7 +9756,7 @@ module.exports = {
   getConstructorName: getConstructorName,
 };
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 /* globals Symbol: false, Uint8Array: false, WeakMap: false */
 /*!
@@ -10122,7 +10213,7 @@ function isPrimitive(value) {
   return value === null || typeof value !== 'object';
 }
 
-},{"type-detect":38}],36:[function(require,module,exports){
+},{"type-detect":39}],37:[function(require,module,exports){
 'use strict';
 
 /* !
@@ -10168,7 +10259,7 @@ function getFuncName(aFunc) {
 
 module.exports = getFuncName;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /* !
@@ -10461,7 +10552,7 @@ module.exports = {
   setPathValue: setPathValue,
 };
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
