@@ -1931,19 +1931,31 @@ describe('should', function() {
 
     err(function(){
       (true).should.include(true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "blah: the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function(){
       (42).should.include(4);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       (true).should.not.include(true);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function(){
       (42).should.not.include(4);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
   });
 
   it('deep.include()', function () {

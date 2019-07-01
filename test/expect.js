@@ -2286,39 +2286,66 @@ describe('expect', function () {
 
     err(function(){
       expect(true).to.include(true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "blah: the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function(){
       expect(true, 'blah').to.include(true);
-    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "blah: the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function(){
       expect(42.0).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       expect(null).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
+    },
+      "the given combination of arguments (null and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       expect(undefined).to.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
+    },
+      "the given combination of arguments (undefined and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       expect(true).to.not.include(true);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function(){
       expect(42.0).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       expect(null).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
+    },
+      "the given combination of arguments (null and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function(){
       expect(undefined).to.not.include(42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
+    },
+      "the given combination of arguments (undefined and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
   });
 
   it('deep.include()', function () {

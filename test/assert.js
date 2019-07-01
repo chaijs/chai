@@ -720,19 +720,31 @@ describe('assert', function () {
 
     err(function(){
       assert.include(true, true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "blah: the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function () {
       assert.include(42, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and string) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a string"
+    );
 
     err(function(){
       assert.include(null, 42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
+    },
+      "the given combination of arguments (null and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function () {
       assert.include(undefined, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
+    },
+      "the given combination of arguments (undefined and string) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a string"
+    );
   });
 
   it('notInclude', function () {
@@ -798,19 +810,31 @@ describe('assert', function () {
 
     err(function(){
       assert.notInclude(true, true, 'blah');
-    }, "blah: object tested must be an array, a map, an object, a set, a string, or a weakset, but boolean given");
+    },
+      "blah: the given combination of arguments (boolean and boolean) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a boolean"
+    );
 
     err(function () {
       assert.notInclude(42, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but number given");
+    },
+      "the given combination of arguments (number and string) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a string"
+    );
 
     err(function(){
       assert.notInclude(null, 42);
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but null given");
+    },
+      "the given combination of arguments (null and number) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
+    );
 
     err(function () {
       assert.notInclude(undefined, 'bar');
-    }, "object tested must be an array, a map, an object, a set, a string, or a weakset, but undefined given");
+    },
+      "the given combination of arguments (undefined and string) is invalid for this assertion. " +
+      "You can use an array, a map, an object, a set, a string, or a weakset instead of a string"
+    );
 
     err(function () {
       assert.notInclude('foobar', 'bar');
