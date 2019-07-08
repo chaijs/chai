@@ -3,12 +3,8 @@ language: node_js
 addons:
   sauce_connect: true
 node_js:
- - 4 # to be removed 2018-04-30
- - 6 # to be removed 2019-04-01
- - 8 # to be removed 2019-12-31
- - 9 # to be removed 2018-06-30
- - lts/* # safety net; don't remove
- - node # safety net; don't remove
+ - 10
+ - 12
 
 script:
   - make test-travisci
