@@ -46,7 +46,7 @@
     "codecov": "^3.0.0",
     "istanbul": "^0.4.3",
     "karma": "^2.0.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.0.1",
     "karma-sauce-launcher": "^1.2.0",
