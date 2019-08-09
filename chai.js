@@ -4185,7 +4185,7 @@ module.exports = function (chai, util) {
    */
 
   /**
-   * ### assert(expression, message)
+   * ### assert(expression, [message])
    *
    * Write your own test expressions.
    *
