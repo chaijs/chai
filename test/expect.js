@@ -1400,10 +1400,10 @@ describe('expect', function () {
 
   if ('undefined' !== typeof Buffer) {
     it('Buffer eql()', function () {
-      expect(new Buffer([ 1 ])).to.eql(new Buffer([ 1 ]));
+      expect(Buffer.from([ 1 ])).to.eql(Buffer.from([ 1 ]));
 
       err(function () {
-        expect(new Buffer([ 0 ])).to.eql(new Buffer([ 1 ]));
+        expect(Buffer.from([ 0 ])).to.eql(Buffer.from([ 1 ]));
       }, 'expected <Buffer 00> to deeply equal <Buffer 01>');
     });
   }
