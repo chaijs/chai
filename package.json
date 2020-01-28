@@ -26,6 +26,10 @@
     "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
+  "exports": {
+    "require": "./index.js",
+    "import": "./lib/chai.mjs"
+  },
   "scripts": {
     "test": "make test"
   },
