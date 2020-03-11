@@ -8066,7 +8066,7 @@ module.exports = function getActual(obj, args) {
  * inherited or not.
  *
  * @param {Object} object
- * @returns {Array}
+ * @returns {!Array}
  * @namespace Utils
  * @name getEnumerableProperties
  * @api public
@@ -8206,7 +8206,7 @@ module.exports = function getOwnEnumerablePropertySymbols(obj) {
  * inherited or not.
  *
  * @param {Object} object
- * @returns {Array}
+ * @returns {!Array}
  * @namespace Utils
  * @name getProperties
  * @api public
@@ -10360,7 +10360,7 @@ function internalSetPathValue(obj, val, parsed) {
  *
  * @param {Object} object
  * @param {String} path
- * @returns {Object} info
+ * @returns {!Object} info
  * @namespace Utils
  * @name getPathInfo
  * @api public
