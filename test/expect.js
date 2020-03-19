@@ -233,7 +233,7 @@ describe('expect', function () {
     [ 'to', 'be', 'been', 'is'
     , 'and', 'has', 'have', 'with'
     , 'that', 'which', 'at', 'of'
-    , 'same', 'but', 'does', 'still' ].forEach(test);
+    , 'same', 'but', 'does', 'still', 'also' ].forEach(test);
   });
 
   describe("fail", function() {
