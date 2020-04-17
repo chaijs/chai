@@ -3308,6 +3308,7 @@ describe('expect', function () {
     expect([3, [4]]).to.not.be.oneOf([1, 2, [3, 4]]);
     var threeFour = [3, [4]];
     expect(threeFour).to.be.oneOf([1, 2, threeFour]);
+    expect([]).to.be.deep.oneOf([[], '']);
 
     expect([1, 2]).to.contain.oneOf([4,2,5]);
     expect([3, 4]).to.not.contain.oneOf([2,1,5]);
