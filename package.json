@@ -26,6 +26,13 @@
     "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.mjs"
+    },
+    "./": "./"
+  },
   "scripts": {
     "test": "make test"
   },
@@ -50,6 +57,6 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.0.1",
     "karma-sauce-launcher": "^1.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^7.1.2"
   }
 }
