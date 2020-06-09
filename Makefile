@@ -1,5 +1,16 @@
 
+NODE_MAJOR_VERSION := $(firstword $(subst ., ,$(shell node --version)))
+
+ifeq ($(NODE_MAJOR_VERSION),v8)
 TESTS = test/*.js
+else ifeq ($(NODE_MAJOR_VERSION),v10)
+TESTS = test/*.js
+else ifeq ($(NODE_MAJOR_VERSION),v12)
+TESTS = test/*.js
+else
+TESTS = test/*.js test/*.mjs
+endif
+
 REPORTER = dot
 
 #
