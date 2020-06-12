@@ -3526,7 +3526,7 @@ module.exports = function (chai, _) {
 
     if (contains) {
       this.assert(
-        list.some(possibility => expected.indexOf(possibility) > -1)
+        list.some(function(possibility) { return expected.indexOf(possibility) > -1 })
         , 'expected #{this} to contain one of #{exp}'
         , 'expected #{this} to not contain one of #{exp}'
         , list
