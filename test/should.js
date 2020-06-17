@@ -397,6 +397,27 @@ describe('should', function() {
     }, "expected [] to be arguments but got Array");
   });
 
+  it('".should" getter should unbox primitive values', function(){
+    function assert(value) {
+      const AssertionObject = value.should;
+      const type = typeof value;
+      if (AssertionObject.__flags.object !== value) {
+        throw new Error("value `"+ value.toString() +"` ("+ type +") wasn't unboxed");
+      }
+    };
+
+    assert("a");
+    assert(0);
+    assert(true);
+    assert(false);
+    if (typeof Symbol === 'function') {
+      assert(Symbol("a"));
+    }
+    if (typeof BigInt === 'function') {
+      assert(BigInt(10));
+    }
+  });
+
   it('.equal()', function(){
     var foo;
     should.equal(undefined, foo);
