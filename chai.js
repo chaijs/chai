@@ -8746,6 +8746,9 @@ function formatPrimitive(ctx, value) {
 
     case 'symbol':
       return ctx.stylize(value.toString(), 'symbol');
+
+    case 'bigint':
+      return ctx.stylize(value.toString() + 'n', 'bigint');
   }
   // For some reason typeof null is "object", so special case here.
   if (value === null) {
