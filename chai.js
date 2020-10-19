@@ -1315,7 +1315,7 @@ module.exports = function (chai, _) {
    *
    * Add `.not` earlier in the chain to negate `.arguments`. However, it's often
    * best to assert which type the target is expected to be, rather than
-   * asserting that its not an `arguments` object.
+   * asserting that it’s not an `arguments` object.
    *
    *     expect('foo').to.be.a('string'); // Recommended
    *     expect('foo').to.not.be.arguments; // Not recommended
@@ -2297,7 +2297,7 @@ module.exports = function (chai, _) {
    * a `descriptor`. The problem is that it creates uncertain expectations by
    * asserting that the target either doesn't have a property descriptor with
    * the given key `name`, or that it does have a property descriptor with the
-   * given key `name` but its not deeply equal to the given `descriptor`. It's
+   * given key `name` but it’s not deeply equal to the given `descriptor`. It's
    * often best to identify the exact output that's expected, and then write an
    * assertion that only accepts that exact output.
    *
@@ -6028,7 +6028,7 @@ module.exports = function (chai, util) {
    *     assert.hasAnyDeepKeys(new Set([{one: 'one'}, {two: 'two'}]), [{one: 'one'}, {three: 'three'}]);
    *     assert.hasAnyDeepKeys(new Set([{one: 'one'}, {two: 'two'}]), [{one: 'one'}, {two: 'two'}]);
    *
-   * @name doesNotHaveAllKeys
+   * @name hasAnyDeepKeys
    * @param {Mixed} object
    * @param {Array|Object} keys
    * @param {String} message
@@ -7379,7 +7379,8 @@ module.exports = function (chai, util) {
       if (this instanceof String
           || this instanceof Number
           || this instanceof Boolean
-          || typeof Symbol === 'function' && this instanceof Symbol) {
+          || typeof Symbol === 'function' && this instanceof Symbol
+          || typeof BigInt === 'function' && this instanceof BigInt) {
         return new Assertion(this.valueOf(), null, shouldGetter);
       }
       return new Assertion(this, null, shouldGetter);
@@ -8721,6 +8722,9 @@ function formatPrimitive(ctx, value) {
 
     case 'symbol':
       return ctx.stylize(value.toString(), 'symbol');
+
+    case 'bigint':
+      return ctx.stylize(value.toString() + 'n', 'bigint');
   }
   // For some reason typeof null is "object", so special case here.
   if (value === null) {
