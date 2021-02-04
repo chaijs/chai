@@ -314,7 +314,9 @@ describe('expect', function () {
     var foo = 'bar'
       , bar;
     expect(foo).to.exist;
+    expect(foo).to.exists;
     expect(bar).to.not.exist;
+    expect(bar).to.not.exists;
     expect(0).to.exist;
     expect(false).to.exist;
     expect('').to.exist;
