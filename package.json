@@ -37,7 +37,7 @@
     "test": "make test"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=4"
   },
   "dependencies": {
     "assertion-error": "^1.1.0",
