@@ -14,7 +14,7 @@ var used = [];
  * Chai version
  */
 
-exports.version = '4.3.0';
+exports.version = '4.3.1';
 
 /*!
  * Assertion Error
@@ -405,6 +405,7 @@ module.exports = function (chai, _) {
    * - but
    * - does
    * - still
+   * - also
    *
    * @name language chains
    * @namespace BDD
@@ -414,7 +415,7 @@ module.exports = function (chai, _) {
   [ 'to', 'be', 'been', 'is'
   , 'and', 'has', 'have', 'with'
   , 'that', 'which', 'at', 'of'
-  , 'same', 'but', 'does', 'still' ].forEach(function (chain) {
+  , 'same', 'but', 'does', 'still', "also" ].forEach(function (chain) {
     Assertion.addProperty(chain);
   });
 
@@ -1194,19 +1195,25 @@ module.exports = function (chai, _) {
    *
    *     expect(null, 'nooo why fail??').to.exist;
    *
+   * The alias `.exists` can be used interchangeably with `.exist`.
+   *
    * @name exist
+   * @alias exists
    * @namespace BDD
    * @api public
    */
 
-  Assertion.addProperty('exist', function () {
+  function assertExist () {
     var val = flag(this, 'object');
     this.assert(
         val !== null && val !== undefined
       , 'expected #{this} to exist'
       , 'expected #{this} to not exist'
     );
-  });
+  }
+
+  Assertion.addProperty('exist', assertExist);
+  Assertion.addProperty('exists', assertExist);
 
   /**
    * ### .empty
@@ -1606,10 +1613,12 @@ module.exports = function (chai, _) {
    *     expect(1).to.be.at.least(2, 'nooo why fail??');
    *     expect(1, 'nooo why fail??').to.be.at.least(2);
    *
-   * The alias `.gte` can be used interchangeably with `.least`.
+   * The aliases `.gte` and `.greaterThanOrEqual` can be used interchangeably with
+   * `.least`.
    *
    * @name least
    * @alias gte
+   * @alias greaterThanOrEqual
    * @param {Number} n
    * @param {String} msg _optional_
    * @namespace BDD
@@ -1675,6 +1684,7 @@ module.exports = function (chai, _) {
 
   Assertion.addMethod('least', assertLeast);
   Assertion.addMethod('gte', assertLeast);
+  Assertion.addMethod('greaterThanOrEqual', assertLeast);
 
   /**
    * ### .below(n[, msg])
@@ -1812,10 +1822,12 @@ module.exports = function (chai, _) {
    *     expect(2).to.be.at.most(1, 'nooo why fail??');
    *     expect(2, 'nooo why fail??').to.be.at.most(1);
    *
-   * The alias `.lte` can be used interchangeably with `.most`.
+   * The aliases `.lte` and `.lessThanOrEqual` can be used interchangeably with
+   * `.most`.
    *
    * @name most
    * @alias lte
+   * @alias lessThanOrEqual
    * @param {Number} n
    * @param {String} msg _optional_
    * @namespace BDD
@@ -1881,6 +1893,7 @@ module.exports = function (chai, _) {
 
   Assertion.addMethod('most', assertMost);
   Assertion.addMethod('lte', assertMost);
+  Assertion.addMethod('lessThanOrEqual', assertMost);
 
   /**
    * ### .within(start, finish[, msg])
@@ -3521,7 +3534,8 @@ module.exports = function (chai, _) {
     var expected = flag(this, 'object')
       , flagMsg = flag(this, 'message')
       , ssfi = flag(this, 'ssfi')
-      , contains = flag(this, 'contains');
+      , contains = flag(this, 'contains')
+      , isDeep = flag(this, 'deep');
     new Assertion(list, flagMsg, ssfi, true).to.be.an('array');
 
     if (contains) {
@@ -3533,13 +3547,23 @@ module.exports = function (chai, _) {
         , expected
       );
     } else {
-      this.assert(
-        list.indexOf(expected) > -1
-        , 'expected #{this} to be one of #{exp}'
-        , 'expected #{this} to not be one of #{exp}'
-        , list
-        , expected
-      );
+      if (isDeep) {
+        this.assert(
+          list.some(possibility => _.eql(expected, possibility))
+          , 'expected #{this} to deeply equal one of #{exp}'
+          , 'expected #{this} to deeply equal one of #{exp}'
+          , list
+          , expected
+        );
+      } else {
+        this.assert(
+          list.indexOf(expected) > -1
+          , 'expected #{this} to be one of #{exp}'
+          , 'expected #{this} to not be one of #{exp}'
+          , list
+          , expected
+        );
+      }
     }
   }
 
@@ -6462,7 +6486,7 @@ module.exports = function (chai, util) {
    * Asserts that `set1` and `set2` have the same members in the same order.
    * Uses a deep equality check.
    *
-   * assert.sameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { a: 1 }, { b: 2 }, { c: 3 } ], 'same deep ordered members');
+   *     assert.sameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { a: 1 }, { b: 2 }, { c: 3 } ], 'same deep ordered members');
    *
    * @name sameDeepOrderedMembers
    * @param {Array} set1
@@ -6483,8 +6507,8 @@ module.exports = function (chai, util) {
    * Asserts that `set1` and `set2` don't have the same members in the same
    * order. Uses a deep equality check.
    *
-   * assert.notSameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { a: 1 }, { b: 2 }, { z: 5 } ], 'not same deep ordered members');
-   * assert.notSameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { b: 2 }, { a: 1 }, { c: 3 } ], 'not same deep ordered members');
+   *     assert.notSameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { a: 1 }, { b: 2 }, { z: 5 } ], 'not same deep ordered members');
+   *     assert.notSameDeepOrderedMembers([ { a: 1 }, { b: 2 }, { c: 3 } ], [ { b: 2 }, { a: 1 }, { c: 3 } ], 'not same deep ordered members');
    *
    * @name notSameDeepOrderedMembers
    * @param {Array} set1
@@ -6904,7 +6928,7 @@ module.exports = function (chai, util) {
   }
 
   /**
-   * ### .increasesButNotBy(function, object, property, [message])
+   * ### .increasesButNotBy(function, object, property, delta, [message])
    *
    * Asserts that a function does not increase a numeric object property or function's return value by an amount (delta).
    *
@@ -7034,7 +7058,7 @@ module.exports = function (chai, util) {
    *     var fn = function() { obj.val = 5 };
    *     assert.doesNotDecreaseBy(fn, obj, 'val', 1);
    *
-   * @name doesNotDecrease
+   * @name doesNotDecreaseBy
    * @param {Function} modifier function
    * @param {Object} object or getter function
    * @param {String} property name _optional_
@@ -8101,7 +8125,7 @@ module.exports = function getActual(obj, args) {
  * inherited or not.
  *
  * @param {Object} object
- * @returns {!Array}
+ * @returns {Array}
  * @namespace Utils
  * @name getEnumerableProperties
  * @api public
@@ -8298,7 +8322,7 @@ module.exports = function getOwnEnumerablePropertySymbols(obj) {
  * inherited or not.
  *
  * @param {Object} object
- * @returns {!Array}
+ * @returns {Array}
  * @namespace Utils
  * @name getProperties
  * @api public
@@ -10344,13 +10368,20 @@ function parsePath(path) {
   var str = path.replace(/([^\\])\[/g, '$1.[');
   var parts = str.match(/(\\\.|[^.]+?)+/g);
   return parts.map(function mapMatches(value) {
+    if (
+      value === 'constructor' ||
+      value === '__proto__' ||
+      value === 'prototype'
+    ) {
+      return {};
+    }
     var regexp = /^\[(\d+)\]$/;
     var mArr = regexp.exec(value);
     var parsed = null;
     if (mArr) {
       parsed = { i: parseFloat(mArr[1]) };
     } else {
-      parsed = { p: value.replace(/\\([.\[\]])/g, '$1') };
+      parsed = { p: value.replace(/\\([.[\]])/g, '$1') };
     }
 
     return parsed;
@@ -10375,7 +10406,7 @@ function parsePath(path) {
 function internalGetPathValue(obj, parsed, pathDepth) {
   var temporaryValue = obj;
   var res = null;
-  pathDepth = (typeof pathDepth === 'undefined' ? parsed.length : pathDepth);
+  pathDepth = typeof pathDepth === 'undefined' ? parsed.length : pathDepth;
 
   for (var i = 0; i < pathDepth; i++) {
     var part = parsed[i];
@@ -10386,7 +10417,7 @@ function internalGetPathValue(obj, parsed, pathDepth) {
         temporaryValue = temporaryValue[part.p];
       }
 
-      if (i === (pathDepth - 1)) {
+      if (i === pathDepth - 1) {
         res = temporaryValue;
       }
     }
@@ -10420,7 +10451,7 @@ function internalSetPathValue(obj, val, parsed) {
     part = parsed[i];
 
     // If it's the last part of the path, we set the 'propName' value with the property name
-    if (i === (pathDepth - 1)) {
+    if (i === pathDepth - 1) {
       propName = typeof part.p === 'undefined' ? part.i : part.p;
       // Now we set the property with the name held by 'propName' on object with the desired val
       tempObj[propName] = val;
@@ -10457,7 +10488,7 @@ function internalSetPathValue(obj, val, parsed) {
  *
  * @param {Object} object
  * @param {String} path
- * @returns {!Object} info
+ * @returns {Object} info
  * @namespace Utils
  * @name getPathInfo
  * @api public
@@ -10467,7 +10498,10 @@ function getPathInfo(obj, path) {
   var parsed = parsePath(path);
   var last = parsed[parsed.length - 1];
   var info = {
-    parent: parsed.length > 1 ? internalGetPathValue(obj, parsed, parsed.length - 1) : obj,
+    parent:
+      parsed.length > 1 ?
+        internalGetPathValue(obj, parsed, parsed.length - 1) :
+        obj,
     name: last.p || last.i,
     value: internalGetPathValue(obj, parsed),
   };
