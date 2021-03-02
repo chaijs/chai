@@ -42,7 +42,7 @@
   "dependencies": {
     "assertion-error": "^1.1.0",
     "check-error": "^1.0.2",
-    "deep-eql": "^3.0.1",
+    "deep-eql": "^4.0.0",
     "get-func-name": "^2.0.0",
     "pathval": "^1.1.1",
     "type-detect": "^4.0.5"
