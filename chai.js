@@ -14,7 +14,7 @@ var used = [];
  * Chai version
  */
 
-exports.version = '4.3.1';
+exports.version = '4.3.2';
 
 /*!
  * Assertion Error
@@ -3549,7 +3549,7 @@ module.exports = function (chai, _) {
     } else {
       if (isDeep) {
         this.assert(
-          list.some(possibility => _.eql(expected, possibility))
+          list.some(function(possibility) { return _.eql(expected, possibility) })
           , 'expected #{this} to deeply equal one of #{exp}'
           , 'expected #{this} to deeply equal one of #{exp}'
           , list
