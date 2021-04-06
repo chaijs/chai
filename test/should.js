@@ -2165,6 +2165,17 @@ describe('should', function() {
     ({ 1: 1, 2: 2 }).should.have.any.keys(1, 3);
     ({ 1: 1, 2: 2 }).should.contain.keys(1);
 
+    ({}).should.have.all.keys();
+    ({}).should.have.all.keys([]);
+    ({}).should.have.all.keys({});
+    ({}).should.contain.keys();
+    ({}).should.contain.keys([]);
+    ({}).should.contain.keys({});
+
+    ({}).should.not.have.any.keys();
+    ({}).should.not.have.any.keys([]);
+    ({}).should.not.have.any.keys({});
+
     var enumProp1 = 'enumProp1'
       , enumProp2 = 'enumProp2'
       , nonEnumProp = 'nonEnumProp'

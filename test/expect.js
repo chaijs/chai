@@ -2566,6 +2566,17 @@ describe('expect', function () {
     expect({ foo: 1, bar: 2 }).not.have.all.keys({ 'baz': 8, 'foo': 7 });
     expect({ foo: 1, bar: 2 }).not.contain.all.keys({ 'baz': 8, 'foo': 7 });
 
+    expect({}).to.have.all.keys();
+    expect({}).to.have.all.keys({});
+    expect({}).to.have.all.keys([]);
+    expect({}).contain.keys();
+    expect({}).contain.keys({});
+    expect({}).contain.keys([]);
+
+    expect({}).to.not.have.any.keys();
+    expect({}).not.have.any.keys({});
+    expect({}).not.any.keys([]);
+
     var enumProp1 = 'enumProp1'
       , enumProp2 = 'enumProp2'
       , nonEnumProp = 'nonEnumProp'

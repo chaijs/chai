@@ -994,6 +994,9 @@ describe('assert', function () {
     assert.hasAllKeys({ foo: 1, bar: 2 }, [ 'foo', 'bar' ]);
     assert.hasAllKeys({ foo: 1 }, { foo: 30 });
     assert.hasAllKeys({ foo: 1, bar: 2 }, { 'foo': 6, 'bar': 7 });
+    assert.hasAllKeys({});
+    assert.hasAllKeys({}, []);
+    assert.hasAllKeys({}, {});
 
     assert.containsAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'foo', 'bar' ]);
     assert.containsAllKeys({ foo: 1, bar: 2, baz: 3 }, [ 'bar', 'foo' ]);
@@ -1004,6 +1007,9 @@ describe('assert', function () {
     assert.containsAllKeys({ foo: 1, bar: 2 }, { 'bar': 7 });
     assert.containsAllKeys({ foo: 1, bar: 2 }, { 'foo': 6 });
     assert.containsAllKeys({ foo: 1, bar: 2 }, { 'bar': 7, 'foo': 6 });
+    assert.containsAllKeys({});
+    assert.containsAllKeys({}, []);
+    assert.containsAllKeys({}, {});
 
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'baz' ]);
     assert.doesNotHaveAllKeys({ foo: 1, bar: 2 }, [ 'foo' ]);
@@ -1027,6 +1033,10 @@ describe('assert', function () {
     assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, [ 'baz' ]);
     assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { baz: 1, biz: 2, fake: 3 });
     assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { baz: 1 });
+
+    assert.doesNotHaveAnyKeys({});
+    assert.doesNotHaveAnyKeys({}, []);
+    assert.doesNotHaveAnyKeys({}, {});
 
     var enumProp1 = 'enumProp1'
       , enumProp2 = 'enumProp2'
