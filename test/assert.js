@@ -70,7 +70,7 @@ describe('assert', function () {
 
       err(function () {
         assert[isOk](0);
-      }, "expected 0 to be truthy");
+      }, "expected +0 to be truthy");
 
       err(function () {
         assert[isOk]('');
@@ -107,7 +107,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isFalse(0);
-    }, "expected 0 to be false");
+    }, "expected +0 to be false");
   });
 
   it('isNotFalse', function () {
@@ -273,7 +273,7 @@ describe('assert', function () {
 
     err(function () {
       assert.notInstanceOf(new Foo(), Foo, 'blah');
-    }, "blah: expected {} to not be an instance of Foo");
+    }, "blah: expected Foo{} to not be an instance of Foo");
   });
 
   it('isObject', function () {
@@ -287,7 +287,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isObject(Foo);
-    }, "expected [Function: Foo] to be an object");
+    }, "expected [Function Foo] to be an object");
 
     err(function() {
       assert.isObject('foo');
@@ -353,7 +353,7 @@ describe('assert', function () {
 
     err(function () {
       assert.deepEqual({tea: 'chai'}, {tea: 'black'}, 'blah');
-    }, "blah: expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+    }, "blah: expected { tea: 'chai' } to deeply equal { tea: 'black' }");
 
     var obja = Object.create({ tea: 'chai' })
       , objb = Object.create({ tea: 'chai' });
@@ -365,7 +365,7 @@ describe('assert', function () {
 
     err(function () {
       assert.deepEqual(obj1, obj2);
-    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+    }, "expected {} to deeply equal {}");
   });
 
   it('deepEqual (ordering)', function() {
@@ -405,7 +405,7 @@ describe('assert', function () {
     err(function() {
       secondCircularObject.field2 = secondCircularObject;
       assert.deepEqual(circularObject, secondCircularObject);
-    }, "expected { field: [Circular] } to deeply equal { Object (field, field2) }");
+    }, "expected { field: [Circular] } to deeply equal { field: [Circular], …(1) }");
   });
 
   it('notDeepEqual', function() {
@@ -928,19 +928,19 @@ describe('assert', function () {
 
     err(function () {
       assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {y: 2}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       assert.deepNestedInclude({a: {b: [{x: 1}]}}, {'a.c': {x: 1}});
-    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+    }, "expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.c'");
 
     err(function () {
       assert.notDeepNestedInclude({a: {b: [{x: 1}]}}, {'a.b[0]': {x: 1}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
   });
 
   it('ownInclude and notOwnInclude', function() {
@@ -1424,7 +1424,7 @@ describe('assert', function () {
 
       err(function(){
         assert.lengthOf(map, 3, 'blah');
-      }, "blah: expected {} to have a size of 3 but got 2");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2 } to have a size of 3 but got 2");
     }
 
     if (typeof Set === 'function') {
@@ -1438,7 +1438,7 @@ describe('assert', function () {
 
       err(function(){
         assert.lengthOf(set, 3, 'blah');
-      }, "blah: expected {} to have a size of 3 but got 2");
+      }, "blah: expected Set{ 1, 2 } to have a size of 3 but got 2");
     }
   });
 
@@ -2026,7 +2026,7 @@ describe('assert', function () {
 
     err(function() {
       assert.includeMembers([5, 6], [5, 6, 0]);
-    }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
+    }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, +0 ]');
   });
 
   it('notIncludeMembers', function() {
@@ -2051,7 +2051,7 @@ describe('assert', function () {
 
     err(function() {
       assert.includeDeepMembers([{e:5}, {f:6}], [{e:5}, {f:6}, {z:0}]);
-    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { e: 5 }, { f: 6 }, { z: 0 } ]');
+    }, 'expected [ { e: 5 }, { f: 6 } ] to be a superset of [ { e: 5 }, { f: 6 }, { z: +0 } ]');
   });
 
   it('notIncludeDeepMembers', function() {
@@ -2155,11 +2155,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(oneSecondAgo, now, 'blah');
-    }, 'blah: expected ' + oneSecondAgo.toUTCString() + ' to be above ' + now.toUTCString());
+    }, 'blah: expected ' + oneSecondAgo.toISOString() + ' to be above ' + now.toISOString());
 
     err(function() {
       assert.isAbove(now, now, 'blah');
-    }, 'blah: expected ' + now.toUTCString() + ' to be above ' + now.toUTCString());
+    }, 'blah: expected ' + now.toISOString() + ' to be above ' + now.toISOString());
 
     err(function() {
       assert.isAbove(null, now);
@@ -2205,7 +2205,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(now, oneSecondAfter, 'blah');
-    }, 'blah: expected ' + now.toUTCString() + ' to be at least ' + oneSecondAfter.toUTCString());
+    }, 'blah: expected ' + now.toISOString() + ' to be at least ' + oneSecondAfter.toISOString());
 
     err(function() {
       assert.isAtLeast(null, now, 'blah');
@@ -2251,11 +2251,11 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(now, oneSecondAgo, 'blah');
-    }, 'blah: expected ' + now.toUTCString() + ' to be below ' + oneSecondAgo.toUTCString());
+    }, 'blah: expected ' + now.toISOString() + ' to be below ' + oneSecondAgo.toISOString());
 
     err(function() {
       assert.isBelow(now, now);
-    }, 'expected ' + now.toUTCString() + ' to be below ' + now.toUTCString());
+    }, 'expected ' + now.toISOString() + ' to be below ' + now.toISOString());
 
     err(function() {
       assert.isBelow(null, now, 'blah');
@@ -2301,7 +2301,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(oneSecondAfter, now, 'blah');
-    }, 'blah: expected ' + oneSecondAfter.toUTCString() + ' to be at most ' + now.toUTCString());
+    }, 'blah: expected ' + oneSecondAfter.toISOString() + ' to be at most ' + now.toISOString());
 
     err(function() {
       assert.isAtMost(null, now, 'blah');
@@ -2781,7 +2781,7 @@ describe('assert', function () {
 
       err(function(){
         assert[isEmpty]({arguments: 0});
-      }, "expected { arguments: 0 } to be empty");
+      }, "expected { arguments: +0 } to be empty");
 
       err(function(){
         assert[isEmpty]({foo: 'bar'});
@@ -2801,7 +2801,7 @@ describe('assert', function () {
 
       err(function(){
         assert[isEmpty](0);
-      }, ".empty was passed non-string primitive 0");
+      }, ".empty was passed non-string primitive +0");
 
       err(function(){
         assert[isEmpty](1);
@@ -2867,7 +2867,7 @@ describe('assert', function () {
 
         err(function(){
           assert[isNotEmpty](new Map);
-        }, "expected {} not to be empty");
+        }, "expected Map{} not to be empty");
       }
 
       if (typeof Set === 'function') {
@@ -2878,7 +2878,7 @@ describe('assert', function () {
 
         err(function(){
           assert[isNotEmpty](new Set);
-        }, "expected {} not to be empty");
+        }, "expected Set{} not to be empty");
       }
 
       err(function(){
@@ -2891,7 +2891,7 @@ describe('assert', function () {
 
       err(function(){
         assert[isNotEmpty](new FakeArgs);
-      }, "expected { length: 0 } not to be empty");
+      }, "expected FakeArgs{} not to be empty");
 
       err(function(){
         assert[isNotEmpty]({});
@@ -2911,7 +2911,7 @@ describe('assert', function () {
 
       err(function(){
         assert[isNotEmpty](0);
-      }, ".empty was passed non-string primitive 0");
+      }, ".empty was passed non-string primitive +0");
 
       err(function(){
         assert[isNotEmpty](1);

@@ -575,11 +575,11 @@ describe('expect', function () {
 
       err(function () {
         expect(map).to.have.length.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
       err(function () {
         expect(map).to.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
     }
 
     if (typeof Set === 'function') {
@@ -596,11 +596,11 @@ describe('expect', function () {
 
       err(function () {
         expect(set).to.have.length.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
 
       err(function () {
         expect(set).to.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
     }
   });
 
@@ -608,9 +608,9 @@ describe('expect', function () {
     var now = new Date();
     var oneSecondAgo = new Date(now.getTime() - 1000);
     var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowUTC = now.toUTCString();
-    var beforeUTC = oneSecondAgo.toUTCString();
-    var afterUTC = oneSecondAfter.toUTCString();
+    var nowISO = now.toISOString();
+    var beforeISO = oneSecondAgo.toISOString();
+    var afterISO = oneSecondAfter.toISOString();
 
     expect(now).to.be.within(oneSecondAgo, oneSecondAfter);
     expect(now).to.be.within(now, oneSecondAfter);
@@ -619,15 +619,15 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.not.be.within(now, oneSecondAfter, 'blah');
-    }, "blah: expected " + nowUTC + " to not be within " + nowUTC + ".." + afterUTC);
+    }, "blah: expected " + nowISO + " to not be within " + nowISO + ".." + afterISO);
 
     err(function(){
       expect(now, 'blah').to.not.be.within(oneSecondAgo, oneSecondAfter);
-    }, "blah: expected " + nowUTC + " to not be within " + beforeUTC + ".." + afterUTC);
+    }, "blah: expected " + nowISO + " to not be within " + beforeISO + ".." + afterISO);
 
     err(function () {
       expect(now).to.have.length.within(5, 7, 'blah');
-    }, "blah: expected " + nowUTC + " to have property 'length'");
+    }, "blah: expected " + nowISO + " to have property 'length'");
 
     err(function () {
       expect('foo').to.have.lengthOf.within(now, 7, 'blah');
@@ -750,11 +750,11 @@ describe('expect', function () {
 
       err(function () {
         expect(map).to.have.length.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
       err(function () {
         expect(map).to.have.lengthOf.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -771,11 +771,11 @@ describe('expect', function () {
 
       err(function () {
         expect(set).to.have.length.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
 
       err(function () {
         expect(set).to.have.lengthOf.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
     }
   });
 
@@ -791,7 +791,7 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.above(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be above " + oneSecondAfter.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be above " + oneSecondAfter.toISOString());
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
@@ -799,7 +799,7 @@ describe('expect', function () {
 
     err(function () {
       expect(now).to.have.length.above(4, 'blah');
-    }, "blah: expected " +  now.toUTCString() + " to have property 'length'");
+    }, "blah: expected " +  now.toISOString() + " to have property 'length'");
 
     err(function () {
       expect([ 1, 2, 3 ]).to.have.length.above(now, 'blah');
@@ -917,11 +917,11 @@ describe('expect', function () {
 
       err(function () {
         expect(map).to.have.length.of.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
       err(function () {
         expect(map).to.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -938,11 +938,11 @@ describe('expect', function () {
 
       err(function () {
         expect(set).to.have.length.of.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
 
       err(function () {
         expect(set).to.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
     }
   });
 
@@ -1038,11 +1038,11 @@ describe('expect', function () {
 
       err(function () {
         expect(map).to.have.length.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
       err(function () {
         expect(map).to.have.lengthOf.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -1059,11 +1059,11 @@ describe('expect', function () {
 
       err(function () {
         expect(set).to.have.length.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
 
       err(function () {
         expect(set).to.have.lengthOf.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
     }
   });
 
@@ -1079,11 +1079,11 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.below(oneSecondAgo, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be below " + oneSecondAgo.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be below " + oneSecondAgo.toISOString());
 
     err(function(){
       expect(now).to.not.be.below(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be at least " + oneSecondAfter.toISOString());
 
     err(function () {
       expect('foo').to.have.length.below(2, 'blah');
@@ -1103,7 +1103,7 @@ describe('expect', function () {
 
     err(function () {
       expect(now).to.have.length.below(0, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+    }, "blah: expected " + now.toISOString() + " to have property 'length'");
 
     err(function () {
       expect('asdasd').to.have.length.below(now, 'blah');
@@ -1209,11 +1209,11 @@ describe('expect', function () {
 
       err(function () {
         expect(map).to.have.length.of.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
       err(function () {
         expect(map).to.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -1230,11 +1230,11 @@ describe('expect', function () {
 
       err(function () {
         expect(set).to.have.length.of.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
 
       err(function () {
         expect(set).to.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
     }
   });
 
@@ -1242,9 +1242,9 @@ describe('expect', function () {
     var now = new Date();
     var oneSecondBefore = new Date(now.getTime() - 1000);
     var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowUTC = now.toUTCString();
-    var beforeUTC = oneSecondBefore.toUTCString();
-    var afterUTC = oneSecondAfter.toUTCString();
+    var nowISO = now.toISOString();
+    var beforeISO = oneSecondBefore.toISOString();
+    var afterISO = oneSecondAfter.toISOString();
 
     expect(now).to.be.at.most(oneSecondAfter);
     expect(now).to.be.at.most(now);
@@ -1252,15 +1252,15 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.at.most(oneSecondBefore, 'blah');
-    }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
+    }, "blah: expected " + nowISO + " to be at most " + beforeISO);
 
     err(function(){
       expect(now).to.not.be.at.most(now, 'blah');
-    }, "blah: expected " + nowUTC + " to be above " + nowUTC);
+    }, "blah: expected " + nowISO + " to be above " + nowISO);
 
     err(function () {
       expect(now).to.have.length.of.at.most(2, 'blah');
-    }, "blah: expected " + nowUTC + " to have property 'length'");
+    }, "blah: expected " + nowISO + " to have property 'length'");
 
     err(function () {
       expect('foo', 'blah').to.have.length.of.at.most(now);
@@ -1355,11 +1355,11 @@ describe('expect', function () {
 
       err(function(){
         expect(map).to.not.have.length(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
       err(function(){
         expect(map).to.not.have.lengthOf(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
     }
 
     if (typeof Set === 'function') {
@@ -1376,11 +1376,11 @@ describe('expect', function () {
 
       err(function(){
         expect(set).to.not.have.length(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
 
       err(function(){
         expect(set).to.not.have.lengthOf(3, 'blah');;
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
     }
   });
 
@@ -1406,7 +1406,7 @@ describe('expect', function () {
 
       err(function () {
         expect(Buffer.from([ 0 ])).to.eql(Buffer.from([ 1 ]));
-      }, 'expected <Buffer 00> to deeply equal <Buffer 01>');
+      }, 'expected Buffer[ 0 ] to deeply equal Buffer[ 1 ]');
     });
   }
 
@@ -1508,7 +1508,7 @@ describe('expect', function () {
 
       err(function(){
         expect(new Map).not.to.be.empty;
-      }, "expected {} not to be empty");
+      }, "expected Map{} not to be empty");
 
       map = new Map;
       map.key = 'val';
@@ -1516,7 +1516,7 @@ describe('expect', function () {
 
       err(function(){
         expect(map).not.to.be.empty;
-      }, "expected { key: 'val' } not to be empty");
+      }, "expected Map{} not to be empty");
     }
 
     if (typeof Set === 'function') {
@@ -1529,7 +1529,7 @@ describe('expect', function () {
 
       err(function(){
         expect(new Set).not.to.be.empty;
-      }, "expected {} not to be empty");
+      }, "expected Set{} not to be empty");
 
       set = new Set;
       set.key = 'val';
@@ -1537,7 +1537,7 @@ describe('expect', function () {
 
       err(function(){
         expect(set).not.to.be.empty;
-      }, "expected { key: 'val' } not to be empty");
+      }, "expected Set{} not to be empty");
     }
 
     err(function(){
@@ -1558,11 +1558,11 @@ describe('expect', function () {
 
     err(function(){
       expect(new FakeArgs).not.to.be.empty;
-    }, "expected { length: 0 } not to be empty");
+    }, "expected FakeArgs{} not to be empty");
 
     err(function(){
       expect({arguments: 0}).to.be.empty;
-    }, "expected { arguments: 0 } to be empty");
+    }, "expected { arguments: +0 } to be empty");
 
     err(function(){
       expect({}).not.to.be.empty;
@@ -1598,7 +1598,7 @@ describe('expect', function () {
 
     err(function(){
       expect(0).to.be.empty;
-    }, ".empty was passed non-string primitive 0");
+    }, ".empty was passed non-string primitive +0");
 
     err(function(){
       expect(1).to.be.empty;
@@ -1775,13 +1775,13 @@ describe('expect', function () {
 
     err(function(){
       expect(deepObj).to.have.nested.property('teas[3]');
-    }, "expected { Object (green, teas) } to have nested property 'teas[3]'");
+    }, "expected { green: { tea: 'matcha' }, …(1) } to have nested property 'teas[3]'");
     err(function(){
       expect(deepObj).to.have.nested.property('teas[3]', 'bar');
-    }, "expected { Object (green, teas) } to have nested property 'teas[3]'");
+    }, "expected { green: { tea: 'matcha' }, …(1) } to have nested property 'teas[3]'");
     err(function(){
       expect(deepObj).to.have.nested.property('teas[3].tea', 'bar');
-    }, "expected { Object (green, teas) } to have nested property 'teas[3].tea'");
+    }, "expected { green: { tea: 'matcha' }, …(1) } to have nested property 'teas[3].tea'");
 
     var arr = [
         [ 'chai', 'matcha', 'konacha' ]
@@ -1793,13 +1793,13 @@ describe('expect', function () {
     expect(arr).to.have.nested.property('[1][2].tea', 'konacha');
     err(function(){
       expect(arr).to.have.nested.property('[2][1]');
-    }, "expected [ Array(2) ] to have nested property '[2][1]'");
+    }, "expected [ …(2) ] to have nested property '[2][1]'");
     err(function(){
       expect(arr).to.have.nested.property('[2][1]', 'none');
-    }, "expected [ Array(2) ] to have nested property '[2][1]'");
+    }, "expected [ …(2) ] to have nested property '[2][1]'");
     err(function(){
       expect(arr).to.have.nested.property('[0][3]', 'none');
-    }, "expected [ Array(2) ] to have nested property '[0][3]'");
+    }, "expected [ …(2) ] to have nested property '[0][3]'");
 
     err(function(){
       expect('asd').to.have.property('length', 4, 'blah');
@@ -1815,7 +1815,7 @@ describe('expect', function () {
 
     err(function(){
       expect('asd').to.have.property('constructor', Number, 'blah');
-    }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
+    }, "blah: expected 'asd' to have property 'constructor' of [Function Number], but got [Function String]");
 
     err(function() {
       expect({a: {b: 1}}).to.have.own.nested.property("a.b", 1, 'blah');
@@ -2447,23 +2447,23 @@ describe('expect', function () {
 
     err(function () {
       expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.b[0]': {y: 2}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       expect({a: {b: [{x: 1}]}}, 'blah').to.deep.nested.include({'a.b[0]': {y: 2}});
-    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       expect({a: {b: [{x: 1}]}}).to.deep.nested.include({'a.c': {x: 1}});
-    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+    }, "expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.c'");
 
     err(function () {
       expect({a: {b: [{x: 1}]}}).to.not.deep.nested.include({'a.b[0]': {x: 1}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
 
     err(function () {
       expect({a: {b: [{x: 1}]}}, 'blah').to.not.deep.nested.include({'a.b[0]': {x: 1}});
-    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
   });
 
   it('own.include()', function () {
@@ -3073,103 +3073,103 @@ describe('expect', function () {
 
     err(function(){
       expect(goodFn, 'blah').to.throw();
-    }, /^blah: expected \[Function(: goodFn)*\] to throw an error$/);
+    }, /^blah: expected \[Function( goodFn)*\] to throw an error$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw ReferenceError$/);
+    }, /^blah: expected \[Function( goodFn)*\] to throw ReferenceError$/);
 
     err(function(){
       expect(goodFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function( goodFn)*\] to throw 'RangeError: boo'$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(specificError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error);
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(refErrFn, 'blah').to.not.throw(ReferenceError);
-    }, /^blah: expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
+    }, /^blah: expected \[Function( refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.throw(PoorlyConstructedError);
-    }, /^blah: expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.not.throw(PoorlyConstructedError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: (expected \[Function( ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       expect(ickyErrFn, 'blah').to.throw(ReferenceError);
-    }, /^blah: (expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^blah: (expected \[Function( ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.throw(new ReferenceError('eek'));
-    }, /^blah: expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
+    }, /^blah: expected \[Function( specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
 
     err(function(){
       expect(specificErrFn, 'blah').to.not.throw(specificError);
-    }, /^blah: expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
+    }, /^blah: expected \[Function( specificErrFn)*\] to not throw 'RangeError: boo'$/);
 
     err(function (){
       expect(badFn, 'blah').to.not.throw(/testing/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error not matching \/testing\/$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(/hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
       expect(badFn).to.throw(Error, /hello/, 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, /hello/);
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
       expect(badFn).to.throw(Error, 'hello', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error including 'hello' but got 'testing'$/);
 
     err(function () {
       expect(badFn, 'blah').to.throw(Error, 'hello');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error including 'hello' but got 'testing'$/);
 
     err(function () {
       expect(customErrFn, 'blah').to.not.throw();
-    }, /^blah: expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
+    }, /^blah: expected \[Function( customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
 
     err(function(){
       expect(badFn).to.not.throw(Error, 'testing', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(badFn, 'blah').to.not.throw(Error, 'testing');
-    }, /^blah: expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^blah: expected \[Function( badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn).to.not.throw(Error, '', 'blah');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function( emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw(Error, '');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^blah: expected \[Function( emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
 
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw('');
-    }, /^blah: expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+    }, /^blah: expected \[Function( emptyStringErrFn)*\] to throw error not including ''$/);
 
     err(function () {
       expect({}, 'blah').to.throw();
@@ -3197,11 +3197,11 @@ describe('expect', function () {
 
     err(function(){
       expect(Foo).to.respondTo('baz', 'constructor');
-    }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
+    }, /^(constructor: expected)(.*)(\[Function Foo\])(.*)(to respond to \'baz\')$/);
 
     err(function(){
       expect(Foo, 'constructor').to.respondTo('baz');
-    }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
+    }, /^(constructor: expected)(.*)(\[Function Foo\])(.*)(to respond to \'baz\')$/);
 
     err(function(){
       expect(bar).to.respondTo('baz', 'object');
@@ -3221,11 +3221,11 @@ describe('expect', function () {
 
     err(function(){
       expect(2).to.satisfy(matcher, 'blah');
-    }, /^blah: expected 2 to satisfy \[Function(: matcher)*\]$/);
+    }, /^blah: expected 2 to satisfy \[Function( matcher)*\]$/);
 
     err(function(){
       expect(2, 'blah').to.satisfy(matcher);
-    }, /^blah: expected 2 to satisfy \[Function(: matcher)*\]$/);
+    }, /^blah: expected 2 to satisfy \[Function( matcher)*\]$/);
   });
 
   it('closeTo', function(){
