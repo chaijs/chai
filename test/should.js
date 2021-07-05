@@ -596,11 +596,11 @@ describe('should', function() {
 
       err(function () {
         map.should.have.length.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
       err(function () {
         map.should.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
     }
 
     if (typeof Set === 'function') {
@@ -617,11 +617,11 @@ describe('should', function() {
 
       err(function () {
         set.should.have.length.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
 
       err(function () {
         set.should.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected {} to have a size within 5..7");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
     }
   });
 
@@ -629,9 +629,9 @@ describe('should', function() {
     var now = new Date();
     var oneSecondBefore = new Date(now.getTime() - 1000);
     var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowUTC = now.toUTCString();
-    var beforeUTC = oneSecondBefore.toUTCString();
-    var afterUTC = oneSecondAfter.toUTCString();
+    var nowISO = now.toISOString();
+    var beforeISO = oneSecondBefore.toISOString();
+    var afterISO = oneSecondAfter.toISOString();
 
     now.should.be.within(oneSecondBefore, oneSecondAfter);
     now.should.be.within(now, oneSecondAfter);
@@ -640,11 +640,11 @@ describe('should', function() {
 
     err(function(){
       now.should.not.be.within(now, oneSecondAfter, 'blah');
-    }, "blah: expected " + nowUTC + " to not be within " + nowUTC + ".." + afterUTC);
+    }, "blah: expected " + nowISO + " to not be within " + nowISO + ".." + afterISO);
 
     err(function(){
       oneSecondBefore.should.be.within(now, oneSecondAfter, 'blah');
-    }, "blah: expected " + beforeUTC + " to be within " + nowUTC + ".." + afterUTC);
+    }, "blah: expected " + beforeISO + " to be within " + nowISO + ".." + afterISO);
 
     err(function(){
       ([]).should.have.length.within(now, 100, 'blah');
@@ -652,11 +652,11 @@ describe('should', function() {
 
     err(function(){
       now.should.have.lengthOf.within(50, now, 'blah');
-    }, "blah: expected " + nowUTC + " to have property 'length'");
+    }, "blah: expected " + nowISO + " to have property 'length'");
 
     err(function () {
       now.should.have.length.within(5, 7);
-    }, "expected " + nowUTC + " to have property 'length'");
+    }, "expected " + nowISO + " to have property 'length'");
 
     err(function () {
       (0).should.be.within(0, now, 'blah');
@@ -743,11 +743,11 @@ describe('should', function() {
 
       err(function () {
         map.should.have.length.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
       err(function () {
         map.should.have.lengthOf.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -764,11 +764,11 @@ describe('should', function() {
 
       err(function () {
         set.should.have.length.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
 
       err(function () {
         set.should.have.lengthOf.above(5, 'blah');
-      }, "blah: expected {} to have a size above 5 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
     }
   });
 
@@ -784,15 +784,15 @@ describe('should', function() {
 
     err(function(){
       now.should.be.above(oneSecondAfter, 'blah');
-    }, "blah: expected " +  now.toUTCString() + " to be above " + oneSecondAfter.toUTCString());
+    }, "blah: expected " +  now.toISOString() + " to be above " + oneSecondAfter.toISOString());
 
     err(function(){
       now.should.not.be.above(oneSecondAgo, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at most " + oneSecondAgo.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be at most " + oneSecondAgo.toISOString());
 
     err(function(){
       now.should.have.length.above(3, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+    }, "blah: expected " + now.toISOString() + " to have property 'length'");
 
     err(function(){
       ('string').should.have.length.above(now, 'blah');
@@ -865,11 +865,11 @@ describe('should', function() {
 
       err(function () {
         map.should.have.length.of.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
       err(function () {
         map.should.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -886,11 +886,11 @@ describe('should', function() {
 
       err(function () {
         set.should.have.length.of.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
 
       err(function () {
         set.should.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected {} to have a size at least 4 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
     }
   });
 
@@ -954,11 +954,11 @@ describe('should', function() {
 
       err(function () {
         map.should.have.length.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
       err(function () {
         map.should.have.lengthOf.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -975,11 +975,11 @@ describe('should', function() {
 
       err(function () {
         set.should.have.length.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
 
       err(function () {
         set.should.have.lengthOf.below(2, 'blah');
-      }, "blah: expected {} to have a size below 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
     }
   });
 
@@ -995,15 +995,15 @@ describe('should', function() {
 
     err(function(){
       now.should.be.below(now, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be below " + now.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be below " + now.toISOString());
 
     err(function(){
       now.should.not.be.below(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to be at least " + oneSecondAfter.toUTCString());
+    }, "blah: expected " + now.toISOString() + " to be at least " + oneSecondAfter.toISOString());
 
     err(function(){
       now.should.have.length.below(3, 'blah');
-    }, "blah: expected " + now.toUTCString() + " to have property 'length'");
+    }, "blah: expected " + now.toISOString() + " to have property 'length'");
 
     err(function () {
       now.should.be.below(null, 'blah');
@@ -1084,11 +1084,11 @@ describe('should', function() {
 
       err(function () {
         map.should.have.length.of.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
       err(function () {
         map.should.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
     }
 
     if (typeof Set === 'function') {
@@ -1105,11 +1105,11 @@ describe('should', function() {
 
       err(function () {
         set.should.have.length.of.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
 
       err(function () {
         set.should.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected {} to have a size at most 2 but got 3");
+      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
     }
   });
 
@@ -1117,9 +1117,9 @@ describe('should', function() {
     var now = new Date();
     var oneSecondBefore = new Date(now.getTime() - 1000);
     var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowUTC = now.toUTCString();
-    var beforeUTC = oneSecondBefore.toUTCString();
-    var afterUTC = oneSecondAfter.toUTCString();
+    var nowISO = now.toISOString();
+    var beforeISO = oneSecondBefore.toISOString();
+    var afterISO = oneSecondAfter.toISOString();
 
     now.should.be.at.most(now);
     now.should.be.at.most(oneSecondAfter);
@@ -1127,11 +1127,11 @@ describe('should', function() {
 
     err(function(){
       now.should.be.at.most(oneSecondBefore, 'blah');
-    }, "blah: expected " + nowUTC + " to be at most " + beforeUTC);
+    }, "blah: expected " + nowISO + " to be at most " + beforeISO);
 
     err(function(){
       now.should.not.be.at.most(oneSecondAfter, 'blah');
-    }, "blah: expected " + nowUTC + " to be above " + afterUTC);
+    }, "blah: expected " + nowISO + " to be above " + afterISO);
 
     err(function(){
       ([]).should.have.length.of.at.most(now, 'blah');
@@ -1143,11 +1143,11 @@ describe('should', function() {
 
     err(function () {
       now.should.have.length.of.at.most(0, 'blah');
-    }, "blah: expected " + nowUTC + " to have property 'length'");
+    }, "blah: expected " + nowISO + " to have property 'length'");
 
     err(function () {
       now.should.not.have.lengthOf.at.most(0, 'blah');
-    }, "blah: expected " + nowUTC + " to have property 'length'");
+    }, "blah: expected " + nowISO + " to have property 'length'");
 
     err(function () {
       now.should.be.at.most(0, 'blah');
@@ -1217,11 +1217,11 @@ describe('should', function() {
 
       err(function(){
         map.should.not.have.length(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
       err(function(){
         map.should.not.have.lengthOf(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
     }
 
     if (typeof Set === 'function') {
@@ -1238,11 +1238,11 @@ describe('should', function() {
 
       err(function(){
         set.should.not.have.length(3, 'blah');
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
 
       err(function(){
         set.should.not.have.lengthOf(3, 'blah');;
-      }, "blah: expected {} to not have a size of 3");
+      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
     }
   });
 
@@ -1343,7 +1343,7 @@ describe('should', function() {
 
       err(function(){
         (new Map).should.not.be.empty;
-      }, "expected {} not to be empty");
+      }, "expected Map{} not to be empty");
 
       map = new Map;
       map.key = 'val';
@@ -1351,7 +1351,7 @@ describe('should', function() {
 
       err(function(){
         map.should.not.be.empty;
-      }, "expected { key: 'val' } not to be empty");
+      }, "expected Map{} not to be empty");
     }
 
     if (typeof Set === 'function') {
@@ -1364,7 +1364,7 @@ describe('should', function() {
 
       err(function(){
         (new Set).should.not.be.empty;
-      }, "expected {} not to be empty");
+      }, "expected Set{} not to be empty");
 
       set = new Set;
       set.key = 'val';
@@ -1372,7 +1372,7 @@ describe('should', function() {
 
       err(function(){
         set.should.not.be.empty;
-      }, "expected { key: 'val' } not to be empty");
+      }, "expected Set{} not to be empty");
     }
 
     err(function(){
@@ -1393,11 +1393,11 @@ describe('should', function() {
 
     err(function(){
       (new FakeArgs).should.not.be.empty;
-    }, "expected { length: 0 } not to be empty");
+    }, "expected FakeArgs{} not to be empty");
 
     err(function(){
       ({arguments: 0}).should.be.empty;
-    }, "expected { arguments: 0 } to be empty");
+    }, "expected { arguments: +0 } to be empty");
 
     err(function(){
       ({}).should.not.be.empty;
@@ -1409,7 +1409,7 @@ describe('should', function() {
 
     err(function(){
       (0).should.be.empty;
-    }, ".empty was passed non-string primitive 0");
+    }, ".empty was passed non-string primitive +0");
 
     err(function(){
       (1).should.be.empty;
@@ -1507,7 +1507,7 @@ describe('should', function() {
 
     err(function(){
       'asd'.should.have.property('constructor', Number, 'blah');
-    }, "blah: expected 'asd' to have property 'constructor' of [Function: Number], but got [Function: String]");
+    }, "blah: expected 'asd' to have property 'constructor' of [Function Number], but got [Function String]");
 
     err(function() {
       ({a: {b: 1}}).should.have.own.nested.property("a.b", 1, 'blah');
@@ -2064,15 +2064,15 @@ describe('should', function() {
 
     err(function () {
       ({a: {b: [{x: 1}]}}).should.deep.nested.include({'a.b[0]': {y: 2}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.b[0]' of { y: 2 }, but got { x: 1 }");
 
     err(function () {
       ({a: {b: [{x: 1}]}}).should.deep.nested.include({'a.c': {x: 1}});
-    }, "expected { a: { b: [ [Object] ] } } to have deep nested property 'a.c'");
+    }, "expected { a: { b: [ { x: 1 } ] } } to have deep nested property 'a.c'");
 
     err(function () {
       ({a: {b: [{x: 1}]}}).should.not.deep.nested.include({'a.b[0]': {x: 1}}, 'blah');
-    }, "blah: expected { a: { b: [ [Object] ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
+    }, "blah: expected { a: { b: [ { x: 1 } ] } } to not have deep nested property 'a.b[0]' of { x: 1 }");
   });
 
   it('own.include()', function () {
@@ -2668,103 +2668,103 @@ describe('should', function() {
 
     err(function(){
       (goodFn).should.throw();
-    }, /^expected \[Function(: goodFn)*\] to throw an error$/);
+    }, /^expected \[Function( goodFn)*\] to throw an error$/);
 
     err(function(){
       (goodFn).should.throw(ReferenceError);
-    }, /^expected \[Function(: goodFn)*\] to throw ReferenceError$/);
+    }, /^expected \[Function( goodFn)*\] to throw ReferenceError$/);
 
     err(function(){
       (goodFn).should.throw(specificError);
-    }, /^expected \[Function(: goodFn)*\] to throw 'RangeError: boo'$/);
+    }, /^expected \[Function( goodFn)*\] to throw 'RangeError: boo'$/);
 
     err(function(){
       (badFn).should.not.throw();
-    }, /^expected \[Function(: badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to not throw an error but 'Error: testing' was thrown$/);
 
     err(function(){
       (badFn).should.throw(ReferenceError);
-    }, /^expected \[Function(: badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to throw 'ReferenceError' but 'Error: testing' was thrown$/);
 
     err(function(){
       (badFn).should.throw(specificError);
-    }, /^expected \[Function(: badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to throw 'RangeError: boo' but 'Error: testing' was thrown$/);
 
     err(function(){
       (badFn).should.not.throw(Error);
-    }, /^expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
       (stringErrFn).should.not.throw();
-    }, /^expected \[Function(: stringErrFn)*\] to not throw an error but 'testing' was thrown$/);
+    }, /^expected \[Function( stringErrFn)*\] to not throw an error but 'testing' was thrown$/);
 
     err(function(){
       (stringErrFn).should.throw(ReferenceError);
-    }, /^expected \[Function(: stringErrFn)*\] to throw 'ReferenceError' but 'testing' was thrown$/);
+    }, /^expected \[Function( stringErrFn)*\] to throw 'ReferenceError' but 'testing' was thrown$/);
 
     err(function(){
       (stringErrFn).should.throw(specificError);
-    }, /^expected \[Function(: stringErrFn)*\] to throw 'RangeError: boo' but 'testing' was thrown$/);
+    }, /^expected \[Function( stringErrFn)*\] to throw 'RangeError: boo' but 'testing' was thrown$/);
 
     err(function(){
       (stringErrFn).should.not.throw('testing');
-    }, /^expected \[Function(: stringErrFn)*\] to throw error not including 'testing'$/);
+    }, /^expected \[Function( stringErrFn)*\] to throw error not including 'testing'$/);
 
     err(function(){
       (refErrFn).should.not.throw(ReferenceError);
-    }, /^expected \[Function(: refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
+    }, /^expected \[Function( refErrFn)*\] to not throw 'ReferenceError' but 'ReferenceError: hello' was thrown$/);
 
     err(function(){
       (badFn).should.throw(PoorlyConstructedError);
-    }, /^expected \[Function(: badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to throw 'PoorlyConstructedError' but 'Error: testing' was thrown$/);
 
     err(function(){
       (ickyErrFn).should.not.throw(PoorlyConstructedError);
-    }, /^(expected \[Function(: ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^(expected \[Function( ickyErrFn)*\] to not throw 'PoorlyConstructedError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       (ickyErrFn).should.throw(ReferenceError);
-    }, /^(expected \[Function(: ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
+    }, /^(expected \[Function( ickyErrFn)*\] to throw 'ReferenceError' but)(.*)(PoorlyConstructedError|\{ Object \()(.*)(was thrown)$/);
 
     err(function(){
       (specificErrFn).should.throw(new ReferenceError('eek'));
-    }, /^expected \[Function(: specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
+    }, /^expected \[Function( specificErrFn)*\] to throw 'ReferenceError: eek' but 'RangeError: boo' was thrown$/);
 
     err(function(){
       (specificErrFn).should.not.throw(specificError);
-    }, /^expected \[Function(: specificErrFn)*\] to not throw 'RangeError: boo'$/);
+    }, /^expected \[Function( specificErrFn)*\] to not throw 'RangeError: boo'$/);
 
     err(function (){
       (badFn).should.not.throw(/testing/);
-    }, /^expected \[Function(: badFn)*\] to throw error not matching \/testing\/$/);
+    }, /^expected \[Function( badFn)*\] to throw error not matching \/testing\/$/);
 
     err(function () {
       (badFn).should.throw(/hello/);
-    }, /^expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got \'testing\'$/);
+    }, /^expected \[Function( badFn)*\] to throw error matching \/hello\/ but got \'testing\'$/);
 
     err(function () {
       (badFn).should.throw(Error, /hello/, 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error matching \/hello\/ but got 'testing'$/);
 
     err(function () {
       (badFn).should.throw(Error, 'hello', 'blah');
-    }, /^blah: expected \[Function(: badFn)*\] to throw error including 'hello' but got 'testing'$/);
+    }, /^blah: expected \[Function( badFn)*\] to throw error including 'hello' but got 'testing'$/);
 
     err(function () {
       (customErrFn).should.not.throw();
-    }, /^expected \[Function(: customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
+    }, /^expected \[Function( customErrFn)*\] to not throw an error but 'CustomError: foo' was thrown$/);
 
     err(function(){
       (badFn).should.not.throw(Error, 'testing');
-    }, /^expected \[Function(: badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
+    }, /^expected \[Function( badFn)*\] to not throw 'Error' but 'Error: testing' was thrown$/);
 
     err(function(){
       (emptyStringErrFn).should.not.throw(Error, '');
-    }, /^expected \[Function(: emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
+    }, /^expected \[Function( emptyStringErrFn)*\] to not throw 'Error' but 'Error' was thrown$/);
 
     err(function(){
       (emptyStringErrFn).should.not.throw('');
-    }, /^expected \[Function(: emptyStringErrFn)*\] to throw error not including ''$/);
+    }, /^expected \[Function( emptyStringErrFn)*\] to throw error not including ''$/);
 
     err(function () {
       ({}).should.throw();
@@ -2792,7 +2792,7 @@ describe('should', function() {
 
     err(function(){
       Foo.should.respondTo('baz', 'constructor');
-    }, /^(constructor: expected)(.*)(\[Function: Foo\])(.*)(to respond to \'baz\')$/);
+    }, /^(constructor: expected)(.*)(\[Function Foo\])(.*)(to respond to \'baz\')$/);
 
     err(function(){
       bar.should.respondTo('baz', 'object');
@@ -2808,7 +2808,7 @@ describe('should', function() {
 
     err(function(){
       (2).should.satisfy(matcher, 'blah');
-    }, /^blah: expected 2 to satisfy \[Function(: matcher)*\]$/);
+    }, /^blah: expected 2 to satisfy \[Function( matcher)*\]$/);
   });
 
   it('closeTo', function(){

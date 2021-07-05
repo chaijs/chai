@@ -103,7 +103,7 @@ describe('globalErr', function () {
     err(function () {
       expect(f1).to.equal(f2);
     }, {
-        message: "expected [Function: f1] to equal [Function: f2]"
+        message: "expected [Function f1] to equal [Function f2]"
       , expected: f2
       , actual: f1
       , operator: 'deepStrictEqual'
@@ -112,7 +112,7 @@ describe('globalErr', function () {
     err(function () {
       expect(f1).to.not.equal(f1);
     }, {
-      message: "expected [Function: f1] to not equal [Function: f1]"
+      message: "expected [Function f1] to not equal [Function f1]"
       , expected: f1
       , actual: f1
       , operator: 'notDeepStrictEqual'
@@ -136,7 +136,7 @@ describe('globalErr', function () {
     err(function () {
       expect(val1).to.equal(val2);
     }, {
-        message: 'expected [ Array(4) ] to equal [ Array(4) ]'
+        message: "expected [ 'string1', 'string2', …(2) ] to equal [ 'string5', 'string6', …(2) ]"
       , expected: val2
       , actual: val1
       , operator: 'deepStrictEqual'
@@ -145,7 +145,7 @@ describe('globalErr', function () {
     err(function () {
       expect(val1).to.not.equal(val1);
     }, {
-      message: 'expected [ Array(4) ] to not equal [ Array(4) ]'
+      message: "expected [ 'string1', 'string2', …(2) ] to not equal [ 'string1', 'string2', …(2) ]"
       , expected: val1
       , actual: val1
       , operator: 'notDeepStrictEqual'
@@ -161,7 +161,7 @@ describe('globalErr', function () {
   it('should throw if object val\'s props are not included in error object', function () {
     err(function () {
       err(function () { throw new Err('cat') }, {text: 'cat'});
-    }, /expected { Object \(message, showDiff(, \.\.\.)*\) } to have property \'text\'/);
+    }, /expected AssertionError{ message: 'cat', …\(2\) } to have property \'text\'/);
 
     err(function () {
       err(function () { throw new Err('cat') }, {message: 'dog'});
