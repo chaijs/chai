@@ -31,7 +31,8 @@
       "require": "./index.js",
       "import": "./index.mjs"
     },
-    "./": "./"
+    "./": "./",
+    "./*": "./*"
   },
   "scripts": {
     "test": "make test"
