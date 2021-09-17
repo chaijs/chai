@@ -37,7 +37,7 @@
     />
   </a>
   <br/>
-  <a href="https://www.npmjs.com/packages/chai">
+  <a href="https://www.npmjs.com/package/chai">
     <img
       alt="downloads:?"
       src="https://img.shields.io/npm/dm/chai.svg?style=flat-square"
