@@ -181,7 +181,6 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - [chaijs / check-error](https://github.com/chaijs/check-error): Error comparison and information related utility for Node.js and the browser.
 - [chaijs / loupe](https://github.com/chaijs/loupe): Inspect utility for Node.js and browsers.
 - [chaijs / pathval](https://github.com/chaijs/pathval): Object value retrieval given a string path.
-- [chaijs / get-func-name](https://github.com/chaijs/get-func-name): Utility for getting a function's name for node and the browser.
 
 ### Contributing
 
