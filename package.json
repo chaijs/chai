@@ -34,7 +34,15 @@
     "./": "./"
   },
   "scripts": {
-    "test": "make test"
+    "prebuild": "npm run clean",
+    "build": "browserify --bare --outfile chai.js --standalone chai --entry index.js",
+    "pretest": "npm run build",
+    "test": "npm run test-node && npm run test-chrome",
+    "test-node": "mocha --require ./test/bootstrap/index.js --reporter dot test/*.js test/*.mjs",
+    "test-chrome": "karma start karma.conf.js --single-run --browsers HeadlessChrome",
+    "test-firefox": "karma start karma.conf.js --browsers Firefox",
+    "test-cov": "istanbul cover ./node_modules/.bin/_mocha -- --require ./test/bootstrap/index.js test/*.js test/*.mjs",
+    "clean": "rm -f chai.js coverage"
   },
   "engines": {
     "node": ">=12"
