@@ -1,7 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chai = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-module.exports = require('./lib/chai.cjs');
+module.exports = require('./lib/chai');
 
-},{"./lib/chai.cjs":2}],2:[function(require,module,exports){
+},{"./lib/chai":2}],2:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -26,7 +26,7 @@ exports.AssertionError = require('assertion-error');
  * Utils for plugins (not exported)
  */
 
-var util = require('./chai/utils/index.cjs');
+var util = require('./chai/utils');
 
 /**
  * # .use(function)
@@ -57,45 +57,45 @@ exports.util = util;
  * Configuration
  */
 
-var config = require('./chai/config.cjs');
+var config = require('./chai/config');
 exports.config = config;
 
 /*!
  * Primary `Assertion` prototype
  */
 
-var assertion = require('./chai/assertion.cjs');
+var assertion = require('./chai/assertion');
 exports.use(assertion);
 
 /*!
  * Core Assertions
  */
 
-var core = require('./chai/core/assertions.cjs');
+var core = require('./chai/core/assertions');
 exports.use(core);
 
 /*!
  * Expect interface
  */
 
-var expect = require('./chai/interface/expect.cjs');
+var expect = require('./chai/interface/expect');
 exports.use(expect);
 
 /*!
  * Should interface
  */
 
-var should = require('./chai/interface/should.cjs');
+var should = require('./chai/interface/should');
 exports.use(should);
 
 /*!
  * Assert interface
  */
 
-var assert = require('./chai/interface/assert.cjs');
+var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion.cjs":3,"./chai/config.cjs":4,"./chai/core/assertions.cjs":5,"./chai/interface/assert.cjs":6,"./chai/interface/expect.cjs":7,"./chai/interface/should.cjs":8,"./chai/utils/index.cjs":22,"assertion-error":33}],3:[function(require,module,exports){
+},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":33}],3:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -103,7 +103,7 @@ exports.use(assert);
  * MIT Licensed
  */
 
-var config = require('./config.cjs');
+var config = require('./config');
 
 module.exports = function (_chai, util) {
   /*!
@@ -272,7 +272,7 @@ module.exports = function (_chai, util) {
   });
 };
 
-},{"./config.cjs":4}],4:[function(require,module,exports){
+},{"./config":4}],4:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -7619,11 +7619,11 @@ module.exports = function (chai, util) {
  * Module dependencies
  */
 
-var addLengthGuard = require('./addLengthGuard.cjs');
-var chai = require('../../chai.cjs');
-var flag = require('./flag.cjs');
-var proxify = require('./proxify.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var addLengthGuard = require('./addLengthGuard');
+var chai = require('../../chai');
+var flag = require('./flag');
+var proxify = require('./proxify');
+var transferFlags = require('./transferFlags');
 
 /*!
  * Module variables
@@ -7762,7 +7762,7 @@ module.exports = function addChainableMethod(ctx, name, method, chainingBehavior
   });
 };
 
-},{"../../chai.cjs":2,"./addLengthGuard.cjs":10,"./flag.cjs":15,"./proxify.cjs":30,"./transferFlags.cjs":32}],10:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],10:[function(require,module,exports){
 var fnLengthDesc = Object.getOwnPropertyDescriptor(function () {}, 'length');
 
 /*!
@@ -7831,11 +7831,11 @@ module.exports = function addLengthGuard (fn, assertionName, isChainable) {
  * MIT Licensed
  */
 
-var addLengthGuard = require('./addLengthGuard.cjs');
-var chai = require('../../chai.cjs');
-var flag = require('./flag.cjs');
-var proxify = require('./proxify.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var addLengthGuard = require('./addLengthGuard');
+var chai = require('../../chai');
+var flag = require('./flag');
+var proxify = require('./proxify');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .addMethod(ctx, name, method)
@@ -7894,17 +7894,17 @@ module.exports = function addMethod(ctx, name, method) {
   ctx[name] = proxify(methodWrapper, name);
 };
 
-},{"../../chai.cjs":2,"./addLengthGuard.cjs":10,"./flag.cjs":15,"./proxify.cjs":30,"./transferFlags.cjs":32}],12:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],12:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var chai = require('../../chai.cjs');
-var flag = require('./flag.cjs');
-var isProxyEnabled = require('./isProxyEnabled.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var chai = require('../../chai');
+var flag = require('./flag');
+var isProxyEnabled = require('./isProxyEnabled');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .addProperty(ctx, name, getter)
@@ -7968,7 +7968,7 @@ module.exports = function addProperty(ctx, name, getter) {
   });
 };
 
-},{"../../chai.cjs":2,"./flag.cjs":15,"./isProxyEnabled.cjs":25,"./transferFlags.cjs":32}],13:[function(require,module,exports){
+},{"../../chai":2,"./flag":15,"./isProxyEnabled":25,"./transferFlags":32}],13:[function(require,module,exports){
 /*!
  * Chai - compareByInspect utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -7979,7 +7979,7 @@ module.exports = function addProperty(ctx, name, getter) {
  * Module dependencies
  */
 
-var inspect = require('./inspect.cjs');
+var inspect = require('./inspect');
 
 /**
  * ### .compareByInspect(mixed, mixed)
@@ -8001,7 +8001,7 @@ module.exports = function compareByInspect(a, b) {
   return inspect(a) < inspect(b) ? -1 : 1;
 };
 
-},{"./inspect.cjs":23}],14:[function(require,module,exports){
+},{"./inspect":23}],14:[function(require,module,exports){
 /*!
  * Chai - expectTypes utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8023,7 +8023,7 @@ module.exports = function compareByInspect(a, b) {
  */
 
 var AssertionError = require('assertion-error');
-var flag = require('./flag.cjs');
+var flag = require('./flag');
 var type = require('type-detect');
 
 module.exports = function expectTypes(obj, types) {
@@ -8054,7 +8054,7 @@ module.exports = function expectTypes(obj, types) {
   }
 };
 
-},{"./flag.cjs":15,"assertion-error":33,"type-detect":38}],15:[function(require,module,exports){
+},{"./flag":15,"assertion-error":33,"type-detect":38}],15:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8122,9 +8122,9 @@ module.exports = function getActual(obj, args) {
  * Module dependencies
  */
 
-var flag = require('./flag.cjs')
-  , getActual = require('./getActual.cjs')
-  , objDisplay = require('./objDisplay.cjs');
+var flag = require('./flag')
+  , getActual = require('./getActual')
+  , objDisplay = require('./objDisplay');
 
 /**
  * ### .getMessage(object, message, negateMessage)
@@ -8163,10 +8163,10 @@ module.exports = function getMessage(obj, args) {
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
-},{"./flag.cjs":15,"./getActual.cjs":16,"./objDisplay.cjs":26}],18:[function(require,module,exports){
+},{"./flag":15,"./getActual":16,"./objDisplay":26}],18:[function(require,module,exports){
 var type = require('type-detect');
 
-var flag = require('./flag.cjs');
+var flag = require('./flag');
 
 function isObjectType(obj) {
   var objectType = type(obj);
@@ -8220,7 +8220,7 @@ module.exports = function getOperator(obj, args) {
   return isObject ? 'deepStrictEqual' : 'strictEqual';
 };
 
-},{"./flag.cjs":15,"type-detect":38}],19:[function(require,module,exports){
+},{"./flag":15,"type-detect":38}],19:[function(require,module,exports){
 /*!
  * Chai - getOwnEnumerableProperties utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -8231,7 +8231,7 @@ module.exports = function getOperator(obj, args) {
  * Module dependencies
  */
 
-var getOwnEnumerablePropertySymbols = require('./getOwnEnumerablePropertySymbols.cjs');
+var getOwnEnumerablePropertySymbols = require('./getOwnEnumerablePropertySymbols');
 
 /**
  * ### .getOwnEnumerableProperties(object)
@@ -8251,7 +8251,7 @@ module.exports = function getOwnEnumerableProperties(obj) {
   return Object.keys(obj).concat(getOwnEnumerablePropertySymbols(obj));
 };
 
-},{"./getOwnEnumerablePropertySymbols.cjs":20}],20:[function(require,module,exports){
+},{"./getOwnEnumerablePropertySymbols":20}],20:[function(require,module,exports){
 /*!
  * Chai - getOwnEnumerablePropertySymbols utility
  * Copyright(c) 2011-2016 Jake Luer <jake@alogicalparadox.com>
@@ -8335,7 +8335,7 @@ var pathval = require('pathval');
  * test utility
  */
 
-exports.test = require('./test.cjs');
+exports.test = require('./test');
 
 /*!
  * type utility
@@ -8346,43 +8346,43 @@ exports.type = require('type-detect');
 /*!
  * expectTypes utility
  */
-exports.expectTypes = require('./expectTypes.cjs');
+exports.expectTypes = require('./expectTypes');
 
 /*!
  * message utility
  */
 
-exports.getMessage = require('./getMessage.cjs');
+exports.getMessage = require('./getMessage');
 
 /*!
  * actual utility
  */
 
-exports.getActual = require('./getActual.cjs');
+exports.getActual = require('./getActual');
 
 /*!
  * Inspect util
  */
 
-exports.inspect = require('./inspect.cjs');
+exports.inspect = require('./inspect');
 
 /*!
  * Object Display util
  */
 
-exports.objDisplay = require('./objDisplay.cjs');
+exports.objDisplay = require('./objDisplay');
 
 /*!
  * Flag utility
  */
 
-exports.flag = require('./flag.cjs');
+exports.flag = require('./flag');
 
 /*!
  * Flag transferring utility
  */
 
-exports.transferFlags = require('./transferFlags.cjs');
+exports.transferFlags = require('./transferFlags');
 
 /*!
  * Deep equal utility
@@ -8414,55 +8414,55 @@ exports.getName = function(fn) {
  * add Property
  */
 
-exports.addProperty = require('./addProperty.cjs');
+exports.addProperty = require('./addProperty');
 
 /*!
  * add Method
  */
 
-exports.addMethod = require('./addMethod.cjs');
+exports.addMethod = require('./addMethod');
 
 /*!
  * overwrite Property
  */
 
-exports.overwriteProperty = require('./overwriteProperty.cjs');
+exports.overwriteProperty = require('./overwriteProperty');
 
 /*!
  * overwrite Method
  */
 
-exports.overwriteMethod = require('./overwriteMethod.cjs');
+exports.overwriteMethod = require('./overwriteMethod');
 
 /*!
  * Add a chainable method
  */
 
-exports.addChainableMethod = require('./addChainableMethod.cjs');
+exports.addChainableMethod = require('./addChainableMethod');
 
 /*!
  * Overwrite chainable method
  */
 
-exports.overwriteChainableMethod = require('./overwriteChainableMethod.cjs');
+exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
 /*!
  * Compare by inspect method
  */
 
-exports.compareByInspect = require('./compareByInspect.cjs');
+exports.compareByInspect = require('./compareByInspect');
 
 /*!
  * Get own enumerable property symbols method
  */
 
-exports.getOwnEnumerablePropertySymbols = require('./getOwnEnumerablePropertySymbols.cjs');
+exports.getOwnEnumerablePropertySymbols = require('./getOwnEnumerablePropertySymbols');
 
 /*!
  * Get own enumerable properties method
  */
 
-exports.getOwnEnumerableProperties = require('./getOwnEnumerableProperties.cjs');
+exports.getOwnEnumerableProperties = require('./getOwnEnumerableProperties');
 
 /*!
  * Checks error against a given set of criteria
@@ -8474,38 +8474,38 @@ exports.checkError = require('check-error');
  * Proxify util
  */
 
-exports.proxify = require('./proxify.cjs');
+exports.proxify = require('./proxify');
 
 /*!
  * addLengthGuard util
  */
 
-exports.addLengthGuard = require('./addLengthGuard.cjs');
+exports.addLengthGuard = require('./addLengthGuard');
 
 /*!
  * isProxyEnabled helper
  */
 
-exports.isProxyEnabled = require('./isProxyEnabled.cjs');
+exports.isProxyEnabled = require('./isProxyEnabled');
 
 /*!
  * isNaN method
  */
 
-exports.isNaN = require('./isNaN.cjs');
+exports.isNaN = require('./isNaN');
 
 /*!
  * getOperator method
  */
 
-exports.getOperator = require('./getOperator.cjs');
+exports.getOperator = require('./getOperator');
 
-},{"./addChainableMethod.cjs":9,"./addLengthGuard.cjs":10,"./addMethod.cjs":11,"./addProperty.cjs":12,"./compareByInspect.cjs":13,"./expectTypes.cjs":14,"./flag.cjs":15,"./getActual.cjs":16,"./getMessage.cjs":17,"./getOperator.cjs":18,"./getOwnEnumerableProperties.cjs":19,"./getOwnEnumerablePropertySymbols.cjs":20,"./inspect.cjs":23,"./isNaN.cjs":24,"./isProxyEnabled.cjs":25,"./objDisplay.cjs":26,"./overwriteChainableMethod.cjs":27,"./overwriteMethod.cjs":28,"./overwriteProperty.cjs":29,"./proxify.cjs":30,"./test.cjs":31,"./transferFlags.cjs":32,"check-error":34,"deep-eql":35,"pathval":37,"type-detect":38}],23:[function(require,module,exports){
+},{"./addChainableMethod":9,"./addLengthGuard":10,"./addMethod":11,"./addProperty":12,"./compareByInspect":13,"./expectTypes":14,"./flag":15,"./getActual":16,"./getMessage":17,"./getOperator":18,"./getOwnEnumerableProperties":19,"./getOwnEnumerablePropertySymbols":20,"./inspect":23,"./isNaN":24,"./isProxyEnabled":25,"./objDisplay":26,"./overwriteChainableMethod":27,"./overwriteMethod":28,"./overwriteProperty":29,"./proxify":30,"./test":31,"./transferFlags":32,"check-error":34,"deep-eql":35,"pathval":37,"type-detect":38}],23:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
 var loupe = require('loupe');
-var config = require('../config.cjs');
+var config = require('../config');
 
 module.exports = inspect;
 
@@ -8534,7 +8534,7 @@ function inspect(obj, showHidden, depth, colors) {
   return loupe.inspect(obj, options);
 }
 
-},{"../config.cjs":4,"loupe":36}],24:[function(require,module,exports){
+},{"../config":4,"loupe":36}],24:[function(require,module,exports){
 /*!
  * Chai - isNaN utility
  * Copyright(c) 2012-2015 Sakthipriyan Vairamani <thechargingvolcano@gmail.com>
@@ -8563,7 +8563,7 @@ function isNaN(value) {
 module.exports = Number.isNaN || isNaN;
 
 },{}],25:[function(require,module,exports){
-var config = require('../config.cjs');
+var config = require('../config');
 
 /*!
  * Chai - isProxyEnabled helper
@@ -8588,7 +8588,7 @@ module.exports = function isProxyEnabled() {
     typeof Reflect !== 'undefined';
 };
 
-},{"../config.cjs":4}],26:[function(require,module,exports){
+},{"../config":4}],26:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -8599,8 +8599,8 @@ module.exports = function isProxyEnabled() {
  * Module dependencies
  */
 
-var inspect = require('./inspect.cjs');
-var config = require('../config.cjs');
+var inspect = require('./inspect');
+var config = require('../config');
 
 /**
  * ### .objDisplay(object)
@@ -8640,15 +8640,15 @@ module.exports = function objDisplay(obj) {
   }
 };
 
-},{"../config.cjs":4,"./inspect.cjs":23}],27:[function(require,module,exports){
+},{"../config":4,"./inspect":23}],27:[function(require,module,exports){
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var chai = require('../../chai.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var chai = require('../../chai');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .overwriteChainableMethod(ctx, name, method, chainingBehavior)
@@ -8711,18 +8711,18 @@ module.exports = function overwriteChainableMethod(ctx, name, method, chainingBe
   };
 };
 
-},{"../../chai.cjs":2,"./transferFlags.cjs":32}],28:[function(require,module,exports){
+},{"../../chai":2,"./transferFlags":32}],28:[function(require,module,exports){
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var addLengthGuard = require('./addLengthGuard.cjs');
-var chai = require('../../chai.cjs');
-var flag = require('./flag.cjs');
-var proxify = require('./proxify.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var addLengthGuard = require('./addLengthGuard');
+var chai = require('../../chai');
+var flag = require('./flag');
+var proxify = require('./proxify');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .overwriteMethod(ctx, name, fn)
@@ -8805,17 +8805,17 @@ module.exports = function overwriteMethod(ctx, name, method) {
   ctx[name] = proxify(overwritingMethodWrapper, name);
 };
 
-},{"../../chai.cjs":2,"./addLengthGuard.cjs":10,"./flag.cjs":15,"./proxify.cjs":30,"./transferFlags.cjs":32}],29:[function(require,module,exports){
+},{"../../chai":2,"./addLengthGuard":10,"./flag":15,"./proxify":30,"./transferFlags":32}],29:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
  */
 
-var chai = require('../../chai.cjs');
-var flag = require('./flag.cjs');
-var isProxyEnabled = require('./isProxyEnabled.cjs');
-var transferFlags = require('./transferFlags.cjs');
+var chai = require('../../chai');
+var flag = require('./flag');
+var isProxyEnabled = require('./isProxyEnabled');
+var transferFlags = require('./transferFlags');
 
 /**
  * ### .overwriteProperty(ctx, name, fn)
@@ -8899,11 +8899,11 @@ module.exports = function overwriteProperty(ctx, name, getter) {
   });
 };
 
-},{"../../chai.cjs":2,"./flag.cjs":15,"./isProxyEnabled.cjs":25,"./transferFlags.cjs":32}],30:[function(require,module,exports){
-var config = require('../config.cjs');
-var flag = require('./flag.cjs');
-var getProperties = require('./getProperties.cjs');
-var isProxyEnabled = require('./isProxyEnabled.cjs');
+},{"../../chai":2,"./flag":15,"./isProxyEnabled":25,"./transferFlags":32}],30:[function(require,module,exports){
+var config = require('../config');
+var flag = require('./flag');
+var getProperties = require('./getProperties');
+var isProxyEnabled = require('./isProxyEnabled');
 
 /*!
  * Chai - proxify utility
@@ -9048,7 +9048,7 @@ function stringDistanceCapped(strA, strB, cap) {
   return memo[strA.length][strB.length];
 }
 
-},{"../config.cjs":4,"./flag.cjs":15,"./getProperties.cjs":21,"./isProxyEnabled.cjs":25}],31:[function(require,module,exports){
+},{"../config":4,"./flag":15,"./getProperties":21,"./isProxyEnabled":25}],31:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -9059,7 +9059,7 @@ function stringDistanceCapped(strA, strB, cap) {
  * Module dependencies
  */
 
-var flag = require('./flag.cjs');
+var flag = require('./flag');
 
 /**
  * ### .test(object, expression)
@@ -9078,7 +9078,7 @@ module.exports = function test(obj, args) {
   return negate ? !expr : expr;
 };
 
-},{"./flag.cjs":15}],32:[function(require,module,exports){
+},{"./flag":15}],32:[function(require,module,exports){
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>

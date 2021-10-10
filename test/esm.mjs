@@ -1,6 +1,6 @@
 import {expect, should} from 'chai';
 import chai from 'chai';
-import 'chai/register-assert.js';
+import 'chai/register-assert.cjs';
 should()
 
 it('expect and should are ESM named exports and chai is a default export', () => {

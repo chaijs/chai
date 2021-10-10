@@ -1,7 +1,7 @@
 if (typeof window === 'object') {
   global = window;
 } else {
-  global.chai = require('../..');
+  global.chai = require('../../index.cjs');
 }
 
 var isStackSupported = false;

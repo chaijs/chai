@@ -1,4 +1,4 @@
-import chai from './index.js';
+import chai from './index.cjs';
 
 export const expect = chai.expect;
 export const version = chai.version;
