@@ -2,7 +2,7 @@ module.exports = function(config) {
   config.set({
       frameworks: [ 'mocha' ]
     , files: [
-      {pattern: 'chai.cjs', type: 'js'},
+      {pattern: 'chai.js', type: 'js'},
       {pattern: 'test/bootstrap/index.cjs', type: 'js'},
       {pattern: 'test/*.cjs', type: 'js'}
       ]
