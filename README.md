@@ -11,16 +11,10 @@
 </p>
 
 <p align=center>
-  <a href="./LICENSE">
+  <a href="https://www.npmjs.com/package/chai">
     <img
-      alt="license:mit"
-      src="https://img.shields.io/badge/license-mit-green.svg?style=flat-square"
-    />
-  </a>
-  <a href="https://github.com/chaijs/chai/releases">
-    <img
-      alt="tag:?"
-      src="https://img.shields.io/github/tag/chaijs/chai.svg?style=flat-square"
+      alt="downloads:?"
+      src="https://img.shields.io/npm/dm/chai.svg?style=flat-square"
     />
   </a>
   <a href="https://www.npmjs.com/package/chai">
@@ -29,36 +23,10 @@
       src="https://img.shields.io/badge/node-%3E=4.0-blue.svg?style=flat-square"
     />
   </a>
-  <br/>
-  <a href="https://saucelabs.com/u/chaijs">
-    <img
-      alt="Selenium Test Status"
-      src="https://saucelabs.com/browser-matrix/chaijs.svg"
-    />
-  </a>
-  <br/>
-  <a href="https://www.npmjs.com/package/chai">
-    <img
-      alt="downloads:?"
-      src="https://img.shields.io/npm/dm/chai.svg?style=flat-square"
-    />
-  </a>
-  <a href="https://travis-ci.org/chaijs/chai">
-    <img
-      alt="build:?"
-      src="https://img.shields.io/travis/chaijs/chai/master.svg?style=flat-square"
-    />
-  </a>
   <a href="https://codecov.io/gh/chaijs/chai">
     <img
       alt="coverage:?"
       src="https://img.shields.io/codecov/c/github/chaijs/chai.svg?style=flat-square"
-    />
-  </a>
-  <a href="">
-    <img
-      alt="devDependencies:?"
-      src="https://img.shields.io/david/chaijs/chai.svg?style=flat-square"
     />
   </a>
   <br/>
