@@ -26,6 +26,7 @@
     "url": "https://github.com/chaijs/chai/issues"
   },
   "main": "./index",
+  "type": "module",
   "exports": {
     ".": {
       "require": "./index.js",
