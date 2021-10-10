@@ -19,7 +19,7 @@ jobs:
         node-version:
           - 12 # to be removed 2022-04-30
           - 14 # to be removed 2023-04-30
-          - 15 # to be removed 2021-06-01
+          - 16 # to be removed 2024-04-30
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
