@@ -300,7 +300,7 @@ describe('utilities', function () {
         // not all browsers support err.stack
         // Phantom does not include function names for getter exec
         if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.include('utilities.cjs');
           expect(err.stack).to.not.include('overwriteMethod');
         }
       }
@@ -314,7 +314,7 @@ describe('utilities', function () {
         // not all browsers support err.stack
         // Phantom does not include function names for getter exec
         if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.include('utilities.cjs');
           expect(err.stack).to.not.include('overwriteMethod');
         }
       }
@@ -552,7 +552,7 @@ describe('utilities', function () {
         // not all browsers support err.stack
         // Phantom does not include function names for getter exec
         if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.include('utilities.cjs');
           expect(err.stack).to.not.include('overwriteProperty');
         }
       }
@@ -566,7 +566,7 @@ describe('utilities', function () {
         // not all browsers support err.stack
         // Phantom does not include function names for getter exec
         if ('undefined' !== typeof err.stack && 'undefined' !== typeof Error.captureStackTrace) {
-          expect(err.stack).to.include('utilities.js');
+          expect(err.stack).to.include('utilities.cjs');
           expect(err.stack).to.not.include('overwriteProperty');
         }
       }
