@@ -1,6 +1,6 @@
 <h1 align=center>
-  <a href="http://chaijs.com" title="Chai Documentation">
-    <img alt="ChaiJS" src="http://chaijs.com/img/chai-logo.png">
+  <a href="https://chaijs.github.io" title="Chai Documentation">
+    <img alt="ChaiJS" src="https://chaijs.github.io/img/chai-logo.png">
   </a>
   <br>
   chai
@@ -50,7 +50,7 @@
   </a>
 </p>
 
-For more information or to download plugins, view the [documentation](http://chaijs.com).
+For more information or to download plugins, view the [documentation](https://chaijs.github.io/guide).
 
 ## What is Chai?
 
@@ -127,14 +127,14 @@ mocha spec.js -r chai/register-expect  # Using Expect style
 mocha spec.js -r chai/register-should  # Using Should style
 ```
 
-[Read more about these styles in our docs](http://chaijs.com/guide/styles/).
+[Read more about these styles in our docs](https://chaijs.github.io/guide/styles).
 
 ## Plugins
 
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
 
-- Need a plugin? View the [official plugin list](http://chaijs.com/plugins).
-- Want to build a plugin? Read the [plugin api documentation](http://chaijs.com/guide/plugins/).
+- Need a plugin? View the [official plugin list](https://chaijs.github.io/guide/plugins).
+- Want to build a plugin? Read the [plugin api documentation](https://chaijs.github.io/guide/plugins).
 - Have a plugin and want it listed? Simply add the following keywords to your package.json:
   -  `chai-plugin`
   -  `browser` if your plugin works in the browser as well as Node.js
