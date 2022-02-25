@@ -1484,13 +1484,14 @@ describe('expect', function () {
     var c = { [symb]: { [symb2]: 'c' } }
       , d = { [symb]: { [symb2]: 'b' } };
     expect(c).to.deep.equal(c);
-    // this test should fail
-    expect(d).to.deep.equal(d);
+    expect(d).to.not.deep.equal(c);
 
     var symb3 = Symbol('d');
     var e = { [symb]: { [symb3]: 'b' } };
-    // this test should fail
-    expect(d).to.deep.equal(e);
+    expect(d).to.not.deep.equal(e);
+
+    var f = { [symb]: { [symb3]: 'b' } };
+    expect(e).to.deep.equal(f);
   });
 
   it('empty', function(){
