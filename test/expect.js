@@ -1473,6 +1473,27 @@ describe('expect', function () {
     expect(a).not.to.deep.equal({});
   });
 
+  it('deep.equal(Symbol)', function () {
+    var symb = Symbol('a');
+    var a = { [symb]: 'b' }
+      , b = { [symb]: 'b' };
+    expect(a).to.deep.equal(a);
+    expect(a).to.deep.equal(b);
+
+    var symb2 = Symbol('c');
+    var c = { [symb]: { [symb2]: 'c' } }
+      , d = { [symb]: { [symb2]: 'b' } };
+    expect(c).to.deep.equal(c);
+    expect(d).to.not.deep.equal(c);
+
+    var symb3 = Symbol('d');
+    var e = { [symb]: { [symb3]: 'b' } };
+    expect(d).to.not.deep.equal(e);
+
+    var f = { [symb]: { [symb3]: 'b' } };
+    expect(e).to.deep.equal(f);
+  });
+
   it('empty', function(){
     function FakeArgs() {};
     FakeArgs.prototype.length = 0;
