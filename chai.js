@@ -9430,10 +9430,10 @@ function FakeMap() {
 }
 
 FakeMap.prototype = {
-  get: function getMap(key) {
+  get: function get(key) {
     return key[this._key];
   },
-  set: function setMap(key, value) {
+  set: function set(key, value) {
     if (Object.isExtensible(key)) {
       Object.defineProperty(key, this._key, {
         value: value,
@@ -9625,8 +9625,9 @@ function extensiveDeepEqualByType(leftHandOperand, rightHandOperand, leftHandTyp
     case 'function':
     case 'WeakMap':
     case 'WeakSet':
-    case 'Error':
       return leftHandOperand === rightHandOperand;
+    case 'Error':
+      return keysEqual(leftHandOperand, rightHandOperand, [ 'name', 'message', 'code' ], options);
     case 'Arguments':
     case 'Int8Array':
     case 'Uint8Array':
@@ -9651,6 +9652,19 @@ function extensiveDeepEqualByType(leftHandOperand, rightHandOperand, leftHandTyp
       return entriesEqual(leftHandOperand, rightHandOperand, options);
     case 'Map':
       return entriesEqual(leftHandOperand, rightHandOperand, options);
+    case 'Temporal.PlainDate':
+    case 'Temporal.PlainTime':
+    case 'Temporal.PlainDateTime':
+    case 'Temporal.Instant':
+    case 'Temporal.ZonedDateTime':
+    case 'Temporal.PlainYearMonth':
+    case 'Temporal.PlainMonthDay':
+      return leftHandOperand.equals(rightHandOperand);
+    case 'Temporal.Duration':
+      return leftHandOperand.total('nanoseconds') === rightHandOperand.total('nanoseconds');
+    case 'Temporal.TimeZone':
+    case 'Temporal.Calendar':
+      return leftHandOperand.toString() === rightHandOperand.toString();
     default:
       return objectEqual(leftHandOperand, rightHandOperand, options);
   }
@@ -9796,6 +9810,11 @@ function getEnumerableKeys(target) {
   return keys;
 }
 
+function getNonEnumerableSymbols(target) {
+  var keys = Object.getOwnPropertySymbols(target);
+  return keys;
+}
+
 /*!
  * Determines if two objects have matching values, given a set of keys. Defers to deepEqual for the equality check of
  * each key. If any value of the given key is not equal, the function will return false (early).
@@ -9828,14 +9847,16 @@ function keysEqual(leftHandOperand, rightHandOperand, keys, options) {
  * @param {Object} [options] (Optional)
  * @return {Boolean} result
  */
-
 function objectEqual(leftHandOperand, rightHandOperand, options) {
   var leftHandKeys = getEnumerableKeys(leftHandOperand);
   var rightHandKeys = getEnumerableKeys(rightHandOperand);
+  var leftHandSymbols = getNonEnumerableSymbols(leftHandOperand);
+  var rightHandSymbols = getNonEnumerableSymbols(rightHandOperand);
+  leftHandKeys = leftHandKeys.concat(leftHandSymbols);
+  rightHandKeys = rightHandKeys.concat(rightHandSymbols);
+
   if (leftHandKeys.length && leftHandKeys.length === rightHandKeys.length) {
-    leftHandKeys.sort();
-    rightHandKeys.sort();
-    if (iterableEqual(leftHandKeys, rightHandKeys) === false) {
+    if (iterableEqual(mapSymbols(leftHandKeys).sort(), mapSymbols(rightHandKeys).sort()) === false) {
       return false;
     }
     return keysEqual(leftHandOperand, rightHandOperand, leftHandKeys, options);
@@ -9870,6 +9891,16 @@ function objectEqual(leftHandOperand, rightHandOperand, options) {
  */
 function isPrimitive(value) {
   return value === null || typeof value !== 'object';
+}
+
+function mapSymbols(arr) {
+  return arr.map(function mapSymbol(entry) {
+    if (typeof entry === 'symbol') {
+      return entry.toString();
+    }
+
+    return entry;
+  });
 }
 
 },{"type-detect":39}],36:[function(require,module,exports){
