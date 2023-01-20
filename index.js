@@ -1,1 +1,1 @@
-module.exports = require('./lib/chai');
+export * from './lib/chai.js';
