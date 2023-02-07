@@ -1,1 +1,3 @@
-global.expect = require('./').expect;
+import {expect} from './index.js';
+
+globalThis.expect = expect;

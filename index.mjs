@@ -2,6 +2,7 @@ import chai from './index.js';
 
 export const expect = chai.expect;
 export const version = chai.version;
+export const Assertion = chai.Assertion;
 export const AssertionError = chai.AssertionError;
 export const util = chai.util;
 export const config = chai.config;

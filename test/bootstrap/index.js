@@ -1,8 +1,6 @@
-if (typeof window === 'object') {
-  global = window;
-} else {
-  global.chai = require('../..');
-}
+import * as chai from '../../chai.js';
+
+globalThis.chai = chai;
 
 var isStackSupported = false;
 if (typeof Error.captureStackTrace !== 'undefined') {
@@ -31,7 +29,7 @@ if (typeof Error.captureStackTrace !== 'undefined') {
  * @param {Boolean} skipStackTest if truthy, don't validate stack trace
  */
 
-global.err = function globalErr (fn, val, skipStackTest) {
+globalThis.err = function globalErr (fn, val, skipStackTest) {
   if (chai.util.type(fn) !== 'function')
     throw new chai.AssertionError('Invalid fn');
 

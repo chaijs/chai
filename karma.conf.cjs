@@ -2,9 +2,9 @@ module.exports = function(config) {
   config.set({
       frameworks: [ 'mocha' ]
     , files: [
-          'chai.js'
-        , 'test/bootstrap/index.js'
-        , 'test/*.js'
+        { pattern: 'chai.js', type: 'module', included: false, served: true }
+      , { pattern: 'test/bootstrap/index.js', type: 'module'}
+      , { pattern: 'test/*.js', type: 'module' }
       ]
     , reporters: [ 'progress' ]
     , colors: true

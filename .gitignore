@@ -21,3 +21,6 @@ coverage
 
 test/auth/*
 !test/auth/.gitkeep
+
+/chai.js
+/chai.cjs

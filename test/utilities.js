@@ -756,6 +756,16 @@ describe('utilities', function () {
     });
   });
 
+  it('inspect BigInt', function () {
+    if (typeof BigInt !== 'function') return;
+
+    chai.use(function (_chai, _) {
+      expect(_.inspect(BigInt(0))).to.equal('0n');
+      expect(_.inspect(BigInt(1234))).to.equal('1234n');
+      expect(_.inspect(BigInt(-1234))).to.equal('-1234n');
+    });
+  });
+
   it('inspect every kind of available TypedArray', function () {
     chai.use(function (_chai, _) {
       var arr = [1, 2, 3]
