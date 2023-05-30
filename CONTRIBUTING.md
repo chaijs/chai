@@ -21,7 +21,6 @@ Following these guidelines helps to communicate that you respect the time of the
 
 - Creating an Issue or Pull Request requires a [GitHub](http://github.com) account.
 - Issue reports should be **clear**, **concise** and **reproducible**. Check to see if your issue has already been resolved in the [master]() branch or already reported in Chai's [GitHub Issue Tracker](https://github.com/chaijs/chai/issues).
-- Pull Requests must adhere to strict [coding style guidelines](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide).
 - In general, avoid submitting PRs for new Assertions without asking core contributors first. More than likely it would be better implemented as a plugin.
 - Additional support is available via the [Google Group](http://groups.google.com/group/chaijs) or on irc.freenode.net#chaijs.
 - **IMPORTANT**: By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
@@ -91,7 +90,7 @@ Good pull requests - patches, improvements, new features - are a fantastic help.
 
 **Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code), otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
 
-Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (such as test coverage). Please review the [Chai.js Coding Style Guide](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide).
+Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (such as test coverage).
 
 Follow this process if you'd like your work considered for inclusion in the project:
 
@@ -184,11 +183,6 @@ For most of the documentation you are going to want to visit [ChaiJS.com](http:/
 - [Getting Started Guide](http://chaijs.com/guide/)
 - [API Reference](http://chaijs.com/api/)
 - [Plugins](http://chaijs.com/plugins/)
-
-Alternatively, the [wiki](https://github.com/chaijs/chai/wiki) might be what you are looking for.
-
-- [Chai Coding Style Guide](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide)
-- [Third-party Resources](https://github.com/chaijs/chai/wiki/Third-Party-Resources)
 
 Or finally, you may find a core-contributor or like-minded developer in any of our support channels.
 
