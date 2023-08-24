@@ -14,7 +14,7 @@ var used = [];
  * Chai version
  */
 
-exports.version = '4.3.3';
+exports.version = '4.3.8';
 
 /*!
  * Assertion Error
@@ -8608,6 +8608,7 @@ var config = require('../config');
  * messages or should be truncated.
  *
  * @param {Mixed} javascript object to inspect
+ * @returns {string} stringified object
  * @name objDisplay
  * @namespace Utils
  * @api public
@@ -9062,7 +9063,7 @@ var flag = require('./flag');
 /**
  * ### .test(object, expression)
  *
- * Test and object for expression.
+ * Test an object for expression.
  *
  * @param {Object} object (constructed Assertion)
  * @param {Arguments} chai.Assertion.prototype.assert arguments
