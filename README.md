@@ -109,46 +109,46 @@ You can also use it within the browser; install via npm and use the `chai.js` fi
 Import the library in your code, and then pick one of the styles you'd like to use - either `assert`, `expect` or `should`:
 
 ```js
-var chai = require('chai');  
-var assert = chai.assert;    // Using Assert style
-var expect = chai.expect;    // Using Expect style
-var should = chai.should();  // Using Should style
+var chai = require('chai');
+var assert = chai.assert; // Using Assert style
+var expect = chai.expect; // Using Expect style
+var should = chai.should(); // Using Should style
 ```
 
 ### Pre-Native Modules Usage (_registers the chai testing style globally_)
 
 ```js
-require('chai/register-assert');  // Using Assert style
-require('chai/register-expect');  // Using Expect style
-require('chai/register-should');  // Using Should style
+require('chai/register-assert'); // Using Assert style
+require('chai/register-expect'); // Using Expect style
+require('chai/register-should'); // Using Should style
 ```
 
 ### Pre-Native Modules Usage (_as local variables_)
 
 ```js
-const { assert } = require('chai');  // Using Assert style
-const { expect } = require('chai');  // Using Expect style
-const { should } = require('chai');  // Using Should style
-should();  // Modifies `Object.prototype`
+const { assert } = require('chai'); // Using Assert style
+const { expect } = require('chai'); // Using Expect style
+const { should } = require('chai'); // Using Should style
+should(); // Modifies `Object.prototype`
 
-const { expect, use } = require('chai');  // Creates local variables `expect` and `use`; useful for plugin use
+const { expect, use } = require('chai'); // Creates local variables `expect` and `use`; useful for plugin use
 ```
 
 ### Native Modules Usage (_registers the chai testing style globally_)
 
 ```js
-import 'chai/register-assert';  // Using Assert style
-import 'chai/register-expect';  // Using Expect style
-import 'chai/register-should';  // Using Should style
+import 'chai/register-assert'; // Using Assert style
+import 'chai/register-expect'; // Using Expect style
+import 'chai/register-should'; // Using Should style
 ```
 
 ### Native Modules Usage (_local import only_)
 
 ```js
-import { assert } from 'chai';  // Using Assert style
-import { expect } from 'chai';  // Using Expect style
-import { should } from 'chai';  // Using Should style
-should();  // Modifies `Object.prototype`
+import { assert } from 'chai'; // Using Assert style
+import { expect } from 'chai'; // Using Expect style
+import { should } from 'chai'; // Using Should style
+should(); // Modifies `Object.prototype`
 ```
 
 ### Usage with Mocha
@@ -168,9 +168,9 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - Need a plugin? View the [official plugin list](http://chaijs.com/plugins).
 - Want to build a plugin? Read the [plugin api documentation](http://chaijs.com/guide/plugins/).
 - Have a plugin and want it listed? Simply add the following keywords to your package.json:
-  -  `chai-plugin`
-  -  `browser` if your plugin works in the browser as well as Node.js
-  -  `browser-only` if your plugin does not work with Node.js
+  - `chai-plugin`
+  - `browser` if your plugin works in the browser as well as Node.js
+  - `browser-only` if your plugin does not work with Node.js
 
 ### Related Projects
 
@@ -181,7 +181,6 @@ Chai offers a robust Plugin architecture for extending Chai's assertions and int
 - [chaijs / check-error](https://github.com/chaijs/check-error): Error comparison and information related utility for Node.js and the browser.
 - [chaijs / loupe](https://github.com/chaijs/loupe): Inspect utility for Node.js and browsers.
 - [chaijs / pathval](https://github.com/chaijs/pathval): Object value retrieval given a string path.
-- [chaijs / get-func-name](https://github.com/chaijs/get-func-name): Utility for getting a function's name for node and the browser.
 
 ### Contributing
 
