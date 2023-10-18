@@ -45,7 +45,7 @@
   "dependencies": {
     "assertion-error": "^1.1.0",
     "check-error": "^2.0.0",
-    "deep-eql": "^4.1.2",
+    "deep-eql": "^5.0.0",
     "loupe": "^2.3.1",
     "pathval": "^2.0.0",
     "type-detect": "^4.0.5"
