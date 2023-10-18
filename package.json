@@ -43,7 +43,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "assertion-error": "^1.1.0",
+    "assertion-error": "^2.0.0",
     "check-error": "^2.0.0",
     "deep-eql": "^5.0.0",
     "loupe": "^3.0.0",
