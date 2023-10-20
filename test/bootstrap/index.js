@@ -30,7 +30,7 @@ if (typeof Error.captureStackTrace !== 'undefined') {
  */
 
 globalThis.err = function globalErr (fn, val, skipStackTest) {
-  if (chai.util.type(fn) !== 'function')
+  if (chai.util.type(fn) !== 'Function')
     throw new chai.AssertionError('Invalid fn');
 
   try {
