@@ -403,15 +403,15 @@ describe('expect', function () {
 
     err(function(){
       expect(new Foo()).to.an.instanceof(1, 'blah');
-    }, "blah: The instanceof assertion needs a constructor but number was given.");
+    }, "blah: The instanceof assertion needs a constructor but Number was given.");
 
     err(function(){
       expect(new Foo(), 'blah').to.an.instanceof(1);
-    }, "blah: The instanceof assertion needs a constructor but number was given.");
+    }, "blah: The instanceof assertion needs a constructor but Number was given.");
 
     err(function(){
       expect(new Foo()).to.an.instanceof('batman');
-    }, "The instanceof assertion needs a constructor but string was given.");
+    }, "The instanceof assertion needs a constructor but String was given.");
 
     err(function(){
       expect(new Foo()).to.an.instanceof({});
@@ -419,7 +419,7 @@ describe('expect', function () {
 
     err(function(){
       expect(new Foo()).to.an.instanceof(true);
-    }, "The instanceof assertion needs a constructor but boolean was given.");
+    }, "The instanceof assertion needs a constructor but Boolean was given.");
 
     err(function(){
       expect(new Foo()).to.an.instanceof(null);
@@ -434,12 +434,12 @@ describe('expect', function () {
       var t = new Thing();
       Thing.prototype = 1337;
       expect(t).to.an.instanceof(Thing);
-    }, 'The instanceof assertion needs a constructor but function was given.', true)
+    }, 'The instanceof assertion needs a constructor but Function was given.', true)
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
           expect(new Foo()).to.an.instanceof(Symbol());
-        }, "The instanceof assertion needs a constructor but symbol was given.");
+        }, "The instanceof assertion needs a constructor but Symbol was given.");
 
         err(function() {
             var FakeConstructor = {};

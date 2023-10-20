@@ -468,11 +468,11 @@ describe('should', function() {
 
     err(function(){
       new Foo().should.be.an.instanceof(1, 'blah');
-    }, "blah: The instanceof assertion needs a constructor but number was given.");
+    }, "blah: The instanceof assertion needs a constructor but Number was given.");
 
     err(function(){
       new Foo().should.be.an.instanceof('batman');
-    }, "The instanceof assertion needs a constructor but string was given.");
+    }, "The instanceof assertion needs a constructor but String was given.");
 
     err(function(){
       new Foo().should.be.an.instanceof({});
@@ -480,7 +480,7 @@ describe('should', function() {
 
     err(function(){
       new Foo().should.be.an.instanceof(true);
-    }, "The instanceof assertion needs a constructor but boolean was given.");
+    }, "The instanceof assertion needs a constructor but Boolean was given.");
 
     err(function(){
       new Foo().should.be.an.instanceof(null);
@@ -495,12 +495,12 @@ describe('should', function() {
       var t = new Thing();
       Thing.prototype = 1337;
       t.should.be.an.instanceof(Thing);
-    }, 'The instanceof assertion needs a constructor but function was given.', true);
+    }, 'The instanceof assertion needs a constructor but Function was given.', true);
 
     if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
         err(function(){
           new Foo().should.be.an.instanceof(Symbol());
-        }, "The instanceof assertion needs a constructor but symbol was given.");
+        }, "The instanceof assertion needs a constructor but Symbol was given.");
 
         err(function() {
             var FakeConstructor = {};
