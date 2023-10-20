@@ -5,6 +5,7 @@ module.exports = function(config) {
         { pattern: 'chai.js', type: 'module', included: false, served: true }
       , { pattern: 'test/bootstrap/index.js', type: 'module'}
       , { pattern: 'test/*.js', type: 'module' }
+      , { pattern: 'test/type-detect/*.js', type: 'module' }
       ]
     , reporters: [ 'progress' ]
     , colors: true
