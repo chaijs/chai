@@ -1,5 +1,7 @@
+import * as chai from '../index.js';
+
 describe('utilities', function () {
-  var expect = chai.expect;
+  const expect = chai.expect;
 
   after(function() {
     // Some clean-up so we can run tests in a --watch

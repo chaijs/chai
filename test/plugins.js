@@ -1,3 +1,5 @@
+import * as chai from '../index.js';
+
 describe('plugins', function () {
 
   function plugin (chai) {

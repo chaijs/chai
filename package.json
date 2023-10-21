@@ -34,8 +34,8 @@
     "pretest": "npm run build",
     "test": "npm run test-node && npm run test-chrome",
     "test-node": "mocha --require ./test/bootstrap/index.js --reporter dot test/*.js",
-    "test-chrome": "karma start karma.conf.cjs --single-run --browsers HeadlessChrome",
-    "test-firefox": "karma start karma.conf.cjs --browsers Firefox",
+    "test-chrome": "web-test-runner",
+    "test-firefox": "web-test-runner --browsers firefox --playwright",
     "test-cov": "istanbul cover ./node_modules/.bin/_mocha -- --require ./test/bootstrap/index.js test/*.js",
     "clean": "rm -f chai.js coverage"
   },
@@ -50,6 +50,10 @@
     "pathval": "^2.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@web/dev-server-rollup": "^0.5.4",
+    "@web/test-runner": "^0.17.2",
+    "@web/test-runner-playwright": "^0.10.2",
     "bump-cli": "^1.1.3",
     "codecov": "^3.8.1",
     "esbuild": "^0.17.3",

@@ -1,3 +1,5 @@
+import * as chai from '../../index.js';
+
 function assert (expr, msg) {
   if (!expr) {
     throw new Error(msg || 'Assertion Failed');

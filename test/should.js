@@ -1,3 +1,6 @@
+import * as chai from '../index.js';
+import {globalErr as err} from './bootstrap/index.js';
+
 describe('should', function() {
   var should = chai.Should();
 

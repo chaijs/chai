@@ -1,5 +1,8 @@
+import * as chai from '../index.js';
+import {globalErr as err} from './bootstrap/index.js';
+
 describe('assert', function () {
-  var assert = chai.assert;
+  const {assert} = chai;
 
   it('assert', function () {
     var foo = 'bar';

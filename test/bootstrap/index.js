@@ -1,7 +1,5 @@
 import * as chai from '../../chai.js';
 
-globalThis.chai = chai;
-
 var isStackSupported = false;
 if (typeof Error.captureStackTrace !== 'undefined') {
   try {
@@ -29,7 +27,7 @@ if (typeof Error.captureStackTrace !== 'undefined') {
  * @param {Boolean} skipStackTest if truthy, don't validate stack trace
  */
 
-globalThis.err = function globalErr (fn, val, skipStackTest) {
+export function globalErr(fn, val, skipStackTest) {
   if (chai.util.type(fn) !== 'Function')
     throw new chai.AssertionError('Invalid fn');
 
