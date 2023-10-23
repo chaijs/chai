@@ -27,4 +27,4 @@ jobs:
       uses: actions/setup-node@v3
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test-chrome -- --browsers ${{ matrix.browser-name }}
+    - run: npm run test-chrome -- --browsers ${{ matrix.browser-name }}
