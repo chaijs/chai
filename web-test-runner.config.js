@@ -16,7 +16,6 @@ export default {
     commonjs({
       include: [
         // the commonjs plugin is slow, list the required packages explicitly:
-        "**/node_modules/assertion-error/**/*",
         "**/node_modules/type-detect/**/*",
       ],
     }),
