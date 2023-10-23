@@ -1,4 +1,4 @@
-import * as chai from '../../chai.js';
+import * as chai from '../../index.js';
 
 var isStackSupported = false;
 if (typeof Error.captureStackTrace !== 'undefined') {
