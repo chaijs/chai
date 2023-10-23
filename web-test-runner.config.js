@@ -5,7 +5,6 @@ const commonjs = fromRollup(rollupCommonjs);
 
 export default {
   nodeResolve: true,
-  playwright: true,
   files: ["test/*.js"],
   plugins: [
     commonjs({
