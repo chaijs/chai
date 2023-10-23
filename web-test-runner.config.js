@@ -7,11 +7,6 @@ export default {
   nodeResolve: true,
   playwright: true,
   files: ["test/*.js"],
-  testFramework: {
-    config: {
-      ui: "bdd",
-    },
-  },
   plugins: [
     commonjs({
       include: [
