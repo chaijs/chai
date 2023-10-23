@@ -1,3 +1,5 @@
+import * as chai from '../index.js';
+
 describe('global should', function () {
   it('works', function () {
     var theGlobal = typeof window !== 'undefined'

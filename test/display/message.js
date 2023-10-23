@@ -1,6 +1,6 @@
-var chai = require('../..')
-  , expect = chai.expect
-  , should = chai.should();
+import * as chai from '../../index.js'
+
+const expect = chai.expect
 
 var deepObj = {
     green: { tea: 'matcha' }
@@ -22,17 +22,17 @@ var deepObj2 = {
 
 chai.config.includeStack = true;
 
-suite('object display', function () {
+describe('object display', function () {
 
-  test('property', function () {
+  it('property', function () {
     deepObj.should.have.property('chai');
   });
 
-  test('deep equal', function () {
+  it('deep equal', function () {
     deepObj.should.deep.equal(deepObj2);
   });
 
-  test('deep equal no diff', function () {
+  it('deep equal no diff', function () {
     chai.config.showDiff = false;
     deepObj.should.deep.equal(deepObj2);
     chai.config.showDiff = true;
@@ -40,8 +40,8 @@ suite('object display', function () {
 
 });
 
-suite('undefined/null display', function() {
-  test('undefined for actual', function() {
+describe('undefined/null display', function() {
+  it('undefined for actual', function() {
     expect(undefined).to.equal(null);
   });
 });
