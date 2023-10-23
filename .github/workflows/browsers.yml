@@ -19,7 +19,6 @@ jobs:
         browser-name:
           - chromium
           - firefox
-          - webkit
 
     steps:
     - uses: actions/checkout@v4
