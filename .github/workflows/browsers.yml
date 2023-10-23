@@ -26,5 +26,6 @@ jobs:
     - name: ${{ matrix.browser-name }}
       uses: actions/setup-node@v3
     - run: npm ci
+    - run: npx playwright install --with-deps
     - run: npm run build --if-present
     - run: npm run test-chrome -- --browsers ${{ matrix.browser-name }}
