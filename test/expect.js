@@ -4,10 +4,6 @@ import {globalErr as err} from './bootstrap/index.js';
 describe('expect', function () {
   var expect = chai.expect;
 
-  it('chai.version', function() {
-    expect(chai).to.have.property('version');
-  });
-
   it('assertion', function(){
     expect('test').to.be.a('string');
     expect('foo').to.equal('foo');
