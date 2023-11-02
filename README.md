@@ -23,12 +23,6 @@
       src="https://img.shields.io/badge/node-%3E=4.0-blue.svg?style=flat-square"
     />
   </a>
-  <a href="https://codecov.io/gh/chaijs/chai">
-    <img
-      alt="coverage:?"
-      src="https://img.shields.io/codecov/c/github/chaijs/chai.svg?style=flat-square"
-    />
-  </a>
   <br/>
   <a href="https://chai-slack.herokuapp.com/">
     <img
