@@ -810,4 +810,23 @@ describe('configuration', function () {
       }
     });
   });
+
+  describe('deepEqual', function() {
+    it('should use custom deepEqual function for deepEqual comparison', function(){
+      chai.config.deepEqual = (expected, actual) => {
+        return chai.util.eql(expected, actual, {
+          comparator: (expected, actual) => {
+              // for non number comparison, use the default behavior
+              if(typeof expected !== 'number') return null;
+              // allow a difference of 10 between compared numbers
+              return typeof actual === 'number' && Math.abs(actual - expected) < 10
+          }
+        })
+      };
+      assert.deepEqual({v: 1}, {v: 10});
+      err(function() {
+        assert.deepEqual({v: 1}, {v: 100});
+      }, "expected { v: 1 } to deeply equal { v: 100 }");
+    })
+  })
 });
