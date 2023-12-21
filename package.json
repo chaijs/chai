@@ -27,6 +27,7 @@
   },
   "main": "./index",
   "exports": {
+    "./register-should": "./register-should.js",
     ".": {
       "require": "./index.js",
       "import": "./index.mjs"
