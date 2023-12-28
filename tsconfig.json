@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "strict": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "checkJs": true,
+    "outDir": "types"
+  },
+  "include": [
+    "./lib/**/*"
+  ]
+}
