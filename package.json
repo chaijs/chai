@@ -29,8 +29,9 @@
   "main": "./chai.js",
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "npm run build:esm",
+    "build": "npm run build:esm && npm run build:types",
     "build:esm": "esbuild --bundle --format=esm --keep-names --outfile=chai.js index.js",
+    "build:types": "tsc",
     "pretest": "npm run build",
     "test": "npm run test-node && npm run test-chrome",
     "test-node": "mocha --require ./test/bootstrap/index.js --reporter dot test/*.js",
