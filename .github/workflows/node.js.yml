@@ -23,12 +23,11 @@ jobs:
         # See supported Node.js release schedule at https://github.com/nodejs/release#release-schedule
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npx playwright install --with-deps
     - run: npm run build --if-present
     - run: npm test
