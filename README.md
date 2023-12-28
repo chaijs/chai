@@ -71,32 +71,12 @@ You can also use it within the browser; install via npm and use the `chai.js` fi
 Import the library in your code, and then pick one of the styles you'd like to use - either `assert`, `expect` or `should`:
 
 ```js
-var chai = require('chai');  
-var assert = chai.assert;    // Using Assert style
-var expect = chai.expect;    // Using Expect style
-var should = chai.should();  // Using Should style
+import { assert } from 'chai';  // Using Assert style
+import { expect } from 'chai';  // Using Expect style
+import { should } from 'chai';  // Using Should style
 ```
 
-### Pre-Native Modules Usage (_registers the chai testing style globally_)
-
-```js
-require('chai/register-assert');  // Using Assert style
-require('chai/register-expect');  // Using Expect style
-require('chai/register-should');  // Using Should style
-```
-
-### Pre-Native Modules Usage (_as local variables_)
-
-```js
-const { assert } = require('chai');  // Using Assert style
-const { expect } = require('chai');  // Using Expect style
-const { should } = require('chai');  // Using Should style
-should();  // Modifies `Object.prototype`
-
-const { expect, use } = require('chai');  // Creates local variables `expect` and `use`; useful for plugin use
-```
-
-### Native Modules Usage (_registers the chai testing style globally_)
+### Register the chai testing style globally
 
 ```js
 import 'chai/register-assert';  // Using Assert style
@@ -104,13 +84,15 @@ import 'chai/register-expect';  // Using Expect style
 import 'chai/register-should';  // Using Should style
 ```
 
-### Native Modules Usage (_local import only_)
+### Import assertion styles as local variables
 
 ```js
 import { assert } from 'chai';  // Using Assert style
 import { expect } from 'chai';  // Using Expect style
 import { should } from 'chai';  // Using Should style
 should();  // Modifies `Object.prototype`
+
+import { expect, use } from 'chai';  // Creates local variables `expect` and `use`; useful for plugin use
 ```
 
 ### Usage with Mocha
