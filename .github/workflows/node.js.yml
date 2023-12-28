@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main, 4.x.x, 5.x.x ]
+    branches: [ main, 4.x.x ]
   pull_request:
-    branches: [ main, 4.x.x, 5.x.x ]
+    branches: [ main, 4.x.x ]
 
 jobs:
   build:
@@ -17,10 +17,10 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 16 # to be removed 2023-09-11
-          - 18 # to be removed 2025-04-30
-          - 19 # to be removed 2023-06-01
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+          - 18      # to be removed 2025-04-30
+          - 20      # to be removed 2026-04-30
+          - latest
+        # See supported Node.js release schedule at https://github.com/nodejs/release#release-schedule
 
     steps:
     - uses: actions/checkout@v2
@@ -29,5 +29,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
+    - run: npx playwright install --with-deps
     - run: npm run build --if-present
     - run: npm test
