@@ -1,4 +1,4 @@
-import * as chai from '../../index.js'
+import * as chai from '../../lib/chai.js'
 
 const expect = chai.expect
 
