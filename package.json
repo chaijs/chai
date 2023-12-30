@@ -3,6 +3,11 @@
   "name": "chai",
   "type": "module",
   "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
+  "files": [
+    "lib",
+    "/chai.js",
+    "/register-*"
+  ],
   "keywords": [
     "test",
     "assertion",
@@ -29,14 +34,15 @@
   "main": "./chai.js",
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "npm run build:esm",
-    "build:esm": "esbuild --bundle --format=esm --keep-names --outfile=chai.js index.js",
+    "build": "npm run build:ts && npm run build:esm",
+    "build:ts": "tsc",
+    "build:esm": "esbuild --bundle --format=esm --keep-names --outfile=chai.js src/chai.ts",
     "pretest": "npm run lint && npm run build",
     "test": "npm run test-node && npm run test-chrome",
     "test-node": "mocha --require ./test/bootstrap/index.js --reporter dot test/*.js",
     "test-chrome": "web-test-runner --playwright",
     "lint": "eslint lib/",
-    "clean": "rm -f chai.js coverage"
+    "clean": "rm -rf chai.js coverage lib"
   },
   "engines": {
     "node": ">=12"
@@ -46,7 +52,10 @@
     "check-error": "^2.1.1",
     "deep-eql": "^5.0.1",
     "loupe": "^3.1.0",
-    "pathval": "^2.0.0"
+    "pathval": "^2.0.0",
+    "@types/check-error": "^1.0.3",
+    "@types/deep-eql": "^4.0.2",
+    "@types/pathval": "^1.1.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -56,6 +65,7 @@
     "esbuild": "^0.19.10",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.4",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3"
   }
 }
