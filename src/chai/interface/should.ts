@@ -7,11 +7,16 @@
 import {Assertion} from '../assertion.js';
 import {AssertionError} from 'assertion-error';
 
+type Constructor<T> = {new(): T};
+
 export interface ShouldAssertions {
-  fail(actual: unknown, expected: unknown, message: string, operator: string): void;
-  equal(val1: unknown, val2: unknown, msg: string): void;
-  Throw(fn: Function, errt: unknown, errs: RegExp, msg: string): void;
-  throw(fn: Function, errt: unknown, errs: RegExp, msg: string): void;
+  fail(message?: string): void;
+  fail<T>(actual: T, expected: T, message: string, operator: string): void;
+  equal<T>(val1: T, val2: T, msg: string): void;
+  Throw(fn: Function, errs: RegExp | string): void;
+  Throw(fn: Function, errt: Error | Constructor<Error>, errs: RegExp, msg?: string): void;
+  throw(fn: Function, errs: RegExp | string): void;
+  throw(fn: Function, errt: Error | Constructor<Error>, errs: RegExp, msg?: string): void;
   exist(val: unknown, msg: string): void;
 }
 
@@ -21,11 +26,10 @@ export interface ShouldInterface extends ShouldAssertions {
 
 declare global {
   interface Object {
-    should: Assertion;
+    // TODO (43081j): can this ever be strongly typed somehow?
+    should: Assertion<unknown>;
   }
 }
-
-type Constructor<T> = {new(): T};
 
 /**
  * Loads the `should` interface
@@ -84,16 +88,7 @@ function loadShould (): ShouldInterface {
    * @namespace BDD
    * @public
    */
-  function shouldFail(
-    message?: string
-  ): void;
-  function shouldFail(
-    actual: unknown,
-    expected: unknown,
-    message: string,
-    operator: string
-  ): void;
-  function shouldFail(
+  const shouldFail: ShouldAssertions['fail'] = function shouldFail(
     actualOrMessage?: unknown,
     expected?: unknown,
     message?: string,
@@ -133,7 +128,11 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldEqual = function (val1: unknown, val2: unknown, msg: string) {
+  const shouldEqual: ShouldAssertions['equal'] = function shouldEqual(
+    val1: unknown,
+    val2: unknown,
+    msg: string
+  ) {
     Assertion.create(val1, msg).to.equal(val2);
   };
 
@@ -160,8 +159,17 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldThrow = function (fn: Function, errt: Constructor<Error>, errs: RegExp, msg: string) {
-    Assertion.create(fn, msg).to.Throw(errt, errs);
+  const shouldThrow: ShouldAssertions['throw'] = function shouldThrow(
+    fn: Function,
+    errt: Error | Constructor<Error> | RegExp | string,
+    errs?: RegExp | string,
+    msg?: string
+  ) {
+    if (errt instanceof RegExp || typeof errt === 'string') {
+      Assertion.create(fn, msg).to.Throw(errt);
+    } else {
+      Assertion.create(fn, msg).to.Throw(errt, errs as RegExp | string);
+    }
   };
 
   /**
@@ -178,7 +186,7 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldExist = function (val: unknown, msg: string) {
+  const shouldExist: ShouldAssertions['exist'] = function shouldExist(val: unknown, msg: string) {
     Assertion.create(val, msg).to.exist;
   }
 
@@ -196,7 +204,7 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldNotEqual = function (val1: unknown, val2: unknown, msg: string) {
+  const shouldNotEqual: ShouldAssertions['equal'] = function shouldNotEqual(val1: unknown, val2: unknown, msg: string) {
     Assertion.create(val1, msg).to.not.equal(val2);
   };
 
@@ -219,8 +227,17 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldNotThrow = function (fn: Function, errt: Constructor<Error>, errs: RegExp, msg: string) {
-    Assertion.create(fn, msg).to.not.Throw(errt, errs);
+  const shouldNotThrow: ShouldAssertions['throw'] = function shouldNotThrow(
+    fn: Function,
+    errt: Error | Constructor<Error> | RegExp | string,
+    errs?: RegExp | string,
+    msg?: string
+  ) {
+    if (errt instanceof RegExp || typeof errt === 'string') {
+      Assertion.create(fn, msg).to.not.Throw(errt);
+    } else {
+      Assertion.create(fn, msg).to.not.Throw(errt, errs as RegExp | string);
+    }
   };
 
   /**
@@ -237,7 +254,7 @@ function loadShould (): ShouldInterface {
    * @param {string} msg
    * @public
    */
-  const shouldNotExist = function (val: unknown, msg: string) {
+  const shouldNotExist: ShouldAssertions['exist'] = function shouldNotExist(val: unknown, msg: string) {
     Assertion.create(val, msg).to.not.exist;
   };
 

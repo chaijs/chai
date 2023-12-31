@@ -9,11 +9,12 @@ import {Assertion} from '../assertion.js';
 import {AssertionError} from 'assertion-error';
 
 export interface ExpectInterface {
-  (val: unknown, message?: string): Assertion;
-  fail(actual: unknown, expected: unknown, message: string, operator: string): void;
+  <T>(val: T, message?: string): Assertion<T>;
+  fail(message?: string): void;
+  fail<T>(actual: T, expected: T, message: string, operator: string): void;
 }
 
-const expect: ExpectInterface = function expect(val: unknown, message?: string): Assertion {
+const expect: ExpectInterface = function expect<T>(val: T, message?: string): Assertion<T> {
   return Assertion.create(val, message);
 } as ExpectInterface;
 

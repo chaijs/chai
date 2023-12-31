@@ -11,151 +11,151 @@ import * as _ from '../utils/index.js';
 
 const {flag} = _;
 
-type ChainedMethod<T extends unknown[]> = Assertion & {
-  (...args: T): Assertion;
+type ChainedMethod<T, TParams extends unknown[], TReturn = Assertion<T>> = Assertion<T> & {
+  (...args: TParams): TReturn;
 };
 
-type AssertionMethod<TParams extends unknown[], TReturn = Assertion> = (...args: TParams) => TReturn;
+type AssertionMethod<T, TParams extends unknown[], TReturn = Assertion<T>> = (...args: TParams) => TReturn;
 
 type Constructor<T> = {new(): T};
 
 declare module '../assertion.js' {
-  interface Assertion {
-    Arguments: Assertion;
-    NaN: Assertion;
-    all: Assertion;
-    also: Assertion;
-    and: Assertion;
-    any: Assertion;
-    arguments: Assertion;
-    at: Assertion;
-    be: Assertion;
-    been: Assertion;
-    but: Assertion;
-    callable: Assertion;
-    deep: Assertion;
-    does: Assertion;
-    empty: Assertion;
-    exist: Assertion;
-    exists: Assertion;
-    extensible: Assertion;
-    false: Assertion;
-    finite: Assertion;
-    frozen: Assertion;
-    has: Assertion;
-    have: Assertion;
-    is: Assertion;
-    iterable: Assertion;
-    itself: Assertion;
-    nested: Assertion;
-    not: Assertion;
-    null: Assertion;
-    numeric: Assertion;
-    of: Assertion;
-    ok: Assertion;
-    ordered: Assertion;
-    own: Assertion;
-    same: Assertion;
-    sealed: Assertion;
-    still: Assertion;
-    that: Assertion;
-    to: Assertion;
-    true: Assertion;
-    undefined: Assertion;
-    which: Assertion;
-    with: Assertion;
+  interface Assertion<T> {
+    Arguments: Assertion<T>;
+    NaN: Assertion<T>;
+    all: Assertion<T>;
+    also: Assertion<T>;
+    and: Assertion<T>;
+    any: Assertion<T>;
+    arguments: Assertion<T>;
+    at: Assertion<T>;
+    be: Assertion<T>;
+    been: Assertion<T>;
+    but: Assertion<T>;
+    callable: Assertion<T>;
+    deep: Assertion<T>;
+    does: Assertion<T>;
+    empty: Assertion<T>;
+    exist: Assertion<T>;
+    exists: Assertion<T>;
+    extensible: Assertion<T>;
+    false: Assertion<T>;
+    finite: Assertion<T>;
+    frozen: Assertion<T>;
+    has: Assertion<T>;
+    have: Assertion<T>;
+    is: Assertion<T>;
+    iterable: Assertion<T>;
+    itself: Assertion<T>;
+    nested: Assertion<T>;
+    not: Assertion<T>;
+    null: Assertion<T>;
+    numeric: Assertion<T>;
+    of: Assertion<T>;
+    ok: Assertion<T>;
+    ordered: Assertion<T>;
+    own: Assertion<T>;
+    same: Assertion<T>;
+    sealed: Assertion<T>;
+    still: Assertion<T>;
+    that: Assertion<T>;
+    to: Assertion<T>;
+    true: Assertion<T>;
+    undefined: Assertion<T>;
+    which: Assertion<T>;
+    with: Assertion<T>;
 
-    a: ChainedMethod<[type: string, msg?: string]>;
-    an: ChainedMethod<[type: string, msg?: string]>;
+    a: ChainedMethod<T, [type: string, msg?: string]>;
+    an: ChainedMethod<T, [type: string, msg?: string]>;
 
-    above: AssertionMethod<[val: unknown, msg?: string]>;
-    gt: AssertionMethod<[val: number, msg?: string]>;
-    greaterThan: AssertionMethod<[val: number, msg?: string]>;
+    above: AssertionMethod<T, [val: unknown, msg?: string]>;
+    gt: AssertionMethod<T, [val: number, msg?: string]>;
+    greaterThan: AssertionMethod<T, [val: number, msg?: string]>;
 
-    approximately: AssertionMethod<[expected: number, delta: number, msg?: string]>;
-    closeTo: AssertionMethod<[expected: number, delta: number, msg?: string]>;
+    approximately: AssertionMethod<T, [expected: number, delta: number, msg?: string]>;
+    closeTo: AssertionMethod<T, [expected: number, delta: number, msg?: string]>;
 
-    below: AssertionMethod<[val: unknown, msg?: string]>;
-    lt: AssertionMethod<[val: number, msg?: string]>;
-    lessThan: AssertionMethod<[val: number, msg?: string]>;
+    below: AssertionMethod<T, [val: unknown, msg?: string]>;
+    lt: AssertionMethod<T, [val: number, msg?: string]>;
+    lessThan: AssertionMethod<T, [val: number, msg?: string]>;
 
-    by: AssertionMethod<[delta: number, msg?: string]>;
+    by: AssertionMethod<T, [delta: number, msg?: string]>;
 
-    change: AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]> &
-      AssertionMethod<[subject: Function]>;
-    changes: AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]> &
-      AssertionMethod<[subject: Function]>;
+    change: AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]> &
+      AssertionMethod<T, [subject: Function]>;
+    changes: AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]> &
+      AssertionMethod<T, [subject: Function]>;
 
-    contain: ChainedMethod<[val: unknown, msg?: string]>;
-    contains: ChainedMethod<[val: unknown, msg?: string]>;
-    include: ChainedMethod<[val: unknown, msg?: string]>;
-    includes: ChainedMethod<[val: unknown, msg?: string]>;
+    contain: ChainedMethod<T, [val: unknown, msg?: string]>;
+    contains: ChainedMethod<T, [val: unknown, msg?: string]>;
+    include: ChainedMethod<T, [val: unknown, msg?: string]>;
+    includes: ChainedMethod<T, [val: unknown, msg?: string]>;
 
-    decrease: AssertionMethod<[subject: Function]> &
-      AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]>;
-    decreases: AssertionMethod<[subject: Function]> &
-      AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]>;
+    decrease: AssertionMethod<T, [subject: Function]> &
+      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
+    decreases: AssertionMethod<T, [subject: Function]> &
+      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
 
-    eq: AssertionMethod<[val: unknown, msg?: string]>;
-    equal: AssertionMethod<[val: unknown, msg?: string]>;
-    equals: AssertionMethod<[val: unknown, msg?: string]>;
+    eq: AssertionMethod<T, [val: unknown, msg?: string]>;
+    equal: AssertionMethod<T, [val: unknown, msg?: string]>;
+    equals: AssertionMethod<T, [val: unknown, msg?: string]>;
 
-    eql: AssertionMethod<[val: unknown, msg?: string]>;
-    eqls: AssertionMethod<[val: unknown, msg?: string]>;
+    eql: AssertionMethod<T, [val: unknown, msg?: string]>;
+    eqls: AssertionMethod<T, [val: unknown, msg?: string]>;
 
-    greaterThanOrEqual: AssertionMethod<[val: number, msg?: string]>;
-    least: AssertionMethod<[val: unknown, msg?: string]>;
-    gte: AssertionMethod<[val: number, msg?: string]>;
+    greaterThanOrEqual: AssertionMethod<T, [val: number, msg?: string]>;
+    least: AssertionMethod<T, [val: unknown, msg?: string]>;
+    gte: AssertionMethod<T, [val: number, msg?: string]>;
 
-    haveOwnProperty: AssertionMethod<[name: PropertyKey, val?: unknown, msg?: string]>;
-    ownProperty: AssertionMethod<[name: PropertyKey, val?: unknown, msg?: string]>;
+    haveOwnProperty: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
+    ownProperty: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
 
-    haveOwnPropertyDescriptor: AssertionMethod<[name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
-    ownPropertyDescriptor: AssertionMethod<[name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
+    haveOwnPropertyDescriptor: AssertionMethod<T, [name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
+    ownPropertyDescriptor: AssertionMethod<T, [name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
 
-    increase: AssertionMethod<[subject: Function]> &
-      AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]>;
-    increases: AssertionMethod<[subject: Function]> &
-      AssertionMethod<[subject: object, prop: PropertyKey, msg?: string]>;
+    increase: AssertionMethod<T, [subject: Function]> &
+      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
+    increases: AssertionMethod<T, [subject: Function]> &
+      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
 
-    instanceOf: AssertionMethod<[ctor: Constructor<unknown>, msg?: string]>;
-    instanceof: AssertionMethod<[ctor: Constructor<unknown>, msg?: string]>;
+    instanceOf: AssertionMethod<T, [ctor: Constructor<unknown>, msg?: string]>;
+    instanceof: AssertionMethod<T, [ctor: Constructor<unknown>, msg?: string]>;
 
-    key: AssertionMethod<[keys: Array<string> | Record<string, unknown>]>;
-    keys: AssertionMethod<[keys: Array<string> | Record<string, unknown>]>;
+    key: AssertionMethod<T, [keys: Array<string> | Record<string, unknown>]>;
+    keys: AssertionMethod<T, [keys: Array<string> | Record<string, unknown>]>;
 
-    length: ChainedMethod<[n?: number, msg?: string]>;
-    lengthOf: ChainedMethod<[n?: number, msg?: string]>;
+    length: ChainedMethod<T, [n?: number, msg?: string]>;
+    lengthOf: ChainedMethod<T, [n?: number, msg?: string]>;
 
-    lessThanOrEqual: AssertionMethod<[val: number, msg?: string]>;
-    lte: AssertionMethod<[val: number, msg?: string]>;
-    most: AssertionMethod<[val: unknown, msg?: string]>;
+    lessThanOrEqual: AssertionMethod<T, [val: number, msg?: string]>;
+    lte: AssertionMethod<T, [val: number, msg?: string]>;
+    most: AssertionMethod<T, [val: unknown, msg?: string]>;
 
-    match: AssertionMethod<[re: RegExp, msg?: string]>;
-    matches: AssertionMethod<[re: RegExp, msg?: string]>;
+    match: AssertionMethod<T, [re: RegExp, msg?: string]>;
+    matches: AssertionMethod<T, [re: RegExp, msg?: string]>;
 
-    members: AssertionMethod<[subset: unknown[], msg?: string]>;
+    members: AssertionMethod<T, [subset: unknown[], msg?: string]>;
 
-    oneOf: AssertionMethod<[list: unknown[], msg?: string]>;
+    oneOf: AssertionMethod<T, [list: unknown[], msg?: string]>;
 
-    property: AssertionMethod<[name: PropertyKey, val?: unknown, msg?: string]>;
+    property: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
 
-    respondTo: AssertionMethod<[method: string, msg?: string]>;
-    respondsTo: AssertionMethod<[method: string, msg?: string]>;
+    respondTo: AssertionMethod<T, [method: string, msg?: string]>;
+    respondsTo: AssertionMethod<T, [method: string, msg?: string]>;
 
-    satifies: AssertionMethod<[matcher: Function, msg?: string]>;
-    satisfy: AssertionMethod<[matcher: Function, msg?: string]>;
+    satifies: AssertionMethod<T, [matcher: Function, msg?: string]>;
+    satisfy: AssertionMethod<T, [matcher: Function, msg?: string]>;
 
-    string: AssertionMethod<[str: string, msg?: string]>;
+    string: AssertionMethod<T, [str: string, msg?: string]>;
 
-    Throw: AssertionMethod<[errMsgMatcher: string | RegExp]> &
-      AssertionMethod<[errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
-    throws: AssertionMethod<[errMsgMatcher: string | RegExp]> &
-      AssertionMethod<[errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
-    throw: AssertionMethod<[errMsgMatcher: string | RegExp]> &
-      AssertionMethod<[errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
+    Throw: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
+      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
+    throws: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
+      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
+    throw: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
+      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
 
-    within: AssertionMethod<[start: number, finish: number, msg?: string]>;
+    within: AssertionMethod<T, [start: number, finish: number, msg?: string]>;
   }
 }
 
@@ -452,7 +452,7 @@ const functionTypes: Record<string, string[]> = {
  * @namespace BDD
  * @public
  */
-function an (this: Assertion, type: string, msg?: string) {
+function an (this: Assertion<unknown>, type: string, msg?: string) {
   if (msg) flag(this, 'message', msg);
   type = type.toLowerCase();
   var obj = flag(this, 'object')
@@ -491,7 +491,7 @@ function SameValueZero(a: unknown, b: unknown): boolean {
 /**
  * Flags that this assertion should operate using the contains logic
  */
-function includeChainingBehavior (this: Assertion): void {
+function includeChainingBehavior (this: Assertion<unknown>): void {
   flag(this, 'contains', true);
 }
 
@@ -641,7 +641,7 @@ function includeChainingBehavior (this: Assertion): void {
  * @namespace BDD
  * @public
  */
-function include (this: Assertion, val: unknown, msg?: string) {
+function include (this: Assertion<unknown>, val: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
 
   var obj = flag(this, 'object')
@@ -722,7 +722,7 @@ function include (this: Assertion, val: unknown, msg?: string) {
         , firstErr: unknown = null
         , numErrs = 0;
 
-      props.forEach(function (this: Assertion, prop) {
+      props.forEach(function (this: Assertion<unknown>, prop) {
         var propAssertion = Assertion.create(obj);
         _.transferFlags(this, propAssertion, true);
         flag(propAssertion, 'lockSsfi', true);
@@ -1045,7 +1045,7 @@ Assertion.addProperty('NaN', function () {
  * @namespace BDD
  * @public
  */
-function assertExist (this: Assertion) {
+function assertExist (this: Assertion<unknown>) {
   var val = flag(this, 'object');
   this.assert(
       val !== null && val !== undefined
@@ -1179,7 +1179,7 @@ Assertion.addProperty('empty', function () {
  * @namespace BDD
  * @public
  */
-function checkArguments (this: Assertion) {
+function checkArguments (this: Assertion<unknown>) {
   var obj = flag(this, 'object')
     , type = _.type(obj);
   this.assert(
@@ -1236,7 +1236,7 @@ Assertion.addProperty('Arguments', checkArguments);
  * @namespace BDD
  * @public
  */
-function assertEqual (this: Assertion, val: unknown, msg?: string) {
+function assertEqual (this: Assertion<unknown>, val: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
   if (flag(this, 'deep')) {
@@ -1300,7 +1300,7 @@ Assertion.addMethod('eq', assertEqual);
  * @namespace BDD
  * @public
  */
-function assertEql(this: Assertion, obj: unknown, msg?: string) {
+function assertEql(this: Assertion<unknown>, obj: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var eql = flag(this, 'eql');
   this.assert(
@@ -1358,7 +1358,7 @@ Assertion.addMethod('eqls', assertEql);
  * @namespace BDD
  * @public
  */
-function assertAbove (this: Assertion, n: unknown, msg?: string) {
+function assertAbove (this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1454,7 +1454,7 @@ Assertion.addMethod('greaterThan', assertAbove);
  * @namespace BDD
  * @public
  */
-function assertLeast (this: Assertion, n: unknown, msg?: string) {
+function assertLeast (this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1557,7 +1557,7 @@ Assertion.addMethod('greaterThanOrEqual', assertLeast);
  * @namespace BDD
  * @public
  */
-function assertBelow (this: Assertion, n: unknown, msg?: string) {
+function assertBelow (this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1661,7 +1661,7 @@ Assertion.addMethod('lessThan', assertBelow);
  * @namespace BDD
  * @public
  */
-function assertMost (this: Assertion, n: unknown, msg?: string) {
+function assertMost (this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1766,7 +1766,7 @@ Assertion.addMethod('lessThanOrEqual', assertMost);
  */
 function assertWithin(start: number, finish: number, msg?: string): void;
 function assertWithin(start: Date, finish: Date, msg?: string): void;
-function assertWithin(this: Assertion, start: number | Date, finish: number | Date, msg?: string): void {
+function assertWithin(this: Assertion<unknown>, start: number | Date, finish: number | Date, msg?: string): void {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1864,7 +1864,7 @@ Assertion.addMethod('within', assertWithin);
  * @namespace BDD
  * @public
  */
-function assertInstanceOf (this: Assertion, constructor: {new(): unknown}, msg?: string) {
+function assertInstanceOf (this: Assertion<unknown>, constructor: {new(): unknown}, msg?: string) {
   if (msg) flag(this, 'message', msg);
 
   var target = flag(this, 'object')
@@ -2011,7 +2011,7 @@ Assertion.addMethod('instanceOf', assertInstanceOf);
  * @namespace BDD
  * @public
  */
-function assertProperty (this: Assertion, name: PropertyKey, val?: unknown, msg?: string) {
+function assertProperty (this: Assertion<unknown>, name: PropertyKey, val?: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
 
   var isNested = flag(this, 'nested')
@@ -2115,7 +2115,7 @@ Assertion.addMethod('property', assertProperty);
  * @param {unknown} value
  * @param {string} msg
  */
-function assertOwnProperty (this: Assertion) {
+function assertOwnProperty (this: Assertion<unknown>) {
   flag(this, 'own', true);
   // TODO (43081j): remove this highly questionable cast
   assertProperty.apply(this, arguments as unknown as Parameters<typeof assertProperty>);
@@ -2242,7 +2242,7 @@ Assertion.addMethod('haveOwnProperty', assertOwnProperty);
  * @namespace BDD
  * @public
  */
-function assertOwnPropertyDescriptor (this: Assertion, name: PropertyKey, descriptor?: unknown, msg?: string) {
+function assertOwnPropertyDescriptor (this: Assertion<unknown>, name: PropertyKey, descriptor?: unknown, msg?: string) {
   if (typeof descriptor === 'string') {
     msg = descriptor;
     descriptor = null;
@@ -2276,7 +2276,7 @@ Assertion.addMethod('haveOwnPropertyDescriptor', assertOwnPropertyDescriptor);
 /**
  * Flags that this assertion should operate on the object's length
  */
-function assertLengthChain (this: Assertion) {
+function assertLengthChain (this: Assertion<unknown>) {
   flag(this, 'doLength', true);
 }
 
@@ -2337,7 +2337,7 @@ function assertLengthChain (this: Assertion) {
  * @namespace BDD
  * @public
  */
-function assertLength (this: Assertion, n: number, msg?: string) {
+function assertLength (this: Assertion<unknown>, n: number, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , objType = _.type(obj).toLowerCase()
@@ -2396,7 +2396,7 @@ Assertion.addChainableMethod('lengthOf', assertLength, assertLengthChain);
  * @namespace BDD
  * @public
  */
-function assertMatch(this: Assertion, re: RegExp, msg?: string) {
+function assertMatch(this: Assertion<unknown>, re: RegExp, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
   this.assert(
@@ -2550,7 +2550,7 @@ Assertion.addMethod('string', function (str: string, msg?: string) {
  * @namespace BDD
  * @public
  */
-function assertKeys (this: Assertion, keys: Array<PropertyKey>|Record<PropertyKey, unknown>) {
+function assertKeys (this: Assertion<unknown>, keys: Array<PropertyKey>|Record<PropertyKey, unknown>) {
   var obj = flag(this, 'object')
     , objType = _.type(obj)
     , keysType = _.type(keys)
@@ -2838,17 +2838,17 @@ Assertion.addMethod('key', assertKeys);
  * @public
  */
 function assertThrows(
-  this: Assertion,
+  this: Assertion<unknown>,
   errMsgMatcher: string | RegExp
 ): void;
 function assertThrows(
-  this: Assertion,
+  this: Assertion<unknown>,
   errorLike: Error | Constructor<Error>,
   errMsgMatcher: string | RegExp,
   msg?: string
 ): void;
 function assertThrows(
-  this: Assertion,
+  this: Assertion<unknown>,
   errorLikeOrMatcher: Error | Constructor<Error> | string | RegExp,
   errMsgMatcher?: string|RegExp,
   msg?: string
@@ -3064,7 +3064,7 @@ Assertion.addMethod('Throw', assertThrows);
  * @namespace BDD
  * @public
  */
-function respondTo (this: Assertion, method: PropertyKey, msg?: string) {
+function respondTo (this: Assertion<unknown>, method: PropertyKey, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , itself = flag(this, 'itself')
@@ -3142,7 +3142,7 @@ Assertion.addProperty('itself', function () {
  * @namespace BDD
  * @public
  */
-function satisfy (this: Assertion, matcher: Function, msg?: string) {
+function satisfy (this: Assertion<unknown>, matcher: Function, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
   var result = matcher(obj);
@@ -3195,7 +3195,7 @@ Assertion.addMethod('satisfies', satisfy);
  * @namespace BDD
  * @public
  */
-function closeTo(this: Assertion, expected: number, delta: number, msg?: string) {
+function closeTo(this: Assertion<unknown>, expected: number, delta: number, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object') as number
     , flagMsg = flag(this, 'message')
@@ -3391,7 +3391,7 @@ Assertion.addMethod('members', function (subset: unknown[], msg?: string) {
  * @namespace BDD
  * @public
  */
-Assertion.addProperty('iterable', function(this: Assertion, msg?: string) {
+Assertion.addProperty('iterable', function(this: Assertion<unknown>, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
 
@@ -3441,7 +3441,7 @@ Assertion.addProperty('iterable', function(this: Assertion, msg?: string) {
  * @namespace BDD
  * @public
  */
-function oneOf (this: Assertion, list: unknown[], msg?: string) {
+function oneOf (this: Assertion<unknown>, list: unknown[], msg?: string) {
   if (msg) flag(this, 'message', msg);
   var expected = flag(this, 'object')
     , flagMsg = flag(this, 'message')
@@ -3577,17 +3577,17 @@ Assertion.addMethod('oneOf', oneOf);
  * @public
  */
 function assertChanges(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: object,
   prop: PropertyKey,
   msg?: string
 ): void;
 function assertChanges(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: Function
 ): void;
 function assertChanges(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: Function | object,
   prop?: PropertyKey,
   msg?: string
@@ -3709,17 +3709,17 @@ Assertion.addMethod('changes', assertChanges);
  * @public
  */
 function assertIncreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: () => void
 ): void;
 function assertIncreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: object,
   prop: PropertyKey,
   msg?: string
 ): void;
 function assertIncreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: object | (() => number),
   prop?: PropertyKey,
   msg?: string
@@ -3843,17 +3843,17 @@ Assertion.addMethod('increases', assertIncreases);
  * @public
  */
 function assertDecreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: () => number
 ): void;
 function assertDecreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: object,
   prop: PropertyKey,
   msg?: string
 ): void;
 function assertDecreases(
-  this: Assertion,
+  this: Assertion<unknown>,
   subject: object | (() => number),
   prop?: PropertyKey,
   msg?: string
@@ -3963,7 +3963,7 @@ Assertion.addMethod('decreases', assertDecreases);
  * @namespace BDD
  * @public
  */
-function assertDelta(this: Assertion, delta: number, msg?: string) {
+function assertDelta(this: Assertion<unknown>, delta: number, msg?: string) {
   if (msg) flag(this, 'message', msg);
 
   var msgObj = flag(this, 'deltaMsgObj');

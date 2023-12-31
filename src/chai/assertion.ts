@@ -10,10 +10,10 @@ import {AssertionError} from 'assertion-error';
 import * as util from './utils/index.js';
 import {ChainableBehavior} from './utils/chainableBehavior.js';
 
-export interface AssertionFlags {
+export interface AssertionFlags<T> {
   ssfi: Function;
   lockSsfi?: boolean;
-  object: unknown;
+  object: T;
   message?: string | null;
   eql: (a: unknown, b: unknown) => boolean;
   [key: PropertyKey]: unknown;
@@ -23,8 +23,8 @@ type MethodNames<T> = {
   [k in keyof T]: T[k] extends (...args: never) => void ? k : never;
 }[keyof T];
 
-const getDefaultValue = (assertion: Assertion): Assertion => {
-    var newAssertion = Assertion.create();
+const getDefaultValue = <T>(assertion: Assertion<T>): Assertion<T> => {
+    var newAssertion = Assertion.create<T>();
     util.transferFlags(assertion, newAssertion);
     return newAssertion;
 };
@@ -68,8 +68,8 @@ const getDefaultValue = (assertion: Assertion): Assertion => {
  * @param {Boolean} lockSsfi (optional) whether or not the ssfi flag is locked
  * @api private
  */
-export class Assertion {
-  declare public __flags: AssertionFlags;
+export class Assertion<T> {
+  declare public __flags: AssertionFlags<T>;
   public __methods: Record<string, ChainableBehavior> = {};
 
   public constructor(
@@ -85,13 +85,13 @@ export class Assertion {
     util.flag(this, 'eql', config.deepEqual ?? util.eql);
   }
 
-  public static create(
-    obj?: unknown,
+  public static create<T>(
+    obj?: T,
     msg?: string | null,
     ssfi?: Function,
     lockSsfi?: boolean
-  ): Assertion {
-    return util.proxify(new Assertion(
+  ): Assertion<T> {
+    return util.proxify(new Assertion<T>(
       obj,
       msg,
       ssfi,
@@ -119,7 +119,7 @@ export class Assertion {
     config.showDiff = value;
   }
 
-  public static addProperty(name: string, fn?: (this: Assertion) => unknown): void {
+  public static addProperty(name: string, fn?: (this: Assertion<unknown>) => unknown): void {
     util.addProperty(this.prototype, name, fn, getDefaultValue);
   }
 
@@ -127,16 +127,16 @@ export class Assertion {
     TKey extends PropertyKey
   >(
     name: TKey,
-    fn: TKey extends MethodNames<Assertion> ?
-      (this: Assertion, ...args: Parameters<Assertion[TKey]>) => (ReturnType<Assertion[TKey]> extends Assertion ? (Assertion | void) : ReturnType<Assertion[TKey]>) :
-      ((this: Assertion, ...args: never) => unknown)
+    fn: TKey extends MethodNames<Assertion<unknown>> ?
+      (this: Assertion<unknown>, ...args: Parameters<Assertion<unknown>[TKey]>) => (ReturnType<Assertion<unknown>[TKey]> extends Assertion<unknown> ? (Assertion<unknown> | void) : ReturnType<Assertion<unknown>[TKey]>) :
+      ((this: Assertion<unknown>, ...args: never) => unknown)
   ): void {
     util.addMethod(this.prototype, name, fn, getDefaultValue);
   }
 
   public static addChainableMethod<T extends unknown[]>(
     name: string,
-    fn: (this: Assertion, ...args: T) => unknown,
+    fn: (this: Assertion<unknown>, ...args: T) => unknown,
     chainingBehavior?: () => void
   ): void {
     util.addChainableMethod(
