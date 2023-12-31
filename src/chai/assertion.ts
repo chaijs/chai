@@ -16,6 +16,9 @@ export interface AssertionFlags<T> {
   object: T;
   message?: string | null;
   eql: (a: unknown, b: unknown) => boolean;
+  deltaBehavior?: string;
+  nested?: boolean;
+  deep?: boolean;
   [key: PropertyKey]: unknown;
 }
 
@@ -68,8 +71,8 @@ const getDefaultValue = <T>(assertion: Assertion<T>): Assertion<T> => {
  * @param {Boolean} lockSsfi (optional) whether or not the ssfi flag is locked
  * @api private
  */
-export class Assertion<T> {
-  declare public __flags: AssertionFlags<T>;
+export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> {
+  declare public __flags: TFlags;
   public __methods: Record<string, ChainableBehavior> = {};
 
   public constructor(
