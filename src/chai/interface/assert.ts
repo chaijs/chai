@@ -7,8 +7,12 @@
 import {Assertion} from '../assertion.js';
 import {flag, inspect} from '../utils/index.js';
 import {AssertionError} from 'assertion-error';
-
-type Constructor<T> = {new(): T};
+import {
+  Constructor,
+  LengthLike,
+  CollectionLike,
+  KeyedObject
+} from '../utils/types.js';
 
 export interface AssertInterface {
   (expr: unknown, msg?: string): void;
@@ -60,51 +64,49 @@ export interface AssertInterface {
   notTypeOf(val: unknown, type: string, msg?: string): void;
   instanceOf<T>(val: T, type: Constructor<T>, msg?: string): void;
   notInstanceOf(val: object, type: Constructor<unknown>, msg?: string): void;
-  include(expr: string, inc: string, msg?: string): void;
-  include(expr: object, inc: unknown, msg?: string): void;
-  notInclude(expr: string, inc: string, msg?: string): void;
-  notInclude(expr: object, inc: unknown, msg?: string): void;
-  deepInclude(expr: object, inc: unknown, msg?: string): void;
-  notDeepInclude(expr: object, inc: unknown, msg?: string): void;
-  nestedInclude(expr: object, inc: unknown, msg?: string): void;
-  notNestedInclude(expr: object, inc: unknown, msg?: string): void;
-  deepNestedInclude(expr: object, inc: unknown, msg?: string): void;
-  notDeepNestedInclude(expr: object, inc: unknown, msg?: string): void;
+  include(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
+  notInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
+  deepInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
+  notDeepInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
+  nestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
+  notNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
+  deepNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
+  notDeepNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
   ownInclude(expr: object, inc: unknown, msg?: string): void;
   notOwnInclude(expr: object, inc: unknown, msg?: string): void;
   deepOwnInclude(expr: object, inc: unknown, msg?: string): void;
   notDeepOwnInclude(expr: object, inc: unknown, msg?: string): void;
   match(expr: string, re: RegExp, msg?: string): void;
   notMatch(expr: string, re: RegExp, msg?: string): void;
-  property<T>(obj: T, prop: keyof T, msg?: string): void;
-  notProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
-  propertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  deepPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notDeepPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  ownProperty<T>(obj: T, prop: keyof T, msg?: string): void;
+  property(obj: object, prop: PropertyKey, msg?: string): void;
+  notProperty(obj: object, prop: PropertyKey, msg?: string): void;
+  propertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  notPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  deepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  notDeepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  ownProperty(obj: object, prop: PropertyKey, msg?: string): void;
   notOwnProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
-  ownPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notOwnPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  deepOwnPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notDeepOwnPropertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  nestedProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
-  notNestedProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
-  nestedPropertyVal(obj: unknown, prop: PropertyKey, val: unknown, msg?: string): void;
-  notNestedPropertyVal(obj: unknown, prop: PropertyKey, val: unknown, msg?: string): void;
-  deepNestedPropertyVal(obj: unknown, prop: PropertyKey, val: unknown, msg?: string): void;
-  notDeepNestedPropertyVal(obj: unknown, prop: PropertyKey, val: unknown, msg?: string): void;
-  lengthOf(expr: Set<unknown> | Map<unknown, unknown> | {length: number}, len: number, msg?: string): void;
-  hasAnyKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAllKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  containsAllKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAnyKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAllKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAnyDeepKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAllDeepKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  containsAllDeepKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAnyDeepKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAllDeepKeys(obj: unknown, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  ownPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  notOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  deepOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  notDeepOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  nestedProperty(obj: unknown, prop: string, msg?: string): void;
+  notNestedProperty(obj: unknown, prop: string, msg?: string): void;
+  nestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
+  notNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
+  deepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
+  notDeepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
+  lengthOf(expr: LengthLike, len: number, msg?: string): void;
+  hasAnyKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  hasAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  containsAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  doesNotHaveAnyKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  doesNotHaveAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  hasAnyDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  hasAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  containsAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  doesNotHaveAnyDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+  doesNotHaveAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
 
   Throw(
     fn: Function,
@@ -167,7 +169,7 @@ export interface AssertInterface {
   notIncludeOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   includeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   notIncludeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
-  oneOf<T>(inList: T, list: T[], msg?: string): void;
+  oneOf<T extends string | unknown[]>(inList: T, list: T[], msg?: string): void;
 
   changes<T>(
     fn: Function,
@@ -609,7 +611,7 @@ assert.notDeepEqual = function (act: unknown, exp: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isAbove = function (val: unknown, abv: unknown, msg?: string) {
+assert.isAbove = function isAbove<T extends Date | number>(val: T, abv: T, msg?: string): void {
   Assertion.create(val, msg, assert.isAbove, true).to.be.above(abv);
 };
 
@@ -628,7 +630,7 @@ assert.isAbove = function (val: unknown, abv: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isAtLeast = function (val: unknown, atlst?: unknown, msg?: string) {
+assert.isAtLeast = function isAtLeast<T extends Date | number>(val: T, atlst: T, msg?: string) {
   Assertion.create(val, msg, assert.isAtLeast, true).to.be.least(atlst);
 };
 
@@ -646,7 +648,7 @@ assert.isAtLeast = function (val: unknown, atlst?: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isBelow = function (val: unknown, blw: unknown, msg?: string) {
+assert.isBelow = function isBelow<T extends Date | number>(val: T, blw: T, msg?: string) {
   Assertion.create(val, msg, assert.isBelow, true).to.be.below(blw);
 };
 
@@ -665,7 +667,7 @@ assert.isBelow = function (val: unknown, blw: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isAtMost = function (val: unknown, atmst: unknown, msg?: string) {
+assert.isAtMost = function isAtMost<T extends Date | number>(val: T, atmst: T, msg?: string) {
   Assertion.create(val, msg, assert.isAtMost, true).to.be.most(atmst);
 };
 
@@ -1288,7 +1290,7 @@ assert.notInstanceOf = function (val: object, type: Constructor<unknown>, msg?: 
  * @public
  */
 assert.include = function include(
-  exp: unknown,
+  exp: CollectionLike<never> | string | object,
   inc: unknown,
   msg?: string
 ) {
@@ -1326,7 +1328,7 @@ assert.include = function include(
  * @namespace Assert
  * @public
  */
-assert.notInclude = function notInclude(exp: unknown, inc: unknown, msg?: string) {
+assert.notInclude = function notInclude(exp: CollectionLike<never> | string | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notInclude, true).not.include(inc);
 };
 
@@ -1350,7 +1352,7 @@ assert.notInclude = function notInclude(exp: unknown, inc: unknown, msg?: string
  * @namespace Assert
  * @public
  */
-assert.deepInclude = function deepInclude(exp: unknown, inc: unknown, msg?: string) {
+assert.deepInclude = function deepInclude(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.deepInclude, true).deep.include(inc);
 };
 
@@ -1374,7 +1376,7 @@ assert.deepInclude = function deepInclude(exp: unknown, inc: unknown, msg?: stri
  * @namespace Assert
  * @public
  */
-assert.notDeepInclude = function notDeepInclude(exp: unknown, inc: unknown, msg?: string) {
+assert.notDeepInclude = function notDeepInclude(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notDeepInclude, true).not.deep.include(inc);
 };
 
@@ -1398,7 +1400,7 @@ assert.notDeepInclude = function notDeepInclude(exp: unknown, inc: unknown, msg?
  * @namespace Assert
  * @public
  */
-assert.nestedInclude = function (exp: unknown, inc: unknown, msg?: string) {
+assert.nestedInclude = function (exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.nestedInclude, true).nested.include(inc);
 };
 
@@ -1422,7 +1424,7 @@ assert.nestedInclude = function (exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notNestedInclude = function (exp: unknown, inc: unknown, msg?: string) {
+assert.notNestedInclude = function (exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notNestedInclude, true)
     .not.nested.include(inc);
 };
@@ -1447,7 +1449,7 @@ assert.notNestedInclude = function (exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.deepNestedInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.deepNestedInclude = function(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.deepNestedInclude, true)
     .deep.nested.include(inc);
 };
@@ -1472,7 +1474,7 @@ assert.deepNestedInclude = function(exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notDeepNestedInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.notDeepNestedInclude = function(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notDeepNestedInclude, true)
     .not.deep.nested.include(inc);
 };
@@ -1493,7 +1495,7 @@ assert.notDeepNestedInclude = function(exp: unknown, inc: unknown, msg?: string)
  * @namespace Assert
  * @public
  */
-assert.ownInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.ownInclude = function(exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.ownInclude, true).own.include(inc);
 };
 
@@ -1514,7 +1516,7 @@ assert.ownInclude = function(exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.notOwnInclude = function(exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notOwnInclude, true).not.own.include(inc);
 };
 
@@ -1534,7 +1536,7 @@ assert.notOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.deepOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.deepOwnInclude = function(exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.deepOwnInclude, true)
     .deep.own.include(inc);
 };
@@ -1555,7 +1557,7 @@ assert.deepOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notDeepOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
+assert.notDeepOwnInclude = function(exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notDeepOwnInclude, true)
     .not.deep.own.include(inc);
 };
@@ -1574,7 +1576,7 @@ assert.notDeepOwnInclude = function(exp: unknown, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.match = function (exp: unknown, re: RegExp, msg?: string) {
+assert.match = function (exp: string, re: RegExp, msg?: string) {
   Assertion.create(exp, msg, assert.match, true).to.match(re);
 };
 
@@ -1592,7 +1594,7 @@ assert.match = function (exp: unknown, re: RegExp, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notMatch = function (exp: unknown, re: RegExp, msg?: string) {
+assert.notMatch = function (exp: string, re: RegExp, msg?: string) {
   Assertion.create(exp, msg, assert.notMatch, true).to.not.match(re);
 };
 
@@ -1612,7 +1614,7 @@ assert.notMatch = function (exp: unknown, re: RegExp, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.property = function property(obj: unknown, prop: PropertyKey, msg?: string) {
+assert.property = function property(obj: object, prop: PropertyKey, msg?: string) {
   Assertion.create(obj, msg, assert.property, true).to.have.property(prop);
 };
 
@@ -1631,7 +1633,7 @@ assert.property = function property(obj: unknown, prop: PropertyKey, msg?: strin
  * @namespace Assert
  * @public
  */
-assert.notProperty = function (obj: unknown, prop: string, msg?: string) {
+assert.notProperty = function (obj: object, prop: string, msg?: string) {
   Assertion.create(obj, msg, assert.notProperty, true)
     .to.not.have.property(prop);
 };
@@ -1774,7 +1776,7 @@ assert.ownProperty = function ownProperty<T>(obj: T, prop: keyof T, msg?: string
  * @param {string} msg
  * @public
  */
-assert.notOwnProperty = function (obj: unknown, prop: string, msg?: string) {
+assert.notOwnProperty = function (obj: object, prop: string, msg?: string) {
   Assertion.create(obj, msg, assert.notOwnProperty, true)
     .to.not.have.own.property(prop);
 };
@@ -1903,7 +1905,7 @@ assert.notDeepOwnPropertyVal = function notDeepOwnPropertyVal<T, TKey extends ke
  * @namespace Assert
  * @public
  */
-assert.nestedProperty = function (obj: unknown, prop: string, msg?: string) {
+assert.nestedProperty = function (obj: object, prop: string, msg?: string) {
   Assertion.create(obj, msg, assert.nestedProperty, true)
     .to.have.nested.property(prop);
 };
@@ -1924,7 +1926,7 @@ assert.nestedProperty = function (obj: unknown, prop: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notNestedProperty = function (obj: unknown, prop: string, msg?: string) {
+assert.notNestedProperty = function (obj: object, prop: string, msg?: string) {
   Assertion.create(obj, msg, assert.notNestedProperty, true)
     .to.not.have.nested.property(prop);
 };
@@ -1946,7 +1948,7 @@ assert.notNestedProperty = function (obj: unknown, prop: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.nestedPropertyVal = function (obj: unknown, prop: string, val: unknown, msg?: string) {
+assert.nestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
   Assertion.create(obj, msg, assert.nestedPropertyVal, true)
     .to.have.nested.property(prop, val);
 };
@@ -1969,7 +1971,7 @@ assert.nestedPropertyVal = function (obj: unknown, prop: string, val: unknown, m
  * @namespace Assert
  * @public
  */
-assert.notNestedPropertyVal = function (obj: unknown, prop: string, val: unknown, msg?: string) {
+assert.notNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
   Assertion.create(obj, msg, assert.notNestedPropertyVal, true)
     .to.not.have.nested.property(prop, val);
 };
@@ -1991,7 +1993,7 @@ assert.notNestedPropertyVal = function (obj: unknown, prop: string, val: unknown
  * @namespace Assert
  * @public
  */
-assert.deepNestedPropertyVal = function (obj: unknown, prop: string, val: unknown, msg?: string) {
+assert.deepNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
   Assertion.create(obj, msg, assert.deepNestedPropertyVal, true)
     .to.have.deep.nested.property(prop, val);
 };
@@ -2015,7 +2017,7 @@ assert.deepNestedPropertyVal = function (obj: unknown, prop: string, val: unknow
  * @namespace Assert
  * @public
  */
-assert.notDeepNestedPropertyVal = function (obj: unknown, prop: string, val: unknown, msg?: string) {
+assert.notDeepNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
   Assertion.create(obj, msg, assert.notDeepNestedPropertyVal, true)
     .to.not.have.deep.nested.property(prop, val);
 }
@@ -2037,7 +2039,7 @@ assert.notDeepNestedPropertyVal = function (obj: unknown, prop: string, val: unk
  * @namespace Assert
  * @public
  */
-assert.lengthOf = function (exp: unknown, len: number, msg?: string) {
+assert.lengthOf = function (exp: LengthLike, len: number, msg?: string) {
   Assertion.create(exp, msg, assert.lengthOf, true).to.have.lengthOf(len);
 };
 
@@ -2060,7 +2062,7 @@ assert.lengthOf = function (exp: unknown, len: number, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.hasAnyKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.hasAnyKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.hasAnyKeys, true).to.have.any.keys(keys);
 }
 
@@ -2083,7 +2085,7 @@ assert.hasAnyKeys = function (obj: unknown, keys: Array<string>|Record<string, u
  * @namespace Assert
  * @public
  */
-assert.hasAllKeys = function (obj: unknown, keys: string[], msg?: string) {
+assert.hasAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
   Assertion.create(obj, msg, assert.hasAllKeys, true).to.have.all.keys(keys);
 }
 
@@ -2110,7 +2112,7 @@ assert.hasAllKeys = function (obj: unknown, keys: string[], msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.containsAllKeys = function (obj: unknown, keys: string[], msg?: string) {
+assert.containsAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
   Assertion.create(obj, msg, assert.containsAllKeys, true)
     .to.contain.all.keys(keys);
 }
@@ -2134,7 +2136,7 @@ assert.containsAllKeys = function (obj: unknown, keys: string[], msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAnyKeys = function (obj: unknown, keys: string[], msg?: string) {
+assert.doesNotHaveAnyKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAnyKeys, true)
     .to.not.have.any.keys(keys);
 }
@@ -2158,7 +2160,7 @@ assert.doesNotHaveAnyKeys = function (obj: unknown, keys: string[], msg?: string
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAllKeys = function (obj: unknown, keys: string[], msg?: string) {
+assert.doesNotHaveAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAllKeys, true)
     .to.not.have.all.keys(keys);
 }
@@ -2186,7 +2188,7 @@ assert.doesNotHaveAllKeys = function (obj: unknown, keys: string[], msg?: string
  * @namespace Assert
  * @public
  */
-assert.hasAnyDeepKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.hasAnyDeepKeys, true)
     .to.have.any.deep.keys(keys);
 }
@@ -2212,7 +2214,7 @@ assert.hasAnyDeepKeys = function (obj: unknown, keys: Array<string>|Record<strin
  * @namespace Assert
  * @public
  */
-assert.hasAllDeepKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.hasAllDeepKeys, true)
     .to.have.all.deep.keys(keys);
 }
@@ -2238,7 +2240,7 @@ assert.hasAllDeepKeys = function (obj: unknown, keys: Array<string>|Record<strin
  * @namespace Assert
  * @public
  */
-assert.containsAllDeepKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.containsAllDeepKeys, true)
     .to.contain.all.deep.keys(keys);
 }
@@ -2264,7 +2266,7 @@ assert.containsAllDeepKeys = function (obj: unknown, keys: Array<string>|Record<
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAnyDeepKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.doesNotHaveAnyDeepKeys = function (obj: CollectionLike<never> | object, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAnyDeepKeys, true)
     .to.not.have.any.deep.keys(keys);
 }
@@ -2290,7 +2292,7 @@ assert.doesNotHaveAnyDeepKeys = function (obj: unknown, keys: Array<string>|Reco
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAllDeepKeys = function (obj: unknown, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.doesNotHaveAllDeepKeys = function (obj: CollectionLike<never> | object, keys: Array<string>|Record<string, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAllDeepKeys, true)
     .to.not.have.all.deep.keys(keys);
 }
@@ -2342,7 +2344,7 @@ function assertThrows(
   errMsgMatcher?: RegExp | string,
   msg?: string
 ): unknown {
-  let assertErr: Assertion<unknown>;
+  let assertErr: Assertion<Function>;
 
   if ('string' === typeof errorOrMatcher || errorOrMatcher instanceof RegExp) {
     assertErr = Assertion.create(fn, msg, assertThrows, true)
@@ -2851,7 +2853,7 @@ assert.notIncludeDeepOrderedMembers = function (superset: unknown[], subset: unk
  * @namespace Assert
  * @public
  */
-assert.oneOf = function (inList: unknown, list: unknown[], msg?: string) {
+assert.oneOf = function (inList: string | unknown[], list: unknown[], msg?: string) {
   Assertion.create(inList, msg, assert.oneOf, true).to.be.oneOf(list);
 }
 

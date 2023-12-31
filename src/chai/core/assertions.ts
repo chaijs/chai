@@ -5,157 +5,269 @@
  * MIT Licensed
  */
 
-import {Assertion} from '../assertion.js';
+import {Assertion, AssertionFlags} from '../assertion.js';
 import {AssertionError} from 'assertion-error';
 import * as _ from '../utils/index.js';
+import {
+  OnlyIf,
+  Constructor,
+  KeyedObject,
+  LengthLike,
+  CollectionLike
+} from '../utils/types.js';
 
 const {flag} = _;
 
-type ChainedMethod<T, TParams extends unknown[], TReturn = Assertion<T>> = Assertion<T> & {
+type ChainedMethod<
+  T,
+  TFlags extends AssertionFlags<T>,
+  TParams extends unknown[],
+  TReturn = Assertion<T>
+> = Assertion<T, TFlags> & {
   (...args: TParams): TReturn;
 };
 
-type AssertionMethod<T, TParams extends unknown[], TReturn = Assertion<T>> = (...args: TParams) => TReturn;
-
-type Constructor<T> = {new(): T};
-
 declare module '../assertion.js' {
-  interface Assertion<T> {
-    Arguments: Assertion<T>;
-    NaN: Assertion<T>;
-    all: Assertion<T>;
-    also: Assertion<T>;
-    and: Assertion<T>;
-    any: Assertion<T>;
-    arguments: Assertion<T>;
-    at: Assertion<T>;
-    be: Assertion<T>;
-    been: Assertion<T>;
-    but: Assertion<T>;
-    callable: Assertion<T>;
-    deep: Assertion<T>;
-    does: Assertion<T>;
-    empty: Assertion<T>;
-    exist: Assertion<T>;
-    exists: Assertion<T>;
-    extensible: Assertion<T>;
-    false: Assertion<T>;
-    finite: Assertion<T>;
-    frozen: Assertion<T>;
-    has: Assertion<T>;
-    have: Assertion<T>;
-    is: Assertion<T>;
-    iterable: Assertion<T>;
-    itself: Assertion<T>;
-    nested: Assertion<T>;
-    not: Assertion<T>;
-    null: Assertion<T>;
-    numeric: Assertion<T>;
-    of: Assertion<T>;
-    ok: Assertion<T>;
-    ordered: Assertion<T>;
-    own: Assertion<T>;
-    same: Assertion<T>;
-    sealed: Assertion<T>;
-    still: Assertion<T>;
-    that: Assertion<T>;
-    to: Assertion<T>;
-    true: Assertion<T>;
-    undefined: Assertion<T>;
-    which: Assertion<T>;
-    with: Assertion<T>;
+  interface Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> {
+    Arguments: Assertion<T, TFlags>;
+    NaN: Assertion<T, TFlags>;
+    all: Assertion<T, TFlags>;
+    also: Assertion<T, TFlags>;
+    and: Assertion<T, TFlags>;
+    any: Assertion<T, TFlags>;
+    arguments: Assertion<T, TFlags>;
+    at: Assertion<T, TFlags>;
+    be: Assertion<T, TFlags>;
+    been: Assertion<T, TFlags>;
+    but: Assertion<T, TFlags>;
+    callable: Assertion<T, TFlags>;
+    deep: Assertion<T, TFlags & {deep: true}>;
+    does: Assertion<T, TFlags>;
+    empty: Assertion<T, TFlags>;
+    exist: Assertion<T, TFlags>;
+    exists: Assertion<T, TFlags>;
+    extensible: Assertion<T, TFlags>;
+    false: Assertion<T, TFlags>;
+    finite: Assertion<T, TFlags>;
+    frozen: Assertion<T, TFlags>;
+    has: Assertion<T, TFlags>;
+    have: Assertion<T, TFlags>;
+    is: Assertion<T, TFlags>;
+    iterable: Assertion<T, TFlags>;
+    itself: Assertion<T, TFlags>;
+    nested: Assertion<T, TFlags & {nested: true}>;
+    not: Assertion<T, TFlags>;
+    null: Assertion<T, TFlags>;
+    numeric: Assertion<T, TFlags>;
+    of: Assertion<T, TFlags>;
+    ok: Assertion<T, TFlags>;
+    ordered: Assertion<T, TFlags>;
+    own: Assertion<T, TFlags>;
+    same: Assertion<T, TFlags>;
+    sealed: Assertion<T, TFlags>;
+    still: Assertion<T, TFlags>;
+    that: Assertion<T, TFlags>;
+    to: Assertion<T, TFlags>;
+    true: Assertion<T, TFlags>;
+    undefined: Assertion<T, TFlags>;
+    which: Assertion<T, TFlags>;
+    with: Assertion<T, TFlags>;
 
-    a: ChainedMethod<T, [type: string, msg?: string]>;
-    an: ChainedMethod<T, [type: string, msg?: string]>;
+    a: ChainedMethod<T, TFlags, [type: string, msg?: string]>;
+    an: ChainedMethod<T, TFlags, [type: string, msg?: string]>;
 
-    above: AssertionMethod<T, [val: unknown, msg?: string]>;
-    gt: AssertionMethod<T, [val: number, msg?: string]>;
-    greaterThan: AssertionMethod<T, [val: number, msg?: string]>;
+    above: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    gt: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    greaterThan: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
 
-    approximately: AssertionMethod<T, [expected: number, delta: number, msg?: string]>;
-    closeTo: AssertionMethod<T, [expected: number, delta: number, msg?: string]>;
+    approximately: OnlyIf<T, number, (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>>;
+    closeTo: OnlyIf<T, number, (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>>;
 
-    below: AssertionMethod<T, [val: unknown, msg?: string]>;
-    lt: AssertionMethod<T, [val: number, msg?: string]>;
-    lessThan: AssertionMethod<T, [val: number, msg?: string]>;
+    below: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    lt: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    lessThan: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
 
-    by: AssertionMethod<T, [delta: number, msg?: string]>;
+    by: OnlyIf<TFlags, {deltaBehavior: string}, (delta: number, msg?: string) => Assertion<T, TFlags>>;
 
-    change: AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]> &
-      AssertionMethod<T, [subject: Function]>;
-    changes: AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]> &
-      AssertionMethod<T, [subject: Function]>;
+    change: ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    changes: ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>);
 
-    contain: ChainedMethod<T, [val: unknown, msg?: string]>;
-    contains: ChainedMethod<T, [val: unknown, msg?: string]>;
-    include: ChainedMethod<T, [val: unknown, msg?: string]>;
-    includes: ChainedMethod<T, [val: unknown, msg?: string]>;
+    contain: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
+    contains: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
+    include: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
+    includes: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
 
-    decrease: AssertionMethod<T, [subject: Function]> &
-      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
-    decreases: AssertionMethod<T, [subject: Function]> &
-      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
+    decrease: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    decreases: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
 
-    eq: AssertionMethod<T, [val: unknown, msg?: string]>;
-    equal: AssertionMethod<T, [val: unknown, msg?: string]>;
-    equals: AssertionMethod<T, [val: unknown, msg?: string]>;
+    eq: (val: unknown, msg?: string) => Assertion<T, TFlags>;
+    equal: (val: unknown, msg?: string) => Assertion<T, TFlags>;
+    equals: (val: unknown, msg?: string) => Assertion<T, TFlags>;
 
-    eql: AssertionMethod<T, [val: unknown, msg?: string]>;
-    eqls: AssertionMethod<T, [val: unknown, msg?: string]>;
+    eql: (val: unknown, msg?: string) => Assertion<T, TFlags>;
+    eqls: (val: unknown, msg?: string) => Assertion<T, TFlags>;
 
-    greaterThanOrEqual: AssertionMethod<T, [val: number, msg?: string]>;
-    least: AssertionMethod<T, [val: unknown, msg?: string]>;
-    gte: AssertionMethod<T, [val: number, msg?: string]>;
+    greaterThanOrEqual: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    least: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    gte: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
 
-    haveOwnProperty: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
-    ownProperty: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
+    haveOwnProperty: (name: PropertyKey, val?: unknown, msg?: string) => Assertion<T, TFlags>;
+    ownProperty: (name: PropertyKey, val?: unknown, msg?: string) => Assertion<T, TFlags>;
 
-    haveOwnPropertyDescriptor: AssertionMethod<T, [name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
-    ownPropertyDescriptor: AssertionMethod<T, [name: PropertyKey, descriptor: PropertyDescriptor, msg?: string]>;
+    haveOwnPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<T, TFlags>;
+    ownPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<T, TFlags>;
 
-    increase: AssertionMethod<T, [subject: Function]> &
-      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
-    increases: AssertionMethod<T, [subject: Function]> &
-      AssertionMethod<T, [subject: object, prop: PropertyKey, msg?: string]>;
+    increase: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    increases: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
+      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
 
-    instanceOf: AssertionMethod<T, [ctor: Constructor<unknown>, msg?: string]>;
-    instanceof: AssertionMethod<T, [ctor: Constructor<unknown>, msg?: string]>;
+    instanceOf: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
+    instanceof: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
 
-    key: AssertionMethod<T, [keys: Array<string> | Record<string, unknown>]>;
-    keys: AssertionMethod<T, [keys: Array<string> | Record<string, unknown>]>;
+    key: OnlyIf<T, KeyedObject, (keys: Array<PropertyKey> | Record<PropertyKey, unknown>) => Assertion<T, TFlags>>;
+    keys: OnlyIf<T, KeyedObject, (keys: Array<PropertyKey> | Record<PropertyKey, unknown>) => Assertion<T, TFlags>>;
 
-    length: ChainedMethod<T, [n?: number, msg?: string]>;
-    lengthOf: ChainedMethod<T, [n?: number, msg?: string]>;
+    length: OnlyIf<
+      T,
+      LengthLike,
+      ChainedMethod<
+        T,
+        AssertionFlags<T> & {doLength: true},
+        [n?: number, msg?: string],
+        Assertion<T, AssertionFlags<T> & {doLength: true}>
+      >
+    >;
+    lengthOf: OnlyIf<
+      T,
+      LengthLike,
+      ChainedMethod<
+        T,
+        AssertionFlags<T> & {doLength: true},
+        [n?: number, msg?: string],
+        Assertion<T, AssertionFlags<T> & {doLength: true}>
+      >
+    >;
 
-    lessThanOrEqual: AssertionMethod<T, [val: number, msg?: string]>;
-    lte: AssertionMethod<T, [val: number, msg?: string]>;
-    most: AssertionMethod<T, [val: unknown, msg?: string]>;
+    lessThanOrEqual: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    lte: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
+    most: OnlyIf<
+      T,
+      Date | number,
+      (val: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+    >;
 
-    match: AssertionMethod<T, [re: RegExp, msg?: string]>;
-    matches: AssertionMethod<T, [re: RegExp, msg?: string]>;
+    match: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
+    matches: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
 
-    members: AssertionMethod<T, [subset: unknown[], msg?: string]>;
+    members: OnlyIf<T, unknown[], (subset: unknown[], msg?: string) => Assertion<T, TFlags>>;
 
-    oneOf: AssertionMethod<T, [list: unknown[], msg?: string]>;
+    oneOf: OnlyIf<
+      TFlags,
+      {deep: true},
+      (list: unknown[], msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<
+        T,
+        string | unknown[],
+        (list: unknown[], msg?: string) => Assertion<T, TFlags>
+      >
+    >;
 
-    property: AssertionMethod<T, [name: PropertyKey, val?: unknown, msg?: string]>;
+    property: OnlyIf<T, object, OnlyIf<
+      TFlags,
+      {nested: true},
+      (name: string, val?: unknown, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<
+        [keyof T],
+        [never],
+        ((name: PropertyKey) => Assertion<T, TFlags>) &
+          ((name: PropertyKey, val: unknown, msg?: string) => Assertion<T, TFlags>),
+        ((name: PropertyKey) => Assertion<T, TFlags>) &
+          (<TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string) => Assertion<T, TFlags>)
+      >
+    >>;
 
-    respondTo: AssertionMethod<T, [method: string, msg?: string]>;
-    respondsTo: AssertionMethod<T, [method: string, msg?: string]>;
+    respondTo: (method: string, msg?: string) => Assertion<T, TFlags>;
+    respondsTo: (method: string, msg?: string) => Assertion<T, TFlags>;
 
-    satifies: AssertionMethod<T, [matcher: Function, msg?: string]>;
-    satisfy: AssertionMethod<T, [matcher: Function, msg?: string]>;
+    satifies: (matcher: Function, msg?: string) => Assertion<T, TFlags>;
+    satisfy: (matcher: Function, msg?: string) => Assertion<T, TFlags>;
 
-    string: AssertionMethod<T, [str: string, msg?: string]>;
+    string: (str: string, msg?: string) => Assertion<T, TFlags>;
 
-    Throw: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
-      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
-    throws: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
-      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
-    throw: AssertionMethod<T, [errMsgMatcher: string | RegExp]> &
-      AssertionMethod<T, [errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string]>;
+    Throw: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
+      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
+    throws: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
+      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
+    throw: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
+      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
 
-    within: AssertionMethod<T, [start: number, finish: number, msg?: string]>;
+    within: OnlyIf<
+      T,
+      Date | number,
+      (start: T, finish: T, msg?: string) => Assertion<T, TFlags>,
+      OnlyIf<TFlags, {doLength: true}, (start: number, finish: number, msg?: string) => Assertion<T, TFlags>>
+    >;
   }
 }
 
@@ -641,7 +753,7 @@ function includeChainingBehavior (this: Assertion<unknown>): void {
  * @namespace BDD
  * @public
  */
-function include (this: Assertion<unknown>, val: unknown, msg?: string) {
+function include<T>(this: Assertion<unknown>, val: T, msg?: string) {
   if (msg) flag(this, 'message', msg);
 
   var obj = flag(this, 'object')
@@ -723,7 +835,7 @@ function include (this: Assertion<unknown>, val: unknown, msg?: string) {
         , numErrs = 0;
 
       props.forEach(function (this: Assertion<unknown>, prop) {
-        var propAssertion = Assertion.create(obj);
+        var propAssertion = Assertion.create(obj as object);
         _.transferFlags(this, propAssertion, true);
         flag(propAssertion, 'lockSsfi', true);
 
@@ -1358,7 +1470,7 @@ Assertion.addMethod('eqls', assertEql);
  * @namespace BDD
  * @public
  */
-function assertAbove (this: Assertion<unknown>, n: unknown, msg?: string) {
+function assertAbove (this: Assertion<unknown>, n: Date | number, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object')
     , doLength = flag(this, 'doLength')
@@ -1369,7 +1481,7 @@ function assertAbove (this: Assertion<unknown>, n: unknown, msg?: string) {
     , nType = _.type(n).toLowerCase();
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
   }
 
   if (!doLength && (objType === 'date' && nType !== 'date')) {
@@ -1467,7 +1579,7 @@ function assertLeast (this: Assertion<unknown>, n: unknown, msg?: string) {
     , shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
   }
 
   if (!doLength && (objType === 'date' && nType !== 'date')) {
@@ -1570,7 +1682,7 @@ function assertBelow (this: Assertion<unknown>, n: unknown, msg?: string) {
     , shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
   }
   
   if (!doLength && (objType === 'date' && nType !== 'date')) {
@@ -1674,7 +1786,7 @@ function assertMost (this: Assertion<unknown>, n: unknown, msg?: string) {
     , shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
   }
 
   if (!doLength && (objType === 'date' && nType !== 'date')) {
@@ -1783,7 +1895,7 @@ function assertWithin(this: Assertion<unknown>, start: number | Date, finish: nu
         : start + '..' + finish;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
   }
 
   if (!doLength && (objType === 'date' && (startType !== 'date' || finishType !== 'date'))) {
@@ -2353,7 +2465,7 @@ function assertLength (this: Assertion<unknown>, n: number, msg?: string) {
       itemsCount = (obj as Set<unknown> | Map<unknown, unknown>).size;
       break;
     default:
-      Assertion.create(obj, flagMsg, ssfi, true).to.have.property('length');
+      Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
       itemsCount = (obj as Array<unknown>).length;
   }
 
