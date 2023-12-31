@@ -142,7 +142,7 @@ export class Assertion {
     util.addChainableMethod(
       this.prototype,
       name,
-      fn as (...args: unknown[]) => unknown,
+      fn,
       chainingBehavior,
       getDefaultValue
     );
