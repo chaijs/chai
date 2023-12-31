@@ -73,7 +73,7 @@ var call  = Function.prototype.call,
 export function addChainableMethod<T extends object>(
   ctx: T,
   name: string,
-  method: (...args: unknown[]) => unknown,
+  method: (...args: never) => unknown,
   chainingBehavior?: () => void,
   createDefaultValue?: (ctx: T) => unknown
 ) {
@@ -118,7 +118,7 @@ export function addChainableMethod<T extends object>(
             flag(this, 'ssfi', chainableMethodWrapper);
           }
 
-          var result = chainableBehavior.method.call(this, ...arguments);
+          var result = (chainableBehavior.method as (...args: unknown[]) => unknown).call(this, ...arguments);
           if (result !== undefined) {
             return result;
           }
