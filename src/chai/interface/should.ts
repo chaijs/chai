@@ -6,8 +6,7 @@
 
 import {Assertion} from '../assertion.js';
 import {AssertionError} from 'assertion-error';
-
-type Constructor<T> = {new(): T};
+import {Constructor} from '../utils/types.js';
 
 export interface ShouldAssertions {
   fail(message?: string): void;
