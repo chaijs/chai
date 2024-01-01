@@ -1655,7 +1655,7 @@ assert.notProperty = function (obj: object, prop: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.propertyVal = function propertyVal<T, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string) {
+assert.propertyVal = function propertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string) {
   Assertion.create(obj, msg, assert.propertyVal, true)
     .to.have.property(prop, val);
 };

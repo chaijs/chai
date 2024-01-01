@@ -129,17 +129,21 @@ declare module '../assertion.js' {
     include: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
     includes: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
 
-    decrease: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
-    decreases: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    decrease: OnlyIf<T, Function, {
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+    }>;
+    decreases: OnlyIf<T, Function, {
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+    }>;
 
-    eq: (val: unknown, msg?: string) => Assertion<T, TFlags>;
-    equal: (val: unknown, msg?: string) => Assertion<T, TFlags>;
-    equals: (val: unknown, msg?: string) => Assertion<T, TFlags>;
+    eq: (val: T, msg?: string) => Assertion<T, TFlags>;
+    equal: (val: T, msg?: string) => Assertion<T, TFlags>;
+    equals: (val: T, msg?: string) => Assertion<T, TFlags>;
 
-    eql: (val: unknown, msg?: string) => Assertion<T, TFlags>;
-    eqls: (val: unknown, msg?: string) => Assertion<T, TFlags>;
+    eql: (val: T, msg?: string) => Assertion<T, TFlags>;
+    eqls: (val: T, msg?: string) => Assertion<T, TFlags>;
 
     greaterThanOrEqual: OnlyIf<
       T,
@@ -160,16 +164,28 @@ declare module '../assertion.js' {
       OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
     >;
 
-    haveOwnProperty: (name: PropertyKey, val?: unknown, msg?: string) => Assertion<T, TFlags>;
-    ownProperty: (name: PropertyKey, val?: unknown, msg?: string) => Assertion<T, TFlags>;
+    haveOwnProperty: OnlyIf<T, object, {
+      <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+      (name: PropertyKey): Assertion<unknown>;
+      <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
+    }>;
+    ownProperty: OnlyIf<T, object, {
+      <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+      (name: PropertyKey): Assertion<unknown>;
+      <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
+    }>;
 
-    haveOwnPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<T, TFlags>;
-    ownPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<T, TFlags>;
+    haveOwnPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<PropertyDescriptor>;
+    ownPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<PropertyDescriptor>
 
-    increase: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
-    increases: ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    increase: OnlyIf<T, Function, {
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+    }>;
+    increases: OnlyIf<T, Function, {
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+    }>;
 
     instanceOf: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
     instanceof: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
@@ -236,15 +252,12 @@ declare module '../assertion.js' {
     property: OnlyIf<T, object, OnlyIf<
       TFlags,
       {nested: true},
-      (name: string, val?: unknown, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<
-        [keyof T],
-        [never],
-        ((name: PropertyKey) => Assertion<T, TFlags>) &
-          ((name: PropertyKey, val: unknown, msg?: string) => Assertion<T, TFlags>),
-        ((name: PropertyKey) => Assertion<T, TFlags>) &
-          (<TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string) => Assertion<T, TFlags>)
-      >
+      (name: string, val?: unknown, msg?: string) => Assertion<unknown, TFlags>,
+      {
+        <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+        (name: PropertyKey): Assertion<unknown>;
+        <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
+      }
     >>;
 
     respondTo: (method: string, msg?: string) => Assertion<T, TFlags>;
@@ -835,7 +848,7 @@ function include<T>(this: Assertion<unknown>, val: T, msg?: string) {
         , numErrs = 0;
 
       props.forEach(function (this: Assertion<unknown>, prop) {
-        var propAssertion = Assertion.create(obj as object);
+        var propAssertion = Assertion.create(obj as Record<PropertyKey, unknown>);
         _.transferFlags(this, propAssertion, true);
         flag(propAssertion, 'lockSsfi', true);
 
