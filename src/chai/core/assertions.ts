@@ -119,10 +119,14 @@ declare module '../assertion.js' {
 
     by: OnlyIf<TFlags, {deltaBehavior: string}, (delta: number, msg?: string) => Assertion<T, TFlags>>;
 
-    change: ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>);
-    changes: ((subject: object, prop: PropertyKey, msg?: string) => Assertion<T, TFlags & {deltaBehavior: string}>) &
-      ((subject: Function) => Assertion<T, TFlags & {deltaBehavior: string}>);
+    change: {
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+    };
+    changes: {
+      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+    };
 
     contain: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
     contains: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
