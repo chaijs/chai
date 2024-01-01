@@ -88,13 +88,13 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
     util.flag(this, 'eql', config.deepEqual ?? util.eql);
   }
 
-  public static create<T>(
-    obj?: T,
+  public static create<TObj>(
+    obj?: TObj,
     msg?: string | null,
     ssfi?: Function,
     lockSsfi?: boolean
-  ): Assertion<T> {
-    return util.proxify(new Assertion<T>(
+  ): Assertion<TObj> {
+    return util.proxify(new Assertion<TObj>(
       obj,
       msg,
       ssfi,
@@ -131,7 +131,12 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
   >(
     name: TKey,
     fn: TKey extends MethodNames<Assertion<unknown>> ?
-      (this: Assertion<unknown>, ...args: Parameters<Assertion<unknown>[TKey]>) => (ReturnType<Assertion<unknown>[TKey]> extends Assertion<unknown> ? (Assertion<unknown> | void) : ReturnType<Assertion<unknown>[TKey]>) :
+      (
+        this: Assertion<unknown>,
+        ...args: Parameters<Assertion<unknown>[TKey]>
+      ) => (
+        ReturnType<Assertion<unknown>[TKey]> | void
+      ) :
       ((this: Assertion<unknown>, ...args: never) => unknown)
   ): void {
     util.addMethod(this.prototype, name, fn, getDefaultValue);
