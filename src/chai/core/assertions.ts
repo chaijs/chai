@@ -120,11 +120,11 @@ declare module '../assertion.js' {
     by: OnlyIf<TFlags, {deltaBehavior: string}, (delta: number, msg?: string) => Assertion<T, TFlags>>;
 
     change: {
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
     };
     changes: {
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
     };
 
@@ -135,11 +135,11 @@ declare module '../assertion.js' {
 
     decrease: OnlyIf<T, Function, {
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
     }>;
     decreases: OnlyIf<T, Function, {
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
     }>;
 
     eq: (val: T, msg?: string) => Assertion<T, TFlags>;
@@ -184,11 +184,11 @@ declare module '../assertion.js' {
 
     increase: OnlyIf<T, Function, {
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
     }>;
     increases: OnlyIf<T, Function, {
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      (subject: object, prop: PropertyKey, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
     }>;
 
     instanceOf: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
@@ -240,7 +240,7 @@ declare module '../assertion.js' {
     match: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
     matches: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
 
-    members: OnlyIf<T, unknown[], (subset: unknown[], msg?: string) => Assertion<T, TFlags>>;
+    members: OnlyIf<T, unknown[], (subset: T, msg?: string) => Assertion<T, TFlags>>;
 
     oneOf: OnlyIf<
       TFlags,

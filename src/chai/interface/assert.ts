@@ -2922,7 +2922,10 @@ function assertChanges(
   if (arguments.length === 3 && typeof obj === 'function') {
     Assertion.create(fn, propOrMsg as string, assertChanges, true).to.change(obj);
   } else {
-    Assertion.create(fn, msg, assertChanges, true).to.change(obj, propOrMsg as PropertyKey);
+    Assertion.create(fn, msg, assertChanges, true).to.change(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -2974,7 +2977,7 @@ function assertChangesBy(
       .to.change(obj as Function).by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertChangesBy, true)
-      .to.change(obj as object, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.change(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
   }
 }
 
@@ -3020,7 +3023,7 @@ function assertDoesNotChange(
       .to.not.change(obj);
   } else {
     return Assertion.create(fn, msg, assertDoesNotChange, true)
-      .to.not.change(obj as object, propOrMsg as PropertyKey);
+      .to.not.change(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
   }
 }
 
@@ -3072,7 +3075,7 @@ function assertChangesButNotBy(
       .to.change(obj as Function).but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertChangesButNotBy, true)
-      .to.change(obj as object, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.change(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
   }
 }
 
@@ -3118,7 +3121,7 @@ function assertIncreases(
       .to.increase(obj);
   } else {
     return Assertion.create(fn, msg, assertIncreases, true)
-      .to.increase(obj, propOrMsg as PropertyKey);
+      .to.increase(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
   }
 }
 
@@ -3170,7 +3173,7 @@ function assertIncreasesBy(
       .to.increase(obj as Function).by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertIncreasesBy, true)
-      .to.increase(obj, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.increase(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
   }
 }
 
@@ -3216,7 +3219,7 @@ function assertDoesNotIncrease(
       .to.not.increase(obj);
   } else {
     return Assertion.create(fn, msg, assertDoesNotIncrease, true)
-      .to.not.increase(obj, propOrMsg as PropertyKey);
+      .to.not.increase(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
   }
 }
 
@@ -3268,7 +3271,7 @@ function assertIncreasesButNotBy(
       .to.increase(obj as Function).but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertIncreasesButNotBy, true)
-      .to.increase(obj, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.increase(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
   }
 }
 
@@ -3314,7 +3317,7 @@ function assertDecreases(
       .to.decrease(obj);
   } else {
     return Assertion.create(fn, msg, assertDecreases, true)
-      .to.decrease(obj, propOrMsg as PropertyKey);
+      .to.decrease(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
   }
 }
 
@@ -3366,7 +3369,7 @@ function assertDecreasesBy(
       .to.decrease(obj as Function).by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertDecreasesBy, true)
-      .to.decrease(obj, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
   }
 }
 
@@ -3412,7 +3415,7 @@ function assertDoesNotDecrease(
       .to.not.decrease(obj);
   } else {
     return Assertion.create(fn, msg, assertDoesNotDecrease, true)
-      .to.not.decrease(obj, propOrMsg as PropertyKey);
+      .to.not.decrease(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
   }
 }
 
@@ -3465,7 +3468,7 @@ function assertDoesNotDecreaseBy(
       .to.not.decrease(obj as Function).by(deltaOrProp as number);
   } else {
     return Assertion.create(fn, msg, assertDoesNotDecreaseBy, true)
-      .to.not.decrease(obj, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.not.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
   }
 }
 
@@ -3517,7 +3520,7 @@ function assertDecreasesButNotBy(
       .to.decrease(obj as Function).but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertDecreasesButNotBy, true)
-      .to.decrease(obj, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
   }
 }
 
