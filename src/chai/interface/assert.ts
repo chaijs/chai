@@ -15,50 +15,66 @@ import {
 } from '../utils/types.js';
 
 export interface AssertInterface {
-  (expr: unknown, msg?: string): void;
-  fail(msg?: string): void;
-  fail<T>(actual: T, expected: T, message: string, operator: string): void;
+  (expr: unknown, msg?: string): asserts expr;
+  fail(msg?: string): never;
+  fail<T>(actual: T, expected: T, message: string, operator: string): never;
   isOk(val: unknown, msg?: string): void;
   ok(val: unknown, msg?: string): void;
   isNotOk(val: unknown, msg?: string): void;
   notOk(val: unknown, msg?: string): void;
-  equal<T>(actual: T, expected: T, msg?: string): void;
+  equal<TActual, TExpected extends TActual>(
+    actual: TActual,
+    expected: TExpected,
+    msg?: string
+  ): asserts actual is TExpected;
   notEqual<T>(actual: T, expected: T, msg?: string): void;
-  strictEqual<T>(actual: T, expected: T, msg?: string): void;
+  strictEqual<TActual, TExpected extends TActual>(
+    actual: TActual,
+    expected: TExpected,
+    msg?: string
+  ): asserts actual is TExpected;
   notStrictEqual<T>(actual: T, expected: T, msg?: string): void;
-  deepEqual<T>(actual: T, expected: T, msg?: string): void;
-  deepStrictEqual<T>(actual: T, expected: T, msg?: string): void;
+  deepEqual<TActual, TExpected extends TActual>(
+    actual: TActual,
+    expected: TExpected,
+    msg?: string
+  ): asserts actual is TExpected;
+  deepStrictEqual<TActual, TExpected extends TActual>(
+    actual: TActual,
+    expected: TExpected,
+    msg?: string
+  ): asserts actual is TExpected;
   notDeepEqual<T>(actual: T, expected: T, msg?: string): void;
   isAbove<T extends Date | number>(val: T, abv: T, msg?: string): void;
   isAtLeast<T extends Date | number>(val: T, atlst: T, msg?: string): void;
   isBelow<T extends Date | number>(val: T, blw: T, msg?: string): void;
   isAtMost<T extends Date | number>(val: T, atmst: T, msg?: string): void;
-  isTrue(val: unknown, msg?: string): void;
+  isTrue(val: unknown, msg?: string): asserts val is true;
   isNotTrue(val: unknown, msg?: string): void;
-  isFalse(val: unknown, msg?: string): void;
+  isFalse(val: unknown, msg?: string): asserts val is false;
   isNotFalse(val: unknown, msg?: string): void;
-  isNull(val: unknown, msg?: string): void;
+  isNull(val: unknown, msg?: string): asserts val is null;
   isNotNull(val: unknown, msg?: string): void;
-  isNaN(val: unknown, msg?: string): void;
+  isNaN(val: unknown, msg?: string): asserts val is number;
   isNotNaN(val: unknown, msg?: string): void;
-  exists(val: unknown, msg?: string): void;
+  exists<T>(val: T, msg?: string): asserts val is NonNullable<T>;
   notExists(val: unknown, msg?: string): void;
-  isUndefined(val: unknown, msg?: string): void;
+  isUndefined(val: unknown, msg?: string): asserts val is undefined;
   isDefined(val: unknown, msg?: string): void;
-  isFunction(val: unknown, msg?: string): void;
+  isFunction(val: unknown, msg?: string): asserts val is Function;
   isNotFunction(val: unknown, msg?: string): void;
-  isObject(val: unknown, msg?: string): void;
+  isObject(val: unknown, msg?: string): asserts val is object;
   isNotObject(val: unknown, msg?: string): void;
-  isArray(val: unknown, msg?: string): void;
+  isArray(val: unknown, msg?: string): asserts val is Array<unknown>;
   isNotArray(val: unknown, msg?: string): void;
-  isString(val: unknown, msg?: string): void;
+  isString(val: unknown, msg?: string): asserts val is string;
   isNotString(val: unknown, msg?: string): void;
-  isNumber(val: unknown, msg?: string): void;
+  isNumber(val: unknown, msg?: string): asserts val is number;
   isNotNumber(val: unknown, msg?: string): void;
   isNumeric(val: unknown, msg?: string): void;
   isNotNumeric(val: unknown, msg?: string): void;
   isFinite(val: number, msg?: string): void;
-  isBoolean(val: unknown, msg?: string): void;
+  isBoolean(val: unknown, msg?: string): asserts val is boolean;
   isNotBoolean(val: unknown, msg?: string): void;
   typeOf(val: unknown, type: string, msg?: string): void;
   notTypeOf(val: unknown, type: string, msg?: string): void;
@@ -78,13 +94,26 @@ export interface AssertInterface {
   notDeepOwnInclude(expr: object, inc: unknown, msg?: string): void;
   match(expr: string, re: RegExp, msg?: string): void;
   notMatch(expr: string, re: RegExp, msg?: string): void;
-  property(obj: object, prop: PropertyKey, msg?: string): void;
+  property<T extends object, TKey extends PropertyKey>(
+    obj: T,
+    prop: TKey,
+    msg?: string
+  ): asserts obj is (TKey extends keyof T ? T : (T & {[k in TKey]: unknown}));
   notProperty(obj: object, prop: PropertyKey, msg?: string): void;
-  propertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  propertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
   notPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
   deepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
   notDeepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  ownProperty(obj: object, prop: PropertyKey, msg?: string): void;
+  ownProperty<T extends object, TKey extends PropertyKey>(
+    obj: T,
+    prop: TKey,
+    msg?: string
+  ): asserts obj is (TKey extends keyof T ? T : (T & {[k in TKey]: unknown}));
   notOwnProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
   ownPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
   notOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
@@ -97,16 +126,116 @@ export interface AssertInterface {
   deepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
   notDeepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
   lengthOf(expr: LengthLike, len: number, msg?: string): void;
-  hasAnyKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  containsAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAnyKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAllKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAnyDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  hasAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  containsAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAnyDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
-  doesNotHaveAllDeepKeys(obj: KeyedObject, keys: Array<PropertyKey> | Record<PropertyKey, unknown>, msg?: string): void;
+
+  hasAnyKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  hasAnyKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  hasAllKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  hasAllKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  containsAllKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  containsAllKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  doesNotHaveAnyKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  doesNotHaveAnyKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  doesNotHaveAllKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  doesNotHaveAllKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  hasAnyDeepKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  hasAnyDeepKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  hasAllDeepKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  hasAllDeepKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  containsAllDeepKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  containsAllDeepKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  doesNotHaveAnyDeepKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  doesNotHaveAnyDeepKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
+
+  doesNotHaveAllDeepKeys(
+    obj: Set<unknown> | Map<unknown, unknown>,
+    keys: unknown[],
+    msg?: string
+  ): void;
+  doesNotHaveAllDeepKeys(
+    obj: object,
+    keys: PropertyKey[] | Record<PropertyKey, unknown>,
+    msg?: string
+  ): void;
 
   Throw(
     fn: Function,
@@ -378,7 +507,7 @@ export interface AssertInterface {
  * @namespace Assert
  * @public
  */
-export const assert: AssertInterface = function assert(express: unknown, errmsg?: string) {
+const assert: AssertInterface = function assert(express: unknown, errmsg?: string) {
   var test = Assertion.create(null, null, assert, true);
   test.assert(
       express
@@ -386,6 +515,8 @@ export const assert: AssertInterface = function assert(express: unknown, errmsg?
     , '[ negation message unavailable ]'
   );
 } as AssertInterface;
+
+export {assert};
 
 /**
  * ### .fail([message])
@@ -1756,7 +1887,7 @@ assert.notDeepPropertyVal = function notDeepPropertyVal<T, TKey extends keyof T>
  * @param {string} msg
  * @public
  */
-assert.ownProperty = function ownProperty<T>(obj: T, prop: keyof T, msg?: string) {
+assert.ownProperty = function ownProperty<T extends object, TKey extends PropertyKey>(obj: T, prop: TKey, msg?: string) {
   Assertion.create(obj, msg, assert.ownProperty, true)
     .to.have.own.property(prop);
 };
@@ -2062,8 +2193,8 @@ assert.lengthOf = function (exp: LengthLike, len: number, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.hasAnyKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.hasAnyKeys, true).to.have.any.keys(keys);
+assert.hasAnyKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
+  Assertion.create(obj, msg, assert.hasAnyKeys, true).to.have.any.keys(keys as PropertyKey[]);
 }
 
 /**
@@ -2188,9 +2319,9 @@ assert.doesNotHaveAllKeys = function (obj: KeyedObject, keys: string[], msg?: st
  * @namespace Assert
  * @public
  */
-assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.hasAnyDeepKeys, true)
-    .to.have.any.deep.keys(keys);
+    .to.have.any.deep.keys(keys as PropertyKey[]);
 }
 
 /**
@@ -2214,9 +2345,9 @@ assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<s
  * @namespace Assert
  * @public
  */
-assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.hasAllDeepKeys, true)
-    .to.have.all.deep.keys(keys);
+    .to.have.all.deep.keys(keys as PropertyKey[]);
 }
 
 /**
@@ -2240,9 +2371,9 @@ assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<s
  * @namespace Assert
  * @public
  */
-assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.containsAllDeepKeys, true)
-    .to.contain.all.deep.keys(keys);
+    .to.contain.all.deep.keys(keys as PropertyKey[]);
 }
 
 /**
@@ -2266,9 +2397,9 @@ assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<string>|Rec
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAnyDeepKeys = function (obj: CollectionLike<never> | object, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.doesNotHaveAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAnyDeepKeys, true)
-    .to.not.have.any.deep.keys(keys);
+    .to.not.have.any.deep.keys(keys as PropertyKey[]);
 }
 
 /**
@@ -2292,9 +2423,9 @@ assert.doesNotHaveAnyDeepKeys = function (obj: CollectionLike<never> | object, k
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAllDeepKeys = function (obj: CollectionLike<never> | object, keys: Array<string>|Record<string, unknown>, msg?: string) {
+assert.doesNotHaveAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
   Assertion.create(obj, msg, assert.doesNotHaveAllDeepKeys, true)
-    .to.not.have.all.deep.keys(keys);
+    .to.not.have.all.deep.keys(keys as PropertyKey[]);
 }
 
 /**

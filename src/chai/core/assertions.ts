@@ -11,7 +11,6 @@ import * as _ from '../utils/index.js';
 import {
   OnlyIf,
   Constructor,
-  KeyedObject,
   LengthLike,
   CollectionLike
 } from '../utils/types.js';
@@ -194,8 +193,29 @@ declare module '../assertion.js' {
     instanceOf: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
     instanceof: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
 
-    key: OnlyIf<T, KeyedObject, (keys: Array<PropertyKey> | Record<PropertyKey, unknown>) => Assertion<T, TFlags>>;
-    keys: OnlyIf<T, KeyedObject, (keys: Array<PropertyKey> | Record<PropertyKey, unknown>) => Assertion<T, TFlags>>;
+    keys: T extends (Map<unknown, unknown> | Set<unknown>) ?
+      {
+        (keys: unknown[]): Assertion<T, TFlags>;
+        (...keys: unknown[]): Assertion<T, TFlags>;
+      } :
+      (
+        T extends object ? {
+          (keys: Record<PropertyKey, unknown>): Assertion<T, TFlags>;
+          (keys: PropertyKey[]): Assertion<T, TFlags>;
+          (...keys: PropertyKey[]): Assertion<T, TFlags>;
+        } : never
+      );
+    key: T extends (Map<unknown, unknown> | Set<unknown>) ?
+      {
+        (keys: unknown[]): Assertion<T, TFlags>;
+        (...keys: unknown[]): Assertion<T, TFlags>;
+      } :
+      (
+        T extends object ? {
+          (keys: PropertyKey[]): Assertion<T, TFlags>;
+          (...keys: PropertyKey[]): Assertion<T, TFlags>;
+        } : never
+      );
 
     length: OnlyIf<
       T,
