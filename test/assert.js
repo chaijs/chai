@@ -530,6 +530,48 @@ describe('assert', function () {
     }, "blah: expected {} to be a function");
   });
 
+  it('isCallable', function() {
+    var func = function() {};
+    assert.isCallable(func);
+
+    var func = async function() {};
+    assert.isCallable(func);
+
+    var func = function* () {}
+    assert.isCallable(func);
+
+    var func = async function* () {}
+    assert.isCallable(func);
+
+    err(function () {
+      assert.isCallable({}, 'blah');
+    }, "blah: expected {} to be callable");
+  });
+
+  it('isAsyncFunction', function() {
+    var func = async function() {};
+    assert.isAsyncFunction(func);
+
+    var func = async function*() {};
+    assert.isAsyncFunction(func);
+
+    err(function () {
+      assert.isAsyncFunction(function() {}, 'blah');
+    }, "blah: expected [Function] to be a AsyncFunction");
+  });
+
+  it('isGeneratorFunction', function() {
+    var func = function* () {}
+    assert.isGeneratorFunction(func) 
+
+    var func = async function* () {}
+    assert.isGeneratorFunction(func) 
+
+    err(function () {
+      assert.isGeneratorFunction(function() {}, 'blah');
+    }, "blah: expected [Function] to be a GeneratorFunction");
+  })
+
   it('isNotFunction', function () {
     assert.isNotFunction(5);
 
