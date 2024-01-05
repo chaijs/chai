@@ -385,6 +385,23 @@ describe('expect', function () {
     }, "blah: expected 5 not to be a number");
   });
 
+  it('callable', function() {
+    expect(function() {}).to.be.callable;
+    expect(async function() {}).to.be.callable;
+    expect(function*() {}).to.be.callable;
+    expect(async function*() {}).to.be.callable;
+  })
+
+  it('asyncFunction', function() {
+    expect(async function() {}).to.be.asyncFunction;
+    expect(async function*() {}).to.be.asyncFunction;
+  })
+  
+  it('generatorFunction', function() {
+    expect(function*() {}).to.be.generatorFunction;
+    expect(async function*() {}).to.be.generatorFunction;
+  })
+
   it('instanceof', function(){
     function Foo(){}
     expect(new Foo()).to.be.an.instanceof(Foo);
@@ -407,8 +424,8 @@ describe('expect', function () {
     err(function(){
       expect(new Foo(), 'blah').to.an.instanceof(1);
     }, "blah: The instanceof assertion needs a constructor but Number was given.");
-
     err(function(){
+
       expect(new Foo()).to.an.instanceof('batman');
     }, "The instanceof assertion needs a constructor but String was given.");
 
