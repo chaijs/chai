@@ -402,6 +402,10 @@ describe('expect', function () {
     expect(async function*() {}).to.be.generatorFunction;
   })
 
+  it('asyncGeneratorFunction', function() {
+    expect(async function*() {}).to.be.asyncGeneratorFunction;
+  })
+
   it('instanceof', function(){
     function Foo(){}
     expect(new Foo()).to.be.an.instanceof(Foo);
