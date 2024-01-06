@@ -76,10 +76,25 @@ export interface AssertInterface {
   isFinite(val: number, msg?: string): void;
   isBoolean(val: unknown, msg?: string): asserts val is boolean;
   isNotBoolean(val: unknown, msg?: string): void;
+
+  // typeof
+  typeOf(val: unknown, type: 'undefined'): asserts val is undefined;
+  typeOf(val: unknown, type: 'null'): asserts val is null;
+  typeOf(val: unknown, type: 'map'): asserts val is Map<unknown, unknown>;
+  typeOf(val: unknown, type: 'set'): asserts val is Set<unknown>;
+  typeOf(val: unknown, type: 'promise'): asserts val is Promise<unknown>;
+  typeOf(val: unknown, type: 'string'): asserts val is string;
+  typeOf(val: unknown, type: 'number'): asserts val is number;
+  typeOf(val: unknown, type: 'array'): asserts val is Array<unknown>;
+  typeOf(val: unknown, type: 'boolean'): asserts val is boolean;
   typeOf(val: unknown, type: string, msg?: string): void;
   notTypeOf(val: unknown, type: string, msg?: string): void;
-  instanceOf<T>(val: T, type: Constructor<T>, msg?: string): void;
+
+  // instanceof
+  instanceOf<T extends Constructor<unknown>>(val: unknown, type: T, msg?: string): asserts val is InstanceType<T>;
   notInstanceOf(val: object, type: Constructor<unknown>, msg?: string): void;
+
+  // includes
   include(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
   notInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
   deepInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
@@ -92,8 +107,12 @@ export interface AssertInterface {
   notOwnInclude(expr: object, inc: unknown, msg?: string): void;
   deepOwnInclude(expr: object, inc: unknown, msg?: string): void;
   notDeepOwnInclude(expr: object, inc: unknown, msg?: string): void;
+
+  // match
   match(expr: string, re: RegExp, msg?: string): void;
   notMatch(expr: string, re: RegExp, msg?: string): void;
+
+  // properties
   property<T extends object, TKey extends PropertyKey>(
     obj: T,
     prop: TKey,
@@ -127,6 +146,7 @@ export interface AssertInterface {
   notDeepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
   lengthOf(expr: LengthLike, len: number, msg?: string): void;
 
+  // keys
   hasAnyKeys(
     obj: Set<unknown> | Map<unknown, unknown>,
     keys: unknown[],
@@ -282,6 +302,8 @@ export interface AssertInterface {
   operator<T>(val: T, operator: string, val2: T, msg?: string): void;
   closeTo(actual: number, expected: number, delta: number, msg?: string): void;
   approximately(actual: number, expected: number, delta: number, msg?: string): void;
+
+  // members
   sameMembers<T>(set1: T[], set2: T[], msg?: string): void;
   notSameMembers<T>(set1: T[], set2: T[], msg?: string): void;
   sameDeepMembers<T>(set1: T[], set2: T[], msg?: string): void;
@@ -298,6 +320,7 @@ export interface AssertInterface {
   notIncludeOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   includeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   notIncludeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
+
   oneOf<T extends string | unknown[]>(inList: T, list: T[], msg?: string): void;
 
   changes<T>(
