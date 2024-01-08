@@ -50,11 +50,11 @@ export interface AssertInterface {
   isBelow<T extends Date | number>(val: T, blw: T, msg?: string): void;
   isAtMost<T extends Date | number>(val: T, atmst: T, msg?: string): void;
   isTrue(val: unknown, msg?: string): asserts val is true;
-  isNotTrue(val: unknown, msg?: string): void;
+  isNotTrue<T>(val: T, msg?: string): asserts val is Exclude<T, true>;
   isFalse(val: unknown, msg?: string): asserts val is false;
-  isNotFalse(val: unknown, msg?: string): void;
+  isNotFalse<T>(val: T, msg?: string): asserts val is Exclude<T, false>;
   isNull(val: unknown, msg?: string): asserts val is null;
-  isNotNull(val: unknown, msg?: string): void;
+  isNotNull<T>(val: T, msg?: string): asserts val is Exclude<T, null>;
   isNaN(val: unknown, msg?: string): asserts val is number;
   isNotNaN(val: unknown, msg?: string): void;
   exists<T>(val: T, msg?: string): asserts val is NonNullable<T>;
@@ -68,14 +68,14 @@ export interface AssertInterface {
   isArray(val: unknown, msg?: string): asserts val is Array<unknown>;
   isNotArray(val: unknown, msg?: string): void;
   isString(val: unknown, msg?: string): asserts val is string;
-  isNotString(val: unknown, msg?: string): void;
+  isNotString<T>(val: T, msg?: string): asserts val is Exclude<T, string>;
   isNumber(val: unknown, msg?: string): asserts val is number;
-  isNotNumber(val: unknown, msg?: string): void;
-  isNumeric(val: unknown, msg?: string): void;
-  isNotNumeric(val: unknown, msg?: string): void;
+  isNotNumber<T>(val: T, msg?: string): asserts val is Exclude<T, number>;
+  isNumeric(val: unknown, msg?: string): asserts val is number | BigInt;
+  isNotNumeric<T>(val: T, msg?: string): asserts val is Exclude<T, number | BigInt>;
   isFinite(val: number, msg?: string): void;
   isBoolean(val: unknown, msg?: string): asserts val is boolean;
-  isNotBoolean(val: unknown, msg?: string): void;
+  isNotBoolean<T>(val: T, msg?: string): asserts val is Exclude<T, boolean>;
 
   // typeof
   typeOf(val: unknown, type: 'undefined'): asserts val is undefined;
