@@ -44,7 +44,7 @@
     "assertion-error": "^2.0.1",
     "check-error": "^2.0.0",
     "deep-eql": "^5.0.1",
-    "loupe": "^3.0.0",
+    "loupe": "^3.1.0",
     "pathval": "^2.0.0"
   },
   "devDependencies": {
