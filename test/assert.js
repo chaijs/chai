@@ -527,7 +527,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isFunction({}, 'blah');
-    }, "blah: expected {} to be a function");
+    }, "blah: expected {} to be a callable function");
   });
 
   it('isCallable', function() {
@@ -545,7 +545,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isCallable({}, 'blah');
-    }, "blah: expected {} to be callable");
+    }, "blah: expected {} to be a callable function");
   });
 
   it('isAsyncFunction', function() {
@@ -594,7 +594,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isNotFunction(function () {}, 'blah');
-    }, "blah: expected [Function] not to be a function");
+    }, "blah: expected [Function] not to be a callable function");
   });
 
   it('isArray', function() {
