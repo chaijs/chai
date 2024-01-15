@@ -582,11 +582,11 @@ describe('assert', function () {
     
     err(function () {
       assert.isAsyncGeneratorFunction(async function() {}, 'blah');
-    }, "blah: expected [Function] to be a AsyncGeneratorFunction");
+    }, "blah: expected [AsyncFunction] to be a AsyncGeneratorFunction");
     
     err(function () {
       assert.isAsyncGeneratorFunction(function*() {}, 'blah');
-    }, "blah: expected [Function] to be a AsyncGeneratorFunction");
+    }, "blah: expected [GeneratorFunction] to be a AsyncGeneratorFunction");
   })
 
   it('isNotFunction', function () {
