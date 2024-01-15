@@ -390,20 +390,48 @@ describe('expect', function () {
     expect(async function() {}).to.be.callable;
     expect(function*() {}).to.be.callable;
     expect(async function*() {}).to.be.callable;
+    
+    err(function(){
+      expect(function() {}).to.not.be.a('function', 'blah');
+    }, "blah: expected [Function] not to be a function");
+    
+    err(function(){
+      expect(function() {}, 'blah').to.not.be.a('function');
+    }, "blah: expected [Function] not to be a function");
   })
 
   it('asyncFunction', function() {
     expect(async function() {}).to.be.asyncFunction;
     expect(async function*() {}).to.be.asyncFunction;
+
+    err(function(){
+      expect(async function() {}).to.not.be.a('asyncfunction', 'blah');
+    }, "blah: expected [AsyncFunction] not to be an asyncfunction");
+    
+    err(function(){
+      expect(async function() {}, 'blah').to.not.be.a('asyncfunction');
+    }, "blah: expected [AsyncFunction] not to be an asyncfunction");
   })
   
   it('generatorFunction', function() {
     expect(function*() {}).to.be.generatorFunction;
     expect(async function*() {}).to.be.generatorFunction;
+    
+    err(function(){
+      expect(function*() {}).to.not.be.a('generatorfunction', 'blah');
+    }, "blah: expected [GeneratorFunction] not to be a generatorfunction");
+    
+    err(function(){
+      expect(function*() {}, 'blah').to.not.be.a('generatorfunction');
+    }, "blah: expected [GeneratorFunction] not to be a generatorfunction");
   })
 
   it('asyncGeneratorFunction', function() {
     expect(async function*() {}).to.be.asyncGeneratorFunction;
+    
+    err(function(){
+      expect(async function*() {}, 'blah').to.not.be.a('asyncgeneratorfunction');
+    }, "blah: expected [AsyncGeneratorFunction] not to be an asyncgeneratorfunction");
   })
 
   it('instanceof', function(){
