@@ -401,8 +401,8 @@ describe('expect', function () {
   })
 
   it('asyncFunction', function() {
-    expect(async function() {}).to.be.asyncFunction;
-    expect(async function*() {}).to.be.asyncFunction;
+    expect(async function() {}).to.be.a('asyncFunction');
+    expect(async function*() {}).to.be.a('asyncFunction');
 
     err(function(){
       expect(async function() {}).to.not.be.a('asyncfunction', 'blah');
@@ -414,8 +414,8 @@ describe('expect', function () {
   })
   
   it('generatorFunction', function() {
-    expect(function*() {}).to.be.generatorFunction;
-    expect(async function*() {}).to.be.generatorFunction;
+    expect(function*() {}).to.be.a('generatorFunction');
+    expect(async function*() {}).to.be.a('generatorFunction');
     
     err(function(){
       expect(function*() {}).to.not.be.a('generatorfunction', 'blah');
@@ -427,7 +427,7 @@ describe('expect', function () {
   })
 
   it('asyncGeneratorFunction', function() {
-    expect(async function*() {}).to.be.asyncGeneratorFunction;
+    expect(async function*() {}).to.be.a('asyncGeneratorFunction');
     
     err(function(){
       expect(async function*() {}, 'blah').to.not.be.a('asyncgeneratorfunction');
