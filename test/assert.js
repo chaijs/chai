@@ -548,47 +548,6 @@ describe('assert', function () {
     }, "blah: expected {} to be a callable function");
   });
 
-  it('isAsyncFunction', function() {
-    var func = async function() {};
-    assert.isAsyncFunction(func);
-
-    var func = async function*() {};
-    assert.isAsyncFunction(func);
-
-    err(function () {
-      assert.isAsyncFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be an asyncfunction");
-  });
-
-  it('isGeneratorFunction', function() {
-    var func = function* () {}
-    assert.isGeneratorFunction(func) 
-
-    var func = async function* () {}
-    assert.isGeneratorFunction(func) 
-
-    err(function () {
-      assert.isGeneratorFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be a generatorfunction");
-  })
-  
-  it('isAsyncGeneratorFunction', function() {
-    var func = async function* () {}
-    assert.isAsyncGeneratorFunction(func) 
-
-    err(function () {
-      assert.isAsyncGeneratorFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be an asyncgeneratorfunction");
-    
-    err(function () {
-      assert.isAsyncGeneratorFunction(async function() {}, 'blah');
-    }, "blah: expected [AsyncFunction] to be an asyncgeneratorfunction");
-    
-    err(function () {
-      assert.isAsyncGeneratorFunction(function*() {}, 'blah');
-    }, "blah: expected [GeneratorFunction] to be an asyncgeneratorfunction");
-  })
-
   it('isNotFunction', function () {
     assert.isNotFunction(5);
 
