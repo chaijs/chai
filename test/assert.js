@@ -557,7 +557,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isAsyncFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be a AsyncFunction");
+    }, "blah: expected [Function] to be an asyncfunction");
   });
 
   it('isGeneratorFunction', function() {
@@ -569,7 +569,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isGeneratorFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be a GeneratorFunction");
+    }, "blah: expected [Function] to be a generatorfunction");
   })
   
   it('isAsyncGeneratorFunction', function() {
@@ -578,15 +578,15 @@ describe('assert', function () {
 
     err(function () {
       assert.isAsyncGeneratorFunction(function() {}, 'blah');
-    }, "blah: expected [Function] to be a AsyncGeneratorFunction");
+    }, "blah: expected [Function] to be an asyncgeneratorfunction");
     
     err(function () {
       assert.isAsyncGeneratorFunction(async function() {}, 'blah');
-    }, "blah: expected [AsyncFunction] to be a AsyncGeneratorFunction");
+    }, "blah: expected [AsyncFunction] to be an asyncgeneratorfunction");
     
     err(function () {
       assert.isAsyncGeneratorFunction(function*() {}, 'blah');
-    }, "blah: expected [GeneratorFunction] to be a AsyncGeneratorFunction");
+    }, "blah: expected [GeneratorFunction] to be an asyncgeneratorfunction");
   })
 
   it('isNotFunction', function () {

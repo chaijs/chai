@@ -401,8 +401,8 @@ describe('expect', function () {
   })
 
   it('asyncFunction', function() {
-    expect(async function() {}).to.be.a('asyncFunction');
-    expect(async function*() {}).to.be.a('asyncFunction');
+    expect(async function() {}).to.be.a('AsyncFunction');
+    expect(async function*() {}).to.be.a('AsyncFunction');
 
     err(function(){
       expect(async function() {}).to.not.be.a('asyncfunction', 'blah');
