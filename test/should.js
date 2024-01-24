@@ -3190,9 +3190,7 @@ describe('should', function() {
        false.should.be.extensible;
      }, 'expected false to be extensible');
 
-    // A bug in Safari 10 causes the below test to fail. It can be re-enabled
-    // once the bug is fixed. See https://github.com/chaijs/chai/issues/855.
-    /*if (typeof Proxy === 'function') {
+    if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
         isExtensible: function() {
           throw new TypeError();
@@ -3203,7 +3201,7 @@ describe('should', function() {
         // .extensible should not suppress errors, thrown in proxy traps
         proxy.should.be.extensible;
       }, { name: 'TypeError' });
-    }*/
+    }
   });
 
   it('sealed', function() {
@@ -3242,9 +3240,7 @@ describe('should', function() {
       false.should.not.be.sealed;
     }, 'expected false to not be sealed');
 
-    // A bug in Safari 10 causes the below test to fail. It can be re-enabled
-    // once the bug is fixed. See https://github.com/chaijs/chai/issues/855.
-    /*if (typeof Proxy === 'function') {
+    if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
         ownKeys: function() {
           throw new TypeError();
@@ -3258,7 +3254,7 @@ describe('should', function() {
         // .sealed should not suppress errors, thrown in proxy traps
         proxy.should.be.sealed;
       }, { name: 'TypeError' });
-    }*/
+    }
   });
 
   it('frozen', function() {
@@ -3297,9 +3293,7 @@ describe('should', function() {
       false.should.not.be.frozen;
     }, 'expected false to not be frozen');
 
-    // A bug in Safari 10 causes the below test to fail. It can be re-enabled
-    // once the bug is fixed. See https://github.com/chaijs/chai/issues/855.
-    /*if (typeof Proxy === 'function') {
+    if (typeof Proxy === 'function') {
       var proxy = new Proxy({}, {
         ownKeys: function() {
           throw new TypeError();
@@ -3313,6 +3307,6 @@ describe('should', function() {
         // .frozen should not suppress errors, thrown in proxy traps
         proxy.should.be.frozen;
       }, { name: 'TypeError' });
-    }*/
+    }
   });
 });
