@@ -391,6 +391,29 @@ describe('expect', function () {
     expect(function*() {}).to.be.callable;
     expect(async function*() {}).to.be.callable;
     
+    expect('foobar').to.not.be.callable;
+    
+    err(function(){
+      expect('foobar', 'blah').to.be.callable;
+    }, "blah: expected 'foobar' to be a callable function");
+    
+    err(function(){
+      expect(function() {}, 'blah').to.not.be.callable;
+    }, "blah: expected [Function] not to be a callable function");
+  });
+    
+  it('function', function() {
+    expect(function() {}).to.be.a('function');
+    expect(async function() {}).to.be.a('function');
+    expect(function*() {}).to.be.a('function');
+    expect(async function*() {}).to.be.a('function');
+    
+    expect('foobar').to.not.be.a('function');
+    
+    err(function(){
+      expect('foobar').to.be.a('function', 'blah');
+    }, "blah: expected 'foobar' to be a function");
+
     err(function(){
       expect(function() {}).to.not.be.a('function', 'blah');
     }, "blah: expected [Function] not to be a function");
@@ -403,6 +426,10 @@ describe('expect', function () {
   it('asyncFunction', function() {
     expect(async function() {}).to.be.a('AsyncFunction');
     expect(async function*() {}).to.be.a('AsyncFunction');
+
+    err(function(){
+      expect('foobar').to.be.a('asyncfunction', 'blah');
+    }, "blah: expected 'foobar' to be an asyncfunction");
 
     err(function(){
       expect(async function() {}).to.not.be.a('asyncfunction', 'blah');
@@ -418,6 +445,10 @@ describe('expect', function () {
     expect(async function*() {}).to.be.a('generatorFunction');
     
     err(function(){
+      expect('foobar').to.be.a('generatorfunction', 'blah');
+    }, "blah: expected 'foobar' to be a generatorfunction");
+    
+    err(function(){
       expect(function*() {}).to.not.be.a('generatorfunction', 'blah');
     }, "blah: expected [GeneratorFunction] not to be a generatorfunction");
     
@@ -428,6 +459,10 @@ describe('expect', function () {
 
   it('asyncGeneratorFunction', function() {
     expect(async function*() {}).to.be.a('asyncGeneratorFunction');
+    
+    err(function(){
+      expect(async function() {}, 'blah').to.be.a('asyncgeneratorfunction');
+    }, "blah: expected [AsyncFunction] to be an asyncgeneratorfunction");
     
     err(function(){
       expect(async function*() {}, 'blah').to.not.be.a('asyncgeneratorfunction');
@@ -456,8 +491,8 @@ describe('expect', function () {
     err(function(){
       expect(new Foo(), 'blah').to.an.instanceof(1);
     }, "blah: The instanceof assertion needs a constructor but Number was given.");
-    err(function(){
 
+    err(function(){
       expect(new Foo()).to.an.instanceof('batman');
     }, "The instanceof assertion needs a constructor but String was given.");
 
