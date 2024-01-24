@@ -461,6 +461,18 @@ describe("should", function () {
     }, "expected '' to be false");
   });
 
+  it("callable", function () {
+    (function () {}).should.be.callable;
+    (async function () {}).should.be.callable;
+    (function* () {}).should.be.callable;
+    (async function* () {}).should.be.callable;
+    true.should.not.be.callable;
+
+    err(function () {
+      "".should.be.callable;
+    }, "expected '' to be a callable function");
+  });
+
   it("null", function () {
     (0).should.not.be.null;
 
