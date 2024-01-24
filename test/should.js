@@ -3114,18 +3114,16 @@ describe('should', function() {
        false.should.be.extensible;
      }, 'expected false to be extensible');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        isExtensible: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      isExtensible: function() {
+        throw new TypeError();
+      }
+    });
 
-      err(function() {
-        // .extensible should not suppress errors, thrown in proxy traps
-        proxy.should.be.extensible;
-      }, { name: 'TypeError' });
-    }
+    err(function() {
+      // .extensible should not suppress errors, thrown in proxy traps
+      proxy.should.be.extensible;
+    }, { name: 'TypeError' });
   });
 
   it('sealed', function() {
@@ -3162,21 +3160,19 @@ describe('should', function() {
       false.should.not.be.sealed;
     }, 'expected false to not be sealed');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        ownKeys: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      ownKeys: function() {
+        throw new TypeError();
+      }
+    });
 
-      // Object.isSealed will call ownKeys trap only if object is not extensible
-      Object.preventExtensions(proxy);
+    // Object.isSealed will call ownKeys trap only if object is not extensible
+    Object.preventExtensions(proxy);
 
-      err(function() {
-        // .sealed should not suppress errors, thrown in proxy traps
-        proxy.should.be.sealed;
-      }, { name: 'TypeError' });
-    }
+    err(function() {
+      // .sealed should not suppress errors, thrown in proxy traps
+      proxy.should.be.sealed;
+    }, { name: 'TypeError' });
   });
 
   it('frozen', function() {
@@ -3213,20 +3209,18 @@ describe('should', function() {
       false.should.not.be.frozen;
     }, 'expected false to not be frozen');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        ownKeys: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      ownKeys: function() {
+        throw new TypeError();
+      }
+    });
 
-      // Object.isFrozen will call ownKeys trap only if object is not extensible
-      Object.preventExtensions(proxy);
+    // Object.isFrozen will call ownKeys trap only if object is not extensible
+    Object.preventExtensions(proxy);
 
-      err(function() {
-        // .frozen should not suppress errors, thrown in proxy traps
-        proxy.should.be.frozen;
-      }, { name: 'TypeError' });
-    }
+    err(function() {
+      // .frozen should not suppress errors, thrown in proxy traps
+      proxy.should.be.frozen;
+    }, { name: 'TypeError' });
   });
 });
