@@ -545,15 +545,6 @@ describe('assert', function () {
     }, "blah: expected undefined to not equal undefined");
   });
 
-  it('isFunction', function() {
-    var func = function() {};
-    assert.isFunction(func);
-
-    err(function () {
-      assert.isFunction({}, 'blah');
-    }, "blah: expected {} to be a callable function");
-  });
-
   it('isCallable', function() {
     var func = function() {};
     assert.isCallable(func);
@@ -580,6 +571,15 @@ describe('assert', function () {
     err(function () {
       assert.isNotCallable(function() {}, 'blah');
     }, "blah: expected [Function] not to be a callable function");
+  });
+
+  it('isFunction', function() {
+    var func = function() {};
+    assert.isFunction(func);
+
+    err(function () {
+      assert.isFunction({}, 'blah');
+    }, "blah: expected {} to be a callable function");
   });
 
   it('isNotFunction', function () {
