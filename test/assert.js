@@ -139,6 +139,20 @@ describe('assert', function () {
     assert.typeOf('test', 'string');
     assert.typeOf(true, 'boolean');
     assert.typeOf(5, 'number');
+    
+    assert.typeOf(() => {}, 'function');
+    assert.typeOf(function() {}, 'function');
+    assert.typeOf(async function() {}, 'asyncfunction');
+    assert.typeOf(function*() {}, 'generatorfunction');
+    assert.typeOf(async function*() {}, 'asyncgeneratorfunction');
+    
+    err(function () {
+      assert.typeOf(5, 'function', 'blah');
+    }, "blah: expected 5 to be a function");
+    
+    err(function () {
+      assert.typeOf(function() {}, 'asyncfunction', 'blah');
+    }, "blah: expected [Function] to be an asyncfunction");
 
     if (typeof Symbol === 'function') {
       assert.typeOf(Symbol(), 'symbol');
@@ -151,10 +165,20 @@ describe('assert', function () {
 
   it('notTypeOf', function () {
     assert.notTypeOf('test', 'number');
+    
+    assert.notTypeOf(() => {}, 'string');
+    assert.notTypeOf(function() {}, 'string');
+    assert.notTypeOf(async function() {}, 'string');
+    assert.notTypeOf(function*() {}, 'string');
+    assert.notTypeOf(async function*() {}, 'string');
 
     err(function () {
       assert.notTypeOf(5, 'number', 'blah');
     }, "blah: expected 5 not to be a number");
+    
+    err(function () {
+      assert.notTypeOf(() => {}, 'function', 'blah');
+    }, "blah: expected [Function] not to be a function");
   });
 
   it('instanceOf', function() {
@@ -521,13 +545,41 @@ describe('assert', function () {
     }, "blah: expected undefined to not equal undefined");
   });
 
+  it('isCallable', function() {
+    var func = function() {};
+    assert.isCallable(func);
+
+    var func = async function() {};
+    assert.isCallable(func);
+
+    var func = function* () {}
+    assert.isCallable(func);
+
+    var func = async function* () {}
+    assert.isCallable(func);
+
+    err(function () {
+      assert.isCallable({}, 'blah');
+    }, "blah: expected {} to be a callable function");
+  });
+  
+  it('isNotCallable', function() {
+    assert.isNotCallable(false);
+    assert.isNotCallable(10);
+    assert.isNotCallable('string');
+
+    err(function () {
+      assert.isNotCallable(function() {}, 'blah');
+    }, "blah: expected [Function] not to be a callable function");
+  });
+
   it('isFunction', function() {
     var func = function() {};
     assert.isFunction(func);
 
     err(function () {
       assert.isFunction({}, 'blah');
-    }, "blah: expected {} to be a function");
+    }, "blah: expected {} to be a callable function");
   });
 
   it('isNotFunction', function () {
@@ -535,7 +587,7 @@ describe('assert', function () {
 
     err(function () {
       assert.isNotFunction(function () {}, 'blah');
-    }, "blah: expected [Function] not to be a function");
+    }, "blah: expected [Function] not to be a callable function");
   });
 
   it('isArray', function() {
