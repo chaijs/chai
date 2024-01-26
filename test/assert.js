@@ -1921,11 +1921,11 @@ describe('assert', function () {
 
     err(function () {
       assert.sameMembers({}, [], 'blah');
-    }, 'blah: expected {} to be an array');
+    }, 'blah: expected {} to be an iterator');
 
     err(function () {
       assert.sameMembers([], {}, 'blah');
-    }, 'blah: expected {} to be an array');
+    }, 'blah: expected {} to be an iterator');
   });
 
   it('notSameMembers', function() {
