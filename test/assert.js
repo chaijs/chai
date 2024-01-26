@@ -1909,6 +1909,8 @@ describe('assert', function () {
     assert.sameMembers([4, 2], [4, 2]);
     assert.sameMembers([4, 2, 2], [4, 2, 2]);
 
+    assert.sameMembers(new Set([1,2,3]), new Set([3,2,1]));
+
     err(function() {
       assert.sameMembers([], [1, 2], 'blah');
     }, 'blah: expected [] to have the same members as [ 1, 2 ]');
