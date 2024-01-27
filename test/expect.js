@@ -3436,19 +3436,19 @@ describe('expect', function () {
 
     err(function () {
       expect({}).members([], 'blah');
-    }, 'blah: expected {} to be an iterator');
+    }, 'blah: expected {} to be an iterable');
 
     err(function () {
       expect({}, 'blah').members([]);
-    }, 'blah: expected {} to be an iterator');
+    }, 'blah: expected {} to be an iterable');
 
     err(function () {
       expect([]).members({}, 'blah');
-    }, 'blah: expected {} to be an iterator');
+    }, 'blah: expected {} to be an iterable');
 
     err(function () {
       expect([], 'blah').members({});
-    }, 'blah: expected {} to be an iterator');
+    }, 'blah: expected {} to be an iterable');
   });
 
   it('deep.members', function() {

@@ -2815,11 +2815,11 @@ describe('should', function() {
 
     err(function() {
       'foo'.should.include.members([12], 'blah');
-    }, "blah: expected 'foo' to be an iterator");
+    }, "blah: expected 'foo' to be an iterable");
 
     err(function() {
       [1, 2, 3].should.include.members('o', 'blah');
-    }, "blah: expected 'o' to be an iterator");
+    }, "blah: expected 'o' to be an iterable");
   });
 
   it('memberEquals', function() {
@@ -2840,7 +2840,7 @@ describe('should', function() {
 
     err(function() {
       [1, 2, 3].should.have.same.members(4, 'blah');
-    }, 'blah: expected 4 to be an iterator');
+    }, 'blah: expected 4 to be an iterable');
   });
 
   it('deep.members', function() {
