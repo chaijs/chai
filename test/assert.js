@@ -2379,14 +2379,11 @@ describe('assert', function () {
     assert.isIterable([1, 2, 3]);
     assert.isIterable(new Map([[1, 'one'], [2, 'two'], [3, 'three']]));
     assert.isIterable(new Set([1, 2, 3]));
+    assert.isIterable('hello');
 
     err(function() {
       assert.isIterable(42);
     }, 'expected 42 to be an iterable');
-
-    err(function() {
-      assert.isIterable('hello');
-    }, "expected 'hello' to be an iterable");
 
     err(function() {
       assert.isIterable(undefined);

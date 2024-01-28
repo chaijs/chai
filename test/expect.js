@@ -3645,14 +3645,11 @@ describe('expect', function () {
     expect([1, 2, 3]).to.be.iterable;
     expect(new Map([[1, 'one'], [2, 'two'], [3, 'three']])).to.be.iterable;
     expect(new Set([1, 2, 3])).to.be.iterable;
+    expect('hello').to.be.iterable;
 
     err(function() {
       expect(42).to.be.iterable;
     }, 'expected 42 to be an iterable');
-
-    err(function() {
-      expect('hello').to.be.iterable;
-    }, "expected 'hello' to be an iterable");
 
     err(function() {
       expect(undefined).to.be.iterable;

@@ -2946,14 +2946,11 @@ describe('should', function() {
     ([1, 2, 3]).should.be.iterable;
     (new Map([[1, 'one'], [2, 'two'], [3, 'three']])).should.be.iterable;
     (new Set([1, 2, 3])).should.be.iterable;
+    ('hello').should.be.iterable;
 
     err(function() {
       (42).should.be.iterable;
     }, 'expected 42 to be an iterable');
-
-    err(function() {
-      ('hello').should.be.iterable;
-    }, "expected 'hello' to be an iterable");
 
     err(function() {
       (true).should.be.iterable;
