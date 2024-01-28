@@ -2942,6 +2942,28 @@ describe('should', function() {
     }, 'expected [ { a: 1 }, { b: 2 }, { c: 3 } ] to not be an ordered superset of [ { a: 1 }, { b: 2 } ]');
   });
 
+  it ('iterable', function() {
+    ([1, 2, 3]).should.be.iterable;
+    (new Map([[1, 'one'], [2, 'two'], [3, 'three']])).should.be.iterable;
+    (new Set([1, 2, 3])).should.be.iterable;
+
+    err(function() {
+      (42).should.be.iterable;
+    }, 'expected 42 to be an iterable');
+
+    err(function() {
+      ('hello').should.be.iterable;
+    }, "expected 'hello' to be an iterable");
+
+    err(function() {
+      (true).should.be.iterable;
+    }, 'expected true to be an iterable');
+
+    err(function() {
+      ({ key: 'value' }).should.be.iterable;
+    }, 'expected { key: \'value\' } to be an iterable');
+  })
+
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
         heroes = ['spiderman', 'superman'],
