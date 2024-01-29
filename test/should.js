@@ -1390,15 +1390,13 @@ describe('should', function() {
       false.should.be.empty;
     }, ".empty was passed non-string primitive false");
 
-    if (typeof Symbol !== 'undefined') {
-      err(function(){
-        Symbol().should.be.empty;
-      }, ".empty was passed non-string primitive Symbol()");
+    err(function(){
+      Symbol().should.be.empty;
+    }, ".empty was passed non-string primitive Symbol()");
 
-      err(function(){
-        Symbol.iterator.should.be.empty;
-      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
-    }
+    err(function(){
+      Symbol.iterator.should.be.empty;
+    }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
 
     err(function(){
       (function() {}).should.be.empty;
@@ -1812,13 +1810,10 @@ describe('should', function() {
     // .include should work with Error objects and objects with a custom
     // `@@toStringTag`.
     (new Error('foo')).should.include({message: 'foo'});
-    if (typeof Symbol !== 'undefined'
-        && typeof Symbol.toStringTag !== 'undefined') {
-      var customObj = {a: 1};
-      customObj[Symbol.toStringTag] = 'foo';
+    var customObj = {a: 1};
+    customObj[Symbol.toStringTag] = 'foo';
 
-      customObj.should.include({a: 1});
-    }
+    customObj.should.include({a: 1});
 
     ({a: 1}).should.include({'toString': Object.prototype.toString});
 
