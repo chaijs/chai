@@ -577,7 +577,7 @@ describe('assert', function () {
 
   it('isArray', function() {
     assert.isArray([]);
-    assert.isArray(new Array);
+    assert.isArray(new Array());
 
     err(function () {
       assert.isArray({}, 'blah');
@@ -592,7 +592,7 @@ describe('assert', function () {
     }, "blah: expected [] not to be an array");
 
     err(function () {
-      assert.isNotArray(new Array);
+      assert.isNotArray(new Array());
     }, "expected [] not to be an array");
   });
 
@@ -1412,9 +1412,9 @@ describe('assert', function () {
       assert.lengthOf(1, 5);
      }, "expected 1 to have property \'length\'");
 
-    assert.lengthOf(new Map, 0);
+    assert.lengthOf(new Map(), 0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
 
@@ -1424,9 +1424,9 @@ describe('assert', function () {
       assert.lengthOf(map, 3, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2 } to have a size of 3 but got 2");
 
-    assert.lengthOf(new Set, 0);
+    assert.lengthOf(new Set(), 0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
 
@@ -2714,25 +2714,25 @@ describe('assert', function () {
 
       assert[isEmpty]('');
       assert[isEmpty]([]);
-      assert[isEmpty](new FakeArgs);
+      assert[isEmpty](new FakeArgs());
       assert[isEmpty]({});
 
       err(function(){
-        assert[isEmpty](new WeakMap, 'blah');
+        assert[isEmpty](new WeakMap(), 'blah');
       }, "blah: .empty was passed a weak collection");
 
       err(function(){
-        assert[isEmpty](new WeakSet, 'blah');
+        assert[isEmpty](new WeakSet(), 'blah');
       }, "blah: .empty was passed a weak collection");
 
-      assert[isEmpty](new Map);
+      assert[isEmpty](new Map());
 
-      var map = new Map;
+      var map = new Map();
       map.key = 'val';
       assert[isEmpty](map);
-      assert[isEmpty](new Set);
+      assert[isEmpty](new Set());
 
-      var set = new Set;
+      var set = new Set();
       set.key = 'val';
       assert[isEmpty](set);
 
@@ -2811,11 +2811,11 @@ describe('assert', function () {
       assert[isNotEmpty]({foo: 'bar'});
 
       err(function(){
-        assert[isNotEmpty](new WeakMap, 'blah');
+        assert[isNotEmpty](new WeakMap(), 'blah');
       }, "blah: .empty was passed a weak collection");
 
       err(function(){
-        assert[isNotEmpty](new WeakSet, 'blah');
+        assert[isNotEmpty](new WeakSet(), 'blah');
       }, "blah: .empty was passed a weak collection");
 
       var map = new Map();
@@ -2823,7 +2823,7 @@ describe('assert', function () {
       assert[isNotEmpty](map);
 
       err(function(){
-        assert[isNotEmpty](new Map);
+        assert[isNotEmpty](new Map());
       }, "expected Map{} not to be empty");
 
       var set = new Set();
@@ -2831,7 +2831,7 @@ describe('assert', function () {
       assert[isNotEmpty](set);
 
       err(function(){
-        assert[isNotEmpty](new Set);
+        assert[isNotEmpty](new Set());
       }, "expected Set{} not to be empty");
 
       err(function(){
@@ -2843,7 +2843,7 @@ describe('assert', function () {
       }, "expected [] not to be empty");
 
       err(function(){
-        assert[isNotEmpty](new FakeArgs);
+        assert[isNotEmpty](new FakeArgs());
       }, "expected FakeArgs{} not to be empty");
 
       err(function(){

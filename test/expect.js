@@ -637,10 +637,10 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.within(5, 7, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    expect(new Map).to.have.length.within(0, 0);
-    expect(new Map).to.have.lengthOf.within(0, 0);
+    expect(new Map()).to.have.length.within(0, 0);
+    expect(new Map()).to.have.lengthOf.within(0, 0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -656,10 +656,10 @@ describe('expect', function () {
       expect(map).to.have.lengthOf.within(5, 7, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
-    expect(new Set).to.have.length.within(0, 0);
-    expect(new Set).to.have.lengthOf.within(0, 0);
+    expect(new Set()).to.have.length.within(0, 0);
+    expect(new Set()).to.have.lengthOf.within(0, 0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -808,10 +808,10 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    expect(new Map).to.have.length.above(-1);
-    expect(new Map).to.have.lengthOf.above(-1);
+    expect(new Map()).to.have.length.above(-1);
+    expect(new Map()).to.have.lengthOf.above(-1);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -827,10 +827,10 @@ describe('expect', function () {
       expect(map).to.have.lengthOf.above(5, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
-    expect(new Set).to.have.length.above(-1);
-    expect(new Set).to.have.lengthOf.above(-1);
+    expect(new Set()).to.have.length.above(-1);
+    expect(new Set()).to.have.lengthOf.above(-1);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -971,10 +971,10 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.at.least(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    expect(new Map).to.have.length.of.at.least(0);
-    expect(new Map).to.have.lengthOf.at.least(0);
+    expect(new Map()).to.have.length.of.at.least(0);
+    expect(new Map()).to.have.lengthOf.at.least(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -990,10 +990,10 @@ describe('expect', function () {
       expect(map).to.have.lengthOf.at.least(4, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
-    expect(new Set).to.have.length.of.at.least(0);
-    expect(new Set).to.have.lengthOf.at.least(0);
+    expect(new Set()).to.have.length.of.at.least(0);
+    expect(new Set()).to.have.lengthOf.at.least(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1088,10 +1088,10 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    expect(new Map).to.have.length.below(1);
-    expect(new Map).to.have.lengthOf.below(1);
+    expect(new Map()).to.have.length.below(1);
+    expect(new Map()).to.have.lengthOf.below(1);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1107,10 +1107,10 @@ describe('expect', function () {
       expect(map).to.have.lengthOf.below(2, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
-    expect(new Set).to.have.length.below(1);
-    expect(new Set).to.have.lengthOf.below(1);
+    expect(new Set()).to.have.length.below(1);
+    expect(new Set()).to.have.lengthOf.below(1);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1255,10 +1255,10 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    expect(new Map).to.have.length.of.at.most(0);
-    expect(new Map).to.have.lengthOf.at.most(0);
+    expect(new Map()).to.have.length.of.at.most(0);
+    expect(new Map()).to.have.lengthOf.at.most(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1274,10 +1274,10 @@ describe('expect', function () {
       expect(map).to.have.lengthOf.at.most(2, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
-    expect(new Set).to.have.length.of.at.most(0);
-    expect(new Set).to.have.lengthOf.at.most(0);
+    expect(new Set()).to.have.length.of.at.most(0);
+    expect(new Set()).to.have.lengthOf.at.most(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1397,10 +1397,10 @@ describe('expect', function () {
       expect('asd').to.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
 
-    expect(new Map).to.have.length(0);
-    expect(new Map).to.have.lengthOf(0);
+    expect(new Map()).to.have.length(0);
+    expect(new Map()).to.have.lengthOf(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1416,10 +1416,10 @@ describe('expect', function () {
       expect(map).to.not.have.lengthOf(3, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
-    expect(new Set).to.have.length(0);
-    expect(new Set).to.have.lengthOf(0);
+    expect(new Set()).to.have.length(0);
+    expect(new Set()).to.have.lengthOf(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1550,31 +1550,31 @@ describe('expect', function () {
     expect('foo').not.to.be.empty;
     expect([]).to.be.empty;
     expect(['foo']).not.to.be.empty;
-    expect(new FakeArgs).to.be.empty;
+    expect(new FakeArgs()).to.be.empty;
     expect({arguments: 0}).not.to.be.empty;
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
 
     err(function(){
-      expect(new WeakMap, 'blah').not.to.be.empty;
+      expect(new WeakMap(), 'blah').not.to.be.empty;
     }, "blah: .empty was passed a weak collection");
 
     err(function(){
-      expect(new WeakSet, 'blah').not.to.be.empty;
+      expect(new WeakSet(), 'blah').not.to.be.empty;
     }, "blah: .empty was passed a weak collection");
 
-    expect(new Map).to.be.empty;
+    expect(new Map()).to.be.empty;
 
     // Not using Map constructor args because not supported in IE 11.
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     expect(map).not.to.be.empty;
 
     err(function(){
-      expect(new Map).not.to.be.empty;
+      expect(new Map()).not.to.be.empty;
     }, "expected Map{} not to be empty");
 
-    map = new Map;
+    map = new Map();
     map.key = 'val';
     expect(map).to.be.empty;
 
@@ -1582,18 +1582,18 @@ describe('expect', function () {
       expect(map).not.to.be.empty;
     }, "expected Map{} not to be empty");
 
-    expect(new Set).to.be.empty;
+    expect(new Set()).to.be.empty;
 
     // Not using Set constructor args because not supported in IE 11.
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     expect(set).not.to.be.empty;
 
     err(function(){
-      expect(new Set).not.to.be.empty;
+      expect(new Set()).not.to.be.empty;
     }, "expected Set{} not to be empty");
 
-    set = new Set;
+    set = new Set();
     set.key = 'val';
     expect(set).to.be.empty;
 
@@ -1618,7 +1618,7 @@ describe('expect', function () {
     }, "expected [ \'foo\' ] to be empty");
 
     err(function(){
-      expect(new FakeArgs).not.to.be.empty;
+      expect(new FakeArgs()).not.to.be.empty;
     }, "expected FakeArgs{} not to be empty");
 
     err(function(){
