@@ -125,10 +125,8 @@ describe('assert', function () {
     var foo;
     assert.equal(foo, undefined);
 
-    if (typeof Symbol === 'function') {
-      var sym = Symbol();
-      assert.equal(sym, sym);
-    }
+    var sym = Symbol();
+    assert.equal(sym, sym);
 
     err(function () {
       assert.equal(1, 2, 'blah');
@@ -145,6 +143,7 @@ describe('assert', function () {
     assert.typeOf(async function() {}, 'asyncfunction');
     assert.typeOf(function*() {}, 'generatorfunction');
     assert.typeOf(async function*() {}, 'asyncgeneratorfunction');
+    assert.typeOf(Symbol(), 'symbol');
     
     err(function () {
       assert.typeOf(5, 'function', 'blah');
@@ -153,10 +152,6 @@ describe('assert', function () {
     err(function () {
       assert.typeOf(function() {}, 'asyncfunction', 'blah');
     }, "blah: expected [Function] to be an asyncfunction");
-
-    if (typeof Symbol === 'function') {
-      assert.typeOf(Symbol(), 'symbol');
-    }
 
     err(function () {
       assert.typeOf(5, 'string', 'blah');
@@ -227,21 +222,19 @@ describe('assert', function () {
       assert.instanceOf(t, Thing);
     }, 'The instanceof assertion needs a constructor but Function was given.', true);
 
-    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
-        err(function(){
-          assert.instanceOf(new Foo(), Symbol());
-        }, "The instanceof assertion needs a constructor but Symbol was given.");
+    err(function(){
+      assert.instanceOf(new Foo(), Symbol());
+    }, "The instanceof assertion needs a constructor but Symbol was given.");
 
-        err(function() {
-            var FakeConstructor = {};
-            var fakeInstanceB = 4;
-            FakeConstructor[Symbol.hasInstance] = function (val) {
-                return val === 3;
-            };
+    err(function() {
+        var FakeConstructor = {};
+        var fakeInstanceB = 4;
+        FakeConstructor[Symbol.hasInstance] = function (val) {
+            return val === 3;
+        };
 
-            assert.instanceOf(fakeInstanceB, FakeConstructor);
-        }, 'expected 4 to be an instance of an unnamed constructor')
-    }
+        assert.instanceOf(fakeInstanceB, FakeConstructor);
+    }, 'expected 4 to be an instance of an unnamed constructor')
 
     err(function () {
       assert.instanceOf(5, Foo, 'blah');
@@ -282,21 +275,19 @@ describe('assert', function () {
       assert.notInstanceOf(new Foo(), undefined);
     }, "The instanceof assertion needs a constructor but undefined was given.");
 
-    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
-        err(function(){
-          assert.notInstanceOf(new Foo(), Symbol());
-        }, "The instanceof assertion needs a constructor but Symbol was given.");
+    err(function(){
+      assert.notInstanceOf(new Foo(), Symbol());
+    }, "The instanceof assertion needs a constructor but Symbol was given.");
 
-        err(function() {
-            var FakeConstructor = {};
-            var fakeInstanceB = 4;
-            FakeConstructor[Symbol.hasInstance] = function (val) {
-                return val === 4;
-            };
+    err(function() {
+        var FakeConstructor = {};
+        var fakeInstanceB = 4;
+        FakeConstructor[Symbol.hasInstance] = function (val) {
+            return val === 4;
+        };
 
-            assert.notInstanceOf(fakeInstanceB, FakeConstructor);
-        }, 'expected 4 to not be an instance of an unnamed constructor');
-    }
+        assert.notInstanceOf(fakeInstanceB, FakeConstructor);
+    }, 'expected 4 to not be an instance of an unnamed constructor');
 
     err(function () {
       assert.notInstanceOf(new Foo(), Foo, 'blah');
@@ -333,11 +324,9 @@ describe('assert', function () {
   it('notEqual', function() {
     assert.notEqual(3, 4);
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol()
-        , sym2 = Symbol();
-      assert.notEqual(sym1, sym2);
-    }
+    var sym1 = Symbol()
+      , sym2 = Symbol();
+    assert.notEqual(sym1, sym2);
 
     err(function () {
       assert.notEqual(5, 5, 'blah');
@@ -347,10 +336,8 @@ describe('assert', function () {
   it('strictEqual', function() {
     assert.strictEqual('foo', 'foo');
 
-    if (typeof Symbol === 'function') {
-      var sym = Symbol();
-      assert.strictEqual(sym, sym);
-    }
+    var sym = Symbol();
+    assert.strictEqual(sym, sym);
 
     err(function () {
       assert.strictEqual('5', 5, 'blah');
@@ -360,11 +347,9 @@ describe('assert', function () {
   it('notStrictEqual', function() {
     assert.notStrictEqual(5, '5');
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol()
-        , sym2 = Symbol();
-      assert.notStrictEqual(sym1, sym2);
-    }
+    var sym1 = Symbol()
+      , sym2 = Symbol();
+    assert.notStrictEqual(sym1, sym2);
 
     err(function () {
       assert.notStrictEqual(5, 5, 'blah');
@@ -592,7 +577,7 @@ describe('assert', function () {
 
   it('isArray', function() {
     assert.isArray([]);
-    assert.isArray(new Array);
+    assert.isArray(new Array());
 
     err(function () {
       assert.isArray({}, 'blah');
@@ -607,7 +592,7 @@ describe('assert', function () {
     }, "blah: expected [] not to be an array");
 
     err(function () {
-      assert.isNotArray(new Array);
+      assert.isNotArray(new Array());
     }, "expected [] not to be an array");
   });
 
@@ -701,13 +686,10 @@ describe('assert', function () {
     // .include should work with Error objects and objects with a custom
     // `@@toStringTag`.
     assert.include(new Error('foo'), {message: 'foo'});
-    if (typeof Symbol !== 'undefined'
-        && typeof Symbol.toStringTag !== 'undefined') {
-      var customObj = {a: 1};
-      customObj[Symbol.toStringTag] = 'foo';
+    var customObj = {a: 1};
+    customObj[Symbol.toStringTag] = 'foo';
 
-      assert.include(customObj, {a: 1});
-    }
+    assert.include(customObj, {a: 1});
 
     var obj1 = {a: 1}
       , obj2 = {b: 2};
@@ -715,51 +697,39 @@ describe('assert', function () {
     assert.include({foo: obj1, bar: obj2}, {foo: obj1});
     assert.include({foo: obj1, bar: obj2}, {foo: obj1, bar: obj2});
 
-    if (typeof Map === 'function') {
-      var map = new Map();
-      var val = [{a: 1}];
-      map.set('a', val);
-      map.set('b', 2);
-      map.set('c', -0);
-      map.set('d', NaN);
+    var map = new Map();
+    var val = [{a: 1}];
+    map.set('a', val);
+    map.set('b', 2);
+    map.set('c', -0);
+    map.set('d', NaN);
 
-      assert.include(map, val);
-      assert.include(map, 2);
-      assert.include(map, 0);
-      assert.include(map, NaN);
-    }
+    assert.include(map, val);
+    assert.include(map, 2);
+    assert.include(map, 0);
+    assert.include(map, NaN);
 
-    if (typeof Set === 'function') {
-      var set = new Set();
-      var val = [{a: 1}];
-      set.add(val);
-      set.add(2);
-      set.add(-0);
-      set.add(NaN);
+    var val = [{a: 1}];
+    var set = new Set();
+    set.add(val);
+    set.add(2);
+    set.add(-0);
+    set.add(NaN);
 
-      assert.include(set, val);
-      assert.include(set, 2);
-      if (set.has(0)) {
-        // This test is skipped in IE11 because (contrary to spec) IE11 uses
-        // SameValue instead of SameValueZero equality for sets.
-        assert.include(set, 0);
-      }
-      assert.include(set, NaN);
-    }
+    assert.include(set, val);
+    assert.include(set, 2);
+    assert.include(set, 0);
+    assert.include(set, NaN);
 
-    if (typeof WeakSet === 'function') {
-      var ws = new WeakSet();
-      var val = [{a: 1}];
-      ws.add(val);
+    var ws = new WeakSet();
+    var val = [{a: 1}];
+    ws.add(val);
 
-      assert.include(ws, val);
-    }
+    assert.include(ws, val);
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol()
-        , sym2 = Symbol();
-      assert.include([sym1, sym2], sym1);
-    }
+    var sym1 = Symbol()
+      , sym2 = Symbol();
+    assert.include([sym1, sym2], sym1);
 
     err(function () {
       assert.include('foobar', 'baz', 'blah');
@@ -812,44 +782,36 @@ describe('assert', function () {
     assert.notInclude({foo: obj1, bar: obj2}, {foo: {a: 1}});
     assert.notInclude({foo: obj1, bar: obj2}, {foo: obj1, bar: {b: 2}});
 
-    if (typeof Map === 'function') {
-      var map = new Map();
-      var val = [{a: 1}];
-      map.set('a', val);
-      map.set('b', 2);
+    var map = new Map();
+    var val = [{a: 1}];
+    map.set('a', val);
+    map.set('b', 2);
 
-      assert.notInclude(map, [{a: 1}]);
-      assert.notInclude(map, 3);
-    }
+    assert.notInclude(map, [{a: 1}]);
+    assert.notInclude(map, 3);
 
-    if (typeof Set === 'function') {
-      var set = new Set();
-      var val = [{a: 1}];
-      set.add(val);
-      set.add(2);
+    var set = new Set();
+    var val = [{a: 1}];
+    set.add(val);
+    set.add(2);
 
-      assert.include(set, val);
-      assert.include(set, 2);
+    assert.include(set, val);
+    assert.include(set, 2);
 
-      assert.notInclude(set, [{a: 1}]);
-      assert.notInclude(set, 3);
-    }
+    assert.notInclude(set, [{a: 1}]);
+    assert.notInclude(set, 3);
 
-    if (typeof WeakSet === 'function') {
-      var ws = new WeakSet();
-      var val = [{a: 1}];
-      ws.add(val);
+    var ws = new WeakSet();
+    var val = [{a: 1}];
+    ws.add(val);
 
-      assert.notInclude(ws, [{a: 1}]);
-      assert.notInclude(ws, {});
-    }
+    assert.notInclude(ws, [{a: 1}]);
+    assert.notInclude(ws, {});
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol()
-        , sym2 = Symbol()
-        , sym3 = Symbol();
-      assert.notInclude([sym1, sym2], sym3);
-    }
+    var sym1 = Symbol()
+      , sym2 = Symbol()
+      , sym3 = Symbol();
+    assert.notInclude([sym1, sym2], sym3);
 
     err(function () {
       var obj1 = {a: 1}
@@ -909,25 +871,19 @@ describe('assert', function () {
     assert.notDeepInclude({foo: obj1, bar: obj2}, {baz: {a: 1}});
     assert.notDeepInclude({foo: obj1, bar: obj2}, {foo: {a: 1}, bar: {b: 9}});
 
-    if (typeof Map === 'function') {
-      var map = new Map();
-      map.set(1, [{a: 1}]);
+    var map = new Map();
+    map.set(1, [{a: 1}]);
 
-      assert.deepInclude(map, [{a: 1}]);
-    }
+    assert.deepInclude(map, [{a: 1}]);
 
-    if (typeof Set === 'function') {
-      var set = new Set();
-      set.add([{a: 1}]);
+    var set = new Set();
+    set.add([{a: 1}]);
 
-      assert.deepInclude(set, [{a: 1}]);
-    }
+    assert.deepInclude(set, [{a: 1}]);
 
-    if (typeof WeakSet === 'function') {
-      err(function() {
-        assert.deepInclude(new WeakSet(), {}, 'foo');
-      }, 'foo: unable to use .deep.include with WeakSet');
-    }
+    err(function() {
+      assert.deepInclude(new WeakSet(), {}, 'foo');
+    }, 'foo: unable to use .deep.include with WeakSet');
 
     err(function () {
       assert.deepInclude([obj1, obj2], {a: 9}, 'blah');
@@ -1099,264 +1055,252 @@ describe('assert', function () {
     assert.hasAllKeys(obj, [enumProp1, enumProp2]);
     assert.doesNotHaveAllKeys(obj, [enumProp1, enumProp2, nonEnumProp]);
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol('sym1')
-        , sym2 = Symbol('sym2')
-        , sym3 = Symbol('sym3')
-        , str = 'str'
-        , obj = {};
+    var sym1 = Symbol('sym1')
+      , sym2 = Symbol('sym2')
+      , sym3 = Symbol('sym3')
+      , str = 'str'
+      , obj = {};
 
-      obj[sym1] = 'sym1';
-      obj[sym2] = 'sym2';
-      obj[str] = 'str';
+    obj[sym1] = 'sym1';
+    obj[sym2] = 'sym2';
+    obj[str] = 'str';
 
-      Object.defineProperty(obj, sym3, {
-        enumerable: false,
-        value: 'sym3'
-      });
+    Object.defineProperty(obj, sym3, {
+      enumerable: false,
+      value: 'sym3'
+    });
 
-      assert.hasAllKeys(obj, [sym1, sym2, str]);
-      assert.doesNotHaveAllKeys(obj, [sym1, sym2, sym3, str]);
-    }
+    assert.hasAllKeys(obj, [sym1, sym2, str]);
+    assert.doesNotHaveAllKeys(obj, [sym1, sym2, sym3, str]);
 
-    if (typeof Map !== 'undefined') {
-      // Not using Map constructor args because not supported in IE 11.
-      var aKey = {thisIs: 'anExampleObject'}
-        , anotherKey = {doingThisBecauseOf: 'referential equality'}
-        , testMap = new Map();
+    var aKey = {thisIs: 'anExampleObject'}
+      , anotherKey = {doingThisBecauseOf: 'referential equality'}
+      , testMap = new Map();
 
-      testMap.set(aKey, 'aValue');
-      testMap.set(anotherKey, 'anotherValue');
+    testMap.set(aKey, 'aValue');
+    testMap.set(anotherKey, 'anotherValue');
 
-      assert.hasAnyKeys(testMap, [ aKey ]);
-      assert.hasAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', aKey ]);
-      assert.hasAllKeys(testMap, [ aKey, anotherKey ]);
+    assert.hasAnyKeys(testMap, [ aKey ]);
+    assert.hasAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', aKey ]);
+    assert.hasAllKeys(testMap, [ aKey, anotherKey ]);
 
-      assert.containsAllKeys(testMap, [ aKey ]);
-      assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
+    assert.containsAllKeys(testMap, [ aKey ]);
+    assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
 
-      assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(testMap, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+    assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAllKeys(testMap, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
 
-      assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
-      assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
-
-      // Ensure the assertions above use strict equality
-      assert.doesNotHaveAnyKeys(testMap, {thisIs: 'anExampleObject'});
-      assert.doesNotHaveAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
-
-      err(function(){
-        assert.hasAnyKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
-      });
-
-      err(function(){
-        assert.hasAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
-      });
+    assert.doesNotHaveAnyKeys(testMap, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+    assert.doesNotHaveAnyKeys(testMap, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAllKeys(testMap, [ aKey, {iDoNot: 'exist'} ]);
 
-      err(function(){
-        assert.containsAllKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
-      });
+    // Ensure the assertions above use strict equality
+    assert.doesNotHaveAnyKeys(testMap, {thisIs: 'anExampleObject'});
+    assert.doesNotHaveAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
 
-      // Tests for the deep variations of the keys assertion
-      assert.hasAnyDeepKeys(testMap, {thisIs: 'anExampleObject'});
-      assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
-      assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    err(function(){
+      assert.hasAnyKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
+    });
 
-      assert.hasAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
-
-      assert.containsAllDeepKeys(testMap, {thisIs: 'anExampleObject'});
-      assert.containsAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
-
-      assert.doesNotHaveAnyDeepKeys(testMap, {thisDoesNot: 'exist'});
-      assert.doesNotHaveAnyDeepKeys(testMap, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
+    err(function(){
+      assert.hasAllKeys(testMap, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+    });
 
-      assert.doesNotHaveAllDeepKeys(testMap, {thisDoesNot: 'exist'});
-      assert.doesNotHaveAllDeepKeys(testMap, [{twenty: 'twenty'}, {thisIs: 'anExampleObject'}]);
+    err(function(){
+      assert.containsAllKeys(testMap, [ {thisIs: 'anExampleObject'} ]);
+    });
 
-      var weirdMapKey1 = Object.create(null)
-        , weirdMapKey2 = {toString: NaN}
-        , weirdMapKey3 = []
-        , weirdMap = new Map();
+    // Tests for the deep variations of the keys assertion
+    assert.hasAnyDeepKeys(testMap, {thisIs: 'anExampleObject'});
+    assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
+    assert.hasAnyDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-      weirdMap.set(weirdMapKey1, 'val1');
-      weirdMap.set(weirdMapKey2, 'val2');
-
-      assert.hasAllKeys(weirdMap, [weirdMapKey1, weirdMapKey2]);
-      assert.doesNotHaveAllKeys(weirdMap, [weirdMapKey1, weirdMapKey3]);
+    assert.hasAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-      if (typeof Symbol === 'function') {
-        var symMapKey1 = Symbol()
-          , symMapKey2 = Symbol()
-          , symMapKey3 = Symbol()
-          , symMap = new Map();
+    assert.containsAllDeepKeys(testMap, {thisIs: 'anExampleObject'});
+    assert.containsAllDeepKeys(testMap, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-        symMap.set(symMapKey1, 'val1');
-        symMap.set(symMapKey2, 'val2');
+    assert.doesNotHaveAnyDeepKeys(testMap, {thisDoesNot: 'exist'});
+    assert.doesNotHaveAnyDeepKeys(testMap, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
 
-        assert.hasAllKeys(symMap, [symMapKey1, symMapKey2]);
-        assert.hasAnyKeys(symMap, [symMapKey1, symMapKey3]);
-        assert.containsAllKeys(symMap, [symMapKey2, symMapKey1]);
+    assert.doesNotHaveAllDeepKeys(testMap, {thisDoesNot: 'exist'});
+    assert.doesNotHaveAllDeepKeys(testMap, [{twenty: 'twenty'}, {thisIs: 'anExampleObject'}]);
 
-        assert.doesNotHaveAllKeys(symMap, [symMapKey1, symMapKey3]);
-        assert.doesNotHaveAnyKeys(symMap, [symMapKey3]);
-      }
+    var weirdMapKey1 = Object.create(null)
+      , weirdMapKey2 = {toString: NaN}
+      , weirdMapKey3 = []
+      , weirdMap = new Map();
 
-      var errMap = new Map();
+    weirdMap.set(weirdMapKey1, 'val1');
+    weirdMap.set(weirdMapKey2, 'val2');
 
-      errMap.set({1: 20}, 'number');
+    assert.hasAllKeys(weirdMap, [weirdMapKey1, weirdMapKey2]);
+    assert.doesNotHaveAllKeys(weirdMap, [weirdMapKey1, weirdMapKey3]);
 
-      err(function(){
-        assert.hasAllKeys(errMap, [], 'blah');
-      }, "blah: keys required");
+    var symMapKey1 = Symbol()
+      , symMapKey2 = Symbol()
+      , symMapKey3 = Symbol()
+      , symMap = new Map();
 
-      err(function(){
-        assert.containsAllKeys(errMap, [], 'blah');
-      }, "blah: keys required");
+    symMap.set(symMapKey1, 'val1');
+    symMap.set(symMapKey2, 'val2');
 
-      err(function(){
-        assert.doesNotHaveAllKeys(errMap, [], 'blah');
-      }, "blah: keys required");
+    assert.hasAllKeys(symMap, [symMapKey1, symMapKey2]);
+    assert.hasAnyKeys(symMap, [symMapKey1, symMapKey3]);
+    assert.containsAllKeys(symMap, [symMapKey2, symMapKey1]);
 
-      err(function(){
-        assert.hasAnyKeys(errMap, [], 'blah');
-      }, "blah: keys required");
+    assert.doesNotHaveAllKeys(symMap, [symMapKey1, symMapKey3]);
+    assert.doesNotHaveAnyKeys(symMap, [symMapKey3]);
 
-      err(function(){
-        assert.doesNotHaveAnyKeys(errMap, [], 'blah');
-      }, "blah: keys required");
+    var errMap = new Map();
 
-      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
-      // This should fail because of referential equality (this is a strict comparison)
-      // err(function(){
-      //   assert.containsAllKeys(new Map([[{foo: 1}, 'bar']]), { foo: 1 });
-      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+    errMap.set({1: 20}, 'number');
 
-      // err(function(){
-      //   assert.containsAllDeepKeys(new Map([[{foo: 1}, 'bar']]), { iDoNotExist: 0 })
-      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
-    }
+    err(function(){
+      assert.hasAllKeys(errMap, [], 'blah');
+    }, "blah: keys required");
 
-    if (typeof Set !== 'undefined') {
-      // Not using Set constructor args because not supported in IE 11.
-      var aKey = {thisIs: 'anExampleObject'}
-        , anotherKey = {doingThisBecauseOf: 'referential equality'}
-        , testSet = new Set();
+    err(function(){
+      assert.containsAllKeys(errMap, [], 'blah');
+    }, "blah: keys required");
 
-      testSet.add(aKey);
-      testSet.add(anotherKey);
+    err(function(){
+      assert.doesNotHaveAllKeys(errMap, [], 'blah');
+    }, "blah: keys required");
 
-      assert.hasAnyKeys(testSet, [ aKey ]);
-      assert.hasAnyKeys(testSet, [ 20, 1, aKey ]);
-      assert.hasAllKeys(testSet, [ aKey, anotherKey ]);
+    err(function(){
+      assert.hasAnyKeys(errMap, [], 'blah');
+    }, "blah: keys required");
 
-      assert.containsAllKeys(testSet, [ aKey ]);
-      assert.doesNotHaveAllKeys(testSet, [ aKey, {iDoNot: 'exist'} ]);
+    err(function(){
+      assert.doesNotHaveAnyKeys(errMap, [], 'blah');
+    }, "blah: keys required");
 
-      assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAnyKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
+    // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+    // This should fail because of referential equality (this is a strict comparison)
+    // err(function(){
+    //   assert.containsAllKeys(new Map([[{foo: 1}, 'bar']]), { foo: 1 });
+    // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
 
-      assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
-      assert.doesNotHaveAnyKeys(testSet, [ 20, 1, {iDoNot: 'exist'} ]);
-      assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+    // err(function(){
+    //   assert.containsAllDeepKeys(new Map([[{foo: 1}, 'bar']]), { iDoNotExist: 0 })
+    // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
 
-      // Ensure the assertions above use strict equality
-      assert.doesNotHaveAnyKeys(testSet, {thisIs: 'anExampleObject'});
-      assert.doesNotHaveAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+    var aKey = {thisIs: 'anExampleObject'}
+      , anotherKey = {doingThisBecauseOf: 'referential equality'}
+      , testSet = new Set();
 
-      err(function(){
-        assert.hasAnyKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
-      });
+    testSet.add(aKey);
+    testSet.add(anotherKey);
 
-      err(function(){
-        assert.hasAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
-      });
+    assert.hasAnyKeys(testSet, [ aKey ]);
+    assert.hasAnyKeys(testSet, [ 20, 1, aKey ]);
+    assert.hasAllKeys(testSet, [ aKey, anotherKey ]);
 
-      err(function(){
-        assert.containsAllKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
-      });
+    assert.containsAllKeys(testSet, [ aKey ]);
+    assert.doesNotHaveAllKeys(testSet, [ aKey, {iDoNot: 'exist'} ]);
 
-      // Tests for the deep variations of the keys assertion
-      assert.hasAnyDeepKeys(testSet, {thisIs: 'anExampleObject'});
-      assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
-      assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAnyKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', anotherKey ]);
 
-      assert.hasAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    assert.doesNotHaveAnyKeys(testSet, [ {iDoNot: 'exist'}, 'thisDoesNotExist' ]);
+    assert.doesNotHaveAnyKeys(testSet, [ 20, 1, {iDoNot: 'exist'} ]);
+    assert.doesNotHaveAllKeys(testSet, [ 'thisDoesNotExist', 'thisToo', {iDoNot: 'exist'} ]);
 
-      assert.containsAllDeepKeys(testSet, {thisIs: 'anExampleObject'});
-      assert.containsAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    // Ensure the assertions above use strict equality
+    assert.doesNotHaveAnyKeys(testSet, {thisIs: 'anExampleObject'});
+    assert.doesNotHaveAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
 
-      assert.doesNotHaveAnyDeepKeys(testSet, {twenty: 'twenty'});
-      assert.doesNotHaveAnyDeepKeys(testSet, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
+    err(function(){
+      assert.hasAnyKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
+    });
 
-      assert.doesNotHaveAllDeepKeys(testSet, {twenty: 'twenty'});
-      assert.doesNotHaveAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {fifty: 'fifty'}]);
+    err(function(){
+      assert.hasAllKeys(testSet, [ {thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'} ]);
+    });
 
-      var weirdSetKey1 = Object.create(null)
-        , weirdSetKey2 = {toString: NaN}
-        , weirdSetKey3 = []
-        , weirdSet = new Set();
+    err(function(){
+      assert.containsAllKeys(testSet, [ {thisIs: 'anExampleObject'} ]);
+    });
 
-      weirdSet.add(weirdSetKey1);
-      weirdSet.add(weirdSetKey2);
+    // Tests for the deep variations of the keys assertion
+    assert.hasAnyDeepKeys(testSet, {thisIs: 'anExampleObject'});
+    assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {three: 'three'}]);
+    assert.hasAnyDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-      assert.hasAllKeys(weirdSet, [weirdSetKey1, weirdSetKey2]);
-      assert.doesNotHaveAllKeys(weirdSet, [weirdSetKey1, weirdSetKey3]);
+    assert.hasAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-      if (typeof Symbol === 'function') {
-        var symSetKey1 = Symbol()
-          , symSetKey2 = Symbol()
-          , symSetKey3 = Symbol()
-          , symSet = new Set();
+    assert.containsAllDeepKeys(testSet, {thisIs: 'anExampleObject'});
+    assert.containsAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
 
-        symSet.add(symSetKey1);
-        symSet.add(symSetKey2);
+    assert.doesNotHaveAnyDeepKeys(testSet, {twenty: 'twenty'});
+    assert.doesNotHaveAnyDeepKeys(testSet, [{twenty: 'twenty'}, {fifty: 'fifty'}]);
 
-        assert.hasAllKeys(symSet, [symSetKey1, symSetKey2]);
-        assert.hasAnyKeys(symSet, [symSetKey1, symSetKey3]);
-        assert.containsAllKeys(symSet, [symSetKey2, symSetKey1]);
+    assert.doesNotHaveAllDeepKeys(testSet, {twenty: 'twenty'});
+    assert.doesNotHaveAllDeepKeys(testSet, [{thisIs: 'anExampleObject'}, {fifty: 'fifty'}]);
 
-        assert.doesNotHaveAllKeys(symSet, [symSetKey1, symSetKey3]);
-        assert.doesNotHaveAnyKeys(symSet, [symSetKey3]);
-      }
+    var weirdSetKey1 = Object.create(null)
+      , weirdSetKey2 = {toString: NaN}
+      , weirdSetKey3 = []
+      , weirdSet = new Set();
 
-      var errSet = new Set();
+    weirdSet.add(weirdSetKey1);
+    weirdSet.add(weirdSetKey2);
 
-      errSet.add({1: 20});
-      errSet.add('number');
+    assert.hasAllKeys(weirdSet, [weirdSetKey1, weirdSetKey2]);
+    assert.doesNotHaveAllKeys(weirdSet, [weirdSetKey1, weirdSetKey3]);
 
-      err(function(){
-        assert.hasAllKeys(errSet, [], 'blah');
-      }, "blah: keys required");
+    var symSetKey1 = Symbol()
+      , symSetKey2 = Symbol()
+      , symSetKey3 = Symbol()
+      , symSet = new Set();
 
-      err(function(){
-        assert.containsAllKeys(errSet, [], 'blah');
-      }, "blah: keys required");
+    symSet.add(symSetKey1);
+    symSet.add(symSetKey2);
 
-      err(function(){
-        assert.doesNotHaveAllKeys(errSet, [], 'blah');
-      }, "blah: keys required");
+    assert.hasAllKeys(symSet, [symSetKey1, symSetKey2]);
+    assert.hasAnyKeys(symSet, [symSetKey1, symSetKey3]);
+    assert.containsAllKeys(symSet, [symSetKey2, symSetKey1]);
 
-      err(function(){
-        assert.hasAnyKeys(errSet, [], 'blah');
-      }, "blah: keys required");
+    assert.doesNotHaveAllKeys(symSet, [symSetKey1, symSetKey3]);
+    assert.doesNotHaveAnyKeys(symSet, [symSetKey3]);
 
-      err(function(){
-        assert.doesNotHaveAnyKeys(errSet, [], 'blah');
-      }, "blah: keys required");
+    var errSet = new Set();
 
-      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
-      // This should fail because of referential equality (this is a strict comparison)
-      // err(function(){
-      //   assert.containsAllKeys(new Set([{foo: 1}]), { foo: 1 });
-      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+    errSet.add({1: 20});
+    errSet.add('number');
 
-      // err(function(){
-      //   assert.containsAllDeepKeys(new Set([{foo: 1}]), { iDoNotExist: 0 })
-      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
-    }
+    err(function(){
+      assert.hasAllKeys(errSet, [], 'blah');
+    }, "blah: keys required");
+
+    err(function(){
+      assert.containsAllKeys(errSet, [], 'blah');
+    }, "blah: keys required");
+
+    err(function(){
+      assert.doesNotHaveAllKeys(errSet, [], 'blah');
+    }, "blah: keys required");
+
+    err(function(){
+      assert.hasAnyKeys(errSet, [], 'blah');
+    }, "blah: keys required");
+
+    err(function(){
+      assert.doesNotHaveAnyKeys(errSet, [], 'blah');
+    }, "blah: keys required");
+
+    // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+    // This should fail because of referential equality (this is a strict comparison)
+    // err(function(){
+    //   assert.containsAllKeys(new Set([{foo: 1}]), { foo: 1 });
+    // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+    // err(function(){
+    //   assert.containsAllDeepKeys(new Set([{foo: 1}]), { iDoNotExist: 0 })
+    // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
 
     err(function(){
       assert.hasAllKeys({ foo: 1 }, [], 'blah');
@@ -1468,33 +1412,29 @@ describe('assert', function () {
       assert.lengthOf(1, 5);
      }, "expected 1 to have property \'length\'");
 
-    if (typeof Map === 'function') {
-      assert.lengthOf(new Map, 0);
+    assert.lengthOf(new Map(), 0);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
 
-      assert.lengthOf(map, 2);
+    assert.lengthOf(map, 2);
 
-      err(function(){
-        assert.lengthOf(map, 3, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2 } to have a size of 3 but got 2");
-    }
+    err(function(){
+      assert.lengthOf(map, 3, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2 } to have a size of 3 but got 2");
 
-    if (typeof Set === 'function') {
-      assert.lengthOf(new Set, 0);
+    assert.lengthOf(new Set(), 0);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
 
-      assert.lengthOf(set, 2);
+    assert.lengthOf(set, 2);
 
-      err(function(){
-        assert.lengthOf(set, 3, 'blah');
-      }, "blah: expected Set{ 1, 2 } to have a size of 3 but got 2");
-    }
+    err(function(){
+      assert.lengthOf(set, 3, 'blah');
+    }, "blah: expected Set{ 1, 2 } to have a size of 3 but got 2");
   });
 
   it('match', function () {
@@ -2556,18 +2496,16 @@ describe('assert', function () {
         assert[isExtensible](undefined);
       }, 'expected undefined to be extensible');
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          isExtensible: function() {
-            throw new TypeError();
-          }
-        });
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
 
-        err(function() {
-          // isExtensible should not suppress errors, thrown in proxy traps
-          assert[isExtensible](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isExtensible should not suppress errors, thrown in proxy traps
+        assert[isExtensible](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2588,23 +2526,18 @@ describe('assert', function () {
       assert[isNotExtensible]('foo');
       assert[isNotExtensible](false);
       assert[isNotExtensible](undefined);
+      assert[isNotExtensible](Symbol());
 
-      if (typeof Symbol === 'function') {
-        assert[isNotExtensible](Symbol());
-      }
+      var proxy = new Proxy({}, {
+        isExtensible: function() {
+          throw new TypeError();
+        }
+      });
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          isExtensible: function() {
-            throw new TypeError();
-          }
-        });
-
-        err(function() {
-          // isNotExtensible should not suppress errors, thrown in proxy traps
-          assert[isNotExtensible](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isNotExtensible should not suppress errors, thrown in proxy traps
+        assert[isNotExtensible](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2625,26 +2558,21 @@ describe('assert', function () {
       assert[isSealed]('foo');
       assert[isSealed](false);
       assert[isSealed](undefined);
+      assert[isSealed](Symbol());
 
-      if (typeof Symbol === 'function') {
-        assert[isSealed](Symbol());
-      }
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          ownKeys: function() {
-            throw new TypeError();
-          }
-        });
+      // Object.isSealed will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
 
-        // Object.isSealed will call ownKeys trap only if object is not extensible
-        Object.preventExtensions(proxy);
-
-        err(function() {
-          // isSealed should not suppress errors, thrown in proxy traps
-          assert[isSealed](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isSealed should not suppress errors, thrown in proxy traps
+        assert[isSealed](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2680,21 +2608,19 @@ describe('assert', function () {
         assert[isNotSealed](undefined);
       }, 'expected undefined to not be sealed');
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          ownKeys: function() {
-            throw new TypeError();
-          }
-        });
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
 
-        // Object.isSealed will call ownKeys trap only if object is not extensible
-        Object.preventExtensions(proxy);
+      // Object.isSealed will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
 
-        err(function() {
-          // isNotSealed should not suppress errors, thrown in proxy traps
-          assert[isNotSealed](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isNotSealed should not suppress errors, thrown in proxy traps
+        assert[isNotSealed](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2715,26 +2641,21 @@ describe('assert', function () {
       assert[isFrozen]('foo');
       assert[isFrozen](false);
       assert[isFrozen](undefined);
+      assert[isFrozen](Symbol());
 
-      if (typeof Symbol === 'function') {
-        assert[isFrozen](Symbol());
-      }
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          ownKeys: function() {
-            throw new TypeError();
-          }
-        });
+      // Object.isFrozen will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
 
-        // Object.isFrozen will call ownKeys trap only if object is not extensible
-        Object.preventExtensions(proxy);
-
-        err(function() {
-          // isFrozen should not suppress errors, thrown in proxy traps
-          assert[isFrozen](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isFrozen should not suppress errors, thrown in proxy traps
+        assert[isFrozen](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2770,21 +2691,19 @@ describe('assert', function () {
         assert[isNotFrozen](undefined);
       }, 'expected undefined to not be frozen');
 
-      if (typeof Proxy === 'function') {
-        var proxy = new Proxy({}, {
-          ownKeys: function() {
-            throw new TypeError();
-          }
-        });
+      var proxy = new Proxy({}, {
+        ownKeys: function() {
+          throw new TypeError();
+        }
+      });
 
-        // Object.isFrozen will call ownKeys trap only if object is not extensible
-        Object.preventExtensions(proxy);
+      // Object.isFrozen will call ownKeys trap only if object is not extensible
+      Object.preventExtensions(proxy);
 
-        err(function() {
-          // isNotFrozen should not suppress errors, thrown in proxy traps
-          assert[isNotFrozen](proxy);
-        }, { name: 'TypeError' }, true);
-      }
+      err(function() {
+        // isNotFrozen should not suppress errors, thrown in proxy traps
+        assert[isNotFrozen](proxy);
+      }, { name: 'TypeError' }, true);
     });
   });
 
@@ -2795,36 +2714,27 @@ describe('assert', function () {
 
       assert[isEmpty]('');
       assert[isEmpty]([]);
-      assert[isEmpty](new FakeArgs);
+      assert[isEmpty](new FakeArgs());
       assert[isEmpty]({});
 
-      if (typeof WeakMap === 'function') {
-        err(function(){
-          assert[isEmpty](new WeakMap, 'blah');
-        }, "blah: .empty was passed a weak collection");
-      }
+      err(function(){
+        assert[isEmpty](new WeakMap(), 'blah');
+      }, "blah: .empty was passed a weak collection");
 
-      if (typeof WeakSet === 'function') {
-        err(function(){
-          assert[isEmpty](new WeakSet, 'blah');
-        }, "blah: .empty was passed a weak collection");
-      }
+      err(function(){
+        assert[isEmpty](new WeakSet(), 'blah');
+      }, "blah: .empty was passed a weak collection");
 
-      if (typeof Map === 'function') {
-        assert[isEmpty](new Map);
+      assert[isEmpty](new Map());
 
-        var map = new Map;
-        map.key = 'val';
-        assert[isEmpty](map);
-      }
+      var map = new Map();
+      map.key = 'val';
+      assert[isEmpty](map);
+      assert[isEmpty](new Set());
 
-      if (typeof Set === 'function') {
-        assert[isEmpty](new Set);
-
-        var set = new Set;
-        set.key = 'val';
-        assert[isEmpty](set);
-      }
+      var set = new Set();
+      set.key = 'val';
+      assert[isEmpty](set);
 
       err(function(){
         assert[isEmpty]('foo', 'blah');
@@ -2870,15 +2780,13 @@ describe('assert', function () {
         assert[isEmpty](false);
       }, ".empty was passed non-string primitive false");
 
-      if (typeof Symbol !== 'undefined') {
-        err(function(){
-          assert[isEmpty](Symbol());
-        }, ".empty was passed non-string primitive Symbol()");
+      err(function(){
+        assert[isEmpty](Symbol());
+      }, ".empty was passed non-string primitive Symbol()");
 
-        err(function(){
-          assert[isEmpty](Symbol.iterator);
-        }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
-      }
+      err(function(){
+        assert[isEmpty](Symbol.iterator);
+      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
 
       err(function(){
         assert[isEmpty](function() {}, 'blah');
@@ -2902,39 +2810,29 @@ describe('assert', function () {
       assert[isNotEmpty]({arguments: 0});
       assert[isNotEmpty]({foo: 'bar'});
 
-      if (typeof WeakMap === 'function') {
-        err(function(){
-          assert[isNotEmpty](new WeakMap, 'blah');
-        }, "blah: .empty was passed a weak collection");
-      }
+      err(function(){
+        assert[isNotEmpty](new WeakMap(), 'blah');
+      }, "blah: .empty was passed a weak collection");
 
-      if (typeof WeakSet === 'function') {
-        err(function(){
-          assert[isNotEmpty](new WeakSet, 'blah');
-        }, "blah: .empty was passed a weak collection");
-      }
+      err(function(){
+        assert[isNotEmpty](new WeakSet(), 'blah');
+      }, "blah: .empty was passed a weak collection");
 
-      if (typeof Map === 'function') {
-        // Not using Map constructor args because not supported in IE 11.
-        var map = new Map;
-        map.set('a', 1);
-        assert[isNotEmpty](map);
+      var map = new Map();
+      map.set('a', 1);
+      assert[isNotEmpty](map);
 
-        err(function(){
-          assert[isNotEmpty](new Map);
-        }, "expected Map{} not to be empty");
-      }
+      err(function(){
+        assert[isNotEmpty](new Map());
+      }, "expected Map{} not to be empty");
 
-      if (typeof Set === 'function') {
-        // Not using Set constructor args because not supported in IE 11.
-        var set = new Set;
-        set.add(1);
-        assert[isNotEmpty](set);
+      var set = new Set();
+      set.add(1);
+      assert[isNotEmpty](set);
 
-        err(function(){
-          assert[isNotEmpty](new Set);
-        }, "expected Set{} not to be empty");
-      }
+      err(function(){
+        assert[isNotEmpty](new Set());
+      }, "expected Set{} not to be empty");
 
       err(function(){
         assert[isNotEmpty]('', 'blah');
@@ -2945,7 +2843,7 @@ describe('assert', function () {
       }, "expected [] not to be empty");
 
       err(function(){
-        assert[isNotEmpty](new FakeArgs);
+        assert[isNotEmpty](new FakeArgs());
       }, "expected FakeArgs{} not to be empty");
 
       err(function(){
@@ -2980,15 +2878,13 @@ describe('assert', function () {
         assert[isNotEmpty](false);
       }, ".empty was passed non-string primitive false");
 
-      if (typeof Symbol !== 'undefined') {
-        err(function(){
-          assert[isNotEmpty](Symbol());
-        }, ".empty was passed non-string primitive Symbol()");
+      err(function(){
+        assert[isNotEmpty](Symbol());
+      }, ".empty was passed non-string primitive Symbol()");
 
-        err(function(){
-          assert[isNotEmpty](Symbol.iterator);
-        }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
-      }
+      err(function(){
+        assert[isNotEmpty](Symbol.iterator);
+      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
 
       err(function(){
         assert[isNotEmpty](function() {}, 'blah');

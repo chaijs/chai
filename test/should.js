@@ -585,10 +585,10 @@ describe('should', function() {
       (1).should.have.lengthOf.within(5,7, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    (new Map).should.have.length.within(0, 0);
-    (new Map).should.have.lengthOf.within(0, 0);
+    (new Map()).should.have.length.within(0, 0);
+    (new Map()).should.have.lengthOf.within(0, 0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -604,10 +604,10 @@ describe('should', function() {
       map.should.have.lengthOf.within(5, 7, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
-    (new Set).should.have.length.within(0, 0);
-    (new Set).should.have.lengthOf.within(0, 0);
+    (new Set()).should.have.length.within(0, 0);
+    (new Set()).should.have.lengthOf.within(0, 0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -728,10 +728,10 @@ describe('should', function() {
       (1).should.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    (new Map).should.have.length.above(-1);
-    (new Map).should.have.lengthOf.above(-1);
+    (new Map()).should.have.length.above(-1);
+    (new Map()).should.have.lengthOf.above(-1);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -747,10 +747,10 @@ describe('should', function() {
       map.should.have.lengthOf.above(5, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
-    (new Set).should.have.length.above(-1);
-    (new Set).should.have.lengthOf.above(-1);
+    (new Set()).should.have.length.above(-1);
+    (new Set()).should.have.lengthOf.above(-1);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -846,10 +846,10 @@ describe('should', function() {
       (1).should.not.be.at.least(null, 'blah');
     }, "blah: the argument to least must be a number");
 
-    (new Map).should.have.length.of.at.least(0);
-    (new Map).should.have.lengthOf.at.least(0);
+    (new Map()).should.have.length.of.at.least(0);
+    (new Map()).should.have.lengthOf.at.least(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -865,10 +865,10 @@ describe('should', function() {
       map.should.have.lengthOf.at.least(4, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
-    (new Set).should.have.length.of.at.least(0);
-    (new Set).should.have.lengthOf.at.least(0);
+    (new Set()).should.have.length.of.at.least(0);
+    (new Set()).should.have.lengthOf.at.least(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -931,10 +931,10 @@ describe('should', function() {
       (1).should.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    (new Map).should.have.length.below(1);
-    (new Map).should.have.lengthOf.below(1);
+    (new Map()).should.have.length.below(1);
+    (new Map()).should.have.lengthOf.below(1);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -950,10 +950,10 @@ describe('should', function() {
       map.should.have.lengthOf.below(2, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
-    (new Set).should.have.length.below(1);
-    (new Set).should.have.lengthOf.below(1);
+    (new Set()).should.have.length.below(1);
+    (new Set()).should.have.lengthOf.below(1);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1057,10 +1057,10 @@ describe('should', function() {
       (1).should.have.lengthOf.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    (new Map).should.have.length.of.at.most(0);
-    (new Map).should.have.lengthOf.at.most(0);
+    (new Map()).should.have.length.of.at.most(0);
+    (new Map()).should.have.lengthOf.at.most(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1076,10 +1076,10 @@ describe('should', function() {
       map.should.have.lengthOf.at.most(2, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
-    (new Set).should.have.length.of.at.most(0);
-    (new Set).should.have.lengthOf.at.most(0);
+    (new Set()).should.have.length.of.at.most(0);
+    (new Set()).should.have.lengthOf.at.most(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1186,10 +1186,10 @@ describe('should', function() {
       'asd'.should.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
 
-    (new Map).should.have.length(0);
-    (new Map).should.have.lengthOf(0);
+    (new Map()).should.have.length(0);
+    (new Map()).should.have.lengthOf(0);
 
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1205,10 +1205,10 @@ describe('should', function() {
       map.should.not.have.lengthOf(3, 'blah');
     }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
-    (new Set).should.have.length(0);
-    (new Set).should.have.lengthOf(0);
+    (new Set()).should.have.length(0);
+    (new Set()).should.have.lengthOf(0);
 
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1291,31 +1291,31 @@ describe('should', function() {
     'foo'.should.not.be.empty;
     ([]).should.be.empty;
     (['foo']).should.not.be.empty;
-    (new FakeArgs).should.be.empty;
+    (new FakeArgs()).should.be.empty;
     ({arguments: 0}).should.not.be.empty;
     ({}).should.be.empty;
     ({foo: 'bar'}).should.not.be.empty;
 
     err(function(){
-      (new WeakMap).should.not.be.empty;
+      (new WeakMap()).should.not.be.empty;
     }, ".empty was passed a weak collection");
 
     err(function(){
-      (new WeakSet).should.not.be.empty;
+      (new WeakSet()).should.not.be.empty;
     }, ".empty was passed a weak collection");
 
-    (new Map).should.be.empty;
+    (new Map()).should.be.empty;
 
     // Not using Map constructor args because not supported in IE 11.
-    var map = new Map;
+    var map = new Map();
     map.set('a', 1);
     map.should.not.be.empty;
 
     err(function(){
-      (new Map).should.not.be.empty;
+      (new Map()).should.not.be.empty;
     }, "expected Map{} not to be empty");
 
-    map = new Map;
+    map = new Map();
     map.key = 'val';
     map.should.be.empty;
 
@@ -1323,18 +1323,18 @@ describe('should', function() {
       map.should.not.be.empty;
     }, "expected Map{} not to be empty");
 
-    (new Set).should.be.empty;
+    (new Set()).should.be.empty;
 
     // Not using Set constructor args because not supported in IE 11.
-    var set = new Set;
+    var set = new Set();
     set.add(1);
     set.should.not.be.empty;
 
     err(function(){
-      (new Set).should.not.be.empty;
+      (new Set()).should.not.be.empty;
     }, "expected Set{} not to be empty");
 
-    set = new Set;
+    set = new Set();
     set.key = 'val';
     set.should.be.empty;
 
@@ -1359,7 +1359,7 @@ describe('should', function() {
     }, "expected [ \'foo\' ] to be empty");
 
     err(function(){
-      (new FakeArgs).should.not.be.empty;
+      (new FakeArgs()).should.not.be.empty;
     }, "expected FakeArgs{} not to be empty");
 
     err(function(){
@@ -1390,15 +1390,13 @@ describe('should', function() {
       false.should.be.empty;
     }, ".empty was passed non-string primitive false");
 
-    if (typeof Symbol !== 'undefined') {
-      err(function(){
-        Symbol().should.be.empty;
-      }, ".empty was passed non-string primitive Symbol()");
+    err(function(){
+      Symbol().should.be.empty;
+    }, ".empty was passed non-string primitive Symbol()");
 
-      err(function(){
-        Symbol.iterator.should.be.empty;
-      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
-    }
+    err(function(){
+      Symbol.iterator.should.be.empty;
+    }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
 
     err(function(){
       (function() {}).should.be.empty;
@@ -1812,13 +1810,10 @@ describe('should', function() {
     // .include should work with Error objects and objects with a custom
     // `@@toStringTag`.
     (new Error('foo')).should.include({message: 'foo'});
-    if (typeof Symbol !== 'undefined'
-        && typeof Symbol.toStringTag !== 'undefined') {
-      var customObj = {a: 1};
-      customObj[Symbol.toStringTag] = 'foo';
+    var customObj = {a: 1};
+    customObj[Symbol.toStringTag] = 'foo';
 
-      customObj.should.include({a: 1});
-    }
+    customObj.should.include({a: 1});
 
     ({a: 1}).should.include({'toString': Object.prototype.toString});
 

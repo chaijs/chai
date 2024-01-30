@@ -52,8 +52,6 @@ describe('expect', function () {
     });
 
     describe('proxify', function () {
-      if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
-
       it('throws when invalid property follows expect', function () {
         err(function () {
           expect(42).pizza;
@@ -371,10 +369,7 @@ describe('expect', function () {
     expect([]).to.be.a('array');
     expect(function() {}).to.be.a('function');
     expect(null).to.be.a('null');
-
-    if (typeof Symbol === 'function') {
-      expect(Symbol()).to.be.a('symbol');
-    }
+    expect(Symbol()).to.be.a('symbol');
 
     err(function(){
       expect(5).to.not.be.a('number', 'blah');
@@ -519,31 +514,29 @@ describe('expect', function () {
       expect(t).to.an.instanceof(Thing);
     }, 'The instanceof assertion needs a constructor but Function was given.', true)
 
-    if (typeof Symbol !== 'undefined' && typeof Symbol.hasInstance !== 'undefined') {
-        err(function(){
-          expect(new Foo()).to.an.instanceof(Symbol());
-        }, "The instanceof assertion needs a constructor but Symbol was given.");
+    err(function(){
+      expect(new Foo()).to.an.instanceof(Symbol());
+    }, "The instanceof assertion needs a constructor but Symbol was given.");
 
-        err(function() {
-            var FakeConstructor = {};
-            var fakeInstanceB = 4;
-            FakeConstructor[Symbol.hasInstance] = function (val) {
-                return val === 3;
-            };
+    err(function() {
+        var FakeConstructor = {};
+        var fakeInstanceB = 4;
+        FakeConstructor[Symbol.hasInstance] = function (val) {
+            return val === 3;
+        };
 
-            expect(fakeInstanceB).to.be.an.instanceof(FakeConstructor);
-        }, 'expected 4 to be an instance of an unnamed constructor')
+        expect(fakeInstanceB).to.be.an.instanceof(FakeConstructor);
+    }, 'expected 4 to be an instance of an unnamed constructor')
 
-        err(function() {
-            var FakeConstructor = {};
-            var fakeInstanceB = 4;
-            FakeConstructor[Symbol.hasInstance] = function (val) {
-                return val === 4;
-            };
+    err(function() {
+        var FakeConstructor = {};
+        var fakeInstanceB = 4;
+        FakeConstructor[Symbol.hasInstance] = function (val) {
+            return val === 4;
+        };
 
-            expect(fakeInstanceB).to.not.be.an.instanceof(FakeConstructor);
-        }, 'expected 4 to not be an instance of an unnamed constructor')
-    }
+        expect(fakeInstanceB).to.not.be.an.instanceof(FakeConstructor);
+    }, 'expected 4 to not be an instance of an unnamed constructor')
 
     err(function(){
       expect(3).to.an.instanceof(Foo, 'blah');
@@ -644,47 +637,43 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.within(5, 7, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length.within(0, 0);
-      expect(new Map).to.have.lengthOf.within(0, 0);
+    expect(new Map()).to.have.length.within(0, 0);
+    expect(new Map()).to.have.lengthOf.within(0, 0);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length.within(2, 4);
-      expect(map).to.have.lengthOf.within(2, 4);
+    expect(map).to.have.length.within(2, 4);
+    expect(map).to.have.lengthOf.within(2, 4);
 
-      err(function () {
-        expect(map).to.have.length.within(5, 7, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
+    err(function () {
+      expect(map).to.have.length.within(5, 7, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
-      err(function () {
-        expect(map).to.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
-    }
+    err(function () {
+      expect(map).to.have.lengthOf.within(5, 7, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size within 5..7");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length.within(0, 0);
-      expect(new Set).to.have.lengthOf.within(0, 0);
+    expect(new Set()).to.have.length.within(0, 0);
+    expect(new Set()).to.have.lengthOf.within(0, 0);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length.within(2, 4);
-      expect(set).to.have.lengthOf.within(2, 4);
+    expect(set).to.have.length.within(2, 4);
+    expect(set).to.have.lengthOf.within(2, 4);
 
-      err(function () {
-        expect(set).to.have.length.within(5, 7, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
+    err(function () {
+      expect(set).to.have.length.within(5, 7, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
 
-      err(function () {
-        expect(set).to.have.lengthOf.within(5, 7, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
-    }
+    err(function () {
+      expect(set).to.have.lengthOf.within(5, 7, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size within 5..7");
   });
 
   it('within(start, finish) (dates)', function(){
@@ -819,47 +808,43 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.above(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length.above(-1);
-      expect(new Map).to.have.lengthOf.above(-1);
+    expect(new Map()).to.have.length.above(-1);
+    expect(new Map()).to.have.lengthOf.above(-1);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length.above(2);
-      expect(map).to.have.lengthOf.above(2);
+    expect(map).to.have.length.above(2);
+    expect(map).to.have.lengthOf.above(2);
 
-      err(function () {
-        expect(map).to.have.length.above(5, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
+    err(function () {
+      expect(map).to.have.length.above(5, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
-      err(function () {
-        expect(map).to.have.lengthOf.above(5, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
-    }
+    err(function () {
+      expect(map).to.have.lengthOf.above(5, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size above 5 but got 3");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length.above(-1);
-      expect(new Set).to.have.lengthOf.above(-1);
+    expect(new Set()).to.have.length.above(-1);
+    expect(new Set()).to.have.lengthOf.above(-1);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length.above(2);
-      expect(set).to.have.lengthOf.above(2);
+    expect(set).to.have.length.above(2);
+    expect(set).to.have.lengthOf.above(2);
 
-      err(function () {
-        expect(set).to.have.length.above(5, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
+    err(function () {
+      expect(set).to.have.length.above(5, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
 
-      err(function () {
-        expect(set).to.have.lengthOf.above(5, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
-    }
+    err(function () {
+      expect(set).to.have.lengthOf.above(5, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size above 5 but got 3");
   });
 
   it('above(n) (dates)', function(){
@@ -986,47 +971,43 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.at.least(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length.of.at.least(0);
-      expect(new Map).to.have.lengthOf.at.least(0);
+    expect(new Map()).to.have.length.of.at.least(0);
+    expect(new Map()).to.have.lengthOf.at.least(0);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length.of.at.least(3);
-      expect(map).to.have.lengthOf.at.least(3);
+    expect(map).to.have.length.of.at.least(3);
+    expect(map).to.have.lengthOf.at.least(3);
 
-      err(function () {
-        expect(map).to.have.length.of.at.least(4, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
+    err(function () {
+      expect(map).to.have.length.of.at.least(4, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
-      err(function () {
-        expect(map).to.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
-    }
+    err(function () {
+      expect(map).to.have.lengthOf.at.least(4, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at least 4 but got 3");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length.of.at.least(0);
-      expect(new Set).to.have.lengthOf.at.least(0);
+    expect(new Set()).to.have.length.of.at.least(0);
+    expect(new Set()).to.have.lengthOf.at.least(0);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length.of.at.least(3);
-      expect(set).to.have.lengthOf.at.least(3);
+    expect(set).to.have.length.of.at.least(3);
+    expect(set).to.have.lengthOf.at.least(3);
 
-      err(function () {
-        expect(set).to.have.length.of.at.least(4, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
+    err(function () {
+      expect(set).to.have.length.of.at.least(4, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
 
-      err(function () {
-        expect(set).to.have.lengthOf.at.least(4, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
-    }
+    err(function () {
+      expect(set).to.have.lengthOf.at.least(4, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size at least 4 but got 3");
   });
 
   it('below(n)', function(){
@@ -1107,47 +1088,43 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.below(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length.below(1);
-      expect(new Map).to.have.lengthOf.below(1);
+    expect(new Map()).to.have.length.below(1);
+    expect(new Map()).to.have.lengthOf.below(1);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length.below(4);
-      expect(map).to.have.lengthOf.below(4);
+    expect(map).to.have.length.below(4);
+    expect(map).to.have.lengthOf.below(4);
 
-      err(function () {
-        expect(map).to.have.length.below(2, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
+    err(function () {
+      expect(map).to.have.length.below(2, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
-      err(function () {
-        expect(map).to.have.lengthOf.below(2, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
-    }
+    err(function () {
+      expect(map).to.have.lengthOf.below(2, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size below 2 but got 3");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length.below(1);
-      expect(new Set).to.have.lengthOf.below(1);
+    expect(new Set()).to.have.length.below(1);
+    expect(new Set()).to.have.lengthOf.below(1);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length.below(4);
-      expect(set).to.have.lengthOf.below(4);
+    expect(set).to.have.length.below(4);
+    expect(set).to.have.lengthOf.below(4);
 
-      err(function () {
-        expect(set).to.have.length.below(2, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
+    err(function () {
+      expect(set).to.have.length.below(2, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
 
-      err(function () {
-        expect(set).to.have.lengthOf.below(2, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
-    }
+    err(function () {
+      expect(set).to.have.lengthOf.below(2, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size below 2 but got 3");
   });
 
   it('below(n) (dates)', function(){
@@ -1278,47 +1255,43 @@ describe('expect', function () {
       expect(1).to.have.lengthOf.at.most(0, 'blah');
     }, "blah: expected 1 to have property 'length'");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length.of.at.most(0);
-      expect(new Map).to.have.lengthOf.at.most(0);
+    expect(new Map()).to.have.length.of.at.most(0);
+    expect(new Map()).to.have.lengthOf.at.most(0);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length.of.at.most(3);
-      expect(map).to.have.lengthOf.at.most(3);
+    expect(map).to.have.length.of.at.most(3);
+    expect(map).to.have.lengthOf.at.most(3);
 
-      err(function () {
-        expect(map).to.have.length.of.at.most(2, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
+    err(function () {
+      expect(map).to.have.length.of.at.most(2, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
-      err(function () {
-        expect(map).to.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
-    }
+    err(function () {
+      expect(map).to.have.lengthOf.at.most(2, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to have a size at most 2 but got 3");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length.of.at.most(0);
-      expect(new Set).to.have.lengthOf.at.most(0);
+    expect(new Set()).to.have.length.of.at.most(0);
+    expect(new Set()).to.have.lengthOf.at.most(0);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length.of.at.most(3);
-      expect(set).to.have.lengthOf.at.most(3);
+    expect(set).to.have.length.of.at.most(3);
+    expect(set).to.have.lengthOf.at.most(3);
 
-      err(function () {
-        expect(set).to.have.length.of.at.most(2, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
+    err(function () {
+      expect(set).to.have.length.of.at.most(2, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
 
-      err(function () {
-        expect(set).to.have.lengthOf.at.most(2, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
-    }
+    err(function () {
+      expect(set).to.have.lengthOf.at.most(2, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to have a size at most 2 but got 3");
   });
 
   it('most(n) (dates)', function(){
@@ -1424,47 +1397,43 @@ describe('expect', function () {
       expect('asd').to.not.have.lengthOf(3, 'blah');
     }, "blah: expected 'asd' to not have a length of 3");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.have.length(0);
-      expect(new Map).to.have.lengthOf(0);
+    expect(new Map()).to.have.length(0);
+    expect(new Map()).to.have.lengthOf(0);
 
-      var map = new Map;
-      map.set('a', 1);
-      map.set('b', 2);
-      map.set('c', 3);
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
 
-      expect(map).to.have.length(3);
-      expect(map).to.have.lengthOf(3);
+    expect(map).to.have.length(3);
+    expect(map).to.have.lengthOf(3);
 
-      err(function(){
-        expect(map).to.not.have.length(3, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
+    err(function(){
+      expect(map).to.not.have.length(3, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
-      err(function(){
-        expect(map).to.not.have.lengthOf(3, 'blah');
-      }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
-    }
+    err(function(){
+      expect(map).to.not.have.lengthOf(3, 'blah');
+    }, "blah: expected Map{ 'a' => 1, 'b' => 2, 'c' => 3 } to not have a size of 3");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.have.length(0);
-      expect(new Set).to.have.lengthOf(0);
+    expect(new Set()).to.have.length(0);
+    expect(new Set()).to.have.lengthOf(0);
 
-      var set = new Set;
-      set.add(1);
-      set.add(2);
-      set.add(3);
+    var set = new Set();
+    set.add(1);
+    set.add(2);
+    set.add(3);
 
-      expect(set).to.have.length(3);
-      expect(set).to.have.lengthOf(3);
+    expect(set).to.have.length(3);
+    expect(set).to.have.lengthOf(3);
 
-      err(function(){
-        expect(set).to.not.have.length(3, 'blah');
-      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
+    err(function(){
+      expect(set).to.not.have.length(3, 'blah');
+    }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
 
-      err(function(){
-        expect(set).to.not.have.lengthOf(3, 'blah');;
-      }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
-    }
+    err(function(){
+      expect(set).to.not.have.lengthOf(3, 'blah');;
+    }, "blah: expected Set{ 1, 2, 3 } to not have a size of 3");
   });
 
   it('eql(val)', function(){
@@ -1473,34 +1442,30 @@ describe('expect', function () {
     expect(1).to.eql(1);
     expect('4').to.not.eql(4);
 
-    if (typeof Symbol === 'function') {
-      var sym = Symbol();
-      expect(sym).to.eql(sym);
-    }
+    var sym = Symbol();
+    expect(sym).to.eql(sym);
 
     err(function(){
       expect(4).to.eql(3, 'blah');
     }, 'blah: expected 4 to deeply equal 3');
   });
 
-  if ('undefined' !== typeof Buffer) {
-    it('Buffer eql()', function () {
-      expect(Buffer.from([ 1 ])).to.eql(Buffer.from([ 1 ]));
+  it('Buffer eql()', function () {
+    if (typeof Buffer === 'undefined') return;
 
-      err(function () {
-        expect(Buffer.from([ 0 ])).to.eql(Buffer.from([ 1 ]));
-      }, 'expected Buffer[ 0 ] to deeply equal Buffer[ 1 ]');
-    });
-  }
+    expect(Buffer.from([ 1 ])).to.eql(Buffer.from([ 1 ]));
+
+    err(function () {
+      expect(Buffer.from([ 0 ])).to.eql(Buffer.from([ 1 ]));
+    }, 'expected Buffer[ 0 ] to deeply equal Buffer[ 1 ]');
+  });
 
   it('equal(val)', function(){
     expect('test').to.equal('test');
     expect(1).to.equal(1);
 
-    if (typeof Symbol === 'function') {
-      var sym = Symbol();
-      expect(sym).to.equal(sym);
-    }
+    var sym = Symbol();
+    expect(sym).to.equal(sym);
 
     err(function(){
       expect(4).to.equal(3, 'blah');
@@ -1585,64 +1550,56 @@ describe('expect', function () {
     expect('foo').not.to.be.empty;
     expect([]).to.be.empty;
     expect(['foo']).not.to.be.empty;
-    expect(new FakeArgs).to.be.empty;
+    expect(new FakeArgs()).to.be.empty;
     expect({arguments: 0}).not.to.be.empty;
     expect({}).to.be.empty;
     expect({foo: 'bar'}).not.to.be.empty;
 
-    if (typeof WeakMap === 'function') {
-      err(function(){
-        expect(new WeakMap, 'blah').not.to.be.empty;
-      }, "blah: .empty was passed a weak collection");
-    }
+    err(function(){
+      expect(new WeakMap(), 'blah').not.to.be.empty;
+    }, "blah: .empty was passed a weak collection");
 
-    if (typeof WeakSet === 'function') {
-      err(function(){
-        expect(new WeakSet, 'blah').not.to.be.empty;
-      }, "blah: .empty was passed a weak collection");
-    }
+    err(function(){
+      expect(new WeakSet(), 'blah').not.to.be.empty;
+    }, "blah: .empty was passed a weak collection");
 
-    if (typeof Map === 'function') {
-      expect(new Map).to.be.empty;
+    expect(new Map()).to.be.empty;
 
-      // Not using Map constructor args because not supported in IE 11.
-      var map = new Map;
-      map.set('a', 1);
+    // Not using Map constructor args because not supported in IE 11.
+    var map = new Map();
+    map.set('a', 1);
+    expect(map).not.to.be.empty;
+
+    err(function(){
+      expect(new Map()).not.to.be.empty;
+    }, "expected Map{} not to be empty");
+
+    map = new Map();
+    map.key = 'val';
+    expect(map).to.be.empty;
+
+    err(function(){
       expect(map).not.to.be.empty;
+    }, "expected Map{} not to be empty");
 
-      err(function(){
-        expect(new Map).not.to.be.empty;
-      }, "expected Map{} not to be empty");
+    expect(new Set()).to.be.empty;
 
-      map = new Map;
-      map.key = 'val';
-      expect(map).to.be.empty;
+    // Not using Set constructor args because not supported in IE 11.
+    var set = new Set();
+    set.add(1);
+    expect(set).not.to.be.empty;
 
-      err(function(){
-        expect(map).not.to.be.empty;
-      }, "expected Map{} not to be empty");
-    }
+    err(function(){
+      expect(new Set()).not.to.be.empty;
+    }, "expected Set{} not to be empty");
 
-    if (typeof Set === 'function') {
-      expect(new Set).to.be.empty;
+    set = new Set();
+    set.key = 'val';
+    expect(set).to.be.empty;
 
-      // Not using Set constructor args because not supported in IE 11.
-      var set = new Set;
-      set.add(1);
+    err(function(){
       expect(set).not.to.be.empty;
-
-      err(function(){
-        expect(new Set).not.to.be.empty;
-      }, "expected Set{} not to be empty");
-
-      set = new Set;
-      set.key = 'val';
-      expect(set).to.be.empty;
-
-      err(function(){
-        expect(set).not.to.be.empty;
-      }, "expected Set{} not to be empty");
-    }
+    }, "expected Set{} not to be empty");
 
     err(function(){
       expect('', 'blah').not.to.be.empty;
@@ -1661,7 +1618,7 @@ describe('expect', function () {
     }, "expected [ \'foo\' ] to be empty");
 
     err(function(){
-      expect(new FakeArgs).not.to.be.empty;
+      expect(new FakeArgs()).not.to.be.empty;
     }, "expected FakeArgs{} not to be empty");
 
     err(function(){
@@ -1716,15 +1673,13 @@ describe('expect', function () {
       expect(false).to.be.empty;
     }, ".empty was passed non-string primitive false");
 
-    if (typeof Symbol !== 'undefined') {
-      err(function(){
-        expect(Symbol()).to.be.empty;
-      }, ".empty was passed non-string primitive Symbol()");
+    err(function(){
+      expect(Symbol()).to.be.empty;
+    }, ".empty was passed non-string primitive Symbol()");
 
-      err(function(){
-        expect(Symbol.iterator).to.be.empty;
-      }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
-    }
+    err(function(){
+      expect(Symbol.iterator).to.be.empty;
+    }, ".empty was passed non-string primitive Symbol(Symbol.iterator)");
 
     err(function(){
       expect(function() {}, 'blah').to.be.empty;
@@ -2275,13 +2230,10 @@ describe('expect', function () {
     // .include should work with Error objects and objects with a custom
     // `@@toStringTag`.
     expect(new Error('foo')).to.include({message: 'foo'});
-    if (typeof Symbol !== 'undefined'
-        && typeof Symbol.toStringTag !== 'undefined') {
-      var customObj = {a: 1};
-      customObj[Symbol.toStringTag] = 'foo';
+    var customObj = {a: 1};
+    customObj[Symbol.toStringTag] = 'foo';
 
-      expect(customObj).to.include({a: 1});
-    }
+    expect(customObj).to.include({a: 1});
 
     var obj1 = {a: 1}
       , obj2 = {b: 2};
@@ -2292,59 +2244,51 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.include({foo: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: {b: 2}});
 
-    if (typeof Map === 'function') {
-      var map = new Map();
-      var val = [{a: 1}];
-      map.set('a', val);
-      map.set('b', 2);
-      map.set('c', -0);
-      map.set('d', NaN);
+    var map = new Map();
+    var val = [{a: 1}];
+    map.set('a', val);
+    map.set('b', 2);
+    map.set('c', -0);
+    map.set('d', NaN);
 
-      expect(map).to.include(val);
-      expect(map).to.not.include([{a: 1}]);
-      expect(map).to.include(2);
-      expect(map).to.not.include(3);
-      expect(map).to.include(0);
-      expect(map).to.include(NaN);
+    expect(map).to.include(val);
+    expect(map).to.not.include([{a: 1}]);
+    expect(map).to.include(2);
+    expect(map).to.not.include(3);
+    expect(map).to.include(0);
+    expect(map).to.include(NaN);
+
+    var set = new Set();
+    var val = [{a: 1}];
+    set.add(val);
+    set.add(2);
+    set.add(-0);
+    set.add(NaN);
+
+    expect(set).to.include(val);
+    expect(set).to.not.include([{a: 1}]);
+    expect(set).to.include(2);
+    expect(set).to.not.include(3);
+    if (set.has(0)) {
+      // This test is skipped in IE11 because (contrary to spec) IE11 uses
+      // SameValue instead of SameValueZero equality for sets.
+      expect(set).to.include(0);
     }
+    expect(set).to.include(NaN);
 
-    if (typeof Set === 'function') {
-      var set = new Set();
-      var val = [{a: 1}];
-      set.add(val);
-      set.add(2);
-      set.add(-0);
-      set.add(NaN);
+    var ws = new WeakSet();
+    var val = [{a: 1}];
+    ws.add(val);
 
-      expect(set).to.include(val);
-      expect(set).to.not.include([{a: 1}]);
-      expect(set).to.include(2);
-      expect(set).to.not.include(3);
-      if (set.has(0)) {
-        // This test is skipped in IE11 because (contrary to spec) IE11 uses
-        // SameValue instead of SameValueZero equality for sets.
-        expect(set).to.include(0);
-      }
-      expect(set).to.include(NaN);
-    }
+    expect(ws).to.include(val);
+    expect(ws).to.not.include([{a: 1}]);
+    expect(ws).to.not.include({});
 
-    if (typeof WeakSet === 'function') {
-      var ws = new WeakSet();
-      var val = [{a: 1}];
-      ws.add(val);
-
-      expect(ws).to.include(val);
-      expect(ws).to.not.include([{a: 1}]);
-      expect(ws).to.not.include({});
-    }
-
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol()
-        , sym2 = Symbol()
-        , sym3 = Symbol();
-      expect([sym1, sym2]).to.include(sym1);
-      expect([sym1, sym2]).to.not.include(sym3);
-    }
+    var sym1 = Symbol()
+      , sym2 = Symbol()
+      , sym3 = Symbol();
+    expect([sym1, sym2]).to.include(sym1);
+    expect([sym1, sym2]).to.not.include(sym3);
 
     err(function(){
       expect(['foo']).to.include('bar', 'blah');
@@ -2467,25 +2411,19 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.deep.include({baz: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.deep.include({foo: {a: 1}, bar: {b: 9}});
 
-    if (typeof Map === 'function') {
-      var map = new Map();
-      map.set(1, [{a: 1}]);
+    var map = new Map();
+    map.set(1, [{a: 1}]);
 
-      expect(map).to.deep.include([{a: 1}]);
-    }
+    expect(map).to.deep.include([{a: 1}]);
 
-    if (typeof Set === 'function') {
-      var set = new Set();
-      set.add([{a: 1}]);
+    var set = new Set();
+    set.add([{a: 1}]);
 
-      expect(set).to.deep.include([{a: 1}]);
-    }
+    expect(set).to.deep.include([{a: 1}]);
 
-    if (typeof WeakSet === 'function') {
-      err(function() {
-        expect(new WeakSet()).to.deep.include({}, 'foo');
-      }, 'foo: unable to use .deep.include with WeakSet');
-    }
+    err(function() {
+      expect(new WeakSet()).to.deep.include({}, 'foo');
+    }, 'foo: unable to use .deep.include with WeakSet');
 
     err(function () {
       expect([obj1, obj2]).to.deep.include({a: 9}, 'blah');
@@ -2686,286 +2624,276 @@ describe('expect', function () {
     expect(obj).to.have.all.keys([enumProp1, enumProp2]);
     expect(obj).to.not.have.all.keys([enumProp1, enumProp2, nonEnumProp]);
 
-    if (typeof Symbol === 'function') {
-      var sym1 = Symbol('sym1')
-        , sym2 = Symbol('sym2')
-        , sym3 = Symbol('sym3')
-        , str = 'str'
-        , obj = {};
-
-      obj[sym1] = 'sym1';
-      obj[sym2] = 'sym2';
-      obj[str] = 'str';
-
-      Object.defineProperty(obj, sym3, {
-        enumerable: false,
-        value: 'sym3'
-      });
-
-      expect(obj).to.have.all.keys([sym1, sym2, str]);
-      expect(obj).to.not.have.all.keys([sym1, sym2, sym3, str]);
-    }
-
-    if (typeof Map !== 'undefined') {
-      // Not using Map constructor args because not supported in IE 11.
-      var aKey = {thisIs: 'anExampleObject'}
-        , anotherKey = {doingThisBecauseOf: 'referential equality'}
-        , testMap = new Map();
-
-      testMap.set(aKey, 'aValue');
-      testMap.set(anotherKey, 'anotherValue');
+    var sym1 = Symbol('sym1')
+      , sym2 = Symbol('sym2')
+      , sym3 = Symbol('sym3')
+      , str = 'str'
+      , obj = {};
 
-      expect(testMap).to.have.any.keys(aKey);
-      expect(testMap).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      expect(testMap).to.have.all.keys(aKey, anotherKey);
+    obj[sym1] = 'sym1';
+    obj[sym2] = 'sym2';
+    obj[str] = 'str';
+
+    Object.defineProperty(obj, sym3, {
+      enumerable: false,
+      value: 'sym3'
+    });
+
+    expect(obj).to.have.all.keys([sym1, sym2, str]);
+    expect(obj).to.not.have.all.keys([sym1, sym2, sym3, str]);
 
-      expect(testMap).to.contain.all.keys(aKey);
-      expect(testMap).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
-
-      expect(testMap).to.not.have.any.keys({iDoNot: 'exist'});
-      expect(testMap).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(testMap).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
-
-      expect(testMap).to.have.any.keys([aKey]);
-      expect(testMap).to.have.any.keys([20, 1, aKey]);
-      expect(testMap).to.have.all.keys([aKey, anotherKey]);
-
-      expect(testMap).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(testMap).to.not.have.any.keys([20, 1, {13: 37}]);
-      expect(testMap).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
-
-      // Ensure the assertions above use strict equality
-      err(function() {
-        expect(testMap).to.have.any.keys({thisIs: 'anExampleObject'});
-      });
-
-      err(function() {
-        expect(testMap).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
-      });
-
-      err(function() {
-        expect(testMap).to.contain.all.keys({thisIs: 'anExampleObject'});
-      });
-
-      err(function() {
-        expect(testMap).to.have.any.keys([{thisIs: 'anExampleObject'}]);
-      });
-
-      err(function() {
-        expect(testMap).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
-      });
-
-      // Using the same assertions as above but with `.deep` flag instead of using referential equality
-      expect(testMap).to.have.any.deep.keys({thisIs: 'anExampleObject'});
-      expect(testMap).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
-
-      expect(testMap).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
-      expect(testMap).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
-
-      expect(testMap).to.not.have.any.deep.keys({iDoNot: 'exist'});
-      expect(testMap).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(testMap).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
-
-      expect(testMap).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
-      expect(testMap).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
-
-      expect(testMap).to.have.all.deep.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
-
-      expect(testMap).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(testMap).to.not.have.any.deep.keys([20, 1, {13: 37}]);
-      expect(testMap).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
-
-      var weirdMapKey1 = Object.create(null)
-        , weirdMapKey2 = {toString: NaN}
-        , weirdMapKey3 = []
-        , weirdMap = new Map();
-
-      weirdMap.set(weirdMapKey1, 'val1');
-      weirdMap.set(weirdMapKey2, 'val2');
-
-      expect(weirdMap).to.have.all.keys([weirdMapKey1, weirdMapKey2]);
-      expect(weirdMap).to.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
-
-      if (typeof Symbol === 'function') {
-        var symMapKey1 = Symbol()
-          , symMapKey2 = Symbol()
-          , symMapKey3 = Symbol()
-          , symMap = new Map();
-
-        symMap.set(symMapKey1, 'val1');
-        symMap.set(symMapKey2, 'val2');
-
-        expect(symMap).to.have.all.keys(symMapKey1, symMapKey2);
-        expect(symMap).to.have.any.keys(symMapKey1, symMapKey3);
-        expect(symMap).to.contain.all.keys(symMapKey2, symMapKey1);
-        expect(symMap).to.contain.any.keys(symMapKey3, symMapKey1);
-
-        expect(symMap).to.not.have.all.keys(symMapKey1, symMapKey3);
-        expect(symMap).to.not.have.any.keys(symMapKey3);
-        expect(symMap).to.not.contain.all.keys(symMapKey3, symMapKey1);
-        expect(symMap).to.not.contain.any.keys(symMapKey3);
-      }
-
-      var errMap = new Map();
-
-      errMap.set({ foo: 1 });
-
-      err(function(){
-        expect(errMap, 'blah').to.have.keys();
-      }, "blah: keys required");
-
-      err(function(){
-        expect(errMap).to.have.keys([]);
-      }, "keys required");
+    // Not using Map constructor args because not supported in IE 11.
+    var aKey = {thisIs: 'anExampleObject'}
+      , anotherKey = {doingThisBecauseOf: 'referential equality'}
+      , testMap = new Map();
 
-      err(function(){
-        expect(errMap).to.contain.keys();
-      }, "keys required");
-
-      err(function(){
-        expect(errMap).to.contain.keys([]);
-      }, "keys required");
-
-      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
-      // This should fail because of referential equality (this is a strict comparison)
-      // err(function(){
-      //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.keys({ foo: 1 });
-      // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
-
-      // err(function(){
-      //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.deep.keys({ iDoNotExist: 0 })
-      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
-    }
-
-    if (typeof Set !== 'undefined') {
-      // Not using Set constructor args because not supported in IE 11.
-      var aKey = {thisIs: 'anExampleObject'}
-        , anotherKey = {doingThisBecauseOf: 'referential equality'}
-        , testSet = new Set();
-
-      testSet.add(aKey);
-      testSet.add(anotherKey);
-
-      expect(testSet).to.have.any.keys(aKey);
-      expect(testSet).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
-      expect(testSet).to.have.all.keys(aKey, anotherKey);
-
-      expect(testSet).to.contain.all.keys(aKey);
-      expect(testSet).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
-
-      expect(testSet).to.not.have.any.keys({iDoNot: 'exist'});
-      expect(testSet).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(testSet).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
-
-      expect(testSet).to.have.any.keys([aKey]);
-      expect(testSet).to.have.any.keys([20, 1, aKey]);
-      expect(testSet).to.have.all.keys([aKey, anotherKey]);
-
-      expect(testSet).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(testSet).to.not.have.any.keys([20, 1, {13: 37}]);
-      expect(testSet).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
-
-      // Ensure the assertions above use strict equality
-      err(function() {
-        expect(testSet).to.have.any.keys({thisIs: 'anExampleObject'});
-      });
-
-      err(function() {
-        expect(testSet).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
-      });
-
-      err(function() {
-        expect(testSet).to.contain.all.keys({thisIs: 'anExampleObject'});
-      });
-
-      err(function() {
-        expect(testSet).to.have.any.keys([{thisIs: 'anExampleObject'}]);
-      });
-
-      err(function() {
-        expect(testSet).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
-      });
-
-      // Using the same assertions as above but with `.deep` flag instead of using referential equality
-      expect(testSet).to.have.any.deep.keys({thisIs: 'anExampleObject'});
-      expect(testSet).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
-
-      expect(testSet).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
-      expect(testSet).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
-
-      expect(testSet).to.not.have.any.deep.keys({iDoNot: 'exist'});
-      expect(testSet).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
-      expect(testSet).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
-
-      expect(testSet).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
-      expect(testSet).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
-
-      expect(testSet).to.have.all.deep.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
-
-      expect(testSet).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
-      expect(testSet).to.not.have.any.deep.keys([20, 1, {13: 37}]);
-      expect(testSet).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
-
-      var weirdSetKey1 = Object.create(null)
-        , weirdSetKey2 = {toString: NaN}
-        , weirdSetKey3 = []
-        , weirdSet = new Set();
-
-      weirdSet.add(weirdSetKey1);
-      weirdSet.add(weirdSetKey2);
-
-      expect(weirdSet).to.have.all.keys([weirdSetKey1, weirdSetKey2]);
-      expect(weirdSet).to.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
-
-      if (typeof Symbol === 'function') {
-        var symSetKey1 = Symbol()
-          , symSetKey2 = Symbol()
-          , symSetKey3 = Symbol()
-          , symSet = new Set();
-
-        symSet.add(symSetKey1);
-        symSet.add(symSetKey2);
-
-        expect(symSet).to.have.all.keys(symSetKey1, symSetKey2);
-        expect(symSet).to.have.any.keys(symSetKey1, symSetKey3);
-        expect(symSet).to.contain.all.keys(symSetKey2, symSetKey1);
-        expect(symSet).to.contain.any.keys(symSetKey3, symSetKey1);
-
-        expect(symSet).to.not.have.all.keys(symSetKey1, symSetKey3);
-        expect(symSet).to.not.have.any.keys(symSetKey3);
-        expect(symSet).to.not.contain.all.keys(symSetKey3, symSetKey1);
-        expect(symSet).to.not.contain.any.keys(symSetKey3);
-      }
-
-      var errSet = new Set();
-      errSet.add({ foo: 1});
-
-      err(function(){
-        expect(errSet, 'blah').to.have.keys();
-      }, "blah: keys required");
-
-      err(function(){
-        expect(errSet).to.have.keys([]);
-      }, "keys required");
-
-      err(function(){
-        expect(errSet).to.contain.keys();
-      }, "keys required");
-
-      err(function(){
-        expect(errSet).to.contain.keys([]);
-      }, "keys required");
-
-      // Uncomment this after solving https://github.com/chaijs/chai/issues/662
-      // This should fail because of referential equality (this is a strict comparison)
-      // err(function(){
-      //   expect(new Set([{foo: 1}])).to.contain.keys({ foo: 1 });
-      // }, 'expected [ { foo: 1 } ] to deeply contain key { foo: 1 }');
-
-      // err(function(){
-      //   expect(new Set([{foo: 1}])).to.contain.deep.keys({ iDoNotExist: 0 });
-      // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
-    }
+    testMap.set(aKey, 'aValue');
+    testMap.set(anotherKey, 'anotherValue');
+
+    expect(testMap).to.have.any.keys(aKey);
+    expect(testMap).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+    expect(testMap).to.have.all.keys(aKey, anotherKey);
+
+    expect(testMap).to.contain.all.keys(aKey);
+    expect(testMap).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+
+    expect(testMap).to.not.have.any.keys({iDoNot: 'exist'});
+    expect(testMap).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+    expect(testMap).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+    expect(testMap).to.have.any.keys([aKey]);
+    expect(testMap).to.have.any.keys([20, 1, aKey]);
+    expect(testMap).to.have.all.keys([aKey, anotherKey]);
+
+    expect(testMap).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+    expect(testMap).to.not.have.any.keys([20, 1, {13: 37}]);
+    expect(testMap).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+    // Ensure the assertions above use strict equality
+    err(function() {
+      expect(testMap).to.have.any.keys({thisIs: 'anExampleObject'});
+    });
+
+    err(function() {
+      expect(testMap).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+    });
+
+    err(function() {
+      expect(testMap).to.contain.all.keys({thisIs: 'anExampleObject'});
+    });
+
+    err(function() {
+      expect(testMap).to.have.any.keys([{thisIs: 'anExampleObject'}]);
+    });
+
+    err(function() {
+      expect(testMap).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    });
+
+    // Using the same assertions as above but with `.deep` flag instead of using referential equality
+    expect(testMap).to.have.any.deep.keys({thisIs: 'anExampleObject'});
+    expect(testMap).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+    expect(testMap).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
+    expect(testMap).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+
+    expect(testMap).to.not.have.any.deep.keys({iDoNot: 'exist'});
+    expect(testMap).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+    expect(testMap).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
+
+    expect(testMap).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+    expect(testMap).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+    expect(testMap).to.have.all.deep.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+
+    expect(testMap).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+    expect(testMap).to.not.have.any.deep.keys([20, 1, {13: 37}]);
+    expect(testMap).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
+
+    var weirdMapKey1 = Object.create(null)
+      , weirdMapKey2 = {toString: NaN}
+      , weirdMapKey3 = []
+      , weirdMap = new Map();
+
+    weirdMap.set(weirdMapKey1, 'val1');
+    weirdMap.set(weirdMapKey2, 'val2');
+
+    expect(weirdMap).to.have.all.keys([weirdMapKey1, weirdMapKey2]);
+    expect(weirdMap).to.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
+
+    var symMapKey1 = Symbol()
+      , symMapKey2 = Symbol()
+      , symMapKey3 = Symbol()
+      , symMap = new Map();
+
+    symMap.set(symMapKey1, 'val1');
+    symMap.set(symMapKey2, 'val2');
+
+    expect(symMap).to.have.all.keys(symMapKey1, symMapKey2);
+    expect(symMap).to.have.any.keys(symMapKey1, symMapKey3);
+    expect(symMap).to.contain.all.keys(symMapKey2, symMapKey1);
+    expect(symMap).to.contain.any.keys(symMapKey3, symMapKey1);
+
+    expect(symMap).to.not.have.all.keys(symMapKey1, symMapKey3);
+    expect(symMap).to.not.have.any.keys(symMapKey3);
+    expect(symMap).to.not.contain.all.keys(symMapKey3, symMapKey1);
+    expect(symMap).to.not.contain.any.keys(symMapKey3);
+
+    var errMap = new Map();
+
+    errMap.set({ foo: 1 });
+
+    err(function(){
+      expect(errMap, 'blah').to.have.keys();
+    }, "blah: keys required");
+
+    err(function(){
+      expect(errMap).to.have.keys([]);
+    }, "keys required");
+
+    err(function(){
+      expect(errMap).to.contain.keys();
+    }, "keys required");
+
+    err(function(){
+      expect(errMap).to.contain.keys([]);
+    }, "keys required");
+
+    // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+    // This should fail because of referential equality (this is a strict comparison)
+    // err(function(){
+    //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.keys({ foo: 1 });
+    // }, 'expected [ [ { foo: 1 }, 'bar' ] ] to contain key { foo: 1 }');
+
+    // err(function(){
+    //   expect(new Map([[{foo: 1}, 'bar']])).to.contain.deep.keys({ iDoNotExist: 0 })
+    // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
+
+    // Not using Set constructor args because not supported in IE 11.
+    var aKey = {thisIs: 'anExampleObject'}
+      , anotherKey = {doingThisBecauseOf: 'referential equality'}
+      , testSet = new Set();
+
+    testSet.add(aKey);
+    testSet.add(anotherKey);
+
+    expect(testSet).to.have.any.keys(aKey);
+    expect(testSet).to.have.any.keys('thisDoesNotExist', 'thisToo', aKey);
+    expect(testSet).to.have.all.keys(aKey, anotherKey);
+
+    expect(testSet).to.contain.all.keys(aKey);
+    expect(testSet).to.not.contain.all.keys(aKey, 'thisDoesNotExist');
+
+    expect(testSet).to.not.have.any.keys({iDoNot: 'exist'});
+    expect(testSet).to.not.have.any.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+    expect(testSet).to.not.have.all.keys('thisDoesNotExist', 'thisToo', anotherKey);
+
+    expect(testSet).to.have.any.keys([aKey]);
+    expect(testSet).to.have.any.keys([20, 1, aKey]);
+    expect(testSet).to.have.all.keys([aKey, anotherKey]);
+
+    expect(testSet).to.not.have.any.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+    expect(testSet).to.not.have.any.keys([20, 1, {13: 37}]);
+    expect(testSet).to.not.have.all.keys([aKey, {'iDoNot': 'exist'}]);
+
+    // Ensure the assertions above use strict equality
+    err(function() {
+      expect(testSet).to.have.any.keys({thisIs: 'anExampleObject'});
+    });
+
+    err(function() {
+      expect(testSet).to.have.all.keys({thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'});
+    });
+
+    err(function() {
+      expect(testSet).to.contain.all.keys({thisIs: 'anExampleObject'});
+    });
+
+    err(function() {
+      expect(testSet).to.have.any.keys([{thisIs: 'anExampleObject'}]);
+    });
+
+    err(function() {
+      expect(testSet).to.have.all.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+    });
+
+    // Using the same assertions as above but with `.deep` flag instead of using referential equality
+    expect(testSet).to.have.any.deep.keys({thisIs: 'anExampleObject'});
+    expect(testSet).to.have.any.deep.keys('thisDoesNotExist', 'thisToo', {thisIs: 'anExampleObject'});
+
+    expect(testSet).to.contain.all.deep.keys({thisIs: 'anExampleObject'});
+    expect(testSet).to.not.contain.all.deep.keys({thisIs: 'anExampleObject'}, 'thisDoesNotExist');
+
+    expect(testSet).to.not.have.any.deep.keys({iDoNot: 'exist'});
+    expect(testSet).to.not.have.any.deep.keys('thisIsNotAkey', {iDoNot: 'exist'}, {33: 20});
+    expect(testSet).to.not.have.all.deep.keys('thisDoesNotExist', 'thisToo', {doingThisBecauseOf: 'referential equality'});
+
+    expect(testSet).to.have.any.deep.keys([{thisIs: 'anExampleObject'}]);
+    expect(testSet).to.have.any.deep.keys([20, 1, {thisIs: 'anExampleObject'}]);
+
+    expect(testSet).to.have.all.deep.keys([{thisIs: 'anExampleObject'}, {doingThisBecauseOf: 'referential equality'}]);
+
+    expect(testSet).to.not.have.any.deep.keys([{13: 37}, 'thisDoesNotExist', 'thisToo']);
+    expect(testSet).to.not.have.any.deep.keys([20, 1, {13: 37}]);
+    expect(testSet).to.not.have.all.deep.keys([{thisIs: 'anExampleObject'}, {'iDoNot': 'exist'}]);
+
+    var weirdSetKey1 = Object.create(null)
+      , weirdSetKey2 = {toString: NaN}
+      , weirdSetKey3 = []
+      , weirdSet = new Set();
+
+    weirdSet.add(weirdSetKey1);
+    weirdSet.add(weirdSetKey2);
+
+    expect(weirdSet).to.have.all.keys([weirdSetKey1, weirdSetKey2]);
+    expect(weirdSet).to.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
+
+    var symSetKey1 = Symbol()
+      , symSetKey2 = Symbol()
+      , symSetKey3 = Symbol()
+      , symSet = new Set();
+
+    symSet.add(symSetKey1);
+    symSet.add(symSetKey2);
+
+    expect(symSet).to.have.all.keys(symSetKey1, symSetKey2);
+    expect(symSet).to.have.any.keys(symSetKey1, symSetKey3);
+    expect(symSet).to.contain.all.keys(symSetKey2, symSetKey1);
+    expect(symSet).to.contain.any.keys(symSetKey3, symSetKey1);
+
+    expect(symSet).to.not.have.all.keys(symSetKey1, symSetKey3);
+    expect(symSet).to.not.have.any.keys(symSetKey3);
+    expect(symSet).to.not.contain.all.keys(symSetKey3, symSetKey1);
+    expect(symSet).to.not.contain.any.keys(symSetKey3);
+
+    var errSet = new Set();
+    errSet.add({ foo: 1});
+
+    err(function(){
+      expect(errSet, 'blah').to.have.keys();
+    }, "blah: keys required");
+
+    err(function(){
+      expect(errSet).to.have.keys([]);
+    }, "keys required");
+
+    err(function(){
+      expect(errSet).to.contain.keys();
+    }, "keys required");
+
+    err(function(){
+      expect(errSet).to.contain.keys([]);
+    }, "keys required");
+
+    // Uncomment this after solving https://github.com/chaijs/chai/issues/662
+    // This should fail because of referential equality (this is a strict comparison)
+    // err(function(){
+    //   expect(new Set([{foo: 1}])).to.contain.keys({ foo: 1 });
+    // }, 'expected [ { foo: 1 } ] to deeply contain key { foo: 1 }');
+
+    // err(function(){
+    //   expect(new Set([{foo: 1}])).to.contain.deep.keys({ iDoNotExist: 0 });
+    // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
 
     err(function(){
       expect({ foo: 1 }, 'blah').to.have.keys();
@@ -3873,9 +3801,7 @@ describe('expect', function () {
     expect(false).to.not.be.extensible;
     expect(undefined).to.not.be.extensible;
 
-    if (typeof Symbol === 'function') {
-      expect(Symbol()).to.not.be.extensible;
-    }
+    expect(Symbol()).to.not.be.extensible;
 
     err(function() {
       expect(42).to.be.extensible;
@@ -3897,18 +3823,16 @@ describe('expect', function () {
       expect(undefined).to.be.extensible;
     }, 'expected undefined to be extensible');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        isExtensible: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      isExtensible: function() {
+        throw new TypeError();
+      }
+    });
 
-      err(function() {
-        // .extensible should not suppress errors, thrown in proxy traps
-        expect(proxy).to.be.extensible;
-      }, { name: 'TypeError' }, true);
-    }
+    err(function() {
+      // .extensible should not suppress errors, thrown in proxy traps
+      expect(proxy).to.be.extensible;
+    }, { name: 'TypeError' }, true);
   });
 
   it('sealed', function() {
@@ -3932,10 +3856,7 @@ describe('expect', function () {
     expect('foo').to.be.sealed;
     expect(false).to.be.sealed;
     expect(undefined).to.be.sealed;
-
-    if (typeof Symbol === 'function') {
-      expect(Symbol()).to.be.sealed;
-    }
+    expect(Symbol()).to.be.sealed;
 
     err(function() {
       expect(42).to.not.be.sealed;
@@ -3957,21 +3878,19 @@ describe('expect', function () {
       expect(undefined).to.not.be.sealed;
     }, 'expected undefined to not be sealed');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        ownKeys: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      ownKeys: function() {
+        throw new TypeError();
+      }
+    });
 
-      // Object.isSealed will call ownKeys trap only if object is not extensible
-      Object.preventExtensions(proxy);
+    // Object.isSealed will call ownKeys trap only if object is not extensible
+    Object.preventExtensions(proxy);
 
-      err(function() {
-        // .sealed should not suppress errors, thrown in proxy traps
-        expect(proxy).to.be.sealed;
-      }, { name: 'TypeError' }, true);
-    }
+    err(function() {
+      // .sealed should not suppress errors, thrown in proxy traps
+      expect(proxy).to.be.sealed;
+    }, { name: 'TypeError' }, true);
   });
 
   it('frozen', function() {
@@ -3995,10 +3914,7 @@ describe('expect', function () {
     expect('foo').to.be.frozen;
     expect(false).to.be.frozen;
     expect(undefined).to.be.frozen;
-
-    if (typeof Symbol === 'function') {
-      expect(Symbol()).to.be.frozen;
-    }
+    expect(Symbol()).to.be.frozen;
 
     err(function() {
       expect(42).to.not.be.frozen;
@@ -4020,20 +3936,18 @@ describe('expect', function () {
       expect(undefined).to.not.be.frozen;
     }, 'expected undefined to not be frozen');
 
-    if (typeof Proxy === 'function') {
-      var proxy = new Proxy({}, {
-        ownKeys: function() {
-          throw new TypeError();
-        }
-      });
+    var proxy = new Proxy({}, {
+      ownKeys: function() {
+        throw new TypeError();
+      }
+    });
 
-      // Object.isFrozen will call ownKeys trap only if object is not extensible
-      Object.preventExtensions(proxy);
+    // Object.isFrozen will call ownKeys trap only if object is not extensible
+    Object.preventExtensions(proxy);
 
-      err(function() {
-        // .frozen should not suppress errors, thrown in proxy traps
-        expect(proxy).to.be.frozen;
-      }, { name: 'TypeError' }, true);
-    }
+    err(function() {
+      // .frozen should not suppress errors, thrown in proxy traps
+      expect(proxy).to.be.frozen;
+    }, { name: 'TypeError' }, true);
   });
 });
