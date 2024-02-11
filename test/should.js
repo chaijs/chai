@@ -2815,11 +2815,11 @@ describe('should', function() {
 
     err(function() {
       'foo'.should.include.members([12], 'blah');
-    }, "blah: expected 'foo' to be an iterable");
+    }, "blah: expected 'foo' to be a superset of [ 12 ]");
 
     err(function() {
       [1, 2, 3].should.include.members('o', 'blah');
-    }, "blah: expected 'o' to be an iterable");
+    }, "blah: expected [ 1, 2, 3 ] to be a superset of 'o'");
   });
 
   it('memberEquals', function() {
