@@ -3397,9 +3397,11 @@ describe('expect', function () {
   });
 
   it('same.members', function() {
-    expect([5, 4]).to.have.same.members([4, 5]);
     expect([5, 4]).to.have.same.members([5, 4]);
+    expect([5, 4]).to.have.same.members([4, 5]);
     expect([5, 4, 4]).to.have.same.members([5, 4, 4]);
+    expect(new Set([5, 4])).to.have.same.members([4, 5]);
+
     expect([5, 4]).to.not.have.same.members([]);
     expect([5, 4]).to.not.have.same.members([6, 3]);
     expect([5, 4]).to.not.have.same.members([5, 4, 2]);
@@ -3407,6 +3409,7 @@ describe('expect', function () {
     expect([5, 4, 4]).to.not.have.same.members([5, 4]);
     expect([5, 4, 4]).to.not.have.same.members([5, 4, 3]);
     expect([5, 4, 3]).to.not.have.same.members([5, 4, 4]);
+    expect(new Set([5, 4])).to.not.have.same.members([4]);
   });
 
   it('members', function() {
