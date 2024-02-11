@@ -2315,6 +2315,33 @@ describe('assert', function () {
     }, 'blah: the argument to most must be a number');
   });
 
+  it('iterable', function() {
+    assert.isIterable([1, 2, 3]);
+    assert.isIterable(new Map([[1, 'one'], [2, 'two'], [3, 'three']]));
+    assert.isIterable(new Set([1, 2, 3]));
+    assert.isIterable('hello');
+
+    err(function() {
+      assert.isIterable(42);
+    }, 'expected 42 to be an iterable');
+
+    err(function() {
+      assert.isIterable(undefined);
+    }, 'expected undefined to be an iterable'); 
+
+    err(function() {
+      assert.isIterable(null);
+    }, 'expected null to be an iterable');
+
+    err(function() {
+      assert.isIterable(true);
+    }, 'expected true to be an iterable');
+
+    err(function() {
+      assert.isIterable({ key: 'value' });
+    }, 'expected { key: \'value\' } to be an iterable');
+  });
+
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
         heroes = ['spiderman', 'superman'],
