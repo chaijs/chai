@@ -2815,11 +2815,11 @@ describe('should', function() {
 
     err(function() {
       'foo'.should.include.members([12], 'blah');
-    }, "blah: expected 'foo' to be an array");
+    }, "blah: expected 'foo' to be a superset of [ 12 ]");
 
     err(function() {
       [1, 2, 3].should.include.members('o', 'blah');
-    }, "blah: expected 'o' to be an array");
+    }, "blah: expected [ 1, 2, 3 ] to be a superset of 'o'");
   });
 
   it('memberEquals', function() {
@@ -2827,12 +2827,15 @@ describe('should', function() {
     [5, 4].should.have.same.members([5, 4]);
     [5, 4, 4].should.have.same.members([5, 4, 4]);
     [].should.have.same.members([]);
+    (new Set([])).should.have.same.members(new Set([]));
+    (new Set([1,2,3])).should.have.same.members(new Set([3,2,1]));
 
     [5, 4].should.not.have.same.members([5, 4, 4]);
     [5, 4, 4].should.not.have.same.members([5, 4]);
     [5, 4, 4].should.not.have.same.members([5, 4, 3]);
     [5, 4, 3].should.not.have.same.members([5, 4, 4]);
     [{a: 1}].should.not.have.same.members([{a: 1}]);
+    (new Set([1,2,3])).should.not.have.same.members(new Set([2,1]));
 
     err(function() {
       [1, 2, 3].should.have.same.members([], 'blah');
@@ -2840,7 +2843,7 @@ describe('should', function() {
 
     err(function() {
       [1, 2, 3].should.have.same.members(4, 'blah');
-    }, 'blah: expected 4 to be an array');
+    }, 'blah: expected 4 to be an iterable');
   });
 
   it('deep.members', function() {
