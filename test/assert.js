@@ -1885,6 +1885,7 @@ describe('assert', function () {
     assert.approximately(1.5, 1.0, 0.5);
     assert.approximately(10, 20, 20);
     assert.approximately(-10, 20, 30);
+    assert.approximately(1n, 2n, 1n);
 
     err(function(){
       assert.approximately(2, 1.0, 0.5, 'blah');
