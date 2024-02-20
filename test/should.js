@@ -2823,19 +2823,19 @@ describe('should', function() {
 
     err(function() {
       [1.5].should.be.closeTo(1.0, 0.5, 'blah');
-    }, "blah: expected [ 1.5 ] to be a number");
+    }, "blah: expected [ 1.5 ] to be numeric");
 
     err(function() {
       (1.5).should.be.closeTo("1.0", 0.5, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected '1.0' to be numeric");
 
     err(function() {
       (1.5).should.be.closeTo(1.0, true, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected true to be numeric");
 
     err(function() {
       (1.5).should.be.closeTo(1.0, undefined, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "blah: expected undefined to be numeric");
   });
 
   it('approximately', function(){
@@ -2847,19 +2847,19 @@ describe('should', function() {
 
     err(function() {
       [1.5].should.be.approximately(1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+    }, "expected [ 1.5 ] to be numeric");
 
     err(function() {
       (1.5).should.be.approximately("1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+    }, "expected '1.0' to be numeric");
 
     err(function() {
       (1.5).should.be.approximately(1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+    }, "expected true to be numeric");
 
     err(function() {
       (1.5).should.be.approximately(1.0);
-    }, "the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "expected undefined to be numeric");
   });
 
   it('include.members', function() {
