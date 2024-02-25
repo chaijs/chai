@@ -511,7 +511,7 @@ export interface AssertInterface {
 
   isCallable(val: unknown, msg?: string): void;
   isNotCallable(val: unknown, msg?: string): void;
-  isIterable(val: unknown, msg?: string): void;
+  isIterable(val: unknown, msg?: string): asserts val is Iterable<unknown>;
 }
 
 /**
