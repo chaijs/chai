@@ -98,9 +98,9 @@ import { expect, use } from 'chai';  // Creates local variables `expect` and `us
 ### Usage with Mocha
 
 ```bash
-mocha spec.js -r chai/register-assert  # Using Assert style
-mocha spec.js -r chai/register-expect  # Using Expect style
-mocha spec.js -r chai/register-should  # Using Should style
+mocha spec.js --require chai/register-assert.js  # Using Assert style
+mocha spec.js --require chai/register-expect.js  # Using Expect style
+mocha spec.js --require chai/register-should.js  # Using Should style
 ```
 
 [Read more about these styles in our docs](http://chaijs.com/guide/styles/).
