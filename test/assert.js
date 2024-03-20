@@ -1644,6 +1644,9 @@ describe('assert', function () {
       assert[throws](function() { throw new Error('bar'); }, Error, 'bar');
       assert[throws](function() { throw new Error(''); }, Error, '');
       assert[throws](function() { throw new Error('foo') }, '');
+      assert[throws](function() { throw ''; }, '');
+      assert[throws](function() { throw ''; }, /^$/);
+      assert[throws](function() { throw new Error(''); }, /^$/);
 
       var thrownErr = assert[throws](function() { throw new Error('foo'); });
       assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
