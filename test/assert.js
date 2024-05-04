@@ -1635,6 +1635,8 @@ describe('assert', function () {
   });
 
   it('throws / throw / Throw', function() {
+    class CustomError extends Error {}
+
     ['throws', 'throw', 'Throw'].forEach(function (throws) {
       assert[throws](function() { throw new Error('foo'); });
       assert[throws](function() { throw new Error(''); }, '');
@@ -1647,6 +1649,9 @@ describe('assert', function () {
       assert[throws](function() { throw ''; }, '');
       assert[throws](function() { throw ''; }, /^$/);
       assert[throws](function() { throw new Error(''); }, /^$/);
+      assert[throws](function() { throw undefined; });
+      assert[throws](function() { throw new CustomError('foo'); });
+      assert[throws](function() { throw (() => {}); });
 
       var thrownErr = assert[throws](function() { throw new Error('foo'); });
       assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
