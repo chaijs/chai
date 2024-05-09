@@ -5,6 +5,11 @@ const {assert} = chai;
 const vmContext = {assert};
 vm.createContext(vmContext);
 
+/**
+ * Run the code in a virtual context
+ *
+ * @param {string} code Code to run
+ */
 function runCodeInVm(code) {
   vm.runInContext(code, vmContext);
 }
@@ -15,9 +20,7 @@ describe('node virtual machines', function () {
       `assert.throws(function() { throw ''; }, /^$/);`,
       `assert.throws(function() { throw new Error('bleepbloop'); });`,
       `assert.throws(function() { throw new Error(''); });`,
-      // TODO (43081j): enable this test once check-error supports
-      // cross-vm `Error` objects
-      //`assert.throws(function() { throw new Error('swoosh'); }, /swoosh/);`
+      `assert.throws(function() { throw new Error('swoosh'); }, /swoosh/);`
     ];
 
     for (const code of shouldNotThrow) {
