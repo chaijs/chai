@@ -20,6 +20,15 @@ function anotherPlugin(chai) {
   });
 }
 
+function brokenPlugin(chai) {
+  chai.overwriteProperty('equal', function (_super) {
+    if (something) {
+      return _super.call(this);
+    }
+    return someOtherThing();
+  });
+}
+
 describe('plugins', function () {
   it('basic usage', function () {
     const {expect} = use(plugin);
@@ -30,6 +39,11 @@ describe('plugins', function () {
     expect(function () {
       use(plugin).use(anotherPlugin);
     }).to.not.throw();
+
+  it("doesn't crash when there's a bad plugin", function () {
+    expect(() => {
+      use(brokenPlugin).use(brokenPlugin).use(brokenPlugin);
+    }).to.not.throw;
   });
 
   it('.use detached from chai object', function () {
