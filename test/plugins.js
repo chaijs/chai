@@ -35,10 +35,12 @@ describe('plugins', function () {
     expect(expect('').testing).to.equal('successful');
   });
 
-  it('multiple plugins', function () {
-    expect(function () {
-      use(plugin).use(anotherPlugin);
-    }).to.not.throw();
+  it('multiple plugins apply all changes', function () {
+    const chai = use(plugin).use(anotherPlugin);
+
+    expect(chai.expect('').testing).to.equal('successful');
+    expect(chai.expect('').moreTesting).to.equal('more success');
+  });
 
   it("doesn't crash when there's a bad plugin", function () {
     expect(() => {
