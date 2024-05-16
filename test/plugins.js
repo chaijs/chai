@@ -3,6 +3,8 @@ import {use, expect, Should} from '../index.js';
 function plugin(chai) {
   if (chai.Assertion.prototype.testing) return;
 
+  chai.assert.testing = 'successful';
+
   Object.defineProperty(chai.Assertion.prototype, 'testing', {
     get: function () {
       return 'successful';
@@ -12,6 +14,8 @@ function plugin(chai) {
 
 function anotherPlugin(chai) {
   if (chai.Assertion.prototype.moreTesting) return;
+
+  chai.assert.moreTesting = 'more success';
 
   Object.defineProperty(chai.Assertion.prototype, 'moreTesting', {
     get: function () {
@@ -77,6 +81,26 @@ describe('plugins', function () {
       const {expect} = use(anotherPlugin);
 
       expect(expect('').moreTesting).to.equal('more success');
+    });
+  });
+
+  describe('assert', () => {
+    it('basic usage', function () {
+      const {assert} = use(plugin);
+      expect(assert.testing).to.equal('successful');
+    });
+
+    it('multiple plugins apply all changes', function () {
+      const chai = use(plugin).use(anotherPlugin);
+
+      expect(chai.assert.testing).to.equal('successful');
+      expect(chai.assert.moreTesting).to.equal('more success');
+    });
+
+    it('.use detached from chai object', function () {
+      const {assert} = use(anotherPlugin);
+
+      expect(assert.moreTesting).to.equal('more success');
     });
   });
 });
