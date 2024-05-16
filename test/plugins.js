@@ -1,4 +1,4 @@
-import {use, expect} from '../index.js';
+import {use, expect, Should} from '../index.js';
 
 function plugin(chai) {
   if (chai.Assertion.prototype.testing) return;
@@ -30,27 +30,53 @@ function brokenPlugin(chai) {
 }
 
 describe('plugins', function () {
-  it('basic usage', function () {
-    const {expect} = use(plugin);
-    expect(expect('').testing).to.equal('successful');
-  });
-
-  it('multiple plugins apply all changes', function () {
-    const chai = use(plugin).use(anotherPlugin);
-
-    expect(chai.expect('').testing).to.equal('successful');
-    expect(chai.expect('').moreTesting).to.equal('more success');
-  });
-
   it("doesn't crash when there's a bad plugin", function () {
     expect(() => {
       use(brokenPlugin).use(brokenPlugin).use(brokenPlugin);
     }).to.not.throw;
   });
 
-  it('.use detached from chai object', function () {
-    const {expect} = use(anotherPlugin);
+  describe('should', () => {
+    before(() => {
+      Should();
+    });
 
-    expect(expect('').moreTesting).to.equal('more success');
+    it('basic usage', function () {
+      use(plugin);
+      expect((42).should.testing).to.equal('successful');
+    });
+
+    it('multiple plugins apply all changes', function () {
+      use(plugin).use(anotherPlugin);
+
+      expect((42).should.testing).to.equal('successful');
+      expect((42).should.moreTesting).to.equal('more success');
+    });
+
+    it('.use detached from chai object', function () {
+      use(anotherPlugin);
+
+      expect((42).should.moreTesting).to.equal('more success');
+    });
+  });
+
+  describe('expect', () => {
+    it('basic usage', function () {
+      const {expect} = use(plugin);
+      expect(expect('').testing).to.equal('successful');
+    });
+
+    it('multiple plugins apply all changes', function () {
+      const chai = use(plugin).use(anotherPlugin);
+
+      expect(chai.expect('').testing).to.equal('successful');
+      expect(chai.expect('').moreTesting).to.equal('more success');
+    });
+
+    it('.use detached from chai object', function () {
+      const {expect} = use(anotherPlugin);
+
+      expect(expect('').moreTesting).to.equal('more success');
+    });
   });
 });
