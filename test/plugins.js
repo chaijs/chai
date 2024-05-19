@@ -1,5 +1,10 @@
-import {use, expect, Should} from '../index.js';
+import {use, assert, expect, Should} from '../index.js';
 
+/**
+ * A chai plugin that adds the `testing` property on chai assertions.
+ *
+ * @param {unknown} chai
+ */
 function plugin(chai) {
   if (chai.Assertion.prototype.testing) return;
 
@@ -12,6 +17,11 @@ function plugin(chai) {
   });
 }
 
+/**
+ * A chai plugin that adds the `moreTesting` property on chai assertions.
+ *
+ * @param {unknown} chai
+ */
 function anotherPlugin(chai) {
   if (chai.Assertion.prototype.moreTesting) return;
 
@@ -24,6 +34,11 @@ function anotherPlugin(chai) {
   });
 }
 
+/**
+ * A exmple of a "bad" plugin for chai that overwrites the `equal` property.
+ *
+ * @param {unknown} chai
+ */
 function brokenPlugin(chai) {
   chai.overwriteProperty('equal', function (_super) {
     if (something) {
@@ -34,6 +49,10 @@ function brokenPlugin(chai) {
 }
 
 describe('plugins', function () {
+  // Plugins are not applied "immutably" on chai so we want to just apply them
+  // here globally and then run all the tests.
+  use(plugin).use(anotherPlugin);
+
   it("doesn't crash when there's a bad plugin", function () {
     expect(() => {
       use(brokenPlugin).use(brokenPlugin).use(brokenPlugin);
@@ -46,60 +65,45 @@ describe('plugins', function () {
     });
 
     it('basic usage', function () {
-      use(plugin);
       expect((42).should.testing).to.equal('successful');
     });
 
     it('multiple plugins apply all changes', function () {
-      use(plugin).use(anotherPlugin);
-
       expect((42).should.testing).to.equal('successful');
       expect((42).should.moreTesting).to.equal('more success');
     });
 
     it('.use detached from chai object', function () {
-      use(anotherPlugin);
-
       expect((42).should.moreTesting).to.equal('more success');
     });
   });
 
   describe('expect', () => {
     it('basic usage', function () {
-      const {expect} = use(plugin);
       expect(expect('').testing).to.equal('successful');
     });
 
     it('multiple plugins apply all changes', function () {
-      const chai = use(plugin).use(anotherPlugin);
-
-      expect(chai.expect('').testing).to.equal('successful');
-      expect(chai.expect('').moreTesting).to.equal('more success');
+      expect(expect('').testing).to.equal('successful');
+      expect(expect('').moreTesting).to.equal('more success');
     });
 
     it('.use detached from chai object', function () {
-      const {expect} = use(anotherPlugin);
-
       expect(expect('').moreTesting).to.equal('more success');
     });
   });
 
   describe('assert', () => {
     it('basic usage', function () {
-      const {assert} = use(plugin);
       expect(assert.testing).to.equal('successful');
     });
 
     it('multiple plugins apply all changes', function () {
-      const chai = use(plugin).use(anotherPlugin);
-
-      expect(chai.assert.testing).to.equal('successful');
-      expect(chai.assert.moreTesting).to.equal('more success');
+      expect(assert.testing).to.equal('successful');
+      expect(assert.moreTesting).to.equal('more success');
     });
 
     it('.use detached from chai object', function () {
-      const {assert} = use(anotherPlugin);
-
       expect(assert.moreTesting).to.equal('more success');
     });
   });
