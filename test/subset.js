@@ -1,4 +1,4 @@
-import { expect } from "../index.js";
+import { assert, expect } from "../index.js";
 
 describe("plain object", function () {
   var testedObject = {
@@ -146,7 +146,6 @@ describe("comparison of non objects", function () {
 
 describe("assert style of test", function () {
   it("should find subset", function () {
-    var assert = require("chai").assert;
     assert.containSubset({ a: 1, b: 2 }, { a: 1 });
   });
 });
