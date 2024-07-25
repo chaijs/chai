@@ -46,7 +46,7 @@
     "get-func-name": "^2.0.2",
     "loupe": "^2.3.6",
     "pathval": "^1.1.1",
-    "type-detect": "^4.0.8"
+    "type-detect": "^4.1.0"
   },
   "devDependencies": {
     "browserify": "^16.5.2",
