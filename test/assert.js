@@ -144,6 +144,23 @@ describe('assert', function () {
       assert.typeOf(Symbol(), 'symbol');
     }
 
+    assert.typeOf(5n, 'bigint');
+
+    assert.typeOf(() => {}, 'function');
+    assert.typeOf(function() {}, 'function');
+    assert.typeOf(async function() {}, 'asyncfunction');
+    assert.typeOf(function*() {}, 'generatorfunction');
+    assert.typeOf(async function*() {}, 'asyncgeneratorfunction');
+    assert.typeOf(Symbol(), 'symbol');
+
+    err(function () {
+      assert.typeOf(5, 'function', 'blah');
+    }, "blah: expected 5 to be a function");
+
+    err(function () {
+      assert.typeOf(function() {}, 'asyncfunction', 'blah');
+    }, "blah: expected [Function] to be an asyncfunction");
+
     err(function () {
       assert.typeOf(5, 'string', 'blah');
     }, "blah: expected 5 to be a string");
