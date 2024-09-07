@@ -612,6 +612,27 @@ describe('assert', function () {
     }, "blah: expected 4 not to be a number");
   });
 
+
+  it('isNumeric', function() {
+    assert.isNumeric(1);
+    assert.isNumeric(Number('3'));
+    assert.isNumeric(6n);
+    assert.isNumeric(BigInt(9));
+
+    err(function () {
+      assert.isNumeric('1', 'blah');
+    }, "blah: expected \'1\' to be numeric");
+  });
+
+  it('isNotNumeric', function () {
+    assert.isNotNumeric('hello');
+    assert.isNotNumeric([ 5 ]);
+
+    err(function () {
+      assert.isNotNumeric(4, 'blah');
+    }, "blah: expected 4 to not be numeric");
+  });
+
   it('isFinite', function() {
     assert.isFinite(4);
     assert.isFinite(-10);
