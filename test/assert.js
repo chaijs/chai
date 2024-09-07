@@ -2328,6 +2328,8 @@ describe('assert', function () {
   it('atMost', function() {
     assert.isAtMost(2, 5, '2 should be below 5');
     assert.isAtMost(1, 1, '1 should be equal to 1');
+    assert.isAtMost(2n, 5, '2 should be below 5');
+    assert.isAtMost(1, 1n, '1 should be equal to 1');
 
     err(function() {
       assert.isAtMost(3, 1, 'blah');
