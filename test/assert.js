@@ -2134,6 +2134,10 @@ describe('assert', function () {
 
   it('above', function() {
     assert.isAbove(5, 2, '5 should be above 2');
+    assert.isAbove(5n, 2, '5 should be above 2');
+    assert.isAbove(5, 2n, '5 should be above 2');
+    assert.isAbove(5n, 2n, '5 should be above 2');
+    assert.isAbove(9007199254740994n, 2, '9007199254740994 should be above 2');
 
     err(function() {
       assert.isAbove(1, 3, 'blah');
