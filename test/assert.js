@@ -2227,6 +2227,8 @@ describe('assert', function () {
   it('atLeast', function() {
     assert.isAtLeast(5, 2, '5 should be above 2');
     assert.isAtLeast(1, 1, '1 should be equal to 1');
+    assert.isAtLeast(5n, 2, '5 should be above 2');
+    assert.isAtLeast(1, 1n, '1 should be equal to 1');
 
     err(function() {
       assert.isAtLeast(1, 3, 'blah');
