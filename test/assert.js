@@ -2274,6 +2274,9 @@ describe('assert', function () {
 
   it('below', function() {
     assert.isBelow(2, 5, '2 should be below 5');
+    assert.isBelow(2, 5n, '2 should be below 5');
+    assert.isBelow(2n, 5, '2 should be below 5');
+    assert.isBelow(2n, 5n, '2 should be below 5');
 
     err(function() {
       assert.isBelow(3, 1, 'blah');
