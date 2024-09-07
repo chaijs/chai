@@ -479,6 +479,9 @@ describe('expect', function () {
     expect('foo').to.have.lengthOf.within(2, 4);
     expect([ 1, 2, 3 ]).to.have.length.within(2, 4);
     expect([ 1, 2, 3 ]).to.have.lengthOf.within(2, 4);
+    expect(5n).to.be.within(5, 10);
+    expect(5).to.be.within(3n, 6);
+    expect(5).to.be.within(3, 5n);
 
     err(function(){
       expect(5).to.not.be.within(4, 6, 'blah');
