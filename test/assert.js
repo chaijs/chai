@@ -1450,6 +1450,21 @@ describe('assert', function () {
     }, "blah: expected 'foobar' not to match /^foo/i");
   });
 
+  it("deepMatch", function () {
+    assert.deepMatch('foo', /^foo/);
+    assert.notDeepMatch('foobar', /^bar/);
+
+    err(function () {
+      assert.deepMatch('foobar', /^bar/i, 'blah');
+    }, "blah: expected 'foobar' to match /^bar/i");
+
+    err(function () {
+      assert.notDeepMatch('foobar', /^foobar/i, 'blah');
+    }, "blah: expected 'foobar' not to match /^foobar/i");
+
+    assert.notDeepMatch("fr33 mon3y", /fr[e3]|[e3]|[e3] money/i);
+  });
+
   it('property', function () {
     var obj = { foo: { bar: 'baz' } };
     var simpleObj = { foo: 'bar' };
