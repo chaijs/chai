@@ -105,10 +105,7 @@ describe('configuration', function () {
 
           it('should include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.contain('propertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -131,10 +128,7 @@ describe('configuration', function () {
 
           it('should include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -247,10 +241,7 @@ describe('configuration', function () {
 
           it('should not include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.not.contain('propertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.not.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -273,10 +264,7 @@ describe('configuration', function () {
 
           it('should not include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.not.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -411,10 +399,7 @@ describe('configuration', function () {
 
           it('should include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.contain('propertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -437,10 +422,7 @@ describe('configuration', function () {
 
           it('should include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.contain('overwritingPropertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -553,10 +535,7 @@ describe('configuration', function () {
 
           it('should not include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.not.contain('propertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.not.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -579,10 +558,7 @@ describe('configuration', function () {
 
           it('should not include Chai frames in stack trace', function () {
             expect(caughtErr.stack).to.not.contain('overwritingPropertyGetter');
-
-            if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-              expect(caughtErr.stack).to.not.contain('proxyGetter');
-            }
+            expect(caughtErr.stack).to.not.contain('proxyGetter');
           });
 
           it('should include user frames in stack trace', function () {
@@ -767,11 +743,7 @@ describe('configuration', function () {
 
     describe('when true', function() {
       it('should use proxy unless user\'s environment doesn\'t support', function() {
-        if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-          expect(readNoExistentProperty).to.throw('Invalid Chai property: tue');
-        } else {
-          expect(readNoExistentProperty).to.not.throw('Invalid Chai property: tue');
-        }
+        expect(readNoExistentProperty).to.throw('Invalid Chai property: tue');
       });
     });
 
@@ -806,13 +778,8 @@ describe('configuration', function () {
     it('should throw for properties which are not on the `proxyExcludedKeys` Array in an environment with proxy support', function() {
       chai.config.proxyExcludedKeys = [];
 
-      if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-        expect(readNoExistentProperty('then')).to.throw('Invalid Chai property: then');
-        expect(readNoExistentProperty('inspect')).to.throw('Invalid Chai property: inspect');
-      } else {
-        expect(readNoExistentProperty('then')).to.not.throw();
-        expect(readNoExistentProperty('inspect')).to.not.throw();
-      }
+      expect(readNoExistentProperty('then')).to.throw('Invalid Chai property: then');
+      expect(readNoExistentProperty('inspect')).to.throw('Invalid Chai property: inspect');
     });
   });
 

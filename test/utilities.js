@@ -750,8 +750,6 @@ describe('utilities', function () {
   });
 
   it('inspect Symbol', function () {
-    if (typeof Symbol !== 'function') return;
-
     chai.use(function (_chai, _) {
       expect(_.inspect(Symbol())).to.equal('Symbol()');
       expect(_.inspect(Symbol('cat'))).to.equal('Symbol(cat)');
@@ -759,8 +757,6 @@ describe('utilities', function () {
   });
 
   it('inspect BigInt', function () {
-    if (typeof BigInt !== 'function') return;
-
     chai.use(function (_chai, _) {
       expect(_.inspect(BigInt(0))).to.equal('0n');
       expect(_.inspect(BigInt(1234))).to.equal('1234n');
@@ -1089,11 +1085,9 @@ describe('utilities', function () {
       expect(cbi({'cat': [['dog', 1]]}, {'cat': [['dog', 2]]})).to.equal(-1);
       expect(cbi({'cat': [['dog', 2]]}, {'cat': [['dog', 1]]})).to.equal(1);
 
-      if (typeof Symbol === 'function') {
-        // "Symbol(c" is less than "Symbol(d"
-        expect(cbi(Symbol('cat'), Symbol('dog'))).to.equal(-1);
-        expect(cbi(Symbol('dog'), Symbol('cat'))).to.equal(1);
-      }
+      // "Symbol(c" is less than "Symbol(d"
+      expect(cbi(Symbol('cat'), Symbol('dog'))).to.equal(-1);
+      expect(cbi(Symbol('dog'), Symbol('cat'))).to.equal(1);
     });
   });
 
@@ -1116,8 +1110,6 @@ describe('utilities', function () {
     });
 
     it('returns enumerable symbols only', function () {
-      if (typeof Symbol !== 'function') return;
-
       var cat = Symbol('cat')
         , dog = Symbol('dog')
         , frog = Symbol('frog')
@@ -1165,8 +1157,6 @@ describe('utilities', function () {
     });
 
     it('returns enumerable property names and symbols', function () {
-      if (typeof Symbol !== 'function') return;
-
       var cat = Symbol('cat')
         , dog = Symbol('dog')
         , frog = Symbol('frog')
@@ -1193,8 +1183,6 @@ describe('utilities', function () {
   });
 
   describe('proxified object', function () {
-    if (typeof Proxy === 'undefined' || typeof Reflect === 'undefined') return;
-
     var proxify;
 
     beforeEach(function () {
@@ -1324,27 +1312,15 @@ describe('utilities', function () {
       chai.config.useProxy = origUseProxy;
     });
 
-    if (typeof Proxy !== 'undefined' && typeof Reflect !== 'undefined') {
-      it("returns true if Proxy and Reflect are defined, and useProxy is true", function () {
-        expect(isProxyEnabled()).to.be.true;
-      });
+    it("returns true if Proxy and Reflect are defined, and useProxy is true", function () {
+      expect(isProxyEnabled()).to.be.true;
+    });
 
-      it("returns false if Proxy and Reflect are defined, and useProxy is false", function () {
-        chai.config.useProxy = false;
+    it("returns false if Proxy and Reflect are defined, and useProxy is false", function () {
+      chai.config.useProxy = false;
 
-        expect(isProxyEnabled()).to.be.false;
-      });
-    } else {
-      it("returns false if Proxy and/or Reflect are undefined, and useProxy is true", function () {
-        expect(isProxyEnabled()).to.be.false;
-      });
-
-      it("returns false if Proxy and/or Reflect are undefined, and useProxy is false", function () {
-        chai.config.useProxy = false;
-
-        expect(isProxyEnabled()).to.be.false;
-      });
-    }
+      expect(isProxyEnabled()).to.be.false;
+    });
   });
 
   describe('getOperator', function() {

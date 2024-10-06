@@ -5,9 +5,9 @@ name: Browsers CI
 
 on:
   push:
-    branches: [ main, 4.x.x, 5.x.x ]
+    branches: [ main, 4.x.x ]
   pull_request:
-    branches: [ main, 4.x.x, 5.x.x ]
+    branches: [ main, 4.x.x ]
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: ${{ matrix.browser-name }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
     - run: npm ci
     - run: npx playwright install --with-deps
     - run: npm run build --if-present

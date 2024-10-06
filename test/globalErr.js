@@ -186,12 +186,12 @@ describe('globalErr', function () {
       , undefined
     ];
 
-    if (typeof Symbol === 'function') vals.push(Symbol());
-    if (typeof Map === 'function') vals.push(new Map());
-    if (typeof WeakMap === 'function') vals.push(new WeakMap());
-    if (typeof Set === 'function') vals.push(new Set());
-    if (typeof WeakSet === 'function') vals.push(new WeakSet());
-    if (typeof Promise === 'function') vals.push(new Promise(noop));
+    vals.push(Symbol());
+    vals.push(new Map());
+    vals.push(new Set());
+    vals.push(new WeakMap());
+    vals.push(new WeakSet());
+    vals.push(new Promise(noop));
 
     vals.forEach(function (val) {
       err(function () { err(val) }, 'Invalid fn')
@@ -207,12 +207,12 @@ describe('globalErr', function () {
       , null
     ];
 
-    if (typeof Symbol === 'function') vals.push(Symbol());
-    if (typeof Map === 'function') vals.push(new Map());
-    if (typeof WeakMap === 'function') vals.push(new WeakMap());
-    if (typeof Set === 'function') vals.push(new Set());
-    if (typeof WeakSet === 'function') vals.push(new WeakSet());
-    if (typeof Promise === 'function') vals.push(new Promise(noop));
+    vals.push(Symbol());
+    vals.push(new Map());
+    vals.push(new WeakMap());
+    vals.push(new Set());
+    vals.push(new WeakSet());
+    vals.push(new Promise(noop));
 
     vals.forEach(function (val) {
       err(function () {
