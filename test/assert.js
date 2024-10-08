@@ -1916,7 +1916,7 @@ describe('assert', function () {
 
     err(function() {
       assert.closeTo(1.5, 1.0, undefined, 'blah');
-    }, "blah: expected undefined to be numeric");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('approximately', function(){
@@ -1947,7 +1947,7 @@ describe('assert', function () {
 
     err(function() {
       assert.approximately(1.5, 1.0, undefined, 'blah');
-    }, "blah: expected undefined to be numeric");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('sameMembers', function() {

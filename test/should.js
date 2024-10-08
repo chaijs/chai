@@ -2768,7 +2768,7 @@ describe('should', function() {
 
     err(function() {
       (1.5).should.be.closeTo(1.0, undefined, 'blah');
-    }, "blah: expected undefined to be numeric");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('approximately', function(){
@@ -2792,7 +2792,7 @@ describe('should', function() {
 
     err(function() {
       (1.5).should.be.approximately(1.0);
-    }, "expected undefined to be numeric");
+    }, "A `delta` value is required for `closeTo`");
   });
 
   it('include.members', function() {

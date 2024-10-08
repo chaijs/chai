@@ -3306,7 +3306,7 @@ describe('expect', function () {
 
     err(function() {
       expect(1.5, 'blah').to.be.closeTo(1.0);
-    }, "blah: expected undefined to be numeric");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('approximately', function(){
@@ -3336,7 +3336,7 @@ describe('expect', function () {
 
     err(function() {
       expect(1.5).to.be.approximately(1.0);
-    }, "expected undefined to be numeric");
+    }, "A `delta` value is required for `closeTo`");
   });
 
   it('oneOf', function() {
