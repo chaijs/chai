@@ -1893,6 +1893,7 @@ describe('assert', function () {
     assert.closeTo(1.5, 1.0, 0.5);
     assert.closeTo(10, 20, 20);
     assert.closeTo(-10, 20, 30);
+    assert.closeTo(10, 10, 0);
 
     err(function(){
       assert.closeTo(2, 1.0, 0.5, 'blah');
