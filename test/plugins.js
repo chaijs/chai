@@ -24,6 +24,14 @@ describe('plugins', function () {
     }).to.not.throw();
   });
 
+  it('nested plugin', function () {
+    chai.use(function (chai) {
+      chai.use(plugin);
+    });
+    var expect = chai.expect;
+    expect(expect('').testing).to.equal('successful');
+  });
+
   it('.use detached from chai object', function () {
     function anotherPlugin (chai) {
       Object.defineProperty(chai.Assertion.prototype, 'moreTesting', {
