@@ -153,6 +153,23 @@ describe('assert', function () {
       assert.typeOf(function() {}, 'asyncfunction', 'blah');
     }, "blah: expected [Function] to be an asyncfunction");
 
+    assert.typeOf(5n, 'bigint');
+
+    assert.typeOf(() => {}, 'function');
+    assert.typeOf(function() {}, 'function');
+    assert.typeOf(async function() {}, 'asyncfunction');
+    assert.typeOf(function*() {}, 'generatorfunction');
+    assert.typeOf(async function*() {}, 'asyncgeneratorfunction');
+    assert.typeOf(Symbol(), 'symbol');
+
+    err(function () {
+      assert.typeOf(5, 'function', 'blah');
+    }, "blah: expected 5 to be a function");
+
+    err(function () {
+      assert.typeOf(function() {}, 'asyncfunction', 'blah');
+    }, "blah: expected [Function] to be an asyncfunction");
+
     err(function () {
       assert.typeOf(5, 'string', 'blah');
     }, "blah: expected 5 to be a string");
@@ -630,6 +647,27 @@ describe('assert', function () {
     err(function () {
       assert.isNotNumber(4, 'blah');
     }, "blah: expected 4 not to be a number");
+  });
+
+
+  it('isNumeric', function() {
+    assert.isNumeric(1);
+    assert.isNumeric(Number('3'));
+    assert.isNumeric(6n);
+    assert.isNumeric(BigInt(9));
+
+    err(function () {
+      assert.isNumeric('1', 'blah');
+    }, "blah: expected \'1\' to be numeric");
+  });
+
+  it('isNotNumeric', function () {
+    assert.isNotNumeric('hello');
+    assert.isNotNumeric([ 5 ]);
+
+    err(function () {
+      assert.isNotNumeric(4, 'blah');
+    }, "blah: expected 4 to not be numeric");
   });
 
   it('isFinite', function() {
@@ -1855,6 +1893,7 @@ describe('assert', function () {
     assert.closeTo(1.5, 1.0, 0.5);
     assert.closeTo(10, 20, 20);
     assert.closeTo(-10, 20, 30);
+    assert.closeTo(10, 10, 0);
 
     err(function(){
       assert.closeTo(2, 1.0, 0.5, 'blah');
@@ -1866,25 +1905,26 @@ describe('assert', function () {
 
     err(function() {
       assert.closeTo([1.5], 1.0, 0.5, 'blah');
-    }, "blah: expected [ 1.5 ] to be a number");
+    }, "blah: expected [ 1.5 ] to be numeric");
 
     err(function() {
       assert.closeTo(1.5, "1.0", 0.5, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected '1.0' to be numeric");
 
     err(function() {
       assert.closeTo(1.5, 1.0, true, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected true to be numeric");
 
     err(function() {
       assert.closeTo(1.5, 1.0, undefined, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('approximately', function(){
     assert.approximately(1.5, 1.0, 0.5);
     assert.approximately(10, 20, 20);
     assert.approximately(-10, 20, 30);
+    assert.approximately(1n, 2n, 1n);
 
     err(function(){
       assert.approximately(2, 1.0, 0.5, 'blah');
@@ -1896,19 +1936,19 @@ describe('assert', function () {
 
     err(function() {
       assert.approximately([1.5], 1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+    }, "expected [ 1.5 ] to be numeric");
 
     err(function() {
       assert.approximately(1.5, "1.0", 0.5, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected '1.0' to be numeric");
 
     err(function() {
       assert.approximately(1.5, 1.0, true, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected true to be numeric");
 
     err(function() {
       assert.approximately(1.5, 1.0, undefined, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('sameMembers', function() {
@@ -2135,6 +2175,10 @@ describe('assert', function () {
 
   it('above', function() {
     assert.isAbove(5, 2, '5 should be above 2');
+    assert.isAbove(5n, 2, '5 should be above 2');
+    assert.isAbove(5, 2n, '5 should be above 2');
+    assert.isAbove(5n, 2n, '5 should be above 2');
+    assert.isAbove(9007199254740994n, 2, '9007199254740994 should be above 2');
 
     err(function() {
       assert.isAbove(1, 3, 'blah');
@@ -2186,6 +2230,8 @@ describe('assert', function () {
   it('atLeast', function() {
     assert.isAtLeast(5, 2, '5 should be above 2');
     assert.isAtLeast(1, 1, '1 should be equal to 1');
+    assert.isAtLeast(5n, 2, '5 should be above 2');
+    assert.isAtLeast(1, 1n, '1 should be equal to 1');
 
     err(function() {
       assert.isAtLeast(1, 3, 'blah');
@@ -2231,6 +2277,9 @@ describe('assert', function () {
 
   it('below', function() {
     assert.isBelow(2, 5, '2 should be below 5');
+    assert.isBelow(2, 5n, '2 should be below 5');
+    assert.isBelow(2n, 5, '2 should be below 5');
+    assert.isBelow(2n, 5n, '2 should be below 5');
 
     err(function() {
       assert.isBelow(3, 1, 'blah');
@@ -2282,6 +2331,8 @@ describe('assert', function () {
   it('atMost', function() {
     assert.isAtMost(2, 5, '2 should be below 5');
     assert.isAtMost(1, 1, '1 should be equal to 1');
+    assert.isAtMost(2n, 5, '2 should be below 5');
+    assert.isAtMost(1, 1n, '1 should be equal to 1');
 
     err(function() {
       assert.isAtMost(3, 1, 'blah');

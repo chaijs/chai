@@ -556,6 +556,9 @@ describe('expect', function () {
     expect('foo').to.have.lengthOf.within(2, 4);
     expect([ 1, 2, 3 ]).to.have.length.within(2, 4);
     expect([ 1, 2, 3 ]).to.have.lengthOf.within(2, 4);
+    expect(5n).to.be.within(5, 10);
+    expect(5).to.be.within(3n, 6);
+    expect(5).to.be.within(3, 5n);
 
     err(function(){
       expect(5).to.not.be.within(4, 6, 'blah');
@@ -3279,31 +3282,31 @@ describe('expect', function () {
 
     err(function() {
       expect([1.5]).to.be.closeTo(1.0, 0.5, 'blah');
-    }, "blah: expected [ 1.5 ] to be a number");
+    }, "blah: expected [ 1.5 ] to be numeric");
 
     err(function() {
       expect([1.5], 'blah').to.be.closeTo(1.0, 0.5);
-    }, "blah: expected [ 1.5 ] to be a number");
+    }, "blah: expected [ 1.5 ] to be numeric");
 
     err(function() {
       expect(1.5).to.be.closeTo("1.0", 0.5, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected '1.0' to be numeric");
 
     err(function() {
       expect(1.5, 'blah').to.be.closeTo("1.0", 0.5);
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected '1.0' to be numeric");
 
     err(function() {
       expect(1.5).to.be.closeTo(1.0, true, 'blah');
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected true to be numeric");
 
     err(function() {
       expect(1.5, 'blah').to.be.closeTo(1.0, true);
-    }, "blah: the arguments to closeTo or approximately must be numbers");
+    }, "blah: expected true to be numeric");
 
     err(function() {
       expect(1.5, 'blah').to.be.closeTo(1.0);
-    }, "blah: the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "blah: A `delta` value is required for `closeTo`");
   });
 
   it('approximately', function(){
@@ -3321,19 +3324,19 @@ describe('expect', function () {
 
     err(function() {
       expect([1.5]).to.be.approximately(1.0, 0.5);
-    }, "expected [ 1.5 ] to be a number");
+    }, "expected [ 1.5 ] to be numeric");
 
     err(function() {
       expect(1.5).to.be.approximately("1.0", 0.5);
-    }, "the arguments to closeTo or approximately must be numbers");
+    }, "expected '1.0' to be numeric");
 
     err(function() {
       expect(1.5).to.be.approximately(1.0, true);
-    }, "the arguments to closeTo or approximately must be numbers");
+    }, "expected true to be numeric");
 
     err(function() {
       expect(1.5).to.be.approximately(1.0);
-    }, "the arguments to closeTo or approximately must be numbers, and a delta is required");
+    }, "A `delta` value is required for `closeTo`");
   });
 
   it('oneOf', function() {
