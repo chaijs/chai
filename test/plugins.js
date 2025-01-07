@@ -24,6 +24,27 @@ describe('plugins', function () {
     }).to.not.throw();
   });
 
+  it('nested plugin', function () {
+    chai.use(function (chai) {
+      chai.use(plugin);
+    });
+    var expect = chai.expect;
+    expect(expect('').testing).to.equal('successful');
+  });
+
+  it('chained plugin', function () {
+    chai.use(function (chaiObj) {
+      Object.defineProperty(chaiObj.Assertion.prototype, 'testing2', {
+        get() {
+          return 'bleep bloop';
+        }
+      });
+    }).use(plugin);
+    var expect = chai.expect;
+    expect(expect('').testing).to.equal('successful');
+    expect(expect('').testing2).to.equal('bleep bloop');
+  });
+
   it('.use detached from chai object', function () {
     function anotherPlugin (chai) {
       Object.defineProperty(chai.Assertion.prototype, 'moreTesting', {
