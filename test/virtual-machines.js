@@ -1,5 +1,5 @@
 import vm from 'node:vm';
-import * as chai from '../index.js';
+import * as chai from '../chai.js';
 
 const {assert} = chai;
 const vmContext = {assert};
