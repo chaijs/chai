@@ -34,14 +34,13 @@ export {expect};
  *     expect.fail(1, 2, undefined, ">");
  *
  * @name fail
- * @param {Mixed} actual
- * @param {Mixed} expected
- * @param {String} message
- * @param {String} operator
- * @namespace BDD
- * @api public
+ * @param {unknown} actual
+ * @param {unknown} expected
+ * @param {string} message
+ * @param {string} operator
+ * @namespace expect
+ * @public
  */
-
 function expectFail(
   message?: string
 ): void;

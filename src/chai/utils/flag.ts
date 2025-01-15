@@ -15,12 +15,13 @@
  *     utils.flag(this, 'foo', 'bar'); // setter
  *     utils.flag(this, 'foo'); // getter, returns `bar`
  *
- * @param {Object} object constructed Assertion
- * @param {String} key
- * @param {Mixed} value (optional)
+ * @param {object} obj constructed Assertion
+ * @param {string} key
+ * @param {mixed} value (optional)
+ * @returns {unknown | undefined}
  * @namespace Utils
  * @name flag
- * @api private
+ * @private
  */
 
 function flag<

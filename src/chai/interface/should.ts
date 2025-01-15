@@ -32,9 +32,14 @@ declare global {
 
 /**
  * Loads the `should` interface
+ *
+ * @returns {ShouldInterface}
  */
 function loadShould (): ShouldInterface {
   // explicitly define this method as function as to have it's name to include as `ssfi`
+  /**
+   * @returns {Assertion}
+   */
   function shouldGetter(this: unknown) {
     if (this instanceof String
         || this instanceof Number
@@ -45,6 +50,9 @@ function loadShould (): ShouldInterface {
     }
     return Assertion.create(this, null, shouldGetter);
   }
+  /**
+   * @param {unknown} value
+   */
   function shouldSetter(this: unknown, value: unknown) {
     // See https://github.com/chaijs/chai/issues/86: this makes
     // `whatever.should = someValue` actually set `someValue`, which is

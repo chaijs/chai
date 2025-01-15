@@ -4,10 +4,6 @@
  * MIT Licensed
  */
 
-/*!
- * Module dependencies
- */
-
 import {addLengthGuard} from './addLengthGuard.js';
 import {flag} from './flag.js';
 import {proxify} from './proxify.js';

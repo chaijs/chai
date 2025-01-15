@@ -65,11 +65,11 @@ const getDefaultValue = <T>(assertion: Assertion<T>): Assertion<T> => {
  *
  * - `eql`: This flag contains the deepEqual function to be used by the assertion.
  *
- * @param {Mixed} obj target of the assertion
- * @param {String} msg (optional) custom error message
+ * @param {unknown} obj target of the assertion
+ * @param {string} msg (optional) custom error message
  * @param {Function} ssfi (optional) starting point for removing stack frames
- * @param {Boolean} lockSsfi (optional) whether or not the ssfi flag is locked
- * @api private
+ * @param {boolean} lockSsfi (optional) whether or not the ssfi flag is locked
+ * @private
  */
 export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> {
   declare public __flags: TFlags;
@@ -174,13 +174,13 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
    * Executes an expression and check expectations. Throws AssertionError for reporting if test doesn't pass.
    *
    * @name assert
-   * @param {Philosophical} expression to be tested
-   * @param {String|Function} message or function that returns message to display if expression fails
-   * @param {String|Function} negatedMessage or function that returns negatedMessage to display if negated expression fails
-   * @param {Mixed} expected value (remember to check for negation)
-   * @param {Mixed} actual (optional) will default to `this.obj`
-   * @param {Boolean} showDiff (optional) when set to `true`, assert will display a diff in addition to the message if expression fails
-   * @api private
+   * @param {unknown} _expr to be tested
+   * @param {string | Function} msg or function that returns message to display if expression fails
+   * @param {string | Function} _negateMsg or function that returns negatedMessage to display if negated expression fails
+   * @param {unknown} expected value (remember to check for negation)
+   * @param {unknown} _actual (optional) will default to `this.obj`
+   * @param {boolean} showDiff (optional) when set to `true`, assert will display a diff in addition to the message if expression fails
+   * @private
    */
   public assert(
     _expr: unknown,
@@ -222,7 +222,7 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
    *
    * Quick reference to stored `actual` value for plugin developers.
    *
-   * @api private
+   * @private
    */
   public get _obj(): unknown {
     return util.flag(this, 'object');
