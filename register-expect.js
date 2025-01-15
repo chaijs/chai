@@ -1,3 +1,3 @@
-import {expect} from './lib/chai.js';
+import {expect} from './chai.js';
 
 globalThis.expect = expect;

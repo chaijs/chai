@@ -1,4 +1,4 @@
-import * as chai from '../../lib/chai.js';
+import * as chai from '../../chai.js';
 
 function assert (expr, msg) {
   if (!expr) {

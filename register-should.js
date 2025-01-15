@@ -1,3 +1,3 @@
-import {should} from './lib/chai.js';
+import {should} from './chai.js';
 
 globalThis.should = should();

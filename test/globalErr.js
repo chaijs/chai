@@ -1,4 +1,4 @@
-import * as chai from '../lib/chai.js';
+import * as chai from '../chai.js';
 import {globalErr as err} from './bootstrap/index.js';
 
 describe('globalErr', function () {
