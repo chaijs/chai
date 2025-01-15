@@ -31,6 +31,7 @@ export {AssertionError};
  */
 export function use(fn: UseFn): Record<string, unknown> {
   const exports = {
+    use,
     AssertionError,
     util,
     config,
