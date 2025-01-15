@@ -107,6 +107,6 @@ export function isRegExp(obj: unknown): obj is RegExp {
   return Object.prototype.toString.call(obj) === '[object RegExp]';
 }
 
-export function isNumeric(obj: unknown): obj is number | BigInt {
+export function isNumeric(obj: unknown): obj is number | bigint {
   return ['Number', 'BigInt'].includes(type(obj))
 }

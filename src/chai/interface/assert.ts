@@ -71,8 +71,8 @@ export interface AssertInterface {
   isNotString<T>(val: T, msg?: string): asserts val is Exclude<T, string>;
   isNumber(val: unknown, msg?: string): asserts val is number;
   isNotNumber<T>(val: T, msg?: string): asserts val is Exclude<T, number>;
-  isNumeric(val: unknown, msg?: string): asserts val is number | BigInt;
-  isNotNumeric<T>(val: T, msg?: string): asserts val is Exclude<T, number | BigInt>;
+  isNumeric(val: unknown, msg?: string): asserts val is number | bigint;
+  isNotNumeric<T>(val: T, msg?: string): asserts val is Exclude<T, number | bigint>;
   isFinite(val: number, msg?: string): void;
   isBoolean(val: unknown, msg?: string): asserts val is boolean;
   isNotBoolean<T>(val: T, msg?: string): asserts val is Exclude<T, boolean>;
