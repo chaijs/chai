@@ -1,4 +1,4 @@
-import * as chai from '../index.js';
+import * as chai from '../chai.js';
 import {globalErr as err} from './bootstrap/index.js';
 
 describe('expect', function () {
@@ -11,29 +11,34 @@ describe('expect', function () {
 
   describe('safeguards', function () {
     before(function () {
+      const getDefaultValue = (assertion) => {
+        var newAssertion = chai.Assertion.create();
+        chai.util.transferFlags(assertion, newAssertion);
+        return newAssertion;
+      };
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
         new chai.Assertion(42).equal(42);
-      });
+      }, getDefaultValue);
       chai.util.overwriteProperty(chai.Assertion.prototype, 'tmpProperty', function (_super) {
         return function () {
           _super.call(this);
         };
-      });
+      }, getDefaultValue);
 
       chai.util.addMethod(chai.Assertion.prototype, 'tmpMethod', function () {
         new chai.Assertion(42).equal(42);
-      });
+      }, getDefaultValue);
       chai.util.overwriteMethod(chai.Assertion.prototype, 'tmpMethod', function (_super) {
         return function () {
           _super.call(this);
         };
-      });
+      }, getDefaultValue);
 
       chai.util.addChainableMethod(chai.Assertion.prototype, 'tmpChainableMethod', function () {
         new chai.Assertion(42).equal(42);
       }, function () {
         new chai.Assertion(42).equal(42);
-      });
+      }, getDefaultValue);
       chai.util.overwriteChainableMethod(chai.Assertion.prototype, 'tmpChainableMethod', function (_super) {
         return function () {
           _super.call(this);
@@ -42,7 +47,7 @@ describe('expect', function () {
         return function () {
           _super.call(this);
         };
-      });
+      }, getDefaultValue);
     });
 
     after(function () {

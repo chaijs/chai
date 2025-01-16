@@ -24,3 +24,4 @@ test/auth/*
 
 /chai.js
 /chai.cjs
+/lib
