@@ -572,7 +572,7 @@ assert.fail = function fail(
   let actual = actualOrMsg;
 
   if (arguments.length < 2) {
-      // Comply with Node's fail([message]) interface
+    // Comply with Node's fail([message]) interface
 
       msg = actualOrMsg as string;
       actual = undefined;
@@ -642,12 +642,12 @@ assert.equal = function (act: unknown, exp: unknown, msg?: string) {
   var test = Assertion.create(act, msg, assert.equal, true);
 
   test.assert(
-      exp == flag(test, 'object')
-    , 'expected #{this} to equal #{exp}'
-    , 'expected #{this} to not equal #{act}'
-    , exp
-    , act
-    , true
+    exp == flag(test, 'object'),
+    'expected #{this} to equal #{exp}',
+    'expected #{this} to not equal #{act}',
+    exp,
+    act,
+    true
   );
 };
 
@@ -669,12 +669,12 @@ assert.notEqual = function (act: unknown, exp: unknown, msg?: string) {
   var test = Assertion.create(act, msg, assert.notEqual, true);
 
   test.assert(
-      exp != flag(test, 'object')
-    , 'expected #{this} to not equal #{exp}'
-    , 'expected #{this} to equal #{act}'
-    , exp
-    , act
-    , true
+    exp != flag(test, 'object'),
+    'expected #{this} to not equal #{exp}',
+    'expected #{this} to equal #{act}',
+    exp,
+    act,
+    true
   );
 };
 
@@ -1057,7 +1057,7 @@ assert.isDefined = function (val: unknown, msg?: string) {
  */
 assert.isCallable = function (value: unknown, message?: string) {
   new Assertion(value, message, assert.isCallable, true).is.callable;
-}
+};
 
 assert.isFunction = assert.isCallable;
 
@@ -1234,7 +1234,7 @@ assert.isNotNumber = function (val: unknown, msg?: string) {
  *
  *     var cups = 2;
  *     assert.isNumeric(cups, 'how many cups');
- * 
+ *
  *     var cups = 10n;
  *     assert.isNumeric(cups, 'how many cups');
  *
@@ -2586,7 +2586,7 @@ assert.doesNotThrow = assertDoesNotThrow;
  */
 assert.operator = function (val: unknown, operator: string, val2: unknown, msg?: string) {
   var ok;
-  switch(operator) {
+  switch (operator) {
     case '==':
       ok = val == val2;
       break;
@@ -2621,9 +2621,10 @@ assert.operator = function (val: unknown, operator: string, val2: unknown, msg?:
   }
   var test = Assertion.create(ok, msg, assert.operator, true);
   test.assert(
-      true === flag(test, 'object')
-    , 'expected ' + inspect(val) + ' to be ' + operator + ' ' + inspect(val2)
-    , 'expected ' + inspect(val) + ' to not be ' + operator + ' ' + inspect(val2) );
+    true === flag(test, 'object'),
+    'expected ' + inspect(val) + ' to be ' + operator + ' ' + inspect(val2),
+    'expected ' + inspect(val) + ' to not be ' + operator + ' ' + inspect(val2)
+  );
 };
 
 /**
@@ -3031,13 +3032,9 @@ assert.isIterable = function(obj: unknown, msg?: string) {
       `${msg} expected ${inspect(obj)} to be an iterable` :
       `expected ${inspect(obj)} to be an iterable`;
 
-    throw new AssertionError(
-      msg,
-      undefined,
-      assert.isIterable
-    );
+    throw new AssertionError(msg, undefined, assert.isIterable);
   }
-}
+};
 
 /**
  * ### .changes(function, object, property, [message])
@@ -3697,7 +3694,7 @@ assert.decreasesButNotBy = assertDecreasesButNotBy;
  */
 assert.ifError = function (val: unknown) {
   if (val) {
-    throw(val);
+    throw val;
   }
 };
 

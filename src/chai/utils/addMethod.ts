@@ -58,8 +58,7 @@ export function addMethod<T extends object>(
     }
 
     var result = method.apply(this, arguments);
-    if (result !== undefined)
-      return result;
+    if (result !== undefined) return result;
 
     if (createDefaultValue) {
       return createDefaultValue(this);

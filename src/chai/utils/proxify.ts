@@ -39,9 +39,11 @@ export function proxify<T extends object>(obj: T, nonChainableMethodName?: Prope
       // such as `Symbol.toStringTag`.
       // The values for which an error should be thrown can be configured using
       // the `config.proxyExcludedKeys` setting.
-      if (typeof property === 'string' &&
-          config.proxyExcludedKeys.indexOf(property) === -1 &&
-          !Reflect.has(target, property)) {
+      if (
+        typeof property === 'string' &&
+        config.proxyExcludedKeys.indexOf(property) === -1 &&
+        !Reflect.has(target, property)
+      ) {
         // Special message for invalid property access of non-chainable methods.
         if (nonChainableMethodName) {
           throw Error('Invalid Chai property: ' + String(nonChainableMethodName) + '.' +
@@ -54,16 +56,12 @@ export function proxify<T extends object>(obj: T, nonChainableMethodName?: Prope
         // distance less than 4.
         var suggestion = null;
         var suggestionDistance = 4;
-        getProperties(target).forEach(function(prop) {
+        getProperties(target).forEach(function (prop) {
           if (
             !Object.prototype.hasOwnProperty(prop) &&
             builtins.indexOf(prop) === -1
           ) {
-            var dist = stringDistanceCapped(
-              property,
-              prop,
-              suggestionDistance
-            );
+            var dist = stringDistanceCapped(property, prop, suggestionDistance);
             if (dist < suggestionDistance) {
               suggestion = prop;
               suggestionDistance = dist;
@@ -72,8 +70,13 @@ export function proxify<T extends object>(obj: T, nonChainableMethodName?: Prope
         });
 
         if (suggestion !== null) {
-          throw Error('Invalid Chai property: ' + property +
-            '. Did you mean "' + suggestion + '"?');
+          throw Error(
+            'Invalid Chai property: ' +
+              property +
+              '. Did you mean "' +
+              suggestion +
+              '"?'
+          );
         } else {
           throw Error('Invalid Chai property: ' + property);
         }
@@ -137,8 +140,7 @@ function stringDistanceCapped(strA: string, strB: string, cap: number) {
       memo[i][j] = Math.min(
         memo[i - 1][j] + 1,
         memo[i][j - 1] + 1,
-        memo[i - 1][j - 1] +
-          (ch === strB.charCodeAt(j - 1) ? 0 : 1)
+        memo[i - 1][j - 1] + (ch === strB.charCodeAt(j - 1) ? 0 : 1)
       );
     }
   }

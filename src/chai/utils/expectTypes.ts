@@ -32,15 +32,21 @@ export function expectTypes(obj: object, types: string[]) {
   types.sort();
 
   // Transforms ['lorem', 'ipsum'] into 'a lorem, or an ipsum'
-  var str = types.map(function (t, index) {
-    var art = ~[ 'a', 'e', 'i', 'o', 'u' ].indexOf(t.charAt(0)) ? 'an' : 'a';
-    var or = types.length > 1 && index === types.length - 1 ? 'or ' : '';
-    return or + art + ' ' + t;
-  }).join(', ');
+  var str = types
+    .map(function (t, index) {
+      var art = ~['a', 'e', 'i', 'o', 'u'].indexOf(t.charAt(0)) ? 'an' : 'a';
+      var or = types.length > 1 && index === types.length - 1 ? 'or ' : '';
+      return or + art + ' ' + t;
+    })
+    .join(', ');
 
   var objType = type(obj).toLowerCase();
 
-  if (!types.some(function (expected) { return objType === expected; })) {
+  if (
+    !types.some(function (expected) {
+      return objType === expected;
+    })
+  ) {
     throw new AssertionError(
       flagMsg + 'object tested must be ' + str + ', but ' + objType + ' given',
       undefined,

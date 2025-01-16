@@ -52,8 +52,7 @@ export function overwriteMethod<T extends object>(
       throw new Error(String(name) + ' is not a function');
     };
 
-  if (_method && 'function' === typeof _method)
-    _super = _method;
+  if (_method && 'function' === typeof _method) _super = _method;
 
   var overwritingMethodWrapper = function (this: T) {
     // Setting the `ssfi` flag to `overwritingMethodWrapper` causes this

@@ -69,9 +69,9 @@ function loadShould (): ShouldInterface {
   }
   // modify Object.prototype to have `should`
   Object.defineProperty(Object.prototype, 'should', {
-    set: shouldSetter
-    , get: shouldGetter
-    , configurable: true
+    set: shouldSetter,
+    get: shouldGetter,
+    configurable: true
   });
 
   /**

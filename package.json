@@ -36,12 +36,14 @@
     "prebuild": "npm run clean",
     "build": "npm run build:esm",
     "build:esm": "esbuild --bundle --format=esm --keep-names --outfile=chai.js src/chai.ts",
+    "format": "prettier --write lib",
     "pretest": "npm run lint && npm run build",
     "test": "npm run test-node && npm run test-chrome",
     "test-node": "mocha --require ./test/bootstrap/index.js --reporter dot test/*.js",
     "test-chrome": "web-test-runner --playwright",
-    "lint": "npm run lint:js && npm run lint:types",
+    "lint": "npm run lint:js && npm run lint:format && npm run lint:types",
     "lint:js": "eslint src",
+    "lint:format": "prettier --check lib",
     "lint:types": "tsc --noEmit",
     "clean": "rm -rf chai.js coverage lib"
   },
@@ -68,6 +70,7 @@
     "eslint-plugin-jsdoc": "^48.0.4",
     "mocha": "^10.2.0",
     "typescript": "^5.3.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.20.0",
+    "prettier": "^3.4.2"
   }
 }

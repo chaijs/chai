@@ -35,12 +35,18 @@ export function getMessage(obj: object, args: IArguments): string {
     , msg = negate ? args[2] : args[1]
     , flagMsg = flag(obj, 'message');
 
-  if(typeof msg === "function") msg = msg();
+  if (typeof msg === 'function') msg = msg();
   msg = msg || '';
   msg = msg
-    .replace(/#\{this\}/g, function () { return objDisplay(val); })
-    .replace(/#\{act\}/g, function () { return objDisplay(actual); })
-    .replace(/#\{exp\}/g, function () { return objDisplay(expected); });
+    .replace(/#\{this\}/g, function () {
+      return objDisplay(val);
+    })
+    .replace(/#\{act\}/g, function () {
+      return objDisplay(actual);
+    })
+    .replace(/#\{exp\}/g, function () {
+      return objDisplay(expected);
+    });
 
   return flagMsg ? flagMsg + ': ' + msg : msg;
 }

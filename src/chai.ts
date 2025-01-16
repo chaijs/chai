@@ -47,7 +47,7 @@ export function use(fn: UseFn): Record<string, unknown> {
   }
 
   return exports;
-};
+}
 
 // Utility Functions
 export {util};
