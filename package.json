@@ -52,6 +52,7 @@
     "pathval": "^2.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@web/dev-server-rollup": "^0.6.1",
     "@web/test-runner": "^0.18.0",
