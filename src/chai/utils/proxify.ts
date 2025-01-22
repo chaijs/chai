@@ -30,7 +30,10 @@ const builtins: PropertyKey[] = ['__flags', '__methods', '_obj', 'assert'];
  * @namespace Utils
  * @name proxify
  */
-export function proxify<T extends object>(obj: T, nonChainableMethodName?: PropertyKey): T {
+export function proxify<T extends object>(
+  obj: T,
+  nonChainableMethodName?: PropertyKey
+): T {
   if (!isProxyEnabled()) return obj;
 
   return new Proxy(obj, {
@@ -46,9 +49,15 @@ export function proxify<T extends object>(obj: T, nonChainableMethodName?: Prope
       ) {
         // Special message for invalid property access of non-chainable methods.
         if (nonChainableMethodName) {
-          throw Error('Invalid Chai property: ' + String(nonChainableMethodName) + '.' +
-            property + '. See docs for proper usage of "' +
-            String(nonChainableMethodName) + '".');
+          throw Error(
+            'Invalid Chai property: ' +
+              String(nonChainableMethodName) +
+              '.' +
+              property +
+              '. See docs for proper usage of "' +
+              String(nonChainableMethodName) +
+              '".'
+          );
         }
 
         // If the property is reasonably close to an existing Chai property,
@@ -58,6 +67,8 @@ export function proxify<T extends object>(obj: T, nonChainableMethodName?: Prope
         var suggestionDistance = 4;
         getProperties(target).forEach(function (prop) {
           if (
+            // we actually mean to check `Object.prototype` here
+            // eslint-disable-next-line no-prototype-builtins
             !Object.prototype.hasOwnProperty(prop) &&
             builtins.indexOf(prop) === -1
           ) {
@@ -122,17 +133,17 @@ function stringDistanceCapped(strA: string, strB: string, cap: number) {
   // `memo` is a two-dimensional array containing distances.
   // memo[i][j] is the distance between strA.slice(0, i) and
   // strB.slice(0, j).
-  for (var i = 0; i <= strA.length; i++) {
+  for (let i = 0; i <= strA.length; i++) {
     memo[i] = Array(strB.length + 1).fill(0);
     memo[i][0] = i;
   }
-  for (var j = 0; j < strB.length; j++) {
+  for (let j = 0; j < strB.length; j++) {
     memo[0][j] = j;
   }
 
-  for (var i = 1; i <= strA.length; i++) {
+  for (let i = 1; i <= strA.length; i++) {
     var ch = strA.charCodeAt(i - 1);
-    for (var j = 1; j <= strB.length; j++) {
+    for (let j = 1; j <= strB.length; j++) {
       if (Math.abs(i - j) >= cap) {
         memo[i][j] = cap;
         continue;

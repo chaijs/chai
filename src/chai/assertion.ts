@@ -27,9 +27,9 @@ type MethodNames<T> = {
 }[keyof T];
 
 const getDefaultValue = <T>(assertion: Assertion<T>): Assertion<T> => {
-    var newAssertion = Assertion.create<T>();
-    util.transferFlags(assertion, newAssertion);
-    return newAssertion;
+  var newAssertion = Assertion.create<T>();
+  util.transferFlags(assertion, newAssertion);
+  return newAssertion;
 };
 
 /*!
@@ -71,7 +71,10 @@ const getDefaultValue = <T>(assertion: Assertion<T>): Assertion<T> => {
  * @param {boolean} lockSsfi (optional) whether or not the ssfi flag is locked
  * @private
  */
-export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> {
+export class Assertion<
+  T,
+  TFlags extends AssertionFlags<T> = AssertionFlags<T>
+> {
   declare public __flags: TFlags;
   public __methods: Record<string, ChainableBehavior> = {};
 
@@ -94,50 +97,52 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
     ssfi?: Function,
     lockSsfi?: boolean
   ): Assertion<TObj> {
-    return util.proxify(new Assertion<TObj>(
-      obj,
-      msg,
-      ssfi,
-      lockSsfi
-    ));
+    return util.proxify(new Assertion<TObj>(obj, msg, ssfi, lockSsfi));
   }
 
   public static get includeStack(): boolean {
-    console.warn('Assertion.includeStack is deprecated, use chai.config.includeStack instead.');
+    console.warn(
+      'Assertion.includeStack is deprecated, use chai.config.includeStack instead.'
+    );
     return config.includeStack;
   }
 
   public static set includeStack(value: boolean) {
-    console.warn('Assertion.includeStack is deprecated, use chai.config.includeStack instead.');
+    console.warn(
+      'Assertion.includeStack is deprecated, use chai.config.includeStack instead.'
+    );
     config.includeStack = value;
   }
 
   public static get showDiff(): boolean {
-    console.warn('Assertion.showDiff is deprecated, use chai.config.showDiff instead.');
+    console.warn(
+      'Assertion.showDiff is deprecated, use chai.config.showDiff instead.'
+    );
     return config.showDiff;
   }
 
   public static set showDiff(value: boolean) {
-    console.warn('Assertion.showDiff is deprecated, use chai.config.showDiff instead.');
+    console.warn(
+      'Assertion.showDiff is deprecated, use chai.config.showDiff instead.'
+    );
     config.showDiff = value;
   }
 
-  public static addProperty(name: string, fn?: (this: Assertion<unknown>) => unknown): void {
+  public static addProperty(
+    name: string,
+    fn?: (this: Assertion<unknown>) => unknown
+  ): void {
     util.addProperty(this.prototype, name, fn, getDefaultValue);
   }
 
-  public static addMethod<
-    TKey extends PropertyKey
-  >(
+  public static addMethod<TKey extends PropertyKey>(
     name: TKey,
-    fn: TKey extends MethodNames<Assertion<unknown>> ?
-      (
-        this: Assertion<unknown>,
-        ...args: Parameters<Assertion<unknown>[TKey]>
-      ) => (
-        ReturnType<Assertion<unknown>[TKey]> | void
-      ) :
-      ((this: Assertion<unknown>, ...args: never) => unknown)
+    fn: TKey extends MethodNames<Assertion<unknown>>
+      ? (
+          this: Assertion<unknown>,
+          ...args: Parameters<Assertion<unknown>[TKey]>
+        ) => ReturnType<Assertion<unknown>[TKey]> | void
+      : (this: Assertion<unknown>, ...args: never) => unknown
   ): void {
     util.addMethod(this.prototype, name, fn, getDefaultValue);
   }
@@ -164,8 +169,18 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
     util.overwriteMethod(this.prototype, name, fn, getDefaultValue);
   }
 
-  public static overwriteChainableMethod(name: string, fn: Function, chainingBehavior: Function): void {
-    util.overwriteChainableMethod(this.prototype, name, fn, chainingBehavior, getDefaultValue);
+  public static overwriteChainableMethod(
+    name: string,
+    fn: Function,
+    chainingBehavior: Function
+  ): void {
+    util.overwriteChainableMethod(
+      this.prototype,
+      name,
+      fn,
+      chainingBehavior,
+      getDefaultValue
+    );
   }
 
   /**
@@ -199,10 +214,10 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
       msg = util.getMessage(this, arguments);
       var actual = util.getActual(this, arguments);
       var assertionErrorObjectProperties: Record<string, unknown> = {
-          actual: actual
-        , expected: expected
-        , showDiff: showDiff
-        , operator: undefined
+        actual: actual,
+        expected: expected,
+        showDiff: showDiff,
+        operator: undefined
       };
 
       var operator = util.getOperator(this, arguments);
@@ -213,7 +228,8 @@ export class Assertion<T, TFlags extends AssertionFlags<T> = AssertionFlags<T>> 
       throw new AssertionError(
         msg,
         assertionErrorObjectProperties,
-        (config.includeStack) ? this.assert : util.flag(this, 'ssfi'));
+        config.includeStack ? this.assert : util.flag(this, 'ssfi')
+      );
     }
   }
 

@@ -17,48 +17,27 @@
  *
  * @param {object} obj constructed Assertion
  * @param {string} key
- * @param {mixed} value (optional)
+ * @param {unknown} value (optional)
  * @returns {unknown | undefined}
  * @namespace Utils
  * @name flag
  * @private
  */
-
-function flag<
-  T extends {__flags: unknown},
-  TKey extends keyof T['__flags']
->(
+function flag<T extends {__flags: unknown}, TKey extends keyof T['__flags']>(
   obj: T,
   key: TKey
 ): T['__flags'][TKey];
-function flag<
-  T extends {__flags: unknown},
-  TKey extends keyof T['__flags']
->(
+function flag<T extends {__flags: unknown}, TKey extends keyof T['__flags']>(
   obj: T,
   key: TKey,
   value: T['__flags'][TKey]
 ): void;
-function flag<
-  T extends object
->(
-  obj: T,
-  key: PropertyKey
-): unknown;
-function flag<
-  T extends object
->(
-  obj: T,
-  key: PropertyKey,
-  value: unknown
-): void;
-function flag(
-  obj: object,
-  key: PropertyKey,
-  value?: unknown
-): unknown {
+function flag<T extends object>(obj: T, key: PropertyKey): unknown;
+function flag<T extends object>(obj: T, key: PropertyKey, value: unknown): void;
+function flag(obj: object, key: PropertyKey, value?: unknown): unknown {
   const objWithFlags = obj as {__flags?: Record<PropertyKey, unknown>};
-  const flags = objWithFlags.__flags || (objWithFlags.__flags = Object.create(null));
+  const flags =
+    objWithFlags.__flags || (objWithFlags.__flags = Object.create(null));
   if (arguments.length === 3) {
     (flags as Record<PropertyKey, unknown>)[key] = value;
   } else {

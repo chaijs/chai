@@ -28,7 +28,9 @@ export function expectTypes(obj: object, types: string[]) {
   flagMsg = flagMsg ? flagMsg + ': ' : '';
 
   obj = flag(obj, 'object') as object;
-  types = types.map(function (t) { return t.toLowerCase(); });
+  types = types.map(function (t) {
+    return t.toLowerCase();
+  });
   types.sort();
 
   // Transforms ['lorem', 'ipsum'] into 'a lorem, or an ipsum'

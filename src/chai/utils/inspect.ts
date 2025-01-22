@@ -20,7 +20,12 @@ import {config} from '../config.js';
  * @namespace Utils
  * @name inspect
  */
-export function inspect(obj: unknown, showHidden?: boolean, depth?: number, colors?: boolean) {
+export function inspect(
+  obj: unknown,
+  showHidden?: boolean,
+  depth?: number,
+  colors?: boolean
+) {
   var options = {
     colors: colors,
     depth: typeof depth === 'undefined' ? 2 : depth,

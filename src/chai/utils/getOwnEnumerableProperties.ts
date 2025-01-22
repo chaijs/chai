@@ -20,8 +20,5 @@ import {getOwnEnumerablePropertySymbols} from './getOwnEnumerablePropertySymbols
  * @public
  */
 export function getOwnEnumerableProperties(obj: object) {
-  return [
-    ...Object.keys(obj),
-    ...getOwnEnumerablePropertySymbols(obj)
-  ];
+  return [...Object.keys(obj), ...getOwnEnumerablePropertySymbols(obj)];
 }

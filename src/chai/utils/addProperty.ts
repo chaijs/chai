@@ -41,37 +41,36 @@ export function addProperty<T extends object>(
 ) {
   const getterFn = getter === undefined ? function () {} : getter;
 
-  Object.defineProperty(ctx, name,
-    { get: function propertyGetter() {
-        // Setting the `ssfi` flag to `propertyGetter` causes this function to
-        // be the starting point for removing implementation frames from the
-        // stack trace of a failed assertion.
-        //
-        // However, we only want to use this function as the starting point if
-        // the `lockSsfi` flag isn't set and proxy protection is disabled.
-        //
-        // If the `lockSsfi` flag is set, then either this assertion has been
-        // overwritten by another assertion, or this assertion is being invoked
-        // from inside of another assertion. In the first case, the `ssfi` flag
-        // has already been set by the overwriting assertion. In the second
-        // case, the `ssfi` flag has already been set by the outer assertion.
-        //
-        // If proxy protection is enabled, then the `ssfi` flag has already been
-        // set by the proxy getter.
-        if (!isProxyEnabled() && !flag(this, 'lockSsfi')) {
-          flag(this, 'ssfi', propertyGetter);
-        }
-
-        var result = getterFn.call(this);
-        if (result !== undefined)
-          return result;
-
-        if (getDefaultValue) {
-          return getDefaultValue(this);
-        }
-
-        return undefined;
+  Object.defineProperty(ctx, name, {
+    get: function propertyGetter() {
+      // Setting the `ssfi` flag to `propertyGetter` causes this function to
+      // be the starting point for removing implementation frames from the
+      // stack trace of a failed assertion.
+      //
+      // However, we only want to use this function as the starting point if
+      // the `lockSsfi` flag isn't set and proxy protection is disabled.
+      //
+      // If the `lockSsfi` flag is set, then either this assertion has been
+      // overwritten by another assertion, or this assertion is being invoked
+      // from inside of another assertion. In the first case, the `ssfi` flag
+      // has already been set by the overwriting assertion. In the second
+      // case, the `ssfi` flag has already been set by the outer assertion.
+      //
+      // If proxy protection is enabled, then the `ssfi` flag has already been
+      // set by the proxy getter.
+      if (!isProxyEnabled() && !flag(this, 'lockSsfi')) {
+        flag(this, 'ssfi', propertyGetter);
       }
-    , configurable: true
+
+      var result = getterFn.call(this);
+      if (result !== undefined) return result;
+
+      if (getDefaultValue) {
+        return getDefaultValue(this);
+      }
+
+      return undefined;
+    },
+    configurable: true
   });
 }

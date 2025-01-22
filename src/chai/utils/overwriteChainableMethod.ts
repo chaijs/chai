@@ -46,24 +46,29 @@ export function overwriteChainableMethod<T extends object>(
   chainingBehavior: Function,
   createDefaultValue?: (ctx: T) => unknown
 ) {
-  var chainableBehavior = (ctx as {__methods: Record<PropertyKey, ChainableBehavior>}).__methods[name];
+  var chainableBehavior = (
+    ctx as {__methods: Record<PropertyKey, ChainableBehavior>}
+  ).__methods[name];
 
   var _chainingBehavior = chainableBehavior.chainingBehavior;
-  chainableBehavior.chainingBehavior = function overwritingChainableMethodGetter(this: T) {
-    var result = chainingBehavior(_chainingBehavior).call(this);
-    if (result !== undefined) {
-      return result;
-    }
+  chainableBehavior.chainingBehavior =
+    function overwritingChainableMethodGetter(this: T) {
+      var result = chainingBehavior(_chainingBehavior).call(this);
+      if (result !== undefined) {
+        return result;
+      }
 
-    if (createDefaultValue) {
-      return createDefaultValue(this);
-    }
+      if (createDefaultValue) {
+        return createDefaultValue(this);
+      }
 
-    return undefined;
-  };
+      return undefined;
+    };
 
   var _method = chainableBehavior.method;
-  chainableBehavior.method = function overwritingChainableMethodWrapper(this: T) {
+  chainableBehavior.method = function overwritingChainableMethodWrapper(
+    this: T
+  ) {
     var result = method(_method).apply(this, arguments);
     if (result !== undefined) {
       return result;

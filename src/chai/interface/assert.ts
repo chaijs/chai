@@ -72,7 +72,10 @@ export interface AssertInterface {
   isNumber(val: unknown, msg?: string): asserts val is number;
   isNotNumber<T>(val: T, msg?: string): asserts val is Exclude<T, number>;
   isNumeric(val: unknown, msg?: string): asserts val is number | bigint;
-  isNotNumeric<T>(val: T, msg?: string): asserts val is Exclude<T, number | bigint>;
+  isNotNumeric<T>(
+    val: T,
+    msg?: string
+  ): asserts val is Exclude<T, number | bigint>;
   isFinite(val: number, msg?: string): void;
   isBoolean(val: unknown, msg?: string): asserts val is boolean;
   isNotBoolean<T>(val: T, msg?: string): asserts val is Exclude<T, boolean>;
@@ -91,18 +94,54 @@ export interface AssertInterface {
   notTypeOf(val: unknown, type: string, msg?: string): void;
 
   // instanceof
-  instanceOf<T extends Constructor<unknown>>(val: unknown, type: T, msg?: string): asserts val is InstanceType<T>;
+  instanceOf<T extends Constructor<unknown>>(
+    val: unknown,
+    type: T,
+    msg?: string
+  ): asserts val is InstanceType<T>;
   notInstanceOf(val: object, type: Constructor<unknown>, msg?: string): void;
 
   // includes
-  include(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
-  notInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
-  deepInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
-  notDeepInclude(expr: CollectionLike<unknown> | string | object, inc: unknown, msg?: string): void;
-  nestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
-  notNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
-  deepNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
-  notDeepNestedInclude(expr: CollectionLike<unknown> | object, inc: unknown, msg?: string): void;
+  include(
+    expr: CollectionLike<unknown> | string | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  notInclude(
+    expr: CollectionLike<unknown> | string | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  deepInclude(
+    expr: CollectionLike<unknown> | string | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  notDeepInclude(
+    expr: CollectionLike<unknown> | string | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  nestedInclude(
+    expr: CollectionLike<unknown> | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  notNestedInclude(
+    expr: CollectionLike<unknown> | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  deepNestedInclude(
+    expr: CollectionLike<unknown> | object,
+    inc: unknown,
+    msg?: string
+  ): void;
+  notDeepNestedInclude(
+    expr: CollectionLike<unknown> | object,
+    inc: unknown,
+    msg?: string
+  ): void;
   ownInclude(expr: object, inc: unknown, msg?: string): void;
   notOwnInclude(expr: object, inc: unknown, msg?: string): void;
   deepOwnInclude(expr: object, inc: unknown, msg?: string): void;
@@ -117,7 +156,7 @@ export interface AssertInterface {
     obj: T,
     prop: TKey,
     msg?: string
-  ): asserts obj is (TKey extends keyof T ? T : (T & {[k in TKey]: unknown}));
+  ): asserts obj is TKey extends keyof T ? T : T & {[k in TKey]: unknown};
   notProperty(obj: object, prop: PropertyKey, msg?: string): void;
   propertyVal<T extends object, TKey extends keyof T>(
     obj: T,
@@ -125,25 +164,80 @@ export interface AssertInterface {
     val: T[TKey],
     msg?: string
   ): void;
-  notPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  deepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notDeepPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  notPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
+  deepPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
+  notDeepPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
   ownProperty<T extends object, TKey extends PropertyKey>(
     obj: T,
     prop: TKey,
     msg?: string
-  ): asserts obj is (TKey extends keyof T ? T : (T & {[k in TKey]: unknown}));
+  ): asserts obj is TKey extends keyof T ? T : T & {[k in TKey]: unknown};
   notOwnProperty(obj: unknown, prop: PropertyKey, msg?: string): void;
-  ownPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  deepOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
-  notDeepOwnPropertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string): void;
+  ownPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
+  notOwnPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
+  deepOwnPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
+  notDeepOwnPropertyVal<T extends object, TKey extends keyof T>(
+    obj: T,
+    prop: TKey,
+    val: T[TKey],
+    msg?: string
+  ): void;
   nestedProperty(obj: unknown, prop: string, msg?: string): void;
   notNestedProperty(obj: unknown, prop: string, msg?: string): void;
-  nestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
-  notNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
-  deepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
-  notDeepNestedPropertyVal(obj: unknown, prop: string, val: unknown, msg?: string): void;
+  nestedPropertyVal(
+    obj: unknown,
+    prop: string,
+    val: unknown,
+    msg?: string
+  ): void;
+  notNestedPropertyVal(
+    obj: unknown,
+    prop: string,
+    val: unknown,
+    msg?: string
+  ): void;
+  deepNestedPropertyVal(
+    obj: unknown,
+    prop: string,
+    val: unknown,
+    msg?: string
+  ): void;
+  notDeepNestedPropertyVal(
+    obj: unknown,
+    prop: string,
+    val: unknown,
+    msg?: string
+  ): void;
   lengthOf(expr: LengthLike, len: number, msg?: string): void;
 
   // keys
@@ -263,35 +357,23 @@ export interface AssertInterface {
     errMsgMatcher: RegExp | string,
     msg?: string
   ): void;
-  Throw(
-    fn: Function,
-    errMsgMatcher: RegExp | string
-  ): void;
+  Throw(fn: Function, errMsgMatcher: RegExp | string): void;
   throw(
     fn: Function,
     errorLike: Error | Constructor<Error>,
     errMsgMatcher: RegExp | string,
     msg?: string
   ): void;
-  throw(
-    fn: Function,
-    errMsgMatcher: RegExp | string
-  ): void;
+  throw(fn: Function, errMsgMatcher: RegExp | string): void;
   throws(
     fn: Function,
     errorLike: Error | Constructor<Error>,
     errMsgMatcher: RegExp | string,
     msg?: string
   ): void;
-  throws(
-    fn: Function,
-    errMsgMatcher: RegExp | string
-  ): void;
+  throws(fn: Function, errMsgMatcher: RegExp | string): void;
 
-  doesNotThrow(
-    fn: Function,
-    errMsgMatcher: RegExp | string
-  ): void;
+  doesNotThrow(fn: Function, errMsgMatcher: RegExp | string): void;
   doesNotThrow(
     fn: Function,
     errorLike: Error | Constructor<Error>,
@@ -301,7 +383,12 @@ export interface AssertInterface {
 
   operator<T>(val: T, operator: string, val2: T, msg?: string): void;
   closeTo(actual: number, expected: number, delta: number, msg?: string): void;
-  approximately(actual: number, expected: number, delta: number, msg?: string): void;
+  approximately(
+    actual: number,
+    expected: number,
+    delta: number,
+    msg?: string
+  ): void;
 
   // members
   sameMembers<T>(set1: T[], set2: T[], msg?: string): void;
@@ -319,21 +406,16 @@ export interface AssertInterface {
   includeOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   notIncludeOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
   includeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
-  notIncludeDeepOrderedMembers<T>(superset: T[], subset: T[], msg?: string): void;
+  notIncludeDeepOrderedMembers<T>(
+    superset: T[],
+    subset: T[],
+    msg?: string
+  ): void;
 
   oneOf<T extends string | unknown[]>(inList: T, list: T[], msg?: string): void;
 
-  changes<T>(
-    fn: Function,
-    obj: T,
-    prop: keyof T,
-    msg?: string
-  ): void;
-  changes(
-    fn: Function,
-    obj: () => void,
-    msg?: string
-  ): void;
+  changes<T>(fn: Function, obj: T, prop: keyof T, msg?: string): void;
+  changes(fn: Function, obj: () => void, msg?: string): void;
 
   changesBy<T>(
     fn: Function,
@@ -342,12 +424,7 @@ export interface AssertInterface {
     delta: number,
     msg?: string
   ): void;
-  changesBy(
-    fn: Function,
-    obj: () => void,
-    delta: number,
-    msg?: string
-  ): void;
+  changesBy(fn: Function, obj: () => void, delta: number, msg?: string): void;
 
   doesNotChange<T>(
     fn: Function,
@@ -381,11 +458,7 @@ export interface AssertInterface {
     prop: keyof T,
     msg?: string
   ): Assertion<Function>;
-  increases(
-    fn: Function,
-    obj: () => void,
-    msg?: string
-  ): Assertion<Function>;
+  increases(fn: Function, obj: () => void, msg?: string): Assertion<Function>;
 
   increasesBy<T>(
     fn: Function,
@@ -394,12 +467,7 @@ export interface AssertInterface {
     delta: number,
     msg?: string
   ): void;
-  increasesBy(
-    fn: Function,
-    obj: () => void,
-    delta: number,
-    msg?: string
-  ): void;
+  increasesBy(fn: Function, obj: () => void, delta: number, msg?: string): void;
 
   doesNotIncrease<T>(
     fn: Function,
@@ -433,11 +501,7 @@ export interface AssertInterface {
     prop: keyof T,
     msg?: string
   ): Assertion<Function>;
-  decreases(
-    fn: Function,
-    obj: () => void,
-    msg?: string
-  ): Assertion<Function>;
+  decreases(fn: Function, obj: () => void, msg?: string): Assertion<Function>;
 
   decreasesBy<T>(
     fn: Function,
@@ -446,12 +510,7 @@ export interface AssertInterface {
     delta: number,
     msg?: string
   ): void;
-  decreasesBy(
-    fn: Function,
-    obj: () => void,
-    delta: number,
-    msg?: string
-  ): void;
+  decreasesBy(fn: Function, obj: () => void, delta: number, msg?: string): void;
 
   doesNotDecrease<T>(
     fn: Function,
@@ -530,13 +589,12 @@ export interface AssertInterface {
  * @namespace Assert
  * @public
  */
-const assert: AssertInterface = function assert(express: unknown, errmsg?: string) {
+const assert: AssertInterface = function assert(
+  express: unknown,
+  errmsg?: string
+) {
   var test = Assertion.create(null, null, assert, true);
-  test.assert(
-      express
-    , errmsg
-    , '[ negation message unavailable ]'
-  );
+  test.assert(express, errmsg, '[ negation message unavailable ]');
 } as AssertInterface;
 
 export {assert};
@@ -574,16 +632,20 @@ assert.fail = function fail(
   if (arguments.length < 2) {
     // Comply with Node's fail([message]) interface
 
-      msg = actualOrMsg as string;
-      actual = undefined;
+    msg = actualOrMsg as string;
+    actual = undefined;
   }
 
   msg = msg || 'assert.fail()';
-  throw new AssertionError(msg, {
-      actual: actual
-    , expected: expected
-    , operator: operator
-  }, assert.fail);
+  throw new AssertionError(
+    msg,
+    {
+      actual: actual,
+      expected: expected,
+      operator: operator
+    },
+    assert.fail
+  );
 };
 
 /**
@@ -729,7 +791,11 @@ assert.notStrictEqual = function (act: unknown, exp: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.deepEqual = assert.deepStrictEqual = function (act: unknown, exp: unknown, msg?: string) {
+assert.deepEqual = assert.deepStrictEqual = function (
+  act: unknown,
+  exp: unknown,
+  msg?: string
+) {
   Assertion.create(act, msg, assert.deepEqual, true).to.eql(exp);
 };
 
@@ -765,7 +831,11 @@ assert.notDeepEqual = function (act: unknown, exp: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isAbove = function isAbove<T extends Date | number>(val: T, abv: T, msg?: string): void {
+assert.isAbove = function isAbove<T extends Date | number>(
+  val: T,
+  abv: T,
+  msg?: string
+): void {
   Assertion.create(val, msg, assert.isAbove, true).to.be.above(abv);
 };
 
@@ -784,7 +854,11 @@ assert.isAbove = function isAbove<T extends Date | number>(val: T, abv: T, msg?:
  * @namespace Assert
  * @public
  */
-assert.isAtLeast = function isAtLeast<T extends Date | number>(val: T, atlst: T, msg?: string) {
+assert.isAtLeast = function isAtLeast<T extends Date | number>(
+  val: T,
+  atlst: T,
+  msg?: string
+) {
   Assertion.create(val, msg, assert.isAtLeast, true).to.be.least(atlst);
 };
 
@@ -802,7 +876,11 @@ assert.isAtLeast = function isAtLeast<T extends Date | number>(val: T, atlst: T,
  * @namespace Assert
  * @public
  */
-assert.isBelow = function isBelow<T extends Date | number>(val: T, blw: T, msg?: string) {
+assert.isBelow = function isBelow<T extends Date | number>(
+  val: T,
+  blw: T,
+  msg?: string
+) {
   Assertion.create(val, msg, assert.isBelow, true).to.be.below(blw);
 };
 
@@ -821,7 +899,11 @@ assert.isBelow = function isBelow<T extends Date | number>(val: T, blw: T, msg?:
  * @namespace Assert
  * @public
  */
-assert.isAtMost = function isAtMost<T extends Date | number>(val: T, atmst: T, msg?: string) {
+assert.isAtMost = function isAtMost<T extends Date | number>(
+  val: T,
+  atmst: T,
+  msg?: string
+) {
   Assertion.create(val, msg, assert.isAtMost, true).to.be.most(atmst);
 };
 
@@ -1266,21 +1348,21 @@ assert.isNotNumeric = function (val: unknown, msg?: string) {
   new Assertion(val, msg, assert.isNotNumeric, true).is.not.numeric;
 };
 
- /**
-  * ### .isFinite(value, [message])
-  *
-  * Asserts that `value` is a finite number. Unlike `.isNumber`, this will fail for `NaN` and `Infinity`.
-  *
-  *     var cups = 2;
-  *     assert.isFinite(cups, 'how many cups');
-  *     assert.isFinite(NaN); // throws
-  *
-  * @name isFinite
-  * @param {number} val
-  * @param {string} msg
-  * @namespace Assert
-  * @public
-  */
+/**
+ * ### .isFinite(value, [message])
+ *
+ * Asserts that `value` is a finite number. Unlike `.isNumber`, this will fail for `NaN` and `Infinity`.
+ *
+ *     var cups = 2;
+ *     assert.isFinite(cups, 'how many cups');
+ *     assert.isFinite(NaN); // throws
+ *
+ * @name isFinite
+ * @param {number} val
+ * @param {string} msg
+ * @namespace Assert
+ * @public
+ */
 assert.isFinite = function (val: unknown, msg?: string) {
   new Assertion(val, msg, assert.isFinite, true).to.be.finite;
 };
@@ -1387,7 +1469,11 @@ assert.notTypeOf = function (val: unknown, type: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.instanceOf = function instanceOf<T>(val: T, type: Constructor<T>, msg?: string) {
+assert.instanceOf = function instanceOf<T>(
+  val: T,
+  type: Constructor<T>,
+  msg?: string
+) {
   Assertion.create(val, msg, assert.instanceOf, true).to.be.instanceOf(type);
 };
 
@@ -1408,9 +1494,14 @@ assert.instanceOf = function instanceOf<T>(val: T, type: Constructor<T>, msg?: s
  * @namespace Assert
  * @public
  */
-assert.notInstanceOf = function (val: object, type: Constructor<unknown>, msg?: string) {
-  Assertion.create(val, msg, assert.notInstanceOf, true)
-    .to.not.be.instanceOf(type);
+assert.notInstanceOf = function (
+  val: object,
+  type: Constructor<unknown>,
+  msg?: string
+) {
+  Assertion.create(val, msg, assert.notInstanceOf, true).to.not.be.instanceOf(
+    type
+  );
 };
 
 /**
@@ -1482,7 +1573,11 @@ assert.include = function include(
  * @namespace Assert
  * @public
  */
-assert.notInclude = function notInclude(exp: CollectionLike<never> | string | object, inc: unknown, msg?: string) {
+assert.notInclude = function notInclude(
+  exp: CollectionLike<never> | string | object,
+  inc: unknown,
+  msg?: string
+) {
   Assertion.create(exp, msg, assert.notInclude, true).not.include(inc);
 };
 
@@ -1506,7 +1601,11 @@ assert.notInclude = function notInclude(exp: CollectionLike<never> | string | ob
  * @namespace Assert
  * @public
  */
-assert.deepInclude = function deepInclude(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
+assert.deepInclude = function deepInclude(
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
   Assertion.create(exp, msg, assert.deepInclude, true).deep.include(inc);
 };
 
@@ -1530,7 +1629,11 @@ assert.deepInclude = function deepInclude(exp: CollectionLike<never> | object, i
  * @namespace Assert
  * @public
  */
-assert.notDeepInclude = function notDeepInclude(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
+assert.notDeepInclude = function notDeepInclude(
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
   Assertion.create(exp, msg, assert.notDeepInclude, true).not.deep.include(inc);
 };
 
@@ -1554,7 +1657,11 @@ assert.notDeepInclude = function notDeepInclude(exp: CollectionLike<never> | obj
  * @namespace Assert
  * @public
  */
-assert.nestedInclude = function (exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
+assert.nestedInclude = function (
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
   Assertion.create(exp, msg, assert.nestedInclude, true).nested.include(inc);
 };
 
@@ -1578,9 +1685,14 @@ assert.nestedInclude = function (exp: CollectionLike<never> | object, inc: unkno
  * @namespace Assert
  * @public
  */
-assert.notNestedInclude = function (exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
-  Assertion.create(exp, msg, assert.notNestedInclude, true)
-    .not.nested.include(inc);
+assert.notNestedInclude = function (
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
+  Assertion.create(exp, msg, assert.notNestedInclude, true).not.nested.include(
+    inc
+  );
 };
 
 /**
@@ -1603,9 +1715,17 @@ assert.notNestedInclude = function (exp: CollectionLike<never> | object, inc: un
  * @namespace Assert
  * @public
  */
-assert.deepNestedInclude = function(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
-  Assertion.create(exp, msg, assert.deepNestedInclude, true)
-    .deep.nested.include(inc);
+assert.deepNestedInclude = function (
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    exp,
+    msg,
+    assert.deepNestedInclude,
+    true
+  ).deep.nested.include(inc);
 };
 
 /**
@@ -1628,9 +1748,17 @@ assert.deepNestedInclude = function(exp: CollectionLike<never> | object, inc: un
  * @namespace Assert
  * @public
  */
-assert.notDeepNestedInclude = function(exp: CollectionLike<never> | object, inc: unknown, msg?: string) {
-  Assertion.create(exp, msg, assert.notDeepNestedInclude, true)
-    .not.deep.nested.include(inc);
+assert.notDeepNestedInclude = function (
+  exp: CollectionLike<never> | object,
+  inc: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    exp,
+    msg,
+    assert.notDeepNestedInclude,
+    true
+  ).not.deep.nested.include(inc);
 };
 
 /**
@@ -1649,7 +1777,7 @@ assert.notDeepNestedInclude = function(exp: CollectionLike<never> | object, inc:
  * @namespace Assert
  * @public
  */
-assert.ownInclude = function(exp: object, inc: unknown, msg?: string) {
+assert.ownInclude = function (exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.ownInclude, true).own.include(inc);
 };
 
@@ -1670,7 +1798,7 @@ assert.ownInclude = function(exp: object, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notOwnInclude = function(exp: object, inc: unknown, msg?: string) {
+assert.notOwnInclude = function (exp: object, inc: unknown, msg?: string) {
   Assertion.create(exp, msg, assert.notOwnInclude, true).not.own.include(inc);
 };
 
@@ -1690,9 +1818,8 @@ assert.notOwnInclude = function(exp: object, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.deepOwnInclude = function(exp: object, inc: unknown, msg?: string) {
-  Assertion.create(exp, msg, assert.deepOwnInclude, true)
-    .deep.own.include(inc);
+assert.deepOwnInclude = function (exp: object, inc: unknown, msg?: string) {
+  Assertion.create(exp, msg, assert.deepOwnInclude, true).deep.own.include(inc);
 };
 
 /**
@@ -1711,9 +1838,13 @@ assert.deepOwnInclude = function(exp: object, inc: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notDeepOwnInclude = function(exp: object, inc: unknown, msg?: string) {
-  Assertion.create(exp, msg, assert.notDeepOwnInclude, true)
-    .not.deep.own.include(inc);
+assert.notDeepOwnInclude = function (exp: object, inc: unknown, msg?: string) {
+  Assertion.create(
+    exp,
+    msg,
+    assert.notDeepOwnInclude,
+    true
+  ).not.deep.own.include(inc);
 };
 
 /**
@@ -1768,7 +1899,11 @@ assert.notMatch = function (exp: string, re: RegExp, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.property = function property(obj: object, prop: PropertyKey, msg?: string) {
+assert.property = function property(
+  obj: object,
+  prop: PropertyKey,
+  msg?: string
+) {
   Assertion.create(obj, msg, assert.property, true).to.have.property(prop);
 };
 
@@ -1788,8 +1923,9 @@ assert.property = function property(obj: object, prop: PropertyKey, msg?: string
  * @public
  */
 assert.notProperty = function (obj: object, prop: string, msg?: string) {
-  Assertion.create(obj, msg, assert.notProperty, true)
-    .to.not.have.property(prop);
+  Assertion.create(obj, msg, assert.notProperty, true).to.not.have.property(
+    prop
+  );
 };
 
 /**
@@ -1809,9 +1945,14 @@ assert.notProperty = function (obj: object, prop: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.propertyVal = function propertyVal<T extends object, TKey extends keyof T>(obj: T, prop: TKey, val: T[TKey], msg?: string) {
-  Assertion.create(obj, msg, assert.propertyVal, true)
-    .to.have.property(prop, val);
+assert.propertyVal = function propertyVal<
+  T extends object,
+  TKey extends keyof T
+>(obj: T, prop: TKey, val: T[TKey], msg?: string) {
+  Assertion.create(obj, msg, assert.propertyVal, true).to.have.property(
+    prop,
+    val
+  );
 };
 
 /**
@@ -1838,8 +1979,10 @@ assert.notPropertyVal = function notPropertyVal<T, TKey extends keyof T>(
   val: T[TKey],
   msg?: string
 ) {
-  Assertion.create(obj, msg, assert.notPropertyVal, true)
-    .to.not.have.property(prop, val);
+  Assertion.create(obj, msg, assert.notPropertyVal, true).to.not.have.property(
+    prop,
+    val
+  );
 };
 
 /**
@@ -1864,8 +2007,12 @@ assert.deepPropertyVal = function deepPropertyVal<T, TKey extends keyof T>(
   val: T[TKey],
   msg?: string
 ) {
-  Assertion.create(obj, msg, assert.deepPropertyVal, true)
-    .to.have.deep.property(prop, val);
+  Assertion.create(
+    obj,
+    msg,
+    assert.deepPropertyVal,
+    true
+  ).to.have.deep.property(prop, val);
 };
 
 /**
@@ -1886,14 +2033,16 @@ assert.deepPropertyVal = function deepPropertyVal<T, TKey extends keyof T>(
  * @namespace Assert
  * @public
  */
-assert.notDeepPropertyVal = function notDeepPropertyVal<T, TKey extends keyof T>(
-  obj: T,
-  prop: TKey,
-  val: T[TKey],
-  msg?: string
-) {
-  Assertion.create(obj, msg, assert.notDeepPropertyVal, true)
-    .to.not.have.deep.property(prop, val);
+assert.notDeepPropertyVal = function notDeepPropertyVal<
+  T,
+  TKey extends keyof T
+>(obj: T, prop: TKey, val: T[TKey], msg?: string) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.notDeepPropertyVal,
+    true
+  ).to.not.have.deep.property(prop, val);
 };
 
 /**
@@ -1910,9 +2059,13 @@ assert.notDeepPropertyVal = function notDeepPropertyVal<T, TKey extends keyof T>
  * @param {string} msg
  * @public
  */
-assert.ownProperty = function ownProperty<T extends object, TKey extends PropertyKey>(obj: T, prop: TKey, msg?: string) {
-  Assertion.create(obj, msg, assert.ownProperty, true)
-    .to.have.own.property(prop);
+assert.ownProperty = function ownProperty<
+  T extends object,
+  TKey extends PropertyKey
+>(obj: T, prop: TKey, msg?: string) {
+  Assertion.create(obj, msg, assert.ownProperty, true).to.have.own.property(
+    prop
+  );
 };
 
 /**
@@ -1931,8 +2084,12 @@ assert.ownProperty = function ownProperty<T extends object, TKey extends Propert
  * @public
  */
 assert.notOwnProperty = function (obj: object, prop: string, msg?: string) {
-  Assertion.create(obj, msg, assert.notOwnProperty, true)
-    .to.not.have.own.property(prop);
+  Assertion.create(
+    obj,
+    msg,
+    assert.notOwnProperty,
+    true
+  ).to.not.have.own.property(prop);
 };
 
 /**
@@ -1957,8 +2114,10 @@ assert.ownPropertyVal = function ownPropertyVal<T, TKey extends keyof T>(
   value: T[TKey],
   msg?: string
 ) {
-  Assertion.create(obj, msg, assert.ownPropertyVal, true)
-    .to.have.own.property(prop, value);
+  Assertion.create(obj, msg, assert.ownPropertyVal, true).to.have.own.property(
+    prop,
+    value
+  );
 };
 
 /**
@@ -1984,8 +2143,12 @@ assert.notOwnPropertyVal = function notOwnPropertyVal<T, TKey extends keyof T>(
   value: T[TKey],
   msg?: string
 ) {
-  Assertion.create(obj, msg, assert.notOwnPropertyVal, true)
-    .to.not.have.own.property(prop, value);
+  Assertion.create(
+    obj,
+    msg,
+    assert.notOwnPropertyVal,
+    true
+  ).to.not.have.own.property(prop, value);
 };
 
 /**
@@ -2004,14 +2167,16 @@ assert.notOwnPropertyVal = function notOwnPropertyVal<T, TKey extends keyof T>(
  * @param {string} msg
  * @public
  */
-assert.deepOwnPropertyVal = function deepOwnPropertyVal<T, TKey extends keyof T>(
-  obj: T,
-  prop: TKey,
-  value: T[TKey],
-  msg?: string
-) {
-  Assertion.create(obj, msg, assert.deepOwnPropertyVal, true)
-    .to.have.deep.own.property(prop, value);
+assert.deepOwnPropertyVal = function deepOwnPropertyVal<
+  T,
+  TKey extends keyof T
+>(obj: T, prop: TKey, value: T[TKey], msg?: string) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.deepOwnPropertyVal,
+    true
+  ).to.have.deep.own.property(prop, value);
 };
 
 /**
@@ -2033,14 +2198,16 @@ assert.deepOwnPropertyVal = function deepOwnPropertyVal<T, TKey extends keyof T>
  * @param {string} msg
  * @public
  */
-assert.notDeepOwnPropertyVal = function notDeepOwnPropertyVal<T, TKey extends keyof T>(
-  obj: T,
-  prop: TKey,
-  value: T[TKey],
-  msg?: string
-) {
-  Assertion.create(obj, msg, assert.notDeepOwnPropertyVal, true)
-    .to.not.have.deep.own.property(prop, value);
+assert.notDeepOwnPropertyVal = function notDeepOwnPropertyVal<
+  T,
+  TKey extends keyof T
+>(obj: T, prop: TKey, value: T[TKey], msg?: string) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.notDeepOwnPropertyVal,
+    true
+  ).to.not.have.deep.own.property(prop, value);
 };
 
 /**
@@ -2060,8 +2227,12 @@ assert.notDeepOwnPropertyVal = function notDeepOwnPropertyVal<T, TKey extends ke
  * @public
  */
 assert.nestedProperty = function (obj: object, prop: string, msg?: string) {
-  Assertion.create(obj, msg, assert.nestedProperty, true)
-    .to.have.nested.property(prop);
+  Assertion.create(
+    obj,
+    msg,
+    assert.nestedProperty,
+    true
+  ).to.have.nested.property(prop);
 };
 
 /**
@@ -2081,8 +2252,12 @@ assert.nestedProperty = function (obj: object, prop: string, msg?: string) {
  * @public
  */
 assert.notNestedProperty = function (obj: object, prop: string, msg?: string) {
-  Assertion.create(obj, msg, assert.notNestedProperty, true)
-    .to.not.have.nested.property(prop);
+  Assertion.create(
+    obj,
+    msg,
+    assert.notNestedProperty,
+    true
+  ).to.not.have.nested.property(prop);
 };
 
 /**
@@ -2102,9 +2277,18 @@ assert.notNestedProperty = function (obj: object, prop: string, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.nestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
-  Assertion.create(obj, msg, assert.nestedPropertyVal, true)
-    .to.have.nested.property(prop, val);
+assert.nestedPropertyVal = function (
+  obj: object,
+  prop: string,
+  val: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.nestedPropertyVal,
+    true
+  ).to.have.nested.property(prop, val);
 };
 
 /**
@@ -2125,9 +2309,18 @@ assert.nestedPropertyVal = function (obj: object, prop: string, val: unknown, ms
  * @namespace Assert
  * @public
  */
-assert.notNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
-  Assertion.create(obj, msg, assert.notNestedPropertyVal, true)
-    .to.not.have.nested.property(prop, val);
+assert.notNestedPropertyVal = function (
+  obj: object,
+  prop: string,
+  val: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.notNestedPropertyVal,
+    true
+  ).to.not.have.nested.property(prop, val);
 };
 
 /**
@@ -2147,9 +2340,18 @@ assert.notNestedPropertyVal = function (obj: object, prop: string, val: unknown,
  * @namespace Assert
  * @public
  */
-assert.deepNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
-  Assertion.create(obj, msg, assert.deepNestedPropertyVal, true)
-    .to.have.deep.nested.property(prop, val);
+assert.deepNestedPropertyVal = function (
+  obj: object,
+  prop: string,
+  val: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.deepNestedPropertyVal,
+    true
+  ).to.have.deep.nested.property(prop, val);
 };
 
 /**
@@ -2171,10 +2373,19 @@ assert.deepNestedPropertyVal = function (obj: object, prop: string, val: unknown
  * @namespace Assert
  * @public
  */
-assert.notDeepNestedPropertyVal = function (obj: object, prop: string, val: unknown, msg?: string) {
-  Assertion.create(obj, msg, assert.notDeepNestedPropertyVal, true)
-    .to.not.have.deep.nested.property(prop, val);
-}
+assert.notDeepNestedPropertyVal = function (
+  obj: object,
+  prop: string,
+  val: unknown,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.notDeepNestedPropertyVal,
+    true
+  ).to.not.have.deep.nested.property(prop, val);
+};
 
 /**
  * ### .lengthOf(object, length, [message])
@@ -2216,9 +2427,15 @@ assert.lengthOf = function (exp: LengthLike, len: number, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.hasAnyKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.hasAnyKeys, true).to.have.any.keys(keys as PropertyKey[]);
-}
+assert.hasAnyKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(obj, msg, assert.hasAnyKeys, true).to.have.any.keys(
+    keys as PropertyKey[]
+  );
+};
 
 /**
  * ### .hasAllKeys(object, [keys], [message])
@@ -2241,7 +2458,7 @@ assert.hasAnyKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<Prop
  */
 assert.hasAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
   Assertion.create(obj, msg, assert.hasAllKeys, true).to.have.all.keys(keys);
-}
+};
 
 /**
  * ### .containsAllKeys(object, [keys], [message])
@@ -2266,10 +2483,15 @@ assert.hasAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.containsAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
-  Assertion.create(obj, msg, assert.containsAllKeys, true)
-    .to.contain.all.keys(keys);
-}
+assert.containsAllKeys = function (
+  obj: KeyedObject,
+  keys: string[],
+  msg?: string
+) {
+  Assertion.create(obj, msg, assert.containsAllKeys, true).to.contain.all.keys(
+    keys
+  );
+};
 
 /**
  * ### .doesNotHaveAnyKeys(object, [keys], [message])
@@ -2290,10 +2512,18 @@ assert.containsAllKeys = function (obj: KeyedObject, keys: string[], msg?: strin
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAnyKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
-  Assertion.create(obj, msg, assert.doesNotHaveAnyKeys, true)
-    .to.not.have.any.keys(keys);
-}
+assert.doesNotHaveAnyKeys = function (
+  obj: KeyedObject,
+  keys: string[],
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.doesNotHaveAnyKeys,
+    true
+  ).to.not.have.any.keys(keys);
+};
 
 /**
  * ### .doesNotHaveAllKeys(object, [keys], [message])
@@ -2314,10 +2544,18 @@ assert.doesNotHaveAnyKeys = function (obj: KeyedObject, keys: string[], msg?: st
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAllKeys = function (obj: KeyedObject, keys: string[], msg?: string) {
-  Assertion.create(obj, msg, assert.doesNotHaveAllKeys, true)
-    .to.not.have.all.keys(keys);
-}
+assert.doesNotHaveAllKeys = function (
+  obj: KeyedObject,
+  keys: string[],
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.doesNotHaveAllKeys,
+    true
+  ).to.not.have.all.keys(keys);
+};
 
 /**
  * ### .hasAnyDeepKeys(object, [keys], [message])
@@ -2342,10 +2580,15 @@ assert.doesNotHaveAllKeys = function (obj: KeyedObject, keys: string[], msg?: st
  * @namespace Assert
  * @public
  */
-assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.hasAnyDeepKeys, true)
-    .to.have.any.deep.keys(keys as PropertyKey[]);
-}
+assert.hasAnyDeepKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(obj, msg, assert.hasAnyDeepKeys, true).to.have.any.deep.keys(
+    keys as PropertyKey[]
+  );
+};
 
 /**
  * ### .hasAllDeepKeys(object, [keys], [message])
@@ -2368,10 +2611,15 @@ assert.hasAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<
  * @namespace Assert
  * @public
  */
-assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.hasAllDeepKeys, true)
-    .to.have.all.deep.keys(keys as PropertyKey[]);
-}
+assert.hasAllDeepKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(obj, msg, assert.hasAllDeepKeys, true).to.have.all.deep.keys(
+    keys as PropertyKey[]
+  );
+};
 
 /**
  * ### .containsAllDeepKeys(object, [keys], [message])
@@ -2394,10 +2642,18 @@ assert.hasAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<
  * @namespace Assert
  * @public
  */
-assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.containsAllDeepKeys, true)
-    .to.contain.all.deep.keys(keys as PropertyKey[]);
-}
+assert.containsAllDeepKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.containsAllDeepKeys,
+    true
+  ).to.contain.all.deep.keys(keys as PropertyKey[]);
+};
 
 /**
  * ### .doesNotHaveAnyDeepKeys(object, [keys], [message])
@@ -2420,10 +2676,18 @@ assert.containsAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Re
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.doesNotHaveAnyDeepKeys, true)
-    .to.not.have.any.deep.keys(keys as PropertyKey[]);
-}
+assert.doesNotHaveAnyDeepKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.doesNotHaveAnyDeepKeys,
+    true
+  ).to.not.have.any.deep.keys(keys as PropertyKey[]);
+};
 
 /**
  * ### .doesNotHaveAllDeepKeys(object, [keys], [message])
@@ -2446,10 +2710,18 @@ assert.doesNotHaveAnyDeepKeys = function (obj: KeyedObject, keys: Array<unknown>
  * @namespace Assert
  * @public
  */
-assert.doesNotHaveAllDeepKeys = function (obj: KeyedObject, keys: Array<unknown>|Record<PropertyKey, unknown>, msg?: string) {
-  Assertion.create(obj, msg, assert.doesNotHaveAllDeepKeys, true)
-    .to.not.have.all.deep.keys(keys as PropertyKey[]);
-}
+assert.doesNotHaveAllDeepKeys = function (
+  obj: KeyedObject,
+  keys: Array<unknown> | Record<PropertyKey, unknown>,
+  msg?: string
+) {
+  Assertion.create(
+    obj,
+    msg,
+    assert.doesNotHaveAllDeepKeys,
+    true
+  ).to.not.have.all.deep.keys(keys as PropertyKey[]);
+};
 
 /**
  * ### .throws(fn, [errorLike/string/regexp], [string/regexp], [message])
@@ -2488,10 +2760,7 @@ function assertThrows(
   errMsgMatcher: RegExp | string,
   msg?: string
 ): unknown;
-function assertThrows(
-  fn: Function,
-  errMsgMatcher: RegExp | string
-): unknown;
+function assertThrows(fn: Function, errMsgMatcher: RegExp | string): unknown;
 function assertThrows(
   fn: Function,
   errorOrMatcher: Error | Constructor<Error> | RegExp | string,
@@ -2501,15 +2770,18 @@ function assertThrows(
   let assertErr: Assertion<Function>;
 
   if ('string' === typeof errorOrMatcher || errorOrMatcher instanceof RegExp) {
-    assertErr = Assertion.create(fn, msg, assertThrows, true)
-      .to.throw(errorOrMatcher);
+    assertErr = Assertion.create(fn, msg, assertThrows, true).to.throw(
+      errorOrMatcher
+    );
   } else {
-    assertErr = Assertion.create(fn, msg, assertThrows, true)
-      .to.throw(errorOrMatcher, errMsgMatcher as RegExp | string);
+    assertErr = Assertion.create(fn, msg, assertThrows, true).to.throw(
+      errorOrMatcher,
+      errMsgMatcher as RegExp | string
+    );
   }
 
   return flag(assertErr, 'object');
-};
+}
 
 assert.throws = assert.Throw = assert.throw = assertThrows;
 
@@ -2541,10 +2813,7 @@ assert.throws = assert.Throw = assert.throw = assertThrows;
  * @namespace Assert
  * @public
  */
-function assertDoesNotThrow(
-  fn: Function,
-  errMsgMatcher: RegExp | string
-): void;
+function assertDoesNotThrow(fn: Function, errMsgMatcher: RegExp | string): void;
 function assertDoesNotThrow(
   fn: Function,
   errorLike: Error | Constructor<Error>,
@@ -2558,13 +2827,16 @@ function assertDoesNotThrow(
   msg?: string
 ): void {
   if ('string' === typeof errorOrMatcher || errorOrMatcher instanceof RegExp) {
-    Assertion.create(fn, msg, assertDoesNotThrow, true)
-      .to.not.throw(errorOrMatcher);
+    Assertion.create(fn, msg, assertDoesNotThrow, true).to.not.throw(
+      errorOrMatcher
+    );
   } else {
-    Assertion.create(fn, msg, assertDoesNotThrow, true)
-      .to.not.throw(errorOrMatcher, errMsgMatcher as RegExp | string);
+    Assertion.create(fn, msg, assertDoesNotThrow, true).to.not.throw(
+      errorOrMatcher,
+      errMsgMatcher as RegExp | string
+    );
   }
-};
+}
 
 assert.doesNotThrow = assertDoesNotThrow;
 
@@ -2584,7 +2856,12 @@ assert.doesNotThrow = assertDoesNotThrow;
  * @namespace Assert
  * @public
  */
-assert.operator = function (val: unknown, operator: string, val2: unknown, msg?: string) {
+assert.operator = function (
+  val: unknown,
+  operator: string,
+  val2: unknown,
+  msg?: string
+) {
   var ok;
   switch (operator) {
     case '==':
@@ -2642,7 +2919,12 @@ assert.operator = function (val: unknown, operator: string, val2: unknown, msg?:
  * @namespace Assert
  * @public
  */
-assert.closeTo = function (act: number, exp: number, delta: number, msg?: string) {
+assert.closeTo = function (
+  act: number,
+  exp: number,
+  delta: number,
+  msg?: string
+) {
   Assertion.create(act, msg, assert.closeTo, true).to.be.closeTo(exp, delta);
 };
 
@@ -2661,9 +2943,16 @@ assert.closeTo = function (act: number, exp: number, delta: number, msg?: string
  * @namespace Assert
  * @public
  */
-assert.approximately = function (act: number, exp: number, delta: number, msg?: string) {
-  Assertion.create(act, msg, assert.approximately, true)
-    .to.be.approximately(exp, delta);
+assert.approximately = function (
+  act: number,
+  exp: number,
+  delta: number,
+  msg?: string
+) {
+  Assertion.create(act, msg, assert.approximately, true).to.be.approximately(
+    exp,
+    delta
+  );
 };
 
 /**
@@ -2682,9 +2971,10 @@ assert.approximately = function (act: number, exp: number, delta: number, msg?: 
  * @public
  */
 assert.sameMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.sameMembers, true)
-    .to.have.same.members(set2);
-}
+  Assertion.create(set1, msg, assert.sameMembers, true).to.have.same.members(
+    set2
+  );
+};
 
 /**
  * ### .notSameMembers(set1, set2, [message])
@@ -2701,10 +2991,18 @@ assert.sameMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.notSameMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.notSameMembers, true)
-    .to.not.have.same.members(set2);
-}
+assert.notSameMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.notSameMembers,
+    true
+  ).to.not.have.same.members(set2);
+};
 
 /**
  * ### .sameDeepMembers(set1, set2, [message])
@@ -2721,10 +3019,18 @@ assert.notSameMembers = function (set1: unknown[], set2: unknown[], msg?: string
  * @namespace Assert
  * @public
  */
-assert.sameDeepMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.sameDeepMembers, true)
-    .to.have.same.deep.members(set2);
-}
+assert.sameDeepMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.sameDeepMembers,
+    true
+  ).to.have.same.deep.members(set2);
+};
 
 /**
  * ### .notSameDeepMembers(set1, set2, [message])
@@ -2741,10 +3047,18 @@ assert.sameDeepMembers = function (set1: unknown[], set2: unknown[], msg?: strin
  * @namespace Assert
  * @public
  */
-assert.notSameDeepMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.notSameDeepMembers, true)
-    .to.not.have.same.deep.members(set2);
-}
+assert.notSameDeepMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.notSameDeepMembers,
+    true
+  ).to.not.have.same.deep.members(set2);
+};
 
 /**
  * ### .sameOrderedMembers(set1, set2, [message])
@@ -2761,10 +3075,18 @@ assert.notSameDeepMembers = function (set1: unknown[], set2: unknown[], msg?: st
  * @namespace Assert
  * @public
  */
-assert.sameOrderedMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.sameOrderedMembers, true)
-    .to.have.same.ordered.members(set2);
-}
+assert.sameOrderedMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.sameOrderedMembers,
+    true
+  ).to.have.same.ordered.members(set2);
+};
 
 /**
  * ### .notSameOrderedMembers(set1, set2, [message])
@@ -2781,10 +3103,18 @@ assert.sameOrderedMembers = function (set1: unknown[], set2: unknown[], msg?: st
  * @namespace Assert
  * @public
  */
-assert.notSameOrderedMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.notSameOrderedMembers, true)
-    .to.not.have.same.ordered.members(set2);
-}
+assert.notSameOrderedMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.notSameOrderedMembers,
+    true
+  ).to.not.have.same.ordered.members(set2);
+};
 
 /**
  * ### .sameDeepOrderedMembers(set1, set2, [message])
@@ -2801,10 +3131,18 @@ assert.notSameOrderedMembers = function (set1: unknown[], set2: unknown[], msg?:
  * @namespace Assert
  * @public
  */
-assert.sameDeepOrderedMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.sameDeepOrderedMembers, true)
-    .to.have.same.deep.ordered.members(set2);
-}
+assert.sameDeepOrderedMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.sameDeepOrderedMembers,
+    true
+  ).to.have.same.deep.ordered.members(set2);
+};
 
 /**
  * ### .notSameDeepOrderedMembers(set1, set2, [message])
@@ -2822,10 +3160,18 @@ assert.sameDeepOrderedMembers = function (set1: unknown[], set2: unknown[], msg?
  * @namespace Assert
  * @public
  */
-assert.notSameDeepOrderedMembers = function (set1: unknown[], set2: unknown[], msg?: string) {
-  Assertion.create(set1, msg, assert.notSameDeepOrderedMembers, true)
-    .to.not.have.same.deep.ordered.members(set2);
-}
+assert.notSameDeepOrderedMembers = function (
+  set1: unknown[],
+  set2: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    set1,
+    msg,
+    assert.notSameDeepOrderedMembers,
+    true
+  ).to.not.have.same.deep.ordered.members(set2);
+};
 
 /**
  * ### .includeMembers(superset, subset, [message])
@@ -2842,10 +3188,18 @@ assert.notSameDeepOrderedMembers = function (set1: unknown[], set2: unknown[], m
  * @namespace Assert
  * @public
  */
-assert.includeMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.includeMembers, true)
-    .to.include.members(subset);
-}
+assert.includeMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.includeMembers,
+    true
+  ).to.include.members(subset);
+};
 
 /**
  * ### .notIncludeMembers(superset, subset, [message])
@@ -2862,10 +3216,18 @@ assert.includeMembers = function (superset: unknown[], subset: unknown[], msg?: 
  * @namespace Assert
  * @public
  */
-assert.notIncludeMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.notIncludeMembers, true)
-    .to.not.include.members(subset);
-}
+assert.notIncludeMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.notIncludeMembers,
+    true
+  ).to.not.include.members(subset);
+};
 
 /**
  * ### .includeDeepMembers(superset, subset, [message])
@@ -2882,10 +3244,18 @@ assert.notIncludeMembers = function (superset: unknown[], subset: unknown[], msg
  * @namespace Assert
  * @public
  */
-assert.includeDeepMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.includeDeepMembers, true)
-    .to.include.deep.members(subset);
-}
+assert.includeDeepMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.includeDeepMembers,
+    true
+  ).to.include.deep.members(subset);
+};
 
 /**
  * ### .notIncludeDeepMembers(superset, subset, [message])
@@ -2902,10 +3272,18 @@ assert.includeDeepMembers = function (superset: unknown[], subset: unknown[], ms
  * @namespace Assert
  * @public
  */
-assert.notIncludeDeepMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.notIncludeDeepMembers, true)
-    .to.not.include.deep.members(subset);
-}
+assert.notIncludeDeepMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.notIncludeDeepMembers,
+    true
+  ).to.not.include.deep.members(subset);
+};
 
 /**
  * ### .includeOrderedMembers(superset, subset, [message])
@@ -2923,10 +3301,18 @@ assert.notIncludeDeepMembers = function (superset: unknown[], subset: unknown[],
  * @namespace Assert
  * @public
  */
-assert.includeOrderedMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.includeOrderedMembers, true)
-    .to.include.ordered.members(subset);
-}
+assert.includeOrderedMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.includeOrderedMembers,
+    true
+  ).to.include.ordered.members(subset);
+};
 
 /**
  * ### .notIncludeOrderedMembers(superset, subset, [message])
@@ -2945,10 +3331,18 @@ assert.includeOrderedMembers = function (superset: unknown[], subset: unknown[],
  * @namespace Assert
  * @public
  */
-assert.notIncludeOrderedMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.notIncludeOrderedMembers, true)
-    .to.not.include.ordered.members(subset);
-}
+assert.notIncludeOrderedMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.notIncludeOrderedMembers,
+    true
+  ).to.not.include.ordered.members(subset);
+};
 
 /**
  * ### .includeDeepOrderedMembers(superset, subset, [message])
@@ -2966,10 +3360,18 @@ assert.notIncludeOrderedMembers = function (superset: unknown[], subset: unknown
  * @namespace Assert
  * @public
  */
-assert.includeDeepOrderedMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.includeDeepOrderedMembers, true)
-    .to.include.deep.ordered.members(subset);
-}
+assert.includeDeepOrderedMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.includeDeepOrderedMembers,
+    true
+  ).to.include.deep.ordered.members(subset);
+};
 
 /**
  * ### .notIncludeDeepOrderedMembers(superset, subset, [message])
@@ -2989,10 +3391,18 @@ assert.includeDeepOrderedMembers = function (superset: unknown[], subset: unknow
  * @namespace Assert
  * @public
  */
-assert.notIncludeDeepOrderedMembers = function (superset: unknown[], subset: unknown[], msg?: string) {
-  Assertion.create(superset, msg, assert.notIncludeDeepOrderedMembers, true)
-    .to.not.include.deep.ordered.members(subset);
-}
+assert.notIncludeDeepOrderedMembers = function (
+  superset: unknown[],
+  subset: unknown[],
+  msg?: string
+) {
+  Assertion.create(
+    superset,
+    msg,
+    assert.notIncludeDeepOrderedMembers,
+    true
+  ).to.not.include.deep.ordered.members(subset);
+};
 
 /**
  * ### .oneOf(inList, list, [message])
@@ -3008,9 +3418,13 @@ assert.notIncludeDeepOrderedMembers = function (superset: unknown[], subset: unk
  * @namespace Assert
  * @public
  */
-assert.oneOf = function (inList: string | unknown[], list: unknown[], msg?: string) {
+assert.oneOf = function (
+  inList: string | unknown[],
+  list: unknown[],
+  msg?: string
+) {
   Assertion.create(inList, msg, assert.oneOf, true).to.be.oneOf(list);
-}
+};
 
 /**
  * ### isIterable(obj, [message])
@@ -3025,12 +3439,15 @@ assert.oneOf = function (inList: string | unknown[], list: unknown[], msg?: stri
  * @namespace Assert
  * @public
  */
-assert.isIterable = function(obj: unknown, msg?: string) {
-  if (obj === null || obj === undefined ||
-    !(obj as Record<PropertyKey, unknown>)[Symbol.iterator]) {
-    msg = msg ?
-      `${msg} expected ${inspect(obj)} to be an iterable` :
-      `expected ${inspect(obj)} to be an iterable`;
+assert.isIterable = function (obj: unknown, msg?: string) {
+  if (
+    obj === null ||
+    obj === undefined ||
+    !(obj as Record<PropertyKey, unknown>)[Symbol.iterator]
+  ) {
+    msg = msg
+      ? `${msg} expected ${inspect(obj)} to be an iterable`
+      : `expected ${inspect(obj)} to be an iterable`;
 
     throw new AssertionError(msg, undefined, assert.isIterable);
   }
@@ -3059,11 +3476,7 @@ function assertChanges(
   prop: PropertyKey,
   msg?: string
 ): void;
-function assertChanges(
-  fn: Function,
-  obj: () => void,
-  msg?: string
-): void;
+function assertChanges(fn: Function, obj: () => void, msg?: string): void;
 function assertChanges(
   fn: Function,
   obj: object | (() => void),
@@ -3071,7 +3484,9 @@ function assertChanges(
   msg?: string
 ): void {
   if (arguments.length === 3 && typeof obj === 'function') {
-    Assertion.create(fn, propOrMsg as string, assertChanges, true).to.change(obj);
+    Assertion.create(fn, propOrMsg as string, assertChanges, true).to.change(
+      obj
+    );
   } else {
     Assertion.create(fn, msg, assertChanges, true).to.change(
       obj as Record<PropertyKey, unknown>,
@@ -3082,7 +3497,7 @@ function assertChanges(
 
 assert.changes = assertChanges;
 
- /**
+/**
  * ### .changesBy(function, object, property, delta, [message])
  *
  * Asserts that a function changes the value of a property by an amount (delta).
@@ -3122,19 +3537,25 @@ function assertChangesBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertChangesBy, true)
-      .to.change(obj).by(deltaOrProp as number);
+      .to.change(obj)
+      .by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertChangesBy, true)
-      .to.change(obj as Function).by(deltaOrProp as number);
+      .to.change(obj as Function)
+      .by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertChangesBy, true)
-      .to.change(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.change(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .by(msgOrDelta as number);
   }
 }
 
 assert.changesBy = assertChangesBy;
 
- /**
+/**
  * ### .doesNotChange(function, object, property, [message])
  *
  * Asserts that a function does not change the value of a property.
@@ -3170,11 +3591,17 @@ function assertDoesNotChange(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 3 && typeof obj === 'function') {
-    return Assertion.create(fn, propOrMsg as string, assertDoesNotChange, true)
-      .to.not.change(obj);
+    return Assertion.create(
+      fn,
+      propOrMsg as string,
+      assertDoesNotChange,
+      true
+    ).to.not.change(obj);
   } else {
-    return Assertion.create(fn, msg, assertDoesNotChange, true)
-      .to.not.change(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
+    return Assertion.create(fn, msg, assertDoesNotChange, true).to.not.change(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -3220,13 +3647,19 @@ function assertChangesButNotBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertChangesButNotBy, true)
-      .to.change(obj).but.not.by(deltaOrProp as number);
+      .to.change(obj)
+      .but.not.by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertChangesButNotBy, true)
-      .to.change(obj as Function).but.not.by(deltaOrProp as number);
+      .to.change(obj as Function)
+      .but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertChangesButNotBy, true)
-      .to.change(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.change(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .but.not.by(msgOrDelta as number);
   }
 }
 
@@ -3268,11 +3701,17 @@ function assertIncreases(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 3 && typeof obj === 'function') {
-    return Assertion.create(fn, propOrMsg as string, assertIncreases, true)
-      .to.increase(obj);
+    return Assertion.create(
+      fn,
+      propOrMsg as string,
+      assertIncreases,
+      true
+    ).to.increase(obj);
   } else {
-    return Assertion.create(fn, msg, assertIncreases, true)
-      .to.increase(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
+    return Assertion.create(fn, msg, assertIncreases, true).to.increase(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -3318,13 +3757,19 @@ function assertIncreasesBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertIncreasesBy, true)
-      .to.increase(obj).by(deltaOrProp as number);
+      .to.increase(obj)
+      .by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertIncreasesBy, true)
-      .to.increase(obj as Function).by(deltaOrProp as number);
+      .to.increase(obj as Function)
+      .by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertIncreasesBy, true)
-      .to.increase(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.increase(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .by(msgOrDelta as number);
   }
 }
 
@@ -3366,11 +3811,22 @@ function assertDoesNotIncrease(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 3 && typeof obj === 'function') {
-    return Assertion.create(fn, propOrMsg as string, assertDoesNotIncrease, true)
-      .to.not.increase(obj);
+    return Assertion.create(
+      fn,
+      propOrMsg as string,
+      assertDoesNotIncrease,
+      true
+    ).to.not.increase(obj);
   } else {
-    return Assertion.create(fn, msg, assertDoesNotIncrease, true)
-      .to.not.increase(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
+    return Assertion.create(
+      fn,
+      msg,
+      assertDoesNotIncrease,
+      true
+    ).to.not.increase(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -3416,13 +3872,19 @@ function assertIncreasesButNotBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertIncreasesButNotBy, true)
-      .to.increase(obj).but.not.by(deltaOrProp as number);
+      .to.increase(obj)
+      .but.not.by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertIncreasesButNotBy, true)
-      .to.increase(obj as Function).but.not.by(deltaOrProp as number);
+      .to.increase(obj as Function)
+      .but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertIncreasesButNotBy, true)
-      .to.increase(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.increase(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .but.not.by(msgOrDelta as number);
   }
 }
 
@@ -3464,11 +3926,17 @@ function assertDecreases(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 3 && typeof obj === 'function') {
-    return Assertion.create(fn, propOrMsg as string, assertDecreases, true)
-      .to.decrease(obj);
+    return Assertion.create(
+      fn,
+      propOrMsg as string,
+      assertDecreases,
+      true
+    ).to.decrease(obj);
   } else {
-    return Assertion.create(fn, msg, assertDecreases, true)
-      .to.decrease(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
+    return Assertion.create(fn, msg, assertDecreases, true).to.decrease(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -3514,13 +3982,19 @@ function assertDecreasesBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertDecreasesBy, true)
-      .to.decrease(obj).by(deltaOrProp as number);
+      .to.decrease(obj)
+      .by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertDecreasesBy, true)
-      .to.decrease(obj as Function).by(deltaOrProp as number);
+      .to.decrease(obj as Function)
+      .by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertDecreasesBy, true)
-      .to.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.decrease(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .by(msgOrDelta as number);
   }
 }
 
@@ -3562,11 +4036,22 @@ function assertDoesNotDecrease(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 3 && typeof obj === 'function') {
-    return Assertion.create(fn, propOrMsg as string, assertDoesNotDecrease, true)
-      .to.not.decrease(obj);
+    return Assertion.create(
+      fn,
+      propOrMsg as string,
+      assertDoesNotDecrease,
+      true
+    ).to.not.decrease(obj);
   } else {
-    return Assertion.create(fn, msg, assertDoesNotDecrease, true)
-      .to.not.decrease(obj as Record<PropertyKey, unknown>, propOrMsg as PropertyKey);
+    return Assertion.create(
+      fn,
+      msg,
+      assertDoesNotDecrease,
+      true
+    ).to.not.decrease(
+      obj as Record<PropertyKey, unknown>,
+      propOrMsg as PropertyKey
+    );
   }
 }
 
@@ -3612,14 +4097,25 @@ function assertDoesNotDecreaseBy(
   msg?: string
 ): Assertion<Function> {
   if (arguments.length === 4 && typeof obj === 'function') {
-    return Assertion.create(fn, msgOrDelta as string, assertDoesNotDecreaseBy, true)
-      .to.not.decrease(obj as Function).by(deltaOrProp as number);
+    return Assertion.create(
+      fn,
+      msgOrDelta as string,
+      assertDoesNotDecreaseBy,
+      true
+    )
+      .to.not.decrease(obj as Function)
+      .by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     return Assertion.create(fn, msg, assertDoesNotDecreaseBy, true)
-      .to.not.decrease(obj as Function).by(deltaOrProp as number);
+      .to.not.decrease(obj as Function)
+      .by(deltaOrProp as number);
   } else {
     return Assertion.create(fn, msg, assertDoesNotDecreaseBy, true)
-      .to.not.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).by(msgOrDelta as number);
+      .to.not.decrease(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .by(msgOrDelta as number);
   }
 }
 
@@ -3665,13 +4161,19 @@ function assertDecreasesButNotBy(
 ): void {
   if (arguments.length === 4 && typeof obj === 'function') {
     Assertion.create(fn, msgOrDelta as string, assertDecreasesButNotBy, true)
-      .to.decrease(obj).but.not.by(deltaOrProp as number);
+      .to.decrease(obj)
+      .but.not.by(deltaOrProp as number);
   } else if (arguments.length === 3) {
     Assertion.create(fn, msg, assertDecreasesButNotBy, true)
-      .to.decrease(obj as Function).but.not.by(deltaOrProp as number);
+      .to.decrease(obj as Function)
+      .but.not.by(deltaOrProp as number);
   } else {
     Assertion.create(fn, msg, assertDecreasesButNotBy, true)
-      .to.decrease(obj as Record<PropertyKey, unknown>, deltaOrProp as PropertyKey).but.not.by(msgOrDelta as number);
+      .to.decrease(
+        obj as Record<PropertyKey, unknown>,
+        deltaOrProp as PropertyKey
+      )
+      .but.not.by(msgOrDelta as number);
   }
 }
 
@@ -3736,7 +4238,10 @@ assert.isExtensible = assert.extensible = function (obj: object, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isNotExtensible = assert.notExtensible = function (obj: object, msg?: string) {
+assert.isNotExtensible = assert.notExtensible = function (
+  obj: object,
+  msg?: string
+) {
   Assertion.create(obj, msg, assert.isNotExtensible, true).to.not.be.extensible;
 };
 
@@ -3840,7 +4345,7 @@ assert.isNotFrozen = assert.notFrozen = function (obj: object, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isEmpty = assert.empty = function(val: unknown, msg?: string) {
+assert.isEmpty = assert.empty = function (val: unknown, msg?: string) {
   Assertion.create(val, msg, assert.isEmpty, true).to.be.empty;
 };
 
@@ -3865,6 +4370,6 @@ assert.isEmpty = assert.empty = function(val: unknown, msg?: string) {
  * @namespace Assert
  * @public
  */
-assert.isNotEmpty = assert.notEmpty = function(val: unknown, msg?: string) {
+assert.isNotEmpty = assert.notEmpty = function (val: unknown, msg?: string) {
   Assertion.create(val, msg, assert.isNotEmpty, true).to.not.be.empty;
 };

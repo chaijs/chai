@@ -79,67 +79,143 @@ declare module '../assertion.js' {
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     gt: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     greaterThan: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
 
-    approximately: OnlyIf<T, number, (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>>;
-    closeTo: OnlyIf<T, number, (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>>;
+    approximately: OnlyIf<
+      T,
+      number,
+      (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>
+    >;
+    closeTo: OnlyIf<
+      T,
+      number,
+      (expected: number, delta: number, msg?: string) => Assertion<T, TFlags>
+    >;
 
     below: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     lt: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     lessThan: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
 
-    by: OnlyIf<TFlags, {deltaBehavior: string}, (delta: number, msg?: string) => Assertion<T, TFlags>>;
+    by: OnlyIf<
+      TFlags,
+      {deltaBehavior: string},
+      (delta: number, msg?: string) => Assertion<T, TFlags>
+    >;
 
     change: {
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(
+        subject: TSubject,
+        prop: keyof TSubject,
+        msg?: string
+      ): Assertion<T, TFlags & {deltaBehavior: string}>;
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
     };
     changes: {
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
+      <TSubject>(
+        subject: TSubject,
+        prop: keyof TSubject,
+        msg?: string
+      ): Assertion<T, TFlags & {deltaBehavior: string}>;
       (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
     };
 
-    contain: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
-    contains: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
-    include: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
-    includes: OnlyIf<T, CollectionLike<never> | string | object, ChainedMethod<T, TFlags, [val: unknown, msg?: string]>>;
+    contain: OnlyIf<
+      T,
+      CollectionLike<never> | string | object,
+      ChainedMethod<T, TFlags, [val: unknown, msg?: string]>
+    >;
+    contains: OnlyIf<
+      T,
+      CollectionLike<never> | string | object,
+      ChainedMethod<T, TFlags, [val: unknown, msg?: string]>
+    >;
+    include: OnlyIf<
+      T,
+      CollectionLike<never> | string | object,
+      ChainedMethod<T, TFlags, [val: unknown, msg?: string]>
+    >;
+    includes: OnlyIf<
+      T,
+      CollectionLike<never> | string | object,
+      ChainedMethod<T, TFlags, [val: unknown, msg?: string]>
+    >;
 
-    decrease: OnlyIf<T, Function, {
-      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
-    }>;
-    decreases: OnlyIf<T, Function, {
-      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
-    }>;
+    decrease: OnlyIf<
+      T,
+      Function,
+      {
+        (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+        <TSubject>(
+          subject: TSubject,
+          prop: keyof TSubject,
+          msg?: string
+        ): Assertion<T, TFlags & {deltaBehavior: string}>;
+      }
+    >;
+    decreases: OnlyIf<
+      T,
+      Function,
+      {
+        (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+        <TSubject>(
+          subject: TSubject,
+          prop: keyof TSubject,
+          msg?: string
+        ): Assertion<T, TFlags & {deltaBehavior: string}>;
+      }
+    >;
 
     eq: (val: T, msg?: string) => Assertion<T, TFlags>;
     equal: (val: T, msg?: string) => Assertion<T, TFlags>;
@@ -152,70 +228,128 @@ declare module '../assertion.js' {
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     least: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     gte: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
 
-    haveOwnProperty: OnlyIf<T, object, {
-      <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
-      (name: PropertyKey): Assertion<unknown>;
-      <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
-    }>;
-    ownProperty: OnlyIf<T, object, {
-      <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
-      (name: PropertyKey): Assertion<unknown>;
-      <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
-    }>;
-
-    haveOwnPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<PropertyDescriptor>;
-    ownPropertyDescriptor: (name: PropertyKey, descriptor: PropertyDescriptor, msg?: string) => Assertion<PropertyDescriptor>
-
-    increase: OnlyIf<T, Function, {
-      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
-    }>;
-    increases: OnlyIf<T, Function, {
-      (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
-      <TSubject>(subject: TSubject, prop: keyof TSubject, msg?: string): Assertion<T, TFlags & {deltaBehavior: string}>;
-    }>;
-
-    instanceOf: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
-    instanceof: (ctor: Constructor<unknown>, msg?: string) => Assertion<T, TFlags>;
-
-    keys: T extends (Map<unknown, unknown> | Set<unknown>) ?
+    haveOwnProperty: OnlyIf<
+      T,
+      object,
       {
-        (keys: unknown[]): Assertion<T, TFlags>;
-        (...keys: unknown[]): Assertion<T, TFlags>;
-      } :
-      (
-        T extends object ? {
-          (keys: Record<PropertyKey, unknown>): Assertion<T, TFlags>;
-          (keys: PropertyKey[]): Assertion<T, TFlags>;
-          (...keys: PropertyKey[]): Assertion<T, TFlags>;
-        } : never
-      );
-    key: T extends (Map<unknown, unknown> | Set<unknown>) ?
+        <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+        (name: PropertyKey): Assertion<unknown>;
+        <TKey extends keyof T>(
+          name: TKey,
+          val: T[TKey],
+          msg?: string
+        ): Assertion<T[TKey]>;
+      }
+    >;
+    ownProperty: OnlyIf<
+      T,
+      object,
       {
-        (keys: unknown[]): Assertion<T, TFlags>;
-        (...keys: unknown[]): Assertion<T, TFlags>;
-      } :
-      (
-        T extends object ? {
-          (keys: PropertyKey[]): Assertion<T, TFlags>;
-          (...keys: PropertyKey[]): Assertion<T, TFlags>;
-        } : never
-      );
+        <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+        (name: PropertyKey): Assertion<unknown>;
+        <TKey extends keyof T>(
+          name: TKey,
+          val: T[TKey],
+          msg?: string
+        ): Assertion<T[TKey]>;
+      }
+    >;
+
+    haveOwnPropertyDescriptor: (
+      name: PropertyKey,
+      descriptor: PropertyDescriptor,
+      msg?: string
+    ) => Assertion<PropertyDescriptor>;
+    ownPropertyDescriptor: (
+      name: PropertyKey,
+      descriptor: PropertyDescriptor,
+      msg?: string
+    ) => Assertion<PropertyDescriptor>;
+
+    increase: OnlyIf<
+      T,
+      Function,
+      {
+        (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+        <TSubject>(
+          subject: TSubject,
+          prop: keyof TSubject,
+          msg?: string
+        ): Assertion<T, TFlags & {deltaBehavior: string}>;
+      }
+    >;
+    increases: OnlyIf<
+      T,
+      Function,
+      {
+        (subject: Function): Assertion<T, TFlags & {deltaBehavior: string}>;
+        <TSubject>(
+          subject: TSubject,
+          prop: keyof TSubject,
+          msg?: string
+        ): Assertion<T, TFlags & {deltaBehavior: string}>;
+      }
+    >;
+
+    instanceOf: (
+      ctor: Constructor<unknown>,
+      msg?: string
+    ) => Assertion<T, TFlags>;
+    instanceof: (
+      ctor: Constructor<unknown>,
+      msg?: string
+    ) => Assertion<T, TFlags>;
+
+    keys: T extends Map<unknown, unknown> | Set<unknown>
+      ? {
+          (keys: unknown[]): Assertion<T, TFlags>;
+          (...keys: unknown[]): Assertion<T, TFlags>;
+        }
+      : T extends object
+        ? {
+            (keys: Record<PropertyKey, unknown>): Assertion<T, TFlags>;
+            (keys: PropertyKey[]): Assertion<T, TFlags>;
+            (...keys: PropertyKey[]): Assertion<T, TFlags>;
+          }
+        : never;
+    key: T extends Map<unknown, unknown> | Set<unknown>
+      ? {
+          (keys: unknown[]): Assertion<T, TFlags>;
+          (...keys: unknown[]): Assertion<T, TFlags>;
+        }
+      : T extends object
+        ? {
+            (keys: PropertyKey[]): Assertion<T, TFlags>;
+            (...keys: PropertyKey[]): Assertion<T, TFlags>;
+          }
+        : never;
 
     length: OnlyIf<
       T,
@@ -242,25 +376,49 @@ declare module '../assertion.js' {
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     lte: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
     most: OnlyIf<
       T,
       Date | number,
       (val: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (val: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (val: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
 
-    match: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
-    matches: OnlyIf<T, string, (re: RegExp, msg?: string) => Assertion<T, TFlags>>;
+    match: OnlyIf<
+      T,
+      string,
+      (re: RegExp, msg?: string) => Assertion<T, TFlags>
+    >;
+    matches: OnlyIf<
+      T,
+      string,
+      (re: RegExp, msg?: string) => Assertion<T, TFlags>
+    >;
 
-    members: OnlyIf<T, unknown[], (subset: T, msg?: string) => Assertion<T, TFlags>>;
+    members: OnlyIf<
+      T,
+      unknown[],
+      (subset: T, msg?: string) => Assertion<T, TFlags>
+    >;
 
     oneOf: OnlyIf<
       TFlags,
@@ -273,16 +431,28 @@ declare module '../assertion.js' {
       >
     >;
 
-    property: OnlyIf<T, object, OnlyIf<
-      TFlags,
-      {nested: true},
-      (name: string, val?: unknown, msg?: string) => Assertion<unknown, TFlags>,
-      {
-        <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
-        (name: PropertyKey): Assertion<unknown>;
-        <TKey extends keyof T>(name: TKey, val: T[TKey], msg?: string): Assertion<T[TKey]>;
-      }
-    >>;
+    property: OnlyIf<
+      T,
+      object,
+      OnlyIf<
+        TFlags,
+        {nested: true},
+        (
+          name: string,
+          val?: unknown,
+          msg?: string
+        ) => Assertion<unknown, TFlags>,
+        {
+          <TKey extends keyof T>(name: TKey): Assertion<T[TKey]>;
+          (name: PropertyKey): Assertion<unknown>;
+          <TKey extends keyof T>(
+            name: TKey,
+            val: T[TKey],
+            msg?: string
+          ): Assertion<T[TKey]>;
+        }
+      >
+    >;
 
     respondTo: (method: string, msg?: string) => Assertion<T, TFlags>;
     respondsTo: (method: string, msg?: string) => Assertion<T, TFlags>;
@@ -293,17 +463,33 @@ declare module '../assertion.js' {
     string: (str: string, msg?: string) => Assertion<T, TFlags>;
 
     Throw: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
-      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
+      ((
+        errorLike: Error | Constructor<Error>,
+        errMsgMatcher: string | RegExp,
+        msg?: string
+      ) => Assertion<T, TFlags>);
     throws: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
-      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
+      ((
+        errorLike: Error | Constructor<Error>,
+        errMsgMatcher: string | RegExp,
+        msg?: string
+      ) => Assertion<T, TFlags>);
     throw: ((errMsgMatcher: string | RegExp) => Assertion<T, TFlags>) &
-      ((errorLike: Error | Constructor<Error>, errMsgMatcher: string | RegExp, msg?: string) => Assertion<T, TFlags>);
+      ((
+        errorLike: Error | Constructor<Error>,
+        errMsgMatcher: string | RegExp,
+        msg?: string
+      ) => Assertion<T, TFlags>);
 
     within: OnlyIf<
       T,
       Date | number,
       (start: T, finish: T, msg?: string) => Assertion<T, TFlags>,
-      OnlyIf<TFlags, {doLength: true}, (start: number, finish: number, msg?: string) => Assertion<T, TFlags>>
+      OnlyIf<
+        TFlags,
+        {doLength: true},
+        (start: number, finish: number, msg?: string) => Assertion<T, TFlags>
+      >
     >;
   }
 }
@@ -890,24 +1076,34 @@ function include<T>(this: Assertion<unknown>, val: T, msg?: string) {
         );
       }
 
-      var props = Object.keys(val as object)
-        , firstErr: unknown = null
-        , numErrs = 0;
+      var props = Object.keys(val as object),
+        firstErr: unknown = null,
+        numErrs = 0;
 
       props.forEach(function (this: Assertion<unknown>, prop) {
-        var propAssertion = Assertion.create(obj as Record<PropertyKey, unknown>);
+        var propAssertion = Assertion.create(
+          obj as Record<PropertyKey, unknown>
+        );
         _.transferFlags(this, propAssertion, true);
         flag(propAssertion, 'lockSsfi', true);
 
         if (!negate || props.length === 1) {
-          propAssertion.property(prop, (val as Record<PropertyKey, unknown>)[prop]);
+          propAssertion.property(
+            prop,
+            (val as Record<PropertyKey, unknown>)[prop]
+          );
           return;
         }
 
         try {
-          propAssertion.property(prop, (val as Record<PropertyKey, unknown>)[prop]);
+          propAssertion.property(
+            prop,
+            (val as Record<PropertyKey, unknown>)[prop]
+          );
         } catch (err) {
-          if (!_.checkError.compatibleConstructor(err as Error, AssertionError)) {
+          if (
+            !_.checkError.compatibleConstructor(err as Error, AssertionError)
+          ) {
             throw err;
           }
           if (firstErr === null) firstErr = err;
@@ -1305,7 +1501,8 @@ Assertion.addProperty('empty', function () {
         ssfi
       );
     case 'function':
-      var msg = flagMsg + '.empty was passed a function ' + _.getName(val as Function);
+      var msg =
+        flagMsg + '.empty was passed a function ' + _.getName(val as Function);
       throw new AssertionError(msg.trim(), undefined, ssfi);
     default:
       if (val !== Object(val)) {
@@ -1355,8 +1552,8 @@ Assertion.addProperty('empty', function () {
  * @public
  */
 function checkArguments(this: Assertion<unknown>) {
-  var obj = flag(this, 'object')
-    , type = _.type(obj);
+  var obj = flag(this, 'object'),
+    type = _.type(obj);
   this.assert(
     'Arguments' === type,
     'expected #{this} to be arguments but got ' + type,
@@ -1544,7 +1741,9 @@ function assertAbove(this: Assertion<unknown>, n: Date | number, msg?: string) {
     nType = _.type(n).toLowerCase();
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+      'length'
+    );
   }
 
   if (!doLength && objType === 'date' && nType !== 'date') {
@@ -1578,18 +1777,20 @@ function assertAbove(this: Assertion<unknown>, n: Date | number, msg?: string) {
       itemsCount = (obj as Array<unknown>).length;
     }
     this.assert(
-        itemsCount > (n as number)
-      , 'expected #{this} to have a ' + descriptor + ' above #{exp} but got #{act}'
-      , 'expected #{this} to not have a ' + descriptor + ' above #{exp}'
-      , n
-      , itemsCount
+      itemsCount > (n as number),
+      'expected #{this} to have a ' +
+        descriptor +
+        ' above #{exp} but got #{act}',
+      'expected #{this} to not have a ' + descriptor + ' above #{exp}',
+      n,
+      itemsCount
     );
   } else {
     this.assert(
-        (obj as number) > (n as number)
-      , 'expected #{this} to be above #{exp}'
-      , 'expected #{this} to be at most #{exp}'
-      , n
+      (obj as number) > (n as number),
+      'expected #{this} to be above #{exp}',
+      'expected #{this} to be at most #{exp}',
+      n
     );
   }
 }
@@ -1643,18 +1844,20 @@ Assertion.addMethod('greaterThan', assertAbove);
  */
 function assertLeast(this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , doLength = flag(this, 'doLength')
-    , flagMsg = flag(this, 'message')
-    , msgPrefix = ((flagMsg) ? flagMsg + ': ' : '')
-    , ssfi = flag(this, 'ssfi')
-    , objType = _.type(obj).toLowerCase()
-    , nType = _.type(n).toLowerCase()
-    , errorMessage = 'unknown error'
-    , shouldThrow = true;
+  var obj = flag(this, 'object'),
+    doLength = flag(this, 'doLength'),
+    flagMsg = flag(this, 'message'),
+    msgPrefix = flagMsg ? flagMsg + ': ' : '',
+    ssfi = flag(this, 'ssfi'),
+    objType = _.type(obj).toLowerCase(),
+    nType = _.type(n).toLowerCase(),
+    errorMessage = 'unknown error',
+    shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+      'length'
+    );
   }
 
   if (!doLength && objType === 'date' && nType !== 'date') {
@@ -1683,18 +1886,20 @@ function assertLeast(this: Assertion<unknown>, n: unknown, msg?: string) {
       itemsCount = (obj as Array<unknown>).length;
     }
     this.assert(
-        itemsCount >= (n as number)
-      , 'expected #{this} to have a ' + descriptor + ' at least #{exp} but got #{act}'
-      , 'expected #{this} to have a ' + descriptor + ' below #{exp}'
-      , n
-      , itemsCount
+      itemsCount >= (n as number),
+      'expected #{this} to have a ' +
+        descriptor +
+        ' at least #{exp} but got #{act}',
+      'expected #{this} to have a ' + descriptor + ' below #{exp}',
+      n,
+      itemsCount
     );
   } else {
     this.assert(
-        (obj as number) >= (n as number)
-      , 'expected #{this} to be at least #{exp}'
-      , 'expected #{this} to be below #{exp}'
-      , n
+      (obj as number) >= (n as number),
+      'expected #{this} to be at least #{exp}',
+      'expected #{this} to be below #{exp}',
+      n
     );
   }
 }
@@ -1747,18 +1952,20 @@ Assertion.addMethod('greaterThanOrEqual', assertLeast);
  */
 function assertBelow(this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , doLength = flag(this, 'doLength')
-    , flagMsg = flag(this, 'message')
-    , msgPrefix = ((flagMsg) ? flagMsg + ': ' : '')
-    , ssfi = flag(this, 'ssfi')
-    , objType = _.type(obj).toLowerCase()
-    , nType = _.type(n).toLowerCase()
-    , errorMessage = 'unknown error'
-    , shouldThrow = true;
+  var obj = flag(this, 'object'),
+    doLength = flag(this, 'doLength'),
+    flagMsg = flag(this, 'message'),
+    msgPrefix = flagMsg ? flagMsg + ': ' : '',
+    ssfi = flag(this, 'ssfi'),
+    objType = _.type(obj).toLowerCase(),
+    nType = _.type(n).toLowerCase(),
+    errorMessage = 'unknown error',
+    shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+      'length'
+    );
   }
 
   if (!doLength && objType === 'date' && nType !== 'date') {
@@ -1787,18 +1994,20 @@ function assertBelow(this: Assertion<unknown>, n: unknown, msg?: string) {
       itemsCount = (obj as Array<unknown>).length;
     }
     this.assert(
-        itemsCount < (n as number)
-      , 'expected #{this} to have a ' + descriptor + ' below #{exp} but got #{act}'
-      , 'expected #{this} to not have a ' + descriptor + ' below #{exp}'
-      , n
-      , itemsCount
+      itemsCount < (n as number),
+      'expected #{this} to have a ' +
+        descriptor +
+        ' below #{exp} but got #{act}',
+      'expected #{this} to not have a ' + descriptor + ' below #{exp}',
+      n,
+      itemsCount
     );
   } else {
     this.assert(
-        (obj as number) < (n as number)
-      , 'expected #{this} to be below #{exp}'
-      , 'expected #{this} to be at least #{exp}'
-      , n
+      (obj as number) < (n as number),
+      'expected #{this} to be below #{exp}',
+      'expected #{this} to be at least #{exp}',
+      n
     );
   }
 }
@@ -1852,18 +2061,20 @@ Assertion.addMethod('lessThan', assertBelow);
  */
 function assertMost(this: Assertion<unknown>, n: unknown, msg?: string) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , doLength = flag(this, 'doLength')
-    , flagMsg = flag(this, 'message')
-    , msgPrefix = ((flagMsg) ? flagMsg + ': ' : '')
-    , ssfi = flag(this, 'ssfi')
-    , objType = _.type(obj).toLowerCase()
-    , nType = _.type(n).toLowerCase()
-    , errorMessage = 'unknown error'
-    , shouldThrow = true;
+  var obj = flag(this, 'object'),
+    doLength = flag(this, 'doLength'),
+    flagMsg = flag(this, 'message'),
+    msgPrefix = flagMsg ? flagMsg + ': ' : '',
+    ssfi = flag(this, 'ssfi'),
+    objType = _.type(obj).toLowerCase(),
+    nType = _.type(n).toLowerCase(),
+    errorMessage = 'unknown error',
+    shouldThrow = true;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+      'length'
+    );
   }
 
   if (!doLength && objType === 'date' && nType !== 'date') {
@@ -1892,18 +2103,20 @@ function assertMost(this: Assertion<unknown>, n: unknown, msg?: string) {
       itemsCount = (obj as Array<unknown>).length;
     }
     this.assert(
-        itemsCount <= (n as number)
-      , 'expected #{this} to have a ' + descriptor + ' at most #{exp} but got #{act}'
-      , 'expected #{this} to have a ' + descriptor + ' above #{exp}'
-      , n
-      , itemsCount
+      itemsCount <= (n as number),
+      'expected #{this} to have a ' +
+        descriptor +
+        ' at most #{exp} but got #{act}',
+      'expected #{this} to have a ' + descriptor + ' above #{exp}',
+      n,
+      itemsCount
     );
   } else {
     this.assert(
-        (obj as number) <= (n as number)
-      , 'expected #{this} to be at most #{exp}'
-      , 'expected #{this} to be above #{exp}'
-      , n
+      (obj as number) <= (n as number),
+      'expected #{this} to be at most #{exp}',
+      'expected #{this} to be above #{exp}',
+      n
     );
   }
 }
@@ -1956,24 +2169,32 @@ Assertion.addMethod('lessThanOrEqual', assertMost);
  */
 function assertWithin(start: number, finish: number, msg?: string): void;
 function assertWithin(start: Date, finish: Date, msg?: string): void;
-function assertWithin(this: Assertion<unknown>, start: number | Date, finish: number | Date, msg?: string): void {
+function assertWithin(
+  this: Assertion<unknown>,
+  start: number | Date,
+  finish: number | Date,
+  msg?: string
+): void {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , doLength = flag(this, 'doLength')
-    , flagMsg = flag(this, 'message')
-    , msgPrefix = ((flagMsg) ? flagMsg + ': ' : '')
-    , ssfi = flag(this, 'ssfi')
-    , objType = _.type(obj).toLowerCase()
-    , startType = _.type(start).toLowerCase()
-    , finishType = _.type(finish).toLowerCase()
-    , errorMessage = 'unknown error'
-    , shouldThrow = true
-    , range = (startType === 'date' && finishType === 'date')
+  var obj = flag(this, 'object'),
+    doLength = flag(this, 'doLength'),
+    flagMsg = flag(this, 'message'),
+    msgPrefix = flagMsg ? flagMsg + ': ' : '',
+    ssfi = flag(this, 'ssfi'),
+    objType = _.type(obj).toLowerCase(),
+    startType = _.type(start).toLowerCase(),
+    finishType = _.type(finish).toLowerCase(),
+    errorMessage = 'unknown error',
+    shouldThrow = true,
+    range =
+      startType === 'date' && finishType === 'date'
         ? (start as Date).toISOString() + '..' + (finish as Date).toISOString()
         : start + '..' + finish;
 
   if (doLength && objType !== 'map' && objType !== 'set') {
-    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+    Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+      'length'
+    );
   }
 
   if (
@@ -2009,15 +2230,16 @@ function assertWithin(this: Assertion<unknown>, start: number | Date, finish: nu
       itemsCount = (obj as Array<unknown>).length;
     }
     this.assert(
-        itemsCount >= (start as number) && itemsCount <= (finish as number)
-      , 'expected #{this} to have a ' + descriptor + ' within ' + range
-      , 'expected #{this} to not have a ' + descriptor + ' within ' + range
+      itemsCount >= (start as number) && itemsCount <= (finish as number),
+      'expected #{this} to have a ' + descriptor + ' within ' + range,
+      'expected #{this} to not have a ' + descriptor + ' within ' + range
     );
   } else {
     this.assert(
-        (obj as number) >= (start as number) && (obj as number) <= (finish as number)
-      , 'expected #{this} to be within ' + range
-      , 'expected #{this} to not be within ' + range
+      (obj as number) >= (start as number) &&
+        (obj as number) <= (finish as number),
+      'expected #{this} to be within ' + range,
+      'expected #{this} to not be within ' + range
     );
   }
 }
@@ -2062,7 +2284,11 @@ Assertion.addMethod('within', assertWithin);
  * @namespace BDD
  * @public
  */
-function assertInstanceOf(this: Assertion<unknown>, constructor: {new(): unknown}, msg?: string) {
+function assertInstanceOf(
+  this: Assertion<unknown>,
+  constructor: {new (): unknown},
+  msg?: string
+) {
   if (msg) flag(this, 'message', msg);
 
   var target = flag(this, 'object');
@@ -2211,7 +2437,12 @@ Assertion.addMethod('instanceOf', assertInstanceOf);
  * @namespace BDD
  * @public
  */
-function assertProperty(this: Assertion<unknown>, name: PropertyKey, val?: unknown, msg?: string) {
+function assertProperty(
+  this: Assertion<unknown>,
+  name: PropertyKey,
+  val?: unknown,
+  msg?: string
+) {
   if (msg) flag(this, 'message', msg);
 
   var isNested = flag(this, 'nested'),
@@ -2263,9 +2494,11 @@ function assertProperty(this: Assertion<unknown>, name: PropertyKey, val?: unkno
     );
   }
 
-  var isDeep = flag(this, 'deep')
-    , negate = flag(this, 'negate')
-    , isEql = isDeep ? flag(this, 'eql') : (val1: unknown, val2: unknown): boolean => val1 === val2;
+  var isDeep = flag(this, 'deep'),
+    negate = flag(this, 'negate'),
+    isEql = isDeep
+      ? flag(this, 'eql')
+      : (val1: unknown, val2: unknown): boolean => val1 === val2;
   let pathInfo;
   let value;
 
@@ -2323,15 +2556,15 @@ function assertProperty(this: Assertion<unknown>, name: PropertyKey, val?: unkno
 Assertion.addMethod('property', assertProperty);
 
 /**
- *
- * @param {unknown} name
- * @param {unknown} value
- * @param {string} msg
+ * Asserts that an object has an own property
  */
 function assertOwnProperty(this: Assertion<unknown>) {
   flag(this, 'own', true);
   // TODO (43081j): remove this highly questionable cast
-  assertProperty.apply(this, arguments as unknown as Parameters<typeof assertProperty>);
+  assertProperty.apply(
+    this,
+    arguments as unknown as Parameters<typeof assertProperty>
+  );
 }
 
 Assertion.addMethod('ownProperty', assertOwnProperty);
@@ -2455,7 +2688,12 @@ Assertion.addMethod('haveOwnProperty', assertOwnProperty);
  * @namespace BDD
  * @public
  */
-function assertOwnPropertyDescriptor(this: Assertion<unknown>, name: PropertyKey, descriptor?: unknown, msg?: string) {
+function assertOwnPropertyDescriptor(
+  this: Assertion<unknown>,
+  name: PropertyKey,
+  descriptor?: unknown,
+  msg?: string
+) {
   if (typeof descriptor === 'string') {
     msg = descriptor;
     descriptor = null;
@@ -2499,7 +2737,7 @@ Assertion.addMethod('haveOwnPropertyDescriptor', assertOwnPropertyDescriptor);
 /**
  * Flags that this assertion should operate on the object's length
  */
-function assertLengthChain (this: Assertion<unknown>) {
+function assertLengthChain(this: Assertion<unknown>) {
   flag(this, 'doLength', true);
 }
 
@@ -2560,7 +2798,7 @@ function assertLengthChain (this: Assertion<unknown>) {
  * @namespace BDD
  * @public
  */
-function assertLength (this: Assertion<unknown>, n: number, msg?: string) {
+function assertLength(this: Assertion<unknown>, n: number, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object'),
     objType = _.type(obj).toLowerCase(),
@@ -2576,7 +2814,9 @@ function assertLength (this: Assertion<unknown>, n: number, msg?: string) {
       itemsCount = (obj as Set<unknown> | Map<unknown, unknown>).size;
       break;
     default:
-      Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property('length');
+      Assertion.create(obj as object, flagMsg, ssfi, true).to.have.property(
+        'length'
+      );
       itemsCount = (obj as Array<unknown>).length;
   }
 
@@ -2623,9 +2863,9 @@ function assertMatch(this: Assertion<unknown>, re: RegExp, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
   this.assert(
-      re.exec(obj as string)
-    , 'expected #{this} to match ' + re
-    , 'expected #{this} not to match ' + re
+    re.exec(obj as string),
+    'expected #{this} to match ' + re,
+    'expected #{this} not to match ' + re
   );
 }
 
@@ -2658,15 +2898,15 @@ Assertion.addMethod('matches', assertMatch);
  */
 Assertion.addMethod('string', function (str: string, msg?: string) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi');
+  var obj = flag(this, 'object'),
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi');
   Assertion.create(obj, flagMsg, ssfi, true).is.a('string');
 
   this.assert(
-      ~(obj as string).indexOf(str)
-    , 'expected #{this} to contain ' + _.inspect(str)
-    , 'expected #{this} to not contain ' + _.inspect(str)
+    ~(obj as string).indexOf(str),
+    'expected #{this} to contain ' + _.inspect(str),
+    'expected #{this} to not contain ' + _.inspect(str)
   );
 });
 
@@ -2773,18 +3013,21 @@ Assertion.addMethod('string', function (str: string, msg?: string) {
  * @namespace BDD
  * @public
  */
-function assertKeys (this: Assertion<unknown>, keys: Array<PropertyKey>|Record<PropertyKey, unknown>) {
-  var obj = flag(this, 'object')
-    , objType = _.type(obj)
-    , keysType = _.type(keys)
-    , ssfi = flag(this, 'ssfi')
-    , isDeep = flag(this, 'deep')
-    , str
-    , deepStr = ''
-    , actual: PropertyKey[] = []
-    , ok = true
-    , flagMsg = flag(this, 'message')
-    , normalisedKeys: PropertyKey[] = [];
+function assertKeys(
+  this: Assertion<unknown>,
+  keys: Array<PropertyKey> | Record<PropertyKey, unknown>
+) {
+  var obj = flag(this, 'object'),
+    objType = _.type(obj),
+    keysType = _.type(keys),
+    ssfi = flag(this, 'ssfi'),
+    isDeep = flag(this, 'deep'),
+    str,
+    deepStr = '',
+    actual: PropertyKey[] = [],
+    ok = true,
+    flagMsg = flag(this, 'message'),
+    normalisedKeys: PropertyKey[] = [];
 
   flagMsg = flagMsg ? flagMsg + ': ' : '';
   var mixedArgsMsg =
@@ -2835,11 +3078,13 @@ function assertKeys (this: Assertion<unknown>, keys: Array<PropertyKey>|Record<P
     throw new AssertionError(flagMsg + 'keys required', undefined, ssfi);
   }
 
-  var len = normalisedKeys.length
-    , any = flag(this, 'any')
-    , all = flag(this, 'all')
-    , expected = normalisedKeys
-    , isEql = isDeep ? flag(this, 'eql') : (val1: unknown, val2: unknown): boolean => val1 === val2;
+  var len = normalisedKeys.length,
+    any = flag(this, 'any'),
+    all = flag(this, 'all'),
+    expected = normalisedKeys,
+    isEql = isDeep
+      ? flag(this, 'eql')
+      : (val1: unknown, val2: unknown): boolean => val1 === val2;
 
   if (!any && !all) {
     all = true;
@@ -2869,7 +3114,7 @@ function assertKeys (this: Assertion<unknown>, keys: Array<PropertyKey>|Record<P
 
   // Key string
   if (len > 1) {
-    normalisedKeys = normalisedKeys.map(function(key) {
+    normalisedKeys = normalisedKeys.map(function (key) {
       return _.inspect(key);
     });
     var last = normalisedKeys.pop();
@@ -3075,19 +3320,22 @@ function assertThrows(
 function assertThrows(
   this: Assertion<unknown>,
   errorLikeOrMatcher: Error | Constructor<Error> | string | RegExp,
-  errMsgMatcher?: string|RegExp,
+  errMsgMatcher?: string | RegExp,
   msg?: string
 ): void {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , ssfi = flag(this, 'ssfi')
-    , flagMsg = flag(this, 'message')
-    , negate = flag(this, 'negate') || false;
+  var obj = flag(this, 'object'),
+    ssfi = flag(this, 'ssfi'),
+    flagMsg = flag(this, 'message'),
+    negate = flag(this, 'negate') || false;
   Assertion.create(obj, flagMsg, ssfi, true).is.a('function');
 
   let errorLike: Error | Constructor<Error> | null;
 
-  if (_.isRegExp(errorLikeOrMatcher) || typeof errorLikeOrMatcher === 'string') {
+  if (
+    _.isRegExp(errorLikeOrMatcher) ||
+    typeof errorLikeOrMatcher === 'string'
+  ) {
     errMsgMatcher = errorLikeOrMatcher;
     errorLike = null;
   } else {
@@ -3153,7 +3401,10 @@ function assertThrows(
   if (errorLike && caughtErr) {
     // We should compare instances only if `errorLike` is an instance of `Error`
     if (errorLike instanceof Error) {
-      var isCompatibleInstance = _.checkError.compatibleInstance(caughtErr as Error, errorLike);
+      var isCompatibleInstance = _.checkError.compatibleInstance(
+        caughtErr as Error,
+        errorLike
+      );
 
       if (isCompatibleInstance === negate) {
         // These checks were created to ensure we won't fail too soon when we've got both args and a negate
@@ -3173,17 +3424,25 @@ function assertThrows(
       }
     }
 
-    var isCompatibleConstructor = _.checkError.compatibleConstructor(caughtErr as Error, errorLike);
+    var isCompatibleConstructor = _.checkError.compatibleConstructor(
+      caughtErr as Error,
+      errorLike
+    );
     if (isCompatibleConstructor === negate) {
       if (everyArgIsDefined && negate) {
         errorLikeFail = true;
       } else {
         this.assert(
-            negate
-          , 'expected #{this} to throw #{exp} but #{act} was thrown'
-          , 'expected #{this} to not throw #{exp}' + (caughtErr ? ' but #{act} was thrown' : '')
-          , (errorLike instanceof Error ? errorLike.toString() : errorLike && _.checkError.getConstructorName(errorLike))
-          , (caughtErr instanceof Error ? caughtErr.toString() : caughtErr && _.checkError.getConstructorName(caughtErr as Error))
+          negate,
+          'expected #{this} to throw #{exp} but #{act} was thrown',
+          'expected #{this} to not throw #{exp}' +
+            (caughtErr ? ' but #{act} was thrown' : ''),
+          errorLike instanceof Error
+            ? errorLike.toString()
+            : errorLike && _.checkError.getConstructorName(errorLike),
+          caughtErr instanceof Error
+            ? caughtErr.toString()
+            : caughtErr && _.checkError.getConstructorName(caughtErr as Error)
         );
       }
     }
@@ -3196,17 +3455,22 @@ function assertThrows(
       placeholder = 'matching';
     }
 
-    var isCompatibleMessage = _.checkError.compatibleMessage(caughtErr as Error, errMsgMatcher);
+    var isCompatibleMessage = _.checkError.compatibleMessage(
+      caughtErr as Error,
+      errMsgMatcher
+    );
     if (isCompatibleMessage === negate) {
       if (everyArgIsDefined && negate) {
         errMsgMatcherFail = true;
       } else {
         this.assert(
-          negate
-          , 'expected #{this} to throw error ' + placeholder + ' #{exp} but got #{act}'
-          , 'expected #{this} to throw error not ' + placeholder + ' #{exp}'
-          ,  errMsgMatcher
-          ,  _.checkError.getMessage(caughtErr as Error)
+          negate,
+          'expected #{this} to throw error ' +
+            placeholder +
+            ' #{exp} but got #{act}',
+          'expected #{this} to throw error not ' + placeholder + ' #{exp}',
+          errMsgMatcher,
+          _.checkError.getMessage(caughtErr as Error)
         );
       }
     }
@@ -3215,11 +3479,16 @@ function assertThrows(
   // If both assertions failed and both should've matched we throw an error
   if (errorLikeFail && errMsgMatcherFail) {
     this.assert(
-      negate
-      , 'expected #{this} to throw #{exp} but #{act} was thrown'
-      , 'expected #{this} to not throw #{exp}' + (caughtErr ? ' but #{act} was thrown' : '')
-      , (errorLike instanceof Error ? errorLike.toString() : errorLike && _.checkError.getConstructorName(errorLike))
-      , (caughtErr instanceof Error ? caughtErr.toString() : caughtErr && _.checkError.getConstructorName(caughtErr as Error))
+      negate,
+      'expected #{this} to throw #{exp} but #{act} was thrown',
+      'expected #{this} to not throw #{exp}' +
+        (caughtErr ? ' but #{act} was thrown' : ''),
+      errorLike instanceof Error
+        ? errorLike.toString()
+        : errorLike && _.checkError.getConstructorName(errorLike),
+      caughtErr instanceof Error
+        ? caughtErr.toString()
+        : caughtErr && _.checkError.getConstructorName(caughtErr as Error)
     );
   }
 
@@ -3294,13 +3563,18 @@ Assertion.addMethod('Throw', assertThrows);
  * @namespace BDD
  * @public
  */
-function respondTo (this: Assertion<unknown>, method: PropertyKey, msg?: string) {
+function respondTo(
+  this: Assertion<unknown>,
+  method: PropertyKey,
+  msg?: string
+) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object')
-    , itself = flag(this, 'itself')
-    , context = ('function' === typeof obj && !itself)
-      ? obj.prototype[method]
-      : (obj as Record<PropertyKey, unknown>)[method];
+  var obj = flag(this, 'object'),
+    itself = flag(this, 'itself'),
+    context =
+      'function' === typeof obj && !itself
+        ? obj.prototype[method]
+        : (obj as Record<PropertyKey, unknown>)[method];
 
   this.assert(
     'function' === typeof context,
@@ -3372,7 +3646,7 @@ Assertion.addProperty('itself', function () {
  * @namespace BDD
  * @public
  */
-function satisfy (this: Assertion<unknown>, matcher: Function, msg?: string) {
+function satisfy(this: Assertion<unknown>, matcher: Function, msg?: string) {
   if (msg) flag(this, 'message', msg);
   var obj = flag(this, 'object');
   var result = matcher(obj);
@@ -3425,11 +3699,16 @@ Assertion.addMethod('satisfies', satisfy);
  * @namespace BDD
  * @public
  */
-function closeTo(this: Assertion<unknown>, expected: number, delta: number, msg?: string) {
+function closeTo(
+  this: Assertion<unknown>,
+  expected: number,
+  delta: number,
+  msg?: string
+) {
   if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object') as number
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi');
+  var obj = flag(this, 'object') as number,
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi');
 
   new Assertion(obj, flagMsg, ssfi, true).is.numeric;
   let message = 'A `delta` value is required for `closeTo`';
@@ -3449,7 +3728,7 @@ function closeTo(this: Assertion<unknown>, expected: number, delta: number, msg?
     );
   new Assertion(expected, flagMsg, ssfi, true).is.numeric;
 
-  const abs = (x: number): number => x < 0n ? -x : x;
+  const abs = (x: number): number => (x < 0n ? -x : x);
 
   this.assert(
     abs(obj - expected) <= delta,
@@ -3479,13 +3758,13 @@ function isSubsetOf(
   const subsetArr = [...subset];
   const supersetArr = [...superset];
   // Note: Duplicates are ignored if testing for inclusion instead of sameness.
-  if (!contains &&
-    subsetArr.length !== supersetArr.length) {
+  if (!contains && subsetArr.length !== supersetArr.length) {
     return false;
   }
 
-  return subsetArr.every(function(elem, idx) {
-    if (ordered) return cmp ? cmp(elem, supersetArr[idx]) : elem === supersetArr[idx];
+  return subsetArr.every(function (elem, idx) {
+    if (ordered)
+      return cmp ? cmp(elem, supersetArr[idx]) : elem === supersetArr[idx];
 
     if (!cmp) {
       var matchIdx = supersetArr.indexOf(elem);
@@ -3496,7 +3775,7 @@ function isSubsetOf(
       return true;
     }
 
-    return supersetArr.some(function(elem2, matchIdx) {
+    return supersetArr.some(function (elem2, matchIdx) {
       if (!cmp(elem, elem2)) return false;
 
       // Remove match from supersetArr so not counted twice if duplicate in subsetArr.
@@ -3602,12 +3881,12 @@ Assertion.addMethod('members', function (subset: unknown[], msg?: string) {
   var cmp = flag(this, 'deep') ? flag(this, 'eql') : undefined;
 
   this.assert(
-      isSubsetOf(subset, (obj as Iterable<unknown>), cmp, contains, ordered)
-    , failMsg
-    , failNegateMsg
-    , subset
-    , obj
-    , true
+    isSubsetOf(subset, obj as Iterable<unknown>, cmp, contains, ordered),
+    failMsg,
+    failNegateMsg,
+    subset,
+    obj,
+    true
   );
 });
 
@@ -3632,18 +3911,22 @@ Assertion.addMethod('members', function (subset: unknown[], msg?: string) {
  * @namespace BDD
  * @public
  */
-Assertion.addProperty('iterable', function(this: Assertion<unknown>, msg?: string) {
-  if (msg) flag(this, 'message', msg);
-  var obj = flag(this, 'object');
+Assertion.addProperty(
+  'iterable',
+  function (this: Assertion<unknown>, msg?: string) {
+    if (msg) flag(this, 'message', msg);
+    var obj = flag(this, 'object');
 
-  this.assert(
-    obj !== null && obj !== undefined &&
-    (obj as Record<PropertyKey, unknown>)[Symbol.iterator]
-    , 'expected #{this} to be an iterable'
-    , 'expected #{this} to not be an iterable'
-    , obj
-  );
-});
+    this.assert(
+      obj !== null &&
+        obj !== undefined &&
+        (obj as Record<PropertyKey, unknown>)[Symbol.iterator],
+      'expected #{this} to be an iterable',
+      'expected #{this} to not be an iterable',
+      obj
+    );
+  }
+);
 
 /**
  * ### .oneOf(list[, msg])
@@ -3682,23 +3965,25 @@ Assertion.addProperty('iterable', function(this: Assertion<unknown>, msg?: strin
  * @namespace BDD
  * @public
  */
-function oneOf (this: Assertion<unknown>, list: unknown[], msg?: string) {
+function oneOf(this: Assertion<unknown>, list: unknown[], msg?: string) {
   if (msg) flag(this, 'message', msg);
-  var expected = flag(this, 'object')
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi')
-    , contains = flag(this, 'contains')
-    , isDeep = flag(this, 'deep')
-    , eql = flag(this, 'eql');
+  var expected = flag(this, 'object'),
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi'),
+    contains = flag(this, 'contains'),
+    isDeep = flag(this, 'deep'),
+    eql = flag(this, 'eql');
   Assertion.create(list, flagMsg, ssfi, true).to.be.an('array');
 
   if (contains) {
     this.assert(
-      list.some(function(possibility) { return (expected as Array<unknown>).indexOf(possibility) > -1 })
-      , 'expected #{this} to contain one of #{exp}'
-      , 'expected #{this} to not contain one of #{exp}'
-      , list
-      , expected
+      list.some(function (possibility) {
+        return (expected as Array<unknown>).indexOf(possibility) > -1;
+      }),
+      'expected #{this} to contain one of #{exp}',
+      'expected #{this} to not contain one of #{exp}',
+      list,
+      expected
     );
   } else {
     if (isDeep) {
@@ -3825,10 +4110,7 @@ function assertChanges(
   prop: PropertyKey,
   msg?: string
 ): void;
-function assertChanges(
-  this: Assertion<unknown>,
-  subject: Function
-): void;
+function assertChanges(this: Assertion<unknown>, subject: Function): void;
 function assertChanges(
   this: Assertion<unknown>,
   subject: Function | object,
@@ -3836,9 +4118,9 @@ function assertChanges(
   msg?: string
 ) {
   if (msg) flag(this, 'message', msg);
-  var fn = flag(this, 'object') as () => void
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi');
+  var fn = flag(this, 'object') as () => void,
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi');
   Assertion.create(fn, flagMsg, ssfi, true).is.a('function');
 
   var initial;
@@ -3852,9 +4134,12 @@ function assertChanges(
 
   fn();
 
-  var final = prop === undefined || prop === null ?
-    (subject as () => void)() : (subject as Record<PropertyKey, unknown>)[prop];
-  var msgObj = prop === undefined || prop === null ? initial : '.' + String(prop);
+  var final =
+    prop === undefined || prop === null
+      ? (subject as () => void)()
+      : (subject as Record<PropertyKey, unknown>)[prop];
+  var msgObj =
+    prop === undefined || prop === null ? initial : '.' + String(prop);
 
   // This gets flagged because of the .by(delta) assertion
   flag(this, 'deltaMsgObj', msgObj);
@@ -3951,10 +4236,7 @@ Assertion.addMethod('changes', assertChanges);
  * @namespace BDD
  * @public
  */
-function assertIncreases(
-  this: Assertion<unknown>,
-  subject: () => void
-): void;
+function assertIncreases(this: Assertion<unknown>, subject: () => void): void;
 function assertIncreases(
   this: Assertion<unknown>,
   subject: object,
@@ -3968,9 +4250,9 @@ function assertIncreases(
   msg?: string
 ): void {
   if (msg) flag(this, 'message', msg);
-  var fn = flag(this, 'object') as () => void
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi');
+  var fn = flag(this, 'object') as () => void,
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi');
   Assertion.create(fn, flagMsg, ssfi, true).is.a('function');
 
   var initial;
@@ -3987,9 +4269,12 @@ function assertIncreases(
 
   fn();
 
-  var final = prop === undefined || prop === null ?
-    (subject as () => number)() : (subject as Record<PropertyKey, number>)[prop];
-  var msgObj = prop === undefined || prop === null ? initial : '.' + String(prop);
+  var final =
+    prop === undefined || prop === null
+      ? (subject as () => number)()
+      : (subject as Record<PropertyKey, number>)[prop];
+  var msgObj =
+    prop === undefined || prop === null ? initial : '.' + String(prop);
 
   flag(this, 'deltaMsgObj', msgObj);
   flag(this, 'initialDeltaValue', initial);
@@ -4085,10 +4370,7 @@ Assertion.addMethod('increases', assertIncreases);
  * @namespace BDD
  * @public
  */
-function assertDecreases(
-  this: Assertion<unknown>,
-  subject: () => number
-): void;
+function assertDecreases(this: Assertion<unknown>, subject: () => number): void;
 function assertDecreases(
   this: Assertion<unknown>,
   subject: object,
@@ -4102,9 +4384,9 @@ function assertDecreases(
   msg?: string
 ): void {
   if (msg) flag(this, 'message', msg);
-  var fn = flag(this, 'object') as () => void
-    , flagMsg = flag(this, 'message')
-    , ssfi = flag(this, 'ssfi');
+  var fn = flag(this, 'object') as () => void,
+    flagMsg = flag(this, 'message'),
+    ssfi = flag(this, 'ssfi');
   Assertion.create(fn, flagMsg, ssfi, true).is.a('function');
 
   var initial;
@@ -4121,9 +4403,12 @@ function assertDecreases(
 
   fn();
 
-  var final = prop === undefined || prop === null ?
-    (subject as () => number)() : (subject as Record<PropertyKey, number>)[prop];
-  var msgObj = prop === undefined || prop === null ? initial : '.' + String(prop);
+  var final =
+    prop === undefined || prop === null
+      ? (subject as () => number)()
+      : (subject as Record<PropertyKey, number>)[prop];
+  var msgObj =
+    prop === undefined || prop === null ? initial : '.' + String(prop);
 
   flag(this, 'deltaMsgObj', msgObj);
   flag(this, 'initialDeltaValue', initial);
@@ -4408,7 +4693,7 @@ Assertion.addProperty('frozen', function () {
  * @namespace BDD
  * @public
  */
-Assertion.addProperty('finite', function() {
+Assertion.addProperty('finite', function () {
   var obj = flag(this, 'object');
 
   this.assert(

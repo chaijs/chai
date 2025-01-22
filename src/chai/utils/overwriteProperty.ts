@@ -46,51 +46,50 @@ export function overwriteProperty<T extends object>(
   getter: Function,
   createDefaultValue?: (ctx: T) => unknown
 ) {
-  var _get = Object.getOwnPropertyDescriptor(ctx, name)
-    , _super = function () {};
+  var _get = Object.getOwnPropertyDescriptor(ctx, name),
+    _super = function () {};
 
-  if (_get && 'function' === typeof _get.get)
-    _super = _get.get
+  if (_get && 'function' === typeof _get.get) _super = _get.get;
 
-  Object.defineProperty(ctx, name,
-    { get: function overwritingPropertyGetter() {
-        // Setting the `ssfi` flag to `overwritingPropertyGetter` causes this
-        // function to be the starting point for removing implementation frames
-        // from the stack trace of a failed assertion.
-        //
-        // However, we only want to use this function as the starting point if
-        // the `lockSsfi` flag isn't set and proxy protection is disabled.
-        //
-        // If the `lockSsfi` flag is set, then either this assertion has been
-        // overwritten by another assertion, or this assertion is being invoked
-        // from inside of another assertion. In the first case, the `ssfi` flag
-        // has already been set by the overwriting assertion. In the second
-        // case, the `ssfi` flag has already been set by the outer assertion.
-        //
-        // If proxy protection is enabled, then the `ssfi` flag has already been
-        // set by the proxy getter.
-        if (!isProxyEnabled() && !flag(this, 'lockSsfi')) {
-          flag(this, 'ssfi', overwritingPropertyGetter);
-        }
-
-        // Setting the `lockSsfi` flag to `true` prevents the overwritten
-        // assertion from changing the `ssfi` flag. By this point, the `ssfi`
-        // flag is already set to the correct starting point for this assertion.
-        var origLockSsfi = flag(this, 'lockSsfi');
-        flag(this, 'lockSsfi', true);
-        var result = getter(_super).call(this);
-        flag(this, 'lockSsfi', origLockSsfi);
-
-        if (result !== undefined) {
-          return result;
-        }
-
-        if (createDefaultValue) {
-          return createDefaultValue(this);
-        }
-
-        return undefined;
+  Object.defineProperty(ctx, name, {
+    get: function overwritingPropertyGetter() {
+      // Setting the `ssfi` flag to `overwritingPropertyGetter` causes this
+      // function to be the starting point for removing implementation frames
+      // from the stack trace of a failed assertion.
+      //
+      // However, we only want to use this function as the starting point if
+      // the `lockSsfi` flag isn't set and proxy protection is disabled.
+      //
+      // If the `lockSsfi` flag is set, then either this assertion has been
+      // overwritten by another assertion, or this assertion is being invoked
+      // from inside of another assertion. In the first case, the `ssfi` flag
+      // has already been set by the overwriting assertion. In the second
+      // case, the `ssfi` flag has already been set by the outer assertion.
+      //
+      // If proxy protection is enabled, then the `ssfi` flag has already been
+      // set by the proxy getter.
+      if (!isProxyEnabled() && !flag(this, 'lockSsfi')) {
+        flag(this, 'ssfi', overwritingPropertyGetter);
       }
-    , configurable: true
+
+      // Setting the `lockSsfi` flag to `true` prevents the overwritten
+      // assertion from changing the `ssfi` flag. By this point, the `ssfi`
+      // flag is already set to the correct starting point for this assertion.
+      var origLockSsfi = flag(this, 'lockSsfi');
+      flag(this, 'lockSsfi', true);
+      var result = getter(_super).call(this);
+      flag(this, 'lockSsfi', origLockSsfi);
+
+      if (result !== undefined) {
+        return result;
+      }
+
+      if (createDefaultValue) {
+        return createDefaultValue(this);
+      }
+
+      return undefined;
+    },
+    configurable: true
   });
 }

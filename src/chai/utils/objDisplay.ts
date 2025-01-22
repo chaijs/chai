@@ -21,8 +21,8 @@ import {config} from '../config.js';
  * @public
  */
 export function objDisplay(obj: unknown) {
-  var str = inspect(obj)
-    , type = Object.prototype.toString.call(obj);
+  var str = inspect(obj),
+    type = Object.prototype.toString.call(obj);
 
   if (config.truncateThreshold && str.length >= config.truncateThreshold) {
     if (type === '[object Function]') {
@@ -32,10 +32,11 @@ export function objDisplay(obj: unknown) {
     } else if (type === '[object Array]') {
       return '[ Array(' + (obj as unknown[]).length + ') ]';
     } else if (type === '[object Object]') {
-      var keys = Object.keys(obj as Record<PropertyKey, unknown>)
-        , kstr = keys.length > 2
-          ? keys.splice(0, 2).join(', ') + ', ...'
-          : keys.join(', ');
+      var keys = Object.keys(obj as Record<PropertyKey, unknown>),
+        kstr =
+          keys.length > 2
+            ? keys.splice(0, 2).join(', ') + ', ...'
+            : keys.join(', ');
       return '{ Object (' + kstr + ') }';
     } else {
       return str;

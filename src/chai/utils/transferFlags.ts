@@ -25,18 +25,32 @@
  * @name transferFlags
  * @private
  */
-export function transferFlags(assertion: object, object: object, includeAll?: boolean) {
-  const assertionWithFlags = assertion as {__flags?: Record<PropertyKey, unknown>};
+export function transferFlags(
+  assertion: object,
+  object: object,
+  includeAll?: boolean
+) {
+  const assertionWithFlags = assertion as {
+    __flags?: Record<PropertyKey, unknown>;
+  };
   const objWithFlags = object as {__flags?: Record<PropertyKey, unknown>};
 
-  var flags = assertionWithFlags.__flags || (assertionWithFlags.__flags = Object.create(null));
-  const objFlags = objWithFlags.__flags || (objWithFlags.__flags = Object.create(null));
+  var flags =
+    assertionWithFlags.__flags ||
+    (assertionWithFlags.__flags = Object.create(null));
+  const objFlags =
+    objWithFlags.__flags || (objWithFlags.__flags = Object.create(null));
 
   includeAll = arguments.length === 3 ? includeAll : true;
 
   for (var flag in flags) {
-    if (includeAll ||
-        (flag !== 'object' && flag !== 'ssfi' && flag !== 'lockSsfi' && flag != 'message')) {
+    if (
+      includeAll ||
+      (flag !== 'object' &&
+        flag !== 'ssfi' &&
+        flag !== 'lockSsfi' &&
+        flag != 'message')
+    ) {
       objFlags[flag] = flags[flag];
     }
   }

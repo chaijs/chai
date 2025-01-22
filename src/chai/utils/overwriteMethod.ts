@@ -47,8 +47,8 @@ export function overwriteMethod<T extends object>(
   method: Function,
   createDefaultValue?: (ctx: T) => unknown
 ) {
-  var _method = (ctx as Record<PropertyKey, unknown>)[name]
-    , _super: Function = function () {
+  var _method = (ctx as Record<PropertyKey, unknown>)[name],
+    _super: Function = function () {
       throw new Error(String(name) + ' is not a function');
     };
 
@@ -88,8 +88,11 @@ export function overwriteMethod<T extends object>(
     }
 
     return undefined;
-  }
+  };
 
   addLengthGuard(overwritingMethodWrapper, name, false);
-  (ctx as Record<PropertyKey, unknown>)[name] = proxify(overwritingMethodWrapper, name);
+  (ctx as Record<PropertyKey, unknown>)[name] = proxify(
+    overwritingMethodWrapper,
+    name
+  );
 }

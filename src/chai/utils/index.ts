@@ -48,7 +48,7 @@ export {getPathInfo, hasProperty} from 'pathval';
  * @returns {string}
  */
 export function getName(fn: Function) {
-  return fn.name
+  return fn.name;
 }
 
 // add Property
@@ -107,6 +107,12 @@ export function isRegExp(obj: unknown): obj is RegExp {
   return Object.prototype.toString.call(obj) === '[object RegExp]';
 }
 
+/**
+ * Determines if an object is numeric or not
+ *
+ * @param {unknown} obj Object to test
+ * @returns {boolean}
+ */
 export function isNumeric(obj: unknown): obj is number | bigint {
-  return ['Number', 'BigInt'].includes(type(obj))
+  return ['Number', 'BigInt'].includes(type(obj));
 }

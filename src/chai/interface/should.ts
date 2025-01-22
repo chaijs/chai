@@ -13,9 +13,19 @@ export interface ShouldAssertions {
   fail<T>(actual: T, expected: T, message: string, operator: string): void;
   equal<T>(val1: T, val2: T, msg: string): void;
   Throw(fn: Function, errs: RegExp | string): void;
-  Throw(fn: Function, errt: Error | Constructor<Error>, errs: RegExp, msg?: string): void;
+  Throw(
+    fn: Function,
+    errt: Error | Constructor<Error>,
+    errs: RegExp,
+    msg?: string
+  ): void;
   throw(fn: Function, errs: RegExp | string): void;
-  throw(fn: Function, errt: Error | Constructor<Error>, errs: RegExp, msg?: string): void;
+  throw(
+    fn: Function,
+    errt: Error | Constructor<Error>,
+    errs: RegExp,
+    msg?: string
+  ): void;
   exist(val: unknown, msg: string): void;
 }
 
@@ -35,17 +45,19 @@ declare global {
  *
  * @returns {ShouldInterface}
  */
-function loadShould (): ShouldInterface {
+function loadShould(): ShouldInterface {
   // explicitly define this method as function as to have it's name to include as `ssfi`
   /**
    * @returns {Assertion}
    */
   function shouldGetter(this: unknown) {
-    if (this instanceof String
-        || this instanceof Number
-        || this instanceof Boolean
-        || typeof Symbol === 'function' && this instanceof Symbol
-        || typeof BigInt === 'function' && this instanceof BigInt) {
+    if (
+      this instanceof String ||
+      this instanceof Number ||
+      this instanceof Boolean ||
+      (typeof Symbol === 'function' && this instanceof Symbol) ||
+      (typeof BigInt === 'function' && this instanceof BigInt)
+    ) {
       return Assertion.create(this.valueOf(), null, shouldGetter);
     }
     return Assertion.create(this, null, shouldGetter);
@@ -102,7 +114,7 @@ function loadShould (): ShouldInterface {
     operator?: string
   ): void {
     let actual;
-    let msg: string|undefined;
+    let msg: string | undefined;
 
     if (arguments.length < 2) {
       msg = actualOrMessage as string | undefined;
@@ -114,11 +126,15 @@ function loadShould (): ShouldInterface {
 
     msg = msg || 'should.fail()';
 
-    throw new AssertionError(msg, {
-        actual: actual
-      , expected: expected
-      , operator: operator
-    }, shouldFail);
+    throw new AssertionError(
+      msg,
+      {
+        actual: actual,
+        expected: expected,
+        operator: operator
+      },
+      shouldFail
+    );
   };
 
   /**
@@ -193,9 +209,12 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldExist: ShouldAssertions['exist'] = function shouldExist(val: unknown, msg: string) {
+  const shouldExist: ShouldAssertions['exist'] = function shouldExist(
+    val: unknown,
+    msg: string
+  ) {
     Assertion.create(val, msg).to.exist;
-  }
+  };
 
   /**
    * ### .not.equal(actual, expected, [message])
@@ -211,7 +230,11 @@ function loadShould (): ShouldInterface {
    * @namespace Should
    * @public
    */
-  const shouldNotEqual: ShouldAssertions['equal'] = function shouldNotEqual(val1: unknown, val2: unknown, msg: string) {
+  const shouldNotEqual: ShouldAssertions['equal'] = function shouldNotEqual(
+    val1: unknown,
+    val2: unknown,
+    msg: string
+  ) {
     Assertion.create(val1, msg).to.not.equal(val2);
   };
 
@@ -261,7 +284,10 @@ function loadShould (): ShouldInterface {
    * @param {string} msg
    * @public
    */
-  const shouldNotExist: ShouldAssertions['exist'] = function shouldNotExist(val: unknown, msg: string) {
+  const shouldNotExist: ShouldAssertions['exist'] = function shouldNotExist(
+    val: unknown,
+    msg: string
+  ) {
     Assertion.create(val, msg).to.not.exist;
   };
 
@@ -279,7 +305,7 @@ function loadShould (): ShouldInterface {
       Throw: shouldNotThrow
     }
   };
-};
+}
 
 export const should = loadShould;
 export const Should = loadShould;

@@ -14,7 +14,10 @@ export interface ExpectInterface {
   fail<T>(actual: T, expected: T, message: string, operator: string): void;
 }
 
-const expect: ExpectInterface = function expect<T>(val: T, message?: string): Assertion<T> {
+const expect: ExpectInterface = function expect<T>(
+  val: T,
+  message?: string
+): Assertion<T> {
   return Assertion.create(val, message);
 } as ExpectInterface;
 
@@ -41,9 +44,7 @@ export {expect};
  * @namespace expect
  * @public
  */
-function expectFail(
-  message?: string
-): void;
+function expectFail(message?: string): void;
 function expectFail(
   actual: unknown,
   expected: unknown,
@@ -68,11 +69,15 @@ function expectFail(
   }
 
   msg = msg || 'expect.fail()';
-  throw new AssertionError(msg, {
-      actual: actual
-    , expected: expected
-    , operator: operator
-  }, chai.expect.fail);
-};
+  throw new AssertionError(
+    msg,
+    {
+      actual: actual,
+      expected: expected,
+      operator: operator
+    },
+    chai.expect.fail
+  );
+}
 
 expect.fail = expectFail;

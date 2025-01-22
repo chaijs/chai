@@ -18,7 +18,7 @@ import {flag} from './flag.js';
  * @name test
  */
 export function test(obj: object, args: IArguments) {
-  var negate = flag(obj, 'negate')
-    , expr = args[0];
+  var negate = flag(obj, 'negate'),
+    expr = args[0];
   return negate ? !expr : expr;
 }
