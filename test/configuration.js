@@ -1,4 +1,4 @@
-import * as chai from '../index.js';
+import * as chai from '../chai.js';
 import {globalErr as err} from './bootstrap/index.js';
 
 import '../register-should.js'; 
