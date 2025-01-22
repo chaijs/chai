@@ -2749,6 +2749,11 @@ describe('should', function() {
 
   it('closeTo', function(){
     (1.5).should.be.closeTo(1.0, 0.5);
+    (10).should.be.closeTo(20, 20);
+    (-10).should.be.closeTo(20, 30);
+    (10).should.be.closeTo(10, 0);
+    (1682.6).should.be.closeTo(1682.7, 0.1);
+    (1n).should.be.closeTo(2n, 1n);
 
     err(function(){
       (2).should.be.closeTo(1.0, 0.5, 'blah');
@@ -2773,6 +2778,11 @@ describe('should', function() {
 
   it('approximately', function(){
     (1.5).should.be.approximately(1.0, 0.5);
+    (10).should.be.approximately(20, 20);
+    (-10).should.be.approximately(20, 30);
+    (10).should.be.approximately(10, 0);
+    (1682.6).should.be.approximately(1682.7, 0.1);
+    (1n).should.be.approximately(2n, 1n);
 
     err(function(){
       (2).should.be.approximately(1.0, 0.5, 'blah');
