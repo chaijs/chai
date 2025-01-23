@@ -3267,6 +3267,9 @@ describe('expect', function () {
     expect(1.5).to.be.closeTo(1.0, 0.5);
     expect(10).to.be.closeTo(20, 20);
     expect(-10).to.be.closeTo(20, 30);
+    expect(10).to.be.closeTo(10, 0);
+    expect(1682.6).to.be.closeTo(1682.7, 0.1);
+    expect(1n).to.be.closeTo(2n, 1n);
 
     err(function(){
       expect(2).to.be.closeTo(1.0, 0.5, 'blah');
@@ -3313,6 +3316,9 @@ describe('expect', function () {
     expect(1.5).to.be.approximately(1.0, 0.5);
     expect(10).to.be.approximately(20, 20);
     expect(-10).to.be.approximately(20, 30);
+    expect(10).to.be.approximately(10, 0);
+    expect(1682.6).to.be.approximately(1682.7, 0.1);
+    expect(1n).to.be.approximately(2n, 1n);
 
     err(function(){
       expect(2).to.be.approximately(1.0, 0.5, 'blah');
