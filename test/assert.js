@@ -1894,6 +1894,8 @@ describe('assert', function () {
     assert.closeTo(10, 20, 20);
     assert.closeTo(-10, 20, 30);
     assert.closeTo(10, 10, 0);
+    assert.closeTo(1682.6, 1682.7, 0.1);
+    assert.closeTo(1n, 2n, 1n);
 
     err(function(){
       assert.closeTo(2, 1.0, 0.5, 'blah');
@@ -1928,6 +1930,8 @@ describe('assert', function () {
     assert.approximately(1.5, 1.0, 0.5);
     assert.approximately(10, 20, 20);
     assert.approximately(-10, 20, 30);
+    assert.approximately(10, 10, 0);
+    assert.approximately(1682.6, 1682.7, 0.1);
     assert.approximately(1n, 2n, 1n);
 
     err(function(){
