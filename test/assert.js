@@ -1918,6 +1918,10 @@ describe('assert', function () {
     err(function() {
       assert.closeTo(1.5, 1.0, undefined, 'blah');
     }, "blah: A `delta` value is required for `closeTo`");
+
+    err(function() {
+      assert.closeTo(1.5, undefined, 0.5);
+    }, "A `expected` value is required for `closeTo`");
   });
 
   it('approximately', function(){
