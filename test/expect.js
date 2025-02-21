@@ -1,5 +1,5 @@
 import * as chai from '../index.js';
-import {globalErr as err} from './bootstrap/index.js';
+import {globalErr as err, globalErrAsync as errAsync} from './bootstrap/index.js';
 
 describe('expect', function () {
   var expect = chai.expect;
@@ -3988,5 +3988,53 @@ describe('expect', function () {
       // .frozen should not suppress errors, thrown in proxy traps
       expect(proxy).to.be.frozen;
     }, { name: 'TypeError' }, true);
+  });
+
+  it('resolves', async () => {
+    const resolvedValue = Promise.resolve(303);
+    const rejectedValue = Promise.reject(new Error('boop'));
+
+    await expect(resolvedValue).resolves();
+    await expect(rejectedValue).not.resolves();
+    await errAsync(async () => {
+      await expect(rejectedValue).resolves();
+    }, 'expected Promise{…} to resolve but Error: boop was thrown', true);
+    await errAsync(async () => {
+      await expect(resolvedValue).not.resolves();
+    }, 'expected Promise{…} to reject but it resolved to 303', true);
+
+    // TODO (43081j): if we decide to bin `resolves(arg)`, drop all of these
+    // tests
+    await expect(resolvedValue).resolves(303);
+    await errAsync(async () => {
+      await expect(resolvedValue).resolves(undefined);
+    }, 'expected 303 to equal undefined', true);
+
+    await expect(resolvedValue).not.resolves(808);
+    await errAsync(async () => {
+      await expect(resolvedValue).not.resolves(303);
+    }, 'expected 303 to not equal 303', true);
+
+    await errAsync(async () => {
+      await expect(rejectedValue).resolves(303);
+    }, 'expected Promise{…} to resolve but Error: boop was thrown', true);
+  });
+
+  it('resolves (equal)', async () => {
+    const resolvedValue = Promise.resolve(303);
+    const rejectedValue = Promise.reject(new Error('boop'));
+
+    await expect(resolvedValue).resolves.to.equal(303);
+    await expect(resolvedValue).resolves.not.to.equal(808);
+
+    await errAsync(async () => {
+      await expect(resolvedValue).resolves.to.equal(808);
+    }, 'expected 303 to equal 808', true);
+
+    await errAsync(async () => {
+      await expect(rejectedValue).resolves.to.equal(303);
+    }, 'expected Promise{…} to resolve but Error: boop was thrown', true);
+
+    await expect(resolvedValue).resolves.to.equal(303).and.greaterThan(200);
   });
 });

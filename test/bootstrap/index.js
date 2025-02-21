@@ -22,11 +22,11 @@ if (typeof Error.captureStackTrace !== 'undefined') {
  * If val is a regex, validate val matches the error's .message
  * If val is an object, validate val's props are included in the error object
  *
- * @param {Function} function that's expected to throw an error
- * @param {Mixed} expected properties of the expected error
- * @param {Boolean} skipStackTest if truthy, don't validate stack trace
+ * @param {Function} fn Function that's expected to throw an error
+ * @param {*} val Expected properties of the expected error
+ * @param {boolean} skipStackTest if truthy, don't validate stack trace
+ * @returns {void}
  */
-
 export function globalErr(fn, val, skipStackTest) {
   if (chai.util.type(fn) !== 'Function')
     throw new chai.AssertionError('Invalid fn');
@@ -35,25 +35,76 @@ export function globalErr(fn, val, skipStackTest) {
     fn();
   } catch (err) {
     if (isStackSupported && !skipStackTest) {
-      chai.expect(err).to.have.property('stack')
-        .that.has.string('globalErr')
-        .but.does.not.match(
-          /at [a-zA-Z]*(Getter|Wrapper|(\.)*assert)/,
-          'implementation frames not properly filtered from stack trace'
-        );
+      assertErrStack(err);
     }
 
-    switch (chai.util.type(val).toLowerCase()) {
-      case 'undefined': return;
-      case 'string': return chai.expect(err.message).to.equal(val);
-      case 'regexp': return chai.expect(err.message).to.match(val);
-      case 'object': return Object.keys(val).forEach(function (key) {
-        chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
-      });
-    }
-
-    throw new chai.AssertionError('Invalid val');
+    assertErrMessageMatches(err, val);
+    return;
   }
 
   throw new chai.AssertionError('Expected an error');
 };
+
+/**
+ * Validates that a given function asynchronously throws an error.
+ *
+ * @param {Function} fn
+ * @param {*} val
+ * @param {boolean} skipStackTest
+ * @returns {Promise<void>}
+ */
+export async function globalErrAsync(fn, val, skipStackTest) {
+  const fnType = chai.util.type(fn);
+
+  if (fnType !== 'Function' && fnType !== 'AsyncFunction')
+    throw new chai.AssertionError('Invalid fn');
+
+  try {
+    await fn();
+  } catch (err) {
+    if (isStackSupported && !skipStackTest) {
+      assertErrStack(err);
+    }
+
+    assertErrMessageMatches(err, val);
+    return;
+  }
+
+  throw new chai.AssertionError('Expected an error');
+}
+
+/**
+ * Asserts that a thrown error matches the given value
+ * The value may be a string, regexp, or object with key/values to match
+ *
+ * @param {Error} err
+ * @param {*} val
+ * @returns {void}
+ */
+function assertErrMessageMatches(err, val) {
+  switch (chai.util.type(val).toLowerCase()) {
+    case 'undefined': return;
+    case 'string': return chai.expect(err.message).to.equal(val);
+    case 'regexp': return chai.expect(err.message).to.match(val);
+    case 'object': return Object.keys(val).forEach(function (key) {
+      chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
+    });
+  }
+
+  throw new chai.AssertionError('Invalid val');
+}
+
+/**
+ * Asserts that the given error has chai stack frames filtered out
+ *
+ * @param {Error} err
+ * @returns {void}
+ */
+function assertErrStack(err) {
+  chai.expect(err).to.have.property('stack')
+    .that.has.string('globalErr')
+    .but.does.not.match(
+      /at [a-zA-Z]*(Getter|Wrapper|(\.)*assert)/,
+      'implementation frames not properly filtered from stack trace'
+    );
+}
