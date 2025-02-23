@@ -14,6 +14,7 @@ export default [
       }
     },
     rules: {
+      "no-var": "error",
       "jsdoc/require-param-description": "off",
       "jsdoc/require-returns-description": "off",
       "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
