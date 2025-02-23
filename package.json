@@ -39,6 +39,7 @@
     "lint": "npm run lint:js && npm run lint:format",
     "lint:js": "eslint lib/",
     "lint:format": "prettier --check lib",
+    "lint:types": "tsc",
     "clean": "rm -rf chai.js coverage/"
   },
   "engines": {
@@ -62,6 +63,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.4",
     "mocha": "^10.2.0",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "typescript": "~5.7.3"
   }
 }
