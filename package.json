@@ -37,8 +37,8 @@
     "test-node": "c8 --99 --check-coverage mocha --require ./test/bootstrap/index.js test/*.js",
     "test-chrome": "web-test-runner --playwright",
     "lint": "npm run lint:js && npm run lint:format",
-    "lint:js": "eslint lib/",
-    "lint:format": "prettier --check lib",
+    "lint:js": "eslint lib/ && prettier --check lib/",
+    "lint:format": "eslint lib/ --fix && prettier lib/",
     "clean": "rm -rf chai.js coverage/"
   },
   "engines": {
