@@ -38,7 +38,7 @@
     "test-chrome": "web-test-runner --playwright",
     "lint": "npm run lint:js && npm run lint:format",
     "lint:js": "eslint lib/ && prettier --check lib/",
-    "lint:format": "eslint lib/ --fix && prettier lib/",
+    "lint:format": "eslint lib/ --fix && prettier --write lib/",
     "lint:types": "tsc",
     "clean": "rm -rf chai.js coverage/"
   },
