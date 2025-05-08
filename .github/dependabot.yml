@@ -5,4 +5,5 @@ updates:
     directory: /
   - package-ecosystem: npm
     directory: /
+    # This block targets updates for the 4.x.x branch.
     target-branch: "4.x.x"
