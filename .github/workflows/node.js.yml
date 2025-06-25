@@ -10,6 +10,17 @@ on:
     branches: [ main, 4.x.x ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - run: npm ci
+    - run: npm run lint
+
   build:
 
     runs-on: ubuntu-latest
