@@ -43,7 +43,7 @@
     "clean": "rm -rf chai.js coverage/"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "dependencies": {
     "assertion-error": "^2.0.1",
