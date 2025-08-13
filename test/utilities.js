@@ -1503,4 +1503,54 @@ describe('utilities', function () {
       });
     });
   });
+
+  describe('eventEmitter', function() {
+    var eventHandler = null;
+
+    beforeEach(function() {
+      if (eventHandler) {
+        chai.util.off("addMethod", eventHandler);
+        chai.util.off("addProperty", eventHandler);
+      }
+      eventHandler = null;
+      delete chai.Assertion.prototype.eqqqual;
+      delete chai.Assertion.prototype.tea;
+    });
+
+    it('emits addMethod', function () {
+      var calledTimes = 0;
+
+      chai.use(function(_chai, _utils) {
+        const eqqqual = function (str) {
+          var object = _utils.flag(this, 'object');
+          new _chai.Assertion(object).to.be.eql(str);
+        }
+        chai.util.on("addMethod", eventHandler = function(name, method) {
+          if (name === 'eqqqual' && method === eqqqual)
+            calledTimes++;
+        });
+        _chai.Assertion.addMethod('eqqqual', eqqqual);
+      });
+
+      expect(calledTimes).to.equal(1);
+    });
+
+    it('emits addProperty', function () {
+      var calledTimes = 0;
+
+      chai.use(function(_chai, _utils) {
+        const mygetter = function () {
+          return 'chai';
+        }
+        chai.util.on("addProperty", eventHandler = function(name, getter) {
+          if (name === 'tea' && getter === mygetter)
+            calledTimes++;
+        });
+        _chai.Assertion.addProperty('tea', mygetter);
+
+      });
+
+      expect(calledTimes).to.equal(1);
+    });
+  });
 });
