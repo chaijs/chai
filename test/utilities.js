@@ -1525,8 +1525,8 @@ describe('utilities', function () {
           var object = _utils.flag(this, 'object');
           new _chai.Assertion(object).to.be.eql(str);
         }
-        chai.util.on("addMethod", eventHandler = function(name, method) {
-          if (name === 'eqqqual' && method === eqqqual)
+        chai.util.on("addMethod", eventHandler = function({ name, fn }) {
+          if (name === 'eqqqual' && fn === eqqqual)
             calledTimes++;
         });
         _chai.Assertion.addMethod('eqqqual', eqqqual);
@@ -1539,14 +1539,14 @@ describe('utilities', function () {
       var calledTimes = 0;
 
       chai.use(function(_chai, _utils) {
-        const mygetter = function () {
+        const getter = function () {
           return 'chai';
         }
-        chai.util.on("addProperty", eventHandler = function(name, getter) {
-          if (name === 'tea' && getter === mygetter)
+        chai.util.on("addProperty", eventHandler = function({ name, fn }) {
+          if (name === 'tea' && fn === getter)
             calledTimes++;
         });
-        _chai.Assertion.addProperty('tea', mygetter);
+        _chai.Assertion.addProperty('tea', getter);
 
       });
 
