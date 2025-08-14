@@ -1,5 +1,6 @@
 import jsdoc from "eslint-plugin-jsdoc";
 import eslintjs from "@eslint/js";
+import globals from "globals";
 
 const {configs: eslintConfigs} = eslintjs;
 
@@ -8,9 +9,10 @@ export default [
   eslintConfigs["recommended"],
   {
     languageOptions: {
-      // if we ever use more globals than this, pull in the `globals` package
       globals: {
-        console: false
+        console: false,
+        ...globals.browser, // EventTarget, Event
+        ...globals.nodeBuiltin,
       }
     },
     rules: {
