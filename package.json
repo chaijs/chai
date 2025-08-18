@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/chaijs/chai/issues"
   },
-  "main": "./chai.js",
+  "main": "./lib/chai.js",
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:esm",
