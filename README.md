@@ -154,7 +154,7 @@ concerns. We will do our best to respond in a timely manner.
 ### Core Contributor Alumni
 
 This project would not be what it is without the contributions from our prior
-contributors, for whom we are forever grateful:
+core contributors, for whom we are forever grateful:
 
 [![Jake Luer](https://avatars3.githubusercontent.com/u/58988?v=3&s=50)](https://github.com/logicalparadox)
 [![Veselin Todorov](https://avatars3.githubusercontent.com/u/330048?v=3&s=50)](https://github.com/vesln)
