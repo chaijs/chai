@@ -1509,8 +1509,8 @@ describe('utilities', function () {
 
     beforeEach(function() {
       if (eventHandler) {
-        chai.util.off("addMethod", eventHandler);
-        chai.util.off("addProperty", eventHandler);
+        chai.util.events.removeEventListener("addMethod", eventHandler);
+        chai.util.events.removeEventListener("addProperty", eventHandler);
       }
       eventHandler = null;
       delete chai.Assertion.prototype.eqqqual;
@@ -1525,7 +1525,7 @@ describe('utilities', function () {
           var object = _utils.flag(this, 'object');
           new _chai.Assertion(object).to.be.eql(str);
         }
-        chai.util.on("addMethod", eventHandler = function({ name, fn }) {
+        chai.util.events.addEventListener("addMethod", eventHandler = function({ name, fn }) {
           if (name === 'eqqqual' && fn === eqqqual)
             calledTimes++;
         });
@@ -1542,7 +1542,7 @@ describe('utilities', function () {
         const getter = function () {
           return 'chai';
         }
-        chai.util.on("addProperty", eventHandler = function({ name, fn }) {
+        chai.util.events.addEventListener("addProperty", eventHandler = function({ name, fn }) {
           if (name === 'tea' && fn === getter)
             calledTimes++;
         });
