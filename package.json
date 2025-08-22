@@ -34,7 +34,7 @@
   },
   "main": "./index.js",
   "scripts": {
-    "build": "esbuild --bundle --format=esm --outfile=index.js lib/chai.js",
+    "build": "esbuild --bundle --format=esm --keep-names --outfile=index.js lib/chai.js",
     "prebuild": "npm run clean",
     "format": "prettier --write lib",
     "pretest": "npm run lint",
