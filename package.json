@@ -11,9 +11,7 @@
     "chai"
   ],
   "files": [
-    "chai.js",
     "index.js",
-    "lib",
     "register-*.js"
   ],
   "homepage": "http://chaijs.com",
