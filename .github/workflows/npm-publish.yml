@@ -41,7 +41,7 @@ jobs:
         if: "!startsWith(github.ref_name, 'v5.')"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_secret }}
-      - run: npm publish --provenance --access public --tag v5
+      - run: npm publish --provenance --access public --tag v5-legacy
         if: "startsWith(github.ref_name, 'v5.')"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_secret }}
