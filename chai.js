@@ -1,1 +1,1 @@
-export * from './lib/chai.js';
+export * from './index.js';

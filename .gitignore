@@ -20,3 +20,5 @@ coverage
 
 test/auth/*
 !test/auth/.gitkeep
+
+/index.js
