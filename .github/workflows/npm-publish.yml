@@ -38,5 +38,10 @@ jobs:
         env:
           TAG_NAME: ${{ github.ref_name }}
       - run: npm publish --provenance --access public
+        if: "!startsWith(github.ref_name, 'v5.')"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_secret }}
+      - run: npm publish --provenance --access public --tag v5
+        if: "startsWith(github.ref_name, 'v5.')"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_secret }}
