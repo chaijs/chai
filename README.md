@@ -147,8 +147,16 @@ list of contributors.
 Feel free to reach out to any of the core contributors with your questions or
 concerns. We will do our best to respond in a timely manner.
 
+[![Keith Cirkel](https://avatars3.githubusercontent.com/u/118266?v=3&s=50)](https://github.com/keithamus)
+[![James Garbutt](https://avatars3.githubusercontent.com/u/5677153?v=3&s=50)](https://github.com/43081j)
+[![Kristján Oddsson](https://avatars3.githubusercontent.com/u/318208?v=3&s=50)](https://github.com/koddsson)
+
+### Core Contributor Alumni
+
+This project would not be what it is without the contributions from our prior
+core contributors, for whom we are forever grateful:
+
 [![Jake Luer](https://avatars3.githubusercontent.com/u/58988?v=3&s=50)](https://github.com/logicalparadox)
 [![Veselin Todorov](https://avatars3.githubusercontent.com/u/330048?v=3&s=50)](https://github.com/vesln)
-[![Keith Cirkel](https://avatars3.githubusercontent.com/u/118266?v=3&s=50)](https://github.com/keithamus)
 [![Lucas Fernandes da Costa](https://avatars3.githubusercontent.com/u/6868147?v=3&s=50)](https://github.com/lucasfcosta)
 [![Grant Snodgrass](https://avatars3.githubusercontent.com/u/17260989?v=3&s=50)](https://github.com/meeber)
