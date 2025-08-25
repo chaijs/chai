@@ -12,7 +12,6 @@ export default [
       globals: {
         console: false,
         ...globals.browser, // EventTarget, Event
-        ...globals.nodeBuiltin,
       }
     },
     rules: {
