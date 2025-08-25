@@ -1503,4 +1503,54 @@ describe('utilities', function () {
       });
     });
   });
+
+  describe('eventEmitter', function() {
+    var eventHandler = null;
+
+    beforeEach(function() {
+      if (eventHandler) {
+        chai.util.events.removeEventListener("addMethod", eventHandler);
+        chai.util.events.removeEventListener("addProperty", eventHandler);
+      }
+      eventHandler = null;
+      delete chai.Assertion.prototype.eqqqual;
+      delete chai.Assertion.prototype.tea;
+    });
+
+    it('emits addMethod', function () {
+      var calledTimes = 0;
+
+      chai.use(function(_chai, _utils) {
+        const eqqqual = function (str) {
+          var object = _utils.flag(this, 'object');
+          new _chai.Assertion(object).to.be.eql(str);
+        }
+        chai.util.events.addEventListener("addMethod", eventHandler = function({ name, fn }) {
+          if (name === 'eqqqual' && fn === eqqqual)
+            calledTimes++;
+        });
+        _chai.Assertion.addMethod('eqqqual', eqqqual);
+      });
+
+      expect(calledTimes).to.equal(1);
+    });
+
+    it('emits addProperty', function () {
+      var calledTimes = 0;
+
+      chai.use(function(_chai, _utils) {
+        const getter = function () {
+          return 'chai';
+        }
+        chai.util.events.addEventListener("addProperty", eventHandler = function({ name, fn }) {
+          if (name === 'tea' && fn === getter)
+            calledTimes++;
+        });
+        _chai.Assertion.addProperty('tea', getter);
+
+      });
+
+      expect(calledTimes).to.equal(1);
+    });
+  });
 });

@@ -61,6 +61,7 @@
     "esbuild": "^0.25.9",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.4",
+    "globals": "^16.3.0",
     "loupe": "^3.1.0",
     "mocha": "^10.2.0",
     "pathval": "^2.0.0",
