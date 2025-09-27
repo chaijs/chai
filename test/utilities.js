@@ -1552,5 +1552,32 @@ describe('utilities', function () {
 
       expect(calledTimes).to.equal(1);
     });
+
+    it('emits addChainableMethod', function () {
+      var calledTimes = 0;
+
+      chai.use(function(_chai, _utils) {
+        const method = function () {
+          new chai.Assertion(this._obj).to.be.equal('x');
+        }
+        const _chainingBehavior = function () {
+          if (this._obj === Object(this._obj)) {
+            this._obj.__x = 'X!'
+          }
+        }
+
+        chai.util.events.addEventListener("addChainableMethod", eventHandler = function({ name, fn, chainingBehavior }) {
+          if (name === 'x' && fn === method && chainingBehavior === _chainingBehavior)
+            calledTimes++;
+        });
+        _chai.Assertion.addChainableMethod('x',
+          method
+        , _chainingBehavior
+        )
+
+      });
+
+      expect(calledTimes).to.equal(1);
+    });
   });
 });
