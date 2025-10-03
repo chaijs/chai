@@ -49,7 +49,7 @@
     "type-detect": "^4.1.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.2",
+    "browserify": "^17.0.0",
     "bump-cli": "^2.7.1",
     "codecov": "^3.8.3",
     "istanbul": "^0.4.5",
