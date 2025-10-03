@@ -105,6 +105,15 @@ mocha spec.js --require chai/register-should.js  # Using Should style
 
 [Read more about these styles in our docs](http://chaijs.com/guide/styles/).
 
+### How does `chai` work?
+
+Check out this interactive walkthrough of the `chai` codebase on CodeCanvas [here](https://www.code-canvas.com/?session=unauthenticatedGithub&repo=chai&owner=chaijs&branch=main&OnboardingTutorial=true).
+
+To update the diagram, follow the quick tutorial [here](https://docs.code-canvas.com/updating-diagram).
+
+<img width="1916" alt="CodeCanvas Screenshot" src="https://codecanvas-media-public.s3.amazonaws.com/images/codecanvas-readme-screenshot.png" />
+
+
 ## Plugins
 
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
