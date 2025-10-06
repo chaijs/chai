@@ -38,7 +38,7 @@ export function globalErr(fn, val, skipStackTest) {
       chai.expect(err).to.have.property('stack')
         .that.has.string('globalErr')
         .but.does.not.match(
-          /at [a-zA-Z]*(Getter|Wrapper|(\.)*assert)/,
+          /(at [a-zA-Z]*(Getter|Wrapper|(\.)*assert)|[a-zA-Z]*(Getter|Wrapper|(\.)*assert[a-zA-Z]*)@)/,
           'implementation frames not properly filtered from stack trace'
         );
     }
