@@ -52,7 +52,7 @@
     "@eslint/js": "^9.17.0",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@web/dev-server-rollup": "^0.6.1",
-    "@web/test-runner": "^0.18.0",
+    "@web/test-runner": "^0.20.0",
     "@web/test-runner-playwright": "^0.11.0",
     "assertion-error": "^2.0.1",
     "c8": "^10.1.3",
@@ -66,6 +66,6 @@
     "mocha": "^11.0.0",
     "pathval": "^2.0.0",
     "prettier": "^3.4.2",
-    "typescript": "~5.7.3"
+    "typescript": "~5.9.0"
   }
 }
