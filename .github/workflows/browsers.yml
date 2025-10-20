@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: ${{ matrix.browser-name }}
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@v6
     - run: npm ci
     - run: npx playwright install --with-deps
     - run: npm run build --if-present
