@@ -3162,7 +3162,7 @@ describe('should', function() {
     err(function() {
       // .extensible should not suppress errors, thrown in proxy traps
       proxy.should.be.extensible;
-    }, { name: 'TypeError' });
+    }, { name: 'TypeError' }, true);
   });
 
   it('sealed', function() {
@@ -3211,7 +3211,7 @@ describe('should', function() {
     err(function() {
       // .sealed should not suppress errors, thrown in proxy traps
       proxy.should.be.sealed;
-    }, { name: 'TypeError' });
+    }, { name: 'TypeError' }, true);
   });
 
   it('frozen', function() {
@@ -3260,6 +3260,6 @@ describe('should', function() {
     err(function() {
       // .frozen should not suppress errors, thrown in proxy traps
       proxy.should.be.frozen;
-    }, { name: 'TypeError' });
+    }, { name: 'TypeError' }, true);
   });
 });
