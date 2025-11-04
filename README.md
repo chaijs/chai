@@ -60,10 +60,10 @@ Chai is an _assertion library_, similar to Node's built-in `assert`. It makes te
 
 ### Browsers
 
-You can also use it within the browser; install via npm and use the `chai.js` file found within the download. For example:
+You can also use it within the browser; install via npm and use the `index.js` file found within the download. For example:
 
 ```html
-<script src="./node_modules/chai/chai.js"></script>
+<script src="./node_modules/chai/index.js" type="module"></script>
 ```
 
 ## Usage
