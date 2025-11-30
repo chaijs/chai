@@ -2565,7 +2565,18 @@ describe('expect', function () {
       expect({a: {b: 2}}, 'blah').to.not.deep.own.include({a: {b: 2}});
     }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
+  // --- New Tests Start ---
+    it('should allow empty keys when target is empty', function () {
+      expect({}).to.have.all.keys([]);
+      expect({}).to.have.all.keys();
+    });
 
+    it('should not allow empty keys when target is not empty', function () {
+      expect(function () {
+        expect({ a: 1 }).to.have.all.keys([]);
+      }).to.throw('keys required');
+    });
+    // --- New Tests End ---
   it('keys(array|Object|arguments)', function(){
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1 }).have.keys({ 'foo': 6 });
