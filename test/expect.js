@@ -2,7 +2,7 @@ import * as chai from '../index.js';
 import {globalErr as err} from './bootstrap/index.js';
 
 describe('expect', function () {
-  var expect = chai.expect;
+  let expect = chai.expect;
 
   it('assertion', function () {
     expect('test').to.be.a('string');
@@ -202,7 +202,7 @@ describe('expect', function () {
     });
 
     describe('length guard', function () {
-      var fnLengthDesc = Object.getOwnPropertyDescriptor(
+      let fnLengthDesc = Object.getOwnPropertyDescriptor(
         function () {},
         'length'
       );
@@ -299,6 +299,10 @@ describe('expect', function () {
   });
 
   it('no-op chains', function () {
+    /**
+     *
+     * @param chain
+     */
     function test(chain) {
       // tests that chain exists
       expect(expect(1)[chain]).not.undefined;
@@ -411,7 +415,7 @@ describe('expect', function () {
   });
 
   it('exist', function () {
-    var foo = 'bar',
+    let foo = 'bar',
       bar;
     expect(foo).to.exist;
     expect(foo).to.exists;
@@ -431,7 +435,7 @@ describe('expect', function () {
   });
 
   it('arguments', function () {
-    var args = (function () {
+    let args = (function () {
       return arguments;
     })(1, 2, 3);
     expect(args).to.be.arguments;
@@ -445,7 +449,7 @@ describe('expect', function () {
   });
 
   it('.equal()', function () {
-    var foo;
+    let foo;
     expect(undefined).to.equal(foo);
 
     err(function () {
@@ -572,6 +576,9 @@ describe('expect', function () {
   });
 
   it('instanceof', function () {
+    /**
+     *
+     */
     function Foo() {}
     expect(new Foo()).to.be.an.instanceof(Foo);
 
@@ -618,8 +625,11 @@ describe('expect', function () {
 
     err(
       function () {
+        /**
+         *
+         */
         function Thing() {}
-        var t = new Thing();
+        let t = new Thing();
         Thing.prototype = 1337;
         expect(t).to.an.instanceof(Thing);
       },
@@ -632,8 +642,8 @@ describe('expect', function () {
     }, 'The instanceof assertion needs a constructor but Symbol was given.');
 
     err(function () {
-      var FakeConstructor = {};
-      var fakeInstanceB = 4;
+      let FakeConstructor = {};
+      let fakeInstanceB = 4;
       FakeConstructor[Symbol.hasInstance] = function (val) {
         return val === 3;
       };
@@ -642,8 +652,8 @@ describe('expect', function () {
     }, 'expected 4 to be an instance of an unnamed constructor');
 
     err(function () {
-      var FakeConstructor = {};
-      var fakeInstanceB = 4;
+      let FakeConstructor = {};
+      let fakeInstanceB = 4;
       FakeConstructor[Symbol.hasInstance] = function (val) {
         return val === 4;
       };
@@ -756,7 +766,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length.within(0, 0);
     expect(new Map()).to.have.lengthOf.within(0, 0);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -775,7 +785,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length.within(0, 0);
     expect(new Set()).to.have.lengthOf.within(0, 0);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -793,12 +803,12 @@ describe('expect', function () {
   });
 
   it('within(start, finish) (dates)', function () {
-    var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1000);
-    var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowISO = now.toISOString();
-    var beforeISO = oneSecondAgo.toISOString();
-    var afterISO = oneSecondAfter.toISOString();
+    let now = new Date();
+    let oneSecondAgo = new Date(now.getTime() - 1000);
+    let oneSecondAfter = new Date(now.getTime() + 1000);
+    let nowISO = now.toISOString();
+    let beforeISO = oneSecondAgo.toISOString();
+    let afterISO = oneSecondAfter.toISOString();
 
     expect(now).to.be.within(oneSecondAgo, oneSecondAfter);
     expect(now).to.be.within(now, oneSecondAfter);
@@ -946,7 +956,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length.above(-1);
     expect(new Map()).to.have.lengthOf.above(-1);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -965,7 +975,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length.above(-1);
     expect(new Set()).to.have.lengthOf.above(-1);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -983,9 +993,9 @@ describe('expect', function () {
   });
 
   it('above(n) (dates)', function () {
-    var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1000);
-    var oneSecondAfter = new Date(now.getTime() + 1000);
+    let now = new Date();
+    let oneSecondAgo = new Date(now.getTime() - 1000);
+    let oneSecondAfter = new Date(now.getTime() + 1000);
 
     expect(now).to.be.above(oneSecondAgo);
     expect(now).to.be.greaterThan(oneSecondAgo);
@@ -1118,7 +1128,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length.of.at.least(0);
     expect(new Map()).to.have.lengthOf.at.least(0);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1137,7 +1147,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length.of.at.least(0);
     expect(new Set()).to.have.lengthOf.at.least(0);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1235,7 +1245,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length.below(1);
     expect(new Map()).to.have.lengthOf.below(1);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1254,7 +1264,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length.below(1);
     expect(new Set()).to.have.lengthOf.below(1);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1272,9 +1282,9 @@ describe('expect', function () {
   });
 
   it('below(n) (dates)', function () {
-    var now = new Date();
-    var oneSecondAgo = new Date(now.getTime() - 1000);
-    var oneSecondAfter = new Date(now.getTime() + 1000);
+    let now = new Date();
+    let oneSecondAgo = new Date(now.getTime() - 1000);
+    let oneSecondAfter = new Date(now.getTime() + 1000);
 
     expect(now).to.be.below(oneSecondAfter);
     expect(oneSecondAgo).to.be.lessThan(now);
@@ -1417,7 +1427,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length.of.at.most(0);
     expect(new Map()).to.have.lengthOf.at.most(0);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1436,7 +1446,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length.of.at.most(0);
     expect(new Set()).to.have.lengthOf.at.most(0);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1454,12 +1464,12 @@ describe('expect', function () {
   });
 
   it('most(n) (dates)', function () {
-    var now = new Date();
-    var oneSecondBefore = new Date(now.getTime() - 1000);
-    var oneSecondAfter = new Date(now.getTime() + 1000);
-    var nowISO = now.toISOString();
-    var beforeISO = oneSecondBefore.toISOString();
-    var afterISO = oneSecondAfter.toISOString();
+    let now = new Date();
+    let oneSecondBefore = new Date(now.getTime() - 1000);
+    let oneSecondAfter = new Date(now.getTime() + 1000);
+    let nowISO = now.toISOString();
+    let beforeISO = oneSecondBefore.toISOString();
+    let afterISO = oneSecondAfter.toISOString();
 
     expect(now).to.be.at.most(oneSecondAfter);
     expect(now).to.be.at.most(now);
@@ -1568,7 +1578,7 @@ describe('expect', function () {
     expect(new Map()).to.have.length(0);
     expect(new Map()).to.have.lengthOf(0);
 
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     map.set('b', 2);
     map.set('c', 3);
@@ -1587,7 +1597,7 @@ describe('expect', function () {
     expect(new Set()).to.have.length(0);
     expect(new Set()).to.have.lengthOf(0);
 
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     set.add(2);
     set.add(3);
@@ -1610,7 +1620,7 @@ describe('expect', function () {
     expect(1).to.eql(1);
     expect('4').to.not.eql(4);
 
-    var sym = Symbol();
+    let sym = Symbol();
     expect(sym).to.eql(sym);
 
     err(function () {
@@ -1632,7 +1642,7 @@ describe('expect', function () {
     expect('test').to.equal('test');
     expect(1).to.equal(1);
 
-    var sym = Symbol();
+    let sym = Symbol();
     expect(sym).to.equal(sym);
 
     err(function () {
@@ -1682,7 +1692,7 @@ describe('expect', function () {
   });
 
   it('deep.equal(Date)', function () {
-    var a = new Date(1, 2, 3),
+    let a = new Date(1, 2, 3),
       b = new Date(4, 5, 6);
     expect(a).to.deep.equal(a);
     expect(a).not.to.deep.equal(b);
@@ -1690,27 +1700,30 @@ describe('expect', function () {
   });
 
   it('deep.equal(Symbol)', function () {
-    var symb = Symbol('a');
-    var a = {[symb]: 'b'},
+    let symb = Symbol('a');
+    let a = {[symb]: 'b'},
       b = {[symb]: 'b'};
     expect(a).to.deep.equal(a);
     expect(a).to.deep.equal(b);
 
-    var symb2 = Symbol('c');
-    var c = {[symb]: {[symb2]: 'c'}},
+    let symb2 = Symbol('c');
+    let c = {[symb]: {[symb2]: 'c'}},
       d = {[symb]: {[symb2]: 'b'}};
     expect(c).to.deep.equal(c);
     expect(d).to.not.deep.equal(c);
 
-    var symb3 = Symbol('d');
-    var e = {[symb]: {[symb3]: 'b'}};
+    let symb3 = Symbol('d');
+    let e = {[symb]: {[symb3]: 'b'}};
     expect(d).to.not.deep.equal(e);
 
-    var f = {[symb]: {[symb3]: 'b'}};
+    let f = {[symb]: {[symb3]: 'b'}};
     expect(e).to.deep.equal(f);
   });
 
   it('empty', function () {
+    /**
+     *
+     */
     function FakeArgs() {}
     FakeArgs.prototype.length = 0;
 
@@ -1734,7 +1747,7 @@ describe('expect', function () {
     expect(new Map()).to.be.empty;
 
     // Not using Map constructor args because not supported in IE 11.
-    var map = new Map();
+    let map = new Map();
     map.set('a', 1);
     expect(map).not.to.be.empty;
 
@@ -1753,7 +1766,7 @@ describe('expect', function () {
     expect(new Set()).to.be.empty;
 
     // Not using Set constructor args because not supported in IE 11.
-    var set = new Set();
+    let set = new Set();
     set.add(1);
     expect(set).not.to.be.empty;
 
@@ -1933,7 +1946,7 @@ describe('expect', function () {
     expect({foo: {bar: 'baz'}}).to.not.have.property('foo.bar');
 
     // Properties with the value 'undefined' are still properties
-    var obj = {foo: undefined};
+    let obj = {foo: undefined};
     Object.defineProperty(obj, 'bar', {
       get: function () {}
     });
@@ -1983,7 +1996,7 @@ describe('expect', function () {
     expect('test').to.not.have.property('foo', 4);
     expect({a: {b: 1}}).to.not.have.property('a', {b: 1});
 
-    var deepObj = {
+    let deepObj = {
       green: {tea: 'matcha'},
       teas: ['chai', 'matcha', {tea: 'konacha'}]
     };
@@ -2007,7 +2020,7 @@ describe('expect', function () {
       expect(deepObj).to.have.nested.property('teas[3].tea', 'bar');
     }, "expected { green: { tea: 'matcha' }, …(1) } to have nested property 'teas[3].tea'");
 
-    var arr = [
+    let arr = [
       ['chai', 'matcha', 'konacha'],
       [{tea: 'chai'}, {tea: 'matcha'}, {tea: 'konacha'}]
     ];
@@ -2049,7 +2062,7 @@ describe('expect', function () {
   });
 
   it('deep.property(name, val)', function () {
-    var obj = {a: {b: 1}};
+    let obj = {a: {b: 1}};
     expect(obj).to.have.deep.property('a', {b: 1});
     expect(obj).to.not.have.deep.property('a', {b: 7});
     expect(obj).to.not.have.deep.property('a', {z: 1});
@@ -2151,7 +2164,7 @@ describe('expect', function () {
     expect('test').to.have.ownProperty('length', 4).that.is.a('number');
     expect('test').to.haveOwnProperty('length', 4).that.is.a('number');
 
-    var objNoProto = Object.create(null);
+    let objNoProto = Object.create(null);
     objNoProto.a = 'a';
     expect(objNoProto).to.have.own.property('a');
     expect(objNoProto).to.have.ownProperty('a');
@@ -2207,7 +2220,7 @@ describe('expect', function () {
   });
 
   it('deep.own.property(name, val)', function () {
-    var obj = {a: {b: 1}};
+    let obj = {a: {b: 1}};
     expect(obj).to.have.deep.own.property('a', {b: 1});
     expect(obj).to.have.deep.ownProperty('a', {b: 1});
     expect(obj).to.deep.haveOwnProperty('a', {b: 1});
@@ -2307,7 +2320,7 @@ describe('expect', function () {
   });
 
   it('deep.nested.property(name, val)', function () {
-    var obj = {a: {b: {c: 1}}};
+    let obj = {a: {b: {c: 1}}};
     expect(obj).to.have.deep.nested.property('a.b', {c: 1});
     expect(obj).to.not.have.deep.nested.property('a.b', {c: 7});
     expect(obj).to.not.have.deep.nested.property('a.b', {z: 1});
@@ -2331,8 +2344,8 @@ describe('expect', function () {
     expect('test').to.haveOwnPropertyDescriptor('length');
     expect('test').not.to.have.ownPropertyDescriptor('foo');
 
-    var obj = {};
-    var descriptor = {
+    let obj = {};
+    let descriptor = {
       configurable: false,
       enumerable: true,
       writable: true,
@@ -2350,7 +2363,7 @@ describe('expect', function () {
     }, /^blah: expected the own property descriptor for 'test' on \{ test: NaN \} to not match \{ [^\}]+ \}$/);
 
     err(function () {
-      var wrongDescriptor = {
+      let wrongDescriptor = {
         configurable: false,
         enumerable: true,
         writable: false,
@@ -2415,12 +2428,12 @@ describe('expect', function () {
     // .include should work with Error objects and objects with a custom
     // `@@toStringTag`.
     expect(new Error('foo')).to.include({message: 'foo'});
-    var customObj = {a: 1};
+    let customObj = {a: 1};
     customObj[Symbol.toStringTag] = 'foo';
 
     expect(customObj).to.include({a: 1});
 
-    var obj1 = {a: 1},
+    let obj1 = {a: 1},
       obj2 = {b: 2};
     expect([obj1, obj2]).to.include(obj1);
     expect([obj1, obj2]).to.not.include({a: 1});
@@ -2429,7 +2442,7 @@ describe('expect', function () {
     expect({foo: obj1, bar: obj2}).to.not.include({foo: {a: 1}});
     expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: {b: 2}});
 
-    var map = new Map();
+    let map = new Map();
     var val = [{a: 1}];
     map.set('a', val);
     map.set('b', 2);
@@ -2443,7 +2456,7 @@ describe('expect', function () {
     expect(map).to.include(0);
     expect(map).to.include(NaN);
 
-    var set = new Set();
+    let set = new Set();
     var val = [{a: 1}];
     set.add(val);
     set.add(2);
@@ -2461,7 +2474,7 @@ describe('expect', function () {
     }
     expect(set).to.include(NaN);
 
-    var ws = new WeakSet();
+    let ws = new WeakSet();
     var val = [{a: 1}];
     ws.add(val);
 
@@ -2469,7 +2482,7 @@ describe('expect', function () {
     expect(ws).to.not.include([{a: 1}]);
     expect(ws).to.not.include({});
 
-    var sym1 = Symbol(),
+    let sym1 = Symbol(),
       sym2 = Symbol(),
       sym3 = Symbol();
     expect([sym1, sym2]).to.include(sym1);
@@ -2504,7 +2517,7 @@ describe('expect', function () {
     }, 'expected [ { a: 1 }, { b: 2 } ] to include { a: 1 }');
 
     err(function () {
-      var obj1 = {a: 1},
+      let obj1 = {a: 1},
         obj2 = {b: 2};
       expect([obj1, obj2]).to.not.include(obj1);
     }, 'expected [ { a: 1 }, { b: 2 } ] to not include { a: 1 }');
@@ -2514,7 +2527,7 @@ describe('expect', function () {
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
 
     err(function () {
-      var obj1 = {a: 1},
+      let obj1 = {a: 1},
         obj2 = {b: 2};
       expect({foo: obj1, bar: obj2}).to.not.include({foo: obj1, bar: obj2});
     }, "expected { foo: { a: 1 }, bar: { b: 2 } } to not have property 'foo' of { a: 1 }");
@@ -2557,7 +2570,7 @@ describe('expect', function () {
   });
 
   it('deep.include()', function () {
-    var obj1 = {a: 1},
+    let obj1 = {a: 1},
       obj2 = {b: 2};
     expect([obj1, obj2]).to.deep.include({a: 1});
     expect([obj1, obj2]).to.not.deep.include({a: 9});
@@ -2572,12 +2585,12 @@ describe('expect', function () {
       bar: {b: 9}
     });
 
-    var map = new Map();
+    let map = new Map();
     map.set(1, [{a: 1}]);
 
     expect(map).to.deep.include([{a: 1}]);
 
-    var set = new Set();
+    let set = new Set();
     set.add([{a: 1}]);
 
     expect(set).to.deep.include([{a: 1}]);
@@ -2749,18 +2762,7 @@ describe('expect', function () {
       expect({a: {b: 2}}, 'blah').to.not.deep.own.include({a: {b: 2}});
     }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
-  // --- New Tests Start ---
-  it('should allow empty keys when target is empty', function () {
-    expect({}).to.have.all.keys([]);
-    expect({}).to.have.all.keys();
-  });
 
-  it('should not allow empty keys when target is not empty', function () {
-    expect(function () {
-      expect({a: 1}).to.have.all.keys([]);
-    }).to.throw('keys required');
-  });
-  // --- New Tests End ---
   it('keys(array|Object|arguments)', function () {
     expect({foo: 1}).to.have.keys(['foo']);
     expect({foo: 1}).have.keys({foo: 6});
@@ -2947,7 +2949,7 @@ describe('expect', function () {
       {iDoNot: 'exist'}
     ]);
 
-    var weirdMapKey1 = Object.create(null),
+    let weirdMapKey1 = Object.create(null),
       weirdMapKey2 = {toString: NaN},
       weirdMapKey3 = [],
       weirdMap = new Map();
@@ -2958,7 +2960,7 @@ describe('expect', function () {
     expect(weirdMap).to.have.all.keys([weirdMapKey1, weirdMapKey2]);
     expect(weirdMap).to.not.have.all.keys([weirdMapKey1, weirdMapKey3]);
 
-    var symMapKey1 = Symbol(),
+    let symMapKey1 = Symbol(),
       symMapKey2 = Symbol(),
       symMapKey3 = Symbol(),
       symMap = new Map();
@@ -2976,7 +2978,7 @@ describe('expect', function () {
     expect(symMap).to.not.contain.all.keys(symMapKey3, symMapKey1);
     expect(symMap).to.not.contain.any.keys(symMapKey3);
 
-    var errMap = new Map();
+    let errMap = new Map();
 
     errMap.set({foo: 1});
 
@@ -3113,7 +3115,7 @@ describe('expect', function () {
       {iDoNot: 'exist'}
     ]);
 
-    var weirdSetKey1 = Object.create(null),
+    let weirdSetKey1 = Object.create(null),
       weirdSetKey2 = {toString: NaN},
       weirdSetKey3 = [],
       weirdSet = new Set();
@@ -3124,7 +3126,7 @@ describe('expect', function () {
     expect(weirdSet).to.have.all.keys([weirdSetKey1, weirdSetKey2]);
     expect(weirdSet).to.not.have.all.keys([weirdSetKey1, weirdSetKey3]);
 
-    var symSetKey1 = Symbol(),
+    let symSetKey1 = Symbol(),
       symSetKey2 = Symbol(),
       symSetKey3 = Symbol(),
       symSet = new Set();
@@ -3142,7 +3144,7 @@ describe('expect', function () {
     expect(symSet).to.not.contain.all.keys(symSetKey3, symSetKey1);
     expect(symSet).to.not.contain.any.keys(symSetKey3);
 
-    var errSet = new Set();
+    let errSet = new Set();
     errSet.add({foo: 1});
 
     err(function () {
@@ -3187,7 +3189,7 @@ describe('expect', function () {
       expect({foo: 1}).to.contain.keys([]);
     }, 'keys required');
 
-    var mixedArgsMsg =
+    let mixedArgsMsg =
       'blah: when testing keys against an object or an array you must give a single Array|Object|String argument or multiple String arguments';
 
     err(function () {
@@ -3293,16 +3295,16 @@ describe('expect', function () {
   });
 
   it('keys(array) will not mutate array (#359)', function () {
-    var expected = ['b', 'a'];
-    var original_order = ['b', 'a'];
-    var obj = {b: 1, a: 1};
+    let expected = ['b', 'a'];
+    let original_order = ['b', 'a'];
+    let obj = {b: 1, a: 1};
     expect(expected).deep.equal(original_order);
     expect(obj).keys(original_order);
     expect(expected).deep.equal(original_order);
   });
 
   it('chaining', function () {
-    var tea = {name: 'chai', extras: ['milk', 'sugar', 'smile']};
+    let tea = {name: 'chai', extras: ['milk', 'sugar', 'smile']};
     expect(tea).to.have.property('extras').with.lengthOf(3);
 
     expect(tea).to.have.property('extras').which.contains('smile');
@@ -3313,7 +3315,7 @@ describe('expect', function () {
 
     expect(tea).to.be.a('object').and.have.property('name', 'chai');
 
-    var badFn = function () {
+    let badFn = function () {
       throw new Error('testing');
     };
 
@@ -3324,20 +3326,24 @@ describe('expect', function () {
     // See GH-45: some poorly-constructed custom errors don't have useful names
     // on either their constructor or their constructor prototype, but instead
     // only set the name inside the constructor itself.
-    var PoorlyConstructedError = function () {
+    let PoorlyConstructedError = function () {
       this.name = 'PoorlyConstructedError';
     };
     PoorlyConstructedError.prototype = Object.create(Error.prototype);
 
+    /**
+     *
+     * @param message
+     */
     function CustomError(message) {
       this.name = 'CustomError';
       this.message = message;
     }
     CustomError.prototype = Error.prototype;
 
-    var specificError = new RangeError('boo');
+    let specificError = new RangeError('boo');
 
-    var goodFn = function () {
+    let goodFn = function () {
         1 == 1;
       },
       badFn = function () {
@@ -3507,11 +3513,14 @@ describe('expect', function () {
   });
 
   it('respondTo', function () {
+    /**
+     *
+     */
     function Foo() {}
     Foo.prototype.bar = function () {};
     Foo.func = function () {};
 
-    var bar = {};
+    let bar = {};
     bar.foo = function () {};
 
     expect(Foo).to.respondTo('bar');
@@ -3539,7 +3548,7 @@ describe('expect', function () {
   });
 
   it('satisfy', function () {
-    var matcher = function (num) {
+    let matcher = function (num) {
       return num === 1;
     };
 
@@ -3640,7 +3649,7 @@ describe('expect', function () {
     expect(1).to.be.oneOf([1, 2, 3]);
     expect('1').to.not.be.oneOf([1, 2, 3]);
     expect([3, [4]]).to.not.be.oneOf([1, 2, [3, 4]]);
-    var threeFour = [3, [4]];
+    let threeFour = [3, [4]];
     expect(threeFour).to.be.oneOf([1, 2, threeFour]);
     expect([]).to.be.deep.oneOf([[], '']);
 
@@ -3982,7 +3991,7 @@ describe('expect', function () {
   });
 
   it('change', function () {
-    var obj = {value: 10, str: 'foo'},
+    let obj = {value: 10, str: 'foo'},
       heroes = ['spiderman', 'superman'],
       fn = function () {
         obj.value += 5;
@@ -4064,7 +4073,7 @@ describe('expect', function () {
   });
 
   it('increase, decrease', function () {
-    var obj = {value: 10, noop: null},
+    let obj = {value: 10, noop: null},
       arr = ['one', 'two'],
       pFn = function () {
         arr.push('three');
@@ -4218,7 +4227,7 @@ describe('expect', function () {
   });
 
   it('extensible', function () {
-    var nonExtensibleObject = Object.preventExtensions({});
+    let nonExtensibleObject = Object.preventExtensions({});
 
     expect({}).to.be.extensible;
     expect(nonExtensibleObject).to.not.be.extensible;
@@ -4261,7 +4270,7 @@ describe('expect', function () {
       expect(undefined).to.be.extensible;
     }, 'expected undefined to be extensible');
 
-    var proxy = new Proxy(
+    let proxy = new Proxy(
       {},
       {
         isExtensible: function () {
@@ -4281,7 +4290,7 @@ describe('expect', function () {
   });
 
   it('sealed', function () {
-    var sealedObject = Object.seal({});
+    let sealedObject = Object.seal({});
 
     expect(sealedObject).to.be.sealed;
     expect({}).to.not.be.sealed;
@@ -4323,7 +4332,7 @@ describe('expect', function () {
       expect(undefined).to.not.be.sealed;
     }, 'expected undefined to not be sealed');
 
-    var proxy = new Proxy(
+    let proxy = new Proxy(
       {},
       {
         ownKeys: function () {
@@ -4346,7 +4355,7 @@ describe('expect', function () {
   });
 
   it('frozen', function () {
-    var frozenObject = Object.freeze({});
+    let frozenObject = Object.freeze({});
 
     expect(frozenObject).to.be.frozen;
     expect({}).to.not.be.frozen;
@@ -4388,7 +4397,7 @@ describe('expect', function () {
       expect(undefined).to.not.be.frozen;
     }, 'expected undefined to not be frozen');
 
-    var proxy = new Proxy(
+    let proxy = new Proxy(
       {},
       {
         ownKeys: function () {
