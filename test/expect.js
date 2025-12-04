@@ -3019,6 +3019,13 @@ describe('expect', function () {
 
   });
 
+  it('should accept empty keys when the object is empty', function () {
+    expect({}).to.have.keys();
+    expect({}).to.have.keys([]);
+    expect({}).to.contain.keys();
+    expect({}).to.contain.keys([]);
+  });
+  
   it('keys(array) will not mutate array (#359)', function () {
       var expected = [ 'b', 'a' ];
       var original_order = [ 'b', 'a' ];
