@@ -38,5 +38,3 @@ jobs:
         env:
           TAG_NAME: ${{ github.ref_name }}
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_secret }}
