@@ -32,7 +32,7 @@
   },
   "main": "./index.js",
   "scripts": {
-    "build": "esbuild --bundle --format=esm --target=es2021 --keep-names --outfile=index.js lib/chai.js",
+    "build": "esbuild --bundle --format=esm --target=es2021 --keep-names --legal-comments=none --outfile=index.js lib/chai.js",
     "prebuild": "npm run clean",
     "format": "prettier --write lib",
     "pretest": "npm run lint",
@@ -61,7 +61,7 @@
     "esbuild": "^0.27.0",
     "eslint": "^9.0.0",
     "eslint-plugin-jsdoc": "^61.0.0",
-    "globals": "^16.3.0",
+    "globals": "^17.0.0",
     "loupe": "^3.1.0",
     "mocha": "^11.0.0",
     "pathval": "^2.0.0",
