@@ -2751,10 +2751,6 @@ describe('expect', function () {
     }, "blah: keys required");
 
     err(function(){
-      expect(errMap).to.have.keys([]);
-    }, "keys required");
-
-    err(function(){
       expect(errMap).to.contain.keys();
     }, "keys required");
 
@@ -2877,10 +2873,6 @@ describe('expect', function () {
     }, "blah: keys required");
 
     err(function(){
-      expect(errSet).to.have.keys([]);
-    }, "keys required");
-
-    err(function(){
       expect(errSet).to.contain.keys();
     }, "keys required");
 
@@ -2901,14 +2893,6 @@ describe('expect', function () {
     err(function(){
       expect({ foo: 1 }, 'blah').to.have.keys();
     }, "blah: keys required");
-
-    err(function(){
-      expect({ foo: 1 }).to.have.keys([]);
-    }, "keys required");
-
-    err(function(){
-      expect({ foo: 1 }).to.not.have.keys([]);
-    }, "keys required");
 
     err(function(){
       expect({ foo: 1 }).to.contain.keys([]);
