@@ -3028,6 +3028,11 @@ describe('expect', function () {
       expect(expected).deep.equal(original_order);
   });
 
+  it('duplicate keys dont contribute to key count', () => {
+    const obj = { a: 1, b: 2, c: 3 };
+    expect(obj).to.have.all.keys('a', 'b', 'c', 'a', 'b');
+  });
+
   it('chaining', function(){
     var tea = { name: 'chai', extras: ['milk', 'sugar', 'smile'] };
     expect(tea).to.have.property('extras').with.lengthOf(3);
