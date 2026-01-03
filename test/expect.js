@@ -3019,11 +3019,21 @@ describe('expect', function () {
 
   });
 
-  it('should accept empty keys when the object is empty', function () {
-    expect({}).to.have.keys();
-    expect({}).to.have.keys([]);
-    expect({}).to.contain.keys();
-    expect({}).to.contain.keys([]);
+  it('should accept empty keys if all and not contains', function () {
+    expect({}).to.have.all.keys([]);
+    err(() => {
+      expect({ a: 1 }).to.have.all.keys([]);
+    });
+  });
+
+  it('should throw if empty keys with any or contains', function () {
+    err(() => {
+      expect({}).to.have.any.keys([]);
+    }, 'keys required');
+
+    err(() => {
+      expect({}).to.contain.keys([]);
+    }, 'keys required');
   });
   
   it('keys(array) will not mutate array (#359)', function () {
