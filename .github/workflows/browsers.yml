@@ -21,9 +21,9 @@ jobs:
           - firefox
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
     - name: ${{ matrix.browser-name }}
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
     - run: npm ci
     - run: npx playwright install --with-deps
     - run: npm run build --if-present
