@@ -2248,10 +2248,6 @@ describe('should', function() {
       }, "keys required");
 
       err(function(){
-        errMap.should.have.keys([]);
-      }, "keys required");
-
-      err(function(){
         errMap.should.contain.keys();
       }, "keys required");
 
@@ -2375,10 +2371,6 @@ describe('should', function() {
     }, "keys required");
 
     err(function(){
-      errSet.should.have.keys([]);
-    }, "keys required");
-
-    err(function(){
       errSet.should.contain.keys();
     }, "keys required");
 
@@ -2396,14 +2388,6 @@ describe('should', function() {
 
     err(function(){
       ({ foo: 1 }).should.have.keys();
-    }, "keys required");
-
-    err(function(){
-      ({ foo: 1 }).should.have.keys([]);
-    }, "keys required");
-
-    err(function(){
-      ({ foo: 1 }).should.not.have.keys([]);
     }, "keys required");
 
     err(function(){
@@ -2509,6 +2493,10 @@ describe('should', function() {
       ({ foo: 1, bar: 2 }).should.not.have.any.keys({ 'foo': 1, 'baz': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
 
+  });
+
+  it('keys() with empty keys and non-contains', () => {
+    ({}).should.have.keys([]);
   });
 
   it('keys(array) will not mutate array (#359)', function () {
