@@ -1196,15 +1196,7 @@ describe('assert', function () {
     errMap.set({1: 20}, 'number');
 
     err(function(){
-      assert.hasAllKeys(errMap, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
       assert.containsAllKeys(errMap, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
-      assert.doesNotHaveAllKeys(errMap, [], 'blah');
     }, "blah: keys required");
 
     err(function(){
@@ -1311,15 +1303,7 @@ describe('assert', function () {
     errSet.add('number');
 
     err(function(){
-      assert.hasAllKeys(errSet, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
       assert.containsAllKeys(errSet, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
-      assert.doesNotHaveAllKeys(errSet, [], 'blah');
     }, "blah: keys required");
 
     err(function(){
@@ -1341,15 +1325,7 @@ describe('assert', function () {
     // }, 'expected [ { foo: 1 } ] to deeply contain key { iDoNotExist: 0 }');
 
     err(function(){
-      assert.hasAllKeys({ foo: 1 }, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
       assert.containsAllKeys({ foo: 1 }, [], 'blah');
-    }, "blah: keys required");
-
-    err(function(){
-      assert.doesNotHaveAllKeys({ foo: 1 }, [], 'blah');
     }, "blah: keys required");
 
     err(function(){
@@ -1436,6 +1412,10 @@ describe('assert', function () {
     err(function(){
       assert.doesNotHaveAnyKeys({ foo: 1, bar: 2 }, { 'foo': 1, 'baz': 1}, 'blah');
     }, "blah: expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
+  });
+
+  it('keys() with empty keys and non-contains', () => {
+    assert.hasAllKeys({}, []);
   });
 
   it('lengthOf', function() {
