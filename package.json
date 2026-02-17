@@ -49,7 +49,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^10.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@web/dev-server-rollup": "^0.6.1",
     "@web/test-runner": "^0.20.0",
@@ -59,7 +59,7 @@
     "check-error": "^2.1.1",
     "deep-eql": "^5.0.1",
     "esbuild": "^0.27.0",
-    "eslint": "^9.0.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-jsdoc": "^62.0.0",
     "globals": "^17.0.0",
     "loupe": "^3.1.0",
