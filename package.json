@@ -55,7 +55,7 @@
     "@web/test-runner": "^0.20.0",
     "@web/test-runner-playwright": "^0.11.0",
     "assertion-error": "^2.0.1",
-    "c8": "^10.1.3",
+    "c8": "^11.0.0",
     "check-error": "^2.1.1",
     "deep-eql": "^5.0.1",
     "esbuild": "^0.27.0",
