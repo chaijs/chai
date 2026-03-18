@@ -1,4 +1,4 @@
-<h1 align=center>
+my <h1 align=center>
   <a href="http://chaijs.com" title="Chai Documentation">
     <img alt="ChaiJS" src="http://chaijs.com/img/chai-logo.png">
   </a>
