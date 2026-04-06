@@ -58,7 +58,7 @@
     "c8": "^11.0.0",
     "check-error": "^2.1.1",
     "deep-eql": "^5.0.1",
-    "esbuild": "^0.27.0",
+    "esbuild": "^0.28.0",
     "eslint": "^10.0.0",
     "eslint-plugin-jsdoc": "^62.0.0",
     "globals": "^17.0.0",
