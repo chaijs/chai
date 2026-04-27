@@ -3360,6 +3360,8 @@ describe('expect', function () {
 
     expect([1, 2]).to.contain.oneOf([4,2,5]);
     expect([3, 4]).to.not.contain.oneOf([2,1,5]);
+    expect([[1], [2]]).to.deep.include.oneOf([[1], [2]]);
+    expect([[3], [4]]).to.not.deep.include.oneOf([[1], [2]]);
 
     expect('The quick brown fox jumps over the lazy dog').to.contain.oneOf(['cat', 'dog', 'bird']);
     expect('The quick brown fox jumps over the lazy dog').to.not.contain.oneOf(['elephant', 'pigeon', 'lynx']);
