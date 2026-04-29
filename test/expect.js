@@ -3360,6 +3360,9 @@ describe('expect', function () {
 
     expect([1, 2]).to.contain.oneOf([4,2,5]);
     expect([3, 4]).to.not.contain.oneOf([2,1,5]);
+    expect([[1], [2]]).to.deep.contain.oneOf([[1], [2]]);
+    expect([[3], [4]]).to.not.deep.contain.oneOf([[1], [2]]);
+    expect([[[1]]]).to.deep.contain.oneOf([[[1]]]);
 
     expect('The quick brown fox jumps over the lazy dog').to.contain.oneOf(['cat', 'dog', 'bird']);
     expect('The quick brown fox jumps over the lazy dog').to.not.contain.oneOf(['elephant', 'pigeon', 'lynx']);
@@ -3387,6 +3390,14 @@ describe('expect', function () {
     err(function () {
       expect(1, 'blah').to.be.oneOf({});
     }, "blah: expected {} to be an array");
+
+    err(function () {
+      expect([[1]]).to.deep.contain.oneOf([[2]]);
+    }, "expected [ [ 1 ] ] to deeply contain one of [ [ 2 ] ]");
+
+    err(function () {
+      expect([[1]]).to.not.deep.contain.oneOf([[1]]);
+    }, "expected [ [ 1 ] ] to not deeply contain one of [ [ 1 ] ]");
   });
 
   it('include.members', function() {
