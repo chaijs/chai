@@ -45,6 +45,11 @@
     "lint:types": "tsc",
     "clean": "rm -rf index.js coverage/"
   },
+  "overrides": {
+    "c8": {
+      "yargs": "^18.0.0"
+    }
+  },
   "engines": {
     "node": ">=18"
   },
