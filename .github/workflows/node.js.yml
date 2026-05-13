@@ -32,8 +32,8 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 18      # to be removed 2025-04-30
           - 20      # to be removed 2026-04-30
+          - 25
           - latest
         # See supported Node.js release schedule at https://github.com/nodejs/release#release-schedule
 
