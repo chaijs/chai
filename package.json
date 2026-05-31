@@ -61,7 +61,7 @@
     "@web/test-runner-playwright": "^0.11.0",
     "assertion-error": "^2.0.1",
     "c8": "^11.0.0",
-    "check-error": "^2.1.1",
+    "check-error": "^2.1.2",
     "deep-eql": "^5.0.1",
     "esbuild": "^0.28.0",
     "eslint": "^10.0.0",
