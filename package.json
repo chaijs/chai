@@ -47,7 +47,7 @@
   },
   "overrides": {
     "c8": {
-      "yargs": "^18.0.0"
+      "yargs": "^17.7.2"
     }
   },
   "engines": {
