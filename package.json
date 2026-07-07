@@ -56,7 +56,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
-    "@web/dev-server-rollup": "^0.6.1",
+    "@web/dev-server-rollup": "^1.0.0",
     "@web/test-runner": "^1.0.0",
     "@web/test-runner-playwright": "^0.11.0",
     "assertion-error": "^2.0.1",
