@@ -58,7 +58,7 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@web/dev-server-rollup": "^1.0.0",
     "@web/test-runner": "^1.0.0",
-    "@web/test-runner-playwright": "^0.11.0",
+    "@web/test-runner-playwright": "^1.0.0",
     "assertion-error": "^2.0.1",
     "c8": "^11.0.0",
     "check-error": "^2.1.1",
