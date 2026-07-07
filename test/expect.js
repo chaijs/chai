@@ -3398,6 +3398,10 @@ describe('expect', function () {
     err(function () {
       expect([[1]]).to.not.deep.contain.oneOf([[1]]);
     }, "expected [ [ 1 ] ] to not deeply contain one of [ [ 1 ] ]");
+
+    err(function () {
+      expect({a: 1}).to.not.deep.oneOf([{a: 1}, {b: 2}]);
+    }, "expected { a: 1 } to not deeply equal one of [ { a: 1 }, { b: 2 } ]");
   });
 
   it('include.members', function() {
