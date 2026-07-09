@@ -71,6 +71,6 @@
     "mocha": "^11.0.0",
     "pathval": "^2.0.0",
     "prettier": "^3.4.2",
-    "typescript": "~6.0.0"
+    "typescript": "~7.0.0"
   }
 }
