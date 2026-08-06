@@ -7,7 +7,7 @@
 </h1>
 
 <p align=center>
-  Chai is a BDD / TDD assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
+  Chai is a behavior-driven development (BDD) / test-driven development (TDD) assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
 </p>
 
 <p align=center>
