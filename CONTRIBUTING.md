@@ -95,7 +95,7 @@ Please adhere to the coding conventions used throughout a project (indentation, 
 
 Follow this process if you'd like your work considered for inclusion in the project:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the project, clone your fork, and configure the remotes:
+1. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the project, clone your fork, and configure the remotes:
 
 ```bash
 # Clone your fork of the repo into the current directory
