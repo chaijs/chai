@@ -3218,6 +3218,14 @@ describe('expect', function () {
     err(function () {
       expect({}).to.throw(Error, 'testing', 'blah');
     }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(function () { throw { body: { message: 'Custom error type' } }; }).to.throw('boom!');
+    }, "expected [Function] to throw error including 'boom!' but got ''");
+
+    err(function () {
+      expect(function () { throw { body: { message: 'Custom error type' } }; }).to.throw(/boom/);
+    }, "expected [Function] to throw error matching /boom/ but got ''");
   });
 
   it('respondTo', function(){

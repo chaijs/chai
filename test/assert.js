@@ -1730,6 +1730,16 @@ describe('assert', function () {
       err(function () {
         assert[throws]({}, Error, 'testing', 'blah');
       }, "blah: expected {} to be a function");
+
+      // GH-1752: a thrown non-Error object must fail the message matcher
+      // as an assertion, not as TypeError from reading `.message.indexOf`.
+      err(function () {
+        assert[throws](function () { throw { body: { message: 'Custom error type' } }; }, 'boom!');
+      }, "expected [Function] to throw error including 'boom!' but got ''");
+
+      err(function () {
+        assert[throws](function () { throw { body: { message: 'Custom error type' } }; }, /boom/);
+      }, "expected [Function] to throw error matching /boom/ but got ''");
     });
   });
 
