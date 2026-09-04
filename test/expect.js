@@ -889,6 +889,21 @@ describe('expect', function () {
     }, "blah: Target cannot be null or undefined.");
   });
 
+  it('ordering assertions do not show a misleading diff (#1518)', function(){
+    // above/below/least/most compare a value against a bound rather than
+    // asserting equality, so a "+ expected - actual" diff wrongly implies
+    // that the two operands were supposed to be equal.
+    err(function(){ expect(2).to.be.above(3); }, { showDiff: false });
+    err(function(){ expect(5).to.be.below(3); }, { showDiff: false });
+    err(function(){ expect(2).to.be.at.least(3); }, { showDiff: false });
+    err(function(){ expect(2).to.be.at.most(1); }, { showDiff: false });
+
+    var now = new Date();
+    var later = new Date(now.getTime() + 1000);
+    err(function(){ expect(now).to.be.above(later); }, { showDiff: false });
+    err(function(){ expect(now).to.be.at.least(later); }, { showDiff: false });
+  });
+
   it('least(n)', function(){
     expect(5).to.be.at.least(2);
     expect(5).to.be.at.least(5);
