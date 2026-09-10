@@ -9,6 +9,16 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
+  it('preserves literal template tags in assertion values', function () {
+    err(function () {
+      expect('#{exp}', 'custom message').to.equal('different');
+    }, "custom message: expected '#{exp}' to equal 'different'");
+
+    err(function () {
+      expect('#{exp}').to.not.equal('#{exp}');
+    }, "expected '#{exp}' to not equal '#{exp}'");
+  });
+
   describe('safeguards', function () {
     before(function () {
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
