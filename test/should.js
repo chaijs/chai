@@ -3024,6 +3024,23 @@ describe('should', function() {
     }, "blah: expected .value to not change by 5");
   });
 
+  it('delta assertions accept falsy property keys', function() {
+    ['change', 'increase', 'decrease'].forEach(function (method) {
+      ['', 0].forEach(function (key) {
+        var target = key === '' ? {'': 10} : [10];
+        var amount = method === 'decrease' ? -2 : 2;
+        var calls = 0;
+        var modify = function () { calls++; target[key] += amount; };
+        modify.should[method](target, key).by(2);
+        calls.should.equal(1);
+        var noop = function () { calls++; };
+        noop.should.not[method](target, key);
+        calls.should.equal(2);
+        target[key].should.equal(10 + amount);
+      });
+    });
+  });
+
   it('increase, decrease', function() {
     var obj = { value: 10, noop: null },
         arr = ['one', 'two'],

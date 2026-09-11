@@ -3706,6 +3706,69 @@ describe('expect', function () {
     }, "blah: expected .value to not change by 5");
   });
 
+  it('delta assertions accept falsy property keys', function() {
+    ['change', 'increase', 'decrease'].forEach(function (method) {
+      ['', 0].forEach(function (key) {
+        var target = key === '' ? {'': 10} : [10];
+        var amount = method === 'decrease' ? -2 : 2;
+        var calls = 0;
+        var modify = function () { calls++; target[key] += amount; };
+        expect(modify).to[method](target, key).by(2);
+        expect(calls).to.equal(1);
+        expect(function () { calls++; }).to.not[method](target, key);
+        expect(calls).to.equal(2);
+        expect(target[key]).to.equal(10 + amount);
+      });
+    });
+  });
+
+  it('delta assertions preserve omitted and null getter overloads', function() {
+    ['change', 'increase', 'decrease'].forEach(function (method) {
+      [undefined, null].forEach(function (key) {
+        var value = 10;
+        var reads = 0;
+        var calls = 0;
+        var amount = method === 'decrease' ? -2 : 2;
+        var getter = function () { reads++; return value; };
+        expect(function () { calls++; value += amount; })
+          .to[method](getter, key).by(2);
+        expect(reads).to.equal(2);
+        expect(calls).to.equal(1);
+        expect(value).to.equal(10 + amount);
+      });
+    });
+  });
+
+  it('delta assertions do not invoke callable subjects with explicit keys', function() {
+    ['change', 'increase', 'decrease'].forEach(function (method) {
+      ['', 0].forEach(function (key) {
+        var target = function () { throw new Error('not a getter'); };
+        target[key] = 10;
+        var amount = method === 'decrease' ? -2 : 2;
+        expect(function () { target[key] += amount; })
+          .to[method](target, key).by(2);
+        expect(target[key]).to.equal(10 + amount);
+      });
+    });
+  });
+
+  it('delta assertions retain property and change failure diagnostics', function() {
+    ['change', 'increase', 'decrease'].forEach(function (method) {
+      ['', 0].forEach(function (key) {
+        var target = key === '' ? {'': 10} : [10];
+        var calls = 0;
+        err(function () {
+          expect(function () { calls++; }, 'unchanged key').to[method](target, key);
+        }, 'unchanged key: expected .' + key + ' to ' + method);
+        expect(calls).to.equal(1);
+        err(function () {
+          expect(function () { calls++; }).to[method]({}, key);
+        }, /to have property/);
+        expect(calls).to.equal(1);
+      });
+    });
+  });
+
   it('increase, decrease', function() {
     var obj = { value: 10, noop: null },
         arr = ['one', 'two'],
