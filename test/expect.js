@@ -3550,6 +3550,11 @@ describe('expect', function () {
 
   it('include.ordered.members', function() {
     expect([1, 2, 3]).include.ordered.members([1, 2]);
+    expect([]).include.ordered.members([]);
+    expect([1, undefined]).include.ordered.members([1, undefined]);
+    expect([]).not.include.ordered.members([undefined]);
+    expect([1]).not.include.ordered.members([1, undefined]);
+    expect([1, undefined]).not.include.ordered.members([1, undefined, undefined]);
     expect([1, 2, 3]).not.include.ordered.members([2, 1]);
     expect([1, 2, 3]).not.include.ordered.members([2, 3]);
     expect([1, 2, 3]).not.include.ordered.members([1, 2, 2]);
@@ -3592,6 +3597,11 @@ describe('expect', function () {
 
   it('include.deep.ordered.members', function() {
     expect([{a: 1}, {b: 2}, {c: 3}]).include.deep.ordered.members([{a: 1}, {b: 2}]);
+    expect([]).include.deep.ordered.members([]);
+    expect([{a: 1}, undefined]).include.deep.ordered.members([{a: 1}, undefined]);
+    expect([]).not.include.deep.ordered.members([undefined]);
+    expect([{a: 1}]).not.include.deep.ordered.members([{a: 1}, undefined]);
+    expect([{a: 1}, undefined]).not.include.deep.ordered.members([{a: 1}, undefined, undefined]);
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{b: 2}, {a: 1}]);
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{b: 2}, {c: 3}]);
     expect([{a: 1}, {b: 2}, {c: 3}]).not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
