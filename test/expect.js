@@ -3671,6 +3671,13 @@ describe('expect', function () {
     expect(batFn).to.change(lenFn).by(1);
     expect(batFn).to.change(lenFn).but.not.by(2);
 
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    expect(zeroFn).to.change(zeroArr, 0);
+    expect(zeroFn).to.change(zeroArr, 0).by(1);
+    expect(sameFn).to.not.change(zeroArr, 0);
+
     err(function () {
       expect(sameFn).to.change(obj, 'value', 'blah');
     }, "blah: expected .value to change");
@@ -3738,6 +3745,15 @@ describe('expect', function () {
     expect(decFn).to.decrease(obj, 'value');
     expect(decFn).to.decrease(obj, 'value').by(3);
     expect(decFn).to.decrease(obj, 'value').but.not.by(2);
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    expect(zeroInc).to.increase(zeroArr, 0).by(2);
+    expect(zeroDec).to.not.increase(zeroArr, 0);
+    expect(zeroDec).to.decrease(zeroArr, 0).by(3);
+    expect(zeroInc).to.not.decrease(zeroArr, 0);
 
     expect(popFn).to.not.increase(lenFn);
     expect(nFn).to.not.increase(lenFn);

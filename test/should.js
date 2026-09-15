@@ -2999,6 +2999,13 @@ describe('should', function() {
     batFn.should.change(lenFn).but.not.by(2);
     noFn.should.not.change(lenFn);
 
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    zeroFn.should.change(zeroArr, 0);
+    zeroFn.should.change(zeroArr, 0).by(1);
+    sameFn.should.not.change(zeroArr, 0);
+
     err(function () {
       (sameFn).should.change(obj, 'value', 'blah');
     }, "blah: expected .value to change");
@@ -3046,6 +3053,15 @@ describe('should', function() {
     decFn.should.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value').by(3);
     decFn.should.decrease(obj, 'value').but.not.by(2);
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    zeroInc.should.increase(zeroArr, 0).by(2);
+    zeroDec.should.not.increase(zeroArr, 0);
+    zeroDec.should.decrease(zeroArr, 0).by(3);
+    zeroInc.should.not.decrease(zeroArr, 0);
 
     nFn.should.not.increase(lenFn);
     nFn.should.not.decrease(lenFn);

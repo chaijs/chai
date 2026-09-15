@@ -2449,6 +2449,13 @@ describe('assert', function () {
     assert.changesBy(batFn, lenFn, 1);
     assert.changesButNotBy(batFn, lenFn, 2);
 
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    assert.changes(zeroFn, zeroArr, 0);
+    assert.changesBy(zeroFn, zeroArr, 0, 1);
+    assert.doesNotChange(smFn, zeroArr, 0);
+
     err(function () {
       assert.changes(smFn, obj, 'value', 'blah');
     }, "blah: expected .value to change");
@@ -2502,6 +2509,15 @@ describe('assert', function () {
     assert.increasesBy(incFn, getterFn, 2);
     assert.increasesButNotBy(incFn, obj, 'value', 1);
     assert.increasesButNotBy(incFn, getterFn, 1);
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    assert.increasesBy(zeroInc, zeroArr, 0, 2);
+    assert.doesNotIncrease(zeroDec, zeroArr, 0);
+    assert.decreasesBy(zeroDec, zeroArr, 0, 3);
+    assert.doesNotDecrease(zeroInc, zeroArr, 0);
 
     assert.decreases(popFn, lenFn);
     assert.doesNotDecrease(pFn, lenFn);
