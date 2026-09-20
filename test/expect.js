@@ -3499,6 +3499,19 @@ describe('expect', function () {
     err(function () {
       expect([], 'blah').members({});
     }, 'blah: expected {} to be an iterable');
+
+    var nonIterable = { [Symbol.iterator]: true };
+    var iterableError = {
+      name: 'AssertionError',
+      message: 'blah: expected { [Symbol(Symbol.iterator)]: true } to be an iterable'
+    };
+    err(function () {
+      expect(nonIterable).members([], 'blah');
+    }, iterableError);
+
+    err(function () {
+      expect([]).members(nonIterable, 'blah');
+    }, iterableError);
   });
 
   it('deep.members', function() {
@@ -3644,6 +3657,18 @@ describe('expect', function () {
     err(function() {
       expect({ key: 'value' }).to.be.iterable;
     }, 'expected { key: \'value\' } to be an iterable');
+
+    [true, 1, 'foo', {}].forEach(function (iterator) {
+      var value = { [Symbol.iterator]: iterator };
+      expect(value).to.not.be.iterable;
+      err(function () {
+        expect(value).to.be.iterable;
+      }, { name: 'AssertionError' });
+    });
+
+    expect({
+      [Symbol.iterator]: function* () { yield 1; }
+    }).to.be.iterable;
   })
 
   it('change', function() {

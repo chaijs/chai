@@ -1992,6 +1992,10 @@ describe('assert', function () {
     err(function () {
       assert.sameMembers([], {}, 'blah');
     }, 'blah: expected {} to be an iterable');
+
+    err(function () {
+      assert.sameMembers({ [Symbol.iterator]: true }, []);
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
   });
 
   it('notSameMembers', function() {
@@ -2419,6 +2423,19 @@ describe('assert', function () {
     err(function() {
       assert.isIterable({ key: 'value' });
     }, 'expected { key: \'value\' } to be an iterable');
+
+    [true, 1, 'foo', {}].forEach(function (iterator) {
+      var value = { [Symbol.iterator]: iterator };
+      err(function () {
+        assert.isIterable(value);
+      }, { name: 'AssertionError' });
+    });
+
+    assert.isIterable({
+      [Symbol.iterator]: function () {
+        throw new Error('iterator should not be invoked');
+      }
+    });
   });
 
   it('change', function() {

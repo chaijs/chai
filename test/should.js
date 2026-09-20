@@ -2854,6 +2854,10 @@ describe('should', function() {
     err(function() {
       [1, 2, 3].should.have.same.members(4, 'blah');
     }, 'blah: expected 4 to be an iterable');
+
+    err(function() {
+      ({ [Symbol.iterator]: true }).should.have.same.members([]);
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
   });
 
   it('deep.members', function() {
@@ -2967,6 +2971,12 @@ describe('should', function() {
     err(function() {
       ({ key: 'value' }).should.be.iterable;
     }, 'expected { key: \'value\' } to be an iterable');
+
+    err(function() {
+      ({ [Symbol.iterator]: true }).should.be.iterable;
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
+
+    ({ [Symbol.iterator]: true }).should.not.be.iterable;
   })
 
   it('change', function() {
