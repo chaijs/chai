@@ -2903,6 +2903,11 @@ describe('should', function() {
 
   it('include.ordered.members', function() {
     [1, 2, 3].should.include.ordered.members([1, 2]);
+    [].should.include.ordered.members([]);
+    [1, undefined].should.include.ordered.members([1, undefined]);
+    [].should.not.include.ordered.members([undefined]);
+    [1].should.not.include.ordered.members([1, undefined]);
+    [1, undefined].should.not.include.ordered.members([1, undefined, undefined]);
     [1, 2, 3].should.not.include.ordered.members([2, 1]);
     [1, 2, 3].should.not.include.ordered.members([2, 3]);
     [1, 2, 3].should.not.include.ordered.members([1, 2, 2]);
@@ -2937,6 +2942,11 @@ describe('should', function() {
 
   it('include.deep.ordered.members', function() {
     [{a: 1}, {b: 2}, {c: 3}].should.include.deep.ordered.members([{a: 1}, {b: 2}]);
+    [].should.include.deep.ordered.members([]);
+    [{a: 1}, undefined].should.include.deep.ordered.members([{a: 1}, undefined]);
+    [].should.not.include.deep.ordered.members([undefined]);
+    [{a: 1}].should.not.include.deep.ordered.members([{a: 1}, undefined]);
+    [{a: 1}, undefined].should.not.include.deep.ordered.members([{a: 1}, undefined, undefined]);
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {a: 1}]);
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{b: 2}, {c: 3}]);
     [{a: 1}, {b: 2}, {c: 3}].should.not.include.deep.ordered.members([{a: 1}, {b: 2}, {b: 2}]);
