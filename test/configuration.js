@@ -673,6 +673,38 @@ describe('configuration', function () {
         assert.deepEqual({v: 'something longer than 20'}, {v: 'x'});
       }, "expected { v: 'something longer than 20' } to deeply equal { v: 'x' }");
     });
+
+    it('does not dump all of process when threshold is 0 (#1728)', function() {
+      chai.config.truncateThreshold = 0;
+      var warnings = [];
+      var orig = process.emitWarning;
+      process.emitWarning = function(warning, type) {
+        warnings.push(String(type || '') + ':' + String(warning));
+        if (typeof orig === 'function') {
+          return orig.apply(process, arguments);
+        }
+      };
+      try {
+        err(function() {
+          assert.deepEqual(process, {});
+        }, /expected/);
+        // Message should be truncated rather than tens of KB of process dump
+        var msg = '';
+        try {
+          assert.deepEqual(process, {});
+        } catch (e) {
+          msg = e.message;
+        }
+        assert.ok(msg.length < 5000, 'process dump stayed huge: ' + msg.length);
+        assert.equal(
+          warnings.filter(function(w) { return w.indexOf('DEP0129') !== -1; }).length,
+          0,
+          'DEP0129 was emitted: ' + warnings.join('; ')
+        );
+      } finally {
+        process.emitWarning = orig;
+      }
+    });
   });
 
   describe('deprecated properties', function() {
