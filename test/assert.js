@@ -2603,6 +2603,164 @@ describe('assert', function () {
     }, "blah: expected .value to not decrease by 3");
   });
 
+  describe('doesNotDecreaseBy', function() {
+    it('accepts a decrease by a different amount', function() {
+      var obj = { value: 10 }, calls = 0;
+      var fn = function() { calls++; obj.value = 5; };
+
+      assert.doesNotDecreaseBy(fn, obj, 'value', 1);
+      assert.strictEqual(calls, 1);
+      assert.strictEqual(obj.value, 5);
+    });
+
+    it('rejects an exact decrease with the delta and custom message', function() {
+      var obj = { value: 10 }, calls = 0;
+      var fn = function() { calls++; obj.value = 5; };
+
+      err(function() {
+        assert.doesNotDecreaseBy(fn, obj, 'value', 5, 'delta mismatch');
+      }, 'delta mismatch: expected .value to not decrease by 5');
+      assert.strictEqual(calls, 1);
+    });
+
+    it('supports getter functions with and without a message', function() {
+      [false, true].forEach(function(withMessage) {
+        var value = 10, calls = 0, reads = 0;
+        var fn = function() { calls++; value = 5; };
+        var getter = function() { reads++; return value; };
+
+        if (withMessage) {
+          assert.doesNotDecreaseBy(fn, getter, 1, 'getter');
+        } else {
+          assert.doesNotDecreaseBy(fn, getter, 1);
+        }
+        assert.strictEqual(calls, 1);
+        assert.strictEqual(reads, 2);
+      });
+    });
+
+    it('reports exact decreases from a getter without invoking it again', function() {
+      var value = 10, calls = 0, reads = 0;
+      var fn = function() { calls++; value = 5; };
+      var getter = function() { reads++; return value; };
+
+      err(function() {
+        assert.doesNotDecreaseBy(fn, getter, 5, 'getter');
+      }, 'getter: expected 10 to not decrease by 5');
+      assert.strictEqual(calls, 1);
+      assert.strictEqual(reads, 2);
+    });
+
+    it('preserves explicit falsy property keys', function() {
+      [0, ''].forEach(function(key) {
+        var obj = { [key]: 10 };
+        assert.doesNotDecreaseBy(function() { obj[key] = 5; }, obj, key, 1);
+        assert.strictEqual(obj[key], 5);
+      });
+    });
+
+    it('uses the magnitude of a negative delta', function() {
+      var obj = { value: 10 };
+      assert.doesNotDecreaseBy(function() { obj.value = 5; }, obj, 'value', -1);
+      err(function() {
+        assert.doesNotDecreaseBy(function() { obj.value = 0; }, obj, 'value', -5);
+      }, 'expected .value to not decrease by -5');
+    });
+
+    it('preserves non-decreasing, zero, NaN and infinite delta behavior', function() {
+      [
+        { initial: 10, final: 10, delta: 1 },
+        { initial: 10, final: 11, delta: 1 },
+        { initial: 10, final: 10, delta: NaN },
+        { initial: NaN, final: NaN, delta: 1 },
+        { initial: Infinity, final: Infinity, delta: Infinity },
+        { initial: 10, final: Infinity, delta: Infinity }
+      ].forEach(function(example) {
+        var obj = { value: example.initial };
+        assert.doesNotDecreaseBy(function() {
+          obj.value = example.final;
+        }, obj, 'value', example.delta);
+      });
+
+      err(function() {
+        assert.doesNotDecreaseBy(function() {}, { value: 10 }, 'value', 0);
+      }, 'expected .value to not decrease by 0');
+      assert.throws(function() {
+        var obj = { value: Infinity };
+        assert.doesNotDecreaseBy(function() { obj.value = 0; }, obj, 'value', Infinity);
+      }, chai.AssertionError);
+    });
+
+    it('validates the input before invoking the modifier', function() {
+      var calls = 0;
+      var fn = function() { calls++; };
+
+      err(function() {
+        assert.doesNotDecreaseBy({}, { value: 10 }, 'value', 1, 'invalid');
+      }, 'invalid: expected {} to be a function');
+      err(function() {
+        assert.doesNotDecreaseBy(fn, {}, 'value', 1, 'missing');
+      }, "missing: expected {} to have property 'value'");
+      err(function() {
+        assert.doesNotDecreaseBy(fn, { value: null }, 'value', 1, 'number');
+      }, 'number: expected null to be a number');
+      assert.strictEqual(calls, 0);
+    });
+
+    it('propagates errors thrown by the modifier or getter unchanged', function() {
+      [new Error('user error'), new chai.AssertionError('user assertion')].forEach(function(error) {
+        var calls = 0, reads = 0;
+        var caught = assert.throws(function() {
+          assert.doesNotDecreaseBy(function() {
+            calls++;
+            throw error;
+          }, { value: 10 }, 'value', 1);
+        });
+        assert.strictEqual(caught, error);
+        assert.strictEqual(calls, 1);
+
+        calls = 0;
+        caught = assert.throws(function() {
+          assert.doesNotDecreaseBy(function() { calls++; }, function() {
+            reads++;
+            if (reads === 2) throw error;
+            return 10;
+          }, 1);
+        });
+        assert.strictEqual(caught, error);
+        assert.strictEqual(calls, 1);
+        assert.strictEqual(reads, 2);
+      });
+    });
+
+    it('returns the measured assertion for further delta checks', function() {
+      var obj = { value: 10 }, calls = 0;
+      var fn = function() { calls++; obj.value = 5; };
+      var result = assert.doesNotDecreaseBy(fn, obj, 'value', 1);
+
+      assert.instanceOf(result, chai.Assertion);
+      assert.strictEqual(result._obj, fn);
+      result.by(2);
+      assert.throws(function() {
+        result.by(5);
+      }, chai.AssertionError, 'expected .value to not decrease by 5');
+      assert.strictEqual(calls, 1);
+    });
+
+    it('does not change the separate decrease assertions', function() {
+      [10, 11].forEach(function(value) {
+        var obj = { value: 10 };
+        assert.throws(function() {
+          assert.decreasesButNotBy(function() { obj.value = value; }, obj, 'value', 1);
+        }, chai.AssertionError);
+      });
+      var obj = { value: 10 };
+      assert.throws(function() {
+        chai.expect(function() { obj.value = 5; }).to.not.decrease(obj, 'value').by(1);
+      }, chai.AssertionError);
+    });
+  });
+
   it('isExtensible / extensible', function() {
     ['isExtensible', 'extensible'].forEach(function (isExtensible) {
       var nonExtensibleObject = Object.preventExtensions({});
