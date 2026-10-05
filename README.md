@@ -63,7 +63,10 @@ Chai is an _assertion library_, similar to Node's built-in `assert`. It makes te
 You can also use it within the browser; install via npm and use the `index.js` file found within the download. For example:
 
 ```html
-<script src="./node_modules/chai/index.js" type="module"></script>
+<script type="module">
+  import { assert } from './node_modules/chai/index.js';
+  // ...
+</script>
 ```
 
 ## Usage
@@ -79,9 +82,9 @@ import { should } from 'chai';  // Using Should style
 ### Register the chai testing style globally
 
 ```js
-import 'chai/register-assert';  // Using Assert style
-import 'chai/register-expect';  // Using Expect style
-import 'chai/register-should';  // Using Should style
+import 'chai/register-assert.js';  // Using Assert style
+import 'chai/register-expect.js';  // Using Expect style
+import 'chai/register-should.js';  // Using Should style
 ```
 
 ### Import assertion styles as local variables
@@ -133,7 +136,7 @@ Please make sure you follow our [Code Of Conduct](https://github.com/chaijs/chai
 
 Here are a few issues other contributors frequently ran into when opening pull requests:
 
-- Please do not commit changes to the `chai.js` build. We do it once per release.
+- Please do not commit changes to the `index.js` build. We do it once per release.
 - Before pushing your commits, please make sure you [rebase](https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md#pull-requests) them.
 
 ### Contributors
