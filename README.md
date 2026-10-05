@@ -79,9 +79,9 @@ import { should } from 'chai';  // Using Should style
 ### Register the chai testing style globally
 
 ```js
-import 'chai/register-assert';  // Using Assert style
-import 'chai/register-expect';  // Using Expect style
-import 'chai/register-should';  // Using Should style
+import 'chai/register-assert.js';  // Using Assert style
+import 'chai/register-expect.js';  // Using Expect style
+import 'chai/register-should.js';  // Using Should style
 ```
 
 ### Import assertion styles as local variables
