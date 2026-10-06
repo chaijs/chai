@@ -3518,6 +3518,26 @@ describe('expect', function () {
     expect([{ id: 1 }]).deep.members([{ id: 1 }]);
     expect([{a: 1}, {b: 2}, {b: 2}]).deep.members([{a: 1}, {b: 2}, {b: 2}]);
 
+    const actual = [{ foo: 'X' }, { foo: 'Y' }, { foo: 'Z' }, { foo: 'a' }];
+    const expected = [{ foo: 'a' }, { foo: 'x' }, { foo: 'y' }, { foo: 'z' }];
+
+    let unorderedError;
+    try {
+      expect(actual).deep.members(expected);
+    } catch (error) {
+      unorderedError = error;
+    }
+    expect(unorderedError.message).to.include('to have the same members as');
+    expect(unorderedError.showDiff).to.equal(false);
+
+    err(function () {
+      expect([1, 2]).members([2, 3]);
+    }, { showDiff: true });
+
+    err(function () {
+      expect(actual).deep.ordered.members(expected);
+    }, { showDiff: true });
+
     expect([{ id: 2 }]).not.deep.members([{ id: 1 }]);
     expect([{a: 1}, {b: 2}]).not.deep.members([{a: 1}, {b: 2}, {b: 2}]);
     expect([{a: 1}, {b: 2}, {b: 2}]).not.deep.members([{a: 1}, {b: 2}]);
