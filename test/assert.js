@@ -1969,6 +1969,39 @@ describe('assert', function () {
     }, "blah: A `delta` value is required for `closeTo`");
   });
 
+  ['closeTo', 'approximately'].forEach(function (method) {
+    it(method + ' preserves exact bigint differences', function () {
+      var delta = 1000000000000n;
+
+      [1n, -1n].forEach(function (sign) {
+        assert[method](sign * delta, 0n, delta);
+        assert[method](sign * (delta - 1n), 0n, delta);
+
+        err(function () {
+          assert[method](sign * (delta + 1n), 0n, delta);
+        });
+      });
+
+      assert[method](delta, delta, 0n);
+      err(function () {
+        assert[method](delta + 1n, delta, 0n);
+      });
+    });
+
+    it(method + ' supports bigint differences beyond the Number range', function () {
+      var delta = 10n ** 400n;
+
+      [1n, -1n].forEach(function (sign) {
+        assert[method](sign * delta, 0n, delta);
+        assert[method](sign * delta, 0n, delta + 1n);
+
+        err(function () {
+          assert[method](sign * delta, 0n, delta - 1n);
+        });
+      });
+    });
+  });
+
   it('sameMembers', function() {
     assert.sameMembers([], []);
     assert.sameMembers([1, 2, 3], [3, 2, 1]);

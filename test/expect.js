@@ -3368,6 +3368,49 @@ describe('expect', function () {
     }, "A `delta` value is required for `closeTo`");
   });
 
+  ['closeTo', 'approximately'].forEach(function (method) {
+    it(method + ' preserves exact bigint differences', function () {
+      var delta = 1000000000000n;
+
+      [1n, -1n].forEach(function (sign) {
+        expect(sign * delta).to[method](0n, delta);
+        expect(sign * (delta - 1n)).to[method](0n, delta);
+
+        err(function () {
+          expect(sign * (delta + 1n)).to[method](0n, delta);
+        });
+
+        expect(sign * (delta + 1n)).not.to[method](0n, delta);
+        err(function () {
+          expect(sign * delta).not.to[method](0n, delta);
+        });
+      });
+
+      expect(delta).to[method](delta, 0n);
+      err(function () {
+        expect(delta + 1n).to[method](delta, 0n);
+      });
+    });
+
+    it(method + ' supports bigint differences beyond the Number range', function () {
+      var delta = 10n ** 400n;
+
+      [1n, -1n].forEach(function (sign) {
+        expect(sign * delta).to[method](0n, delta);
+        expect(sign * delta).to[method](0n, delta + 1n);
+
+        err(function () {
+          expect(sign * delta).to[method](0n, delta - 1n);
+        });
+
+        expect(sign * delta).not.to[method](0n, delta - 1n);
+        err(function () {
+          expect(sign * delta).not.to[method](0n, delta);
+        });
+      });
+    });
+  });
+
   it('oneOf', function() {
     expect(1).to.be.oneOf([1, 2, 3]);
     expect('1').to.not.be.oneOf([1, 2, 3]);
