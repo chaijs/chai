@@ -1360,6 +1360,31 @@ describe('expect', function () {
     }, "blah: the argument to most must be a date");
   });
 
+  it('matches independently with reused global and sticky regexps', function () {
+    ['g', 'y'].forEach(function (flags) {
+      var pattern = new RegExp('^foo$', flags);
+      pattern.lastIndex = 2;
+      expect('foo').to.match(pattern);
+      expect('foo').to.match(pattern);
+      expect(pattern.lastIndex).to.equal(2);
+      expect('bar').to.not.match(pattern);
+      expect(pattern.lastIndex).to.equal(2);
+    });
+  });
+
+  it('does not skip a matching regexp in a negated assertion', function () {
+    var pattern = /^foo$/g;
+    expect('foo').to.match(pattern);
+    err(function () {
+      expect('foo').to.not.match(pattern);
+    }, "expected 'foo' not to match /^foo$/g");
+  });
+
+  it('matches with frozen stateless regexps', function () {
+    expect('foo').to.match(Object.freeze(/^foo$/));
+    expect('bar').to.not.match(Object.freeze(/^foo$/));
+  });
+
   it('match(regexp)', function(){
     expect('foobar').to.match(/^foo/)
     expect('foobar').to.matches(/^foo/)
