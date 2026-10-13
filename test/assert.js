@@ -2131,6 +2131,12 @@ describe('assert', function () {
 
   it('includeOrderedMembers', function() {
     assert.includeOrderedMembers([1, 2, 3], [1, 2]);
+    assert.includeOrderedMembers([], []);
+    assert.includeOrderedMembers([1, undefined], [1, undefined]);
+
+    err(function() {
+      assert.includeOrderedMembers([1], [1, undefined]);
+    }, 'expected [ 1 ] to be an ordered superset of [ 1, undefined ]');
 
     err(function() {
       assert.includeOrderedMembers([1, 2, 3], [2, 1], 'blah');
@@ -2138,6 +2144,9 @@ describe('assert', function () {
   });
 
   it('notIncludeOrderedMembers', function() {
+    assert.notIncludeOrderedMembers([], [undefined]);
+    assert.notIncludeOrderedMembers([1], [1, undefined]);
+    assert.notIncludeOrderedMembers([1, undefined], [1, undefined, undefined]);
     assert.notIncludeOrderedMembers([1, 2, 3], [2, 1]);
     assert.notIncludeOrderedMembers([1, 2, 3], [2, 3]);
     assert.notIncludeOrderedMembers([1, 2, 3], [1, 2, 2]);
@@ -2149,6 +2158,12 @@ describe('assert', function () {
 
   it('includeDeepOrderedMembers', function() {
     assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}]);
+    assert.includeDeepOrderedMembers([], []);
+    assert.includeDeepOrderedMembers([{a: 1}, undefined], [{a: 1}, undefined]);
+
+    err(function() {
+      assert.includeDeepOrderedMembers([{a: 1}], [{a: 1}, undefined]);
+    }, 'expected [ { a: 1 } ] to be an ordered superset of [ { a: 1 }, undefined ]');
 
     err(function() {
       assert.includeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}], 'blah');
@@ -2156,6 +2171,9 @@ describe('assert', function () {
   });
 
   it('notIncludeDeepOrderedMembers', function() {
+    assert.notIncludeDeepOrderedMembers([], [undefined]);
+    assert.notIncludeDeepOrderedMembers([{a: 1}], [{a: 1}, undefined]);
+    assert.notIncludeDeepOrderedMembers([{a: 1}, undefined], [{a: 1}, undefined, undefined]);
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{b: 2}, {a: 1}]);
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {f: 5}]);
     assert.notIncludeDeepOrderedMembers([{a: 1}, {b: 2}, {c: 3}], [{a: 1}, {b: 2}, {b: 2}]);
