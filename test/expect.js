@@ -3671,6 +3671,37 @@ describe('expect', function () {
     }).to.be.iterable;
   })
 
+  it('rejects coerced final values in numeric change assertions', function () {
+    [['increase', '2'], ['decrease', '0']].forEach(function ([method, value]) {
+      var subject = {value: 1};
+      var update = function () { subject.value = value; };
+      err(function () {
+        expect(update).to[method](subject, 'value');
+      }, "expected '" + value + "' to be a number");
+    });
+  });
+
+  it('checks final getter values in numeric change assertions', function () {
+    [['increase', '2'], ['decrease', '0']].forEach(function ([method, final]) {
+      var value = 1;
+      var getter = function () { return value; };
+      var update = function () { value = final; };
+      err(function () {
+        expect(update).to[method](getter);
+      }, "expected '" + final + "' to be a number");
+    });
+  });
+
+  it('rejects invalid final values even for negated numeric changes', function () {
+    ['increase', 'decrease'].forEach(function (method) {
+      var subject = {value: 1};
+      var update = function () { subject.value = undefined; };
+      err(function () {
+        expect(update, 'custom').to.not[method](subject, 'value');
+      }, 'custom: expected undefined to be a number');
+    });
+  });
+
   it('change', function() {
     var obj = { value: 10, str: 'foo' },
         heroes = ['spiderman', 'superman'],
