@@ -3082,6 +3082,7 @@ describe('expect', function () {
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
+      , constructorErrFn = function () { throw RangeError; }
       , customErrFn = function() { throw new CustomError('foo'); }
       , emptyErrFn = function () { throw new Error(); }
       , emptyStringErrFn = function () { throw new Error(''); };
@@ -3103,6 +3104,8 @@ describe('expect', function () {
     expect(ickyErrFn).to.throw(Error);
     expect(ickyErrFn).to.not.throw(specificError);
     expect(specificErrFn).to.throw(specificError);
+    expect(constructorErrFn).to.throw(RangeError);
+    expect(constructorErrFn).to.not.throw(TypeError);
 
     expect(goodFn).to.not.throw('testing');
     expect(goodFn).to.not.throw(/testing/);
@@ -3172,6 +3175,10 @@ describe('expect', function () {
     err(function(){
       expect(specificErrFn, 'blah').to.not.throw(specificError);
     }, /^blah: expected \[Function( specificErrFn)*\] to not throw 'RangeError: boo'$/);
+
+    err(function(){
+      expect(constructorErrFn, 'blah').to.not.throw(RangeError);
+    }, /^blah: expected \[Function( constructorErrFn)*\] to not throw 'RangeError' but 'RangeError' was thrown$/);
 
     err(function (){
       expect(badFn, 'blah').to.not.throw(/testing/);

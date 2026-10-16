@@ -1690,6 +1690,7 @@ describe('assert', function () {
       assert[throws](function() { throw undefined; });
       assert[throws](function() { throw new CustomError('foo'); });
       assert[throws](function() { throw (() => {}); });
+      assert[throws](function() { throw RangeError; }, RangeError);
 
       var thrownErr = assert[throws](function() { throw new Error('foo'); });
       assert(thrownErr instanceof Error, 'assert.' + throws + ' returns error');
