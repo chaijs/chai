@@ -19,6 +19,35 @@ describe('expect', function () {
     }, "expected '#{exp}' to not equal '#{exp}'");
   });
 
+  it('checks error constructors and instances for falsy thrown values', function () {
+    [null, undefined, false, 0, '', NaN].forEach(function (value) {
+      var throwsValue = function () { throw value; };
+      expect(throwsValue).to.throw();
+      expect(throwsValue).to.not.throw(TypeError);
+      expect(throwsValue).to.not.throw(new TypeError('message'));
+      err(function () { expect(throwsValue).to.throw(TypeError); });
+      err(function () { expect(throwsValue).to.throw(new TypeError('message')); });
+    });
+  });
+
+  it('checks message matchers for falsy thrown values', function () {
+    [null, undefined, false, 0, '', NaN].forEach(function (value) {
+      var throwsValue = function () { throw value; };
+      expect(throwsValue).to.not.throw('message');
+      expect(throwsValue).to.not.throw(/message/);
+      err(function () { expect(throwsValue).to.throw('message'); });
+      err(function () { expect(throwsValue).to.throw(/message/); });
+    });
+  });
+
+  it('matches an empty thrown string with an empty message matcher', function () {
+    var throwsEmptyString = function () { throw ''; };
+    expect(throwsEmptyString).to.throw('');
+    expect(throwsEmptyString).to.throw(/^$/);
+    err(function () { expect(throwsEmptyString).to.not.throw(''); });
+    err(function () { expect(throwsEmptyString).to.not.throw(/^$/); });
+  });
+
   describe('safeguards', function () {
     before(function () {
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
