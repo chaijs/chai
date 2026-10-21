@@ -779,7 +779,7 @@ describe('assert', function () {
 
     err(function () {
       assert.include({foo: {a: 1}, bar: {b: 2}}, {foo: {a: 1}}, 'blah');
-    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
+    }, "blah: expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }. Consider using .deep.include for comparing object contents");
 
     err(function(){
       assert.include(true, true, 'blah');
