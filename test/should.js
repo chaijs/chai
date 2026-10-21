@@ -1896,7 +1896,7 @@ describe('should', function() {
 
     err(function () {
       ({foo: {a: 1}, bar: {b: 2}}).should.include({foo: {a: 1}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }. Consider using .deep.include for comparing object contents");
 
     err(function () {
       var obj1 = {a: 1}

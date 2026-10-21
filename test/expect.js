@@ -2339,8 +2339,7 @@ describe('expect', function () {
 
     err(function () {
       expect({foo: {a: 1}, bar: {b: 2}}).to.include({foo: {a: 1}});
-    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }");
-
+    }, "expected { foo: { a: 1 }, bar: { b: 2 } } to have property 'foo' of { a: 1 }, but got { a: 1 }. Consider using .deep.include for comparing object contents");
     err(function () {
       var obj1 = {a: 1}
         , obj2 = {b: 2};
@@ -2409,6 +2408,21 @@ describe('expect', function () {
       "the given combination of arguments (undefined and number) is invalid for this assertion. " +
       "You can use an array, a map, an object, a set, a string, or a weakset instead of a number"
     );
+  });
+    // test
+    it('suggests deep.include when nested objects have equal contents', function () {
+    expect(function () {
+      expect({ tags: {} }).to.include({ tags: {} });
+    }).to.throw(
+      chai.AssertionError,
+      'Consider using .deep.include for comparing object contents'
+    );
+  });
+
+  it('does not suggest deep.include when object contents differ', function () {
+    err(function () {
+      expect({ tags: { id: 1 } }).to.include({ tags: { id: 2 } });
+    }, "expected { tags: { id: 1 } } to have property 'tags' of { id: 2 }, but got { id: 1 }");
   });
 
   it('deep.include()', function () {
