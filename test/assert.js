@@ -2460,6 +2460,8 @@ describe('assert', function () {
     assert.doesNotChange(smFn, getterFn, 'value');
     assert.changesButNotBy(fnDec, obj, 'value', 1);
     assert.changesButNotBy(fnDec, getterFn, 1);
+    assert.changesBy(fn, getterFn, 5, 'via getter function');
+    assert.changesButNotBy(fnDec, getterFn, 1, 'via getter function');
 
     assert.changes(bangFn, obj, 'str');
 
@@ -2496,6 +2498,10 @@ describe('assert', function () {
     err(function () {
       assert.changesButNotBy(fn, obj, 'value', 5, 'blah');
     }, "blah: expected .value to not change by 5");
+
+    err(function () {
+      assert.changesBy(smFn, function () { return 1 }, 1, 'blah');
+    }, "blah: expected 1 to change");
   });
 
   it('increase, decrease', function() {
@@ -2517,6 +2523,8 @@ describe('assert', function () {
     assert.decreasesBy(decFn, getterFn, 3);
     assert.decreasesButNotBy(decFn, obj, 'value', 10);
     assert.decreasesButNotBy(decFn, getterFn, 10);
+    assert.decreasesBy(decFn, getterFn, 3, 'via getter function');
+    assert.decreasesButNotBy(decFn, getterFn, 10, 'via getter function');
 
     assert.increases(incFn, obj, 'value');
     assert.increases(incFn, getterFn, 'increases via getter function');
@@ -2526,6 +2534,8 @@ describe('assert', function () {
     assert.increasesBy(incFn, getterFn, 2);
     assert.increasesButNotBy(incFn, obj, 'value', 1);
     assert.increasesButNotBy(incFn, getterFn, 1);
+    assert.increasesBy(incFn, getterFn, 2, 'via getter function');
+    assert.increasesButNotBy(incFn, getterFn, 1, 'via getter function');
 
     const zeroArr = [10];
     const zeroInc = function() { zeroArr[0] += 2 };
