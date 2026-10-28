@@ -2576,6 +2576,26 @@ describe('expect', function () {
     }, "blah: expected { a: { b: 2 } } to not have deep own property 'a' of { b: 2 }");
   });
 
+  ['Map', 'Set'].forEach(function (kind) {
+    it('matches each actual entry once for all deep ' + kind + ' keys', function () {
+      var actual = kind === 'Map'
+        ? new Map([[{id: 1}, 'one'], [{id: 2}, 'two']])
+        : new Set([{id: 1}, {id: 2}]);
+      var repeated = [{id: 1}, {id: 1}];
+      err(function () {
+        expect(actual).to.have.all.deep.keys(repeated);
+      });
+      expect(actual).to.not.have.all.deep.keys(repeated);
+      expect(actual).to.contain.all.deep.keys(repeated);
+      expect(actual).to.have.any.deep.keys(repeated);
+
+      var matching = kind === 'Map'
+        ? new Map([[{id: 1}, 'one'], [{id: 1}, 'two']])
+        : new Set([{id: 1}, {id: 1}]);
+      expect(matching).to.have.all.deep.keys(repeated);
+    });
+  });
+
   it('keys(array|Object|arguments)', function(){
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1 }).have.keys({ 'foo': 6 });
