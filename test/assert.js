@@ -2941,6 +2941,10 @@ describe('assert', function () {
         assert[isEmpty](function() {}, 'blah');
       }, "blah: .empty was passed a function");
 
+      err(function(){
+        assert[isEmpty](async function() {}, 'blah');
+      }, "blah: .empty was passed a function");
+
       if (FakeArgs.name === 'FakeArgs') {
         err(function(){
           assert[isEmpty](FakeArgs);
@@ -3037,6 +3041,10 @@ describe('assert', function () {
 
       err(function(){
         assert[isNotEmpty](function() {}, 'blah');
+      }, "blah: .empty was passed a function");
+
+      err(function(){
+        assert[isNotEmpty](function*() {}, 'blah');
       }, "blah: .empty was passed a function");
 
       if (FakeArgs.name === 'FakeArgs') {

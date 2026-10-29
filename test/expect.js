@@ -1698,6 +1698,18 @@ describe('expect', function () {
       expect(function() {}, 'blah').to.be.empty;
     }, "blah: .empty was passed a function");
 
+    err(function(){
+      expect(async function() {}, 'blah').to.be.empty;
+    }, "blah: .empty was passed a function");
+
+    err(function(){
+      expect(function*() {}, 'blah').to.be.empty;
+    }, "blah: .empty was passed a function");
+
+    err(function(){
+      expect(async function*() {}, 'blah').to.not.be.empty;
+    }, "blah: .empty was passed a function");
+
     if (FakeArgs.name === 'FakeArgs') {
       err(function(){
         expect(FakeArgs).to.be.empty;
