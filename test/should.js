@@ -2543,6 +2543,7 @@ describe('should', function() {
       , refErrFn = function () { throw new ReferenceError('hello'); }
       , ickyErrFn = function () { throw new PoorlyConstructedError(); }
       , specificErrFn = function () { throw specificError; }
+      , constructorErrFn = function () { throw RangeError; }
       , customErrFn = function () { throw new CustomError('foo'); }
       , emptyErrFn = function () { throw new Error(); }
       , emptyStringErrFn = function () { throw new Error(''); };
@@ -2567,6 +2568,8 @@ describe('should', function() {
     (ickyErrFn).should.throw(Error);
     (ickyErrFn).should.not.throw(specificError);
     (specificErrFn).should.throw(specificError);
+    (constructorErrFn).should.throw(RangeError);
+    (constructorErrFn).should.not.throw(TypeError);
 
     (goodFn).should.not.throw('testing');
     (goodFn).should.not.throw(/testing/);
@@ -2669,6 +2672,10 @@ describe('should', function() {
     err(function(){
       (specificErrFn).should.not.throw(specificError);
     }, /^expected \[Function( specificErrFn)*\] to not throw 'RangeError: boo'$/);
+
+    err(function(){
+      (constructorErrFn).should.not.throw(RangeError);
+    }, /^expected \[Function( constructorErrFn)*\] to not throw 'RangeError' but 'RangeError' was thrown$/);
 
     err(function (){
       (badFn).should.not.throw(/testing/);
