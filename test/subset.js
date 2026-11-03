@@ -10,6 +10,26 @@ describe('containsSubset', function () {
       c: 'd'
     };
 
+    it('distinguishes a missing property from a present undefined value', function () {
+      expect({}).to.not.containSubset({missing: undefined});
+      expect({missing: undefined}).to.containSubset({missing: undefined});
+      expect(Object.create({missing: undefined})).to.containSubset({missing: undefined});
+      expect(Object.create(null)).to.not.containSubset({missing: undefined});
+    });
+
+    it('requires undefined-valued properties in nested objects and array members', function () {
+      expect({nested: {}}).to.not.containSubset({nested: {missing: undefined}});
+      expect([{}]).to.not.containSubset([{missing: undefined}]);
+      expect({nested: {missing: undefined}}).to.containSubset({nested: {missing: undefined}});
+      expect([{missing: undefined}]).to.containSubset([{missing: undefined}]);
+    });
+
+    it('does not run a property predicate when the property is missing', function () {
+      var calls = 0;
+      expect({}).to.not.containSubset({missing: function () { calls++; return true; }});
+      expect(calls).to.equal(0);
+    });
+
     it('should pass for smaller object', function () {
       expect(testedObject).to.containSubset({
         a: 'b'
