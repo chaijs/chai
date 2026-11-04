@@ -3041,6 +3041,48 @@ describe('expect', function () {
 
   });
 
+  describe('keys(object) with symbols', function () {
+    it('accepts an object containing only symbol keys', function () {
+      const key = Symbol('key');
+      expect({[key]: 1}).to.have.all.keys({[key]: 2});
+    });
+
+    it('combines string and symbol keys for all and any assertions', function () {
+      const key = Symbol('key');
+      expect({visible: 1, [key]: 2}).to.have.all.keys({visible: 0, [key]: 0});
+      expect({[key]: 1}).to.have.any.keys({missing: 0, [key]: 0});
+      expect({visible: 1, extra: 2, [key]: 3})
+        .to.contain.all.keys({visible: 0, [key]: 0});
+    });
+
+    it('rejects a missing symbol key in an included object', function () {
+      const key = Symbol('key');
+      err(function () {
+        expect({visible: 1}).to.contain.all.keys({visible: 0, [key]: 0});
+      }, {name: 'AssertionError'});
+    });
+
+    it('preserves symbol identity when descriptions are equal', function () {
+      const actualKey = Symbol('key');
+      const expectedKey = Symbol('key');
+      err(function () {
+        expect({[actualKey]: 1}).to.have.keys({[expectedKey]: 1});
+      }, {actual: [actualKey], expected: [expectedKey]});
+    });
+
+    it('ignores inherited and non-enumerable expected keys', function () {
+      const ownKey = Symbol('own');
+      const inheritedKey = Symbol('inherited');
+      const hiddenKey = Symbol('hidden');
+      const expected = Object.create({[inheritedKey]: 1});
+      expected[ownKey] = 2;
+      Object.defineProperty(expected, hiddenKey, {value: 3});
+      Object.defineProperty(expected, 'hidden', {value: 4});
+
+      expect({[ownKey]: 0}).to.have.all.keys(expected);
+    });
+  });
+
   it('keys(array) will not mutate array (#359)', function () {
       var expected = [ 'b', 'a' ];
       var original_order = [ 'b', 'a' ];
