@@ -19,35 +19,6 @@ describe('expect', function () {
     }, "expected '#{exp}' to not equal '#{exp}'");
   });
 
-  it('checks error constructors and instances for falsy thrown values', function () {
-    [null, undefined, false, 0, '', NaN].forEach(function (value) {
-      var throwsValue = function () { throw value; };
-      expect(throwsValue).to.throw();
-      expect(throwsValue).to.not.throw(TypeError);
-      expect(throwsValue).to.not.throw(new TypeError('message'));
-      err(function () { expect(throwsValue).to.throw(TypeError); });
-      err(function () { expect(throwsValue).to.throw(new TypeError('message')); });
-    });
-  });
-
-  it('checks message matchers for falsy thrown values', function () {
-    [null, undefined, false, 0, '', NaN].forEach(function (value) {
-      var throwsValue = function () { throw value; };
-      expect(throwsValue).to.not.throw('message');
-      expect(throwsValue).to.not.throw(/message/);
-      err(function () { expect(throwsValue).to.throw('message'); });
-      err(function () { expect(throwsValue).to.throw(/message/); });
-    });
-  });
-
-  it('matches an empty thrown string with an empty message matcher', function () {
-    var throwsEmptyString = function () { throw ''; };
-    expect(throwsEmptyString).to.throw('');
-    expect(throwsEmptyString).to.throw(/^$/);
-    err(function () { expect(throwsEmptyString).to.not.throw(''); });
-    err(function () { expect(throwsEmptyString).to.not.throw(/^$/); });
-  });
-
   describe('safeguards', function () {
     before(function () {
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
@@ -3113,7 +3084,11 @@ describe('expect', function () {
       , specificErrFn = function () { throw specificError; }
       , customErrFn = function() { throw new CustomError('foo'); }
       , emptyErrFn = function () { throw new Error(); }
-      , emptyStringErrFn = function () { throw new Error(''); };
+      , emptyStringErrFn = function () { throw new Error(''); }
+      , nullFn = function () { throw null; }
+      , undefinedFn = function () { throw undefined; }
+      , falseFn = function () { throw false; }
+      , emptyStringFn = function () { throw ''; };
 
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
@@ -3149,6 +3124,14 @@ describe('expect', function () {
 
     expect(badFn).to.not.throw(Error, 'I am the wrong error message');
     expect(badFn).to.not.throw(TypeError, 'testing');
+
+    [nullFn, undefinedFn, falseFn, emptyStringFn].forEach(function (fn) {
+      expect(fn).to.throw();
+      expect(fn).to.not.throw(TypeError);
+      expect(fn).to.not.throw(specificError);
+      expect(fn).to.not.throw('testing');
+      expect(fn).to.not.throw(/testing/);
+    });
 
     err(function(){
       expect(goodFn, 'blah').to.throw();
@@ -3249,6 +3232,30 @@ describe('expect', function () {
     err(function(){
       expect(emptyStringErrFn, 'blah').to.not.throw('');
     }, /^blah: expected \[Function( emptyStringErrFn)*\] to throw error not including ''$/);
+
+    err(function(){
+      expect(nullFn, 'blah').to.throw(ReferenceError);
+    }, /^blah: expected \[Function( nullFn)*\] to throw 'ReferenceError' but null was thrown$/);
+
+    err(function(){
+      expect(undefinedFn, 'blah').to.throw(specificError);
+    }, /^blah: expected \[Function( undefinedFn)*\] to throw 'RangeError: boo' but 'undefined' was thrown$/);
+
+    err(function(){
+      expect(falseFn, 'blah').to.throw('testing');
+    }, /^blah: expected \[Function( falseFn)*\] to throw error including 'testing' but got ''$/);
+
+    err(function(){
+      expect(nullFn, 'blah').to.throw(/testing/);
+    }, /^blah: expected \[Function( nullFn)*\] to throw error matching \/testing\/ but got ''$/);
+
+    err(function(){
+      expect(emptyStringFn, 'blah').to.not.throw('');
+    }, /^blah: expected \[Function( emptyStringFn)*\] to throw error not including ''$/);
+
+    err(function(){
+      expect(emptyStringFn, 'blah').to.not.throw(/^$/);
+    }, /^blah: expected \[Function( emptyStringFn)*\] to throw error not matching \/\^\$\/$/);
 
     err(function () {
       expect({}, 'blah').to.throw();
