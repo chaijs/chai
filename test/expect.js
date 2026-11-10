@@ -3039,6 +3039,12 @@ describe('expect', function () {
       expect({ foo: 1, bar: 2 }).not.have.any.keys({ 'foo': 1, 'baz': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
 
+    var symbolKey = Symbol('key');
+    expect({foo: 1, [symbolKey]: 2}).to.have.all.keys({foo: 0, [symbolKey]: 0});
+    err(function() {
+      expect({foo: 1}).to.contain.all.keys({foo: 0, [symbolKey]: 0});
+    }, {name: 'AssertionError'});
+
   });
 
   it('keys(array) will not mutate array (#359)', function () {
