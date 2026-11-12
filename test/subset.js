@@ -1,4 +1,5 @@
 import * as chai from '../index.js';
+import {globalErr as err} from './bootstrap/index.js';
 
 describe('containsSubset', function () {
   const {assert, expect} = chai;
@@ -15,6 +16,12 @@ describe('containsSubset', function () {
       expect({missing: undefined}).to.containSubset({missing: undefined});
       expect(Object.create({missing: undefined})).to.containSubset({missing: undefined});
       expect(Object.create(null)).to.not.containSubset({missing: undefined});
+    });
+
+    it('fails when an undefined-valued property is missing', function () {
+      err(function () {
+        expect({}).to.containSubset({missing: undefined});
+      }, 'expected {} to contain subset { missing: undefined }');
     });
 
     it('requires undefined-valued properties in nested objects and array members', function () {
