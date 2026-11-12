@@ -9,6 +9,16 @@ describe('expect', function () {
     expect('foo').to.equal('foo');
   });
 
+  it('preserves literal template tags in assertion values', function () {
+    err(function () {
+      expect('#{exp}', 'custom message').to.equal('different');
+    }, "custom message: expected '#{exp}' to equal 'different'");
+
+    err(function () {
+      expect('#{exp}').to.not.equal('#{exp}');
+    }, "expected '#{exp}' to not equal '#{exp}'");
+  });
+
   describe('safeguards', function () {
     before(function () {
       chai.util.addProperty(chai.Assertion.prototype, 'tmpProperty', function () {
@@ -1688,6 +1698,18 @@ describe('expect', function () {
       expect(function() {}, 'blah').to.be.empty;
     }, "blah: .empty was passed a function");
 
+    err(function(){
+      expect(async function() {}, 'blah').to.be.empty;
+    }, "blah: .empty was passed a function");
+
+    err(function(){
+      expect(function*() {}, 'blah').to.be.empty;
+    }, "blah: .empty was passed a function");
+
+    err(function(){
+      expect(async function*() {}, 'blah').to.not.be.empty;
+    }, "blah: .empty was passed a function");
+
     if (FakeArgs.name === 'FakeArgs') {
       err(function(){
         expect(FakeArgs).to.be.empty;
@@ -3017,6 +3039,12 @@ describe('expect', function () {
       expect({ foo: 1, bar: 2 }).not.have.any.keys({ 'foo': 1, 'baz': 1});
     }, "expected { foo: 1, bar: 2 } to not have keys 'foo', or 'baz'");
 
+    var symbolKey = Symbol('key');
+    expect({foo: 1, [symbolKey]: 2}).to.have.all.keys({foo: 0, [symbolKey]: 0});
+    err(function() {
+      expect({foo: 1}).to.contain.all.keys({foo: 0, [symbolKey]: 0});
+    }, {name: 'AssertionError'});
+
   });
 
   it('keys(array) will not mutate array (#359)', function () {
@@ -3074,7 +3102,11 @@ describe('expect', function () {
       , specificErrFn = function () { throw specificError; }
       , customErrFn = function() { throw new CustomError('foo'); }
       , emptyErrFn = function () { throw new Error(); }
-      , emptyStringErrFn = function () { throw new Error(''); };
+      , emptyStringErrFn = function () { throw new Error(''); }
+      , nullFn = function () { throw null; }
+      , undefinedFn = function () { throw undefined; }
+      , falseFn = function () { throw false; }
+      , emptyStringFn = function () { throw ''; };
 
     expect(goodFn).to.not.throw();
     expect(goodFn).to.not.throw(Error);
@@ -3110,6 +3142,14 @@ describe('expect', function () {
 
     expect(badFn).to.not.throw(Error, 'I am the wrong error message');
     expect(badFn).to.not.throw(TypeError, 'testing');
+
+    [nullFn, undefinedFn, falseFn, emptyStringFn].forEach(function (fn) {
+      expect(fn).to.throw();
+      expect(fn).to.not.throw(TypeError);
+      expect(fn).to.not.throw(specificError);
+      expect(fn).to.not.throw('testing');
+      expect(fn).to.not.throw(/testing/);
+    });
 
     err(function(){
       expect(goodFn, 'blah').to.throw();
@@ -3211,6 +3251,30 @@ describe('expect', function () {
       expect(emptyStringErrFn, 'blah').to.not.throw('');
     }, /^blah: expected \[Function( emptyStringErrFn)*\] to throw error not including ''$/);
 
+    err(function(){
+      expect(nullFn, 'blah').to.throw(ReferenceError);
+    }, /^blah: expected \[Function( nullFn)*\] to throw 'ReferenceError' but null was thrown$/);
+
+    err(function(){
+      expect(undefinedFn, 'blah').to.throw(specificError);
+    }, /^blah: expected \[Function( undefinedFn)*\] to throw 'RangeError: boo' but 'undefined' was thrown$/);
+
+    err(function(){
+      expect(falseFn, 'blah').to.throw('testing');
+    }, /^blah: expected \[Function( falseFn)*\] to throw error including 'testing' but got ''$/);
+
+    err(function(){
+      expect(nullFn, 'blah').to.throw(/testing/);
+    }, /^blah: expected \[Function( nullFn)*\] to throw error matching \/testing\/ but got ''$/);
+
+    err(function(){
+      expect(emptyStringFn, 'blah').to.not.throw('');
+    }, /^blah: expected \[Function( emptyStringFn)*\] to throw error not including ''$/);
+
+    err(function(){
+      expect(emptyStringFn, 'blah').to.not.throw(/^$/);
+    }, /^blah: expected \[Function( emptyStringFn)*\] to throw error not matching \/\^\$\/$/);
+
     err(function () {
       expect({}, 'blah').to.throw();
     }, "blah: expected {} to be a function");
@@ -3218,6 +3282,14 @@ describe('expect', function () {
     err(function () {
       expect({}).to.throw(Error, 'testing', 'blah');
     }, "blah: expected {} to be a function");
+
+    err(function () {
+      expect(function () { throw { body: { message: 'Custom error type' } }; }).to.throw('boom!');
+    }, "expected [Function] to throw error including 'boom!' but got ''");
+
+    err(function () {
+      expect(function () { throw { body: { message: 'Custom error type' } }; }).to.throw(/boom/);
+    }, "expected [Function] to throw error matching /boom/ but got ''");
   });
 
   it('respondTo', function(){
@@ -3481,6 +3553,19 @@ describe('expect', function () {
     err(function () {
       expect([], 'blah').members({});
     }, 'blah: expected {} to be an iterable');
+
+    var nonIterable = { [Symbol.iterator]: true };
+    var iterableError = {
+      name: 'AssertionError',
+      message: 'blah: expected { [Symbol(Symbol.iterator)]: true } to be an iterable'
+    };
+    err(function () {
+      expect(nonIterable).members([], 'blah');
+    }, iterableError);
+
+    err(function () {
+      expect([]).members(nonIterable, 'blah');
+    }, iterableError);
   });
 
   it('deep.members', function() {
@@ -3626,6 +3711,18 @@ describe('expect', function () {
     err(function() {
       expect({ key: 'value' }).to.be.iterable;
     }, 'expected { key: \'value\' } to be an iterable');
+
+    [true, 1, 'foo', {}].forEach(function (iterator) {
+      var value = { [Symbol.iterator]: iterator };
+      expect(value).to.not.be.iterable;
+      err(function () {
+        expect(value).to.be.iterable;
+      }, { name: 'AssertionError' });
+    });
+
+    expect({
+      [Symbol.iterator]: function* () { yield 1; }
+    }).to.be.iterable;
   })
 
   it('change', function() {
@@ -3652,6 +3749,13 @@ describe('expect', function () {
 
     expect(batFn).to.change(lenFn).by(1);
     expect(batFn).to.change(lenFn).but.not.by(2);
+
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    expect(zeroFn).to.change(zeroArr, 0);
+    expect(zeroFn).to.change(zeroArr, 0).by(1);
+    expect(sameFn).to.not.change(zeroArr, 0);
 
     err(function () {
       expect(sameFn).to.change(obj, 'value', 'blah');
@@ -3720,6 +3824,15 @@ describe('expect', function () {
     expect(decFn).to.decrease(obj, 'value');
     expect(decFn).to.decrease(obj, 'value').by(3);
     expect(decFn).to.decrease(obj, 'value').but.not.by(2);
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    expect(zeroInc).to.increase(zeroArr, 0).by(2);
+    expect(zeroDec).to.not.increase(zeroArr, 0);
+    expect(zeroDec).to.decrease(zeroArr, 0).by(3);
+    expect(zeroInc).to.not.decrease(zeroArr, 0);
 
     expect(popFn).to.not.increase(lenFn);
     expect(nFn).to.not.increase(lenFn);

@@ -2854,6 +2854,10 @@ describe('should', function() {
     err(function() {
       [1, 2, 3].should.have.same.members(4, 'blah');
     }, 'blah: expected 4 to be an iterable');
+
+    err(function() {
+      ({ [Symbol.iterator]: true }).should.have.same.members([]);
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
   });
 
   it('deep.members', function() {
@@ -2967,6 +2971,12 @@ describe('should', function() {
     err(function() {
       ({ key: 'value' }).should.be.iterable;
     }, 'expected { key: \'value\' } to be an iterable');
+
+    err(function() {
+      ({ [Symbol.iterator]: true }).should.be.iterable;
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
+
+    ({ [Symbol.iterator]: true }).should.not.be.iterable;
   })
 
   it('change', function() {
@@ -2998,6 +3008,13 @@ describe('should', function() {
     batFn.should.change(lenFn).by(1);
     batFn.should.change(lenFn).but.not.by(2);
     noFn.should.not.change(lenFn);
+
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    zeroFn.should.change(zeroArr, 0);
+    zeroFn.should.change(zeroArr, 0).by(1);
+    sameFn.should.not.change(zeroArr, 0);
 
     err(function () {
       (sameFn).should.change(obj, 'value', 'blah');
@@ -3046,6 +3063,15 @@ describe('should', function() {
     decFn.should.decrease(obj, 'value');
     decFn.should.decrease(obj, 'value').by(3);
     decFn.should.decrease(obj, 'value').but.not.by(2);
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    zeroInc.should.increase(zeroArr, 0).by(2);
+    zeroDec.should.not.increase(zeroArr, 0);
+    zeroDec.should.decrease(zeroArr, 0).by(3);
+    zeroInc.should.not.decrease(zeroArr, 0);
 
     nFn.should.not.increase(lenFn);
     nFn.should.not.decrease(lenFn);

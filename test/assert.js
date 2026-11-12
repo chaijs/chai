@@ -1730,6 +1730,16 @@ describe('assert', function () {
       err(function () {
         assert[throws]({}, Error, 'testing', 'blah');
       }, "blah: expected {} to be a function");
+
+      // GH-1752: a thrown non-Error object must fail the message matcher
+      // as an assertion, not as TypeError from reading `.message.indexOf`.
+      err(function () {
+        assert[throws](function () { throw { body: { message: 'Custom error type' } }; }, 'boom!');
+      }, "expected [Function] to throw error including 'boom!' but got ''");
+
+      err(function () {
+        assert[throws](function () { throw { body: { message: 'Custom error type' } }; }, /boom/);
+      }, "expected [Function] to throw error matching /boom/ but got ''");
     });
   });
 
@@ -1982,6 +1992,10 @@ describe('assert', function () {
     err(function () {
       assert.sameMembers([], {}, 'blah');
     }, 'blah: expected {} to be an iterable');
+
+    err(function () {
+      assert.sameMembers({ [Symbol.iterator]: true }, []);
+    }, 'expected { [Symbol(Symbol.iterator)]: true } to be an iterable');
   });
 
   it('notSameMembers', function() {
@@ -2409,6 +2423,19 @@ describe('assert', function () {
     err(function() {
       assert.isIterable({ key: 'value' });
     }, 'expected { key: \'value\' } to be an iterable');
+
+    [true, 1, 'foo', {}].forEach(function (iterator) {
+      var value = { [Symbol.iterator]: iterator };
+      err(function () {
+        assert.isIterable(value);
+      }, { name: 'AssertionError' });
+    });
+
+    assert.isIterable({
+      [Symbol.iterator]: function () {
+        throw new Error('iterator should not be invoked');
+      }
+    });
   });
 
   it('change', function() {
@@ -2433,11 +2460,20 @@ describe('assert', function () {
     assert.doesNotChange(smFn, getterFn, 'value');
     assert.changesButNotBy(fnDec, obj, 'value', 1);
     assert.changesButNotBy(fnDec, getterFn, 1);
+    assert.changesBy(fn, getterFn, 5, 'via getter function');
+    assert.changesButNotBy(fnDec, getterFn, 1, 'via getter function');
 
     assert.changes(bangFn, obj, 'str');
 
     assert.changesBy(batFn, lenFn, 1);
     assert.changesButNotBy(batFn, lenFn, 2);
+
+    const zeroArr = [1];
+    const zeroFn = function() { zeroArr[0] += 1 };
+
+    assert.changes(zeroFn, zeroArr, 0);
+    assert.changesBy(zeroFn, zeroArr, 0, 1);
+    assert.doesNotChange(smFn, zeroArr, 0);
 
     err(function () {
       assert.changes(smFn, obj, 'value', 'blah');
@@ -2462,6 +2498,10 @@ describe('assert', function () {
     err(function () {
       assert.changesButNotBy(fn, obj, 'value', 5, 'blah');
     }, "blah: expected .value to not change by 5");
+
+    err(function () {
+      assert.changesBy(smFn, function () { return 1 }, 1, 'blah');
+    }, "blah: expected 1 to change");
   });
 
   it('increase, decrease', function() {
@@ -2483,6 +2523,8 @@ describe('assert', function () {
     assert.decreasesBy(decFn, getterFn, 3);
     assert.decreasesButNotBy(decFn, obj, 'value', 10);
     assert.decreasesButNotBy(decFn, getterFn, 10);
+    assert.decreasesBy(decFn, getterFn, 3, 'via getter function');
+    assert.decreasesButNotBy(decFn, getterFn, 10, 'via getter function');
 
     assert.increases(incFn, obj, 'value');
     assert.increases(incFn, getterFn, 'increases via getter function');
@@ -2492,6 +2534,17 @@ describe('assert', function () {
     assert.increasesBy(incFn, getterFn, 2);
     assert.increasesButNotBy(incFn, obj, 'value', 1);
     assert.increasesButNotBy(incFn, getterFn, 1);
+    assert.increasesBy(incFn, getterFn, 2, 'via getter function');
+    assert.increasesButNotBy(incFn, getterFn, 1, 'via getter function');
+
+    const zeroArr = [10];
+    const zeroInc = function() { zeroArr[0] += 2 };
+    const zeroDec = function() { zeroArr[0] -= 3 };
+
+    assert.increasesBy(zeroInc, zeroArr, 0, 2);
+    assert.doesNotIncrease(zeroDec, zeroArr, 0);
+    assert.decreasesBy(zeroDec, zeroArr, 0, 3);
+    assert.doesNotDecrease(zeroInc, zeroArr, 0);
 
     assert.decreases(popFn, lenFn);
     assert.doesNotDecrease(pFn, lenFn);
@@ -2888,6 +2941,10 @@ describe('assert', function () {
         assert[isEmpty](function() {}, 'blah');
       }, "blah: .empty was passed a function");
 
+      err(function(){
+        assert[isEmpty](async function() {}, 'blah');
+      }, "blah: .empty was passed a function");
+
       if (FakeArgs.name === 'FakeArgs') {
         err(function(){
           assert[isEmpty](FakeArgs);
@@ -2984,6 +3041,10 @@ describe('assert', function () {
 
       err(function(){
         assert[isNotEmpty](function() {}, 'blah');
+      }, "blah: .empty was passed a function");
+
+      err(function(){
+        assert[isNotEmpty](function*() {}, 'blah');
       }, "blah: .empty was passed a function");
 
       if (FakeArgs.name === 'FakeArgs') {

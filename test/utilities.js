@@ -687,6 +687,22 @@ describe('utilities', function () {
               template: '#{this}#{act}#{exp}#{act}#{this}',
               expected: '\'' + objName + '\'\'' + actualValue + '\'\'' + expectedValue + '\'\'' + actualValue + '\'\'' + objName + '\''
           },
+          // template tags inside substituted values remain literal
+          {
+              objName: '#{this} #{act} #{exp}',
+              template: '#{this}',
+              expected: "'#{this} #{act} #{exp}'"
+          },
+          {
+              actualValue: '#{this} #{act} #{exp}',
+              template: '#{act}',
+              expected: "'#{this} #{act} #{exp}'"
+          },
+          {
+              expectedValue: '#{this} #{act} #{exp}',
+              template: '#{exp}',
+              expected: "'#{this} #{act} #{exp}'"
+          },
           // immune to string.prototype.replace() `$` substitution
           {
               objName: '-$$-',
