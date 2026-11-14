@@ -5,6 +5,47 @@ describe('containsSubset', function () {
   const {assert, expect} = chai;
   const should = chai.Should();
 
+  describe('custom messages', function () {
+    it('uses the method message for a failing assertion', function () {
+      err(function () {
+        expect({a: 1}).to.containSubset({b: 2}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to contain subset { b: 2 }');
+    });
+
+    it('uses the method message for a failing negated assertion', function () {
+      err(function () {
+        expect({a: 1}).to.not.containSubset({a: 1}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to not contain subset { a: 1 }');
+    });
+
+    it('lets the method message override the expect message', function () {
+      err(function () {
+        expect({a: 1}, 'outer message').to.containSubset({b: 2}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to contain subset { b: 2 }');
+    });
+
+    it('uses method messages with the should interface', function () {
+      err(function () {
+        ({a: 1}).should.containSubset({b: 2}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to contain subset { b: 2 }');
+      err(function () {
+        ({a: 1}).should.not.containSubset({a: 1}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to not contain subset { a: 1 }');
+    });
+
+    it('preserves messages supplied through expect and assert', function () {
+      err(function () {
+        expect({a: 1}, 'subset mismatch').to.containSubset({b: 2});
+      }, 'subset mismatch: expected { a: 1 } to contain subset { b: 2 }');
+      err(function () {
+        assert.containSubset({a: 1}, {b: 2}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to contain subset { b: 2 }', true);
+      err(function () {
+        assert.doesNotContainSubset({a: 1}, {a: 1}, 'subset mismatch');
+      }, 'subset mismatch: expected { a: 1 } to not contain subset { a: 1 }', true);
+    });
+  });
+
   describe('plain object', function () {
     var testedObject = {
       a: 'b',
