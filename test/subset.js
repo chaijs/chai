@@ -11,6 +11,58 @@ describe('containsSubset', function () {
       c: 'd'
     };
 
+    describe('symbol properties', function () {
+      var key = Symbol('id');
+
+      it('compares enumerable symbol-keyed values', function () {
+        expect({[key]: 1, extra: 2}).to.containSubset({[key]: 1});
+        expect({[key]: 1}).to.not.containSubset({[key]: 2});
+        expect({}).to.not.containSubset({[key]: 1});
+      });
+
+      it('requires symbol properties even when the expected value is undefined', function () {
+        expect({}).to.not.containSubset({[key]: undefined});
+        expect({[key]: undefined}).to.containSubset({[key]: undefined});
+        expect(Object.create(null)).to.not.containSubset({[key]: undefined});
+      });
+
+      it('distinguishes symbols with the same description', function () {
+        var otherKey = Symbol('id');
+        expect({[otherKey]: 1}).to.not.containSubset({[key]: 1});
+      });
+
+      it('compares symbol properties in nested objects and array members', function () {
+        expect({nested: {[key]: 1}}).to.containSubset({nested: {[key]: 1}});
+        expect([{[key]: 1}]).to.containSubset([{[key]: 1}]);
+        expect({nested: {[key]: 1}}).to.not.containSubset({nested: {[key]: 2}});
+        expect([{[key]: 1}]).to.not.containSubset([{[key]: 2}]);
+      });
+
+      it('runs validators only for existing symbol properties', function () {
+        var calls = 0;
+        var subset = {[key]: function (value) { calls++; return value === 1; }};
+        expect({[key]: 1}).to.containSubset(subset);
+        expect(calls).to.equal(1);
+        expect({[key]: 2}).to.not.containSubset(subset);
+        expect({}).to.not.containSubset(subset);
+        expect(calls).to.equal(2);
+      });
+
+      it('preserves inherited actual properties and ignores non-enumerable expected keys', function () {
+        expect(Object.create({[key]: 1})).to.containSubset({[key]: 1});
+        expect({}).to.containSubset(Object.create({[key]: 1}));
+        var subset = Object.defineProperty({a: 1}, key, {value: 2});
+        expect({a: 1}).to.containSubset(subset);
+      });
+
+      it('compares symbol properties through assert and should', function () {
+        assert.containSubset({[key]: 1}, {[key]: 1});
+        assert.doesNotContainSubset({[key]: 1}, {[key]: 2});
+        ({[key]: 1}).should.containSubset({[key]: 1});
+        ({[key]: 1}).should.not.containSubset({[key]: 2});
+      });
+    });
+
     it('distinguishes a missing property from a present undefined value', function () {
       expect({}).to.not.containSubset({missing: undefined});
       expect({missing: undefined}).to.containSubset({missing: undefined});
