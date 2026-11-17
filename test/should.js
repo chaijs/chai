@@ -2805,6 +2805,49 @@ describe('should', function() {
     }, "A `delta` value is required for `closeTo`");
   });
 
+  ['closeTo', 'approximately'].forEach(function (method) {
+    it(method + ' preserves exact bigint differences', function () {
+      var delta = 1000000000000n;
+
+      [1n, -1n].forEach(function (sign) {
+        (sign * delta).should.be[method](0n, delta);
+        (sign * (delta - 1n)).should.be[method](0n, delta);
+
+        err(function () {
+          (sign * (delta + 1n)).should.be[method](0n, delta);
+        });
+
+        (sign * (delta + 1n)).should.not.be[method](0n, delta);
+        err(function () {
+          (sign * delta).should.not.be[method](0n, delta);
+        });
+      });
+
+      (delta).should.be[method](delta, 0n);
+      err(function () {
+        (delta + 1n).should.be[method](delta, 0n);
+      });
+    });
+
+    it(method + ' supports bigint differences beyond the Number range', function () {
+      var delta = 10n ** 400n;
+
+      [1n, -1n].forEach(function (sign) {
+        (sign * delta).should.be[method](0n, delta);
+        (sign * delta).should.be[method](0n, delta + 1n);
+
+        err(function () {
+          (sign * delta).should.be[method](0n, delta - 1n);
+        });
+
+        (sign * delta).should.not.be[method](0n, delta - 1n);
+        err(function () {
+          (sign * delta).should.not.be[method](0n, delta);
+        });
+      });
+    });
+  });
+
   it('include.members', function() {
     [1, 2, 3].should.include.members([3]);
     [1, 2, 3].should.include.members([]);
