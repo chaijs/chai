@@ -1,13 +1,13 @@
 <h1 align=center>
-  <a href="http://chaijs.com" title="Chai Documentation">
-    <img alt="ChaiJS" src="http://chaijs.com/img/chai-logo.png">
+  <a href="https://chaijs.com" title="Chai Documentation">
+    <img alt="ChaiJS" src="https://chaijs.com/img/chai-logo.png">
   </a>
   <br>
   chai
 </h1>
 
 <p align=center>
-  Chai is a behavior-driven development (BDD) / test-driven development (TDD) assertion library for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
+  Chai is a behavior-driven development (BDD) / test-driven development (TDD) assertion library for <a href="https://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
 </p>
 
 <p align=center>
@@ -44,7 +44,7 @@
   </a>
 </p>
 
-For more information or to download plugins, view the [documentation](http://chaijs.com).
+For more information or to download plugins, view the [documentation](https://chaijs.com).
 
 ## What is Chai?
 
@@ -54,7 +54,7 @@ Chai is an _assertion library_, similar to Node's built-in `assert`. It makes te
 
 ### Node.js
 
-`chai` is available on [npm](http://npmjs.org). To install it, type:
+`chai` is available on [npm](https://www.npmjs.com/package/chai). To install it, type:
 
     $ npm install --save-dev chai
 
@@ -106,14 +106,14 @@ mocha spec.js --require chai/register-expect.js  # Using Expect style
 mocha spec.js --require chai/register-should.js  # Using Should style
 ```
 
-[Read more about these styles in our docs](http://chaijs.com/guide/styles/).
+[Read more about these styles in our docs](https://chaijs.com/guide/styles/).
 
 ## Plugins
 
 Chai offers a robust Plugin architecture for extending Chai's assertions and interfaces.
 
-- Need a plugin? View the [official plugin list](http://chaijs.com/plugins).
-- Want to build a plugin? Read the [plugin api documentation](http://chaijs.com/guide/plugins/).
+- Need a plugin? View the [official plugin list](https://chaijs.com/plugins).
+- Want to build a plugin? Read the [plugin api documentation](https://chaijs.com/guide/plugins/).
 - Have a plugin and want it listed? Simply add the following keywords to your package.json:
   -  `chai-plugin`
   -  `browser` if your plugin works in the browser as well as Node.js

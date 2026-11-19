@@ -19,11 +19,11 @@ Following these guidelines helps to communicate that you respect the time of the
 <a name="tldr"></a>
 ## TLDR;
 
-- Creating an Issue or Pull Request requires a [GitHub](http://github.com) account.
+- Creating an Issue or Pull Request requires a [GitHub](https://github.com) account.
 - Issue reports should be **clear**, **concise** and **reproducible**. Check to see if your issue has already been resolved in the [master]() branch or already reported in Chai's [GitHub Issue Tracker](https://github.com/chaijs/chai/issues).
 - Pull Requests must adhere to strict [coding style guidelines](https://github.com/chaijs/chai/wiki/Chai-Coding-Style-Guide).
 - In general, avoid submitting PRs for new Assertions without asking core contributors first. More than likely it would be better implemented as a plugin.
-- Additional support is available via the [Google Group](http://groups.google.com/group/chaijs) or on irc.freenode.net#chaijs.
+- Additional support is available via the [Google Group](https://groups.google.com/group/chaijs) or on irc.freenode.net#chaijs.
 - **IMPORTANT**: By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
 
 
@@ -76,7 +76,7 @@ Example:
 
 Feature requests are welcome. But take a moment to find out whether your idea fits with the scope and aims of the project. It's up to *you* to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
 
-Furthermore, since Chai.js has a [robust plugin API](http://chaijs.com/guide/plugins/), we encourage you to publish **new Assertions** as plugins. If your feature is an enhancement to an **existing Assertion**, please propose your changes as an issue prior to opening a pull request. If the core Chai.js contributors feel your plugin would be better suited as a core assertion, they will invite you to open a PR in [chaijs/chai](https://github.com/chaijs/chai).
+Furthermore, since Chai.js has a [robust plugin API](https://chaijs.com/guide/plugins/), we encourage you to publish **new Assertions** as plugins. If your feature is an enhancement to an **existing Assertion**, please propose your changes as an issue prior to opening a pull request. If the core Chai.js contributors feel your plugin would be better suited as a core assertion, they will invite you to open a PR in [chaijs/chai](https://github.com/chaijs/chai).
 
 <a name="pull-requests"></a>
 ### Pull Requests
@@ -179,11 +179,11 @@ Anyone who is a core contributor (see the [Core Contributors Heading in the Read
 <a name="resources"></a>
 ### Resources
 
-For most of the documentation you are going to want to visit [ChaiJS.com](http://chaijs.com).
+For most of the documentation you are going to want to visit [ChaiJS.com](https://chaijs.com).
 
-- [Getting Started Guide](http://chaijs.com/guide/)
-- [API Reference](http://chaijs.com/api/)
-- [Plugins](http://chaijs.com/plugins/)
+- [Getting Started Guide](https://chaijs.com/guide/)
+- [API Reference](https://chaijs.com/api/)
+- [Plugins](https://chaijs.com/plugins/)
 
 Alternatively, the [wiki](https://github.com/chaijs/chai/wiki) might be what you are looking for.
 
@@ -202,15 +202,15 @@ Feel free to reach out to any of the core-contributors with you questions or con
 
 - Jake Luer
   - GH: [@logicalparadox](https://github.com/logicalparadox)
-  - TW: [@jakeluer](http://twitter.com/jakeluer)
+  - TW: [@jakeluer](https://twitter.com/jakeluer)
   - IRC: logicalparadox
 - Veselin Todorov
   - GH: [@vesln](https://github.com/vesln/)
-  - TW: [@vesln](http://twitter.com/vesln)
+  - TW: [@vesln](https://twitter.com/vesln)
   - IRC: vesln
 - Keith Cirkel
   - GH: [@keithamus](https://github.com/keithamus)
-  - TW: [@keithamus](http://twitter.com/keithamus)
+  - TW: [@keithamus](https://twitter.com/keithamus)
   - IRC: keithamus
 - Lucas Fernandes da Costa
   - GH: [@lucasfcosta](https://github.com/lucasfcosta)
