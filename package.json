@@ -14,7 +14,7 @@
     "index.js",
     "register-*.js"
   ],
-  "homepage": "http://chaijs.com",
+  "homepage": "https://chaijs.com",
   "license": "MIT",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
