@@ -2190,7 +2190,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(1, 3, 'blah');
-    }, 'blah: expected 1 to be above 3');
+    }, {message: 'blah: expected 1 to be above 3', showDiff: false});
 
     err(function() {
       assert.isAbove(1, 1);
@@ -2212,7 +2212,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAbove(oneSecondAgo, now, 'blah');
-    }, 'blah: expected ' + oneSecondAgo.toISOString() + ' to be above ' + now.toISOString());
+    }, {message: 'blah: expected ' + oneSecondAgo.toISOString() + ' to be above ' + now.toISOString(), showDiff: false});
 
     err(function() {
       assert.isAbove(now, now, 'blah');
@@ -2243,7 +2243,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(1, 3, 'blah');
-    }, 'blah: expected 1 to be at least 3');
+    }, {message: 'blah: expected 1 to be at least 3', showDiff: false});
 
     err(function() {
       assert.isAtLeast(null, 1, 'blah');
@@ -2264,7 +2264,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtLeast(now, oneSecondAfter, 'blah');
-    }, 'blah: expected ' + now.toISOString() + ' to be at least ' + oneSecondAfter.toISOString());
+    }, {message: 'blah: expected ' + now.toISOString() + ' to be at least ' + oneSecondAfter.toISOString(), showDiff: false});
 
     err(function() {
       assert.isAtLeast(null, now, 'blah');
@@ -2291,7 +2291,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(3, 1, 'blah');
-    }, 'blah: expected 3 to be below 1');
+    }, {message: 'blah: expected 3 to be below 1', showDiff: false});
 
     err(function() {
       assert.isBelow(1, 1);
@@ -2313,7 +2313,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isBelow(now, oneSecondAgo, 'blah');
-    }, 'blah: expected ' + now.toISOString() + ' to be below ' + oneSecondAgo.toISOString());
+    }, {message: 'blah: expected ' + now.toISOString() + ' to be below ' + oneSecondAgo.toISOString(), showDiff: false});
 
     err(function() {
       assert.isBelow(now, now);
@@ -2344,7 +2344,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(3, 1, 'blah');
-    }, 'blah: expected 3 to be at most 1');
+    }, {message: 'blah: expected 3 to be at most 1', showDiff: false});
 
     err(function() {
       assert.isAtMost(null, 1, 'blah');
@@ -2365,7 +2365,7 @@ describe('assert', function () {
 
     err(function() {
       assert.isAtMost(oneSecondAfter, now, 'blah');
-    }, 'blah: expected ' + oneSecondAfter.toISOString() + ' to be at most ' + now.toISOString());
+    }, {message: 'blah: expected ' + oneSecondAfter.toISOString() + ' to be at most ' + now.toISOString(), showDiff: false});
 
     err(function() {
       assert.isAtMost(null, now, 'blah');

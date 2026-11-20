@@ -745,7 +745,7 @@ describe('expect', function () {
 
     err(function(){
       expect(5).to.be.above(6, 'blah');
-    }, "blah: expected 5 to be above 6");
+    }, {message: "blah: expected 5 to be above 6", showDiff: false});
 
     err(function(){
       expect(5, 'blah').to.be.above(6);
@@ -753,11 +753,11 @@ describe('expect', function () {
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
-    }, "blah: expected 10 to be at most 6");
+    }, {message: "blah: expected 10 to be at most 6", showDiff: false});
 
     err(function () {
       expect('foo').to.have.length.above(4, 'blah');
-    }, "blah: expected \'foo\' to have a length above 4 but got 3");
+    }, {message: "blah: expected \'foo\' to have a length above 4 but got 3", showDiff: false});
 
     err(function () {
       expect('foo', 'blah').to.have.length.above(4);
@@ -862,7 +862,7 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.above(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toISOString() + " to be above " + oneSecondAfter.toISOString());
+    }, {message: "blah: expected " + now.toISOString() + " to be above " + oneSecondAfter.toISOString(), showDiff: false});
 
     err(function(){
       expect(10).to.not.be.above(6, 'blah');
@@ -889,21 +889,6 @@ describe('expect', function () {
     }, "blah: Target cannot be null or undefined.");
   });
 
-  it('ordering assertions do not show a misleading diff (#1518)', function(){
-    // above/below/least/most compare a value against a bound rather than
-    // asserting equality, so a "+ expected - actual" diff wrongly implies
-    // that the two operands were supposed to be equal.
-    err(function(){ expect(2).to.be.above(3); }, { showDiff: false });
-    err(function(){ expect(5).to.be.below(3); }, { showDiff: false });
-    err(function(){ expect(2).to.be.at.least(3); }, { showDiff: false });
-    err(function(){ expect(2).to.be.at.most(1); }, { showDiff: false });
-
-    var now = new Date();
-    var later = new Date(now.getTime() + 1000);
-    err(function(){ expect(now).to.be.above(later); }, { showDiff: false });
-    err(function(){ expect(now).to.be.at.least(later); }, { showDiff: false });
-  });
-
   it('least(n)', function(){
     expect(5).to.be.at.least(2);
     expect(5).to.be.at.least(5);
@@ -915,7 +900,7 @@ describe('expect', function () {
 
     err(function(){
       expect(5).to.be.at.least(6, 'blah');
-    }, "blah: expected 5 to be at least 6");
+    }, {message: "blah: expected 5 to be at least 6", showDiff: false});
 
     err(function(){
       expect(5, 'blah').to.be.at.least(6);
@@ -923,11 +908,11 @@ describe('expect', function () {
 
     err(function(){
       expect(10).to.not.be.at.least(6, 'blah');
-    }, "blah: expected 10 to be below 6");
+    }, {message: "blah: expected 10 to be below 6", showDiff: false});
 
     err(function () {
       expect('foo').to.have.length.of.at.least(4, 'blah');
-    }, "blah: expected \'foo\' to have a length at least 4 but got 3");
+    }, {message: "blah: expected \'foo\' to have a length at least 4 but got 3", showDiff: false});
 
     err(function () {
       expect('foo', 'blah').to.have.length.of.at.least(4);
@@ -1040,7 +1025,7 @@ describe('expect', function () {
 
     err(function(){
       expect(6).to.be.below(5, 'blah');
-    }, "blah: expected 6 to be below 5");
+    }, {message: "blah: expected 6 to be below 5", showDiff: false});
 
     err(function(){
       expect(6, 'blah').to.be.below(5);
@@ -1048,11 +1033,11 @@ describe('expect', function () {
 
     err(function(){
       expect(6).to.not.be.below(10, 'blah');
-    }, "blah: expected 6 to be at least 10");
+    }, {message: "blah: expected 6 to be at least 10", showDiff: false});
 
     err(function () {
       expect('foo').to.have.length.below(2, 'blah');
-    }, "blah: expected \'foo\' to have a length below 2 but got 3");
+    }, {message: "blah: expected \'foo\' to have a length below 2 but got 3", showDiff: false});
 
     err(function () {
       expect('foo', 'blah').to.have.length.below(2);
@@ -1157,11 +1142,11 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.below(oneSecondAgo, 'blah');
-    }, "blah: expected " + now.toISOString() + " to be below " + oneSecondAgo.toISOString());
+    }, {message: "blah: expected " + now.toISOString() + " to be below " + oneSecondAgo.toISOString(), showDiff: false});
 
     err(function(){
       expect(now).to.not.be.below(oneSecondAfter, 'blah');
-    }, "blah: expected " + now.toISOString() + " to be at least " + oneSecondAfter.toISOString());
+    }, {message: "blah: expected " + now.toISOString() + " to be at least " + oneSecondAfter.toISOString(), showDiff: false});
 
     err(function () {
       expect('foo').to.have.length.below(2, 'blah');
@@ -1199,7 +1184,7 @@ describe('expect', function () {
 
     err(function(){
       expect(6).to.be.at.most(5, 'blah');
-    }, "blah: expected 6 to be at most 5");
+    }, {message: "blah: expected 6 to be at most 5", showDiff: false});
 
     err(function(){
       expect(6, 'blah').to.be.at.most(5);
@@ -1207,11 +1192,11 @@ describe('expect', function () {
 
     err(function(){
       expect(6).to.not.be.at.most(10, 'blah');
-    }, "blah: expected 6 to be above 10");
+    }, {message: "blah: expected 6 to be above 10", showDiff: false});
 
     err(function () {
       expect('foo').to.have.length.of.at.most(2, 'blah');
-    }, "blah: expected \'foo\' to have a length at most 2 but got 3");
+    }, {message: "blah: expected \'foo\' to have a length at most 2 but got 3", showDiff: false});
 
     err(function () {
       expect('foo', 'blah').to.have.length.of.at.most(2);
@@ -1326,11 +1311,11 @@ describe('expect', function () {
 
     err(function(){
       expect(now).to.be.at.most(oneSecondBefore, 'blah');
-    }, "blah: expected " + nowISO + " to be at most " + beforeISO);
+    }, {message: "blah: expected " + nowISO + " to be at most " + beforeISO, showDiff: false});
 
     err(function(){
       expect(now).to.not.be.at.most(now, 'blah');
-    }, "blah: expected " + nowISO + " to be above " + nowISO);
+    }, {message: "blah: expected " + nowISO + " to be above " + nowISO, showDiff: false});
 
     err(function () {
       expect(now).to.have.length.of.at.most(2, 'blah');
