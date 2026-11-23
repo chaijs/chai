@@ -1863,6 +1863,10 @@ describe('assert', function () {
      }, 'blah: Invalid operator "="');
 
     err(function () {
+      assert.operator(1, '=', 2);
+     }, 'Invalid operator "="');
+
+    err(function () {
       assert.operator(2, '<', 1, 'blah');
      }, "blah: expected 2 to be < 1");
 
@@ -2407,6 +2411,10 @@ describe('assert', function () {
     err(function() {
       assert.isIterable(42);
     }, 'expected 42 to be an iterable');
+
+    err(function() {
+      assert.isIterable(42, 'blah');
+    }, 'blah: expected 42 to be an iterable');
 
     err(function() {
       assert.isIterable(undefined);
